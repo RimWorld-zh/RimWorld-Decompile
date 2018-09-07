@@ -85,28 +85,23 @@ namespace RimWorld
 				if (this.PlacingDef is TerrainDef)
 				{
 					GenUI.RenderMouseoverBracket();
+					return;
+				}
+				Color ghostCol;
+				if (this.CanDesignateCell(intVec).Accepted)
+				{
+					ghostCol = Designator_Place.CanPlaceColor;
 				}
 				else
 				{
-					Color ghostCol;
-					if (this.CanDesignateCell(intVec).Accepted)
-					{
-						ghostCol = Designator_Place.CanPlaceColor;
-					}
-					else
-					{
-						ghostCol = Designator_Place.CannotPlaceColor;
-					}
-					this.DrawGhost(ghostCol);
-					if (this.CanDesignateCell(intVec).Accepted)
-					{
-						if (this.PlacingDef.specialDisplayRadius > 0.01f)
-						{
-							GenDraw.DrawRadiusRing(UI.MouseCell(), this.PlacingDef.specialDisplayRadius);
-						}
-					}
-					GenDraw.DrawInteractionCell((ThingDef)this.PlacingDef, intVec, this.placingRot);
+					ghostCol = Designator_Place.CannotPlaceColor;
 				}
+				this.DrawGhost(ghostCol);
+				if (this.CanDesignateCell(intVec).Accepted && this.PlacingDef.specialDisplayRadius > 0.01f)
+				{
+					GenDraw.DrawRadiusRing(UI.MouseCell(), this.PlacingDef.specialDisplayRadius);
+				}
+				GenDraw.DrawInteractionCell((ThingDef)this.PlacingDef, intVec, this.placingRot);
 			}
 		}
 

@@ -11,13 +11,13 @@ namespace RimWorld
 {
 	public class StockGenerator_Category : StockGenerator
 	{
-		private ThingCategoryDef categoryDef = null;
+		private ThingCategoryDef categoryDef;
 
 		private IntRange thingDefCountRange = IntRange.one;
 
-		private List<ThingDef> excludedThingDefs = null;
+		private List<ThingDef> excludedThingDefs;
 
-		private List<ThingCategoryDef> excludedCategories = null;
+		private List<ThingCategoryDef> excludedCategories;
 
 		public StockGenerator_Category()
 		{

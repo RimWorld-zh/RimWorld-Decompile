@@ -136,7 +136,6 @@ namespace RimWorld
 			CellRect cellRect2 = CellRect.CenteredOn(SiegeBlueprintPlacer.center, 8);
 			cellRect2.ClipInsideMap(map);
 			int num = 0;
-			IntVec3 randomCell;
 			for (;;)
 			{
 				num++;
@@ -144,7 +143,7 @@ namespace RimWorld
 				{
 					break;
 				}
-				randomCell = cellRect.RandomCell;
+				IntVec3 randomCell = cellRect.RandomCell;
 				if (!cellRect2.Contains(randomCell))
 				{
 					if (map.reachability.CanReach(randomCell, SiegeBlueprintPlacer.center, PathEndMode.OnCell, TraverseMode.NoPassClosedDoors, Danger.Deadly))
@@ -162,15 +161,13 @@ namespace RimWorld
 							}
 							if (!flag)
 							{
-								goto IL_104;
+								return randomCell;
 							}
 						}
 					}
 				}
 			}
 			return IntVec3.Invalid;
-			IL_104:
-			return randomCell;
 		}
 
 		private static IntVec3 FindArtySpot(ThingDef artyDef, Rot4 rot, Map map)
@@ -178,7 +175,6 @@ namespace RimWorld
 			CellRect cellRect = CellRect.CenteredOn(SiegeBlueprintPlacer.center, 8);
 			cellRect.ClipInsideMap(map);
 			int num = 0;
-			IntVec3 randomCell;
 			for (;;)
 			{
 				num++;
@@ -186,21 +182,19 @@ namespace RimWorld
 				{
 					break;
 				}
-				randomCell = cellRect.RandomCell;
+				IntVec3 randomCell = cellRect.RandomCell;
 				if (map.reachability.CanReach(randomCell, SiegeBlueprintPlacer.center, PathEndMode.OnCell, TraverseMode.NoPassClosedDoors, Danger.Deadly))
 				{
 					if (!randomCell.Roofed(map))
 					{
 						if (SiegeBlueprintPlacer.CanPlaceBlueprintAt(randomCell, rot, artyDef, map))
 						{
-							goto IL_83;
+							return randomCell;
 						}
 					}
 				}
 			}
 			return IntVec3.Invalid;
-			IL_83:
-			return randomCell;
 		}
 
 		// Note: this type is marked as 'beforefieldinit'.
@@ -254,7 +248,7 @@ namespace RimWorld
 				case 1u:
 					break;
 				case 2u:
-					goto IL_EE;
+					goto IL_E9;
 				default:
 					return false;
 				}
@@ -289,7 +283,7 @@ namespace RimWorld
 				num = 4294967293u;
 				try
 				{
-					IL_EE:
+					IL_E9:
 					switch (num)
 					{
 					}
@@ -445,7 +439,7 @@ namespace RimWorld
 					SiegeBlueprintPlacer.placedSandbagLocs.Clear();
 					numSandbags = SiegeBlueprintPlacer.NumSandbagRange.RandomInRange;
 					i = 0;
-					goto IL_260;
+					goto IL_257;
 				case 1u:
 					Block_5:
 					try
@@ -512,7 +506,7 @@ namespace RimWorld
 					}
 				}
 				i++;
-				IL_260:
+				IL_257:
 				if (i >= numSandbags)
 				{
 					this.$PC = -1;

@@ -6,7 +6,7 @@ namespace RimWorld
 {
 	public class ThinkNode_ConditionalBodySize : ThinkNode_Conditional
 	{
-		public float min = 0f;
+		public float min;
 
 		public float max = 99999f;
 

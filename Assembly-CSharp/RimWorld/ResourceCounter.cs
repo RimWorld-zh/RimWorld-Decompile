@@ -78,23 +78,18 @@ namespace RimWorld
 
 		public int GetCount(ThingDef rDef)
 		{
-			int result;
-			int num;
 			if (rDef.resourceReadoutPriority == ResourceCountPriority.Uncounted)
 			{
-				result = 0;
+				return 0;
 			}
-			else if (this.countedAmounts.TryGetValue(rDef, out num))
+			int result;
+			if (this.countedAmounts.TryGetValue(rDef, out result))
 			{
-				result = num;
+				return result;
 			}
-			else
-			{
-				Log.Error("Looked for nonexistent key " + rDef + " in counted resources.", false);
-				this.countedAmounts.Add(rDef, 0);
-				result = 0;
-			}
-			return result;
+			Log.Error("Looked for nonexistent key " + rDef + " in counted resources.", false);
+			this.countedAmounts.Add(rDef, 0);
+			return 0;
 		}
 
 		public int GetCountIn(ThingRequestGroup group)

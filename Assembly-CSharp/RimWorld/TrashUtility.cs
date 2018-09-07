@@ -12,53 +12,43 @@ namespace RimWorld
 
 		public static bool ShouldTrashPlant(Pawn pawn, Plant p)
 		{
-			bool result;
 			if (!p.sown || p.def.plant.IsTree || !p.FlammableNow || !TrashUtility.CanTrash(pawn, p))
 			{
-				result = false;
+				return false;
 			}
-			else
+			CellRect.CellRectIterator iterator = CellRect.CenteredOn(p.Position, 2).ClipInsideMap(p.Map).GetIterator();
+			while (!iterator.Done())
 			{
-				CellRect.CellRectIterator iterator = CellRect.CenteredOn(p.Position, 2).ClipInsideMap(p.Map).GetIterator();
-				while (!iterator.Done())
+				IntVec3 c = iterator.Current;
+				if (c.InBounds(p.Map) && c.ContainsStaticFire(p.Map))
 				{
-					IntVec3 c = iterator.Current;
-					if (c.InBounds(p.Map) && c.ContainsStaticFire(p.Map))
-					{
-						return false;
-					}
-					iterator.MoveNext();
+					return false;
 				}
-				result = (p.Position.Roofed(p.Map) || p.Map.weatherManager.RainRate <= 0.25f);
+				iterator.MoveNext();
 			}
-			return result;
+			return p.Position.Roofed(p.Map) || p.Map.weatherManager.RainRate <= 0.25f;
 		}
 
 		public static bool ShouldTrashBuilding(Pawn pawn, Building b, bool attackAllInert = false)
 		{
-			bool result;
 			if (!b.def.useHitPoints)
 			{
-				result = false;
+				return false;
 			}
-			else if (pawn.mindState.spawnedByInfestationThingComp && b.GetComp<CompCreatesInfestations>() != null)
+			if (pawn.mindState.spawnedByInfestationThingComp && b.GetComp<CompCreatesInfestations>() != null)
 			{
-				result = false;
+				return false;
 			}
-			else
+			if ((b.def.building.isInert && !attackAllInert) || b.def.building.isTrap)
 			{
-				if ((b.def.building.isInert && !attackAllInert) || b.def.building.isTrap)
+				int num = GenLocalDate.HourOfDay(pawn) / 3;
+				int specialSeed = b.GetHashCode() * 612361 ^ pawn.GetHashCode() * 391 ^ num * 73427324;
+				if (!Rand.ChanceSeeded(0.008f, specialSeed))
 				{
-					int num = GenLocalDate.HourOfDay(pawn) / 3;
-					int specialSeed = b.GetHashCode() * 612361 ^ pawn.GetHashCode() * 391 ^ num * 73427324;
-					if (!Rand.ChanceSeeded(0.008f, specialSeed))
-					{
-						return false;
-					}
+					return false;
 				}
-				result = ((!b.def.building.isTrap || !((Building_Trap)b).Armed) && TrashUtility.CanTrash(pawn, b) && pawn.HostileTo(b));
 			}
-			return result;
+			return !b.def.building.isTrap && TrashUtility.CanTrash(pawn, b) && pawn.HostileTo(b);
 		}
 
 		private static bool CanTrash(Pawn pawn, Thing t)
@@ -66,45 +56,46 @@ namespace RimWorld
 			return pawn.CanReach(t, PathEndMode.Touch, Danger.Some, false, TraverseMode.ByPawn) && !t.IsBurning();
 		}
 
-		public static Job TrashJob(Pawn pawn, Thing t)
+		public static Job TrashJob(Pawn pawn, Thing t, bool allowPunchingInert = false)
 		{
 			Plant plant = t as Plant;
-			Job result;
 			if (plant != null)
 			{
 				Job job = new Job(JobDefOf.Ignite, t);
 				TrashUtility.FinalizeTrashJob(job);
-				result = job;
+				return job;
+			}
+			if (pawn.equipment != null && Rand.Value < 0.7f)
+			{
+				foreach (Verb verb in pawn.equipment.AllEquipmentVerbs)
+				{
+					if (verb.verbProps.ai_IsBuildingDestroyer)
+					{
+						Job job2 = new Job(JobDefOf.UseVerbOnThing, t);
+						job2.verbToUse = verb;
+						TrashUtility.FinalizeTrashJob(job2);
+						return job2;
+					}
+				}
+			}
+			float value = Rand.Value;
+			Job job3;
+			if (value < 0.35f && pawn.natives.IgniteVerb != null && pawn.natives.IgniteVerb.IsStillUsableBy(pawn) && t.FlammableNow && !t.IsBurning() && !(t is Building_Door))
+			{
+				job3 = new Job(JobDefOf.Ignite, t);
 			}
 			else
 			{
-				if (pawn.equipment != null && Rand.Value < 0.7f)
+				Building building = t as Building;
+				bool flag = building != null && building.def.building.isInert;
+				if (flag && !allowPunchingInert)
 				{
-					foreach (Verb verb in pawn.equipment.AllEquipmentVerbs)
-					{
-						if (verb.verbProps.ai_IsBuildingDestroyer)
-						{
-							Job job2 = new Job(JobDefOf.UseVerbOnThing, t);
-							job2.verbToUse = verb;
-							TrashUtility.FinalizeTrashJob(job2);
-							return job2;
-						}
-					}
+					return null;
 				}
-				float value = Rand.Value;
-				Job job3;
-				if (value < 0.35f && pawn.natives.IgniteVerb != null && pawn.natives.IgniteVerb.IsStillUsableBy(pawn) && t.FlammableNow && !t.IsBurning() && !(t is Building_Door))
-				{
-					job3 = new Job(JobDefOf.Ignite, t);
-				}
-				else
-				{
-					job3 = new Job(JobDefOf.AttackMelee, t);
-				}
-				TrashUtility.FinalizeTrashJob(job3);
-				result = job3;
+				job3 = new Job(JobDefOf.AttackMelee, t);
 			}
-			return result;
+			TrashUtility.FinalizeTrashJob(job3);
+			return job3;
 		}
 
 		private static void FinalizeTrashJob(Job job)

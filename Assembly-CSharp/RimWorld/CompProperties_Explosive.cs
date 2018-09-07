@@ -44,7 +44,7 @@ namespace RimWorld
 
 		public SoundDef explosionSound;
 
-		public DamageDef startWickOnDamageTaken = null;
+		public DamageDef startWickOnDamageTaken;
 
 		public float startWickHitPointsPercent = 0.2f;
 
@@ -52,11 +52,11 @@ namespace RimWorld
 
 		public float wickScale = 1f;
 
-		public float chanceNeverExplodeFromDamage = 0f;
+		public float chanceNeverExplodeFromDamage;
 
-		public float destroyThingOnExplosionSize = 0f;
+		public float destroyThingOnExplosionSize;
 
-		public DamageDef requiredDamageTypeToExplode = null;
+		public DamageDef requiredDamageTypeToExplode;
 
 		public CompProperties_Explosive()
 		{
@@ -74,7 +74,7 @@ namespace RimWorld
 
 		public override IEnumerable<string> ConfigErrors(ThingDef parentDef)
 		{
-			foreach (string e in this.<ConfigErrors>__BaseCallProxy0(parentDef))
+			foreach (string e in base.ConfigErrors(parentDef))
 			{
 				yield return e;
 			}
@@ -128,7 +128,7 @@ namespace RimWorld
 				case 1u:
 					break;
 				case 2u:
-					goto IL_EE;
+					goto IL_EA;
 				default:
 					return false;
 				}
@@ -161,7 +161,7 @@ namespace RimWorld
 				}
 				if (parentDef.tickerType == TickerType.Normal)
 				{
-					goto IL_EE;
+					goto IL_EA;
 				}
 				this.$current = "CompExplosive requires Normal ticker type";
 				if (!this.$disposing)
@@ -169,7 +169,7 @@ namespace RimWorld
 					this.$PC = 2;
 				}
 				return true;
-				IL_EE:
+				IL_EA:
 				this.$PC = -1;
 				return false;
 			}

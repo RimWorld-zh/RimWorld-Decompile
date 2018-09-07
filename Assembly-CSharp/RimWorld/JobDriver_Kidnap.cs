@@ -25,22 +25,17 @@ namespace RimWorld
 
 		public override string GetReport()
 		{
-			string result;
 			if (this.Takee == null || this.pawn.HostileTo(this.Takee))
 			{
-				result = base.GetReport();
+				return base.GetReport();
 			}
-			else
-			{
-				result = JobDefOf.Rescue.reportString.Replace("TargetA", this.Takee.LabelShort);
-			}
-			return result;
+			return JobDefOf.Rescue.reportString.Replace("TargetA", this.Takee.LabelShort);
 		}
 
 		protected override IEnumerable<Toil> MakeNewToils()
 		{
 			this.FailOn(() => this.Takee == null || (!this.Takee.Downed && this.Takee.Awake()));
-			foreach (Toil t in this.<MakeNewToils>__BaseCallProxy0())
+			foreach (Toil t in base.MakeNewToils())
 			{
 				yield return t;
 			}

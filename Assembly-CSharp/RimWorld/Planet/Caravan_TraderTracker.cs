@@ -118,39 +118,37 @@ namespace RimWorld.Planet
 			if (this.Goods.Contains(toGive))
 			{
 				Log.Error("Tried to add " + toGive + " to stock (pawn's trader tracker), but it's already here.", false);
+				return;
+			}
+			Caravan caravan = playerNegotiator.GetCaravan();
+			Thing thing = toGive.SplitOff(countToGive);
+			thing.PreTraded(TradeAction.PlayerSells, playerNegotiator, this.caravan);
+			Pawn pawn = thing as Pawn;
+			if (pawn != null)
+			{
+				CaravanInventoryUtility.MoveAllInventoryToSomeoneElse(pawn, caravan.PawnsListForReading, null);
+				this.caravan.AddPawn(pawn, false);
+				if (pawn.IsWorldPawn() && !this.caravan.Spawned)
+				{
+					Find.WorldPawns.RemovePawn(pawn);
+				}
+				if (pawn.RaceProps.Humanlike)
+				{
+					this.soldPrisoners.Add(pawn);
+				}
 			}
 			else
 			{
-				Caravan caravan = playerNegotiator.GetCaravan();
-				Thing thing = toGive.SplitOff(countToGive);
-				thing.PreTraded(TradeAction.PlayerSells, playerNegotiator, this.caravan);
-				Pawn pawn = thing as Pawn;
-				if (pawn != null)
+				Pawn pawn2 = CaravanInventoryUtility.FindPawnToMoveInventoryTo(thing, this.caravan.PawnsListForReading, null, null);
+				if (pawn2 == null)
 				{
-					CaravanInventoryUtility.MoveAllInventoryToSomeoneElse(pawn, caravan.PawnsListForReading, null);
-					this.caravan.AddPawn(pawn, false);
-					if (pawn.IsWorldPawn() && !this.caravan.Spawned)
-					{
-						Find.WorldPawns.RemovePawn(pawn);
-					}
-					if (pawn.RaceProps.Humanlike)
-					{
-						this.soldPrisoners.Add(pawn);
-					}
+					Log.Error("Could not find pawn to move sold thing to (sold by player). thing=" + thing, false);
+					thing.Destroy(DestroyMode.Vanish);
 				}
-				else
+				else if (!pawn2.inventory.innerContainer.TryAdd(thing, true))
 				{
-					Pawn pawn2 = CaravanInventoryUtility.FindPawnToMoveInventoryTo(thing, this.caravan.PawnsListForReading, null, null);
-					if (pawn2 == null)
-					{
-						Log.Error("Could not find pawn to move sold thing to (sold by player). thing=" + thing, false);
-						thing.Destroy(DestroyMode.Vanish);
-					}
-					else if (!pawn2.inventory.innerContainer.TryAdd(thing, true))
-					{
-						Log.Error("Could not add item to inventory.", false);
-						thing.Destroy(DestroyMode.Vanish);
-					}
+					Log.Error("Could not add item to inventory.", false);
+					thing.Destroy(DestroyMode.Vanish);
 				}
 			}
 		}
@@ -239,25 +237,24 @@ namespace RimWorld.Planet
 					i++;
 					break;
 				case 2u:
-					goto IL_16B;
+					IL_165:
+					j++;
+					goto IL_173;
 				default:
 					return false;
 				}
-				if (i >= inv.Count)
+				if (i < inv.Count)
 				{
-					pawns = this.caravan.PawnsListForReading;
-					j = 0;
-					goto IL_17A;
+					this.$current = inv[i];
+					if (!this.$disposing)
+					{
+						this.$PC = 1;
+					}
+					return true;
 				}
-				this.$current = inv[i];
-				if (!this.$disposing)
-				{
-					this.$PC = 1;
-				}
-				return true;
-				IL_16B:
-				j++;
-				IL_17A:
+				pawns = this.caravan.PawnsListForReading;
+				j = 0;
+				IL_173:
 				if (j >= pawns.Count)
 				{
 					this.$PC = -1;
@@ -274,7 +271,7 @@ namespace RimWorld.Planet
 						}
 						return true;
 					}
-					goto IL_16B;
+					goto IL_165;
 				}
 				return false;
 			}
@@ -370,9 +367,9 @@ namespace RimWorld.Planet
 				case 1u:
 					break;
 				case 2u:
-					IL_12E:
+					IL_129:
 					i++;
-					goto IL_13D;
+					goto IL_137;
 				default:
 					return false;
 				}
@@ -402,7 +399,7 @@ namespace RimWorld.Planet
 				}
 				pawns = playerCaravan.PawnsListForReading;
 				i = 0;
-				IL_13D:
+				IL_137:
 				if (i >= pawns.Count)
 				{
 					this.$PC = -1;
@@ -418,7 +415,7 @@ namespace RimWorld.Planet
 						}
 						return true;
 					}
-					goto IL_12E;
+					goto IL_129;
 				}
 				return false;
 			}

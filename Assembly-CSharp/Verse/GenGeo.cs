@@ -59,18 +59,13 @@ namespace Verse
 			float num5 = line2V1.x - line2V2.x;
 			float num6 = num4 * line2V1.x + num5 * line2V1.z;
 			float num7 = num * num5 - num4 * num2;
-			bool result;
 			if (num7 == 0f)
 			{
-				result = false;
+				return false;
 			}
-			else
-			{
-				float num8 = (num5 * num3 - num2 * num6) / num7;
-				float num9 = (num * num6 - num4 * num3) / num7;
-				result = ((num8 <= line1V1.x || num8 <= line1V2.x) && (num8 <= line2V1.x || num8 <= line2V2.x) && (num8 >= line1V1.x || num8 >= line1V2.x) && (num8 >= line2V1.x || num8 >= line2V2.x) && (num9 <= line1V1.z || num9 <= line1V2.z) && (num9 <= line2V1.z || num9 <= line2V2.z) && (num9 >= line1V1.z || num9 >= line1V2.z) && (num9 >= line2V1.z || num9 >= line2V2.z));
-			}
-			return result;
+			float num8 = (num5 * num3 - num2 * num6) / num7;
+			float num9 = (num * num6 - num4 * num3) / num7;
+			return (num8 <= line1V1.x || num8 <= line1V2.x) && (num8 <= line2V1.x || num8 <= line2V2.x) && (num8 >= line1V1.x || num8 >= line1V2.x) && (num8 >= line2V1.x || num8 >= line2V2.x) && (num9 <= line1V1.z || num9 <= line1V2.z) && (num9 <= line2V1.z || num9 <= line2V2.z) && (num9 >= line1V1.z || num9 >= line1V2.z) && (num9 >= line2V1.z || num9 >= line2V2.z);
 		}
 
 		public static bool IntersectLineCircle(Vector2 center, float radius, Vector2 lineA, Vector2 lineB)
@@ -101,7 +96,6 @@ namespace Verse
 
 		public static Vector2 RegularPolygonVertexPosition(int polygonVertices, int vertexIndex)
 		{
-			Vector2 result;
 			if (vertexIndex < 0 || vertexIndex >= polygonVertices)
 			{
 				Log.Warning(string.Concat(new object[]
@@ -111,17 +105,13 @@ namespace Verse
 					" vertexIndex=",
 					vertexIndex
 				}), false);
-				result = Vector2.zero;
+				return Vector2.zero;
 			}
-			else if (polygonVertices == 1)
+			if (polygonVertices == 1)
 			{
-				result = Vector2.zero;
+				return Vector2.zero;
 			}
-			else
-			{
-				result = GenGeo.CalculatePolygonVertexPosition(polygonVertices, vertexIndex);
-			}
-			return result;
+			return GenGeo.CalculatePolygonVertexPosition(polygonVertices, vertexIndex);
 		}
 
 		private static Vector2 CalculatePolygonVertexPosition(int polygonVertices, int vertexIndex)
@@ -138,44 +128,36 @@ namespace Verse
 			float num2 = ((p0 - p).Cross(p1 - p3) + (p1 - p).Cross(p0 - p2)) / 2f;
 			float num3 = (p1 - p).Cross(p1 - p3);
 			float num4 = num2 * num2 - num * num3;
-			Vector2 result;
 			if (num4 < 0f)
 			{
-				result = new Vector2(-1f, -1f);
+				return new Vector2(-1f, -1f);
+			}
+			num4 = Mathf.Sqrt(num4);
+			float num5;
+			if (Mathf.Abs(num - 2f * num2 + num3) < 0.0001f)
+			{
+				num5 = num / (num - num3);
 			}
 			else
 			{
-				num4 = Mathf.Sqrt(num4);
-				float num5;
-				if (Mathf.Abs(num - 2f * num2 + num3) < 0.0001f)
+				float num6 = (num - num2 + num4) / (num - 2f * num2 + num3);
+				float num7 = (num - num2 - num4) / (num - 2f * num2 + num3);
+				if (Mathf.Abs(num6 - 0.5f) < Mathf.Abs(num7 - 0.5f))
 				{
-					num5 = num / (num - num3);
+					num5 = num6;
 				}
 				else
 				{
-					float num6 = (num - num2 + num4) / (num - 2f * num2 + num3);
-					float num7 = (num - num2 - num4) / (num - 2f * num2 + num3);
-					if (Mathf.Abs(num6 - 0.5f) < Mathf.Abs(num7 - 0.5f))
-					{
-						num5 = num6;
-					}
-					else
-					{
-						num5 = num7;
-					}
-				}
-				float num8 = (1f - num5) * (p0.x - p2.x) + num5 * (p1.x - p3.x);
-				float num9 = (1f - num5) * (p0.y - p2.y) + num5 * (p1.y - p3.y);
-				if (Mathf.Abs(num8) < Mathf.Abs(num9))
-				{
-					result = new Vector2(num5, ((1f - num5) * (p0.y - p.y) + num5 * (p1.y - p.y)) / num9);
-				}
-				else
-				{
-					result = new Vector2(num5, ((1f - num5) * (p0.x - p.x) + num5 * (p1.x - p.x)) / num8);
+					num5 = num7;
 				}
 			}
-			return result;
+			float num8 = (1f - num5) * (p0.x - p2.x) + num5 * (p1.x - p3.x);
+			float num9 = (1f - num5) * (p0.y - p2.y) + num5 * (p1.y - p3.y);
+			if (Mathf.Abs(num8) < Mathf.Abs(num9))
+			{
+				return new Vector2(num5, ((1f - num5) * (p0.y - p.y) + num5 * (p1.y - p.y)) / num9);
+			}
+			return new Vector2(num5, ((1f - num5) * (p0.x - p.x) + num5 * (p1.x - p.x)) / num8);
 		}
 	}
 }

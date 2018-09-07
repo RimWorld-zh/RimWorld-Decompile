@@ -11,7 +11,7 @@ namespace RimWorld
 {
 	public class JobDriver_PlantSow : JobDriver
 	{
-		private float sowWorkDone = 0f;
+		private float sowWorkDone;
 
 		public JobDriver_PlantSow()
 		{
@@ -31,9 +31,12 @@ namespace RimWorld
 			Scribe_Values.Look<float>(ref this.sowWorkDone, "sowWorkDone", 0f, false);
 		}
 
-		public override bool TryMakePreToilReservations()
+		public override bool TryMakePreToilReservations(bool errorOnFailed)
 		{
-			return this.pawn.Reserve(this.job.targetA, this.job, 1, -1, null);
+			Pawn pawn = this.pawn;
+			LocalTargetInfo targetA = this.job.targetA;
+			Job job = this.job;
+			return pawn.Reserve(targetA, job, 1, -1, null, errorOnFailed);
 		}
 
 		protected override IEnumerable<Toil> MakeNewToils()
@@ -43,7 +46,7 @@ namespace RimWorld
 			sowToil.initAction = delegate()
 			{
 				this.TargetThingA = GenSpawn.Spawn(this.job.plantDefToSow, this.TargetLocA, this.Map, WipeMode.Vanish);
-				this.pawn.Reserve(this.TargetThingA, sowToil.actor.CurJob, 1, -1, null);
+				this.pawn.Reserve(this.TargetThingA, sowToil.actor.CurJob, 1, -1, null, true);
 				Plant plant = (Plant)this.TargetThingA;
 				plant.Growth = 0f;
 				plant.sown = true;
@@ -53,7 +56,7 @@ namespace RimWorld
 				Pawn actor = sowToil.actor;
 				if (actor.skills != null)
 				{
-					actor.skills.Learn(SkillDefOf.Plants, 0.0935f, false);
+					actor.skills.Learn(SkillDefOf.Plants, 0.085f, false);
 				}
 				float statValue = actor.GetStatValue(StatDefOf.PlantWorkSpeed, true);
 				float num = statValue;
@@ -69,6 +72,7 @@ namespace RimWorld
 					this.Map.mapDrawer.MapMeshDirty(plant.Position, MapMeshFlag.Things);
 					actor.records.Increment(RecordDefOf.PlantsSown);
 					this.ReadyForNextToil();
+					return;
 				}
 			};
 			sowToil.defaultCompleteMode = ToilCompleteMode.Never;
@@ -133,7 +137,7 @@ namespace RimWorld
 					<MakeNewToils>c__AnonStorey.sowToil.initAction = delegate()
 					{
 						<MakeNewToils>c__AnonStorey.<>f__ref$0.$this.TargetThingA = GenSpawn.Spawn(<MakeNewToils>c__AnonStorey.<>f__ref$0.$this.job.plantDefToSow, <MakeNewToils>c__AnonStorey.<>f__ref$0.$this.TargetLocA, <MakeNewToils>c__AnonStorey.<>f__ref$0.$this.Map, WipeMode.Vanish);
-						<MakeNewToils>c__AnonStorey.<>f__ref$0.$this.pawn.Reserve(<MakeNewToils>c__AnonStorey.<>f__ref$0.$this.TargetThingA, <MakeNewToils>c__AnonStorey.sowToil.actor.CurJob, 1, -1, null);
+						<MakeNewToils>c__AnonStorey.<>f__ref$0.$this.pawn.Reserve(<MakeNewToils>c__AnonStorey.<>f__ref$0.$this.TargetThingA, <MakeNewToils>c__AnonStorey.sowToil.actor.CurJob, 1, -1, null, true);
 						Plant plant = (Plant)<MakeNewToils>c__AnonStorey.<>f__ref$0.$this.TargetThingA;
 						plant.Growth = 0f;
 						plant.sown = true;
@@ -143,7 +147,7 @@ namespace RimWorld
 						Pawn actor = <MakeNewToils>c__AnonStorey.sowToil.actor;
 						if (actor.skills != null)
 						{
-							actor.skills.Learn(SkillDefOf.Plants, 0.0935f, false);
+							actor.skills.Learn(SkillDefOf.Plants, 0.085f, false);
 						}
 						float statValue = actor.GetStatValue(StatDefOf.PlantWorkSpeed, true);
 						float num2 = statValue;
@@ -159,6 +163,7 @@ namespace RimWorld
 							<MakeNewToils>c__AnonStorey.<>f__ref$0.$this.Map.mapDrawer.MapMeshDirty(plant.Position, MapMeshFlag.Things);
 							actor.records.Increment(RecordDefOf.PlantsSown);
 							<MakeNewToils>c__AnonStorey.<>f__ref$0.$this.ReadyForNextToil();
+							return;
 						}
 					};
 					<MakeNewToils>c__AnonStorey.sowToil.defaultCompleteMode = ToilCompleteMode.Never;
@@ -274,7 +279,7 @@ namespace RimWorld
 				internal void <>m__2()
 				{
 					this.<>f__ref$0.$this.TargetThingA = GenSpawn.Spawn(this.<>f__ref$0.$this.job.plantDefToSow, this.<>f__ref$0.$this.TargetLocA, this.<>f__ref$0.$this.Map, WipeMode.Vanish);
-					this.<>f__ref$0.$this.pawn.Reserve(this.<>f__ref$0.$this.TargetThingA, this.sowToil.actor.CurJob, 1, -1, null);
+					this.<>f__ref$0.$this.pawn.Reserve(this.<>f__ref$0.$this.TargetThingA, this.sowToil.actor.CurJob, 1, -1, null, true);
 					Plant plant = (Plant)this.<>f__ref$0.$this.TargetThingA;
 					plant.Growth = 0f;
 					plant.sown = true;
@@ -285,7 +290,7 @@ namespace RimWorld
 					Pawn actor = this.sowToil.actor;
 					if (actor.skills != null)
 					{
-						actor.skills.Learn(SkillDefOf.Plants, 0.0935f, false);
+						actor.skills.Learn(SkillDefOf.Plants, 0.085f, false);
 					}
 					float statValue = actor.GetStatValue(StatDefOf.PlantWorkSpeed, true);
 					float num = statValue;
@@ -301,6 +306,7 @@ namespace RimWorld
 						this.<>f__ref$0.$this.Map.mapDrawer.MapMeshDirty(plant.Position, MapMeshFlag.Things);
 						actor.records.Increment(RecordDefOf.PlantsSown);
 						this.<>f__ref$0.$this.ReadyForNextToil();
+						return;
 					}
 				}
 

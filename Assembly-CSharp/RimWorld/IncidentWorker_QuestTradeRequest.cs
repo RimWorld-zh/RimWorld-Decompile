@@ -69,64 +69,50 @@ namespace RimWorld
 		protected override bool TryExecuteWorker(IncidentParms parms)
 		{
 			Map map;
-			bool result;
 			if (!this.TryGetRandomAvailableTargetMap(out map))
 			{
-				result = false;
+				return false;
 			}
-			else
+			SettlementBase settlementBase = IncidentWorker_QuestTradeRequest.RandomNearbyTradeableSettlement(map.Tile);
+			if (settlementBase == null)
 			{
-				SettlementBase settlementBase = IncidentWorker_QuestTradeRequest.RandomNearbyTradeableSettlement(map.Tile);
-				if (settlementBase == null)
-				{
-					result = false;
-				}
-				else
-				{
-					TradeRequestComp component = settlementBase.GetComponent<TradeRequestComp>();
-					if (!this.TryGenerateTradeRequest(component, map))
-					{
-						result = false;
-					}
-					else
-					{
-						Find.LetterStack.ReceiveLetter("LetterLabelCaravanRequest".Translate(), "LetterCaravanRequest".Translate(new object[]
-						{
-							settlementBase.Label,
-							TradeRequestUtility.RequestedThingLabel(component.requestThingDef, component.requestCount).CapitalizeFirst(),
-							(component.requestThingDef.GetStatValueAbstract(StatDefOf.MarketValue, null) * (float)component.requestCount).ToStringMoney("F0"),
-							GenThing.ThingsToCommaList(component.rewards, true, true, -1).CapitalizeFirst(),
-							GenThing.GetMarketValue(component.rewards).ToStringMoney("F0"),
-							(component.expiration - Find.TickManager.TicksGame).ToStringTicksToDays("F0"),
-							CaravanArrivalTimeEstimator.EstimatedTicksToArrive(map.Tile, settlementBase.Tile, null).ToStringTicksToDays("0.#")
-						}), LetterDefOf.PositiveEvent, settlementBase, settlementBase.Faction, null);
-						result = true;
-					}
-				}
+				return false;
 			}
-			return result;
+			TradeRequestComp component = settlementBase.GetComponent<TradeRequestComp>();
+			if (!this.TryGenerateTradeRequest(component, map))
+			{
+				return false;
+			}
+			string text = "LetterCaravanRequest".Translate(new object[]
+			{
+				settlementBase.Label,
+				TradeRequestUtility.RequestedThingLabel(component.requestThingDef, component.requestCount).CapitalizeFirst(),
+				(component.requestThingDef.GetStatValueAbstract(StatDefOf.MarketValue, null) * (float)component.requestCount).ToStringMoney("F0"),
+				GenThing.ThingsToCommaList(component.rewards, true, true, -1).CapitalizeFirst(),
+				GenThing.GetMarketValue(component.rewards).ToStringMoney("F0"),
+				(component.expiration - Find.TickManager.TicksGame).ToStringTicksToDays("F0"),
+				CaravanArrivalTimeEstimator.EstimatedTicksToArrive(map.Tile, settlementBase.Tile, null).ToStringTicksToDays("0.#")
+			});
+			GenThing.TryAppendSingleRewardInfo(ref text, component.rewards);
+			Find.LetterStack.ReceiveLetter("LetterLabelCaravanRequest".Translate(), text, LetterDefOf.PositiveEvent, settlementBase, settlementBase.Faction, null);
+			return true;
 		}
 
 		public bool TryGenerateTradeRequest(TradeRequestComp target, Map map)
 		{
 			int num = this.RandomOfferDurationTicks(map.Tile, target.parent.Tile);
-			bool result;
 			if (num < 1)
 			{
-				result = false;
+				return false;
 			}
-			else if (!IncidentWorker_QuestTradeRequest.TryFindRandomRequestedThingDef(map, out target.requestThingDef, out target.requestCount))
+			if (!IncidentWorker_QuestTradeRequest.TryFindRandomRequestedThingDef(map, out target.requestThingDef, out target.requestCount))
 			{
-				result = false;
+				return false;
 			}
-			else
-			{
-				target.rewards.ClearAndDestroyContents(DestroyMode.Vanish);
-				target.rewards.TryAddRangeOrTransfer(IncidentWorker_QuestTradeRequest.GenerateRewardsFor(target.requestThingDef, target.requestCount, target.parent.Faction, map), true, true);
-				target.expiration = Find.TickManager.TicksGame + num;
-				result = true;
-			}
-			return result;
+			target.rewards.ClearAndDestroyContents(DestroyMode.Vanish);
+			target.rewards.TryAddRangeOrTransfer(IncidentWorker_QuestTradeRequest.GenerateRewardsFor(target.requestThingDef, target.requestCount, target.parent.Faction, map), true, true);
+			target.expiration = Find.TickManager.TicksGame + num;
+			return true;
 		}
 
 		public static SettlementBase RandomNearbyTradeableSettlement(int originTile)
@@ -141,57 +127,44 @@ namespace RimWorld
 			IncidentWorker_QuestTradeRequest.requestCountDict.Clear();
 			Func<ThingDef, bool> globalValidator = delegate(ThingDef td)
 			{
-				bool result2;
 				if (td.BaseMarketValue / td.BaseMass < 5f)
 				{
-					result2 = false;
+					return false;
 				}
-				else if (!td.alwaysHaulable)
+				if (!td.alwaysHaulable)
 				{
-					result2 = false;
+					return false;
 				}
-				else
+				CompProperties_Rottable compProperties = td.GetCompProperties<CompProperties_Rottable>();
+				if (compProperties != null && compProperties.daysToRotStart < 10f)
 				{
-					CompProperties_Rottable compProperties = td.GetCompProperties<CompProperties_Rottable>();
-					if (compProperties != null && compProperties.daysToRotStart < 10f)
-					{
-						result2 = false;
-					}
-					else if (td.ingestible != null && td.ingestible.HumanEdible)
-					{
-						result2 = false;
-					}
-					else if (td == ThingDefOf.Silver)
-					{
-						result2 = false;
-					}
-					else if (!td.PlayerAcquirable)
-					{
-						result2 = false;
-					}
-					else
-					{
-						int num = IncidentWorker_QuestTradeRequest.RandomRequestCount(td, map);
-						IncidentWorker_QuestTradeRequest.requestCountDict.Add(td, num);
-						result2 = PlayerItemAccessibilityUtility.PossiblyAccessible(td, num, map);
-					}
+					return false;
 				}
-				return result2;
+				if (td.ingestible != null && td.ingestible.HumanEdible)
+				{
+					return false;
+				}
+				if (td == ThingDefOf.Silver)
+				{
+					return false;
+				}
+				if (!td.PlayerAcquirable)
+				{
+					return false;
+				}
+				int num = IncidentWorker_QuestTradeRequest.RandomRequestCount(td, map);
+				IncidentWorker_QuestTradeRequest.requestCountDict.Add(td, num);
+				return PlayerItemAccessibilityUtility.PossiblyAccessible(td, num, map) && PlayerItemAccessibilityUtility.PlayerCanMake(td, map) && (td.thingSetMakerTags == null || !td.thingSetMakerTags.Contains("RewardSpecial"));
 			};
-			bool result;
 			if ((from td in ThingSetMakerUtility.allGeneratableItems
 			where globalValidator(td)
 			select td).TryRandomElement(out thingDef))
 			{
 				count = IncidentWorker_QuestTradeRequest.requestCountDict[thingDef];
-				result = true;
+				return true;
 			}
-			else
-			{
-				count = 0;
-				result = false;
-			}
-			return result;
+			count = 0;
+			return false;
 		}
 
 		private bool TryGetRandomAvailableTargetMap(out Map map)
@@ -252,17 +225,12 @@ namespace RimWorld
 			int num = CaravanArrivalTimeEstimator.EstimatedTicksToArrive(tileIdFrom, tileIdTo, null);
 			float num2 = (float)num / 60000f;
 			int num3 = Mathf.CeilToInt(Mathf.Max(num2 + 6f, num2 * 1.35f));
-			int result;
 			if (num3 > SiteTuning.QuestSiteTimeoutDaysRange.max)
 			{
-				result = -1;
+				return -1;
 			}
-			else
-			{
-				int num4 = Mathf.Max(randomInRange, num3);
-				result = 60000 * num4;
-			}
-			return result;
+			int num4 = Mathf.Max(randomInRange, num3);
+			return 60000 * num4;
 		}
 
 		private bool AtLeast2HealthyColonists(Map map)
@@ -319,42 +287,34 @@ namespace RimWorld
 
 			internal bool <>m__0(ThingDef td)
 			{
-				bool result;
 				if (td.BaseMarketValue / td.BaseMass < 5f)
 				{
-					result = false;
+					return false;
 				}
-				else if (!td.alwaysHaulable)
+				if (!td.alwaysHaulable)
 				{
-					result = false;
+					return false;
 				}
-				else
+				CompProperties_Rottable compProperties = td.GetCompProperties<CompProperties_Rottable>();
+				if (compProperties != null && compProperties.daysToRotStart < 10f)
 				{
-					CompProperties_Rottable compProperties = td.GetCompProperties<CompProperties_Rottable>();
-					if (compProperties != null && compProperties.daysToRotStart < 10f)
-					{
-						result = false;
-					}
-					else if (td.ingestible != null && td.ingestible.HumanEdible)
-					{
-						result = false;
-					}
-					else if (td == ThingDefOf.Silver)
-					{
-						result = false;
-					}
-					else if (!td.PlayerAcquirable)
-					{
-						result = false;
-					}
-					else
-					{
-						int num = IncidentWorker_QuestTradeRequest.RandomRequestCount(td, this.map);
-						IncidentWorker_QuestTradeRequest.requestCountDict.Add(td, num);
-						result = PlayerItemAccessibilityUtility.PossiblyAccessible(td, num, this.map);
-					}
+					return false;
 				}
-				return result;
+				if (td.ingestible != null && td.ingestible.HumanEdible)
+				{
+					return false;
+				}
+				if (td == ThingDefOf.Silver)
+				{
+					return false;
+				}
+				if (!td.PlayerAcquirable)
+				{
+					return false;
+				}
+				int num = IncidentWorker_QuestTradeRequest.RandomRequestCount(td, this.map);
+				IncidentWorker_QuestTradeRequest.requestCountDict.Add(td, num);
+				return PlayerItemAccessibilityUtility.PossiblyAccessible(td, num, this.map) && PlayerItemAccessibilityUtility.PlayerCanMake(td, this.map) && (td.thingSetMakerTags == null || !td.thingSetMakerTags.Contains("RewardSpecial"));
 			}
 
 			internal bool <>m__1(ThingDef td)

@@ -50,6 +50,14 @@ namespace Verse.AI.Group
 			}
 		}
 
+		public virtual bool AddFleeToil
+		{
+			get
+			{
+				return true;
+			}
+		}
+
 		protected Map Map
 		{
 			get

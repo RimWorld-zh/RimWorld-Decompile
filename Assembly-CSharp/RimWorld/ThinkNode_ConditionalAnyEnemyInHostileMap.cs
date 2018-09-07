@@ -12,17 +12,12 @@ namespace RimWorld
 
 		protected override bool Satisfied(Pawn pawn)
 		{
-			bool result;
 			if (!pawn.Spawned)
 			{
-				result = false;
+				return false;
 			}
-			else
-			{
-				Map map = pawn.Map;
-				result = (!map.IsPlayerHome && map.ParentFaction != null && map.ParentFaction.HostileTo(Faction.OfPlayer) && GenHostility.AnyHostileActiveThreatToPlayer(map));
-			}
-			return result;
+			Map map = pawn.Map;
+			return !map.IsPlayerHome && map.ParentFaction != null && map.ParentFaction.HostileTo(Faction.OfPlayer) && GenHostility.AnyHostileActiveThreatToPlayer(map);
 		}
 	}
 }

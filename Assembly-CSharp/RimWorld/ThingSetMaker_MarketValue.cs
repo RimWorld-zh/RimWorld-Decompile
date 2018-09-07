@@ -23,46 +23,35 @@ namespace RimWorld
 
 		protected override bool CanGenerateSub(ThingSetMakerParams parms)
 		{
-			bool result;
 			if (!this.AllowedThingDefs(parms).Any<ThingDef>())
 			{
-				result = false;
+				return false;
 			}
-			else
+			IntRange? countRange = parms.countRange;
+			if (countRange != null && parms.countRange.Value.max <= 0)
 			{
-				IntRange? countRange = parms.countRange;
-				if (countRange != null && parms.countRange.Value.max <= 0)
+				return false;
+			}
+			FloatRange? totalMarketValueRange = parms.totalMarketValueRange;
+			if (totalMarketValueRange == null || parms.totalMarketValueRange.Value.max <= 0f)
+			{
+				return false;
+			}
+			float? maxTotalMass = parms.maxTotalMass;
+			if (maxTotalMass != null && parms.maxTotalMass != 3.40282347E+38f)
+			{
+				IEnumerable<ThingDef> candidates = this.AllowedThingDefs(parms);
+				TechLevel? techLevel = parms.techLevel;
+				TechLevel stuffTechLevel = (techLevel == null) ? TechLevel.Undefined : techLevel.Value;
+				float value = parms.maxTotalMass.Value;
+				IntRange? countRange2 = parms.countRange;
+				if (!ThingSetMakerUtility.PossibleToWeighNoMoreThan(candidates, stuffTechLevel, value, (countRange2 == null) ? 1 : parms.countRange.Value.min))
 				{
-					result = false;
-				}
-				else
-				{
-					FloatRange? totalMarketValueRange = parms.totalMarketValueRange;
-					if (totalMarketValueRange == null || parms.totalMarketValueRange.Value.max <= 0f)
-					{
-						result = false;
-					}
-					else
-					{
-						float? maxTotalMass = parms.maxTotalMass;
-						if (maxTotalMass != null && parms.maxTotalMass != 3.40282347E+38f)
-						{
-							IEnumerable<ThingDef> candidates = this.AllowedThingDefs(parms);
-							TechLevel? techLevel = parms.techLevel;
-							TechLevel stuffTechLevel = (techLevel == null) ? TechLevel.Undefined : techLevel.Value;
-							float value = parms.maxTotalMass.Value;
-							IntRange? countRange2 = parms.countRange;
-							if (!ThingSetMakerUtility.PossibleToWeighNoMoreThan(candidates, stuffTechLevel, value, (countRange2 == null) ? 1 : parms.countRange.Value.min))
-							{
-								return false;
-							}
-						}
-						float num;
-						result = this.GeneratePossibleDefs(parms, out num, this.nextSeed).Any<ThingStuffPairWithQuality>();
-					}
+					return false;
 				}
 			}
-			return result;
+			float num;
+			return this.GeneratePossibleDefs(parms, out num, this.nextSeed).Any<ThingStuffPairWithQuality>();
 		}
 
 		protected override void Generate(ThingSetMakerParams parms, List<Thing> outThings)
@@ -105,36 +94,31 @@ namespace RimWorld
 		private List<ThingStuffPairWithQuality> GeneratePossibleDefs(ThingSetMakerParams parms, out float totalMarketValue)
 		{
 			IEnumerable<ThingDef> enumerable = this.AllowedThingDefs(parms);
-			List<ThingStuffPairWithQuality> result;
 			if (!enumerable.Any<ThingDef>())
 			{
 				totalMarketValue = 0f;
-				result = new List<ThingStuffPairWithQuality>();
+				return new List<ThingStuffPairWithQuality>();
 			}
-			else
-			{
-				TechLevel? techLevel = parms.techLevel;
-				TechLevel techLevel2 = (techLevel == null) ? TechLevel.Undefined : techLevel.Value;
-				IntRange? countRange = parms.countRange;
-				IntRange intRange = (countRange == null) ? new IntRange(1, int.MaxValue) : countRange.Value;
-				FloatRange? totalMarketValueRange = parms.totalMarketValueRange;
-				FloatRange floatRange = (totalMarketValueRange == null) ? FloatRange.Zero : totalMarketValueRange.Value;
-				float? maxTotalMass = parms.maxTotalMass;
-				float num = (maxTotalMass == null) ? float.MaxValue : maxTotalMass.Value;
-				QualityGenerator? qualityGenerator = parms.qualityGenerator;
-				QualityGenerator qualityGenerator2 = (qualityGenerator == null) ? QualityGenerator.BaseGen : qualityGenerator.Value;
-				totalMarketValue = floatRange.RandomInRange;
-				IntRange countRange2 = intRange;
-				float totalValue = totalMarketValue;
-				IEnumerable<ThingDef> allowed = enumerable;
-				TechLevel techLevel3 = techLevel2;
-				QualityGenerator qualityGenerator3 = qualityGenerator2;
-				Func<ThingStuffPairWithQuality, float> getMinValue = new Func<ThingStuffPairWithQuality, float>(this.GetMinValue);
-				Func<ThingStuffPairWithQuality, float> getMaxValue = new Func<ThingStuffPairWithQuality, float>(this.GetMaxValue);
-				float maxMass = num;
-				result = ThingSetMakerByTotalStatUtility.GenerateDefsWithPossibleTotalValue(countRange2, totalValue, allowed, techLevel3, qualityGenerator3, getMinValue, getMaxValue, null, 100, maxMass);
-			}
-			return result;
+			TechLevel? techLevel = parms.techLevel;
+			TechLevel techLevel2 = (techLevel == null) ? TechLevel.Undefined : techLevel.Value;
+			IntRange? countRange = parms.countRange;
+			IntRange intRange = (countRange == null) ? new IntRange(1, int.MaxValue) : countRange.Value;
+			FloatRange? totalMarketValueRange = parms.totalMarketValueRange;
+			FloatRange floatRange = (totalMarketValueRange == null) ? FloatRange.Zero : totalMarketValueRange.Value;
+			float? maxTotalMass = parms.maxTotalMass;
+			float num = (maxTotalMass == null) ? float.MaxValue : maxTotalMass.Value;
+			QualityGenerator? qualityGenerator = parms.qualityGenerator;
+			QualityGenerator qualityGenerator2 = (qualityGenerator == null) ? QualityGenerator.BaseGen : qualityGenerator.Value;
+			totalMarketValue = floatRange.RandomInRange;
+			IntRange countRange2 = intRange;
+			float totalValue = totalMarketValue;
+			IEnumerable<ThingDef> allowed = enumerable;
+			TechLevel techLevel3 = techLevel2;
+			QualityGenerator qualityGenerator3 = qualityGenerator2;
+			Func<ThingStuffPairWithQuality, float> getMinValue = new Func<ThingStuffPairWithQuality, float>(this.GetMinValue);
+			Func<ThingStuffPairWithQuality, float> getMaxValue = new Func<ThingStuffPairWithQuality, float>(this.GetMaxValue);
+			float maxMass = num;
+			return ThingSetMakerByTotalStatUtility.GenerateDefsWithPossibleTotalValue(countRange2, totalValue, allowed, techLevel3, qualityGenerator3, getMinValue, getMaxValue, null, 100, maxMass);
 		}
 
 		protected override IEnumerable<ThingDef> AllGeneratableThingsDebugSub(ThingSetMakerParams parms)

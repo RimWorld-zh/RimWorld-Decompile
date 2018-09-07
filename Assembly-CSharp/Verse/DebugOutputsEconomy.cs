@@ -72,16 +72,19 @@ namespace Verse
 		private static Func<ThingDef, string> <>f__am$cache12;
 
 		[CompilerGenerated]
+		private static Func<ThingDef, float> <>f__mg$cache0;
+
+		[CompilerGenerated]
 		private static Func<ThingDef, float> <>f__am$cache13;
 
 		[CompilerGenerated]
-		private static Func<ThingDef, float> <>f__am$cache14;
+		private static Func<ThingDef, string> <>f__am$cache14;
 
 		[CompilerGenerated]
-		private static Func<ThingDef, string> <>f__am$cache15;
+		private static Func<ThingDef, bool> <>f__am$cache15;
 
 		[CompilerGenerated]
-		private static Func<ThingDef, bool> <>f__am$cache16;
+		private static Func<ThingDef, string> <>f__am$cache16;
 
 		[CompilerGenerated]
 		private static Func<ThingDef, string> <>f__am$cache17;
@@ -108,13 +111,16 @@ namespace Verse
 		private static Func<ThingDef, string> <>f__am$cache1E;
 
 		[CompilerGenerated]
-		private static Func<ThingDef, string> <>f__am$cache1F;
+		private static Func<ThingDef, float> <>f__mg$cache1;
 
 		[CompilerGenerated]
-		private static Func<ThingDef, bool> <>f__am$cache20;
+		private static Func<ThingDef, bool> <>f__am$cache1F;
 
 		[CompilerGenerated]
-		private static Func<ThingDef, float> <>f__am$cache21;
+		private static Func<ThingDef, string> <>f__am$cache20;
+
+		[CompilerGenerated]
+		private static Func<ThingDef, string> <>f__am$cache21;
 
 		[CompilerGenerated]
 		private static Func<ThingDef, string> <>f__am$cache22;
@@ -129,28 +135,28 @@ namespace Verse
 		private static Func<ThingDef, string> <>f__am$cache25;
 
 		[CompilerGenerated]
-		private static Func<ThingDef, string> <>f__am$cache26;
+		private static Func<BuildableDef, bool> <>f__am$cache26;
 
 		[CompilerGenerated]
-		private static Func<ThingDef, string> <>f__am$cache27;
+		private static Func<BuildableDef, string> <>f__am$cache27;
 
 		[CompilerGenerated]
-		private static Func<BuildableDef, bool> <>f__am$cache28;
+		private static Func<BuildableDef, int> <>f__am$cache28;
 
 		[CompilerGenerated]
-		private static Func<BuildableDef, string> <>f__am$cache29;
+		private static Func<ThingDef, float> <>f__am$cache29;
 
 		[CompilerGenerated]
-		private static Func<BuildableDef, int> <>f__am$cache2A;
+		private static Func<ThingDef, bool> <>f__am$cache2A;
 
 		[CompilerGenerated]
-		private static Func<ThingDef, float> <>f__am$cache2B;
+		private static Func<ThingDef, bool> <>f__am$cache2B;
 
 		[CompilerGenerated]
-		private static Func<ThingDef, bool> <>f__am$cache2C;
+		private static Func<ThingDef, string> <>f__am$cache2C;
 
 		[CompilerGenerated]
-		private static Func<ThingDef, bool> <>f__am$cache2D;
+		private static Func<ThingDef, string> <>f__am$cache2D;
 
 		[CompilerGenerated]
 		private static Func<ThingDef, string> <>f__am$cache2E;
@@ -189,16 +195,16 @@ namespace Verse
 		private static Func<ThingDef, string> <>f__am$cache39;
 
 		[CompilerGenerated]
-		private static Func<ThingDef, string> <>f__am$cache3A;
+		private static Func<ThingDef, bool> <>f__am$cache3A;
 
 		[CompilerGenerated]
-		private static Func<ThingDef, string> <>f__am$cache3B;
+		private static Func<ThingDef, float> <>f__am$cache3B;
 
 		[CompilerGenerated]
-		private static Func<ThingDef, bool> <>f__am$cache3C;
+		private static Func<ThingDef, string> <>f__am$cache3C;
 
 		[CompilerGenerated]
-		private static Func<ThingDef, float> <>f__am$cache3D;
+		private static Func<ThingDef, string> <>f__am$cache3D;
 
 		[CompilerGenerated]
 		private static Func<ThingDef, string> <>f__am$cache3E;
@@ -255,13 +261,13 @@ namespace Verse
 		private static Func<ThingDef, string> <>f__am$cache4F;
 
 		[CompilerGenerated]
-		private static Func<ThingDef, string> <>f__am$cache50;
+		private static Func<RecipeDef, bool> <>f__am$cache50;
 
 		[CompilerGenerated]
-		private static Func<ThingDef, string> <>f__am$cache51;
+		private static Func<RecipeDef, string> <>f__am$cache51;
 
 		[CompilerGenerated]
-		private static Func<RecipeDef, bool> <>f__am$cache52;
+		private static Func<RecipeDef, string> <>f__am$cache52;
 
 		[CompilerGenerated]
 		private static Func<RecipeDef, string> <>f__am$cache53;
@@ -294,22 +300,16 @@ namespace Verse
 		private static Func<RecipeDef, string> <>f__am$cache5C;
 
 		[CompilerGenerated]
-		private static Func<RecipeDef, string> <>f__am$cache5D;
+		private static Func<ThingDef, float> <>f__am$cache5D;
 
 		[CompilerGenerated]
-		private static Func<RecipeDef, string> <>f__am$cache5E;
+		private static Func<SkillNeed, string> <>f__am$cache5E;
 
 		[CompilerGenerated]
-		private static Func<ThingDef, float> <>f__am$cache5F;
+		private static Predicate<StatModifier> <>f__am$cache5F;
 
 		[CompilerGenerated]
-		private static Func<SkillNeed, string> <>f__am$cache60;
-
-		[CompilerGenerated]
-		private static Predicate<StatModifier> <>f__am$cache61;
-
-		[CompilerGenerated]
-		private static Func<Pair<ThingDef, float>, string> <>f__am$cache62;
+		private static Func<Pair<ThingDef, float>, string> <>f__am$cache60;
 
 		[Category("Economy")]
 		[DebugOutput]
@@ -318,18 +318,18 @@ namespace Verse
 			IEnumerable<RecipeDef> allDefs = DefDatabase<RecipeDef>.AllDefs;
 			TableDataGetter<RecipeDef>[] array = new TableDataGetter<RecipeDef>[5];
 			array[0] = new TableDataGetter<RecipeDef>("defName", (RecipeDef d) => d.defName);
-			array[1] = new TableDataGetter<RecipeDef>("workSkill", (RecipeDef d) => (d.workSkill != null) ? d.workSkill.defName : "");
-			array[2] = new TableDataGetter<RecipeDef>("workSpeedStat", (RecipeDef d) => (d.workSpeedStat != null) ? d.workSpeedStat.defName : "");
+			array[1] = new TableDataGetter<RecipeDef>("workSkill", (RecipeDef d) => (d.workSkill != null) ? d.workSkill.defName : string.Empty);
+			array[2] = new TableDataGetter<RecipeDef>("workSpeedStat", (RecipeDef d) => (d.workSpeedStat != null) ? d.workSpeedStat.defName : string.Empty);
 			array[3] = new TableDataGetter<RecipeDef>("workSpeedStat's skillNeedFactors", delegate(RecipeDef d)
 			{
 				string result;
 				if (d.workSpeedStat == null)
 				{
-					result = "";
+					result = string.Empty;
 				}
 				else if (d.workSpeedStat.skillNeedFactors.NullOrEmpty<SkillNeed>())
 				{
-					result = "";
+					result = string.Empty;
 				}
 				else
 				{
@@ -347,8 +347,8 @@ namespace Verse
 		public static void Drugs()
 		{
 			Func<ThingDef, float> realIngredientCost = (ThingDef d) => DebugOutputsEconomy.CostToMake(d, true);
-			Func<ThingDef, float> realSellPrice = (ThingDef d) => d.BaseMarketValue * 0.5f;
-			Func<ThingDef, float> realBuyPrice = (ThingDef d) => d.BaseMarketValue * 1.5f;
+			Func<ThingDef, float> realSellPrice = (ThingDef d) => d.BaseMarketValue * 0.6f;
+			Func<ThingDef, float> realBuyPrice = (ThingDef d) => d.BaseMarketValue * 1.4f;
 			IEnumerable<ThingDef> dataSources = from d in DefDatabase<ThingDef>.AllDefs
 			where d.IsWithinCategory(ThingCategoryDefOf.Medicine) || d.IsWithinCategory(ThingCategoryDefOf.Drugs)
 			select d;
@@ -389,23 +389,29 @@ namespace Verse
 		[DebugOutput]
 		public static void AnimalGrowth()
 		{
-			Func<ThingDef, float> gestDaysEach = (ThingDef d) => DebugOutputsEconomy.GestationDaysEach(d);
-			Func<ThingDef, float> nutritionToGestate = delegate(ThingDef d)
+			DebugOutputsEconomy.<AnimalGrowth>c__AnonStorey2 <AnimalGrowth>c__AnonStorey = new DebugOutputsEconomy.<AnimalGrowth>c__AnonStorey2();
+			DebugOutputsEconomy.<AnimalGrowth>c__AnonStorey2 <AnimalGrowth>c__AnonStorey2 = <AnimalGrowth>c__AnonStorey;
+			if (DebugOutputsEconomy.<>f__mg$cache0 == null)
+			{
+				DebugOutputsEconomy.<>f__mg$cache0 = new Func<ThingDef, float>(DebugOutputsEconomy.GestationDaysEach);
+			}
+			<AnimalGrowth>c__AnonStorey2.gestDaysEach = DebugOutputsEconomy.<>f__mg$cache0;
+			<AnimalGrowth>c__AnonStorey.nutritionToGestate = delegate(ThingDef d)
 			{
 				float num = 0f;
 				LifeStageAge lifeStageAge = d.race.lifeStageAges[d.race.lifeStageAges.Count - 1];
-				return num + gestDaysEach(d) * lifeStageAge.def.hungerRateFactor * d.race.baseHungerRate;
+				return num + <AnimalGrowth>c__AnonStorey.gestDaysEach(d) * lifeStageAge.def.hungerRateFactor * d.race.baseHungerRate;
 			};
-			Func<ThingDef, float> babyMeatNut = delegate(ThingDef d)
+			<AnimalGrowth>c__AnonStorey.babyMeatNut = delegate(ThingDef d)
 			{
 				LifeStageAge lifeStageAge = d.race.lifeStageAges[0];
 				return d.GetStatValueAbstract(StatDefOf.MeatAmount, null) * 0.05f * lifeStageAge.def.bodySizeFactor;
 			};
-			Func<ThingDef, float> babyMeatNutPerInput = (ThingDef d) => babyMeatNut(d) / nutritionToGestate(d);
-			Func<ThingDef, float> nutritionToAdulthood = delegate(ThingDef d)
+			<AnimalGrowth>c__AnonStorey.babyMeatNutPerInput = ((ThingDef d) => <AnimalGrowth>c__AnonStorey.babyMeatNut(d) / <AnimalGrowth>c__AnonStorey.nutritionToGestate(d));
+			<AnimalGrowth>c__AnonStorey.nutritionToAdulthood = delegate(ThingDef d)
 			{
 				float num = 0f;
-				num += nutritionToGestate(d);
+				num += <AnimalGrowth>c__AnonStorey.nutritionToGestate(d);
 				for (int i = 1; i < d.race.lifeStageAges.Count; i++)
 				{
 					LifeStageAge lifeStageAge = d.race.lifeStageAges[i];
@@ -415,49 +421,44 @@ namespace Verse
 				}
 				return num;
 			};
-			Func<ThingDef, float> adultMeatNutPerInput = (ThingDef d) => d.GetStatValueAbstract(StatDefOf.MeatAmount, null) * 0.05f / nutritionToAdulthood(d);
-			Func<ThingDef, float> bestMeatPerInput = delegate(ThingDef d)
+			<AnimalGrowth>c__AnonStorey.adultMeatNutPerInput = ((ThingDef d) => d.GetStatValueAbstract(StatDefOf.MeatAmount, null) * 0.05f / <AnimalGrowth>c__AnonStorey.nutritionToAdulthood(d));
+			<AnimalGrowth>c__AnonStorey.bestMeatPerInput = delegate(ThingDef d)
 			{
-				float a = babyMeatNutPerInput(d);
-				float b = adultMeatNutPerInput(d);
+				float a = <AnimalGrowth>c__AnonStorey.babyMeatNutPerInput(d);
+				float b = <AnimalGrowth>c__AnonStorey.adultMeatNutPerInput(d);
 				return Mathf.Max(a, b);
 			};
-			Func<ThingDef, string> eggNut = delegate(ThingDef d)
+			<AnimalGrowth>c__AnonStorey.eggNut = delegate(ThingDef d)
 			{
 				CompProperties_EggLayer compProperties = d.GetCompProperties<CompProperties_EggLayer>();
-				string result;
 				if (compProperties == null)
 				{
-					result = "";
+					return string.Empty;
 				}
-				else
-				{
-					result = compProperties.eggFertilizedDef.GetStatValueAbstract(StatDefOf.Nutrition, null).ToString("F2");
-				}
-				return result;
+				return compProperties.eggFertilizedDef.GetStatValueAbstract(StatDefOf.Nutrition, null).ToString("F2");
 			};
 			IEnumerable<ThingDef> dataSources = from d in DefDatabase<ThingDef>.AllDefs
 			where d.category == ThingCategory.Pawn && d.race.IsFlesh
-			orderby bestMeatPerInput(d) descending
+			orderby <AnimalGrowth>c__AnonStorey.bestMeatPerInput(d) descending
 			select d;
 			TableDataGetter<ThingDef>[] array = new TableDataGetter<ThingDef>[17];
-			array[0] = new TableDataGetter<ThingDef>("", (ThingDef d) => d.defName);
+			array[0] = new TableDataGetter<ThingDef>(string.Empty, (ThingDef d) => d.defName);
 			array[1] = new TableDataGetter<ThingDef>("hungerRate", (ThingDef d) => d.race.baseHungerRate.ToString("F2"));
-			array[2] = new TableDataGetter<ThingDef>("gestDaysEach", (ThingDef d) => gestDaysEach(d).ToString("F2"));
-			array[3] = new TableDataGetter<ThingDef>("herbiv", (ThingDef d) => ((d.race.foodType & FoodTypeFlags.Plant) == FoodTypeFlags.None) ? "" : "Y");
+			array[2] = new TableDataGetter<ThingDef>("gestDaysEach", (ThingDef d) => <AnimalGrowth>c__AnonStorey.gestDaysEach(d).ToString("F2"));
+			array[3] = new TableDataGetter<ThingDef>("herbiv", (ThingDef d) => ((d.race.foodType & FoodTypeFlags.Plant) == FoodTypeFlags.None) ? string.Empty : "Y");
 			array[4] = new TableDataGetter<ThingDef>("|", (ThingDef d) => "|");
 			array[5] = new TableDataGetter<ThingDef>("bodySize", (ThingDef d) => d.race.baseBodySize.ToString("F2"));
 			array[6] = new TableDataGetter<ThingDef>("age Adult", (ThingDef d) => d.race.lifeStageAges[d.race.lifeStageAges.Count - 1].minAge.ToString("F2"));
-			array[7] = new TableDataGetter<ThingDef>("nutrition to adulthood", (ThingDef d) => nutritionToAdulthood(d).ToString("F2"));
+			array[7] = new TableDataGetter<ThingDef>("nutrition to adulthood", (ThingDef d) => <AnimalGrowth>c__AnonStorey.nutritionToAdulthood(d).ToString("F2"));
 			array[8] = new TableDataGetter<ThingDef>("adult meat-nut", (ThingDef d) => (d.GetStatValueAbstract(StatDefOf.MeatAmount, null) * 0.05f).ToString("F2"));
-			array[9] = new TableDataGetter<ThingDef>("adult meat-nut / input-nut", (ThingDef d) => adultMeatNutPerInput(d).ToString("F3"));
+			array[9] = new TableDataGetter<ThingDef>("adult meat-nut / input-nut", (ThingDef d) => <AnimalGrowth>c__AnonStorey.adultMeatNutPerInput(d).ToString("F3"));
 			array[10] = new TableDataGetter<ThingDef>("|", (ThingDef d) => "|");
 			array[11] = new TableDataGetter<ThingDef>("baby size", (ThingDef d) => (d.race.lifeStageAges[0].def.bodySizeFactor * d.race.baseBodySize).ToString("F2"));
-			array[12] = new TableDataGetter<ThingDef>("nutrition to gestate", (ThingDef d) => nutritionToGestate(d).ToString("F2"));
-			array[13] = new TableDataGetter<ThingDef>("egg nut", (ThingDef d) => eggNut(d));
-			array[14] = new TableDataGetter<ThingDef>("baby meat-nut", (ThingDef d) => babyMeatNut(d).ToString("F2"));
-			array[15] = new TableDataGetter<ThingDef>("baby meat-nut / input-nut", (ThingDef d) => babyMeatNutPerInput(d).ToString("F2"));
-			array[16] = new TableDataGetter<ThingDef>("baby wins", (ThingDef d) => (babyMeatNutPerInput(d) <= adultMeatNutPerInput(d)) ? "" : "B");
+			array[12] = new TableDataGetter<ThingDef>("nutrition to gestate", (ThingDef d) => <AnimalGrowth>c__AnonStorey.nutritionToGestate(d).ToString("F2"));
+			array[13] = new TableDataGetter<ThingDef>("egg nut", (ThingDef d) => <AnimalGrowth>c__AnonStorey.eggNut(d));
+			array[14] = new TableDataGetter<ThingDef>("baby meat-nut", (ThingDef d) => <AnimalGrowth>c__AnonStorey.babyMeatNut(d).ToString("F2"));
+			array[15] = new TableDataGetter<ThingDef>("baby meat-nut / input-nut", (ThingDef d) => <AnimalGrowth>c__AnonStorey.babyMeatNutPerInput(d).ToString("F2"));
+			array[16] = new TableDataGetter<ThingDef>("baby wins", (ThingDef d) => (<AnimalGrowth>c__AnonStorey.babyMeatNutPerInput(d) <= <AnimalGrowth>c__AnonStorey.adultMeatNutPerInput(d)) ? string.Empty : "B");
 			DebugTables.MakeTablesDialog<ThingDef>(dataSources, array);
 		}
 
@@ -465,12 +466,16 @@ namespace Verse
 		[DebugOutput]
 		public static void AnimalBreeding()
 		{
-			IEnumerable<ThingDef> dataSources = from d in DefDatabase<ThingDef>.AllDefs
+			IEnumerable<ThingDef> source = from d in DefDatabase<ThingDef>.AllDefs
 			where d.category == ThingCategory.Pawn && d.race.IsFlesh
-			orderby DebugOutputsEconomy.GestationDaysEach(d) descending
 			select d;
+			if (DebugOutputsEconomy.<>f__mg$cache1 == null)
+			{
+				DebugOutputsEconomy.<>f__mg$cache1 = new Func<ThingDef, float>(DebugOutputsEconomy.GestationDaysEach);
+			}
+			IEnumerable<ThingDef> dataSources = source.OrderByDescending(DebugOutputsEconomy.<>f__mg$cache1);
 			TableDataGetter<ThingDef>[] array = new TableDataGetter<ThingDef>[6];
-			array[0] = new TableDataGetter<ThingDef>("", (ThingDef d) => d.defName);
+			array[0] = new TableDataGetter<ThingDef>(string.Empty, (ThingDef d) => d.defName);
 			array[1] = new TableDataGetter<ThingDef>("gestDaysEach", (ThingDef d) => DebugOutputsEconomy.GestationDaysEach(d).ToString("F2"));
 			array[2] = new TableDataGetter<ThingDef>("avgOffspring", (ThingDef d) => (!d.HasComp(typeof(CompEggLayer))) ? ((d.race.litterSizeCurve == null) ? 1f : Rand.ByCurveAverage(d.race.litterSizeCurve)).ToString("F2") : d.GetCompProperties<CompProperties_EggLayer>().eggCountRange.Average.ToString("F2"));
 			array[3] = new TableDataGetter<ThingDef>("gestDaysRaw", (ThingDef d) => (!d.HasComp(typeof(CompEggLayer))) ? d.race.gestationPeriodDays.ToString("F1") : d.GetCompProperties<CompProperties_EggLayer>().eggLayIntervalDays.ToString("F1"));
@@ -495,17 +500,12 @@ namespace Verse
 
 		private static float GestationDaysEach(ThingDef d)
 		{
-			float result;
 			if (d.HasComp(typeof(CompEggLayer)))
 			{
 				CompProperties_EggLayer compProperties = d.GetCompProperties<CompProperties_EggLayer>();
-				result = compProperties.eggLayIntervalDays / compProperties.eggCountRange.Average;
+				return compProperties.eggLayIntervalDays / compProperties.eggCountRange.Average;
 			}
-			else
-			{
-				result = d.race.gestationPeriodDays / ((d.race.litterSizeCurve == null) ? 1f : Rand.ByCurveAverage(d.race.litterSizeCurve));
-			}
-			return result;
+			return d.race.gestationPeriodDays / ((d.race.litterSizeCurve == null) ? 1f : Rand.ByCurveAverage(d.race.litterSizeCurve));
 		}
 
 		[Category("Economy")]
@@ -546,8 +546,8 @@ namespace Verse
 			array[7] = new TableDataGetter<ThingDef>("value each", (ThingDef d) => d.plant.harvestedThingDef.BaseMarketValue.ToString("F2"));
 			array[8] = new TableDataGetter<ThingDef>("harvestValueTotal", (ThingDef d) => (d.plant.harvestYield * d.plant.harvestedThingDef.BaseMarketValue).ToString("F2"));
 			array[9] = new TableDataGetter<ThingDef>("profit per growDay", (ThingDef d) => ((d.plant.harvestYield * d.plant.harvestedThingDef.BaseMarketValue - workCost(d)) / d.plant.growDays).ToString("F2"));
-			array[10] = new TableDataGetter<ThingDef>("nutrition per growDay", (ThingDef d) => (d.plant.harvestedThingDef.ingestible == null) ? "" : (d.plant.harvestYield * d.plant.harvestedThingDef.GetStatValueAbstract(StatDefOf.Nutrition, null) / d.plant.growDays).ToString("F2"));
-			array[11] = new TableDataGetter<ThingDef>("nutrition", (ThingDef d) => (d.plant.harvestedThingDef.ingestible == null) ? "" : d.plant.harvestedThingDef.GetStatValueAbstract(StatDefOf.Nutrition, null).ToString("F2"));
+			array[10] = new TableDataGetter<ThingDef>("nutrition per growDay", (ThingDef d) => (d.plant.harvestedThingDef.ingestible == null) ? string.Empty : (d.plant.harvestYield * d.plant.harvestedThingDef.GetStatValueAbstract(StatDefOf.Nutrition, null) / d.plant.growDays).ToString("F2"));
+			array[11] = new TableDataGetter<ThingDef>("nutrition", (ThingDef d) => (d.plant.harvestedThingDef.ingestible == null) ? string.Empty : d.plant.harvestedThingDef.GetStatValueAbstract(StatDefOf.Nutrition, null).ToString("F2"));
 			array[12] = new TableDataGetter<ThingDef>("fertMin", (ThingDef d) => d.plant.fertilityMin.ToStringPercent());
 			array[13] = new TableDataGetter<ThingDef>("fertSensitivity", (ThingDef d) => d.plant.fertilitySensitivity.ToStringPercent());
 			DebugTables.MakeTablesDialog<ThingDef>(dataSources, array);
@@ -573,16 +573,11 @@ namespace Verse
 						}
 					}
 				}
-				string result;
 				if (list.Count == 0)
 				{
-					result = "";
+					return string.Empty;
 				}
-				else
-				{
-					result = list.ToCommaList(false);
-				}
-				return result;
+				return list.ToCommaList(false);
 			};
 			Func<ThingDef, string> workAmountSources = delegate(ThingDef d)
 			{
@@ -615,41 +610,28 @@ namespace Verse
 						}
 					}
 				}
-				string result;
 				if (list.Count == 0)
 				{
-					result = "";
+					return string.Empty;
 				}
-				else
-				{
-					result = list.ToCommaList(false);
-				}
-				return result;
+				return list.ToCommaList(false);
 			};
 			Func<ThingDef, string> calculatedMarketValue = delegate(ThingDef d)
 			{
-				string result;
 				if (!DebugOutputsEconomy.Producible(d))
 				{
-					result = "not producible";
+					return "not producible";
 				}
-				else if (!d.StatBaseDefined(StatDefOf.MarketValue))
+				if (!d.StatBaseDefined(StatDefOf.MarketValue))
 				{
-					result = "used";
+					return "used";
 				}
-				else
+				string text = StatWorker_MarketValue.CalculatedBaseMarketValue(d, null).ToString("F1");
+				if (StatWorker_MarketValue.CalculableRecipe(d) != null)
 				{
-					string text = StatWorker_MarketValue.CalculatedMarketValue(d, null).ToString("F1");
-					if (StatWorker_MarketValue.CalculableRecipe(d) != null)
-					{
-						result = text + " (recipe)";
-					}
-					else
-					{
-						result = text;
-					}
+					return text + " (recipe)";
 				}
-				return result;
+				return text;
 			};
 			IEnumerable<ThingDef> dataSources = from d in DefDatabase<ThingDef>.AllDefs
 			where (d.category == ThingCategory.Item && d.BaseMarketValue > 0.01f) || (d.category == ThingCategory.Building && (d.BuildableByPlayer || d.Minifiable))
@@ -667,7 +649,7 @@ namespace Verse
 			array[8] = new TableDataGetter<ThingDef>("profit\nrate", (ThingDef d) => (d.recipeMaker == null) ? "-" : ((d.BaseMarketValue - DebugOutputsEconomy.CostToMake(d, false)) / DebugOutputsEconomy.WorkToProduceBest(d) * 10000f).ToString("F0"));
 			array[9] = new TableDataGetter<ThingDef>("market value\ndefined", (ThingDef d) => d.statBases.Any((StatModifier st) => st.stat == StatDefOf.MarketValue).ToStringCheckBlank());
 			array[10] = new TableDataGetter<ThingDef>("producible", (ThingDef d) => DebugOutputsEconomy.Producible(d).ToStringCheckBlank());
-			array[11] = new TableDataGetter<ThingDef>("thing set\nmaker tags", (ThingDef d) => (!d.thingSetMakerTags.NullOrEmpty<string>()) ? d.thingSetMakerTags.ToCommaList(false) : "");
+			array[11] = new TableDataGetter<ThingDef>("thing set\nmaker tags", (ThingDef d) => (!d.thingSetMakerTags.NullOrEmpty<string>()) ? d.thingSetMakerTags.ToCommaList(false) : string.Empty);
 			array[12] = new TableDataGetter<ThingDef>("made\nfrom\nstuff", (ThingDef d) => d.MadeFromStuff.ToStringCheckBlank());
 			array[13] = new TableDataGetter<ThingDef>("cost list", (ThingDef d) => DebugOutputsEconomy.CostListString(d, false, false));
 			array[14] = new TableDataGetter<ThingDef>("recipes", (ThingDef d) => recipes(d));
@@ -684,11 +666,11 @@ namespace Verse
 			select x;
 			TableDataGetter<ThingDef>[] array = new TableDataGetter<ThingDef>[6];
 			array[0] = new TableDataGetter<ThingDef>("defName", (ThingDef d) => d.defName);
-			array[1] = new TableDataGetter<ThingDef>("1", (ThingDef d) => (!PlayerItemAccessibilityUtility.PossiblyAccessible(d, 1, Find.CurrentMap)) ? "" : "✓");
-			array[2] = new TableDataGetter<ThingDef>("10", (ThingDef d) => (!PlayerItemAccessibilityUtility.PossiblyAccessible(d, 10, Find.CurrentMap)) ? "" : "✓");
-			array[3] = new TableDataGetter<ThingDef>("100", (ThingDef d) => (!PlayerItemAccessibilityUtility.PossiblyAccessible(d, 100, Find.CurrentMap)) ? "" : "✓");
-			array[4] = new TableDataGetter<ThingDef>("1000", (ThingDef d) => (!PlayerItemAccessibilityUtility.PossiblyAccessible(d, 1000, Find.CurrentMap)) ? "" : "✓");
-			array[5] = new TableDataGetter<ThingDef>("10000", (ThingDef d) => (!PlayerItemAccessibilityUtility.PossiblyAccessible(d, 10000, Find.CurrentMap)) ? "" : "✓");
+			array[1] = new TableDataGetter<ThingDef>("1", (ThingDef d) => (!PlayerItemAccessibilityUtility.PossiblyAccessible(d, 1, Find.CurrentMap)) ? string.Empty : "✓");
+			array[2] = new TableDataGetter<ThingDef>("10", (ThingDef d) => (!PlayerItemAccessibilityUtility.PossiblyAccessible(d, 10, Find.CurrentMap)) ? string.Empty : "✓");
+			array[3] = new TableDataGetter<ThingDef>("100", (ThingDef d) => (!PlayerItemAccessibilityUtility.PossiblyAccessible(d, 100, Find.CurrentMap)) ? string.Empty : "✓");
+			array[4] = new TableDataGetter<ThingDef>("1000", (ThingDef d) => (!PlayerItemAccessibilityUtility.PossiblyAccessible(d, 1000, Find.CurrentMap)) ? string.Empty : "✓");
+			array[5] = new TableDataGetter<ThingDef>("10000", (ThingDef d) => (!PlayerItemAccessibilityUtility.PossiblyAccessible(d, 10000, Find.CurrentMap)) ? string.Empty : "✓");
 			DebugTables.MakeTablesDialog<ThingDef>(dataSources, array);
 		}
 
@@ -730,8 +712,8 @@ namespace Verse
 			array[6] = new TableDataGetter<RecipeDef>("profit raw", (RecipeDef d) => (DebugOutputsEconomy.CheapestProductsValue(d) - DebugOutputsEconomy.CheapestIngredientValue(d)).ToString("F1"));
 			array[7] = new TableDataGetter<RecipeDef>("profit with work", (RecipeDef d) => (DebugOutputsEconomy.CheapestProductsValue(d) - DebugOutputsEconomy.WorkValueEstimate(d) - DebugOutputsEconomy.CheapestIngredientValue(d)).ToString("F1"));
 			array[8] = new TableDataGetter<RecipeDef>("profit per work day", (RecipeDef d) => ((DebugOutputsEconomy.CheapestProductsValue(d) - DebugOutputsEconomy.CheapestIngredientValue(d)) * 60000f / DebugOutputsEconomy.TrueWorkWithCarryTime(d)).ToString("F0"));
-			array[9] = new TableDataGetter<RecipeDef>("min skill", (RecipeDef d) => (!d.skillRequirements.NullOrEmpty<SkillRequirement>()) ? d.skillRequirements[0].Summary : "");
-			array[10] = new TableDataGetter<RecipeDef>("cheapest stuff", (RecipeDef d) => (DebugOutputsEconomy.CheapestNonDerpStuff(d) == null) ? "" : DebugOutputsEconomy.CheapestNonDerpStuff(d).defName);
+			array[9] = new TableDataGetter<RecipeDef>("min skill", (RecipeDef d) => (!d.skillRequirements.NullOrEmpty<SkillRequirement>()) ? d.skillRequirements[0].Summary : string.Empty);
+			array[10] = new TableDataGetter<RecipeDef>("cheapest stuff", (RecipeDef d) => (DebugOutputsEconomy.CheapestNonDerpStuff(d) == null) ? string.Empty : DebugOutputsEconomy.CheapestNonDerpStuff(d).defName);
 			array[11] = new TableDataGetter<RecipeDef>("cheapest ingredients", (RecipeDef d) => (from pa in DebugOutputsEconomy.CheapestIngredients(d)
 			select pa.First.defName + " x" + pa.Second).ToCommaList(false));
 			DebugTables.MakeTablesDialog<RecipeDef>(dataSources, array);
@@ -761,38 +743,33 @@ namespace Verse
 
 		public static string CostListString(BuildableDef d, bool divideByVolume, bool starIfOnlyBuyable)
 		{
-			string result;
 			if (!DebugOutputsEconomy.Producible(d))
 			{
-				result = "";
+				return string.Empty;
 			}
-			else
+			List<string> list = new List<string>();
+			if (d.costList != null)
 			{
-				List<string> list = new List<string>();
-				if (d.costList != null)
+				foreach (ThingDefCountClass thingDefCountClass in d.costList)
 				{
-					foreach (ThingDefCountClass thingDefCountClass in d.costList)
+					float num = (float)thingDefCountClass.count;
+					if (divideByVolume)
 					{
-						float num = (float)thingDefCountClass.count;
-						if (divideByVolume)
-						{
-							num /= thingDefCountClass.thingDef.VolumePerUnit;
-						}
-						string text = thingDefCountClass.thingDef + " x" + num;
-						if (starIfOnlyBuyable && DebugOutputsEconomy.RequiresBuying(thingDefCountClass.thingDef))
-						{
-							text += "*";
-						}
-						list.Add(text);
+						num /= thingDefCountClass.thingDef.VolumePerUnit;
 					}
+					string text = thingDefCountClass.thingDef + " x" + num;
+					if (starIfOnlyBuyable && DebugOutputsEconomy.RequiresBuying(thingDefCountClass.thingDef))
+					{
+						text += "*";
+					}
+					list.Add(text);
 				}
-				if (d.MadeFromStuff)
-				{
-					list.Add("stuff x" + d.costStuffCount);
-				}
-				result = list.ToCommaList(false);
 			}
-			return result;
+			if (d.MadeFromStuff)
+			{
+				list.Add("stuff x" + d.costStuffCount);
+			}
+			return list.ToCommaList(false);
 		}
 
 		private static float TrueWorkWithCarryTime(RecipeDef d)
@@ -831,18 +808,13 @@ namespace Verse
 		private static ThingDef CheapestNonDerpStuff(RecipeDef d)
 		{
 			ThingDef productDef = d.products[0].thingDef;
-			ThingDef result;
 			if (!productDef.MadeFromStuff)
 			{
-				result = null;
+				return null;
 			}
-			else
-			{
-				result = (from td in d.ingredients.First<IngredientCount>().filter.AllowedThingDefs
-				where !productDef.IsWeapon || !PawnWeaponGenerator.IsDerpWeapon(productDef, td)
-				select td).MinBy((ThingDef td) => td.BaseMarketValue / td.VolumePerUnit);
-			}
-			return result;
+			return (from td in d.ingredients.First<IngredientCount>().filter.AllowedThingDefs
+			where !productDef.IsWeapon || !PawnWeaponGenerator.IsDerpWeapon(productDef, td)
+			select td).MinBy((ThingDef td) => td.BaseMarketValue / td.VolumePerUnit);
 		}
 
 		private static float CheapestProductsValue(RecipeDef d)
@@ -857,53 +829,42 @@ namespace Verse
 
 		private static string CostToMakeString(ThingDef d, bool real = false)
 		{
-			string result;
 			if (d.recipeMaker == null)
 			{
-				result = "-";
+				return "-";
 			}
-			else
-			{
-				result = DebugOutputsEconomy.CostToMake(d, real).ToString("F1");
-			}
-			return result;
+			return DebugOutputsEconomy.CostToMake(d, real).ToString("F1");
 		}
 
 		private static float CostToMake(ThingDef d, bool real = false)
 		{
-			float result;
 			if (d.recipeMaker == null)
 			{
-				result = d.BaseMarketValue;
+				return d.BaseMarketValue;
 			}
-			else
+			float num = 0f;
+			if (d.costList != null)
 			{
-				float num = 0f;
-				if (d.costList != null)
+				foreach (ThingDefCountClass thingDefCountClass in d.costList)
 				{
-					foreach (ThingDefCountClass thingDefCountClass in d.costList)
+					float num2 = 1f;
+					if (real)
 					{
-						float num2 = 1f;
-						if (real)
-						{
-							num2 = ((!DebugOutputsEconomy.RequiresBuying(thingDefCountClass.thingDef)) ? 0.5f : 1.5f);
-						}
-						num += (float)thingDefCountClass.count * DebugOutputsEconomy.CostToMake(thingDefCountClass.thingDef, true) * num2;
+						num2 = ((!DebugOutputsEconomy.RequiresBuying(thingDefCountClass.thingDef)) ? 0.6f : 1.4f);
 					}
+					num += (float)thingDefCountClass.count * DebugOutputsEconomy.CostToMake(thingDefCountClass.thingDef, true) * num2;
 				}
-				if (d.costStuffCount > 0)
-				{
-					ThingDef thingDef = GenStuff.DefaultStuffFor(d);
-					num += (float)d.costStuffCount * thingDef.BaseMarketValue;
-				}
-				result = num;
 			}
-			return result;
+			if (d.costStuffCount > 0)
+			{
+				ThingDef thingDef = GenStuff.DefaultStuffFor(d);
+				num += (float)d.costStuffCount * thingDef.BaseMarketValue;
+			}
+			return num;
 		}
 
 		private static bool RequiresBuying(ThingDef def)
 		{
-			bool result;
 			if (def.costList != null)
 			{
 				foreach (ThingDefCountClass thingDefCountClass in def.costList)
@@ -913,13 +874,9 @@ namespace Verse
 						return true;
 					}
 				}
-				result = false;
+				return false;
 			}
-			else
-			{
-				result = !DefDatabase<ThingDef>.AllDefs.Any((ThingDef d) => d.plant != null && d.plant.harvestedThingDef == def && d.plant.Sowable);
-			}
-			return result;
+			return !DefDatabase<ThingDef>.AllDefs.Any((ThingDef d) => d.plant != null && d.plant.harvestedThingDef == def && d.plant.Sowable);
 		}
 
 		public static float WorkToProduceBest(BuildableDef d)
@@ -946,16 +903,11 @@ namespace Verse
 					}
 				}
 			}
-			float result;
 			if (num != 3.40282347E+38f)
 			{
-				result = num;
+				return num;
 			}
-			else
-			{
-				result = -1f;
-			}
-			return result;
+			return -1f;
 		}
 
 		[CompilerGenerated]
@@ -967,13 +919,13 @@ namespace Verse
 		[CompilerGenerated]
 		private static string <RecipeSkills>m__1(RecipeDef d)
 		{
-			return (d.workSkill != null) ? d.workSkill.defName : "";
+			return (d.workSkill != null) ? d.workSkill.defName : string.Empty;
 		}
 
 		[CompilerGenerated]
 		private static string <RecipeSkills>m__2(RecipeDef d)
 		{
-			return (d.workSpeedStat != null) ? d.workSpeedStat.defName : "";
+			return (d.workSpeedStat != null) ? d.workSpeedStat.defName : string.Empty;
 		}
 
 		[CompilerGenerated]
@@ -982,11 +934,11 @@ namespace Verse
 			string result;
 			if (d.workSpeedStat == null)
 			{
-				result = "";
+				result = string.Empty;
 			}
 			else if (d.workSpeedStat.skillNeedFactors.NullOrEmpty<SkillNeed>())
 			{
-				result = "";
+				result = string.Empty;
 			}
 			else
 			{
@@ -1011,13 +963,13 @@ namespace Verse
 		[CompilerGenerated]
 		private static float <Drugs>m__6(ThingDef d)
 		{
-			return d.BaseMarketValue * 0.5f;
+			return d.BaseMarketValue * 0.6f;
 		}
 
 		[CompilerGenerated]
 		private static float <Drugs>m__7(ThingDef d)
 		{
-			return d.BaseMarketValue * 1.5f;
+			return d.BaseMarketValue * 1.4f;
 		}
 
 		[CompilerGenerated]
@@ -1090,130 +1042,113 @@ namespace Verse
 		[CompilerGenerated]
 		private static float <AnimalGrowth>m__13(ThingDef d)
 		{
-			return DebugOutputsEconomy.GestationDaysEach(d);
-		}
-
-		[CompilerGenerated]
-		private static float <AnimalGrowth>m__14(ThingDef d)
-		{
 			LifeStageAge lifeStageAge = d.race.lifeStageAges[0];
 			return d.GetStatValueAbstract(StatDefOf.MeatAmount, null) * 0.05f * lifeStageAge.def.bodySizeFactor;
 		}
 
 		[CompilerGenerated]
-		private static string <AnimalGrowth>m__15(ThingDef d)
+		private static string <AnimalGrowth>m__14(ThingDef d)
 		{
 			CompProperties_EggLayer compProperties = d.GetCompProperties<CompProperties_EggLayer>();
-			string result;
 			if (compProperties == null)
 			{
-				result = "";
+				return string.Empty;
 			}
-			else
-			{
-				result = compProperties.eggFertilizedDef.GetStatValueAbstract(StatDefOf.Nutrition, null).ToString("F2");
-			}
-			return result;
+			return compProperties.eggFertilizedDef.GetStatValueAbstract(StatDefOf.Nutrition, null).ToString("F2");
 		}
 
 		[CompilerGenerated]
-		private static bool <AnimalGrowth>m__16(ThingDef d)
+		private static bool <AnimalGrowth>m__15(ThingDef d)
 		{
 			return d.category == ThingCategory.Pawn && d.race.IsFlesh;
+		}
+
+		[CompilerGenerated]
+		private static string <AnimalGrowth>m__16(ThingDef d)
+		{
+			return d.defName;
 		}
 
 		[CompilerGenerated]
 		private static string <AnimalGrowth>m__17(ThingDef d)
 		{
-			return d.defName;
+			return d.race.baseHungerRate.ToString("F2");
 		}
 
 		[CompilerGenerated]
 		private static string <AnimalGrowth>m__18(ThingDef d)
 		{
-			return d.race.baseHungerRate.ToString("F2");
+			return ((d.race.foodType & FoodTypeFlags.Plant) == FoodTypeFlags.None) ? string.Empty : "Y";
 		}
 
 		[CompilerGenerated]
 		private static string <AnimalGrowth>m__19(ThingDef d)
 		{
-			return ((d.race.foodType & FoodTypeFlags.Plant) == FoodTypeFlags.None) ? "" : "Y";
+			return "|";
 		}
 
 		[CompilerGenerated]
 		private static string <AnimalGrowth>m__1A(ThingDef d)
 		{
-			return "|";
+			return d.race.baseBodySize.ToString("F2");
 		}
 
 		[CompilerGenerated]
 		private static string <AnimalGrowth>m__1B(ThingDef d)
 		{
-			return d.race.baseBodySize.ToString("F2");
+			return d.race.lifeStageAges[d.race.lifeStageAges.Count - 1].minAge.ToString("F2");
 		}
 
 		[CompilerGenerated]
 		private static string <AnimalGrowth>m__1C(ThingDef d)
 		{
-			return d.race.lifeStageAges[d.race.lifeStageAges.Count - 1].minAge.ToString("F2");
+			return (d.GetStatValueAbstract(StatDefOf.MeatAmount, null) * 0.05f).ToString("F2");
 		}
 
 		[CompilerGenerated]
 		private static string <AnimalGrowth>m__1D(ThingDef d)
 		{
-			return (d.GetStatValueAbstract(StatDefOf.MeatAmount, null) * 0.05f).ToString("F2");
+			return "|";
 		}
 
 		[CompilerGenerated]
 		private static string <AnimalGrowth>m__1E(ThingDef d)
 		{
-			return "|";
-		}
-
-		[CompilerGenerated]
-		private static string <AnimalGrowth>m__1F(ThingDef d)
-		{
 			return (d.race.lifeStageAges[0].def.bodySizeFactor * d.race.baseBodySize).ToString("F2");
 		}
 
 		[CompilerGenerated]
-		private static bool <AnimalBreeding>m__20(ThingDef d)
+		private static bool <AnimalBreeding>m__1F(ThingDef d)
 		{
 			return d.category == ThingCategory.Pawn && d.race.IsFlesh;
 		}
 
 		[CompilerGenerated]
-		private static float <AnimalBreeding>m__21(ThingDef d)
-		{
-			return DebugOutputsEconomy.GestationDaysEach(d);
-		}
-
-		[CompilerGenerated]
-		private static string <AnimalBreeding>m__22(ThingDef d)
+		private static string <AnimalBreeding>m__20(ThingDef d)
 		{
 			return d.defName;
 		}
 
 		[CompilerGenerated]
-		private static string <AnimalBreeding>m__23(ThingDef d)
+		private static string <AnimalBreeding>m__21(ThingDef d)
 		{
 			return DebugOutputsEconomy.GestationDaysEach(d).ToString("F2");
 		}
 
 		[CompilerGenerated]
-		private static string <AnimalBreeding>m__24(ThingDef d)
+		private static string <AnimalBreeding>m__22(ThingDef d)
 		{
 			return (!d.HasComp(typeof(CompEggLayer))) ? ((d.race.litterSizeCurve == null) ? 1f : Rand.ByCurveAverage(d.race.litterSizeCurve)).ToString("F2") : d.GetCompProperties<CompProperties_EggLayer>().eggCountRange.Average.ToString("F2");
 		}
 
 		[CompilerGenerated]
-		private static string <AnimalBreeding>m__25(ThingDef d)
+		private static string <AnimalBreeding>m__23(ThingDef d)
 		{
 			return (!d.HasComp(typeof(CompEggLayer))) ? d.race.gestationPeriodDays.ToString("F1") : d.GetCompProperties<CompProperties_EggLayer>().eggLayIntervalDays.ToString("F1");
 		}
 
 		[CompilerGenerated]
-		private static string <AnimalBreeding>m__26(ThingDef d)
+		private static string <AnimalBreeding>m__24(ThingDef d)
 		{
 			float f = 1f + ((!d.HasComp(typeof(CompEggLayer))) ? ((d.race.litterSizeCurve == null) ? 1f : Rand.ByCurveAverage(d.race.litterSizeCurve)) : d.GetCompProperties<CompProperties_EggLayer>().eggCountRange.Average);
 			float num = d.race.lifeStageAges[d.race.lifeStageAges.Count - 1].minAge * 60f;
@@ -1223,7 +1158,7 @@ namespace Verse
 		}
 
 		[CompilerGenerated]
-		private static string <AnimalBreeding>m__27(ThingDef d)
+		private static string <AnimalBreeding>m__25(ThingDef d)
 		{
 			float f = 1f + ((!d.HasComp(typeof(CompEggLayer))) ? ((d.race.litterSizeCurve == null) ? 1f : Rand.ByCurveAverage(d.race.litterSizeCurve)) : d.GetCompProperties<CompProperties_EggLayer>().eggCountRange.Average);
 			float num = d.race.lifeStageAges[d.race.lifeStageAges.Count - 1].minAge * 60f;
@@ -1233,25 +1168,25 @@ namespace Verse
 		}
 
 		[CompilerGenerated]
-		private static bool <BuildingSkills>m__28(BuildableDef d)
+		private static bool <BuildingSkills>m__26(BuildableDef d)
 		{
 			return d.BuildableByPlayer;
 		}
 
 		[CompilerGenerated]
-		private static string <BuildingSkills>m__29(BuildableDef d)
+		private static string <BuildingSkills>m__27(BuildableDef d)
 		{
 			return d.defName;
 		}
 
 		[CompilerGenerated]
-		private static int <BuildingSkills>m__2A(BuildableDef d)
+		private static int <BuildingSkills>m__28(BuildableDef d)
 		{
 			return d.constructionSkillPrerequisite;
 		}
 
 		[CompilerGenerated]
-		private static float <Crops>m__2B(ThingDef d)
+		private static float <Crops>m__29(ThingDef d)
 		{
 			float num = 1.1f;
 			num += d.plant.growDays * 1f;
@@ -1259,85 +1194,85 @@ namespace Verse
 		}
 
 		[CompilerGenerated]
-		private static bool <Crops>m__2C(ThingDef d)
+		private static bool <Crops>m__2A(ThingDef d)
 		{
 			return d.category == ThingCategory.Plant && d.plant.Harvestable && d.plant.Sowable;
 		}
 
 		[CompilerGenerated]
-		private static bool <Crops>m__2D(ThingDef d)
+		private static bool <Crops>m__2B(ThingDef d)
 		{
 			return d.plant.IsTree;
 		}
 
 		[CompilerGenerated]
-		private static string <Crops>m__2E(ThingDef d)
+		private static string <Crops>m__2C(ThingDef d)
 		{
 			return d.defName;
 		}
 
 		[CompilerGenerated]
-		private static string <Crops>m__2F(ThingDef d)
+		private static string <Crops>m__2D(ThingDef d)
 		{
 			return d.plant.harvestedThingDef.defName;
 		}
 
 		[CompilerGenerated]
-		private static string <Crops>m__30(ThingDef d)
+		private static string <Crops>m__2E(ThingDef d)
 		{
 			return d.plant.growDays.ToString("F1");
 		}
 
 		[CompilerGenerated]
-		private static string <Crops>m__31(ThingDef d)
+		private static string <Crops>m__2F(ThingDef d)
 		{
 			return (d.plant.sowWork + d.plant.harvestWork).ToString("F0");
 		}
 
 		[CompilerGenerated]
-		private static string <Crops>m__32(ThingDef d)
+		private static string <Crops>m__30(ThingDef d)
 		{
 			return d.plant.harvestYield.ToString("F1");
 		}
 
 		[CompilerGenerated]
-		private static string <Crops>m__33(ThingDef d)
+		private static string <Crops>m__31(ThingDef d)
 		{
 			return d.plant.harvestedThingDef.BaseMarketValue.ToString("F2");
 		}
 
 		[CompilerGenerated]
-		private static string <Crops>m__34(ThingDef d)
+		private static string <Crops>m__32(ThingDef d)
 		{
 			return (d.plant.harvestYield * d.plant.harvestedThingDef.BaseMarketValue).ToString("F2");
 		}
 
 		[CompilerGenerated]
+		private static string <Crops>m__33(ThingDef d)
+		{
+			return (d.plant.harvestedThingDef.ingestible == null) ? string.Empty : (d.plant.harvestYield * d.plant.harvestedThingDef.GetStatValueAbstract(StatDefOf.Nutrition, null) / d.plant.growDays).ToString("F2");
+		}
+
+		[CompilerGenerated]
+		private static string <Crops>m__34(ThingDef d)
+		{
+			return (d.plant.harvestedThingDef.ingestible == null) ? string.Empty : d.plant.harvestedThingDef.GetStatValueAbstract(StatDefOf.Nutrition, null).ToString("F2");
+		}
+
+		[CompilerGenerated]
 		private static string <Crops>m__35(ThingDef d)
-		{
-			return (d.plant.harvestedThingDef.ingestible == null) ? "" : (d.plant.harvestYield * d.plant.harvestedThingDef.GetStatValueAbstract(StatDefOf.Nutrition, null) / d.plant.growDays).ToString("F2");
-		}
-
-		[CompilerGenerated]
-		private static string <Crops>m__36(ThingDef d)
-		{
-			return (d.plant.harvestedThingDef.ingestible == null) ? "" : d.plant.harvestedThingDef.GetStatValueAbstract(StatDefOf.Nutrition, null).ToString("F2");
-		}
-
-		[CompilerGenerated]
-		private static string <Crops>m__37(ThingDef d)
 		{
 			return d.plant.fertilityMin.ToStringPercent();
 		}
 
 		[CompilerGenerated]
-		private static string <Crops>m__38(ThingDef d)
+		private static string <Crops>m__36(ThingDef d)
 		{
 			return d.plant.fertilitySensitivity.ToStringPercent();
 		}
 
 		[CompilerGenerated]
-		private static string <ItemAndBuildingAcquisition>m__39(ThingDef d)
+		private static string <ItemAndBuildingAcquisition>m__37(ThingDef d)
 		{
 			List<string> list = new List<string>();
 			foreach (RecipeDef recipeDef in DefDatabase<RecipeDef>.AllDefs)
@@ -1353,20 +1288,15 @@ namespace Verse
 					}
 				}
 			}
-			string result;
 			if (list.Count == 0)
 			{
-				result = "";
+				return string.Empty;
 			}
-			else
-			{
-				result = list.ToCommaList(false);
-			}
-			return result;
+			return list.ToCommaList(false);
 		}
 
 		[CompilerGenerated]
-		private static string <ItemAndBuildingAcquisition>m__3A(ThingDef d)
+		private static string <ItemAndBuildingAcquisition>m__38(ThingDef d)
 		{
 			List<string> list = new List<string>();
 			if (d.StatBaseDefined(StatDefOf.WorkToMake))
@@ -1397,276 +1327,263 @@ namespace Verse
 					}
 				}
 			}
-			string result;
 			if (list.Count == 0)
 			{
-				result = "";
+				return string.Empty;
 			}
-			else
-			{
-				result = list.ToCommaList(false);
-			}
-			return result;
+			return list.ToCommaList(false);
 		}
 
 		[CompilerGenerated]
-		private static string <ItemAndBuildingAcquisition>m__3B(ThingDef d)
+		private static string <ItemAndBuildingAcquisition>m__39(ThingDef d)
 		{
-			string result;
 			if (!DebugOutputsEconomy.Producible(d))
 			{
-				result = "not producible";
+				return "not producible";
 			}
-			else if (!d.StatBaseDefined(StatDefOf.MarketValue))
+			if (!d.StatBaseDefined(StatDefOf.MarketValue))
 			{
-				result = "used";
+				return "used";
 			}
-			else
+			string text = StatWorker_MarketValue.CalculatedBaseMarketValue(d, null).ToString("F1");
+			if (StatWorker_MarketValue.CalculableRecipe(d) != null)
 			{
-				string text = StatWorker_MarketValue.CalculatedMarketValue(d, null).ToString("F1");
-				if (StatWorker_MarketValue.CalculableRecipe(d) != null)
-				{
-					result = text + " (recipe)";
-				}
-				else
-				{
-					result = text;
-				}
+				return text + " (recipe)";
 			}
-			return result;
+			return text;
 		}
 
 		[CompilerGenerated]
-		private static bool <ItemAndBuildingAcquisition>m__3C(ThingDef d)
+		private static bool <ItemAndBuildingAcquisition>m__3A(ThingDef d)
 		{
 			return (d.category == ThingCategory.Item && d.BaseMarketValue > 0.01f) || (d.category == ThingCategory.Building && (d.BuildableByPlayer || d.Minifiable));
 		}
 
 		[CompilerGenerated]
-		private static float <ItemAndBuildingAcquisition>m__3D(ThingDef d)
+		private static float <ItemAndBuildingAcquisition>m__3B(ThingDef d)
 		{
 			return d.BaseMarketValue;
 		}
 
 		[CompilerGenerated]
-		private static string <ItemAndBuildingAcquisition>m__3E(ThingDef d)
+		private static string <ItemAndBuildingAcquisition>m__3C(ThingDef d)
 		{
 			return d.category.ToString().Substring(0, 1).CapitalizeFirst();
 		}
 
 		[CompilerGenerated]
-		private static string <ItemAndBuildingAcquisition>m__3F(ThingDef d)
+		private static string <ItemAndBuildingAcquisition>m__3D(ThingDef d)
 		{
 			return d.defName;
 		}
 
 		[CompilerGenerated]
-		private static string <ItemAndBuildingAcquisition>m__40(ThingDef d)
+		private static string <ItemAndBuildingAcquisition>m__3E(ThingDef d)
 		{
 			return (d.category == ThingCategory.Item || d.Minifiable).ToStringCheckBlank();
 		}
 
 		[CompilerGenerated]
-		private static string <ItemAndBuildingAcquisition>m__41(ThingDef d)
+		private static string <ItemAndBuildingAcquisition>m__3F(ThingDef d)
 		{
 			return d.BaseMarketValue.ToString("F1");
 		}
 
 		[CompilerGenerated]
-		private static string <ItemAndBuildingAcquisition>m__42(ThingDef d)
+		private static string <ItemAndBuildingAcquisition>m__40(ThingDef d)
 		{
 			return DebugOutputsEconomy.CostToMakeString(d, false);
 		}
 
 		[CompilerGenerated]
-		private static string <ItemAndBuildingAcquisition>m__43(ThingDef d)
+		private static string <ItemAndBuildingAcquisition>m__41(ThingDef d)
 		{
 			return (DebugOutputsEconomy.WorkToProduceBest(d) <= 0f) ? "-" : DebugOutputsEconomy.WorkToProduceBest(d).ToString("F1");
 		}
 
 		[CompilerGenerated]
-		private static string <ItemAndBuildingAcquisition>m__44(ThingDef d)
+		private static string <ItemAndBuildingAcquisition>m__42(ThingDef d)
 		{
 			return (d.BaseMarketValue - DebugOutputsEconomy.CostToMake(d, false)).ToString("F1");
 		}
 
 		[CompilerGenerated]
-		private static string <ItemAndBuildingAcquisition>m__45(ThingDef d)
+		private static string <ItemAndBuildingAcquisition>m__43(ThingDef d)
 		{
 			return (d.recipeMaker == null) ? "-" : ((d.BaseMarketValue - DebugOutputsEconomy.CostToMake(d, false)) / DebugOutputsEconomy.WorkToProduceBest(d) * 10000f).ToString("F0");
 		}
 
 		[CompilerGenerated]
-		private static string <ItemAndBuildingAcquisition>m__46(ThingDef d)
+		private static string <ItemAndBuildingAcquisition>m__44(ThingDef d)
 		{
 			return d.statBases.Any((StatModifier st) => st.stat == StatDefOf.MarketValue).ToStringCheckBlank();
 		}
 
 		[CompilerGenerated]
-		private static string <ItemAndBuildingAcquisition>m__47(ThingDef d)
+		private static string <ItemAndBuildingAcquisition>m__45(ThingDef d)
 		{
 			return DebugOutputsEconomy.Producible(d).ToStringCheckBlank();
 		}
 
 		[CompilerGenerated]
-		private static string <ItemAndBuildingAcquisition>m__48(ThingDef d)
+		private static string <ItemAndBuildingAcquisition>m__46(ThingDef d)
 		{
-			return (!d.thingSetMakerTags.NullOrEmpty<string>()) ? d.thingSetMakerTags.ToCommaList(false) : "";
+			return (!d.thingSetMakerTags.NullOrEmpty<string>()) ? d.thingSetMakerTags.ToCommaList(false) : string.Empty;
 		}
 
 		[CompilerGenerated]
-		private static string <ItemAndBuildingAcquisition>m__49(ThingDef d)
+		private static string <ItemAndBuildingAcquisition>m__47(ThingDef d)
 		{
 			return d.MadeFromStuff.ToStringCheckBlank();
 		}
 
 		[CompilerGenerated]
-		private static string <ItemAndBuildingAcquisition>m__4A(ThingDef d)
+		private static string <ItemAndBuildingAcquisition>m__48(ThingDef d)
 		{
 			return DebugOutputsEconomy.CostListString(d, false, false);
 		}
 
 		[CompilerGenerated]
-		private static string <ItemAccessibility>m__4B(ThingDef x)
+		private static string <ItemAccessibility>m__49(ThingDef x)
 		{
 			return x.defName;
 		}
 
 		[CompilerGenerated]
-		private static string <ItemAccessibility>m__4C(ThingDef d)
+		private static string <ItemAccessibility>m__4A(ThingDef d)
 		{
 			return d.defName;
+		}
+
+		[CompilerGenerated]
+		private static string <ItemAccessibility>m__4B(ThingDef d)
+		{
+			return (!PlayerItemAccessibilityUtility.PossiblyAccessible(d, 1, Find.CurrentMap)) ? string.Empty : "✓";
+		}
+
+		[CompilerGenerated]
+		private static string <ItemAccessibility>m__4C(ThingDef d)
+		{
+			return (!PlayerItemAccessibilityUtility.PossiblyAccessible(d, 10, Find.CurrentMap)) ? string.Empty : "✓";
 		}
 
 		[CompilerGenerated]
 		private static string <ItemAccessibility>m__4D(ThingDef d)
 		{
-			return (!PlayerItemAccessibilityUtility.PossiblyAccessible(d, 1, Find.CurrentMap)) ? "" : "✓";
+			return (!PlayerItemAccessibilityUtility.PossiblyAccessible(d, 100, Find.CurrentMap)) ? string.Empty : "✓";
 		}
 
 		[CompilerGenerated]
 		private static string <ItemAccessibility>m__4E(ThingDef d)
 		{
-			return (!PlayerItemAccessibilityUtility.PossiblyAccessible(d, 10, Find.CurrentMap)) ? "" : "✓";
+			return (!PlayerItemAccessibilityUtility.PossiblyAccessible(d, 1000, Find.CurrentMap)) ? string.Empty : "✓";
 		}
 
 		[CompilerGenerated]
 		private static string <ItemAccessibility>m__4F(ThingDef d)
 		{
-			return (!PlayerItemAccessibilityUtility.PossiblyAccessible(d, 100, Find.CurrentMap)) ? "" : "✓";
+			return (!PlayerItemAccessibilityUtility.PossiblyAccessible(d, 10000, Find.CurrentMap)) ? string.Empty : "✓";
 		}
 
 		[CompilerGenerated]
-		private static string <ItemAccessibility>m__50(ThingDef d)
-		{
-			return (!PlayerItemAccessibilityUtility.PossiblyAccessible(d, 1000, Find.CurrentMap)) ? "" : "✓";
-		}
-
-		[CompilerGenerated]
-		private static string <ItemAccessibility>m__51(ThingDef d)
-		{
-			return (!PlayerItemAccessibilityUtility.PossiblyAccessible(d, 10000, Find.CurrentMap)) ? "" : "✓";
-		}
-
-		[CompilerGenerated]
-		private static bool <Recipes>m__52(RecipeDef d)
+		private static bool <Recipes>m__50(RecipeDef d)
 		{
 			return !d.products.NullOrEmpty<ThingDefCountClass>() && !d.ingredients.NullOrEmpty<IngredientCount>();
 		}
 
 		[CompilerGenerated]
-		private static string <Recipes>m__53(RecipeDef d)
+		private static string <Recipes>m__51(RecipeDef d)
 		{
 			return d.defName;
 		}
 
 		[CompilerGenerated]
-		private static string <Recipes>m__54(RecipeDef d)
+		private static string <Recipes>m__52(RecipeDef d)
 		{
 			return DebugOutputsEconomy.TrueWorkWithCarryTime(d).ToString("F0");
 		}
 
 		[CompilerGenerated]
-		private static string <Recipes>m__55(RecipeDef d)
+		private static string <Recipes>m__53(RecipeDef d)
 		{
 			return (DebugOutputsEconomy.TrueWorkWithCarryTime(d) / 60f).ToString("F0");
 		}
 
 		[CompilerGenerated]
-		private static string <Recipes>m__56(RecipeDef d)
+		private static string <Recipes>m__54(RecipeDef d)
 		{
 			return DebugOutputsEconomy.CheapestProductsValue(d).ToString("F1");
 		}
 
 		[CompilerGenerated]
-		private static string <Recipes>m__57(RecipeDef d)
+		private static string <Recipes>m__55(RecipeDef d)
 		{
 			return DebugOutputsEconomy.CheapestIngredientValue(d).ToString("F1");
 		}
 
 		[CompilerGenerated]
-		private static string <Recipes>m__58(RecipeDef d)
+		private static string <Recipes>m__56(RecipeDef d)
 		{
 			return DebugOutputsEconomy.WorkValueEstimate(d).ToString("F1");
 		}
 
 		[CompilerGenerated]
-		private static string <Recipes>m__59(RecipeDef d)
+		private static string <Recipes>m__57(RecipeDef d)
 		{
 			return (DebugOutputsEconomy.CheapestProductsValue(d) - DebugOutputsEconomy.CheapestIngredientValue(d)).ToString("F1");
 		}
 
 		[CompilerGenerated]
-		private static string <Recipes>m__5A(RecipeDef d)
+		private static string <Recipes>m__58(RecipeDef d)
 		{
 			return (DebugOutputsEconomy.CheapestProductsValue(d) - DebugOutputsEconomy.WorkValueEstimate(d) - DebugOutputsEconomy.CheapestIngredientValue(d)).ToString("F1");
 		}
 
 		[CompilerGenerated]
-		private static string <Recipes>m__5B(RecipeDef d)
+		private static string <Recipes>m__59(RecipeDef d)
 		{
 			return ((DebugOutputsEconomy.CheapestProductsValue(d) - DebugOutputsEconomy.CheapestIngredientValue(d)) * 60000f / DebugOutputsEconomy.TrueWorkWithCarryTime(d)).ToString("F0");
 		}
 
 		[CompilerGenerated]
+		private static string <Recipes>m__5A(RecipeDef d)
+		{
+			return (!d.skillRequirements.NullOrEmpty<SkillRequirement>()) ? d.skillRequirements[0].Summary : string.Empty;
+		}
+
+		[CompilerGenerated]
+		private static string <Recipes>m__5B(RecipeDef d)
+		{
+			return (DebugOutputsEconomy.CheapestNonDerpStuff(d) == null) ? string.Empty : DebugOutputsEconomy.CheapestNonDerpStuff(d).defName;
+		}
+
+		[CompilerGenerated]
 		private static string <Recipes>m__5C(RecipeDef d)
-		{
-			return (!d.skillRequirements.NullOrEmpty<SkillRequirement>()) ? d.skillRequirements[0].Summary : "";
-		}
-
-		[CompilerGenerated]
-		private static string <Recipes>m__5D(RecipeDef d)
-		{
-			return (DebugOutputsEconomy.CheapestNonDerpStuff(d) == null) ? "" : DebugOutputsEconomy.CheapestNonDerpStuff(d).defName;
-		}
-
-		[CompilerGenerated]
-		private static string <Recipes>m__5E(RecipeDef d)
 		{
 			return (from pa in DebugOutputsEconomy.CheapestIngredients(d)
 			select pa.First.defName + " x" + pa.Second).ToCommaList(false);
 		}
 
 		[CompilerGenerated]
-		private static float <CheapestNonDerpStuff>m__5F(ThingDef td)
+		private static float <CheapestNonDerpStuff>m__5D(ThingDef td)
 		{
 			return td.BaseMarketValue / td.VolumePerUnit;
 		}
 
 		[CompilerGenerated]
-		private static string <RecipeSkills>m__60(SkillNeed fac)
+		private static string <RecipeSkills>m__5E(SkillNeed fac)
 		{
 			return fac.skill.defName;
 		}
 
 		[CompilerGenerated]
-		private static bool <ItemAndBuildingAcquisition>m__61(StatModifier st)
+		private static bool <ItemAndBuildingAcquisition>m__5F(StatModifier st)
 		{
 			return st.stat == StatDefOf.MarketValue;
 		}
 
 		[CompilerGenerated]
-		private static string <Recipes>m__62(Pair<ThingDef, float> pa)
+		private static string <Recipes>m__60(Pair<ThingDef, float> pa)
 		{
 			return pa.First.defName + " x" + pa.Second;
 		}
@@ -1813,7 +1730,7 @@ namespace Verse
 
 			internal string <>m__D(ThingDef d)
 			{
-				return (this.babyMeatNutPerInput(d) <= this.adultMeatNutPerInput(d)) ? "" : "B";
+				return (this.babyMeatNutPerInput(d) <= this.adultMeatNutPerInput(d)) ? string.Empty : "B";
 			}
 		}
 

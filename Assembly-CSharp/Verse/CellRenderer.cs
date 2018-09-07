@@ -33,11 +33,12 @@ namespace Verse
 		public static void RenderCell(IntVec3 c, Material mat)
 		{
 			CellRenderer.InitFrame();
-			if (CellRenderer.viewRect.Contains(c))
+			if (!CellRenderer.viewRect.Contains(c))
 			{
-				Vector3 position = c.ToVector3ShiftedWithAltitude(AltitudeLayer.MetaOverlays);
-				Graphics.DrawMesh(MeshPool.plane10, position, Quaternion.identity, mat, 0);
+				return;
 			}
+			Vector3 position = c.ToVector3ShiftedWithAltitude(AltitudeLayer.MetaOverlays);
+			Graphics.DrawMesh(MeshPool.plane10, position, Quaternion.identity, mat, 0);
 		}
 
 		public static void RenderSpot(Vector3 loc, float colorPct = 0.5f)
@@ -48,14 +49,15 @@ namespace Verse
 		public static void RenderSpot(Vector3 loc, Material mat, float scale = 0.15f)
 		{
 			CellRenderer.InitFrame();
-			if (CellRenderer.viewRect.Contains(loc.ToIntVec3()))
+			if (!CellRenderer.viewRect.Contains(loc.ToIntVec3()))
 			{
-				loc.y = AltitudeLayer.MetaOverlays.AltitudeFor();
-				Vector3 s = new Vector3(scale, 1f, scale);
-				Matrix4x4 matrix = default(Matrix4x4);
-				matrix.SetTRS(loc, Quaternion.identity, s);
-				Graphics.DrawMesh(MeshPool.circle, matrix, mat, 0);
+				return;
 			}
+			loc.y = AltitudeLayer.MetaOverlays.AltitudeFor();
+			Vector3 s = new Vector3(scale, 1f, scale);
+			Matrix4x4 matrix = default(Matrix4x4);
+			matrix.SetTRS(loc, Quaternion.identity, s);
+			Graphics.DrawMesh(MeshPool.circle, matrix, mat, 0);
 		}
 
 		// Note: this type is marked as 'beforefieldinit'.

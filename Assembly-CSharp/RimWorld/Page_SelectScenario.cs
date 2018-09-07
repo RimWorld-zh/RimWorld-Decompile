@@ -13,7 +13,7 @@ namespace RimWorld
 	[StaticConstructorOnStartup]
 	public class Page_SelectScenario : Page
 	{
-		private Scenario curScen = null;
+		private Scenario curScen;
 
 		private Vector2 infoScrollPosition = Vector2.zero;
 
@@ -141,38 +141,32 @@ namespace RimWorld
 			if (scen.enabled)
 			{
 				WidgetRow widgetRow = new WidgetRow(rect.xMax, rect.y, UIDirection.LeftThenDown, 99999f, 4f);
-				if (scen.Category == ScenarioCategory.CustomLocal)
+				if (scen.Category == ScenarioCategory.CustomLocal && widgetRow.ButtonIcon(TexButton.DeleteX, "Delete".Translate(), new Color?(GenUI.SubtleMouseoverColor)))
 				{
-					if (widgetRow.ButtonIcon(TexButton.DeleteX, "Delete".Translate(), new Color?(GenUI.SubtleMouseoverColor)))
+					Find.WindowStack.Add(Dialog_MessageBox.CreateConfirmation("ConfirmDelete".Translate(new object[]
 					{
-						Find.WindowStack.Add(Dialog_MessageBox.CreateConfirmation("ConfirmDelete".Translate(new object[]
-						{
-							scen.File.Name
-						}), delegate
-						{
-							scen.File.Delete();
-							ScenarioLister.MarkDirty();
-						}, true, null));
-					}
+						scen.File.Name
+					}), delegate
+					{
+						scen.File.Delete();
+						ScenarioLister.MarkDirty();
+					}, true, null));
 				}
-				if (scen.Category == ScenarioCategory.SteamWorkshop)
+				if (scen.Category == ScenarioCategory.SteamWorkshop && widgetRow.ButtonIcon(TexButton.DeleteX, "Unsubscribe".Translate(), new Color?(GenUI.SubtleMouseoverColor)))
 				{
-					if (widgetRow.ButtonIcon(TexButton.DeleteX, "Unsubscribe".Translate(), new Color?(GenUI.SubtleMouseoverColor)))
+					Find.WindowStack.Add(Dialog_MessageBox.CreateConfirmation("ConfirmUnsubscribe".Translate(new object[]
 					{
-						Find.WindowStack.Add(Dialog_MessageBox.CreateConfirmation("ConfirmUnsubscribe".Translate(new object[]
+						scen.File.Name
+					}), delegate
+					{
+						scen.enabled = false;
+						if (this.curScen == scen)
 						{
-							scen.File.Name
-						}), delegate
-						{
-							scen.enabled = false;
-							if (this.curScen == scen)
-							{
-								this.curScen = null;
-								this.EnsureValidSelection();
-							}
-							Workshop.Unsubscribe(scen);
-						}, true, null));
-					}
+							this.curScen = null;
+							this.EnsureValidSelection();
+						}
+						Workshop.Unsubscribe(scen);
+					}, true, null));
 				}
 				if (scen.GetPublishedFileId() != PublishedFileId_t.Invalid)
 				{
@@ -195,21 +189,16 @@ namespace RimWorld
 
 		protected override bool CanDoNext()
 		{
-			bool result;
 			if (!base.CanDoNext())
 			{
-				result = false;
+				return false;
 			}
-			else if (this.curScen == null)
+			if (this.curScen == null)
 			{
-				result = false;
+				return false;
 			}
-			else
-			{
-				Page_SelectScenario.BeginScenarioConfiguration(this.curScen, this);
-				result = true;
-			}
-			return result;
+			Page_SelectScenario.BeginScenarioConfiguration(this.curScen, this);
+			return true;
 		}
 
 		public static void BeginScenarioConfiguration(Scenario scen, Page originPage)
@@ -222,12 +211,10 @@ namespace RimWorld
 			if (firstConfigPage == null)
 			{
 				PageUtility.InitGameStart();
+				return;
 			}
-			else
-			{
-				originPage.next = firstConfigPage;
-				firstConfigPage.prev = originPage;
-			}
+			originPage.next = firstConfigPage;
+			firstConfigPage.prev = originPage;
 		}
 
 		private void EnsureValidSelection()

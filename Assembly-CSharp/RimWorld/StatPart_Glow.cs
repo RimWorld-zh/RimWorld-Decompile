@@ -10,9 +10,9 @@ namespace RimWorld
 {
 	public class StatPart_Glow : StatPart
 	{
-		private bool humanlikeOnly = false;
+		private bool humanlikeOnly;
 
-		private SimpleCurve factorFromGlowCurve = null;
+		private SimpleCurve factorFromGlowCurve;
 
 		public StatPart_Glow()
 		{
@@ -37,19 +37,14 @@ namespace RimWorld
 
 		public override string ExplanationPart(StatRequest req)
 		{
-			string result;
 			if (req.HasThing && this.ActiveFor(req.Thing))
 			{
-				result = "StatsReport_LightMultiplier".Translate(new object[]
+				return "StatsReport_LightMultiplier".Translate(new object[]
 				{
 					this.GlowLevel(req.Thing).ToStringPercent()
 				}) + ": x" + this.FactorFromGlow(req.Thing).ToStringPercent();
 			}
-			else
-			{
-				result = null;
-			}
-			return result;
+			return null;
 		}
 
 		private bool ActiveFor(Thing t)

@@ -240,7 +240,7 @@ namespace RimWorld
 
 		public static SoundDef CryptosleepCasket_Eject;
 
-		public static SoundDef DeadfallSpring;
+		public static SoundDef TrapSpring;
 
 		public static SoundDef TrapArm;
 

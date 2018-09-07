@@ -16,7 +16,7 @@ namespace RimWorld.Planet
 
 		public WorldRenderMode wantedMode;
 
-		private bool asynchronousRegenerationActive = false;
+		private bool asynchronousRegenerationActive;
 
 		public WorldRenderer()
 		{
@@ -77,21 +77,23 @@ namespace RimWorld.Planet
 			{
 				if (this.layers[i].Dirty)
 				{
-					IEnumerator enumerator = this.layers[i].Regenerate().GetEnumerator();
-					try
+					using (IEnumerator enumerator = this.layers[i].Regenerate().GetEnumerator())
 					{
-						while (enumerator.MoveNext())
+						for (;;)
 						{
-							object result = enumerator.Current;
-							yield return result;
-						}
-					}
-					finally
-					{
-						IDisposable disposable;
-						if ((disposable = (enumerator as IDisposable)) != null)
-						{
-							disposable.Dispose();
+							try
+							{
+								if (!enumerator.MoveNext())
+								{
+									break;
+								}
+							}
+							catch (Exception arg)
+							{
+								Log.Error("Could not regenerate WorldLayer: " + arg, false);
+								break;
+							}
+							yield return enumerator.Current;
 						}
 					}
 					yield return null;
@@ -123,18 +125,24 @@ namespace RimWorld.Planet
 			if (this.asynchronousRegenerationActive)
 			{
 				Log.Error("Called DrawWorldLayers() but already regenerating. This shouldn't ever happen because LongEventHandler should have stopped us.", false);
+				return;
 			}
-			else if (this.ShouldRegenerateDirtyLayersInLongEvent)
+			if (this.ShouldRegenerateDirtyLayersInLongEvent)
 			{
 				this.asynchronousRegenerationActive = true;
 				LongEventHandler.QueueLongEvent(this.RegenerateDirtyLayersNow_Async(), "GeneratingPlanet", null);
+				return;
 			}
-			else
+			WorldRendererUtility.UpdateWorldShadersParams();
+			for (int i = 0; i < this.layers.Count; i++)
 			{
-				WorldRendererUtility.UpdateWorldShadersParams();
-				for (int i = 0; i < this.layers.Count; i++)
+				try
 				{
 					this.layers[i].Render();
+				}
+				catch (Exception arg)
+				{
+					Log.Error("Error drawing WorldLayer: " + arg, false);
 				}
 			}
 		}
@@ -160,11 +168,7 @@ namespace RimWorld.Planet
 		{
 			internal int <i>__1;
 
-			internal IEnumerator $locvar0;
-
-			internal object <result>__2;
-
-			internal IDisposable $locvar1;
+			internal IEnumerator <enumerator>__2;
 
 			internal WorldRenderer $this;
 
@@ -188,7 +192,7 @@ namespace RimWorld.Planet
 				{
 				case 0u:
 					i = 0;
-					goto IL_132;
+					break;
 				case 1u:
 					Block_3:
 					try
@@ -196,26 +200,32 @@ namespace RimWorld.Planet
 						switch (num)
 						{
 						}
-						if (enumerator.MoveNext())
+						try
 						{
-							result = enumerator.Current;
-							this.$current = result;
-							if (!this.$disposing)
+							if (!enumerator.MoveNext())
 							{
-								this.$PC = 1;
+								goto IL_EA;
 							}
-							flag = true;
-							return true;
 						}
+						catch (Exception arg)
+						{
+							Log.Error("Could not regenerate WorldLayer: " + arg, false);
+							goto IL_EA;
+						}
+						this.$current = enumerator.Current;
+						if (!this.$disposing)
+						{
+							this.$PC = 1;
+						}
+						flag = true;
+						return true;
+						IL_EA:;
 					}
 					finally
 					{
 						if (!flag)
 						{
-							if ((disposable = (enumerator as IDisposable)) != null)
-							{
-								disposable.Dispose();
-							}
+							this.<>__Finally0();
 						}
 					}
 					this.$current = null;
@@ -225,13 +235,12 @@ namespace RimWorld.Planet
 					}
 					return true;
 				case 2u:
+					IL_115:
+					i++;
 					break;
 				default:
 					return false;
 				}
-				IL_124:
-				i++;
-				IL_132:
 				if (i >= this.layers.Count)
 				{
 					this.asynchronousRegenerationActive = false;
@@ -241,7 +250,7 @@ namespace RimWorld.Planet
 				{
 					if (!this.layers[i].Dirty)
 					{
-						goto IL_124;
+						goto IL_115;
 					}
 					enumerator = this.layers[i].Regenerate().GetEnumerator();
 					num = 4294967293u;
@@ -282,10 +291,7 @@ namespace RimWorld.Planet
 					}
 					finally
 					{
-						if ((disposable = (enumerator as IDisposable)) != null)
-						{
-							disposable.Dispose();
-						}
+						this.<>__Finally0();
 					}
 					break;
 				}
@@ -313,6 +319,15 @@ namespace RimWorld.Planet
 				WorldRenderer.<RegenerateDirtyLayersNow_Async>c__Iterator0 <RegenerateDirtyLayersNow_Async>c__Iterator = new WorldRenderer.<RegenerateDirtyLayersNow_Async>c__Iterator0();
 				<RegenerateDirtyLayersNow_Async>c__Iterator.$this = this;
 				return <RegenerateDirtyLayersNow_Async>c__Iterator;
+			}
+
+			private void <>__Finally0()
+			{
+				IDisposable disposable = enumerator as IDisposable;
+				if (disposable != null)
+				{
+					disposable.Dispose();
+				}
 			}
 		}
 	}

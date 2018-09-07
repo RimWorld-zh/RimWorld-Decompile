@@ -13,10 +13,11 @@ namespace Verse
 
 		public override void DrawLayer()
 		{
-			if (DebugViewSettings.drawThingsPrinted)
+			if (!DebugViewSettings.drawThingsPrinted)
 			{
-				base.DrawLayer();
+				return;
 			}
+			base.DrawLayer();
 		}
 
 		public override void Regenerate()

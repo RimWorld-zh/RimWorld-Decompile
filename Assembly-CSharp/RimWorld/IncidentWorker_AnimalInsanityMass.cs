@@ -44,75 +44,67 @@ namespace RimWorld
 			select p).Count<Pawn>() >= 3
 			select def;
 			PawnKindDef animalDef;
-			bool result;
 			if (!source.TryRandomElement(out animalDef))
 			{
-				result = false;
+				return false;
+			}
+			List<Pawn> list = (from p in map.mapPawns.AllPawnsSpawned
+			where p.kindDef == animalDef && IncidentWorker_AnimalInsanityMass.AnimalUsable(p)
+			select p).ToList<Pawn>();
+			float combatPower = animalDef.combatPower;
+			float num = 0f;
+			int num2 = 0;
+			Pawn pawn = null;
+			list.Shuffle<Pawn>();
+			foreach (Pawn pawn2 in list)
+			{
+				if (num + combatPower > adjustedPoints)
+				{
+					break;
+				}
+				IncidentWorker_AnimalInsanityMass.DriveInsane(pawn2);
+				num += combatPower;
+				num2++;
+				pawn = pawn2;
+			}
+			if (num == 0f)
+			{
+				return false;
+			}
+			string label;
+			string text;
+			LetterDef textLetterDef;
+			if (num2 == 1)
+			{
+				label = "LetterLabelAnimalInsanitySingle".Translate(new object[]
+				{
+					pawn.LabelShort
+				});
+				text = "AnimalInsanitySingle".Translate(new object[]
+				{
+					pawn.LabelShort
+				});
+				textLetterDef = LetterDefOf.ThreatSmall;
 			}
 			else
 			{
-				List<Pawn> list = (from p in map.mapPawns.AllPawnsSpawned
-				where p.kindDef == animalDef && IncidentWorker_AnimalInsanityMass.AnimalUsable(p)
-				select p).ToList<Pawn>();
-				float combatPower = animalDef.combatPower;
-				float num = 0f;
-				int num2 = 0;
-				Pawn pawn = null;
-				list.Shuffle<Pawn>();
-				foreach (Pawn pawn2 in list)
+				label = "LetterLabelAnimalInsanityMultiple".Translate(new object[]
 				{
-					if (num + combatPower > adjustedPoints)
-					{
-						break;
-					}
-					IncidentWorker_AnimalInsanityMass.DriveInsane(pawn2);
-					num += combatPower;
-					num2++;
-					pawn = pawn2;
-				}
-				if (num == 0f)
+					animalDef.GetLabelPlural(-1)
+				});
+				text = "AnimalInsanityMultiple".Translate(new object[]
 				{
-					result = false;
-				}
-				else
-				{
-					string label;
-					string text;
-					LetterDef textLetterDef;
-					if (num2 == 1)
-					{
-						label = "LetterLabelAnimalInsanitySingle".Translate(new object[]
-						{
-							pawn.LabelShort
-						});
-						text = "AnimalInsanitySingle".Translate(new object[]
-						{
-							pawn.LabelShort
-						});
-						textLetterDef = LetterDefOf.ThreatSmall;
-					}
-					else
-					{
-						label = "LetterLabelAnimalInsanityMultiple".Translate(new object[]
-						{
-							animalDef.GetLabelPlural(-1)
-						});
-						text = "AnimalInsanityMultiple".Translate(new object[]
-						{
-							animalDef.GetLabelPlural(-1)
-						});
-						textLetterDef = LetterDefOf.ThreatBig;
-					}
-					Find.LetterStack.ReceiveLetter(label, text, textLetterDef, pawn, null, null);
-					SoundDefOf.PsychicPulseGlobal.PlayOneShotOnCamera(map);
-					if (map == Find.CurrentMap)
-					{
-						Find.CameraDriver.shaker.DoShake(1f);
-					}
-					result = true;
-				}
+					animalDef.GetLabelPlural(-1)
+				});
+				textLetterDef = LetterDefOf.ThreatBig;
 			}
-			return result;
+			Find.LetterStack.ReceiveLetter(label, text, textLetterDef, pawn, null, null);
+			SoundDefOf.PsychicPulseGlobal.PlayOneShotOnCamera(map);
+			if (map == Find.CurrentMap)
+			{
+				Find.CameraDriver.shaker.DoShake(1f);
+			}
+			return true;
 		}
 
 		[CompilerGenerated]

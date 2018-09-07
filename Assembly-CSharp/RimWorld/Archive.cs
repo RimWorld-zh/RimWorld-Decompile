@@ -47,40 +47,30 @@ namespace RimWorld
 
 		public bool Add(IArchivable archivable)
 		{
-			bool result;
 			if (archivable == null)
 			{
 				Log.Error("Tried to add null archivable.", false);
-				result = false;
+				return false;
 			}
-			else if (this.Contains(archivable))
+			if (this.Contains(archivable))
 			{
-				result = false;
+				return false;
 			}
-			else
-			{
-				this.archivables.Add(archivable);
-				this.archivables.SortBy((IArchivable x) => x.CreatedTicksGame);
-				this.CheckCullArchivables();
-				result = true;
-			}
-			return result;
+			this.archivables.Add(archivable);
+			this.archivables.SortBy((IArchivable x) => x.CreatedTicksGame);
+			this.CheckCullArchivables();
+			return true;
 		}
 
 		public bool Remove(IArchivable archivable)
 		{
-			bool result;
 			if (!this.Contains(archivable))
 			{
-				result = false;
+				return false;
 			}
-			else
-			{
-				this.archivables.Remove(archivable);
-				this.pinnedArchivables.Remove(archivable);
-				result = true;
-			}
-			return result;
+			this.archivables.Remove(archivable);
+			this.pinnedArchivables.Remove(archivable);
+			return true;
 		}
 
 		public bool Contains(IArchivable archivable)
@@ -90,24 +80,28 @@ namespace RimWorld
 
 		public void Pin(IArchivable archivable)
 		{
-			if (this.Contains(archivable))
+			if (!this.Contains(archivable))
 			{
-				if (!this.IsPinned(archivable))
-				{
-					this.pinnedArchivables.Add(archivable);
-				}
+				return;
 			}
+			if (this.IsPinned(archivable))
+			{
+				return;
+			}
+			this.pinnedArchivables.Add(archivable);
 		}
 
 		public void Unpin(IArchivable archivable)
 		{
-			if (this.Contains(archivable))
+			if (!this.Contains(archivable))
 			{
-				if (this.IsPinned(archivable))
-				{
-					this.pinnedArchivables.Remove(archivable);
-				}
+				return;
 			}
+			if (!this.IsPinned(archivable))
+			{
+				return;
+			}
+			this.pinnedArchivables.Remove(archivable);
 		}
 
 		public bool IsPinned(IArchivable archivable)

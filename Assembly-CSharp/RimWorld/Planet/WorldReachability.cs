@@ -33,25 +33,20 @@ namespace RimWorld.Planet
 
 		public bool CanReach(int startTile, int destTile)
 		{
-			bool result;
 			if (startTile < 0 || startTile >= this.fields.Length || destTile < 0 || destTile >= this.fields.Length)
 			{
-				result = false;
+				return false;
 			}
-			else if (this.fields[startTile] == this.impassableFieldID || this.fields[destTile] == this.impassableFieldID)
+			if (this.fields[startTile] == this.impassableFieldID || this.fields[destTile] == this.impassableFieldID)
 			{
-				result = false;
+				return false;
 			}
-			else if (this.IsValidField(this.fields[startTile]) || this.IsValidField(this.fields[destTile]))
+			if (this.IsValidField(this.fields[startTile]) || this.IsValidField(this.fields[destTile]))
 			{
-				result = (this.fields[startTile] == this.fields[destTile]);
+				return this.fields[startTile] == this.fields[destTile];
 			}
-			else
-			{
-				this.FloodFillAt(startTile);
-				result = (this.fields[startTile] != this.impassableFieldID && this.fields[startTile] == this.fields[destTile]);
-			}
-			return result;
+			this.FloodFillAt(startTile);
+			return this.fields[startTile] != this.impassableFieldID && this.fields[startTile] == this.fields[destTile];
 		}
 
 		private void InvalidateAllFields()
@@ -76,15 +71,13 @@ namespace RimWorld.Planet
 			if (world.Impassable(tile))
 			{
 				this.fields[tile] = this.impassableFieldID;
+				return;
 			}
-			else
+			Find.WorldFloodFiller.FloodFill(tile, (int x) => !world.Impassable(x), delegate(int x)
 			{
-				Find.WorldFloodFiller.FloodFill(tile, (int x) => !world.Impassable(x), delegate(int x)
-				{
-					this.fields[x] = this.nextFieldID;
-				}, int.MaxValue, null);
-				this.nextFieldID++;
-			}
+				this.fields[x] = this.nextFieldID;
+			}, int.MaxValue, null);
+			this.nextFieldID++;
 		}
 
 		[CompilerGenerated]

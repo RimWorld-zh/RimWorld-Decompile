@@ -32,26 +32,24 @@ namespace Verse.Steam
 			if (curStage == WorkshopInteractStage.None && eitemUpdateStatus == EItemUpdateStatus.k_EItemUpdateStatusInvalid)
 			{
 				this.Close(true);
+				return;
 			}
-			else
+			string text = string.Empty;
+			if (curStage != WorkshopInteractStage.None)
 			{
-				string text = "";
-				if (curStage != WorkshopInteractStage.None)
-				{
-					text += curStage.GetLabel();
-					text += "\n\n";
-				}
-				if (eitemUpdateStatus != EItemUpdateStatus.k_EItemUpdateStatusInvalid)
-				{
-					text += eitemUpdateStatus.GetLabel();
-					if (num > 0f)
-					{
-						text = text + " (" + num.ToStringPercent() + ")";
-					}
-					text += GenText.MarchingEllipsis(0f);
-				}
-				Widgets.Label(inRect, text);
+				text += curStage.GetLabel();
+				text += "\n\n";
 			}
+			if (eitemUpdateStatus != EItemUpdateStatus.k_EItemUpdateStatusInvalid)
+			{
+				text += eitemUpdateStatus.GetLabel();
+				if (num > 0f)
+				{
+					text = text + " (" + num.ToStringPercent() + ")";
+				}
+				text += GenText.MarchingEllipsis(0f);
+			}
+			Widgets.Label(inRect, text);
 		}
 
 		public static void CloseAll()

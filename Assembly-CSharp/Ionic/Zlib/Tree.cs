@@ -1021,40 +1021,41 @@ namespace Ionic.Zlib
 					}
 				}
 			}
-			if (num != 0)
+			if (num == 0)
 			{
-				do
+				return;
+			}
+			do
+			{
+				int i = maxLength - 1;
+				while (s.bl_count[i] == 0)
 				{
-					int i = maxLength - 1;
-					while (s.bl_count[i] == 0)
-					{
-						i--;
-					}
-					short[] bl_count2 = s.bl_count;
-					int num6 = i;
-					bl_count2[num6] -= 1;
-					s.bl_count[i + 1] = s.bl_count[i + 1] + 2;
-					short[] bl_count3 = s.bl_count;
-					int num7 = maxLength;
-					bl_count3[num7] -= 1;
-					num -= 2;
+					i--;
 				}
-				while (num > 0);
-				for (int i = maxLength; i != 0; i--)
+				short[] bl_count2 = s.bl_count;
+				int num6 = i;
+				bl_count2[num6] -= 1;
+				s.bl_count[i + 1] = s.bl_count[i + 1] + 2;
+				short[] bl_count3 = s.bl_count;
+				int num7 = maxLength;
+				bl_count3[num7] -= 1;
+				num -= 2;
+			}
+			while (num > 0);
+			for (int i = maxLength; i != 0; i--)
+			{
+				int num2 = (int)s.bl_count[i];
+				while (num2 != 0)
 				{
-					int num2 = (int)s.bl_count[i];
-					while (num2 != 0)
+					int num8 = s.heap[--j];
+					if (num8 <= this.max_code)
 					{
-						int num8 = s.heap[--j];
-						if (num8 <= this.max_code)
+						if ((int)array[num8 * 2 + 1] != i)
 						{
-							if ((int)array[num8 * 2 + 1] != i)
-							{
-								s.opt_len = (int)((long)s.opt_len + ((long)i - (long)array[num8 * 2 + 1]) * (long)array[num8 * 2]);
-								array[num8 * 2 + 1] = (short)i;
-							}
-							num2--;
+							s.opt_len = (int)((long)s.opt_len + ((long)i - (long)array[num8 * 2 + 1]) * (long)array[num8 * 2]);
+							array[num8 * 2 + 1] = (short)i;
 						}
+						num2--;
 					}
 				}
 			}

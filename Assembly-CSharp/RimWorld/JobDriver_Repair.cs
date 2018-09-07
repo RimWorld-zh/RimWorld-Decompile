@@ -12,7 +12,7 @@ namespace RimWorld
 {
 	public class JobDriver_Repair : JobDriver
 	{
-		protected float ticksToNextRepair = 0f;
+		protected float ticksToNextRepair;
 
 		private const float WarmupTicks = 80f;
 
@@ -22,9 +22,12 @@ namespace RimWorld
 		{
 		}
 
-		public override bool TryMakePreToilReservations()
+		public override bool TryMakePreToilReservations(bool errorOnFailed)
 		{
-			return this.pawn.Reserve(this.job.targetA, this.job, 1, -1, null);
+			Pawn pawn = this.pawn;
+			LocalTargetInfo targetA = this.job.targetA;
+			Job job = this.job;
+			return pawn.Reserve(targetA, job, 1, -1, null, errorOnFailed);
 		}
 
 		protected override IEnumerable<Toil> MakeNewToils()
@@ -39,7 +42,7 @@ namespace RimWorld
 			repair.tickAction = delegate()
 			{
 				Pawn actor = repair.actor;
-				actor.skills.Learn(SkillDefOf.Construction, 0.275f, false);
+				actor.skills.Learn(SkillDefOf.Construction, 0.05f, false);
 				float statValue = actor.GetStatValue(StatDefOf.ConstructionSpeed, true);
 				this.ticksToNextRepair -= statValue;
 				if (this.ticksToNextRepair <= 0f)
@@ -106,7 +109,7 @@ namespace RimWorld
 					<MakeNewToils>c__AnonStorey.repair.tickAction = delegate()
 					{
 						Pawn actor = <MakeNewToils>c__AnonStorey.repair.actor;
-						actor.skills.Learn(SkillDefOf.Construction, 0.275f, false);
+						actor.skills.Learn(SkillDefOf.Construction, 0.05f, false);
 						float statValue = actor.GetStatValue(StatDefOf.ConstructionSpeed, true);
 						<MakeNewToils>c__AnonStorey.<>f__ref$0.$this.ticksToNextRepair -= statValue;
 						if (<MakeNewToils>c__AnonStorey.<>f__ref$0.$this.ticksToNextRepair <= 0f)
@@ -211,7 +214,7 @@ namespace RimWorld
 				internal void <>m__1()
 				{
 					Pawn actor = this.repair.actor;
-					actor.skills.Learn(SkillDefOf.Construction, 0.275f, false);
+					actor.skills.Learn(SkillDefOf.Construction, 0.05f, false);
 					float statValue = actor.GetStatValue(StatDefOf.ConstructionSpeed, true);
 					this.<>f__ref$0.$this.ticksToNextRepair -= statValue;
 					if (this.<>f__ref$0.$this.ticksToNextRepair <= 0f)

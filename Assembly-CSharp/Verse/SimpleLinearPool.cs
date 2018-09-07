@@ -7,7 +7,7 @@ namespace Verse
 	{
 		private List<T> items = new List<T>();
 
-		private int readIndex = 0;
+		private int readIndex;
 
 		public SimpleLinearPool()
 		{

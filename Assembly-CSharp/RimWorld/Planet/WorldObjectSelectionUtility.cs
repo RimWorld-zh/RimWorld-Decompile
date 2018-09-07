@@ -50,22 +50,17 @@ namespace RimWorld.Planet
 
 		public static bool VisibleToCameraNow(this WorldObject o)
 		{
-			bool result;
 			if (!WorldRendererUtility.WorldRenderedNow)
 			{
-				result = false;
+				return false;
 			}
-			else if (o.HiddenBehindTerrainNow())
+			if (o.HiddenBehindTerrainNow())
 			{
-				result = false;
+				return false;
 			}
-			else
-			{
-				Vector2 point = o.ScreenPos();
-				Rect rect = new Rect(0f, 0f, (float)UI.screenWidth, (float)UI.screenHeight);
-				result = rect.Contains(point);
-			}
-			return result;
+			Vector2 point = o.ScreenPos();
+			Rect rect = new Rect(0f, 0f, (float)UI.screenWidth, (float)UI.screenHeight);
+			return rect.Contains(point);
 		}
 
 		public static float DistanceToMouse(this WorldObject o, Vector2 mousePos)
@@ -73,16 +68,11 @@ namespace RimWorld.Planet
 			Ray ray = Find.WorldCamera.ScreenPointToRay(mousePos * Prefs.UIScale);
 			int worldLayerMask = WorldCameraManager.WorldLayerMask;
 			RaycastHit raycastHit;
-			float result;
 			if (Physics.Raycast(ray, out raycastHit, 1500f, worldLayerMask))
 			{
-				result = Vector3.Distance(raycastHit.point, o.DrawPos);
+				return Vector3.Distance(raycastHit.point, o.DrawPos);
 			}
-			else
-			{
-				result = Vector3.Cross(ray.direction, o.DrawPos - ray.origin).magnitude;
-			}
-			return result;
+			return Vector3.Cross(ray.direction, o.DrawPos - ray.origin).magnitude;
 		}
 
 		[CompilerGenerated]
@@ -114,19 +104,18 @@ namespace RimWorld.Planet
 				case 0u:
 					allObjects = Find.WorldObjects.AllWorldObjects;
 					i = 0;
-					goto IL_158;
+					goto IL_151;
 				case 1u:
-					IL_F0:
+					IL_ED:
 					break;
 				case 2u:
-					IL_148:
 					break;
 				default:
 					return false;
 				}
-				IL_14A:
+				IL_143:
 				i++;
-				IL_158:
+				IL_151:
 				if (i >= allObjects.Count)
 				{
 					this.$PC = -1;
@@ -135,17 +124,17 @@ namespace RimWorld.Planet
 				{
 					if (allObjects[i].NeverMultiSelect)
 					{
-						goto IL_14A;
+						goto IL_143;
 					}
 					if (allObjects[i].HiddenBehindTerrainNow())
 					{
-						goto IL_14A;
+						goto IL_143;
 					}
 					if (ExpandableWorldObjectsUtility.IsExpanded(allObjects[i]))
 					{
 						if (!rect.Overlaps(ExpandableWorldObjectsUtility.ExpandedIconScreenRect(allObjects[i])))
 						{
-							goto IL_F0;
+							goto IL_ED;
 						}
 						this.$current = allObjects[i];
 						if (!this.$disposing)
@@ -157,7 +146,7 @@ namespace RimWorld.Planet
 					{
 						if (!rect.Contains(allObjects[i].ScreenPos()))
 						{
-							goto IL_148;
+							goto IL_143;
 						}
 						this.$current = allObjects[i];
 						if (!this.$disposing)

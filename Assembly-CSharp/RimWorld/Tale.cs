@@ -16,11 +16,13 @@ namespace RimWorld
 
 		public int id;
 
-		private int uses = 0;
+		private int uses;
 
 		public int date = -1;
 
 		public TaleData_Surroundings surroundings;
+
+		public string customLabel;
 
 		public Tale()
 		{
@@ -106,6 +108,10 @@ namespace RimWorld
 		{
 			get
 			{
+				if (!this.customLabel.NullOrEmpty())
+				{
+					return this.customLabel.CapitalizeFirst();
+				}
 				return this.def.LabelCap;
 			}
 		}
@@ -132,6 +138,7 @@ namespace RimWorld
 			Scribe_Values.Look<int>(ref this.uses, "uses", 0, false);
 			Scribe_Values.Look<int>(ref this.date, "date", 0, false);
 			Scribe_Deep.Look<TaleData_Surroundings>(ref this.surroundings, "surroundings", new object[0]);
+			Scribe_Values.Look<string>(ref this.customLabel, "customLabel", null, false);
 		}
 
 		public void Notify_NewlyUsed()
@@ -144,11 +151,9 @@ namespace RimWorld
 			if (this.uses == 0)
 			{
 				Log.Warning("Called reference destroyed method on tale " + this + " but uses count is 0.", false);
+				return;
 			}
-			else
-			{
-				this.uses--;
-			}
+			this.uses--;
 		}
 
 		public IEnumerable<RulePack> GetTextGenerationIncludes()
@@ -357,7 +362,7 @@ namespace RimWorld
 				case 1u:
 					if (this.surroundings == null)
 					{
-						goto IL_15F;
+						goto IL_159;
 					}
 					enumerator = this.surroundings.GetRules().GetEnumerator();
 					num = 4294967293u;
@@ -425,7 +430,7 @@ namespace RimWorld
 						}
 					}
 				}
-				IL_15F:
+				IL_159:
 				enumerator2 = this.SpecialTextGenerationRules().GetEnumerator();
 				num = 4294967293u;
 				goto Block_7;

@@ -29,42 +29,44 @@ namespace Verse.AI
 		public static void GetSmashableThingsNear(Pawn pawn, IntVec3 near, List<Thing> outCandidates, Predicate<Thing> customValidator = null, int extraMinBuildingOrItemMarketValue = 0, int maxDistance = 40)
 		{
 			outCandidates.Clear();
-			if (pawn.CanReach(near, PathEndMode.OnCell, Danger.Deadly, false, TraverseMode.ByPawn))
+			if (!pawn.CanReach(near, PathEndMode.OnCell, Danger.Deadly, false, TraverseMode.ByPawn))
 			{
-				Region region = near.GetRegion(pawn.Map, RegionType.Set_Passable);
-				if (region != null)
-				{
-					TraverseParms traverseParams = TraverseParms.For(pawn, Danger.Deadly, TraverseMode.ByPawn, false);
-					RegionTraverser.BreadthFirstTraverse(region, (Region from, Region to) => to.Allows(traverseParams, false), delegate(Region r)
-					{
-						List<Thing> list = r.ListerThings.ThingsInGroup(ThingRequestGroup.BuildingArtificial);
-						for (int i = 0; i < list.Count; i++)
-						{
-							if (list[i].Position.InHorDistOf(near, (float)maxDistance) && TantrumMentalStateUtility.CanSmash(pawn, list[i], true, customValidator, extraMinBuildingOrItemMarketValue))
-							{
-								outCandidates.Add(list[i]);
-							}
-						}
-						List<Thing> list2 = r.ListerThings.ThingsInGroup(ThingRequestGroup.HaulableEver);
-						for (int j = 0; j < list2.Count; j++)
-						{
-							if (list2[j].Position.InHorDistOf(near, (float)maxDistance) && TantrumMentalStateUtility.CanSmash(pawn, list2[j], true, customValidator, extraMinBuildingOrItemMarketValue))
-							{
-								outCandidates.Add(list2[j]);
-							}
-						}
-						List<Thing> list3 = r.ListerThings.ThingsInGroup(ThingRequestGroup.Pawn);
-						for (int k = 0; k < list3.Count; k++)
-						{
-							if (list3[k].Position.InHorDistOf(near, (float)maxDistance) && TantrumMentalStateUtility.CanSmash(pawn, list3[k], true, customValidator, extraMinBuildingOrItemMarketValue))
-							{
-								outCandidates.Add(list3[k]);
-							}
-						}
-						return false;
-					}, 40, RegionType.Set_Passable);
-				}
+				return;
 			}
+			Region region = near.GetRegion(pawn.Map, RegionType.Set_Passable);
+			if (region == null)
+			{
+				return;
+			}
+			TraverseParms traverseParams = TraverseParms.For(pawn, Danger.Deadly, TraverseMode.ByPawn, false);
+			RegionTraverser.BreadthFirstTraverse(region, (Region from, Region to) => to.Allows(traverseParams, false), delegate(Region r)
+			{
+				List<Thing> list = r.ListerThings.ThingsInGroup(ThingRequestGroup.BuildingArtificial);
+				for (int i = 0; i < list.Count; i++)
+				{
+					if (list[i].Position.InHorDistOf(near, (float)maxDistance) && TantrumMentalStateUtility.CanSmash(pawn, list[i], true, customValidator, extraMinBuildingOrItemMarketValue))
+					{
+						outCandidates.Add(list[i]);
+					}
+				}
+				List<Thing> list2 = r.ListerThings.ThingsInGroup(ThingRequestGroup.HaulableEver);
+				for (int j = 0; j < list2.Count; j++)
+				{
+					if (list2[j].Position.InHorDistOf(near, (float)maxDistance) && TantrumMentalStateUtility.CanSmash(pawn, list2[j], true, customValidator, extraMinBuildingOrItemMarketValue))
+					{
+						outCandidates.Add(list2[j]);
+					}
+				}
+				List<Thing> list3 = r.ListerThings.ThingsInGroup(ThingRequestGroup.Pawn);
+				for (int k = 0; k < list3.Count; k++)
+				{
+					if (list3[k].Position.InHorDistOf(near, (float)maxDistance) && TantrumMentalStateUtility.CanSmash(pawn, list3[k], true, customValidator, extraMinBuildingOrItemMarketValue))
+					{
+						outCandidates.Add(list3[k]);
+					}
+				}
+				return false;
+			}, 40, RegionType.Set_Passable);
 		}
 
 		public static void GetSmashableThingsIn(Room room, Pawn pawn, List<Thing> outCandidates, Predicate<Thing> customValidator = null, int extraMinBuildingOrItemMarketValue = 0)

@@ -95,15 +95,23 @@ namespace Verse.AI
 		private static readonly SimpleCurve RegionHeuristicWeightByNodesOpened = new SimpleCurve
 		{
 			{
-				new CurvePoint(0f, 5f),
+				new CurvePoint(0f, 1f),
 				true
 			},
 			{
-				new CurvePoint(4000f, 5f),
+				new CurvePoint(3500f, 1f),
 				true
 			},
 			{
-				new CurvePoint(5000f, 500f),
+				new CurvePoint(4500f, 5f),
+				true
+			},
+			{
+				new CurvePoint(30000f, 50f),
+				true
+			},
+			{
+				new CurvePoint(100000f, 500f),
 				true
 			}
 		};
@@ -137,7 +145,6 @@ namespace Verse.AI
 				traverseParms.mode = TraverseMode.PassAllDestroyableThings;
 			}
 			Pawn pawn = traverseParms.pawn;
-			PawnPath notFound;
 			if (pawn != null && pawn.Map != this.map)
 			{
 				Log.Error(string.Concat(new object[]
@@ -149,9 +156,9 @@ namespace Verse.AI
 					" map=",
 					this.map
 				}), false);
-				notFound = PawnPath.NotFound;
+				return PawnPath.NotFound;
 			}
-			else if (!start.IsValid)
+			if (!start.IsValid)
 			{
 				Log.Error(string.Concat(new object[]
 				{
@@ -160,9 +167,9 @@ namespace Verse.AI
 					", pawn= ",
 					pawn
 				}), false);
-				notFound = PawnPath.NotFound;
+				return PawnPath.NotFound;
 			}
-			else if (!dest.IsValid)
+			if (!dest.IsValid)
 			{
 				Log.Error(string.Concat(new object[]
 				{
@@ -171,422 +178,418 @@ namespace Verse.AI
 					", pawn= ",
 					pawn
 				}), false);
-				notFound = PawnPath.NotFound;
+				return PawnPath.NotFound;
 			}
-			else
+			if (traverseParms.mode == TraverseMode.ByPawn)
 			{
-				if (traverseParms.mode == TraverseMode.ByPawn)
-				{
-					if (!pawn.CanReach(dest, peMode, Danger.Deadly, traverseParms.canBash, traverseParms.mode))
-					{
-						return PawnPath.NotFound;
-					}
-				}
-				else if (!this.map.reachability.CanReach(start, dest, peMode, traverseParms))
+				if (!pawn.CanReach(dest, peMode, Danger.Deadly, traverseParms.canBash, traverseParms.mode))
 				{
 					return PawnPath.NotFound;
 				}
-				this.PfProfilerBeginSample(string.Concat(new object[]
+			}
+			else if (!this.map.reachability.CanReach(start, dest, peMode, traverseParms))
+			{
+				return PawnPath.NotFound;
+			}
+			this.PfProfilerBeginSample(string.Concat(new object[]
+			{
+				"FindPath for ",
+				pawn,
+				" from ",
+				start,
+				" to ",
+				dest,
+				(!dest.HasThing) ? string.Empty : (" at " + dest.Cell)
+			}));
+			this.cellIndices = this.map.cellIndices;
+			this.pathGrid = this.map.pathGrid;
+			this.edificeGrid = this.map.edificeGrid.InnerArray;
+			this.blueprintGrid = this.map.blueprintGrid.InnerArray;
+			int x = dest.Cell.x;
+			int z = dest.Cell.z;
+			int num = this.cellIndices.CellToIndex(start);
+			int num2 = this.cellIndices.CellToIndex(dest.Cell);
+			ByteGrid byteGrid = (pawn == null) ? null : pawn.GetAvoidGrid();
+			bool flag = traverseParms.mode == TraverseMode.PassAllDestroyableThings || traverseParms.mode == TraverseMode.PassAllDestroyableThingsNotWater;
+			bool flag2 = traverseParms.mode != TraverseMode.NoPassClosedDoorsOrWater && traverseParms.mode != TraverseMode.PassAllDestroyableThingsNotWater;
+			bool flag3 = !flag;
+			CellRect cellRect = this.CalculateDestinationRect(dest, peMode);
+			bool flag4 = cellRect.Width == 1 && cellRect.Height == 1;
+			int[] array = this.map.pathGrid.pathGrid;
+			TerrainDef[] topGrid = this.map.terrainGrid.topGrid;
+			EdificeGrid edificeGrid = this.map.edificeGrid;
+			int num3 = 0;
+			int num4 = 0;
+			Area allowedArea = this.GetAllowedArea(pawn);
+			bool flag5 = pawn != null && PawnUtility.ShouldCollideWithPawns(pawn);
+			bool flag6 = true && DebugViewSettings.drawPaths;
+			bool flag7 = !flag && start.GetRegion(this.map, RegionType.Set_Passable) != null && flag2;
+			bool flag8 = !flag || !flag3;
+			bool flag9 = false;
+			bool flag10 = pawn != null && pawn.Drafted;
+			bool flag11 = pawn != null && pawn.IsColonist;
+			int num5 = (!flag11) ? 2000 : 100000;
+			int num6 = 0;
+			int num7 = 0;
+			float num8 = this.DetermineHeuristicStrength(pawn, start, dest);
+			int num9;
+			int num10;
+			if (pawn != null)
+			{
+				num9 = pawn.TicksPerMoveCardinal;
+				num10 = pawn.TicksPerMoveDiagonal;
+			}
+			else
+			{
+				num9 = 13;
+				num10 = 18;
+			}
+			this.CalculateAndAddDisallowedCorners(traverseParms, peMode, cellRect);
+			this.InitStatusesAndPushStartNode(ref num, start);
+			for (;;)
+			{
+				this.PfProfilerBeginSample("Open cell");
+				if (this.openList.Count <= 0)
 				{
-					"FindPath for ",
-					pawn,
-					" from ",
-					start,
-					" to ",
-					dest,
-					(!dest.HasThing) ? "" : (" at " + dest.Cell)
-				}));
-				this.cellIndices = this.map.cellIndices;
-				this.pathGrid = this.map.pathGrid;
-				this.edificeGrid = this.map.edificeGrid.InnerArray;
-				this.blueprintGrid = this.map.blueprintGrid.InnerArray;
-				int x = dest.Cell.x;
-				int z = dest.Cell.z;
-				int num = this.cellIndices.CellToIndex(start);
-				int num2 = this.cellIndices.CellToIndex(dest.Cell);
-				ByteGrid byteGrid = (pawn == null) ? null : pawn.GetAvoidGrid();
-				bool flag = traverseParms.mode == TraverseMode.PassAllDestroyableThings || traverseParms.mode == TraverseMode.PassAllDestroyableThingsNotWater;
-				bool flag2 = traverseParms.mode != TraverseMode.NoPassClosedDoorsOrWater && traverseParms.mode != TraverseMode.PassAllDestroyableThingsNotWater;
-				bool flag3 = !flag;
-				CellRect cellRect = this.CalculateDestinationRect(dest, peMode);
-				bool flag4 = cellRect.Width == 1 && cellRect.Height == 1;
-				int[] array = this.map.pathGrid.pathGrid;
-				TerrainDef[] topGrid = this.map.terrainGrid.topGrid;
-				EdificeGrid edificeGrid = this.map.edificeGrid;
-				int num3 = 0;
-				int num4 = 0;
-				Area allowedArea = this.GetAllowedArea(pawn);
-				bool flag5 = pawn != null && PawnUtility.ShouldCollideWithPawns(pawn);
-				bool flag6 = true && DebugViewSettings.drawPaths;
-				bool flag7 = !flag && start.GetRegion(this.map, RegionType.Set_Passable) != null && flag2;
-				bool flag8 = !flag || !flag3;
-				bool flag9 = false;
-				bool flag10 = pawn != null && pawn.Drafted;
-				bool flag11 = pawn != null && pawn.IsColonist;
-				int num5 = (!flag11) ? 2000 : 100000;
-				int num6 = 0;
-				int num7 = 0;
-				float num8 = this.DetermineHeuristicStrength(pawn, start, dest);
-				int num9;
-				int num10;
-				if (pawn != null)
+					break;
+				}
+				num6 += this.openList.Count;
+				num7++;
+				PathFinder.CostNode costNode = this.openList.Pop();
+				num = costNode.index;
+				if (costNode.cost != this.calcGrid[num].costNodeCost)
 				{
-					num9 = pawn.TicksPerMoveCardinal;
-					num10 = pawn.TicksPerMoveDiagonal;
+					this.PfProfilerEndSample();
+				}
+				else if (this.calcGrid[num].status == this.statusClosedValue)
+				{
+					this.PfProfilerEndSample();
 				}
 				else
 				{
-					num9 = 13;
-					num10 = 18;
-				}
-				this.CalculateAndAddDisallowedCorners(traverseParms, peMode, cellRect);
-				this.InitStatusesAndPushStartNode(ref num, start);
-				for (;;)
-				{
-					this.PfProfilerBeginSample("Open cell");
-					if (this.openList.Count <= 0)
+					IntVec3 c = this.cellIndices.IndexToCell(num);
+					int x2 = c.x;
+					int z2 = c.z;
+					if (flag6)
 					{
-						break;
+						this.DebugFlash(c, (float)this.calcGrid[num].knownCost / 1500f, this.calcGrid[num].knownCost.ToString());
 					}
-					num6 += this.openList.Count;
-					num7++;
-					PathFinder.CostNode costNode = this.openList.Pop();
-					num = costNode.index;
-					if (costNode.cost != this.calcGrid[num].costNodeCost)
+					if (flag4)
 					{
-						this.PfProfilerEndSample();
-					}
-					else if (this.calcGrid[num].status == this.statusClosedValue)
-					{
-						this.PfProfilerEndSample();
-					}
-					else
-					{
-						IntVec3 c = this.cellIndices.IndexToCell(num);
-						int x2 = c.x;
-						int z2 = c.z;
-						if (flag6)
+						if (num == num2)
 						{
-							this.DebugFlash(c, (float)this.calcGrid[num].knownCost / 1500f, this.calcGrid[num].knownCost.ToString());
+							goto Block_32;
 						}
-						if (flag4)
+					}
+					else if (cellRect.Contains(c) && !this.disallowedCornerIndices.Contains(num))
+					{
+						goto Block_34;
+					}
+					if (num3 > 160000)
+					{
+						goto Block_35;
+					}
+					this.PfProfilerEndSample();
+					this.PfProfilerBeginSample("Neighbor consideration");
+					for (int i = 0; i < 8; i++)
+					{
+						uint num11 = (uint)(x2 + PathFinder.Directions[i]);
+						uint num12 = (uint)(z2 + PathFinder.Directions[i + 8]);
+						if ((ulong)num11 < (ulong)((long)this.mapSizeX) && (ulong)num12 < (ulong)((long)this.mapSizeZ))
 						{
-							if (num == num2)
+							int num13 = (int)num11;
+							int num14 = (int)num12;
+							int num15 = this.cellIndices.CellToIndex(num13, num14);
+							if (this.calcGrid[num15].status != this.statusClosedValue || flag9)
 							{
-								goto Block_32;
-							}
-						}
-						else if (cellRect.Contains(c) && !this.disallowedCornerIndices.Contains(num))
-						{
-							goto Block_34;
-						}
-						if (num3 > 160000)
-						{
-							goto Block_35;
-						}
-						this.PfProfilerEndSample();
-						this.PfProfilerBeginSample("Neighbor consideration");
-						for (int i = 0; i < 8; i++)
-						{
-							uint num11 = (uint)(x2 + PathFinder.Directions[i]);
-							uint num12 = (uint)(z2 + PathFinder.Directions[i + 8]);
-							if ((ulong)num11 < (ulong)((long)this.mapSizeX) && (ulong)num12 < (ulong)((long)this.mapSizeZ))
-							{
-								int num13 = (int)num11;
-								int num14 = (int)num12;
-								int num15 = this.cellIndices.CellToIndex(num13, num14);
-								if (this.calcGrid[num15].status != this.statusClosedValue || flag9)
+								int num16 = 0;
+								bool flag12 = false;
+								if (flag2 || !new IntVec3(num13, 0, num14).GetTerrain(this.map).HasTag("Water"))
 								{
-									int num16 = 0;
-									bool flag12 = false;
-									if (flag2 || !new IntVec3(num13, 0, num14).GetTerrain(this.map).HasTag("Water"))
+									if (!this.pathGrid.WalkableFast(num15))
 									{
-										if (!this.pathGrid.WalkableFast(num15))
+										if (!flag)
 										{
-											if (!flag)
+											if (flag6)
 											{
-												if (flag6)
-												{
-													this.DebugFlash(new IntVec3(num13, 0, num14), 0.22f, "walk");
-												}
-												goto IL_DCD;
+												this.DebugFlash(new IntVec3(num13, 0, num14), 0.22f, "walk");
 											}
-											flag12 = true;
-											num16 += 70;
-											Building building = edificeGrid[num15];
-											if (building == null)
-											{
-												goto IL_DCD;
-											}
-											if (!PathFinder.IsDestroyable(building))
-											{
-												goto IL_DCD;
-											}
-											num16 += (int)((float)building.HitPoints * 0.2f);
+											goto IL_D53;
 										}
-										if (i > 3)
+										flag12 = true;
+										num16 += 70;
+										Building building = edificeGrid[num15];
+										if (building == null)
 										{
-											switch (i)
-											{
-											case 4:
-												if (this.BlocksDiagonalMovement(num - this.mapSizeX))
-												{
-													if (flag8)
-													{
-														if (flag6)
-														{
-															this.DebugFlash(new IntVec3(x2, 0, z2 - 1), 0.9f, "corn");
-														}
-														goto IL_DCD;
-													}
-													num16 += 70;
-												}
-												if (this.BlocksDiagonalMovement(num + 1))
-												{
-													if (flag8)
-													{
-														if (flag6)
-														{
-															this.DebugFlash(new IntVec3(x2 + 1, 0, z2), 0.9f, "corn");
-														}
-														goto IL_DCD;
-													}
-													num16 += 70;
-												}
-												break;
-											case 5:
-												if (this.BlocksDiagonalMovement(num + this.mapSizeX))
-												{
-													if (flag8)
-													{
-														if (flag6)
-														{
-															this.DebugFlash(new IntVec3(x2, 0, z2 + 1), 0.9f, "corn");
-														}
-														goto IL_DCD;
-													}
-													num16 += 70;
-												}
-												if (this.BlocksDiagonalMovement(num + 1))
-												{
-													if (flag8)
-													{
-														if (flag6)
-														{
-															this.DebugFlash(new IntVec3(x2 + 1, 0, z2), 0.9f, "corn");
-														}
-														goto IL_DCD;
-													}
-													num16 += 70;
-												}
-												break;
-											case 6:
-												if (this.BlocksDiagonalMovement(num + this.mapSizeX))
-												{
-													if (flag8)
-													{
-														if (flag6)
-														{
-															this.DebugFlash(new IntVec3(x2, 0, z2 + 1), 0.9f, "corn");
-														}
-														goto IL_DCD;
-													}
-													num16 += 70;
-												}
-												if (this.BlocksDiagonalMovement(num - 1))
-												{
-													if (flag8)
-													{
-														if (flag6)
-														{
-															this.DebugFlash(new IntVec3(x2 - 1, 0, z2), 0.9f, "corn");
-														}
-														goto IL_DCD;
-													}
-													num16 += 70;
-												}
-												break;
-											case 7:
-												if (this.BlocksDiagonalMovement(num - this.mapSizeX))
-												{
-													if (flag8)
-													{
-														if (flag6)
-														{
-															this.DebugFlash(new IntVec3(x2, 0, z2 - 1), 0.9f, "corn");
-														}
-														goto IL_DCD;
-													}
-													num16 += 70;
-												}
-												if (this.BlocksDiagonalMovement(num - 1))
-												{
-													if (flag8)
-													{
-														if (flag6)
-														{
-															this.DebugFlash(new IntVec3(x2 - 1, 0, z2), 0.9f, "corn");
-														}
-														goto IL_DCD;
-													}
-													num16 += 70;
-												}
-												break;
-											}
+											goto IL_D53;
 										}
-										int num17 = (i <= 3) ? num9 : num10;
-										num17 += num16;
-										if (!flag12)
+										if (!PathFinder.IsDestroyable(building))
 										{
-											num17 += array[num15];
-											if (flag10)
-											{
-												num17 += topGrid[num15].extraDraftedPerceivedPathCost;
-											}
-											else
-											{
-												num17 += topGrid[num15].extraNonDraftedPerceivedPathCost;
-											}
+											goto IL_D53;
 										}
-										if (byteGrid != null)
-										{
-											num17 += (int)(byteGrid[num15] * 8);
-										}
-										if (allowedArea != null && !allowedArea[num15])
-										{
-											num17 += 600;
-										}
-										if (flag5 && PawnUtility.AnyPawnBlockingPathAt(new IntVec3(num13, 0, num14), pawn, false, false, true))
-										{
-											num17 += 175;
-										}
-										Building building2 = this.edificeGrid[num15];
-										if (building2 != null)
-										{
-											this.PfProfilerBeginSample("Edifices");
-											int buildingCost = PathFinder.GetBuildingCost(building2, traverseParms, pawn);
-											if (buildingCost == 2147483647)
-											{
-												this.PfProfilerEndSample();
-												goto IL_DCD;
-											}
-											num17 += buildingCost;
-											this.PfProfilerEndSample();
-										}
-										List<Blueprint> list = this.blueprintGrid[num15];
-										if (list != null)
-										{
-											this.PfProfilerBeginSample("Blueprints");
-											int num18 = 0;
-											for (int j = 0; j < list.Count; j++)
-											{
-												num18 = Mathf.Max(num18, PathFinder.GetBlueprintCost(list[j], pawn));
-											}
-											if (num18 == 2147483647)
-											{
-												this.PfProfilerEndSample();
-												goto IL_DCD;
-											}
-											num17 += num18;
-											this.PfProfilerEndSample();
-										}
-										int num19 = num17 + this.calcGrid[num].knownCost;
-										ushort status = this.calcGrid[num15].status;
-										if (status == this.statusClosedValue || status == this.statusOpenValue)
-										{
-											int num20 = 0;
-											if (status == this.statusClosedValue)
-											{
-												num20 = num9;
-											}
-											if (this.calcGrid[num15].knownCost <= num19 + num20)
-											{
-												goto IL_DCD;
-											}
-										}
-										if (status != this.statusClosedValue && status != this.statusOpenValue)
-										{
-											if (flag9)
-											{
-												this.calcGrid[num15].heuristicCost = Mathf.RoundToInt((float)this.regionCostCalculator.GetPathCostFromDestToRegion(num15) * PathFinder.RegionHeuristicWeightByNodesOpened.Evaluate((float)num4));
-											}
-											else
-											{
-												int dx = Math.Abs(num13 - x);
-												int dz = Math.Abs(num14 - z);
-												int num21 = GenMath.OctileDistance(dx, dz, num9, num10);
-												this.calcGrid[num15].heuristicCost = Mathf.RoundToInt((float)num21 * num8);
-											}
-										}
-										int num22 = num19 + this.calcGrid[num15].heuristicCost;
-										this.calcGrid[num15].parentIndex = num;
-										this.calcGrid[num15].knownCost = num19;
-										this.calcGrid[num15].status = this.statusOpenValue;
-										this.calcGrid[num15].costNodeCost = num22;
-										num4++;
-										this.openList.Push(new PathFinder.CostNode(num15, num22));
+										num16 += (int)((float)building.HitPoints * 0.2f);
 									}
+									if (i > 3)
+									{
+										switch (i)
+										{
+										case 4:
+											if (this.BlocksDiagonalMovement(num - this.mapSizeX))
+											{
+												if (flag8)
+												{
+													if (flag6)
+													{
+														this.DebugFlash(new IntVec3(x2, 0, z2 - 1), 0.9f, "corn");
+													}
+													goto IL_D53;
+												}
+												num16 += 70;
+											}
+											if (this.BlocksDiagonalMovement(num + 1))
+											{
+												if (flag8)
+												{
+													if (flag6)
+													{
+														this.DebugFlash(new IntVec3(x2 + 1, 0, z2), 0.9f, "corn");
+													}
+													goto IL_D53;
+												}
+												num16 += 70;
+											}
+											break;
+										case 5:
+											if (this.BlocksDiagonalMovement(num + this.mapSizeX))
+											{
+												if (flag8)
+												{
+													if (flag6)
+													{
+														this.DebugFlash(new IntVec3(x2, 0, z2 + 1), 0.9f, "corn");
+													}
+													goto IL_D53;
+												}
+												num16 += 70;
+											}
+											if (this.BlocksDiagonalMovement(num + 1))
+											{
+												if (flag8)
+												{
+													if (flag6)
+													{
+														this.DebugFlash(new IntVec3(x2 + 1, 0, z2), 0.9f, "corn");
+													}
+													goto IL_D53;
+												}
+												num16 += 70;
+											}
+											break;
+										case 6:
+											if (this.BlocksDiagonalMovement(num + this.mapSizeX))
+											{
+												if (flag8)
+												{
+													if (flag6)
+													{
+														this.DebugFlash(new IntVec3(x2, 0, z2 + 1), 0.9f, "corn");
+													}
+													goto IL_D53;
+												}
+												num16 += 70;
+											}
+											if (this.BlocksDiagonalMovement(num - 1))
+											{
+												if (flag8)
+												{
+													if (flag6)
+													{
+														this.DebugFlash(new IntVec3(x2 - 1, 0, z2), 0.9f, "corn");
+													}
+													goto IL_D53;
+												}
+												num16 += 70;
+											}
+											break;
+										case 7:
+											if (this.BlocksDiagonalMovement(num - this.mapSizeX))
+											{
+												if (flag8)
+												{
+													if (flag6)
+													{
+														this.DebugFlash(new IntVec3(x2, 0, z2 - 1), 0.9f, "corn");
+													}
+													goto IL_D53;
+												}
+												num16 += 70;
+											}
+											if (this.BlocksDiagonalMovement(num - 1))
+											{
+												if (flag8)
+												{
+													if (flag6)
+													{
+														this.DebugFlash(new IntVec3(x2 - 1, 0, z2), 0.9f, "corn");
+													}
+													goto IL_D53;
+												}
+												num16 += 70;
+											}
+											break;
+										}
+									}
+									int num17 = (i <= 3) ? num9 : num10;
+									num17 += num16;
+									if (!flag12)
+									{
+										num17 += array[num15];
+										if (flag10)
+										{
+											num17 += topGrid[num15].extraDraftedPerceivedPathCost;
+										}
+										else
+										{
+											num17 += topGrid[num15].extraNonDraftedPerceivedPathCost;
+										}
+									}
+									if (byteGrid != null)
+									{
+										num17 += (int)(byteGrid[num15] * 8);
+									}
+									if (allowedArea != null && !allowedArea[num15])
+									{
+										num17 += 600;
+									}
+									if (flag5 && PawnUtility.AnyPawnBlockingPathAt(new IntVec3(num13, 0, num14), pawn, false, false, true))
+									{
+										num17 += 175;
+									}
+									Building building2 = this.edificeGrid[num15];
+									if (building2 != null)
+									{
+										this.PfProfilerBeginSample("Edifices");
+										int buildingCost = PathFinder.GetBuildingCost(building2, traverseParms, pawn);
+										if (buildingCost == 2147483647)
+										{
+											this.PfProfilerEndSample();
+											goto IL_D53;
+										}
+										num17 += buildingCost;
+										this.PfProfilerEndSample();
+									}
+									List<Blueprint> list = this.blueprintGrid[num15];
+									if (list != null)
+									{
+										this.PfProfilerBeginSample("Blueprints");
+										int num18 = 0;
+										for (int j = 0; j < list.Count; j++)
+										{
+											num18 = Mathf.Max(num18, PathFinder.GetBlueprintCost(list[j], pawn));
+										}
+										if (num18 == 2147483647)
+										{
+											this.PfProfilerEndSample();
+											goto IL_D53;
+										}
+										num17 += num18;
+										this.PfProfilerEndSample();
+									}
+									int num19 = num17 + this.calcGrid[num].knownCost;
+									ushort status = this.calcGrid[num15].status;
+									if (status == this.statusClosedValue || status == this.statusOpenValue)
+									{
+										int num20 = 0;
+										if (status == this.statusClosedValue)
+										{
+											num20 = num9;
+										}
+										if (this.calcGrid[num15].knownCost <= num19 + num20)
+										{
+											goto IL_D53;
+										}
+									}
+									if (status != this.statusClosedValue && status != this.statusOpenValue)
+									{
+										if (flag9)
+										{
+											this.calcGrid[num15].heuristicCost = Mathf.RoundToInt((float)this.regionCostCalculator.GetPathCostFromDestToRegion(num15) * PathFinder.RegionHeuristicWeightByNodesOpened.Evaluate((float)num4));
+										}
+										else
+										{
+											int dx = Math.Abs(num13 - x);
+											int dz = Math.Abs(num14 - z);
+											int num21 = GenMath.OctileDistance(dx, dz, num9, num10);
+											this.calcGrid[num15].heuristicCost = Mathf.RoundToInt((float)num21 * num8);
+										}
+									}
+									int num22 = num19 + this.calcGrid[num15].heuristicCost;
+									this.calcGrid[num15].parentIndex = num;
+									this.calcGrid[num15].knownCost = num19;
+									this.calcGrid[num15].status = this.statusOpenValue;
+									this.calcGrid[num15].costNodeCost = num22;
+									num4++;
+									this.openList.Push(new PathFinder.CostNode(num15, num22));
 								}
 							}
-							IL_DCD:;
 						}
-						this.PfProfilerEndSample();
-						num3++;
-						this.calcGrid[num].status = this.statusClosedValue;
-						if (num4 >= num5 && flag7 && !flag9)
-						{
-							flag9 = true;
-							this.regionCostCalculator.Init(cellRect, traverseParms, num9, num10, byteGrid, allowedArea, flag10, this.disallowedCornerIndices);
-							this.InitStatusesAndPushStartNode(ref num, start);
-							num4 = 0;
-							num3 = 0;
-						}
+						IL_D53:;
+					}
+					this.PfProfilerEndSample();
+					num3++;
+					this.calcGrid[num].status = this.statusClosedValue;
+					if (num4 >= num5 && flag7 && !flag9)
+					{
+						flag9 = true;
+						this.regionCostCalculator.Init(cellRect, traverseParms, num9, num10, byteGrid, allowedArea, flag10, this.disallowedCornerIndices);
+						this.InitStatusesAndPushStartNode(ref num, start);
+						num4 = 0;
+						num3 = 0;
 					}
 				}
-				string text = (pawn == null || pawn.CurJob == null) ? "null" : pawn.CurJob.ToString();
-				string text2 = (pawn == null || pawn.Faction == null) ? "null" : pawn.Faction.ToString();
-				Log.Warning(string.Concat(new object[]
-				{
-					pawn,
-					" pathing from ",
-					start,
-					" to ",
-					dest,
-					" ran out of cells to process.\nJob:",
-					text,
-					"\nFaction: ",
-					text2
-				}), false);
-				this.DebugDrawRichData();
-				this.PfProfilerEndSample();
-				return PawnPath.NotFound;
-				Block_32:
-				this.PfProfilerEndSample();
-				PawnPath result = this.FinalizedPath(num);
-				this.PfProfilerEndSample();
-				return result;
-				Block_34:
-				this.PfProfilerEndSample();
-				PawnPath result2 = this.FinalizedPath(num);
-				this.PfProfilerEndSample();
-				return result2;
-				Block_35:
-				Log.Warning(string.Concat(new object[]
-				{
-					pawn,
-					" pathing from ",
-					start,
-					" to ",
-					dest,
-					" hit search limit of ",
-					160000,
-					" cells."
-				}), false);
-				this.DebugDrawRichData();
-				this.PfProfilerEndSample();
-				notFound = PawnPath.NotFound;
 			}
-			return notFound;
+			string text = (pawn == null || pawn.CurJob == null) ? "null" : pawn.CurJob.ToString();
+			string text2 = (pawn == null || pawn.Faction == null) ? "null" : pawn.Faction.ToString();
+			Log.Warning(string.Concat(new object[]
+			{
+				pawn,
+				" pathing from ",
+				start,
+				" to ",
+				dest,
+				" ran out of cells to process.\nJob:",
+				text,
+				"\nFaction: ",
+				text2
+			}), false);
+			this.DebugDrawRichData();
+			this.PfProfilerEndSample();
+			return PawnPath.NotFound;
+			Block_32:
+			this.PfProfilerEndSample();
+			PawnPath result = this.FinalizedPath(num, flag9);
+			this.PfProfilerEndSample();
+			return result;
+			Block_34:
+			this.PfProfilerEndSample();
+			PawnPath result2 = this.FinalizedPath(num, flag9);
+			this.PfProfilerEndSample();
+			return result2;
+			Block_35:
+			Log.Warning(string.Concat(new object[]
+			{
+				pawn,
+				" pathing from ",
+				start,
+				" to ",
+				dest,
+				" hit search limit of ",
+				160000,
+				" cells."
+			}), false);
+			this.DebugDrawRichData();
+			this.PfProfilerEndSample();
+			return PawnPath.NotFound;
 		}
 
 		public static int GetBuildingCost(Building b, TraverseParms traverseParms, Pawn pawn)
@@ -605,13 +608,13 @@ namespace Verse.AI
 						}
 						return int.MaxValue;
 					}
-					if (building_Door.FreePassage)
-					{
-						return 0;
-					}
-					if (building_Door.PawnCanOpen(pawn))
+					if (building_Door.PawnCanOpen(pawn) && !building_Door.FreePassage)
 					{
 						return building_Door.TicksToOpenNow;
+					}
+					if (building_Door.CanPhysicallyPass(pawn))
+					{
+						return 0;
 					}
 					if (traverseParms.canBash)
 					{
@@ -623,13 +626,13 @@ namespace Verse.AI
 					}
 					return int.MaxValue;
 				case TraverseMode.PassDoors:
-					if (building_Door.FreePassage)
-					{
-						return 0;
-					}
-					if (pawn != null && building_Door.PawnCanOpen(pawn) && !building_Door.IsForbiddenToPass(pawn))
+					if (pawn != null && building_Door.PawnCanOpen(pawn) && !building_Door.IsForbiddenToPass(pawn) && !building_Door.FreePassage)
 					{
 						return building_Door.TicksToOpenNow;
+					}
+					if (building_Door.CanPhysicallyPass(pawn))
+					{
+						return 0;
 					}
 					return 150;
 				case TraverseMode.NoPassClosedDoors:
@@ -641,13 +644,13 @@ namespace Verse.AI
 					return int.MaxValue;
 				case TraverseMode.PassAllDestroyableThings:
 				case TraverseMode.PassAllDestroyableThingsNotWater:
-					if (building_Door.FreePassage)
-					{
-						return 0;
-					}
-					if (pawn != null && building_Door.PawnCanOpen(pawn) && !building_Door.IsForbiddenToPass(pawn))
+					if (pawn != null && building_Door.PawnCanOpen(pawn) && !building_Door.IsForbiddenToPass(pawn) && !building_Door.FreePassage)
 					{
 						return building_Door.TicksToOpenNow;
+					}
+					if (building_Door.CanPhysicallyPass(pawn))
+					{
+						return 0;
 					}
 					return 50 + (int)((float)building_Door.HitPoints * 0.2f);
 				}
@@ -661,16 +664,11 @@ namespace Verse.AI
 
 		public static int GetBlueprintCost(Blueprint b, Pawn pawn)
 		{
-			int result;
 			if (pawn != null)
 			{
-				result = (int)b.PathFindCostFor(pawn);
+				return (int)b.PathFindCostFor(pawn);
 			}
-			else
-			{
-				result = 0;
-			}
-			return result;
+			return 0;
 		}
 
 		public static bool IsDestroyable(Thing th)
@@ -708,7 +706,7 @@ namespace Verse.AI
 			map.debugDrawer.FlashCell(c, colorPct, str, 50);
 		}
 
-		private PawnPath FinalizedPath(int finalIndex)
+		private PawnPath FinalizedPath(int finalIndex, bool usedRegionHeuristics)
 		{
 			PawnPath emptyPawnPath = this.map.pawnPathPool.GetEmptyPawnPath();
 			int num = finalIndex;
@@ -723,7 +721,7 @@ namespace Verse.AI
 				}
 				num = parentIndex;
 			}
-			emptyPawnPath.SetupFound((float)this.calcGrid[finalIndex].knownCost);
+			emptyPawnPath.SetupFound((float)this.calcGrid[finalIndex].knownCost, usedRegionHeuristics);
 			return emptyPawnPath;
 		}
 
@@ -781,17 +779,12 @@ namespace Verse.AI
 
 		private float DetermineHeuristicStrength(Pawn pawn, IntVec3 start, LocalTargetInfo dest)
 		{
-			float result;
 			if (pawn != null && pawn.RaceProps.Animal)
 			{
-				result = 1.75f;
+				return 1.75f;
 			}
-			else
-			{
-				float lengthHorizontal = (start - dest.Cell).LengthHorizontal;
-				result = (float)Mathf.RoundToInt(PathFinder.NonRegionBasedHeuristicStrengthHuman_DistanceCurve.Evaluate(lengthHorizontal));
-			}
-			return result;
+			float lengthHorizontal = (start - dest.Cell).LengthHorizontal;
+			return (float)Mathf.RoundToInt(PathFinder.NonRegionBasedHeuristicStrengthHuman_DistanceCurve.Evaluate(lengthHorizontal));
 		}
 
 		private CellRect CalculateDestinationRect(LocalTargetInfo dest, PathEndMode peMode)
@@ -814,7 +807,6 @@ namespace Verse.AI
 
 		private Area GetAllowedArea(Pawn pawn)
 		{
-			Area result;
 			if (pawn != null && pawn.playerSettings != null && !pawn.Drafted && ForbidUtility.CaresAboutForbidden(pawn, true))
 			{
 				Area area = pawn.playerSettings.EffectiveAreaRestrictionInPawnCurrentMap;
@@ -822,13 +814,9 @@ namespace Verse.AI
 				{
 					area = null;
 				}
-				result = area;
+				return area;
 			}
-			else
-			{
-				result = null;
-			}
-			return result;
+			return null;
 		}
 
 		private void CalculateAndAddDisallowedCorners(TraverseParms traverseParms, PathEndMode peMode, CellRect destinationRect)

@@ -20,7 +20,7 @@ namespace Verse
 				throw new ArgumentNullException("p");
 			}
 			List<DebugMenuOption> list = new List<DebugMenuOption>();
-			foreach (BodyPartRecord localPart2 in p.health.hediffSet.GetNotMissingParts(BodyPartHeight.Undefined, BodyPartDepth.Undefined, null))
+			foreach (BodyPartRecord localPart2 in p.health.hediffSet.GetNotMissingParts(BodyPartHeight.Undefined, BodyPartDepth.Undefined, null, null))
 			{
 				BodyPartRecord localPart = localPart2;
 				list.Add(new DebugMenuOption(localPart.LabelCap, DebugMenuOptionMode.Action, delegate()
@@ -125,7 +125,7 @@ namespace Verse
 			foreach (Hediff localH2 in pawn.health.hediffSet.hediffs)
 			{
 				Hediff localH = localH2;
-				list.Add(new DebugMenuOption(localH.LabelCap + ((localH.Part == null) ? "" : (" (" + localH.Part.def + ")")), DebugMenuOptionMode.Action, delegate()
+				list.Add(new DebugMenuOption(localH.LabelCap + ((localH.Part == null) ? string.Empty : (" (" + localH.Part.def + ")")), DebugMenuOptionMode.Action, delegate()
 				{
 					pawn.health.RemoveHediff(localH);
 				}));

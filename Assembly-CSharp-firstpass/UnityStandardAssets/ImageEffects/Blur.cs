@@ -13,9 +13,9 @@ namespace UnityStandardAssets.ImageEffects
 		[Range(0f, 1f)]
 		public float blurSpread = 0.6f;
 
-		public Shader blurShader = null;
+		public Shader blurShader;
 
-		private static Material m_Material = null;
+		private static Material m_Material;
 
 		public Blur()
 		{
@@ -47,10 +47,12 @@ namespace UnityStandardAssets.ImageEffects
 			if (!SystemInfo.supportsImageEffects)
 			{
 				base.enabled = false;
+				return;
 			}
-			else if (!this.blurShader || !this.material.shader.isSupported)
+			if (!this.blurShader || !this.material.shader.isSupported)
 			{
 				base.enabled = false;
+				return;
 			}
 		}
 

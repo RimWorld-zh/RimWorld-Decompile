@@ -181,10 +181,15 @@ namespace RimWorld
 			return (num - (int)(QuadrumUtility.FirstQuadrum.GetFirstTwelfth() * RimWorld.Twelfth.Sixth)) % 15;
 		}
 
-		public static float DayPercent(long absTicks, float longitude)
+		public static int DayTick(long absTicks, float longitude)
 		{
 			long x = absTicks + GenDate.LocalTicksOffsetFromLongitude(longitude);
-			int num = (int)GenMath.PositiveMod(x, 60000L);
+			return (int)GenMath.PositiveMod(x, 60000L);
+		}
+
+		public static float DayPercent(long absTicks, float longitude)
+		{
+			int num = GenDate.DayTick(absTicks, longitude);
 			if (num == 0)
 			{
 				num = 1;
@@ -283,35 +288,26 @@ namespace RimWorld
 		public static string ToStringTicksToDays(this int numTicks, string format = "F1")
 		{
 			string text = numTicks.TicksToDays().ToString(format);
-			string result;
 			if (text == "1")
 			{
-				result = "Period1Day".Translate();
+				return "Period1Day".Translate();
 			}
-			else
-			{
-				result = text + " " + "DaysLower".Translate();
-			}
-			return result;
+			return text + " " + "DaysLower".Translate();
 		}
 
 		public static string ToStringTicksToPeriod(this int numTicks)
 		{
-			string result;
 			if (numTicks < 2500 && (numTicks < 600 || Math.Round((double)((float)numTicks / 2500f), 1) == 0.0))
 			{
 				int num = Mathf.RoundToInt((float)numTicks / 60f);
 				if (num == 1)
 				{
-					result = "Period1Second".Translate();
+					return "Period1Second".Translate();
 				}
-				else
+				return "PeriodSeconds".Translate(new object[]
 				{
-					result = "PeriodSeconds".Translate(new object[]
-					{
-						num
-					});
-				}
+					num
+				});
 			}
 			else if (numTicks < 60000)
 			{
@@ -320,30 +316,24 @@ namespace RimWorld
 					string text = ((float)numTicks / 2500f).ToString("0.#");
 					if (text == "1")
 					{
-						result = "Period1Hour".Translate();
+						return "Period1Hour".Translate();
 					}
-					else
+					return "PeriodHours".Translate(new object[]
 					{
-						result = "PeriodHours".Translate(new object[]
-						{
-							text
-						});
-					}
+						text
+					});
 				}
 				else
 				{
 					int num2 = Mathf.RoundToInt((float)numTicks / 2500f);
 					if (num2 == 1)
 					{
-						result = "Period1Hour".Translate();
+						return "Period1Hour".Translate();
 					}
-					else
+					return "PeriodHours".Translate(new object[]
 					{
-						result = "PeriodHours".Translate(new object[]
-						{
-							num2
-						});
-					}
+						num2
+					});
 				}
 			}
 			else if (numTicks < 3600000)
@@ -351,203 +341,180 @@ namespace RimWorld
 				string text2 = ((float)numTicks / 60000f).ToStringDecimalIfSmall();
 				if (text2 == "1")
 				{
-					result = "Period1Day".Translate();
+					return "Period1Day".Translate();
 				}
-				else
+				return "PeriodDays".Translate(new object[]
 				{
-					result = "PeriodDays".Translate(new object[]
-					{
-						text2
-					});
-				}
+					text2
+				});
 			}
 			else
 			{
 				string text3 = ((float)numTicks / 3600000f).ToStringDecimalIfSmall();
 				if (text3 == "1")
 				{
-					result = "Period1Year".Translate();
+					return "Period1Year".Translate();
 				}
-				else
+				return "PeriodYears".Translate(new object[]
 				{
-					result = "PeriodYears".Translate(new object[]
-					{
-						text3
-					});
-				}
+					text3
+				});
 			}
-			return result;
 		}
 
 		public static string ToStringTicksToPeriodVerbose(this int numTicks, bool allowHours = true, bool allowQuadrums = true)
 		{
-			string result;
 			if (numTicks < 0)
 			{
-				result = "0";
+				return "0";
 			}
-			else
+			int num;
+			int num2;
+			int num3;
+			float num4;
+			numTicks.TicksToPeriod(out num, out num2, out num3, out num4);
+			if (!allowQuadrums)
 			{
-				int num;
-				int num2;
-				int num3;
-				float num4;
-				numTicks.TicksToPeriod(out num, out num2, out num3, out num4);
-				if (!allowQuadrums)
+				num3 += 15 * num2;
+				num2 = 0;
+			}
+			if (num > 0)
+			{
+				string text;
+				if (num == 1)
 				{
-					num3 += 15 * num2;
-					num2 = 0;
+					text = "Period1Year".Translate();
 				}
-				if (num > 0)
+				else
 				{
-					string text;
-					if (num == 1)
+					text = "PeriodYears".Translate(new object[]
 					{
-						text = "Period1Year".Translate();
-					}
-					else
-					{
-						text = "PeriodYears".Translate(new object[]
-						{
-							num
-						});
-					}
-					if (num2 > 0)
-					{
-						text += ", ";
-						if (num2 == 1)
-						{
-							text += "Period1Quadrum".Translate();
-						}
-						else
-						{
-							text += "PeriodQuadrums".Translate(new object[]
-							{
-								num2
-							});
-						}
-					}
-					result = text;
+						num
+					});
 				}
-				else if (num2 > 0)
+				if (num2 > 0)
 				{
-					string text2;
+					text += ", ";
 					if (num2 == 1)
 					{
-						text2 = "Period1Quadrum".Translate();
+						text += "Period1Quadrum".Translate();
 					}
 					else
 					{
-						text2 = "PeriodQuadrums".Translate(new object[]
+						text += "PeriodQuadrums".Translate(new object[]
 						{
 							num2
 						});
 					}
-					if (num3 > 0)
-					{
-						text2 += ", ";
-						if (num3 == 1)
-						{
-							text2 += "Period1Day".Translate();
-						}
-						else
-						{
-							text2 += "PeriodDays".Translate(new object[]
-							{
-								num3
-							});
-						}
-					}
-					result = text2;
 				}
-				else if (num3 > 0)
+				return text;
+			}
+			if (num2 > 0)
+			{
+				string text2;
+				if (num2 == 1)
 				{
-					string text3;
+					text2 = "Period1Quadrum".Translate();
+				}
+				else
+				{
+					text2 = "PeriodQuadrums".Translate(new object[]
+					{
+						num2
+					});
+				}
+				if (num3 > 0)
+				{
+					text2 += ", ";
 					if (num3 == 1)
 					{
-						text3 = "Period1Day".Translate();
+						text2 += "Period1Day".Translate();
 					}
 					else
 					{
-						text3 = "PeriodDays".Translate(new object[]
+						text2 += "PeriodDays".Translate(new object[]
 						{
 							num3
 						});
 					}
-					int num5 = (int)num4;
-					if (allowHours && num5 > 0)
-					{
-						text3 += ", ";
-						if (num5 == 1)
-						{
-							text3 += "Period1Hour".Translate();
-						}
-						else
-						{
-							text3 += "PeriodHours".Translate(new object[]
-							{
-								num5
-							});
-						}
-					}
-					result = text3;
 				}
-				else if (allowHours)
+				return text2;
+			}
+			if (num3 > 0)
+			{
+				string text3;
+				if (num3 == 1)
 				{
-					if (num4 > 1f)
-					{
-						int num6 = Mathf.RoundToInt(num4);
-						if (num6 == 1)
-						{
-							result = "Period1Hour".Translate();
-						}
-						else
-						{
-							result = "PeriodHours".Translate(new object[]
-							{
-								num6
-							});
-						}
-					}
-					else if (Math.Round((double)num4, 1) == 1.0)
-					{
-						result = "Period1Hour".Translate();
-					}
-					else
-					{
-						result = "PeriodHours".Translate(new object[]
-						{
-							num4.ToString("0.#")
-						});
-					}
+					text3 = "Period1Day".Translate();
 				}
 				else
 				{
-					result = "PeriodDays".Translate(new object[]
+					text3 = "PeriodDays".Translate(new object[]
 					{
-						0
+						num3
 					});
 				}
+				int num5 = (int)num4;
+				if (allowHours && num5 > 0)
+				{
+					text3 += ", ";
+					if (num5 == 1)
+					{
+						text3 += "Period1Hour".Translate();
+					}
+					else
+					{
+						text3 += "PeriodHours".Translate(new object[]
+						{
+							num5
+						});
+					}
+				}
+				return text3;
 			}
-			return result;
+			if (!allowHours)
+			{
+				return "PeriodDays".Translate(new object[]
+				{
+					0
+				});
+			}
+			if (num4 > 1f)
+			{
+				int num6 = Mathf.RoundToInt(num4);
+				if (num6 == 1)
+				{
+					return "Period1Hour".Translate();
+				}
+				return "PeriodHours".Translate(new object[]
+				{
+					num6
+				});
+			}
+			else
+			{
+				if (Math.Round((double)num4, 1) == 1.0)
+				{
+					return "Period1Hour".Translate();
+				}
+				return "PeriodHours".Translate(new object[]
+				{
+					num4.ToString("0.#")
+				});
+			}
 		}
 
 		public static string ToStringTicksToPeriodVague(this int numTicks, bool vagueMin = true, bool vagueMax = true)
 		{
-			string result;
 			if (vagueMax && numTicks > 36000000)
 			{
-				result = "OverADecade".Translate();
+				return "OverADecade".Translate();
 			}
-			else if (vagueMin && numTicks < 60000)
+			if (vagueMin && numTicks < 60000)
 			{
-				result = "LessThanADay".Translate();
+				return "LessThanADay".Translate();
 			}
-			else
-			{
-				result = numTicks.ToStringTicksToPeriod();
-			}
-			return result;
+			return numTicks.ToStringTicksToPeriod();
 		}
 
 		public static void TicksToPeriod(this int numTicks, out int years, out int quadrums, out int days, out float hoursFloat)
@@ -572,79 +539,62 @@ namespace RimWorld
 
 		public static string ToStringApproxAge(this float yearsFloat)
 		{
-			string result;
 			if (yearsFloat >= 1f)
 			{
-				result = ((int)yearsFloat).ToStringCached();
+				return ((int)yearsFloat).ToStringCached();
+			}
+			int num = (int)(yearsFloat * 3600000f);
+			num = Mathf.Min(num, 3599999);
+			int num2;
+			int num3;
+			int num4;
+			float num5;
+			num.TicksToPeriod(out num2, out num3, out num4, out num5);
+			if (num2 > 0)
+			{
+				if (num2 == 1)
+				{
+					return "Period1Year".Translate();
+				}
+				return "PeriodYears".Translate(new object[]
+				{
+					num2
+				});
+			}
+			else if (num3 > 0)
+			{
+				if (num3 == 1)
+				{
+					return "Period1Quadrum".Translate();
+				}
+				return "PeriodQuadrums".Translate(new object[]
+				{
+					num3
+				});
+			}
+			else if (num4 > 0)
+			{
+				if (num4 == 1)
+				{
+					return "Period1Day".Translate();
+				}
+				return "PeriodDays".Translate(new object[]
+				{
+					num4
+				});
 			}
 			else
 			{
-				int num = (int)(yearsFloat * 3600000f);
-				num = Mathf.Min(num, 3599999);
-				int num2;
-				int num3;
-				int num4;
-				float num5;
-				num.TicksToPeriod(out num2, out num3, out num4, out num5);
-				if (num2 > 0)
+				int num6 = (int)num5;
+				if (num6 == 1)
 				{
-					if (num2 == 1)
-					{
-						result = "Period1Year".Translate();
-					}
-					else
-					{
-						result = "PeriodYears".Translate(new object[]
-						{
-							num2
-						});
-					}
+					return "Period1Hour".Translate();
 				}
-				else if (num3 > 0)
+				return "PeriodHours".Translate(new object[]
 				{
-					if (num3 == 1)
-					{
-						result = "Period1Quadrum".Translate();
-					}
-					else
-					{
-						result = "PeriodQuadrums".Translate(new object[]
-						{
-							num3
-						});
-					}
-				}
-				else if (num4 > 0)
-				{
-					if (num4 == 1)
-					{
-						result = "Period1Day".Translate();
-					}
-					else
-					{
-						result = "PeriodDays".Translate(new object[]
-						{
-							num4
-						});
-					}
-				}
-				else
-				{
-					int num6 = (int)num5;
-					if (num6 == 1)
-					{
-						result = "Period1Hour".Translate();
-					}
-					else
-					{
-						result = "PeriodHours".Translate(new object[]
-						{
-							num6
-						});
-					}
-				}
+					num6
+				});
 			}
-			return result;
 		}
 
 		public static int TimeZoneAt(float longitude)

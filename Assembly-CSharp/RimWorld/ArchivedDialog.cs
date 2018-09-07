@@ -4,8 +4,10 @@ using Verse;
 
 namespace RimWorld
 {
-	public class ArchivedDialog : IArchivable, IExposable
+	public class ArchivedDialog : IArchivable, IExposable, ILoadReferenceable
 	{
+		public int ID;
+
 		public string text;
 
 		public string title;
@@ -24,6 +26,14 @@ namespace RimWorld
 			this.title = title;
 			this.relatedFaction = relatedFaction;
 			this.createdTick = GenTicks.TicksGame;
+			if (Find.UniqueIDsManager != null)
+			{
+				this.ID = Find.UniqueIDsManager.GetNextArchivedDialogID();
+			}
+			else
+			{
+				this.ID = Rand.Int;
+			}
 		}
 
 		Texture IArchivable.ArchivedIcon
@@ -97,10 +107,16 @@ namespace RimWorld
 
 		public void ExposeData()
 		{
+			Scribe_Values.Look<int>(ref this.ID, "ID", 0, false);
 			Scribe_Values.Look<string>(ref this.text, "text", null, false);
 			Scribe_Values.Look<string>(ref this.title, "title", null, false);
 			Scribe_References.Look<Faction>(ref this.relatedFaction, "relatedFaction", false);
 			Scribe_Values.Look<int>(ref this.createdTick, "createdTick", 0, false);
+		}
+
+		public string GetUniqueLoadID()
+		{
+			return "ArchivedDialog_" + this.ID;
 		}
 	}
 }

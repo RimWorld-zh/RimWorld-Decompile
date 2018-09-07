@@ -22,7 +22,7 @@ namespace Verse
 
 		private float listingViewHeight;
 
-		private bool borderDragging = false;
+		private bool borderDragging;
 
 		private const float CountWidth = 28f;
 
@@ -77,13 +77,14 @@ namespace Verse
 			}
 			set
 			{
-				if (EditWindow_Log.selectedMessage != value)
+				if (EditWindow_Log.selectedMessage == value)
 				{
-					EditWindow_Log.selectedMessage = value;
-					if (UnityData.IsInMainThread && GUI.GetNameOfFocusedControl() == EditWindow_Log.MessageDetailsControlName)
-					{
-						UI.UnfocusCurrentControl();
-					}
+					return;
+				}
+				EditWindow_Log.selectedMessage = value;
+				if (UnityData.IsInMainThread && GUI.GetNameOfFocusedControl() == EditWindow_Log.MessageDetailsControlName)
+				{
+					UI.UnfocusCurrentControl();
 				}
 			}
 		}
@@ -148,12 +149,12 @@ namespace Verse
 			}
 			if (EditWindow_Log.canAutoOpen)
 			{
-				if (widgetRow.ButtonText("Auto-open is ON", "", true, false))
+				if (widgetRow.ButtonText("Auto-open is ON", string.Empty, true, false))
 				{
 					EditWindow_Log.canAutoOpen = false;
 				}
 			}
-			else if (widgetRow.ButtonText("Auto-open is OFF", "", true, false))
+			else if (widgetRow.ButtonText("Auto-open is OFF", string.Empty, true, false))
 			{
 				EditWindow_Log.canAutoOpen = true;
 			}
@@ -236,35 +237,36 @@ namespace Verse
 
 		private void DoMessageDetails(Rect detailsRect, Rect outRect)
 		{
-			if (EditWindow_Log.selectedMessage != null)
+			if (EditWindow_Log.selectedMessage == null)
 			{
-				Rect rect = detailsRect;
-				rect.height = 7f;
-				Rect rect2 = detailsRect;
-				rect2.yMin = rect.yMax;
-				GUI.DrawTexture(rect, EditWindow_Log.StackTraceBorderTex);
-				if (Mouse.IsOver(rect))
-				{
-					Widgets.DrawHighlight(rect);
-				}
-				if (Event.current.type == EventType.MouseDown && Mouse.IsOver(rect))
-				{
-					this.borderDragging = true;
-					Event.current.Use();
-				}
-				if (this.borderDragging)
-				{
-					EditWindow_Log.detailsPaneHeight = outRect.height + Mathf.Round(3.5f) - Event.current.mousePosition.y;
-				}
-				if (Event.current.rawType == EventType.MouseUp)
-				{
-					this.borderDragging = false;
-				}
-				GUI.DrawTexture(rect2, EditWindow_Log.StackTraceAreaTex);
-				string text = EditWindow_Log.selectedMessage.text + "\n" + EditWindow_Log.selectedMessage.StackTrace;
-				GUI.SetNextControlName(EditWindow_Log.MessageDetailsControlName);
-				Widgets.TextAreaScrollable(rect2, text, ref EditWindow_Log.detailsScrollPosition, true);
+				return;
 			}
+			Rect rect = detailsRect;
+			rect.height = 7f;
+			Rect rect2 = detailsRect;
+			rect2.yMin = rect.yMax;
+			GUI.DrawTexture(rect, EditWindow_Log.StackTraceBorderTex);
+			if (Mouse.IsOver(rect))
+			{
+				Widgets.DrawHighlight(rect);
+			}
+			if (Event.current.type == EventType.MouseDown && Mouse.IsOver(rect))
+			{
+				this.borderDragging = true;
+				Event.current.Use();
+			}
+			if (this.borderDragging)
+			{
+				EditWindow_Log.detailsPaneHeight = outRect.height + Mathf.Round(3.5f) - Event.current.mousePosition.y;
+			}
+			if (Event.current.rawType == EventType.MouseUp)
+			{
+				this.borderDragging = false;
+			}
+			GUI.DrawTexture(rect2, EditWindow_Log.StackTraceAreaTex);
+			string text = EditWindow_Log.selectedMessage.text + "\n" + EditWindow_Log.selectedMessage.StackTrace;
+			GUI.SetNextControlName(EditWindow_Log.MessageDetailsControlName);
+			Widgets.TextAreaScrollable(rect2, text, ref EditWindow_Log.detailsScrollPosition, true);
 		}
 
 		private void CopyAllMessagesToClipboard()

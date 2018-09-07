@@ -27,52 +27,37 @@ namespace RimWorld
 				float timePassedFactor = Mathf.Clamp(GenMath.LerpDouble(0f, 1.2f, 1f, 0.1f, x2), 0.1f, 1f);
 				return IncidentWorker_ShipChunkDrop.CountChance.RandomElementByWeight(delegate(Pair<int, float> x)
 				{
-					float result;
 					if (x.First == 1)
 					{
-						result = x.Second;
+						return x.Second;
 					}
-					else
-					{
-						result = x.Second * timePassedFactor;
-					}
-					return result;
+					return x.Second * timePassedFactor;
 				}).First;
 			}
 		}
 
 		protected override bool CanFireNowSub(IncidentParms parms)
 		{
-			bool result;
 			if (!base.CanFireNowSub(parms))
 			{
-				result = false;
+				return false;
 			}
-			else
-			{
-				Map map = (Map)parms.target;
-				IntVec3 intVec;
-				result = this.TryFindShipChunkDropCell(map.Center, map, 999999, out intVec);
-			}
-			return result;
+			Map map = (Map)parms.target;
+			IntVec3 intVec;
+			return this.TryFindShipChunkDropCell(map.Center, map, 999999, out intVec);
 		}
 
 		protected override bool TryExecuteWorker(IncidentParms parms)
 		{
 			Map map = (Map)parms.target;
 			IntVec3 intVec;
-			bool result;
 			if (!this.TryFindShipChunkDropCell(map.Center, map, 999999, out intVec))
 			{
-				result = false;
+				return false;
 			}
-			else
-			{
-				this.SpawnShipChunks(intVec, map, this.RandomCountToDrop);
-				Messages.Message("MessageShipChunkDrop".Translate(), new TargetInfo(intVec, map, false), MessageTypeDefOf.NeutralEvent, true);
-				result = true;
-			}
-			return result;
+			this.SpawnShipChunks(intVec, map, this.RandomCountToDrop);
+			Messages.Message("MessageShipChunkDrop".Translate(), new TargetInfo(intVec, map, false), MessageTypeDefOf.NeutralEvent, true);
+			return true;
 		}
 
 		private void SpawnShipChunks(IntVec3 firstChunkPos, Map map, int count)
@@ -116,16 +101,11 @@ namespace RimWorld
 
 			internal float <>m__0(Pair<int, float> x)
 			{
-				float result;
 				if (x.First == 1)
 				{
-					result = x.Second;
+					return x.Second;
 				}
-				else
-				{
-					result = x.Second * this.timePassedFactor;
-				}
-				return result;
+				return x.Second * this.timePassedFactor;
 			}
 		}
 	}

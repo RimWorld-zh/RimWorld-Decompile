@@ -57,30 +57,29 @@ namespace Verse
 					". Destroying."
 				}), false);
 				t.Destroy(DestroyMode.Vanish);
+				return;
 			}
-			else
-			{
-				this.thingGrid[this.map.cellIndices.CellToIndex(c)].Add(t);
-			}
+			this.thingGrid[this.map.cellIndices.CellToIndex(c)].Add(t);
 		}
 
 		public void Deregister(Thing t, bool doEvenIfDespawned = false)
 		{
-			if (t.Spawned || doEvenIfDespawned)
+			if (!t.Spawned && !doEvenIfDespawned)
 			{
-				if (t.def.size.x == 1 && t.def.size.z == 1)
+				return;
+			}
+			if (t.def.size.x == 1 && t.def.size.z == 1)
+			{
+				this.DeregisterInCell(t, t.Position);
+			}
+			else
+			{
+				CellRect cellRect = t.OccupiedRect();
+				for (int i = cellRect.minZ; i <= cellRect.maxZ; i++)
 				{
-					this.DeregisterInCell(t, t.Position);
-				}
-				else
-				{
-					CellRect cellRect = t.OccupiedRect();
-					for (int i = cellRect.minZ; i <= cellRect.maxZ; i++)
+					for (int j = cellRect.minX; j <= cellRect.maxX; j++)
 					{
-						for (int j = cellRect.minX; j <= cellRect.maxX; j++)
-						{
-							this.DeregisterInCell(t, new IntVec3(j, 0, i));
-						}
+						this.DeregisterInCell(t, new IntVec3(j, 0, i));
 					}
 				}
 			}
@@ -91,14 +90,12 @@ namespace Verse
 			if (!c.InBounds(this.map))
 			{
 				Log.Error(t + " tried to de-register out of bounds at " + c, false);
+				return;
 			}
-			else
+			int num = this.map.cellIndices.CellToIndex(c);
+			if (this.thingGrid[num].Contains(t))
 			{
-				int num = this.map.cellIndices.CellToIndex(c);
-				if (this.thingGrid[num].Contains(t))
-				{
-					this.thingGrid[num].Remove(t);
-				}
+				this.thingGrid[num].Remove(t);
 			}
 		}
 
@@ -118,17 +115,12 @@ namespace Verse
 
 		public List<Thing> ThingsListAt(IntVec3 c)
 		{
-			List<Thing> result;
 			if (!c.InBounds(this.map))
 			{
 				Log.ErrorOnce("Got ThingsListAt out of bounds: " + c, 495287, false);
-				result = ThingGrid.EmptyThingList;
+				return ThingGrid.EmptyThingList;
 			}
-			else
-			{
-				result = this.thingGrid[this.map.cellIndices.CellToIndex(c)];
-			}
-			return result;
+			return this.thingGrid[this.map.cellIndices.CellToIndex(c)];
 		}
 
 		public List<Thing> ThingsListAtFast(IntVec3 c)
@@ -148,24 +140,19 @@ namespace Verse
 
 		public Thing ThingAt(IntVec3 c, ThingCategory cat)
 		{
-			Thing result;
 			if (!c.InBounds(this.map))
 			{
-				result = null;
+				return null;
 			}
-			else
+			List<Thing> list = this.thingGrid[this.map.cellIndices.CellToIndex(c)];
+			for (int i = 0; i < list.Count; i++)
 			{
-				List<Thing> list = this.thingGrid[this.map.cellIndices.CellToIndex(c)];
-				for (int i = 0; i < list.Count; i++)
+				if (list[i].def.category == cat)
 				{
-					if (list[i].def.category == cat)
-					{
-						return list[i];
-					}
+					return list[i];
 				}
-				result = null;
 			}
-			return result;
+			return null;
 		}
 
 		public bool CellContains(IntVec3 c, ThingDef def)
@@ -175,47 +162,37 @@ namespace Verse
 
 		public Thing ThingAt(IntVec3 c, ThingDef def)
 		{
-			Thing result;
 			if (!c.InBounds(this.map))
 			{
-				result = null;
+				return null;
 			}
-			else
+			List<Thing> list = this.thingGrid[this.map.cellIndices.CellToIndex(c)];
+			for (int i = 0; i < list.Count; i++)
 			{
-				List<Thing> list = this.thingGrid[this.map.cellIndices.CellToIndex(c)];
-				for (int i = 0; i < list.Count; i++)
+				if (list[i].def == def)
 				{
-					if (list[i].def == def)
-					{
-						return list[i];
-					}
+					return list[i];
 				}
-				result = null;
 			}
-			return result;
+			return null;
 		}
 
 		public T ThingAt<T>(IntVec3 c) where T : Thing
 		{
-			T result;
 			if (!c.InBounds(this.map))
 			{
-				result = (T)((object)null);
+				return (T)((object)null);
 			}
-			else
+			List<Thing> list = this.thingGrid[this.map.cellIndices.CellToIndex(c)];
+			for (int i = 0; i < list.Count; i++)
 			{
-				List<Thing> list = this.thingGrid[this.map.cellIndices.CellToIndex(c)];
-				for (int i = 0; i < list.Count; i++)
+				T t = list[i] as T;
+				if (t != null)
 				{
-					T t = list[i] as T;
-					if (t != null)
-					{
-						return t;
-					}
+					return t;
 				}
-				result = (T)((object)null);
 			}
-			return result;
+			return (T)((object)null);
 		}
 
 		// Note: this type is marked as 'beforefieldinit'.

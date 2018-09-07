@@ -11,7 +11,7 @@ namespace RimWorld
 
 		private float lastRestEffectiveness = 1f;
 
-		private int ticksAtZero = 0;
+		private int ticksAtZero;
 
 		private const float FullSleepHours = 10.5f;
 
@@ -42,24 +42,19 @@ namespace RimWorld
 		{
 			get
 			{
-				RestCategory result;
 				if (this.CurLevel < 0.01f)
 				{
-					result = RestCategory.Exhausted;
+					return RestCategory.Exhausted;
 				}
-				else if (this.CurLevel < 0.14f)
+				if (this.CurLevel < 0.14f)
 				{
-					result = RestCategory.VeryTired;
+					return RestCategory.VeryTired;
 				}
-				else if (this.CurLevel < 0.28f)
+				if (this.CurLevel < 0.28f)
 				{
-					result = RestCategory.Tired;
+					return RestCategory.Tired;
 				}
-				else
-				{
-					result = RestCategory.Rested;
-				}
-				return result;
+				return RestCategory.Rested;
 			}
 		}
 
@@ -67,26 +62,19 @@ namespace RimWorld
 		{
 			get
 			{
-				float result;
 				switch (this.CurCategory)
 				{
 				case RestCategory.Rested:
-					result = 1.58333332E-05f * this.RestFallFactor;
-					break;
+					return 1.58333332E-05f * this.RestFallFactor;
 				case RestCategory.Tired:
-					result = 1.58333332E-05f * this.RestFallFactor * 0.7f;
-					break;
+					return 1.58333332E-05f * this.RestFallFactor * 0.7f;
 				case RestCategory.VeryTired:
-					result = 1.58333332E-05f * this.RestFallFactor * 0.3f;
-					break;
+					return 1.58333332E-05f * this.RestFallFactor * 0.3f;
 				case RestCategory.Exhausted:
-					result = 1.58333332E-05f * this.RestFallFactor * 0.6f;
-					break;
+					return 1.58333332E-05f * this.RestFallFactor * 0.6f;
 				default:
-					result = 999f;
-					break;
+					return 999f;
 				}
-				return result;
 			}
 		}
 
@@ -102,16 +90,11 @@ namespace RimWorld
 		{
 			get
 			{
-				int result;
 				if (this.Resting)
 				{
-					result = 1;
+					return 1;
 				}
-				else
-				{
-					result = -1;
-				}
-				return result;
+				return -1;
 			}
 		}
 
@@ -149,8 +132,6 @@ namespace RimWorld
 				if (this.Resting)
 				{
 					float num = this.lastRestEffectiveness;
-					float num2 = RestUtility.PawnHealthRestEffectivenessFactor(this.pawn);
-					num = 0.7f * num + 0.3f * num * num2;
 					num *= this.pawn.GetStatValue(StatDefOf.RestRateMultiplier, true);
 					if (num > 0f)
 					{
@@ -213,11 +194,12 @@ namespace RimWorld
 
 		public void TickResting(float restEffectiveness)
 		{
-			if (restEffectiveness > 0f)
+			if (restEffectiveness <= 0f)
 			{
-				this.lastRestTick = Find.TickManager.TicksGame;
-				this.lastRestEffectiveness = restEffectiveness;
+				return;
 			}
+			this.lastRestTick = Find.TickManager.TicksGame;
+			this.lastRestEffectiveness = restEffectiveness;
 		}
 	}
 }

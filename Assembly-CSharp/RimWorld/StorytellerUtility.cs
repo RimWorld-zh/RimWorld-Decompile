@@ -11,63 +11,79 @@ namespace RimWorld
 {
 	public static class StorytellerUtility
 	{
-		private const float PointsPer1000Wealth = 6f;
+		private const float GlobalPointsMin = 35f;
+
+		private const float GlobalPointsMax = 20000f;
 
 		public const float BuildingWealthFactor = 0.5f;
 
-		private const float PointsPerTameAnimalCombatPower = 0.09f;
+		private static readonly SimpleCurve PointsPerWealthCurve = new SimpleCurve
+		{
+			{
+				new CurvePoint(0f, 0f),
+				true
+			},
+			{
+				new CurvePoint(14000f, 0f),
+				true
+			},
+			{
+				new CurvePoint(400000f, 2400f),
+				true
+			},
+			{
+				new CurvePoint(700000f, 3600f),
+				true
+			},
+			{
+				new CurvePoint(1000000f, 4200f),
+				true
+			}
+		};
+
+		private const float PointsPerTameNonDownedCombatTrainableAnimalCombatPower = 0.08f;
 
 		private const float PointsPerPlayerPawnFactorInContainer = 0.3f;
 
-		private const float PointsPerPlayerPawnHealthSummaryLerpAmount = 0.5f;
+		private const float PointsPerPlayerPawnHealthSummaryLerpAmount = 0.65f;
 
 		private static readonly SimpleCurve PointsPerColonistByWealthCurve = new SimpleCurve
 		{
 			{
-				new CurvePoint(0f, 30f),
+				new CurvePoint(0f, 15f),
 				true
 			},
 			{
-				new CurvePoint(300000f, 80f),
+				new CurvePoint(10000f, 15f),
+				true
+			},
+			{
+				new CurvePoint(400000f, 140f),
+				true
+			},
+			{
+				new CurvePoint(1000000f, 200f),
 				true
 			}
 		};
 
-		private static readonly SimpleCurve PostProcessCurve = new SimpleCurve
+		public const float CaravanWealthPointsFactor = 0.7f;
+
+		public const float CaravanAnimalPointsFactor = 0.7f;
+
+		public static readonly FloatRange CaravanPointsRandomFactorRange = new FloatRange(0.7f, 0.9f);
+
+		private static readonly SimpleCurve AllyIncidentFractionFromAllyFraction = new SimpleCurve
 		{
 			{
-				new CurvePoint(0f, 35f),
+				new CurvePoint(1f, 1f),
 				true
 			},
 			{
-				new CurvePoint(100f, 35f),
-				true
-			},
-			{
-				new CurvePoint(1000f, 700f),
-				true
-			},
-			{
-				new CurvePoint(2000f, 1600f),
-				true
-			},
-			{
-				new CurvePoint(4000f, 3400f),
-				true
-			},
-			{
-				new CurvePoint(5000f, 3900f),
-				true
-			},
-			{
-				new CurvePoint(20000f, 10000f),
+				new CurvePoint(0.25f, 0.6f),
 				true
 			}
 		};
-
-		public const float CaravanWealthPointsFactor = 0.5f;
-
-		public static readonly FloatRange CaravanPointsRandomFactorRange = new FloatRange(0.6f, 1f);
 
 		private static Dictionary<IIncidentTarget, StoryState> tmpOldStoryStates = new Dictionary<IIncidentTarget, StoryState>();
 
@@ -94,68 +110,48 @@ namespace RimWorld
 			if (incCat.needsParmsPoints)
 			{
 				incidentParms.points = StorytellerUtility.DefaultThreatPointsNow(target);
-				if (target is Map && incCat == IncidentCategoryDefOf.ThreatBig)
-				{
-					switch (Find.StoryWatcher.statsRecord.numThreatBigs)
-					{
-					case 0:
-						incidentParms.points = 38f;
-						incidentParms.raidForceOneIncap = true;
-						incidentParms.raidNeverFleeIndividual = true;
-						break;
-					case 1:
-						incidentParms.points *= 0.5f;
-						break;
-					case 2:
-						incidentParms.points *= 0.7f;
-						break;
-					case 3:
-						incidentParms.points *= 0.8f;
-						break;
-					case 4:
-						incidentParms.points *= 0.9f;
-						break;
-					default:
-						incidentParms.points *= 1f;
-						break;
-					}
-				}
 			}
 			return incidentParms;
 		}
 
 		public static float DefaultThreatPointsNow(IIncidentTarget target)
 		{
-			float num = target.PlayerWealthForStoryteller;
-			num = Mathf.Max(num, 0f);
-			float num2 = num / 1000f * 6f;
-			float num3 = 0f;
+			float playerWealthForStoryteller = target.PlayerWealthForStoryteller;
+			float num = StorytellerUtility.PointsPerWealthCurve.Evaluate(playerWealthForStoryteller);
+			float num2 = 0f;
 			foreach (Pawn pawn in target.PlayerPawnsForStoryteller)
 			{
-				float num4 = 0f;
+				float num3 = 0f;
 				if (pawn.IsFreeColonist)
 				{
-					num4 = StorytellerUtility.PointsPerColonistByWealthCurve.Evaluate(num);
+					num3 = StorytellerUtility.PointsPerColonistByWealthCurve.Evaluate(playerWealthForStoryteller);
 				}
 				else if (pawn.RaceProps.Animal && pawn.Faction == Faction.OfPlayer && !pawn.Downed && pawn.training.CanAssignToTrain(TrainableDefOf.Release).Accepted)
 				{
-					num4 = 0.09f * pawn.kindDef.combatPower;
+					num3 = 0.08f * pawn.kindDef.combatPower;
+					if (target is Caravan)
+					{
+						num3 *= 0.7f;
+					}
 				}
-				if (num4 > 0f)
+				if (num3 > 0f)
 				{
 					if (pawn.ParentHolder != null && pawn.ParentHolder is Building_CryptosleepCasket)
 					{
-						num4 *= 0.3f;
+						num3 *= 0.3f;
 					}
-					num4 = Mathf.Lerp(num4, num4 * pawn.health.summaryHealth.SummaryHealthPercent, 0.5f);
-					num3 += num4;
+					num3 = Mathf.Lerp(num3, num3 * pawn.health.summaryHealth.SummaryHealthPercent, 0.65f);
+					num2 += num3;
 				}
 			}
-			float num5 = num2 + num3;
-			num5 *= Find.StoryWatcher.watcherAdaptation.TotalThreatPointsFactor;
-			num5 *= Find.Storyteller.difficulty.threatScale;
-			num5 *= target.IncidentPointsRandomFactorRange.RandomInRange;
-			return StorytellerUtility.PostProcessCurve.Evaluate(num5);
+			float num4 = num + num2;
+			num4 *= target.IncidentPointsRandomFactorRange.RandomInRange;
+			float totalThreatPointsFactor = Find.StoryWatcher.watcherAdaptation.TotalThreatPointsFactor;
+			float num5 = Mathf.Lerp(1f, totalThreatPointsFactor, Find.Storyteller.difficulty.adaptationEffectFactor);
+			num4 *= num5;
+			num4 *= Find.Storyteller.difficulty.threatScale;
+			num4 *= Find.Storyteller.def.pointsFactorFromDaysPassed.Evaluate((float)GenDate.DaysPassed);
+			return Mathf.Clamp(num4, 35f, 20000f);
 		}
 
 		public static float DefaultSiteThreatPointsNow()
@@ -163,7 +159,7 @@ namespace RimWorld
 			return SiteTuning.ThreatPointsToSiteThreatPointsCurve.Evaluate(StorytellerUtility.DefaultThreatPointsNow(Find.World)) * SiteTuning.SitePointRandomFactorRange.RandomInRange;
 		}
 
-		public static float AllyIncidentMTBMultiplier(bool enoughIfNonHostile)
+		public static float AllyIncidentFraction(bool fullAlliesOnly)
 		{
 			List<Faction> allFactionsListForReading = Find.FactionManager.AllFactionsListForReading;
 			int num = 0;
@@ -176,23 +172,18 @@ namespace RimWorld
 					{
 						num2++;
 					}
-					if (allFactionsListForReading[i].PlayerRelationKind == FactionRelationKind.Ally || (enoughIfNonHostile && !allFactionsListForReading[i].HostileTo(Faction.OfPlayer)))
+					if (allFactionsListForReading[i].PlayerRelationKind == FactionRelationKind.Ally || (!fullAlliesOnly && !allFactionsListForReading[i].HostileTo(Faction.OfPlayer)))
 					{
 						num++;
 					}
 				}
 			}
-			float result;
 			if (num == 0)
 			{
-				result = -1f;
+				return -1f;
 			}
-			else
-			{
-				float num3 = (float)num / Mathf.Max((float)num2, 1f);
-				result = 1f / num3;
-			}
-			return result;
+			float x = (float)num / Mathf.Max((float)num2, 1f);
+			return StorytellerUtility.AllyIncidentFractionFromAllyFraction.Evaluate(x);
 		}
 
 		public static void ShowFutureIncidentsDebugLogFloatMenu(bool currentMapOnly)
@@ -252,7 +243,13 @@ namespace RimWorld
 			orderby kvp.Value
 			select kvp)
 			{
-				stringBuilder.AppendLine(string.Format("  {0}: {1}", keyValuePair.Value, keyValuePair.Key));
+				stringBuilder.AppendLine(string.Concat(new object[]
+				{
+					"  ",
+					keyValuePair.Value,
+					": ",
+					keyValuePair.Key
+				}));
 			}
 			stringBuilder.AppendLine();
 			stringBuilder.AppendLine("Incident totals:");
@@ -292,7 +289,7 @@ namespace RimWorld
 			Log.Message(stringBuilder.ToString(), false);
 		}
 
-		public static void DebugGetFutureIncidents(int numTestDays, bool currentMapOnly, out Dictionary<IIncidentTarget, int> incCountsForTarget, out int[] incCountsForComp, out List<Pair<IncidentDef, IncidentParms>> allIncidents, out int threatBigCount, StringBuilder incDebugInfo = null, StorytellerComp onlyThisComp = null)
+		public static void DebugGetFutureIncidents(int numTestDays, bool currentMapOnly, out Dictionary<IIncidentTarget, int> incCountsForTarget, out int[] incCountsForComp, out List<Pair<IncidentDef, IncidentParms>> allIncidents, out int threatBigCount, StringBuilder outputSb = null, StorytellerComp onlyThisComp = null)
 		{
 			int ticksGame = Find.TickManager.TicksGame;
 			IncidentQueue incidentQueue = Find.Storyteller.incidentQueue;
@@ -315,8 +312,15 @@ namespace RimWorld
 				IEnumerable<FiringIncident> enumerable = (onlyThisComp == null) ? Find.Storyteller.MakeIncidentsForInterval() : Find.Storyteller.MakeIncidentsForInterval(onlyThisComp, Find.Storyteller.AllIncidentTargets);
 				foreach (FiringIncident firingIncident in enumerable)
 				{
+					if (firingIncident == null)
+					{
+						Log.Error("Null incident generated.", false);
+					}
 					if (!currentMapOnly || firingIncident.parms.target == Find.CurrentMap)
 					{
+						firingIncident.parms.target.StoryState.Notify_IncidentFired(firingIncident);
+						allIncidents.Add(new Pair<IncidentDef, IncidentParms>(firingIncident.def, firingIncident.parms));
+						firingIncident.parms.target.StoryState.Notify_IncidentFired(firingIncident);
 						if (!incCountsForTarget.ContainsKey(firingIncident.parms.target))
 						{
 							incCountsForTarget[firingIncident.parms.target] = 0;
@@ -330,12 +334,15 @@ namespace RimWorld
 							threatBigCount++;
 							text = "T";
 						}
-						allIncidents.Add(new Pair<IncidentDef, IncidentParms>(firingIncident.def, firingIncident.parms));
+						else if (firingIncident.def.category == IncidentCategoryDefOf.ThreatSmall)
+						{
+							text = "S";
+						}
 						int num2 = Find.Storyteller.storytellerComps.IndexOf(firingIncident.source);
 						incCountsForComp[num2]++;
-						if (incDebugInfo != null)
+						if (outputSb != null)
 						{
-							incDebugInfo.AppendLine(string.Concat(new object[]
+							outputSb.AppendLine(string.Concat(new object[]
 							{
 								"M",
 								num2,
@@ -343,11 +350,12 @@ namespace RimWorld
 								text,
 								" ",
 								Find.TickManager.TicksGame.TicksToDays().ToString("F1"),
-								"d      ",
+								"d      [",
+								Find.TickManager.TicksGame / 1000,
+								"]",
 								firingIncident
 							}));
 						}
-						firingIncident.parms.target.StoryState.Notify_IncidentFired(firingIncident);
 					}
 				}
 				Find.TickManager.DebugSetTicksGame(Find.TickManager.TicksGame + 1000);
@@ -368,11 +376,11 @@ namespace RimWorld
 			foreach (IIncidentTarget incidentTarget in Find.Storyteller.AllIncidentTargets)
 			{
 				stringBuilder.AppendLine(incidentTarget.ToString());
-				foreach (IncidentTargetTypeDef arg in incidentTarget.AcceptedTypes())
+				foreach (IncidentTargetTagDef arg in incidentTarget.IncidentTargetTags())
 				{
 					stringBuilder.AppendLine("  " + arg);
 				}
-				stringBuilder.AppendLine("");
+				stringBuilder.AppendLine(string.Empty);
 			}
 			Log.Message(stringBuilder.ToString(), false);
 		}

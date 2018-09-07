@@ -219,9 +219,9 @@ namespace Verse
 							'\\',
 							'/'
 						});
-						if (text == "")
+						if (text == string.Empty)
 						{
-							text = "" + Path.DirectorySeparatorChar;
+							text = string.Empty + Path.DirectorySeparatorChar;
 						}
 						GenFilePaths.saveDataPath = text;
 						Log.Message("Save data folder overridden to " + GenFilePaths.saveDataPath, false);
@@ -262,16 +262,11 @@ namespace Verse
 		{
 			get
 			{
-				string result;
 				if (!UnityData.isEditor)
 				{
-					result = Path.Combine(GenFilePaths.ExecutableDir.FullName, "ScenarioPreview.jpg");
+					return Path.Combine(GenFilePaths.ExecutableDir.FullName, "ScenarioPreview.jpg");
 				}
-				else
-				{
-					result = Path.Combine(Path.Combine(Path.Combine(GenFilePaths.ExecutableDir.FullName, "PlatformSpecific"), "All"), "ScenarioPreview.jpg");
-				}
-				return result;
+				return Path.Combine(Path.Combine(Path.Combine(GenFilePaths.ExecutableDir.FullName, "PlatformSpecific"), "All"), "ScenarioPreview.jpg");
 			}
 		}
 
@@ -501,24 +496,19 @@ namespace Verse
 
 		public static string ContentPath<T>()
 		{
-			string result;
 			if (typeof(T) == typeof(AudioClip))
 			{
-				result = "Sounds/";
+				return "Sounds/";
 			}
-			else if (typeof(T) == typeof(Texture2D))
+			if (typeof(T) == typeof(Texture2D))
 			{
-				result = "Textures/";
+				return "Textures/";
 			}
-			else
+			if (typeof(T) == typeof(string))
 			{
-				if (typeof(T) != typeof(string))
-				{
-					throw new ArgumentException();
-				}
-				result = "Strings/";
+				return "Strings/";
 			}
-			return result;
+			throw new ArgumentException();
 		}
 
 		public static string FolderPathRelativeToDefsFolder(string fullFolderPath, ModContentPack mod)
@@ -533,7 +523,6 @@ namespace Verse
 			{
 				text += Path.DirectorySeparatorChar;
 			}
-			string result;
 			if (!fullFolderPath.StartsWith(text))
 			{
 				Log.Error(string.Concat(new string[]
@@ -544,26 +533,22 @@ namespace Verse
 					text,
 					"\"."
 				}), false);
-				result = null;
+				return null;
 			}
-			else if (fullFolderPath == text)
+			if (fullFolderPath == text)
 			{
-				result = "";
+				return string.Empty;
 			}
-			else
+			string text2 = fullFolderPath.Substring(text.Length);
+			while (text2.StartsWith("/") || text2.StartsWith("\\"))
 			{
-				string text2 = fullFolderPath.Substring(text.Length);
-				while (text2.StartsWith("/") || text2.StartsWith("\\"))
+				if (text2.Length == 1)
 				{
-					if (text2.Length == 1)
-					{
-						return "";
-					}
-					text2 = text2.Substring(1);
+					return string.Empty;
 				}
-				result = text2;
+				text2 = text2.Substring(1);
 			}
-			return result;
+			return text2;
 		}
 
 		public static string SafeURIForUnityWWWFromPath(string rawPath)

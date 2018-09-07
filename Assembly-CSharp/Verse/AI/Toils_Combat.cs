@@ -18,11 +18,9 @@ namespace Verse.AI
 				if (verb == null)
 				{
 					actor.jobs.EndCurrentJob(JobCondition.Incompletable, true);
+					return;
 				}
-				else
-				{
-					curJob.verbToUse = verb;
-				}
+				curJob.verbToUse = verb;
 			};
 			return toil;
 		}
@@ -47,12 +45,10 @@ namespace Verse.AI
 				}, out intVec))
 				{
 					toil.actor.jobs.EndCurrentJob(JobCondition.Incompletable, true);
+					return;
 				}
-				else
-				{
-					toil.actor.pather.StartPath(intVec, PathEndMode.OnCell);
-					actor.Map.pawnDestinationReservationManager.Reserve(actor, curJob, intVec);
-				}
+				toil.actor.pather.StartPath(intVec, PathEndMode.OnCell);
+				actor.Map.pawnDestinationReservationManager.Reserve(actor, curJob, intVec);
 			};
 			toil.FailOnDespawnedOrNull(targetInd);
 			toil.defaultCompleteMode = ToilCompleteMode.PatherArrival;
@@ -86,8 +82,9 @@ namespace Verse.AI
 				if (!thing.Spawned)
 				{
 					curDriver.ReadyForNextToil();
+					return;
 				}
-				else if (thing != actor.pather.Destination.Thing || (!actor.pather.Moving && !actor.CanReachImmediate(thing, PathEndMode.Touch)))
+				if (thing != actor.pather.Destination.Thing || (!actor.pather.Moving && !actor.CanReachImmediate(thing, PathEndMode.Touch)))
 				{
 					actor.pather.StartPath(thing, PathEndMode.Touch);
 				}
@@ -96,11 +93,9 @@ namespace Verse.AI
 					if (pawn != null && pawn.Downed && !curJob.killIncappedTarget)
 					{
 						curDriver.ReadyForNextToil();
+						return;
 					}
-					else
-					{
-						hitAction();
-					}
+					hitAction();
 				}
 			};
 			followAndAttack.defaultCompleteMode = ToilCompleteMode.Never;
@@ -127,11 +122,9 @@ namespace Verse.AI
 				if (verb == null)
 				{
 					actor.jobs.EndCurrentJob(JobCondition.Incompletable, true);
+					return;
 				}
-				else
-				{
-					curJob.verbToUse = verb;
-				}
+				curJob.verbToUse = verb;
 			}
 		}
 
@@ -167,12 +160,10 @@ namespace Verse.AI
 				}, out intVec))
 				{
 					this.toil.actor.jobs.EndCurrentJob(JobCondition.Incompletable, true);
+					return;
 				}
-				else
-				{
-					this.toil.actor.pather.StartPath(intVec, PathEndMode.OnCell);
-					actor.Map.pawnDestinationReservationManager.Reserve(actor, curJob, intVec);
-				}
+				this.toil.actor.pather.StartPath(intVec, PathEndMode.OnCell);
+				actor.Map.pawnDestinationReservationManager.Reserve(actor, curJob, intVec);
 			}
 		}
 
@@ -221,8 +212,9 @@ namespace Verse.AI
 				if (!thing.Spawned)
 				{
 					curDriver.ReadyForNextToil();
+					return;
 				}
-				else if (thing != actor.pather.Destination.Thing || (!actor.pather.Moving && !actor.CanReachImmediate(thing, PathEndMode.Touch)))
+				if (thing != actor.pather.Destination.Thing || (!actor.pather.Moving && !actor.CanReachImmediate(thing, PathEndMode.Touch)))
 				{
 					actor.pather.StartPath(thing, PathEndMode.Touch);
 				}
@@ -231,11 +223,9 @@ namespace Verse.AI
 					if (pawn != null && pawn.Downed && !curJob.killIncappedTarget)
 					{
 						curDriver.ReadyForNextToil();
+						return;
 					}
-					else
-					{
-						this.hitAction();
-					}
+					this.hitAction();
 				}
 			}
 		}

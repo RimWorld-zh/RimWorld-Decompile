@@ -11,37 +11,39 @@ namespace Verse
 		public static void DeregisterInRegions(Thing thing, Map map)
 		{
 			ThingDef def = thing.def;
-			if (ListerThings.EverListable(def, ListerThingsUse.Region))
+			if (!ListerThings.EverListable(def, ListerThingsUse.Region))
 			{
-				RegionListersUpdater.GetTouchableRegions(thing, map, RegionListersUpdater.tmpRegions, true);
-				for (int i = 0; i < RegionListersUpdater.tmpRegions.Count; i++)
-				{
-					ListerThings listerThings = RegionListersUpdater.tmpRegions[i].ListerThings;
-					if (listerThings.Contains(thing))
-					{
-						listerThings.Remove(thing);
-					}
-				}
-				RegionListersUpdater.tmpRegions.Clear();
+				return;
 			}
+			RegionListersUpdater.GetTouchableRegions(thing, map, RegionListersUpdater.tmpRegions, true);
+			for (int i = 0; i < RegionListersUpdater.tmpRegions.Count; i++)
+			{
+				ListerThings listerThings = RegionListersUpdater.tmpRegions[i].ListerThings;
+				if (listerThings.Contains(thing))
+				{
+					listerThings.Remove(thing);
+				}
+			}
+			RegionListersUpdater.tmpRegions.Clear();
 		}
 
 		public static void RegisterInRegions(Thing thing, Map map)
 		{
 			ThingDef def = thing.def;
-			if (ListerThings.EverListable(def, ListerThingsUse.Region))
+			if (!ListerThings.EverListable(def, ListerThingsUse.Region))
 			{
-				RegionListersUpdater.GetTouchableRegions(thing, map, RegionListersUpdater.tmpRegions, false);
-				for (int i = 0; i < RegionListersUpdater.tmpRegions.Count; i++)
-				{
-					ListerThings listerThings = RegionListersUpdater.tmpRegions[i].ListerThings;
-					if (!listerThings.Contains(thing))
-					{
-						listerThings.Add(thing);
-					}
-				}
-				RegionListersUpdater.tmpRegions.Clear();
+				return;
 			}
+			RegionListersUpdater.GetTouchableRegions(thing, map, RegionListersUpdater.tmpRegions, false);
+			for (int i = 0; i < RegionListersUpdater.tmpRegions.Count; i++)
+			{
+				ListerThings listerThings = RegionListersUpdater.tmpRegions[i].ListerThings;
+				if (!listerThings.Contains(thing))
+				{
+					listerThings.Add(thing);
+				}
+			}
+			RegionListersUpdater.tmpRegions.Clear();
 		}
 
 		public static void RegisterAllAt(IntVec3 c, Map map, HashSet<Thing> processedThings = null)

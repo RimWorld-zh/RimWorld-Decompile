@@ -13,6 +13,7 @@ namespace Verse.AI
 				if (jumpCondition())
 				{
 					toil.actor.jobs.curDriver.JumpToToil(jumpToil);
+					return;
 				}
 			});
 			return toil;
@@ -63,6 +64,7 @@ namespace Verse.AI
 				if (this.jumpCondition())
 				{
 					this.toil.actor.jobs.curDriver.JumpToToil(this.jumpToil);
+					return;
 				}
 			}
 		}

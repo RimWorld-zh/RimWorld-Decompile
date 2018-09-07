@@ -114,12 +114,9 @@ namespace RimWorld
 						num += StatWorker.StatOffsetFromGear(pawn.apparel.WornApparel[m], this.stat);
 					}
 				}
-				if (pawn.equipment != null)
+				if (pawn.equipment != null && pawn.equipment.Primary != null)
 				{
-					if (pawn.equipment.Primary != null)
-					{
-						num += StatWorker.StatOffsetFromGear(pawn.equipment.Primary, this.stat);
-					}
+					num += StatWorker.StatOffsetFromGear(pawn.equipment.Primary, this.stat);
 				}
 				if (pawn.story != null)
 				{
@@ -193,8 +190,7 @@ namespace RimWorld
 			float baseValueFor = this.GetBaseValueFor(req.Def);
 			if (baseValueFor != 0f)
 			{
-				stringBuilder.AppendLine("StatsReport_BaseValue".Translate());
-				stringBuilder.AppendLine("    " + this.stat.ValueToString(baseValueFor, numberSense));
+				stringBuilder.AppendLine("StatsReport_BaseValue".Translate() + ": " + this.stat.ValueToString(baseValueFor, numberSense));
 				stringBuilder.AppendLine();
 			}
 			Pawn pawn = req.Thing as Pawn;
@@ -508,12 +504,9 @@ namespace RimWorld
 					this.stat.parts[i].TransformValue(req, ref val);
 				}
 			}
-			if (applyPostProcess)
+			if (applyPostProcess && this.stat.postProcessCurve != null)
 			{
-				if (this.stat.postProcessCurve != null)
-				{
-					val = this.stat.postProcessCurve.Evaluate(val);
-				}
+				val = this.stat.postProcessCurve.Evaluate(val);
 			}
 			if (Find.Scenario != null)
 			{
@@ -523,11 +516,11 @@ namespace RimWorld
 			{
 				val = Mathf.Round(val / 5f) * 5f;
 			}
-			val = Mathf.Clamp(val, this.stat.minValue, this.stat.maxValue);
 			if (this.stat.roundValue)
 			{
 				val = (float)Mathf.RoundToInt(val);
 			}
+			val = Mathf.Clamp(val, this.stat.minValue, this.stat.maxValue);
 		}
 
 		public virtual string GetExplanationFinalizePart(StatRequest req, ToStringNumberSense numberSense, float finalVal)
@@ -576,161 +569,137 @@ namespace RimWorld
 
 		public string GetExplanationFull(StatRequest req, ToStringNumberSense numberSense, float value)
 		{
-			string result;
 			if (this.IsDisabledFor(req.Thing))
 			{
-				result = "StatsReport_PermanentlyDisabled".Translate();
+				return "StatsReport_PermanentlyDisabled".Translate();
 			}
-			else
+			string text = this.stat.Worker.GetExplanationUnfinalized(req, numberSense).TrimEndNewlines();
+			if (!text.NullOrEmpty())
 			{
-				string text = this.stat.Worker.GetExplanationUnfinalized(req, numberSense).TrimEndNewlines();
-				if (!text.NullOrEmpty())
-				{
-					text += "\n\n";
-				}
-				result = text + this.stat.Worker.GetExplanationFinalizePart(req, numberSense, value);
+				text += "\n\n";
 			}
-			return result;
+			return text + this.stat.Worker.GetExplanationFinalizePart(req, numberSense, value);
 		}
 
 		public virtual bool ShouldShowFor(StatRequest req)
 		{
-			bool result;
 			if (this.stat.alwaysHide)
 			{
-				result = false;
+				return false;
 			}
-			else
+			BuildableDef def = req.Def;
+			if (!this.stat.showIfUndefined && !def.statBases.StatListContains(this.stat))
 			{
-				BuildableDef def = req.Def;
-				if (!this.stat.showIfUndefined)
+				return false;
+			}
+			ThingDef thingDef = def as ThingDef;
+			if (thingDef != null && thingDef.category == ThingCategory.Pawn)
+			{
+				if (!this.stat.showOnPawns)
 				{
-					if (!def.statBases.StatListContains(this.stat))
+					return false;
+				}
+				if (!this.stat.showOnHumanlikes && thingDef.race.Humanlike)
+				{
+					return false;
+				}
+				if (!this.stat.showOnNonWildManHumanlikes && thingDef.race.Humanlike)
+				{
+					Pawn pawn = req.Thing as Pawn;
+					if (pawn == null || !pawn.IsWildMan())
 					{
 						return false;
 					}
 				}
-				ThingDef thingDef = def as ThingDef;
-				if (thingDef != null)
+				if (!this.stat.showOnAnimals && thingDef.race.Animal)
 				{
-					if (thingDef.category == ThingCategory.Pawn)
-					{
-						if (!this.stat.showOnPawns)
-						{
-							return false;
-						}
-						if (!this.stat.showOnHumanlikes && thingDef.race.Humanlike)
-						{
-							return false;
-						}
-						if (!this.stat.showOnNonWildManHumanlikes && thingDef.race.Humanlike)
-						{
-							Pawn pawn = req.Thing as Pawn;
-							if (pawn == null || !pawn.IsWildMan())
-							{
-								return false;
-							}
-						}
-						if (!this.stat.showOnAnimals && thingDef.race.Animal)
-						{
-							return false;
-						}
-						if (!this.stat.showOnMechanoids && thingDef.race.IsMechanoid)
-						{
-							return false;
-						}
-					}
+					return false;
 				}
-				if (this.stat.category == StatCategoryDefOf.BasicsPawn || this.stat.category == StatCategoryDefOf.PawnCombat)
+				if (!this.stat.showOnMechanoids && thingDef.race.IsMechanoid)
 				{
-					result = (thingDef != null && thingDef.category == ThingCategory.Pawn);
-				}
-				else if (this.stat.category == StatCategoryDefOf.PawnMisc || this.stat.category == StatCategoryDefOf.PawnSocial || this.stat.category == StatCategoryDefOf.PawnWork)
-				{
-					result = (thingDef != null && thingDef.category == ThingCategory.Pawn && thingDef.race.Humanlike);
-				}
-				else if (this.stat.category == StatCategoryDefOf.Building)
-				{
-					if (thingDef == null)
-					{
-						result = false;
-					}
-					else if (this.stat == StatDefOf.DoorOpenSpeed)
-					{
-						result = thingDef.IsDoor;
-					}
-					else
-					{
-						result = ((this.stat.showOnNonWorkTables || thingDef.IsWorkTable) && thingDef.category == ThingCategory.Building);
-					}
-				}
-				else if (this.stat.category == StatCategoryDefOf.Apparel)
-				{
-					result = (thingDef != null && (thingDef.IsApparel || thingDef.category == ThingCategory.Pawn));
-				}
-				else if (this.stat.category == StatCategoryDefOf.Weapon)
-				{
-					result = (thingDef != null && (thingDef.IsMeleeWeapon || thingDef.IsRangedWeapon));
-				}
-				else if (this.stat.category == StatCategoryDefOf.BasicsNonPawn)
-				{
-					result = (thingDef == null || thingDef.category != ThingCategory.Pawn);
-				}
-				else if (this.stat.category.displayAllByDefault)
-				{
-					result = true;
-				}
-				else
-				{
-					Log.Error(string.Concat(new object[]
-					{
-						"Unhandled case: ",
-						this.stat,
-						", ",
-						def
-					}), false);
-					result = false;
+					return false;
 				}
 			}
-			return result;
+			if (this.stat.category == StatCategoryDefOf.BasicsPawn || this.stat.category == StatCategoryDefOf.PawnCombat)
+			{
+				return thingDef != null && thingDef.category == ThingCategory.Pawn;
+			}
+			if (this.stat.category == StatCategoryDefOf.PawnMisc || this.stat.category == StatCategoryDefOf.PawnSocial || this.stat.category == StatCategoryDefOf.PawnWork)
+			{
+				return thingDef != null && thingDef.category == ThingCategory.Pawn && thingDef.race.Humanlike;
+			}
+			if (this.stat.category == StatCategoryDefOf.Building)
+			{
+				if (thingDef == null)
+				{
+					return false;
+				}
+				if (this.stat == StatDefOf.DoorOpenSpeed)
+				{
+					return thingDef.IsDoor;
+				}
+				return (this.stat.showOnNonWorkTables || thingDef.IsWorkTable) && thingDef.category == ThingCategory.Building;
+			}
+			else
+			{
+				if (this.stat.category == StatCategoryDefOf.Apparel)
+				{
+					return thingDef != null && (thingDef.IsApparel || thingDef.category == ThingCategory.Pawn);
+				}
+				if (this.stat.category == StatCategoryDefOf.Weapon)
+				{
+					return thingDef != null && (thingDef.IsMeleeWeapon || thingDef.IsRangedWeapon);
+				}
+				if (this.stat.category == StatCategoryDefOf.BasicsNonPawn)
+				{
+					return thingDef == null || thingDef.category != ThingCategory.Pawn;
+				}
+				if (this.stat.category.displayAllByDefault)
+				{
+					return true;
+				}
+				Log.Error(string.Concat(new object[]
+				{
+					"Unhandled case: ",
+					this.stat,
+					", ",
+					def
+				}), false);
+				return false;
+			}
 		}
 
 		public virtual bool IsDisabledFor(Thing thing)
 		{
-			bool result;
 			if (this.stat.neverDisabled || (this.stat.skillNeedFactors.NullOrEmpty<SkillNeed>() && this.stat.skillNeedOffsets.NullOrEmpty<SkillNeed>()))
 			{
-				result = false;
+				return false;
 			}
-			else
+			Pawn pawn = thing as Pawn;
+			if (pawn != null && pawn.story != null)
 			{
-				Pawn pawn = thing as Pawn;
-				if (pawn != null && pawn.story != null)
+				if (this.stat.skillNeedFactors != null)
 				{
-					if (this.stat.skillNeedFactors != null)
+					for (int i = 0; i < this.stat.skillNeedFactors.Count; i++)
 					{
-						for (int i = 0; i < this.stat.skillNeedFactors.Count; i++)
+						if (pawn.skills.GetSkill(this.stat.skillNeedFactors[i].skill).TotallyDisabled)
 						{
-							if (pawn.skills.GetSkill(this.stat.skillNeedFactors[i].skill).TotallyDisabled)
-							{
-								return true;
-							}
-						}
-					}
-					if (this.stat.skillNeedOffsets != null)
-					{
-						for (int j = 0; j < this.stat.skillNeedOffsets.Count; j++)
-						{
-							if (pawn.skills.GetSkill(this.stat.skillNeedOffsets[j].skill).TotallyDisabled)
-							{
-								return true;
-							}
+							return true;
 						}
 					}
 				}
-				result = false;
+				if (this.stat.skillNeedOffsets != null)
+				{
+					for (int j = 0; j < this.stat.skillNeedOffsets.Count; j++)
+					{
+						if (pawn.skills.GetSkill(this.stat.skillNeedOffsets[j].skill).TotallyDisabled)
+						{
+							return true;
+						}
+					}
+				}
 			}
-			return result;
+			return false;
 		}
 
 		public virtual string GetStatDrawEntryLabel(StatDef stat, float value, ToStringNumberSense numberSense, StatRequest optionalReq)
@@ -808,21 +777,16 @@ namespace RimWorld
 
 		public string ValueToString(float val, bool finalized, ToStringNumberSense numberSense = ToStringNumberSense.Absolute)
 		{
-			string result;
 			if (!finalized)
 			{
-				result = val.ToStringByStyle(this.stat.ToStringStyleUnfinalized, numberSense);
+				return val.ToStringByStyle(this.stat.ToStringStyleUnfinalized, numberSense);
 			}
-			else
+			string text = val.ToStringByStyle(this.stat.toStringStyle, numberSense);
+			if (numberSense != ToStringNumberSense.Factor && !this.stat.formatString.NullOrEmpty())
 			{
-				string text = val.ToStringByStyle(this.stat.toStringStyle, numberSense);
-				if (numberSense != ToStringNumberSense.Factor && !this.stat.formatString.NullOrEmpty())
-				{
-					text = string.Format(this.stat.formatString, text);
-				}
-				result = text;
+				text = string.Format(this.stat.formatString, text);
 			}
-			return result;
+			return text;
 		}
 
 		[CompilerGenerated]
@@ -909,7 +873,7 @@ namespace RimWorld
 				case 0u:
 					if (pawn.apparel == null)
 					{
-						goto IL_E5;
+						goto IL_DF;
 					}
 					enumerator = pawn.apparel.WornApparel.GetEnumerator();
 					num = 4294967293u;
@@ -922,11 +886,8 @@ namespace RimWorld
 					{
 						switch (num)
 						{
-						case 2u:
-							IL_175:
-							break;
 						}
-						if (enumerator2.MoveNext())
+						while (enumerator2.MoveNext())
 						{
 							t2 = enumerator2.Current;
 							if (StatWorker.GearAffectsStat(t2.def, stat))
@@ -939,7 +900,6 @@ namespace RimWorld
 								flag = true;
 								return true;
 							}
-							goto IL_175;
 						}
 					}
 					finally
@@ -949,7 +909,7 @@ namespace RimWorld
 							((IDisposable)enumerator2).Dispose();
 						}
 					}
-					goto IL_1A2;
+					goto IL_197;
 				default:
 					return false;
 				}
@@ -957,11 +917,8 @@ namespace RimWorld
 				{
 					switch (num)
 					{
-					case 1u:
-						IL_B8:
-						break;
 					}
-					if (enumerator.MoveNext())
+					while (enumerator.MoveNext())
 					{
 						t = enumerator.Current;
 						if (StatWorker.GearAffectsStat(t.def, stat))
@@ -974,7 +931,6 @@ namespace RimWorld
 							flag = true;
 							return true;
 						}
-						goto IL_B8;
 					}
 				}
 				finally
@@ -984,14 +940,14 @@ namespace RimWorld
 						((IDisposable)enumerator).Dispose();
 					}
 				}
-				IL_E5:
+				IL_DF:
 				if (pawn.equipment != null)
 				{
 					enumerator2 = pawn.equipment.AllEquipmentListForReading.GetEnumerator();
 					num = 4294967293u;
 					goto Block_5;
 				}
-				IL_1A2:
+				IL_197:
 				this.$PC = -1;
 				return false;
 			}

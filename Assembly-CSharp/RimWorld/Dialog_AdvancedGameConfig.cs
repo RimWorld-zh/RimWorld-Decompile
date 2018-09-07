@@ -83,7 +83,7 @@ namespace RimWorld
 					num,
 					num * num
 				});
-				if (listing_Standard.RadioButton(label, Find.GameInitData.mapSize == num, 0f))
+				if (listing_Standard.RadioButton(label, Find.GameInitData.mapSize == num, 0f, null))
 				{
 					Find.GameInitData.mapSize = num;
 				}
@@ -92,24 +92,24 @@ namespace RimWorld
 			Text.Font = GameFont.Medium;
 			listing_Standard.Label("MapStartSeason".Translate(), -1f, null);
 			Text.Font = GameFont.Small;
-			listing_Standard.Label("", -1f, null);
-			if (listing_Standard.RadioButton("MapStartSeasonDefault".Translate(), Find.GameInitData.startingSeason == Season.Undefined, 0f))
+			listing_Standard.Label(string.Empty, -1f, null);
+			if (listing_Standard.RadioButton("MapStartSeasonDefault".Translate(), Find.GameInitData.startingSeason == Season.Undefined, 0f, null))
 			{
 				Find.GameInitData.startingSeason = Season.Undefined;
 			}
-			if (listing_Standard.RadioButton(Season.Spring.LabelCap(), Find.GameInitData.startingSeason == Season.Spring, 0f))
+			if (listing_Standard.RadioButton(Season.Spring.LabelCap(), Find.GameInitData.startingSeason == Season.Spring, 0f, null))
 			{
 				Find.GameInitData.startingSeason = Season.Spring;
 			}
-			if (listing_Standard.RadioButton(Season.Summer.LabelCap(), Find.GameInitData.startingSeason == Season.Summer, 0f))
+			if (listing_Standard.RadioButton(Season.Summer.LabelCap(), Find.GameInitData.startingSeason == Season.Summer, 0f, null))
 			{
 				Find.GameInitData.startingSeason = Season.Summer;
 			}
-			if (listing_Standard.RadioButton(Season.Fall.LabelCap(), Find.GameInitData.startingSeason == Season.Fall, 0f))
+			if (listing_Standard.RadioButton(Season.Fall.LabelCap(), Find.GameInitData.startingSeason == Season.Fall, 0f, null))
 			{
 				Find.GameInitData.startingSeason = Season.Fall;
 			}
-			if (listing_Standard.RadioButton(Season.Winter.LabelCap(), Find.GameInitData.startingSeason == Season.Winter, 0f))
+			if (listing_Standard.RadioButton(Season.Winter.LabelCap(), Find.GameInitData.startingSeason == Season.Winter, 0f, null))
 			{
 				Find.GameInitData.startingSeason = Season.Winter;
 			}
@@ -117,7 +117,7 @@ namespace RimWorld
 			Text.Font = GameFont.Medium;
 			listing_Standard.Label("Notice".Translate(), -1f, null);
 			Text.Font = GameFont.Small;
-			listing_Standard.Label("", -1f, null);
+			listing_Standard.Label(string.Empty, -1f, null);
 			bool flag = false;
 			if (this.selTile >= 0 && Find.GameInitData.startingSeason != Season.Undefined)
 			{

@@ -94,54 +94,49 @@ namespace Verse
 
 		public T ObjectWithLoadID<T>(string loadID)
 		{
-			T result;
 			if (loadID.NullOrEmpty() || loadID == "null")
 			{
-				result = default(T);
+				return default(T);
 			}
-			else
+			ILoadReferenceable loadReferenceable;
+			if (this.allObjectsByLoadID.TryGetValue(loadID, out loadReferenceable))
 			{
-				ILoadReferenceable loadReferenceable;
-				if (this.allObjectsByLoadID.TryGetValue(loadID, out loadReferenceable))
+				if (loadReferenceable == null)
 				{
-					if (loadReferenceable == null)
-					{
-						return default(T);
-					}
-					try
-					{
-						return (T)((object)loadReferenceable);
-					}
-					catch (Exception ex)
-					{
-						Log.Error(string.Concat(new object[]
-						{
-							"Exception getting object with load id ",
-							loadID,
-							" of type ",
-							typeof(T),
-							". What we loaded was ",
-							loadReferenceable.ToStringSafe<ILoadReferenceable>(),
-							". Exception:\n",
-							ex
-						}), false);
-						return default(T);
-					}
+					return default(T);
 				}
-				Log.Warning(string.Concat(new object[]
+				try
 				{
-					"Could not resolve reference to object with loadID ",
-					loadID,
-					" of type ",
-					typeof(T),
-					". Was it compressed away, destroyed, had no ID number, or not saved/loaded right? curParent=",
-					Scribe.loader.curParent.ToStringSafe<IExposable>(),
-					" curPathRelToParent=",
-					Scribe.loader.curPathRelToParent
-				}), false);
-				result = default(T);
+					return (T)((object)loadReferenceable);
+				}
+				catch (Exception ex)
+				{
+					Log.Error(string.Concat(new object[]
+					{
+						"Exception getting object with load id ",
+						loadID,
+						" of type ",
+						typeof(T),
+						". What we loaded was ",
+						loadReferenceable.ToStringSafe<ILoadReferenceable>(),
+						". Exception:\n",
+						ex
+					}), false);
+					return default(T);
+				}
 			}
-			return result;
+			Log.Warning(string.Concat(new object[]
+			{
+				"Could not resolve reference to object with loadID ",
+				loadID,
+				" of type ",
+				typeof(T),
+				". Was it compressed away, destroyed, had no ID number, or not saved/loaded right? curParent=",
+				Scribe.loader.curParent.ToStringSafe<IExposable>(),
+				" curPathRelToParent=",
+				Scribe.loader.curPathRelToParent
+			}), false);
+			return default(T);
 		}
 	}
 }

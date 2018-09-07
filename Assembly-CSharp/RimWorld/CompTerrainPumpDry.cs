@@ -35,20 +35,15 @@ namespace RimWorld
 
 		private static TerrainDef GetTerrainToDryTo(Map map, TerrainDef terrainDef)
 		{
-			TerrainDef result;
 			if (terrainDef.driesTo == null)
 			{
-				result = null;
+				return null;
 			}
-			else if (map.Biome == BiomeDefOf.SeaIce)
+			if (map.Biome == BiomeDefOf.SeaIce)
 			{
-				result = TerrainDefOf.Ice;
+				return TerrainDefOf.Ice;
 			}
-			else
-			{
-				result = terrainDef.driesTo;
-			}
-			return result;
+			return terrainDef.driesTo;
 		}
 	}
 }

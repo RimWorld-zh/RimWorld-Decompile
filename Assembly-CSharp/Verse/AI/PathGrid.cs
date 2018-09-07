@@ -75,15 +75,16 @@ namespace Verse.AI
 
 		public void RecalculatePerceivedPathCostAt(IntVec3 c)
 		{
-			if (c.InBounds(this.map))
+			if (!c.InBounds(this.map))
 			{
-				bool flag = this.WalkableFast(c);
-				this.pathGrid[this.map.cellIndices.CellToIndex(c)] = this.CalculatedCostAt(c, true, IntVec3.Invalid);
-				if (this.WalkableFast(c) != flag)
-				{
-					this.map.reachability.ClearCache();
-					this.map.regionDirtyer.Notify_WalkabilityChanged(c);
-				}
+				return;
+			}
+			bool flag = this.WalkableFast(c);
+			this.pathGrid[this.map.cellIndices.CellToIndex(c)] = this.CalculatedCostAt(c, true, IntVec3.Invalid);
+			if (this.WalkableFast(c) != flag)
+			{
+				this.map.reachability.ClearCache();
+				this.map.regionDirtyer.Notify_WalkabilityChanged(c);
 			}
 		}
 

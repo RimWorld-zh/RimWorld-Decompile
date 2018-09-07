@@ -23,7 +23,7 @@ namespace RimWorld.Planet
 
 		public override IEnumerable Regenerate()
 		{
-			IEnumerator enumerator = this.<Regenerate>__BaseCallProxy0().GetEnumerator();
+			IEnumerator enumerator = base.Regenerate().GetEnumerator();
 			try
 			{
 				while (enumerator.MoveNext())
@@ -281,9 +281,9 @@ namespace RimWorld.Planet
 				case 1u:
 					break;
 				case 2u:
-					goto IL_154;
+					goto IL_14F;
 				case 3u:
-					goto IL_38F;
+					goto IL_37F;
 				default:
 					return false;
 				}
@@ -325,7 +325,7 @@ namespace RimWorld.Planet
 				num = 4294967293u;
 				try
 				{
-					IL_154:
+					IL_14F:
 					switch (num)
 					{
 					}
@@ -385,7 +385,7 @@ namespace RimWorld.Planet
 				num = 4294967293u;
 				try
 				{
-					IL_38F:
+					IL_37F:
 					switch (num)
 					{
 					}
@@ -683,7 +683,7 @@ namespace RimWorld.Planet
 					i = 0;
 					break;
 				case 1u:
-					IL_395:
+					IL_388:
 					i++;
 					break;
 				default:
@@ -746,7 +746,7 @@ namespace RimWorld.Planet
 						}
 						return true;
 					}
-					goto IL_395;
+					goto IL_388;
 				}
 				return false;
 			}

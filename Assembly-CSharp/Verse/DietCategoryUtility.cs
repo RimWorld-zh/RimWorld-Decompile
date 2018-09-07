@@ -6,62 +6,44 @@ namespace Verse
 	{
 		public static string ToStringHuman(this DietCategory diet)
 		{
-			string result;
 			switch (diet)
 			{
 			case DietCategory.NeverEats:
-				result = "DietCategory_NeverEats".Translate();
-				break;
+				return "DietCategory_NeverEats".Translate();
 			case DietCategory.Herbivorous:
-				result = "DietCategory_Herbivorous".Translate();
-				break;
+				return "DietCategory_Herbivorous".Translate();
 			case DietCategory.Dendrovorous:
-				result = "DietCategory_Dendrovorous".Translate();
-				break;
+				return "DietCategory_Dendrovorous".Translate();
 			case DietCategory.Ovivorous:
-				result = "DietCategory_Ovivorous".Translate();
-				break;
+				return "DietCategory_Ovivorous".Translate();
 			case DietCategory.Omnivorous:
-				result = "DietCategory_Omnivorous".Translate();
-				break;
+				return "DietCategory_Omnivorous".Translate();
 			case DietCategory.Carnivorous:
-				result = "DietCategory_Carnivorous".Translate();
-				break;
+				return "DietCategory_Carnivorous".Translate();
 			default:
-				result = "error";
-				break;
+				return "error";
 			}
-			return result;
 		}
 
 		public static string ToStringHumanShort(this DietCategory diet)
 		{
-			string result;
 			switch (diet)
 			{
 			case DietCategory.NeverEats:
-				result = "DietCategory_NeverEats_Short".Translate();
-				break;
+				return "DietCategory_NeverEats_Short".Translate();
 			case DietCategory.Herbivorous:
-				result = "DietCategory_Herbivorous_Short".Translate();
-				break;
+				return "DietCategory_Herbivorous_Short".Translate();
 			case DietCategory.Dendrovorous:
-				result = "DietCategory_Dendrovorous_Short".Translate();
-				break;
+				return "DietCategory_Dendrovorous_Short".Translate();
 			case DietCategory.Ovivorous:
-				result = "DietCategory_Ovivorous_Short".Translate();
-				break;
+				return "DietCategory_Ovivorous_Short".Translate();
 			case DietCategory.Omnivorous:
-				result = "DietCategory_Omnivorous_Short".Translate();
-				break;
+				return "DietCategory_Omnivorous_Short".Translate();
 			case DietCategory.Carnivorous:
-				result = "DietCategory_Carnivorous_Short".Translate();
-				break;
+				return "DietCategory_Carnivorous_Short".Translate();
 			default:
-				result = "error";
-				break;
+				return "error";
 			}
-			return result;
 		}
 	}
 }

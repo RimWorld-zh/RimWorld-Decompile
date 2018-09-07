@@ -8,11 +8,11 @@ namespace RimWorld
 	{
 		public Thing parent;
 
-		private int stunTicksLeft = 0;
+		private int stunTicksLeft;
 
-		private Mote moteStun = null;
+		private Mote moteStun;
 
-		private int EMPAdaptedTicksLeft = 0;
+		private int EMPAdaptedTicksLeft;
 
 		public const float StunDurationTicksPerDamage = 30f;
 
@@ -34,16 +34,11 @@ namespace RimWorld
 			get
 			{
 				Pawn pawn = this.parent as Pawn;
-				int result;
 				if (pawn != null && pawn.RaceProps.IsMechanoid)
 				{
-					result = 2200;
+					return 2200;
 				}
-				else
-				{
-					result = 0;
-				}
-				return result;
+				return 0;
 			}
 		}
 
@@ -81,24 +76,25 @@ namespace RimWorld
 		public void Notify_DamageApplied(DamageInfo dinfo, bool affectedByEMP)
 		{
 			Pawn pawn = this.parent as Pawn;
-			if (pawn == null || (!pawn.Downed && !pawn.Dead))
+			if (pawn != null && (pawn.Downed || pawn.Dead))
 			{
-				if (dinfo.Def == DamageDefOf.Stun)
+				return;
+			}
+			if (dinfo.Def == DamageDefOf.Stun)
+			{
+				this.StunFor(Mathf.RoundToInt(dinfo.Amount * 30f), dinfo.Instigator);
+			}
+			else if (dinfo.Def == DamageDefOf.EMP && affectedByEMP)
+			{
+				if (this.EMPAdaptedTicksLeft <= 0)
 				{
 					this.StunFor(Mathf.RoundToInt(dinfo.Amount * 30f), dinfo.Instigator);
+					this.EMPAdaptedTicksLeft = this.EMPAdaptationTicksDuration;
 				}
-				else if (dinfo.Def == DamageDefOf.EMP && affectedByEMP)
+				else
 				{
-					if (this.EMPAdaptedTicksLeft <= 0)
-					{
-						this.StunFor(Mathf.RoundToInt(dinfo.Amount * 30f), dinfo.Instigator);
-						this.EMPAdaptedTicksLeft = this.EMPAdaptationTicksDuration;
-					}
-					else
-					{
-						Vector3 loc = new Vector3((float)this.parent.Position.x + 1f, (float)this.parent.Position.y, (float)this.parent.Position.z + 1f);
-						MoteMaker.ThrowText(loc, this.parent.Map, "Adapted".Translate(), Color.white, -1f);
-					}
+					Vector3 loc = new Vector3((float)this.parent.Position.x + 1f, (float)this.parent.Position.y, (float)this.parent.Position.z + 1f);
+					MoteMaker.ThrowText(loc, this.parent.Map, "Adapted".Translate(), Color.white, -1f);
 				}
 			}
 		}

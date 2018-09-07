@@ -22,18 +22,13 @@ namespace Verse
 		{
 			get
 			{
-				bool result;
 				if (!this.parent.SpawnedOrAnyParentSpawned)
 				{
-					result = false;
+					return false;
 				}
-				else
-				{
-					CompProperties_HeatPusher props = this.Props;
-					float ambientTemperature = this.parent.AmbientTemperature;
-					result = (ambientTemperature < props.heatPushMaxTemperature && ambientTemperature > props.heatPushMinTemperature);
-				}
-				return result;
+				CompProperties_HeatPusher props = this.Props;
+				float ambientTemperature = this.parent.AmbientTemperature;
+				return ambientTemperature < props.heatPushMaxTemperature && ambientTemperature > props.heatPushMinTemperature;
 			}
 		}
 

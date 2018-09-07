@@ -18,16 +18,11 @@ namespace RimWorld
 		public override Job NonScanJob(Pawn pawn)
 		{
 			ThinkResult thinkResult = WorkGiver_PatientGoToBedRecuperate.jgp.TryIssueJobPackage(pawn, default(JobIssueParams));
-			Job result;
 			if (thinkResult.IsValid)
 			{
-				result = thinkResult.Job;
+				return thinkResult.Job;
 			}
-			else
-			{
-				result = null;
-			}
-			return result;
+			return null;
 		}
 
 		// Note: this type is marked as 'beforefieldinit'.

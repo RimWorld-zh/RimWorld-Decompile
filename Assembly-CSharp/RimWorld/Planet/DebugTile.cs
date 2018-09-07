@@ -56,53 +56,55 @@ namespace RimWorld.Planet
 
 		public void Draw()
 		{
-			if (this.VisibleForCamera)
+			if (!this.VisibleForCamera)
 			{
-				if (this.mesh == null)
-				{
-					Find.WorldGrid.GetTileVertices(this.tile, DebugTile.tmpVerts);
-					for (int i = 0; i < DebugTile.tmpVerts.Count; i++)
-					{
-						Vector3 a = DebugTile.tmpVerts[i];
-						DebugTile.tmpVerts[i] = a + a.normalized * 0.012f;
-					}
-					this.mesh = new Mesh();
-					this.mesh.name = "DebugTile";
-					this.mesh.SetVertices(DebugTile.tmpVerts);
-					DebugTile.tmpIndices.Clear();
-					for (int j = 0; j < DebugTile.tmpVerts.Count - 2; j++)
-					{
-						DebugTile.tmpIndices.Add(j + 2);
-						DebugTile.tmpIndices.Add(j + 1);
-						DebugTile.tmpIndices.Add(0);
-					}
-					this.mesh.SetTriangles(DebugTile.tmpIndices, 0);
-				}
-				Material material;
-				if (this.customMat != null)
-				{
-					material = this.customMat;
-				}
-				else
-				{
-					int num = Mathf.RoundToInt(this.colorPct * 100f);
-					num %= 100;
-					material = WorldDebugMatsSpectrum.Mat(num);
-				}
-				Graphics.DrawMesh(this.mesh, Vector3.zero, Quaternion.identity, material, WorldCameraManager.WorldLayer);
+				return;
 			}
+			if (this.mesh == null)
+			{
+				Find.WorldGrid.GetTileVertices(this.tile, DebugTile.tmpVerts);
+				for (int i = 0; i < DebugTile.tmpVerts.Count; i++)
+				{
+					Vector3 a = DebugTile.tmpVerts[i];
+					DebugTile.tmpVerts[i] = a + a.normalized * 0.012f;
+				}
+				this.mesh = new Mesh();
+				this.mesh.name = "DebugTile";
+				this.mesh.SetVertices(DebugTile.tmpVerts);
+				DebugTile.tmpIndices.Clear();
+				for (int j = 0; j < DebugTile.tmpVerts.Count - 2; j++)
+				{
+					DebugTile.tmpIndices.Add(j + 2);
+					DebugTile.tmpIndices.Add(j + 1);
+					DebugTile.tmpIndices.Add(0);
+				}
+				this.mesh.SetTriangles(DebugTile.tmpIndices, 0);
+			}
+			Material material;
+			if (this.customMat != null)
+			{
+				material = this.customMat;
+			}
+			else
+			{
+				int num = Mathf.RoundToInt(this.colorPct * 100f);
+				num %= 100;
+				material = WorldDebugMatsSpectrum.Mat(num);
+			}
+			Graphics.DrawMesh(this.mesh, Vector3.zero, Quaternion.identity, material, WorldCameraManager.WorldLayer);
 		}
 
 		public void OnGUI()
 		{
-			if (this.VisibleForCamera)
+			if (!this.VisibleForCamera)
 			{
-				Vector2 screenPos = this.ScreenPos;
-				Rect rect = new Rect(screenPos.x - 20f, screenPos.y - 20f, 40f, 40f);
-				if (this.displayString != null)
-				{
-					Widgets.Label(rect, this.displayString);
-				}
+				return;
+			}
+			Vector2 screenPos = this.ScreenPos;
+			Rect rect = new Rect(screenPos.x - 20f, screenPos.y - 20f, 40f, 40f);
+			if (this.displayString != null)
+			{
+				Widgets.Label(rect, this.displayString);
 			}
 		}
 

@@ -26,22 +26,17 @@ namespace RimWorld
 
 		public override float RandomSelectionWeight(Pawn initiator, Pawn recipient)
 		{
-			float result;
 			if (!LovePartnerRelationUtility.LovePartnerRelationExists(initiator, recipient))
 			{
-				result = 0f;
+				return 0f;
 			}
-			else
+			float num = Mathf.InverseLerp(100f, -100f, (float)initiator.relations.OpinionOf(recipient));
+			float num2 = 1f;
+			if (initiator.relations.DirectRelationExists(PawnRelationDefOf.Spouse, recipient))
 			{
-				float num = Mathf.InverseLerp(100f, -100f, (float)initiator.relations.OpinionOf(recipient));
-				float num2 = 1f;
-				if (initiator.relations.DirectRelationExists(PawnRelationDefOf.Spouse, recipient))
-				{
-					num2 = 0.4f;
-				}
-				result = 0.02f * num * num2;
+				num2 = 0.4f;
 			}
-			return result;
+			return 0.02f * num * num2;
 		}
 
 		public Thought RandomBreakupReason(Pawn initiator, Pawn recipient)
@@ -49,20 +44,15 @@ namespace RimWorld
 			List<Thought_Memory> list = (from m in initiator.needs.mood.thoughts.memories.Memories
 			where m != null && m.otherPawn == recipient && m.CurStage != null && m.CurStage.baseOpinionOffset < 0f
 			select m).ToList<Thought_Memory>();
-			Thought result;
 			if (list.Count == 0)
 			{
-				result = null;
+				return null;
 			}
-			else
-			{
-				float worstMemoryOpinionOffset = list.Max((Thought_Memory m) => -m.CurStage.baseOpinionOffset);
-				Thought_Memory thought_Memory = null;
-				(from m in list
-				where -m.CurStage.baseOpinionOffset >= worstMemoryOpinionOffset / 2f
-				select m).TryRandomElementByWeight((Thought_Memory m) => -m.CurStage.baseOpinionOffset, out thought_Memory);
-				result = thought_Memory;
-			}
+			float worstMemoryOpinionOffset = list.Max((Thought_Memory m) => -m.CurStage.baseOpinionOffset);
+			Thought_Memory result = null;
+			(from m in list
+			where -m.CurStage.baseOpinionOffset >= worstMemoryOpinionOffset / 2f
+			select m).TryRandomElementByWeight((Thought_Memory m) => -m.CurStage.baseOpinionOffset, out result);
 			return result;
 		}
 

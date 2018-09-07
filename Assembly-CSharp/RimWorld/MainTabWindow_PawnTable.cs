@@ -1,6 +1,5 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Runtime.CompilerServices;
 using UnityEngine;
 using Verse;
 
@@ -44,16 +43,11 @@ namespace RimWorld
 		{
 			get
 			{
-				Vector2 result;
 				if (this.table == null)
 				{
-					result = Vector2.zero;
+					return Vector2.zero;
 				}
-				else
-				{
-					result = new Vector2(this.table.Size.x + this.Margin * 2f, this.table.Size.y + this.ExtraBottomSpace + this.ExtraTopSpace + this.Margin * 2f);
-				}
-				return result;
+				return new Vector2(this.table.Size.x + this.Margin * 2f, this.table.Size.y + this.ExtraBottomSpace + this.ExtraTopSpace + this.Margin * 2f);
 			}
 		}
 
@@ -96,7 +90,7 @@ namespace RimWorld
 			return (PawnTable)Activator.CreateInstance(this.PawnTableDef.workerClass, new object[]
 			{
 				this.PawnTableDef,
-				new Func<IEnumerable<Pawn>>(() => this.Pawns),
+				new Func<IEnumerable<Pawn>>(this.get_Pawns),
 				UI.screenWidth - (int)(this.Margin * 2f),
 				(int)((float)(UI.screenHeight - 35) - this.ExtraBottomSpace - this.ExtraTopSpace - this.Margin * 2f)
 			});
@@ -106,12 +100,6 @@ namespace RimWorld
 		{
 			this.table.SetDirty();
 			this.SetInitialSizeAndPosition();
-		}
-
-		[CompilerGenerated]
-		private IEnumerable<Pawn> <CreateTable>m__0()
-		{
-			return this.Pawns;
 		}
 	}
 }

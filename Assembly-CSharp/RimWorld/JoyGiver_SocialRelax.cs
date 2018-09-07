@@ -38,119 +38,106 @@ namespace RimWorld
 
 		private Job TryGiveJobInt(Pawn pawn, Predicate<CompGatherSpot> gatherSpotValidator)
 		{
-			Job result;
 			if (pawn.Map.gatherSpotLister.activeSpots.Count == 0)
 			{
-				result = null;
+				return null;
 			}
-			else
+			JoyGiver_SocialRelax.workingSpots.Clear();
+			for (int i = 0; i < pawn.Map.gatherSpotLister.activeSpots.Count; i++)
 			{
-				JoyGiver_SocialRelax.workingSpots.Clear();
-				for (int i = 0; i < pawn.Map.gatherSpotLister.activeSpots.Count; i++)
+				JoyGiver_SocialRelax.workingSpots.Add(pawn.Map.gatherSpotLister.activeSpots[i]);
+			}
+			CompGatherSpot compGatherSpot;
+			while (JoyGiver_SocialRelax.workingSpots.TryRandomElement(out compGatherSpot))
+			{
+				JoyGiver_SocialRelax.workingSpots.Remove(compGatherSpot);
+				if (!compGatherSpot.parent.IsForbidden(pawn))
 				{
-					JoyGiver_SocialRelax.workingSpots.Add(pawn.Map.gatherSpotLister.activeSpots[i]);
-				}
-				CompGatherSpot compGatherSpot;
-				while (JoyGiver_SocialRelax.workingSpots.TryRandomElement(out compGatherSpot))
-				{
-					JoyGiver_SocialRelax.workingSpots.Remove(compGatherSpot);
-					if (!compGatherSpot.parent.IsForbidden(pawn))
+					if (pawn.CanReach(compGatherSpot.parent, PathEndMode.Touch, Danger.None, false, TraverseMode.ByPawn))
 					{
-						if (pawn.CanReach(compGatherSpot.parent, PathEndMode.Touch, Danger.None, false, TraverseMode.ByPawn))
+						if (compGatherSpot.parent.IsSociallyProper(pawn))
 						{
-							if (compGatherSpot.parent.IsSociallyProper(pawn))
+							if (compGatherSpot.parent.IsPoliticallyProper(pawn))
 							{
-								if (compGatherSpot.parent.IsPoliticallyProper(pawn))
+								if (gatherSpotValidator == null || gatherSpotValidator(compGatherSpot))
 								{
-									if (gatherSpotValidator == null || gatherSpotValidator(compGatherSpot))
+									Job job;
+									Thing t2;
+									if (compGatherSpot.parent.def.surfaceType == SurfaceType.Eat)
 									{
-										Job job;
-										Thing t2;
-										if (compGatherSpot.parent.def.surfaceType == SurfaceType.Eat)
+										Thing t;
+										if (!JoyGiver_SocialRelax.TryFindChairBesideTable(compGatherSpot.parent, pawn, out t))
 										{
-											Thing t;
-											if (!JoyGiver_SocialRelax.TryFindChairBesideTable(compGatherSpot.parent, pawn, out t))
-											{
-												return null;
-											}
-											job = new Job(this.def.jobDef, compGatherSpot.parent, t);
+											return null;
 										}
-										else if (JoyGiver_SocialRelax.TryFindChairNear(compGatherSpot.parent.Position, pawn, out t2))
-										{
-											job = new Job(this.def.jobDef, compGatherSpot.parent, t2);
-										}
-										else
-										{
-											IntVec3 c;
-											if (!JoyGiver_SocialRelax.TryFindSitSpotOnGroundNear(compGatherSpot.parent.Position, pawn, out c))
-											{
-												return null;
-											}
-											job = new Job(this.def.jobDef, compGatherSpot.parent, c);
-										}
-										if (pawn.health.capacities.CapableOf(PawnCapacityDefOf.Manipulation))
-										{
-											Thing thing;
-											if (JoyGiver_SocialRelax.TryFindIngestibleToNurse(compGatherSpot.parent.Position, pawn, out thing))
-											{
-												job.targetC = thing;
-												job.count = Mathf.Min(thing.stackCount, thing.def.ingestible.maxNumToIngestAtOnce);
-											}
-										}
-										return job;
+										job = new Job(this.def.jobDef, compGatherSpot.parent, t);
 									}
+									else if (JoyGiver_SocialRelax.TryFindChairNear(compGatherSpot.parent.Position, pawn, out t2))
+									{
+										job = new Job(this.def.jobDef, compGatherSpot.parent, t2);
+									}
+									else
+									{
+										IntVec3 c;
+										if (!JoyGiver_SocialRelax.TryFindSitSpotOnGroundNear(compGatherSpot.parent.Position, pawn, out c))
+										{
+											return null;
+										}
+										job = new Job(this.def.jobDef, compGatherSpot.parent, c);
+									}
+									Thing thing;
+									if (pawn.health.capacities.CapableOf(PawnCapacityDefOf.Manipulation) && JoyGiver_SocialRelax.TryFindIngestibleToNurse(compGatherSpot.parent.Position, pawn, out thing))
+									{
+										job.targetC = thing;
+										job.count = Mathf.Min(thing.stackCount, thing.def.ingestible.maxNumToIngestAtOnce);
+									}
+									return job;
 								}
 							}
 						}
 					}
 				}
-				result = null;
 			}
-			return result;
+			return null;
 		}
 
 		private static bool TryFindIngestibleToNurse(IntVec3 center, Pawn ingester, out Thing ingestible)
 		{
-			bool result;
 			if (ingester.IsTeetotaler())
 			{
 				ingestible = null;
-				result = false;
+				return false;
 			}
-			else if (ingester.drugs == null)
+			if (ingester.drugs == null)
 			{
 				ingestible = null;
-				result = false;
+				return false;
 			}
-			else
+			JoyGiver_SocialRelax.nurseableDrugs.Clear();
+			DrugPolicy currentPolicy = ingester.drugs.CurrentPolicy;
+			for (int i = 0; i < currentPolicy.Count; i++)
 			{
-				JoyGiver_SocialRelax.nurseableDrugs.Clear();
-				DrugPolicy currentPolicy = ingester.drugs.CurrentPolicy;
-				for (int i = 0; i < currentPolicy.Count; i++)
+				if (currentPolicy[i].allowedForJoy && currentPolicy[i].drug.ingestible.nurseable)
 				{
-					if (currentPolicy[i].allowedForJoy && currentPolicy[i].drug.ingestible.nurseable)
-					{
-						JoyGiver_SocialRelax.nurseableDrugs.Add(currentPolicy[i].drug);
-					}
+					JoyGiver_SocialRelax.nurseableDrugs.Add(currentPolicy[i].drug);
 				}
-				JoyGiver_SocialRelax.nurseableDrugs.Shuffle<ThingDef>();
-				for (int j = 0; j < JoyGiver_SocialRelax.nurseableDrugs.Count; j++)
-				{
-					List<Thing> list = ingester.Map.listerThings.ThingsOfDef(JoyGiver_SocialRelax.nurseableDrugs[j]);
-					if (list.Count > 0)
-					{
-						Predicate<Thing> validator = (Thing t) => ingester.CanReserve(t, 1, -1, null, false) && !t.IsForbidden(ingester);
-						ingestible = GenClosest.ClosestThing_Global_Reachable(center, ingester.Map, list, PathEndMode.OnCell, TraverseParms.For(ingester, Danger.Deadly, TraverseMode.ByPawn, false), 40f, validator, null);
-						if (ingestible != null)
-						{
-							return true;
-						}
-					}
-				}
-				ingestible = null;
-				result = false;
 			}
-			return result;
+			JoyGiver_SocialRelax.nurseableDrugs.Shuffle<ThingDef>();
+			for (int j = 0; j < JoyGiver_SocialRelax.nurseableDrugs.Count; j++)
+			{
+				List<Thing> list = ingester.Map.listerThings.ThingsOfDef(JoyGiver_SocialRelax.nurseableDrugs[j]);
+				if (list.Count > 0)
+				{
+					Predicate<Thing> validator = (Thing t) => ingester.CanReserve(t, 1, -1, null, false) && !t.IsForbidden(ingester);
+					ingestible = GenClosest.ClosestThing_Global_Reachable(center, ingester.Map, list, PathEndMode.OnCell, TraverseParms.For(ingester, Danger.Deadly, TraverseMode.ByPawn, false), 40f, validator, null);
+					if (ingestible != null)
+					{
+						return true;
+					}
+				}
+			}
+			ingestible = null;
+			return false;
 		}
 
 		private static bool TryFindChairBesideTable(Thing table, Pawn sitter, out Thing chair)

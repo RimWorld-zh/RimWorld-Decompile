@@ -19,7 +19,7 @@ namespace RimWorld.Planet
 
 		public override IEnumerable Regenerate()
 		{
-			IEnumerator enumerator = this.<Regenerate>__BaseCallProxy0().GetEnumerator();
+			IEnumerator enumerator = base.Regenerate().GetEnumerator();
 			try
 			{
 				while (enumerator.MoveNext())

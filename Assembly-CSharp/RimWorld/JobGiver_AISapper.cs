@@ -32,13 +32,10 @@ namespace RimWorld
 		protected override Job TryGiveJob(Pawn pawn)
 		{
 			IntVec3 intVec = (IntVec3)pawn.mindState.duty.focus;
-			if (intVec.IsValid)
+			if (intVec.IsValid && (float)intVec.DistanceToSquared(pawn.Position) < 100f && intVec.GetRoom(pawn.Map, RegionType.Set_Passable) == pawn.GetRoom(RegionType.Set_Passable) && intVec.WithinRegions(pawn.Position, pawn.Map, 9, TraverseMode.NoPassClosedDoors, RegionType.Set_Passable))
 			{
-				if ((float)intVec.DistanceToSquared(pawn.Position) < 100f && intVec.GetRoom(pawn.Map, RegionType.Set_Passable) == pawn.GetRoom(RegionType.Set_Passable) && intVec.WithinRegions(pawn.Position, pawn.Map, 9, TraverseMode.NoPassClosedDoors, RegionType.Set_Passable))
-				{
-					pawn.GetLord().Notify_ReachedDutyLocation(pawn);
-					return null;
-				}
+				pawn.GetLord().Notify_ReachedDutyLocation(pawn);
+				return null;
 			}
 			if (!intVec.IsValid)
 			{
@@ -51,29 +48,24 @@ namespace RimWorld
 				}
 				intVec = attackTarget.Thing.Position;
 			}
-			Job result;
 			if (!pawn.CanReach(intVec, PathEndMode.OnCell, Danger.Deadly, false, TraverseMode.PassAllDestroyableThings))
 			{
-				result = null;
+				return null;
 			}
-			else
+			using (PawnPath pawnPath = pawn.Map.pathFinder.FindPath(pawn.Position, intVec, TraverseParms.For(pawn, Danger.Deadly, TraverseMode.PassAllDestroyableThings, false), PathEndMode.OnCell))
 			{
-				using (PawnPath pawnPath = pawn.Map.pathFinder.FindPath(pawn.Position, intVec, TraverseParms.For(pawn, Danger.Deadly, TraverseMode.PassAllDestroyableThings, false), PathEndMode.OnCell))
+				IntVec3 cellBeforeBlocker;
+				Thing thing = pawnPath.FirstBlockingBuilding(out cellBeforeBlocker, pawn);
+				if (thing != null)
 				{
-					IntVec3 cellBeforeBlocker;
-					Thing thing = pawnPath.FirstBlockingBuilding(out cellBeforeBlocker, pawn);
-					if (thing != null)
+					Job job = DigUtility.PassBlockerJob(pawn, thing, cellBeforeBlocker, this.canMineMineables, this.canMineNonMineables);
+					if (job != null)
 					{
-						Job job = DigUtility.PassBlockerJob(pawn, thing, cellBeforeBlocker, this.canMineMineables, this.canMineNonMineables);
-						if (job != null)
-						{
-							return job;
-						}
+						return job;
 					}
 				}
-				result = new Job(JobDefOf.Goto, intVec, 500, true);
 			}
-			return result;
+			return new Job(JobDefOf.Goto, intVec, 500, true);
 		}
 
 		[CompilerGenerated]

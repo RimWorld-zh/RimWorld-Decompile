@@ -67,7 +67,7 @@ namespace RimWorld.Planet
 
 		public override IEnumerable<Gizmo> GetGizmos()
 		{
-			foreach (Gizmo g in this.<GetGizmos>__BaseCallProxy0())
+			foreach (Gizmo g in base.GetGizmos())
 			{
 				yield return g;
 			}

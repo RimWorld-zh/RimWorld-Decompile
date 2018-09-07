@@ -9,17 +9,15 @@ namespace RimWorld
 {
 	public class FleshTypeDef : Def
 	{
-		public ThoughtDef ateDirect = null;
+		public ThoughtDef ateDirect;
 
-		public ThoughtDef ateAsIngredient = null;
+		public ThoughtDef ateAsIngredient;
 
-		public ThingCategoryDef corpseCategory = null;
+		public ThingCategoryDef corpseCategory;
 
-		public bool requiresBedForSurgery = true;
+		public List<FleshTypeDef.Wound> wounds;
 
-		public List<FleshTypeDef.Wound> wounds = null;
-
-		private List<Material> woundsResolved = null;
+		private List<Material> woundsResolved;
 
 		[CompilerGenerated]
 		private static Func<FleshTypeDef.Wound, Material> <>f__am$cache0;
@@ -30,21 +28,16 @@ namespace RimWorld
 
 		public Material ChooseWoundOverlay()
 		{
-			Material result;
 			if (this.wounds == null)
 			{
-				result = null;
+				return null;
 			}
-			else
+			if (this.woundsResolved == null)
 			{
-				if (this.woundsResolved == null)
-				{
-					this.woundsResolved = (from wound in this.wounds
-					select wound.GetMaterial()).ToList<Material>();
-				}
-				result = this.woundsResolved.RandomElement<Material>();
+				this.woundsResolved = (from wound in this.wounds
+				select wound.GetMaterial()).ToList<Material>();
 			}
-			return result;
+			return this.woundsResolved.RandomElement<Material>();
 		}
 
 		[CompilerGenerated]

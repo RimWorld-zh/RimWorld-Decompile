@@ -4,13 +4,13 @@ namespace Verse
 {
 	public abstract class Stance_Busy : Stance
 	{
-		public int ticksLeft = 0;
+		public int ticksLeft;
 
 		public Verb verb;
 
 		public LocalTargetInfo focusTarg;
 
-		public bool neverAimWeapon = false;
+		public bool neverAimWeapon;
 
 		protected float pieSizeFactor = 1f;
 
@@ -64,6 +64,11 @@ namespace Verse
 			if (Scribe.mode == LoadSaveMode.LoadingVars)
 			{
 				this.SetPieSizeFactor();
+			}
+			if (Scribe.mode == LoadSaveMode.PostLoadInit && this.verb != null && this.verb.BuggedAfterLoading)
+			{
+				this.verb = null;
+				Log.Warning(base.GetType() + " had a bugged verb after loading.", false);
 			}
 		}
 

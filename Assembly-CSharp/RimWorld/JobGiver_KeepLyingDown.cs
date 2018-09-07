@@ -12,16 +12,11 @@ namespace RimWorld
 
 		protected override Job TryGiveJob(Pawn pawn)
 		{
-			Job result;
 			if (pawn.GetPosture().Laying())
 			{
-				result = pawn.CurJob;
+				return pawn.CurJob;
 			}
-			else
-			{
-				result = new Job(JobDefOf.LayDown, pawn.Position);
-			}
-			return result;
+			return new Job(JobDefOf.LayDown, pawn.Position);
 		}
 	}
 }

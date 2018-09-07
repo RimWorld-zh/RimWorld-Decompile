@@ -25,9 +25,9 @@ namespace RimWorld
 
 		public bool allowRivers = true;
 
-		public float animalDensity = 0f;
+		public float animalDensity;
 
-		public float plantDensity = 0f;
+		public float plantDensity;
 
 		public float diseaseMtbDays = 60f;
 
@@ -69,13 +69,13 @@ namespace RimWorld
 		public string texture;
 
 		[Unsaved]
-		private Dictionary<PawnKindDef, float> cachedAnimalCommonalities = null;
+		private Dictionary<PawnKindDef, float> cachedAnimalCommonalities;
 
 		[Unsaved]
-		private Dictionary<ThingDef, float> cachedPlantCommonalities = null;
+		private Dictionary<ThingDef, float> cachedPlantCommonalities;
 
 		[Unsaved]
-		private Dictionary<IncidentDef, float> cachedDiseaseCommonalities = null;
+		private Dictionary<IncidentDef, float> cachedDiseaseCommonalities;
 
 		[Unsaved]
 		private Material cachedMat;
@@ -263,33 +263,23 @@ namespace RimWorld
 					}
 				}
 			}
-			float num;
 			float result;
-			if (this.cachedAnimalCommonalities.TryGetValue(animalDef, out num))
+			if (this.cachedAnimalCommonalities.TryGetValue(animalDef, out result))
 			{
-				result = num;
+				return result;
 			}
-			else
-			{
-				result = 0f;
-			}
-			return result;
+			return 0f;
 		}
 
 		public float CommonalityOfPlant(ThingDef plantDef)
 		{
 			this.CachePlantCommonalitiesIfShould();
-			float num;
 			float result;
-			if (this.cachedPlantCommonalities.TryGetValue(plantDef, out num))
+			if (this.cachedPlantCommonalities.TryGetValue(plantDef, out result))
 			{
-				result = num;
+				return result;
 			}
-			else
-			{
-				result = 0f;
-			}
-			return result;
+			return 0f;
 		}
 
 		public float CommonalityPctOfPlant(ThingDef plantDef)
@@ -320,17 +310,12 @@ namespace RimWorld
 					}
 				}
 			}
-			float num;
 			float result;
-			if (this.cachedDiseaseCommonalities.TryGetValue(diseaseInc, out num))
+			if (this.cachedDiseaseCommonalities.TryGetValue(diseaseInc, out result))
 			{
-				result = num;
+				return result;
 			}
-			else
-			{
-				result = 0f;
-			}
-			return result;
+			return 0f;
 		}
 
 		public bool IsPackAnimalAllowed(ThingDef pawn)
@@ -371,7 +356,7 @@ namespace RimWorld
 
 		public override IEnumerable<string> ConfigErrors()
 		{
-			foreach (string e in this.<ConfigErrors>__BaseCallProxy0())
+			foreach (string e in base.ConfigErrors())
 			{
 				yield return e;
 			}
@@ -445,11 +430,8 @@ namespace RimWorld
 				{
 					switch (num)
 					{
-					case 1u:
-						IL_98:
-						break;
 					}
-					if (enumerator.MoveNext())
+					while (enumerator.MoveNext())
 					{
 						kindDef = enumerator.Current;
 						if (base.CommonalityOfAnimal(kindDef) > 0f)
@@ -462,7 +444,6 @@ namespace RimWorld
 							flag = true;
 							return true;
 						}
-						goto IL_98;
 					}
 				}
 				finally
@@ -583,7 +564,7 @@ namespace RimWorld
 				case 1u:
 					break;
 				case 2u:
-					goto IL_DD;
+					goto IL_D7;
 				default:
 					return false;
 				}
@@ -616,20 +597,17 @@ namespace RimWorld
 				}
 				if (!Prefs.DevMode)
 				{
-					goto IL_1AB;
+					goto IL_1A2;
 				}
 				enumerator2 = this.wildAnimals.GetEnumerator();
 				num = 4294967293u;
 				try
 				{
-					IL_DD:
+					IL_D7:
 					switch (num)
 					{
-					case 2u:
-						IL_17E:
-						break;
 					}
-					if (enumerator2.MoveNext())
+					while (enumerator2.MoveNext())
 					{
 						BiomeAnimalRecord wa = enumerator2.Current;
 						if (this.wildAnimals.Count((BiomeAnimalRecord a) => a.animal == wa.animal) > 1)
@@ -642,7 +620,6 @@ namespace RimWorld
 							flag = true;
 							return true;
 						}
-						goto IL_17E;
 					}
 				}
 				finally
@@ -652,7 +629,7 @@ namespace RimWorld
 						((IDisposable)enumerator2).Dispose();
 					}
 				}
-				IL_1AB:
+				IL_1A2:
 				this.$PC = -1;
 				return false;
 			}

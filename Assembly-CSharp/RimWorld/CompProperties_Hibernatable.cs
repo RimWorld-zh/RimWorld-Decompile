@@ -12,7 +12,7 @@ namespace RimWorld
 	{
 		public float startupDays = 15f;
 
-		public IncidentTargetTypeDef incidentTargetWhileStarting = null;
+		public IncidentTargetTagDef incidentTargetWhileStarting;
 
 		public CompProperties_Hibernatable()
 		{
@@ -21,7 +21,7 @@ namespace RimWorld
 
 		public override IEnumerable<string> ConfigErrors(ThingDef parentDef)
 		{
-			foreach (string err in this.<ConfigErrors>__BaseCallProxy0(parentDef))
+			foreach (string err in base.ConfigErrors(parentDef))
 			{
 				yield return err;
 			}
@@ -81,7 +81,7 @@ namespace RimWorld
 				case 1u:
 					break;
 				case 2u:
-					goto IL_120;
+					goto IL_11C;
 				default:
 					return false;
 				}
@@ -114,7 +114,7 @@ namespace RimWorld
 				}
 				if (parentDef.tickerType == TickerType.Normal)
 				{
-					goto IL_120;
+					goto IL_11C;
 				}
 				this.$current = string.Concat(new object[]
 				{
@@ -128,7 +128,7 @@ namespace RimWorld
 					this.$PC = 2;
 				}
 				return true;
-				IL_120:
+				IL_11C:
 				this.$PC = -1;
 				return false;
 			}

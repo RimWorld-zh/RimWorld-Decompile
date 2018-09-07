@@ -120,21 +120,16 @@ namespace RimWorld
 
 		private static bool IsGoodShrapnelCell(IntVec3 c, Map map)
 		{
-			bool result;
 			if (!c.InBounds(map))
 			{
-				result = false;
+				return false;
 			}
-			else if (c.Impassable(map) || c.Filled(map))
+			if (c.Impassable(map) || c.Filled(map))
 			{
-				result = false;
+				return false;
 			}
-			else
-			{
-				RoofDef roofDef = map.roofGrid.RoofAt(c);
-				result = (roofDef == null);
-			}
-			return result;
+			RoofDef roofDef = map.roofGrid.RoofAt(c);
+			return roofDef == null;
 		}
 
 		private static IntVec3 GenerateShrapnelLocation(IntVec3 center, float angleOffset, float distanceFactor)

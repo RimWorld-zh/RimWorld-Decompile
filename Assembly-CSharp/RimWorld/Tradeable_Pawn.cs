@@ -33,7 +33,7 @@ namespace RimWorld
 				{
 					text2,
 					" (",
-					this.AnyPawn.gender.GetLabel(),
+					this.AnyPawn.GetGenderLabel(),
 					", ",
 					this.AnyPawn.ageTracker.AgeBiologicalYearsFloat.ToString("F0"),
 					")"
@@ -45,18 +45,12 @@ namespace RimWorld
 		{
 			get
 			{
-				string result;
 				if (!this.HasAnyThing)
 				{
-					result = "";
+					return string.Empty;
 				}
-				else
-				{
-					string text = this.AnyPawn.MainDesc(true);
-					text = text + "\n\n" + this.AnyPawn.def.description;
-					result = text;
-				}
-				return result;
+				string str = this.AnyPawn.MainDesc(true);
+				return str + "\n\n" + this.AnyPawn.def.description;
 			}
 		}
 

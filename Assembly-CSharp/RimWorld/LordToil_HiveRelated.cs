@@ -33,21 +33,16 @@ namespace RimWorld
 		protected Hive GetHiveFor(Pawn pawn)
 		{
 			Hive hive;
-			Hive result;
 			if (this.Data.assignedHives.TryGetValue(pawn, out hive))
 			{
-				result = hive;
+				return hive;
 			}
-			else
+			hive = this.FindClosestHive(pawn);
+			if (hive != null)
 			{
-				hive = this.FindClosestHive(pawn);
-				if (hive != null)
-				{
-					this.Data.assignedHives.Add(pawn, hive);
-				}
-				result = hive;
+				this.Data.assignedHives.Add(pawn, hive);
 			}
-			return result;
+			return hive;
 		}
 
 		private Hive FindClosestHive(Pawn pawn)

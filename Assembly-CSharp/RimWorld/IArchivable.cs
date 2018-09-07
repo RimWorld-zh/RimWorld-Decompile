@@ -4,7 +4,7 @@ using Verse;
 
 namespace RimWorld
 {
-	public interface IArchivable : IExposable
+	public interface IArchivable : IExposable, ILoadReferenceable
 	{
 		Texture ArchivedIcon { get; }
 

@@ -9,15 +9,15 @@ namespace Verse
 	{
 		public LifeStageDef def;
 
-		public float minAge = 0f;
+		public float minAge;
 
-		public SoundDef soundCall = null;
+		public SoundDef soundCall;
 
-		public SoundDef soundAngry = null;
+		public SoundDef soundAngry;
 
-		public SoundDef soundWounded = null;
+		public SoundDef soundWounded;
 
-		public SoundDef soundDeath = null;
+		public SoundDef soundDeath;
 
 		private static readonly Texture2D VeryYoungIcon = ContentFinder<Texture2D>.Get("UI/Icons/LifeStage/VeryYoung", true);
 
@@ -31,29 +31,21 @@ namespace Verse
 
 		public Texture2D GetIcon(Pawn forPawn)
 		{
-			Texture2D result;
 			if (this.def.iconTex != null)
 			{
-				result = this.def.iconTex;
+				return this.def.iconTex;
 			}
-			else
+			int count = forPawn.RaceProps.lifeStageAges.Count;
+			int num = forPawn.RaceProps.lifeStageAges.IndexOf(this);
+			if (num == count - 1)
 			{
-				int count = forPawn.RaceProps.lifeStageAges.Count;
-				int num = forPawn.RaceProps.lifeStageAges.IndexOf(this);
-				if (num == count - 1)
-				{
-					result = LifeStageAge.AdultIcon;
-				}
-				else if (num == 0)
-				{
-					result = LifeStageAge.VeryYoungIcon;
-				}
-				else
-				{
-					result = LifeStageAge.YoungIcon;
-				}
+				return LifeStageAge.AdultIcon;
 			}
-			return result;
+			if (num == 0)
+			{
+				return LifeStageAge.VeryYoungIcon;
+			}
+			return LifeStageAge.YoungIcon;
 		}
 
 		// Note: this type is marked as 'beforefieldinit'.

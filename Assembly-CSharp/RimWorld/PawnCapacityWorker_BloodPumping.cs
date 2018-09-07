@@ -13,7 +13,7 @@ namespace RimWorld
 		public override float CalculateCapacityLevel(HediffSet diffSet, List<PawnCapacityUtility.CapacityImpactor> impactors = null)
 		{
 			BodyPartTagDef bloodPumpingSource = BodyPartTagDefOf.BloodPumpingSource;
-			return PawnCapacityUtility.CalculateTagEfficiency(diffSet, bloodPumpingSource, float.MaxValue, default(FloatRange), impactors);
+			return PawnCapacityUtility.CalculateTagEfficiency(diffSet, bloodPumpingSource, float.MaxValue, default(FloatRange), impactors, -1f);
 		}
 
 		public override bool CanHaveCapacity(BodyDef body)

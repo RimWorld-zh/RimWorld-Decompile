@@ -7,7 +7,7 @@ namespace UnityStandardAssets.ImageEffects
 	[RequireComponent(typeof(Camera))]
 	internal class TiltShift : PostEffectsBase
 	{
-		public TiltShift.TiltShiftMode mode = TiltShift.TiltShiftMode.TiltShiftMode;
+		public TiltShift.TiltShiftMode mode;
 
 		public TiltShift.TiltShiftQuality quality = TiltShift.TiltShiftQuality.Normal;
 
@@ -18,11 +18,11 @@ namespace UnityStandardAssets.ImageEffects
 		public float maxBlurSize = 5f;
 
 		[Range(0f, 1f)]
-		public int downsample = 0;
+		public int downsample;
 
-		public Shader tiltShiftShader = null;
+		public Shader tiltShiftShader;
 
-		private Material tiltShiftMaterial = null;
+		private Material tiltShiftMaterial;
 
 		public TiltShift()
 		{
@@ -44,30 +44,28 @@ namespace UnityStandardAssets.ImageEffects
 			if (!this.CheckResources())
 			{
 				Graphics.Blit(source, destination);
+				return;
 			}
-			else
+			this.tiltShiftMaterial.SetFloat("_BlurSize", (this.maxBlurSize >= 0f) ? this.maxBlurSize : 0f);
+			this.tiltShiftMaterial.SetFloat("_BlurArea", this.blurArea);
+			source.filterMode = FilterMode.Bilinear;
+			RenderTexture renderTexture = destination;
+			if ((float)this.downsample > 0f)
 			{
-				this.tiltShiftMaterial.SetFloat("_BlurSize", (this.maxBlurSize >= 0f) ? this.maxBlurSize : 0f);
-				this.tiltShiftMaterial.SetFloat("_BlurArea", this.blurArea);
-				source.filterMode = FilterMode.Bilinear;
-				RenderTexture renderTexture = destination;
-				if ((float)this.downsample > 0f)
-				{
-					renderTexture = RenderTexture.GetTemporary(source.width >> this.downsample, source.height >> this.downsample, 0, source.format);
-					renderTexture.filterMode = FilterMode.Bilinear;
-				}
-				int num = (int)this.quality;
-				num *= 2;
-				Graphics.Blit(source, renderTexture, this.tiltShiftMaterial, (this.mode != TiltShift.TiltShiftMode.TiltShiftMode) ? (num + 1) : num);
-				if (this.downsample > 0)
-				{
-					this.tiltShiftMaterial.SetTexture("_Blurred", renderTexture);
-					Graphics.Blit(source, destination, this.tiltShiftMaterial, 6);
-				}
-				if (renderTexture != destination)
-				{
-					RenderTexture.ReleaseTemporary(renderTexture);
-				}
+				renderTexture = RenderTexture.GetTemporary(source.width >> this.downsample, source.height >> this.downsample, 0, source.format);
+				renderTexture.filterMode = FilterMode.Bilinear;
+			}
+			int num = (int)this.quality;
+			num *= 2;
+			Graphics.Blit(source, renderTexture, this.tiltShiftMaterial, (this.mode != TiltShift.TiltShiftMode.TiltShiftMode) ? (num + 1) : num);
+			if (this.downsample > 0)
+			{
+				this.tiltShiftMaterial.SetTexture("_Blurred", renderTexture);
+				Graphics.Blit(source, destination, this.tiltShiftMaterial, 6);
+			}
+			if (renderTexture != destination)
+			{
+				RenderTexture.ReleaseTemporary(renderTexture);
 			}
 		}
 

@@ -12,16 +12,11 @@ namespace RimWorld
 		public override bool Matches(Thing t)
 		{
 			CompRottable compRottable = t.TryGetComp<CompRottable>();
-			bool result;
 			if (compRottable == null)
 			{
-				result = t.def.IsIngestible;
+				return t.def.IsIngestible;
 			}
-			else
-			{
-				result = (compRottable.Stage == RotStage.Fresh);
-			}
-			return result;
+			return compRottable.Stage == RotStage.Fresh;
 		}
 
 		public override bool CanEverMatch(ThingDef def)

@@ -14,43 +14,41 @@ namespace Verse
 			if (map == null)
 			{
 				Log.Warning("Tried to do explosion in a null map.", false);
+				return;
 			}
-			else
+			if (damAmount < 0)
 			{
+				damAmount = damType.defaultDamage;
+				armorPenetration = damType.defaultArmorPenetration;
 				if (damAmount < 0)
 				{
-					damAmount = damType.defaultDamage;
-					armorPenetration = damType.defaultArmorPenetration;
-					if (damAmount < 0)
-					{
-						Log.ErrorOnce("Attempted to trigger an explosion without defined damage", 91094882, false);
-						damAmount = 1;
-					}
+					Log.ErrorOnce("Attempted to trigger an explosion without defined damage", 91094882, false);
+					damAmount = 1;
 				}
-				if (armorPenetration < 0f)
-				{
-					armorPenetration = (float)damAmount * 0.015f;
-				}
-				Explosion explosion = (Explosion)GenSpawn.Spawn(ThingDefOf.Explosion, center, map, WipeMode.Vanish);
-				explosion.radius = radius;
-				explosion.damType = damType;
-				explosion.instigator = instigator;
-				explosion.damAmount = damAmount;
-				explosion.armorPenetration = armorPenetration;
-				explosion.weapon = weapon;
-				explosion.projectile = projectile;
-				explosion.intendedTarget = intendedTarget;
-				explosion.preExplosionSpawnThingDef = preExplosionSpawnThingDef;
-				explosion.preExplosionSpawnChance = preExplosionSpawnChance;
-				explosion.preExplosionSpawnThingCount = preExplosionSpawnThingCount;
-				explosion.postExplosionSpawnThingDef = postExplosionSpawnThingDef;
-				explosion.postExplosionSpawnChance = postExplosionSpawnChance;
-				explosion.postExplosionSpawnThingCount = postExplosionSpawnThingCount;
-				explosion.applyDamageToExplosionCellsNeighbors = applyDamageToExplosionCellsNeighbors;
-				explosion.chanceToStartFire = chanceToStartFire;
-				explosion.damageFalloff = damageFalloff;
-				explosion.StartExplosion(explosionSound);
 			}
+			if (armorPenetration < 0f)
+			{
+				armorPenetration = (float)damAmount * 0.015f;
+			}
+			Explosion explosion = (Explosion)GenSpawn.Spawn(ThingDefOf.Explosion, center, map, WipeMode.Vanish);
+			explosion.radius = radius;
+			explosion.damType = damType;
+			explosion.instigator = instigator;
+			explosion.damAmount = damAmount;
+			explosion.armorPenetration = armorPenetration;
+			explosion.weapon = weapon;
+			explosion.projectile = projectile;
+			explosion.intendedTarget = intendedTarget;
+			explosion.preExplosionSpawnThingDef = preExplosionSpawnThingDef;
+			explosion.preExplosionSpawnChance = preExplosionSpawnChance;
+			explosion.preExplosionSpawnThingCount = preExplosionSpawnThingCount;
+			explosion.postExplosionSpawnThingDef = postExplosionSpawnThingDef;
+			explosion.postExplosionSpawnChance = postExplosionSpawnChance;
+			explosion.postExplosionSpawnThingCount = postExplosionSpawnThingCount;
+			explosion.applyDamageToExplosionCellsNeighbors = applyDamageToExplosionCellsNeighbors;
+			explosion.chanceToStartFire = chanceToStartFire;
+			explosion.damageFalloff = damageFalloff;
+			explosion.StartExplosion(explosionSound);
 		}
 
 		public static void RenderPredictedAreaOfEffect(IntVec3 loc, float radius)
@@ -60,25 +58,22 @@ namespace Verse
 
 		public static void NotifyNearbyPawnsOfDangerousExplosive(Thing exploder, DamageDef damage, Faction onlyFaction = null)
 		{
-			if (damage.externalViolence)
+			Room room = exploder.GetRoom(RegionType.Set_Passable);
+			for (int i = 0; i < GenExplosion.PawnNotifyCellCount; i++)
 			{
-				Room room = exploder.GetRoom(RegionType.Set_Passable);
-				for (int i = 0; i < GenExplosion.PawnNotifyCellCount; i++)
+				IntVec3 c = exploder.Position + GenRadial.RadialPattern[i];
+				if (c.InBounds(exploder.Map))
 				{
-					IntVec3 c = exploder.Position + GenRadial.RadialPattern[i];
-					if (c.InBounds(exploder.Map))
+					List<Thing> thingList = c.GetThingList(exploder.Map);
+					for (int j = 0; j < thingList.Count; j++)
 					{
-						List<Thing> thingList = c.GetThingList(exploder.Map);
-						for (int j = 0; j < thingList.Count; j++)
+						Pawn pawn = thingList[j] as Pawn;
+						if (pawn != null && pawn.RaceProps.intelligence >= Intelligence.Humanlike && (onlyFaction == null || pawn.Faction == onlyFaction) && damage.ExternalViolenceFor(pawn))
 						{
-							Pawn pawn = thingList[j] as Pawn;
-							if (pawn != null && pawn.RaceProps.intelligence >= Intelligence.Humanlike && (onlyFaction == null || pawn.Faction == onlyFaction))
+							Room room2 = pawn.GetRoom(RegionType.Set_Passable);
+							if (room2 == null || room2.CellCount == 1 || (room2 == room && GenSight.LineOfSight(exploder.Position, pawn.Position, exploder.Map, true, null, 0, 0)))
 							{
-								Room room2 = pawn.GetRoom(RegionType.Set_Passable);
-								if (room2 == null || room2.CellCount == 1 || (room2 == room && GenSight.LineOfSight(exploder.Position, pawn.Position, exploder.Map, true, null, 0, 0)))
-								{
-									pawn.mindState.Notify_DangerousExploderAboutToExplode(exploder);
-								}
+								pawn.mindState.Notify_DangerousExploderAboutToExplode(exploder);
 							}
 						}
 					}

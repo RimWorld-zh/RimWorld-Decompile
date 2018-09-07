@@ -11,9 +11,9 @@ namespace RimWorld
 {
 	public class ThoughtDef : Def
 	{
-		public Type thoughtClass = null;
+		public Type thoughtClass;
 
-		public Type workerClass = null;
+		public Type workerClass;
 
 		public List<ThoughtStage> stages = new List<ThoughtStage>();
 
@@ -21,23 +21,23 @@ namespace RimWorld
 
 		public float stackedEffectMultiplier = 0.75f;
 
-		public float durationDays = 0f;
+		public float durationDays;
 
-		public bool invert = false;
+		public bool invert;
 
-		public bool validWhileDespawned = false;
+		public bool validWhileDespawned;
 
-		public ThoughtDef nextThought = null;
+		public ThoughtDef nextThought;
 
-		public List<TraitDef> nullifyingTraits = null;
+		public List<TraitDef> nullifyingTraits;
 
-		public List<TaleDef> nullifyingOwnTales = null;
+		public List<TaleDef> nullifyingOwnTales;
 
-		public List<TraitDef> requiredTraits = null;
+		public List<TraitDef> requiredTraits;
 
 		public int requiredTraitsDegree = int.MinValue;
 
-		public StatDef effectMultiplyingStat = null;
+		public StatDef effectMultiplyingStat;
 
 		public HediffDef hediff;
 
@@ -45,12 +45,12 @@ namespace RimWorld
 
 		public bool nullifiedIfNotColonist;
 
-		public ThoughtDef thoughtToMake = null;
+		public ThoughtDef thoughtToMake;
 
 		[NoTranslate]
-		private string icon = null;
+		private string icon;
 
-		public bool showBubble = false;
+		public bool showBubble;
 
 		public int stackLimitForSameOtherPawn = -1;
 
@@ -61,7 +61,7 @@ namespace RimWorld
 		public TaleDef taleDef;
 
 		[Unsaved]
-		private ThoughtWorker workerInt = null;
+		private ThoughtWorker workerInt;
 
 		[Unsaved]
 		private BoolUnknown isMemoryCached = BoolUnknown.Unknown;
@@ -76,28 +76,23 @@ namespace RimWorld
 		{
 			get
 			{
-				string result;
 				if (!this.label.NullOrEmpty())
 				{
-					result = this.label;
+					return this.label;
 				}
-				else
+				if (!this.stages.NullOrEmpty<ThoughtStage>())
 				{
-					if (!this.stages.NullOrEmpty<ThoughtStage>())
+					if (!this.stages[0].label.NullOrEmpty())
 					{
-						if (!this.stages[0].label.NullOrEmpty())
-						{
-							return this.stages[0].label;
-						}
-						if (!this.stages[0].labelSocial.NullOrEmpty())
-						{
-							return this.stages[0].labelSocial;
-						}
+						return this.stages[0].label;
 					}
-					Log.Error("Cannot get good label for ThoughtDef " + this.defName, false);
-					result = this.defName;
+					if (!this.stages[0].labelSocial.NullOrEmpty())
+					{
+						return this.stages[0].labelSocial;
+					}
 				}
-				return result;
+				Log.Error("Cannot get good label for ThoughtDef " + this.defName, false);
+				return this.defName;
 			}
 		}
 
@@ -162,20 +157,15 @@ namespace RimWorld
 		{
 			get
 			{
-				Type typeFromHandle;
 				if (this.thoughtClass != null)
 				{
-					typeFromHandle = this.thoughtClass;
+					return this.thoughtClass;
 				}
-				else if (this.IsMemory)
+				if (this.IsMemory)
 				{
-					typeFromHandle = typeof(Thought_Memory);
+					return typeof(Thought_Memory);
 				}
-				else
-				{
-					typeFromHandle = typeof(Thought_Situational);
-				}
-				return typeFromHandle;
+				return typeof(Thought_Situational);
 			}
 		}
 
@@ -197,7 +187,7 @@ namespace RimWorld
 
 		public override IEnumerable<string> ConfigErrors()
 		{
-			foreach (string error in this.<ConfigErrors>__BaseCallProxy0())
+			foreach (string error in base.ConfigErrors())
 			{
 				yield return error;
 			}
@@ -282,13 +272,13 @@ namespace RimWorld
 				case 1u:
 					break;
 				case 2u:
-					goto IL_FC;
+					goto IL_F8;
 				case 3u:
-					goto IL_13B;
+					goto IL_137;
 				case 4u:
-					goto IL_17A;
+					goto IL_176;
 				case 5u:
-					goto IL_1C9;
+					goto IL_1C5;
 				case 6u:
 					Block_16:
 					try
@@ -318,7 +308,7 @@ namespace RimWorld
 							}
 						}
 					}
-					goto IL_293;
+					goto IL_289;
 				default:
 					return false;
 				}
@@ -358,7 +348,7 @@ namespace RimWorld
 					}
 					return true;
 				}
-				IL_FC:
+				IL_F8:
 				if (this.workerClass != null && this.nextThought != null)
 				{
 					this.$current = "has a nextThought but also has a workerClass. nextThought only works for memories";
@@ -368,7 +358,7 @@ namespace RimWorld
 					}
 					return true;
 				}
-				IL_13B:
+				IL_137:
 				if (base.IsMemory && this.workerClass != null)
 				{
 					this.$current = "has a workerClass but is a memory. workerClass only works for situational thoughts, not memories";
@@ -378,7 +368,7 @@ namespace RimWorld
 					}
 					return true;
 				}
-				IL_17A:
+				IL_176:
 				if (!base.IsMemory && this.workerClass == null && base.IsSituational)
 				{
 					this.$current = "is a situational thought but has no workerClass. Situational thoughts require workerClasses to analyze the situation";
@@ -388,12 +378,12 @@ namespace RimWorld
 					}
 					return true;
 				}
-				IL_1C9:
+				IL_1C5:
 				i = 0;
-				goto IL_2A2;
-				IL_293:
+				goto IL_297;
+				IL_289:
 				i++;
-				IL_2A2:
+				IL_297:
 				if (i >= this.stages.Count)
 				{
 					this.$PC = -1;
@@ -406,7 +396,7 @@ namespace RimWorld
 						num = 4294967293u;
 						goto Block_16;
 					}
-					goto IL_293;
+					goto IL_289;
 				}
 				return false;
 			}

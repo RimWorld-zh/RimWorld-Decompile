@@ -12,36 +12,37 @@ namespace RimWorld
 
 		public static void DoAllowedAreaSelectors(Rect rect, Pawn p)
 		{
-			if (Find.CurrentMap != null)
+			if (Find.CurrentMap == null)
 			{
-				List<Area> allAreas = Find.CurrentMap.areaManager.AllAreas;
-				int num = 1;
-				for (int i = 0; i < allAreas.Count; i++)
-				{
-					if (allAreas[i].AssignableAsAllowed())
-					{
-						num++;
-					}
-				}
-				float num2 = rect.width / (float)num;
-				Text.WordWrap = false;
-				Text.Font = GameFont.Tiny;
-				Rect rect2 = new Rect(rect.x, rect.y, num2, rect.height);
-				AreaAllowedGUI.DoAreaSelector(rect2, p, null);
-				int num3 = 1;
-				for (int j = 0; j < allAreas.Count; j++)
-				{
-					if (allAreas[j].AssignableAsAllowed())
-					{
-						float num4 = (float)num3 * num2;
-						Rect rect3 = new Rect(rect.x + num4, rect.y, num2, rect.height);
-						AreaAllowedGUI.DoAreaSelector(rect3, p, allAreas[j]);
-						num3++;
-					}
-				}
-				Text.WordWrap = true;
-				Text.Font = GameFont.Small;
+				return;
 			}
+			List<Area> allAreas = Find.CurrentMap.areaManager.AllAreas;
+			int num = 1;
+			for (int i = 0; i < allAreas.Count; i++)
+			{
+				if (allAreas[i].AssignableAsAllowed())
+				{
+					num++;
+				}
+			}
+			float num2 = rect.width / (float)num;
+			Text.WordWrap = false;
+			Text.Font = GameFont.Tiny;
+			Rect rect2 = new Rect(rect.x, rect.y, num2, rect.height);
+			AreaAllowedGUI.DoAreaSelector(rect2, p, null);
+			int num3 = 1;
+			for (int j = 0; j < allAreas.Count; j++)
+			{
+				if (allAreas[j].AssignableAsAllowed())
+				{
+					float num4 = (float)num3 * num2;
+					Rect rect3 = new Rect(rect.x + num4, rect.y, num2, rect.height);
+					AreaAllowedGUI.DoAreaSelector(rect3, p, allAreas[j]);
+					num3++;
+				}
+			}
+			Text.WordWrap = true;
+			Text.Font = GameFont.Small;
 		}
 
 		private static void DoAreaSelector(Rect rect, Pawn p, Area area)

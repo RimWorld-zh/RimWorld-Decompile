@@ -11,7 +11,7 @@ namespace RimWorld
 	{
 		private Pawn pawn;
 
-		private DefMap<WorkTypeDef, int> priorities = null;
+		private DefMap<WorkTypeDef, int> priorities;
 
 		private bool workGiversDirty = true;
 
@@ -151,36 +151,29 @@ namespace RimWorld
 					" for pawn ",
 					this.pawn
 				}), false);
+				return;
 			}
-			else
+			if (priority < 0 || priority > 4)
 			{
-				if (priority < 0 || priority > 4)
-				{
-					Log.Message("Trying to set work to invalid priority " + priority, false);
-				}
-				this.priorities[w] = priority;
-				if (priority == 0)
-				{
-					this.pawn.mindState.Notify_WorkPriorityDisabled(w);
-				}
-				this.workGiversDirty = true;
+				Log.Message("Trying to set work to invalid priority " + priority, false);
 			}
+			this.priorities[w] = priority;
+			if (priority == 0)
+			{
+				this.pawn.mindState.Notify_WorkPriorityDisabled(w);
+			}
+			this.workGiversDirty = true;
 		}
 
 		public int GetPriority(WorkTypeDef w)
 		{
 			this.ConfirmInitializedDebug();
 			int num = this.priorities[w];
-			int result;
 			if (num > 0 && !Find.PlaySettings.useWorkPriorities)
 			{
-				result = 3;
+				return 3;
 			}
-			else
-			{
-				result = num;
-			}
-			return result;
+			return num;
 		}
 
 		public bool WorkIsActive(WorkTypeDef w)
@@ -209,12 +202,13 @@ namespace RimWorld
 
 		public void Notify_GainedTrait()
 		{
-			if (this.priorities != null)
+			if (this.priorities == null)
 			{
-				foreach (WorkTypeDef w in this.pawn.story.DisabledWorkTypes)
-				{
-					this.Disable(w);
-				}
+				return;
+			}
+			foreach (WorkTypeDef w in this.pawn.story.DisabledWorkTypes)
+			{
+				this.Disable(w);
 			}
 		}
 

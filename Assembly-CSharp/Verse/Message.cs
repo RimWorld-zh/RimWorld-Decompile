@@ -5,7 +5,7 @@ using UnityEngine;
 
 namespace Verse
 {
-	public class Message : IArchivable, IExposable
+	public class Message : IArchivable, IExposable, ILoadReferenceable
 	{
 		public MessageTypeDef def;
 
@@ -40,7 +40,14 @@ namespace Verse
 			this.startingFrame = RealTime.frameCount;
 			this.startingTime = RealTime.LastRealTime;
 			this.startingTick = GenTicks.TicksGame;
-			this.ID = Rand.Int;
+			if (Find.UniqueIDsManager != null)
+			{
+				this.ID = Find.UniqueIDsManager.GetNextMessageID();
+			}
+			else
+			{
+				this.ID = Rand.Int;
+			}
 		}
 
 		public Message(string text, MessageTypeDef def, LookTargets lookTargets) : this(text, def)
@@ -76,16 +83,11 @@ namespace Verse
 		{
 			get
 			{
-				float result;
 				if (this.TimeLeft < 0.6f)
 				{
-					result = this.TimeLeft / 0.6f;
+					return this.TimeLeft / 0.6f;
 				}
-				else
-				{
-					result = 1f;
-				}
-				return result;
+				return 1f;
 			}
 		}
 
@@ -93,24 +95,19 @@ namespace Verse
 		{
 			get
 			{
-				bool result;
 				if (Current.ProgramState != ProgramState.Playing)
 				{
-					result = true;
+					return true;
 				}
-				else
+				WindowStack windowStack = Find.WindowStack;
+				for (int i = 0; i < windowStack.Count; i++)
 				{
-					WindowStack windowStack = Find.WindowStack;
-					for (int i = 0; i < windowStack.Count; i++)
+					if (windowStack[i].CausesMessageBackground())
 					{
-						if (windowStack[i].CausesMessageBackground())
-						{
-							return true;
-						}
+						return true;
 					}
-					result = false;
 				}
-				return result;
+				return false;
 			}
 		}
 
@@ -216,13 +213,10 @@ namespace Verse
 				}
 				Rect rect2 = new Rect(2f, 0f, rect.width - 2f, rect.height);
 				Widgets.Label(rect2, this.text);
-				if (Current.ProgramState == ProgramState.Playing && CameraJumper.CanJump(this.lookTargets.TryGetPrimaryTarget()))
+				if (Current.ProgramState == ProgramState.Playing && CameraJumper.CanJump(this.lookTargets.TryGetPrimaryTarget()) && Widgets.ButtonInvisible(rect, false))
 				{
-					if (Widgets.ButtonInvisible(rect, false))
-					{
-						CameraJumper.TryJumpAndSelect(this.lookTargets.TryGetPrimaryTarget());
-						PlayerKnowledgeDatabase.KnowledgeDemonstrated(ConceptDefOf.ClickingMessages, KnowledgeAmount.Total);
-					}
+					CameraJumper.TryJumpAndSelect(this.lookTargets.TryGetPrimaryTarget());
+					PlayerKnowledgeDatabase.KnowledgeDemonstrated(ConceptDefOf.ClickingMessages, KnowledgeAmount.Total);
 				}
 				Text.Anchor = TextAnchor.UpperLeft;
 				GUI.color = Color.white;
@@ -236,6 +230,11 @@ namespace Verse
 		void IArchivable.OpenArchived()
 		{
 			Find.WindowStack.Add(new Dialog_MessageBox(this.text, null, null, null, null, null, false, null, null));
+		}
+
+		public string GetUniqueLoadID()
+		{
+			return "Message_" + this.ID;
 		}
 
 		[CompilerGenerated]
@@ -269,13 +268,10 @@ namespace Verse
 				}
 				Rect rect2 = new Rect(2f, 0f, rect.width - 2f, rect.height);
 				Widgets.Label(rect2, this.$this.text);
-				if (Current.ProgramState == ProgramState.Playing && CameraJumper.CanJump(this.$this.lookTargets.TryGetPrimaryTarget()))
+				if (Current.ProgramState == ProgramState.Playing && CameraJumper.CanJump(this.$this.lookTargets.TryGetPrimaryTarget()) && Widgets.ButtonInvisible(rect, false))
 				{
-					if (Widgets.ButtonInvisible(rect, false))
-					{
-						CameraJumper.TryJumpAndSelect(this.$this.lookTargets.TryGetPrimaryTarget());
-						PlayerKnowledgeDatabase.KnowledgeDemonstrated(ConceptDefOf.ClickingMessages, KnowledgeAmount.Total);
-					}
+					CameraJumper.TryJumpAndSelect(this.$this.lookTargets.TryGetPrimaryTarget());
+					PlayerKnowledgeDatabase.KnowledgeDemonstrated(ConceptDefOf.ClickingMessages, KnowledgeAmount.Total);
 				}
 				Text.Anchor = TextAnchor.UpperLeft;
 				GUI.color = Color.white;

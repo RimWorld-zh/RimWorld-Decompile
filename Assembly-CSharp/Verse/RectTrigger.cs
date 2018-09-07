@@ -45,8 +45,9 @@ namespace Verse
 			if (this.destroyIfUnfogged && !this.rect.CenterCell.Fogged(base.Map))
 			{
 				this.Destroy(DestroyMode.Vanish);
+				return;
 			}
-			else if (this.IsHashIntervalTick(60))
+			if (this.IsHashIntervalTick(60))
 			{
 				Map map = base.Map;
 				for (int i = this.rect.minZ; i <= this.rect.maxZ; i++)

@@ -53,16 +53,11 @@ namespace RimWorld
 
 		public override ThinkTreeDutyHook VoluntaryJoinDutyHookFor(Pawn p)
 		{
-			ThinkTreeDutyHook hook;
 			if (this.IsFiance(p))
 			{
-				hook = DutyDefOf.MarryPawn.hook;
+				return DutyDefOf.MarryPawn.hook;
 			}
-			else
-			{
-				hook = DutyDefOf.Spectate.hook;
-			}
-			return hook;
+			return DutyDefOf.Spectate.hook;
 		}
 
 		public override void UpdateAllDuties()
@@ -105,20 +100,15 @@ namespace RimWorld
 				}
 				pawn2 = this.firstPawn;
 			}
-			IntVec3 result;
 			if (pawn.thingIDNumber < pawn2.thingIDNumber)
 			{
-				result = this.spot;
+				return this.spot;
 			}
-			else if (this.GetMarriageSpotAt(this.spot) != null)
+			if (this.GetMarriageSpotAt(this.spot) != null)
 			{
-				result = this.FindCellForOtherPawnAtMarriageSpot(this.spot);
+				return this.FindCellForOtherPawnAtMarriageSpot(this.spot);
 			}
-			else
-			{
-				result = this.spot + LordToil_MarriageCeremony.OtherFianceNoMarriageSpotCellOffset;
-			}
-			return result;
+			return this.spot + LordToil_MarriageCeremony.OtherFianceNoMarriageSpotCellOffset;
 		}
 
 		private Thing GetMarriageSpotAt(IntVec3 cell)

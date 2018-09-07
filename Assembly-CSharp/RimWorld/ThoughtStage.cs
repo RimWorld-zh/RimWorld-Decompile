@@ -11,27 +11,27 @@ namespace RimWorld
 	public class ThoughtStage
 	{
 		[MustTranslate]
-		public string label = null;
+		public string label;
 
 		[MustTranslate]
-		public string labelSocial = null;
+		public string labelSocial;
 
 		[MustTranslate]
-		public string description = null;
+		public string description;
 
-		public float baseMoodEffect = 0f;
+		public float baseMoodEffect;
 
-		public float baseOpinionOffset = 0f;
+		public float baseOpinionOffset;
 
 		public bool visible = true;
 
 		[TranslationHandle(Priority = 100)]
 		[Unsaved]
-		public string untranslatedLabel = null;
+		public string untranslatedLabel;
 
 		[TranslationHandle]
 		[Unsaved]
-		public string untranslatedLabelSocial = null;
+		public string untranslatedLabelSocial;
 
 		public ThoughtStage()
 		{
@@ -92,7 +92,7 @@ namespace RimWorld
 				case 1u:
 					break;
 				case 2u:
-					goto IL_C3;
+					goto IL_C2;
 				default:
 					return false;
 				}
@@ -105,7 +105,7 @@ namespace RimWorld
 					}
 					return true;
 				}
-				IL_C3:
+				IL_C2:
 				this.$PC = -1;
 				return false;
 			}

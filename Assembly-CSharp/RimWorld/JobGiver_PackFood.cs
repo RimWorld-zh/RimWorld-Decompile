@@ -23,71 +23,52 @@ namespace RimWorld
 
 		protected override Job TryGiveJob(Pawn pawn)
 		{
-			Job result;
 			if (pawn.inventory == null)
 			{
-				result = null;
+				return null;
 			}
-			else
+			float invNutrition = this.GetInventoryPackableFoodNutrition(pawn);
+			if (invNutrition > 0.4f)
 			{
-				float invNutrition = this.GetInventoryPackableFoodNutrition(pawn);
-				if (invNutrition > 0.4f)
-				{
-					result = null;
-				}
-				else if (pawn.Map.resourceCounter.TotalHumanEdibleNutrition < (float)pawn.Map.mapPawns.ColonistsSpawnedCount * 1.5f)
-				{
-					result = null;
-				}
-				else
-				{
-					Thing thing = GenClosest.ClosestThing_Regionwise_ReachablePrioritized(pawn.Position, pawn.Map, ThingRequest.ForGroup(ThingRequestGroup.FoodSourceNotPlantOrTree), PathEndMode.ClosestTouch, TraverseParms.For(pawn, Danger.Deadly, TraverseMode.ByPawn, false), 20f, delegate(Thing t)
-					{
-						bool result2;
-						if (!this.IsGoodPackableFoodFor(t, pawn) || t.IsForbidden(pawn) || !pawn.CanReserve(t, 1, -1, null, false) || !t.IsSociallyProper(pawn))
-						{
-							result2 = false;
-						}
-						else
-						{
-							float num3 = invNutrition + t.GetStatValue(StatDefOf.Nutrition, true) * (float)t.stackCount;
-							if (num3 < 0.8f)
-							{
-								result2 = false;
-							}
-							else
-							{
-								List<ThoughtDef> list = FoodUtility.ThoughtsFromIngesting(pawn, t, FoodUtility.GetFinalIngestibleDef(t, false));
-								for (int i = 0; i < list.Count; i++)
-								{
-									if (list[i].stages[0].baseMoodEffect < 0f)
-									{
-										return false;
-									}
-								}
-								result2 = true;
-							}
-						}
-						return result2;
-					}, (Thing x) => FoodUtility.FoodOptimality(pawn, x, FoodUtility.GetFinalIngestibleDef(x, false), 0f, false), 24, 30);
-					if (thing == null)
-					{
-						result = null;
-					}
-					else
-					{
-						float num = pawn.needs.food.MaxLevel - invNutrition;
-						int num2 = Mathf.FloorToInt(num / thing.GetStatValue(StatDefOf.Nutrition, true));
-						num2 = Mathf.Min(num2, thing.stackCount);
-						num2 = Mathf.Max(num2, 1);
-						result = new Job(JobDefOf.TakeInventory, thing)
-						{
-							count = num2
-						};
-					}
-				}
+				return null;
 			}
-			return result;
+			if (pawn.Map.resourceCounter.TotalHumanEdibleNutrition < (float)pawn.Map.mapPawns.ColonistsSpawnedCount * 1.5f)
+			{
+				return null;
+			}
+			Thing thing = GenClosest.ClosestThing_Regionwise_ReachablePrioritized(pawn.Position, pawn.Map, ThingRequest.ForGroup(ThingRequestGroup.FoodSourceNotPlantOrTree), PathEndMode.ClosestTouch, TraverseParms.For(pawn, Danger.Deadly, TraverseMode.ByPawn, false), 20f, delegate(Thing t)
+			{
+				if (!this.IsGoodPackableFoodFor(t, pawn) || t.IsForbidden(pawn) || !pawn.CanReserve(t, 1, -1, null, false) || !t.IsSociallyProper(pawn))
+				{
+					return false;
+				}
+				float num3 = invNutrition + t.GetStatValue(StatDefOf.Nutrition, true) * (float)t.stackCount;
+				if (num3 < 0.8f)
+				{
+					return false;
+				}
+				List<ThoughtDef> list = FoodUtility.ThoughtsFromIngesting(pawn, t, FoodUtility.GetFinalIngestibleDef(t, false));
+				for (int i = 0; i < list.Count; i++)
+				{
+					if (list[i].stages[0].baseMoodEffect < 0f)
+					{
+						return false;
+					}
+				}
+				return true;
+			}, (Thing x) => FoodUtility.FoodOptimality(pawn, x, FoodUtility.GetFinalIngestibleDef(x, false), 0f, false), 24, 30);
+			if (thing == null)
+			{
+				return null;
+			}
+			float num = pawn.needs.food.MaxLevel - invNutrition;
+			int num2 = Mathf.FloorToInt(num / thing.GetStatValue(StatDefOf.Nutrition, true));
+			num2 = Mathf.Min(num2, thing.stackCount);
+			num2 = Mathf.Max(num2, 1);
+			return new Job(JobDefOf.TakeInventory, thing)
+			{
+				count = num2
+			};
 		}
 
 		private float GetInventoryPackableFoodNutrition(Pawn pawn)
@@ -124,32 +105,24 @@ namespace RimWorld
 
 			internal bool <>m__0(Thing t)
 			{
-				bool result;
 				if (!this.$this.IsGoodPackableFoodFor(t, this.pawn) || t.IsForbidden(this.pawn) || !this.pawn.CanReserve(t, 1, -1, null, false) || !t.IsSociallyProper(this.pawn))
 				{
-					result = false;
+					return false;
 				}
-				else
+				float num = this.invNutrition + t.GetStatValue(StatDefOf.Nutrition, true) * (float)t.stackCount;
+				if (num < 0.8f)
 				{
-					float num = this.invNutrition + t.GetStatValue(StatDefOf.Nutrition, true) * (float)t.stackCount;
-					if (num < 0.8f)
+					return false;
+				}
+				List<ThoughtDef> list = FoodUtility.ThoughtsFromIngesting(this.pawn, t, FoodUtility.GetFinalIngestibleDef(t, false));
+				for (int i = 0; i < list.Count; i++)
+				{
+					if (list[i].stages[0].baseMoodEffect < 0f)
 					{
-						result = false;
-					}
-					else
-					{
-						List<ThoughtDef> list = FoodUtility.ThoughtsFromIngesting(this.pawn, t, FoodUtility.GetFinalIngestibleDef(t, false));
-						for (int i = 0; i < list.Count; i++)
-						{
-							if (list[i].stages[0].baseMoodEffect < 0f)
-							{
-								return false;
-							}
-						}
-						result = true;
+						return false;
 					}
 				}
-				return result;
+				return true;
 			}
 
 			internal float <>m__1(Thing x)

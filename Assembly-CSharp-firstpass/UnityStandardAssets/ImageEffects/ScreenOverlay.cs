@@ -12,11 +12,11 @@ namespace UnityStandardAssets.ImageEffects
 
 		public float intensity = 1f;
 
-		public Texture2D texture = null;
+		public Texture2D texture;
 
-		public Shader overlayShader = null;
+		public Shader overlayShader;
 
-		private Material overlayMaterial = null;
+		private Material overlayMaterial;
 
 		public ScreenOverlay()
 		{
@@ -38,15 +38,13 @@ namespace UnityStandardAssets.ImageEffects
 			if (!this.CheckResources())
 			{
 				Graphics.Blit(source, destination);
+				return;
 			}
-			else
-			{
-				Vector4 value = new Vector4(1f, 0f, 0f, 1f);
-				this.overlayMaterial.SetVector("_UV_Transform", value);
-				this.overlayMaterial.SetFloat("_Intensity", this.intensity);
-				this.overlayMaterial.SetTexture("_Overlay", this.texture);
-				Graphics.Blit(source, destination, this.overlayMaterial, (int)this.blendMode);
-			}
+			Vector4 value = new Vector4(1f, 0f, 0f, 1f);
+			this.overlayMaterial.SetVector("_UV_Transform", value);
+			this.overlayMaterial.SetFloat("_Intensity", this.intensity);
+			this.overlayMaterial.SetTexture("_Overlay", this.texture);
+			Graphics.Blit(source, destination, this.overlayMaterial, (int)this.blendMode);
 		}
 
 		public enum OverlayBlendMode

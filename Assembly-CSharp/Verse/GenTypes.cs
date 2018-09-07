@@ -70,9 +70,7 @@ namespace Verse
 
 		public static IEnumerable<Type> AllTypesWithAttribute<TAttr>() where TAttr : Attribute
 		{
-			return from x in GenTypes.AllTypes
-			where x.HasAttribute<TAttr>()
-			select x;
+			return GenTypes.AllTypes.Where(new Func<Type, bool>(GenAttribute.HasAttribute<TAttr>));
 		}
 
 		public static IEnumerable<Type> AllSubclasses(this Type baseType)
@@ -115,25 +113,20 @@ namespace Verse
 		public static Type GetTypeInAnyAssembly(string typeName)
 		{
 			Type typeInAnyAssemblyRaw = GenTypes.GetTypeInAnyAssemblyRaw(typeName);
-			Type result;
 			if (typeInAnyAssemblyRaw != null)
 			{
-				result = typeInAnyAssemblyRaw;
+				return typeInAnyAssemblyRaw;
 			}
-			else
+			for (int i = 0; i < GenTypes.IgnoredNamespaceNames.Count; i++)
 			{
-				for (int i = 0; i < GenTypes.IgnoredNamespaceNames.Count; i++)
+				string typeName2 = GenTypes.IgnoredNamespaceNames[i] + "." + typeName;
+				typeInAnyAssemblyRaw = GenTypes.GetTypeInAnyAssemblyRaw(typeName2);
+				if (typeInAnyAssemblyRaw != null)
 				{
-					string typeName2 = GenTypes.IgnoredNamespaceNames[i] + "." + typeName;
-					typeInAnyAssemblyRaw = GenTypes.GetTypeInAnyAssemblyRaw(typeName2);
-					if (typeInAnyAssemblyRaw != null)
-					{
-						return typeInAnyAssemblyRaw;
-					}
+					return typeInAnyAssemblyRaw;
 				}
-				result = null;
 			}
-			return result;
+			return null;
 		}
 
 		private static Type GetTypeInAnyAssemblyRaw(string typeName)
@@ -151,23 +144,18 @@ namespace Verse
 
 		public static string GetTypeNameWithoutIgnoredNamespaces(Type type)
 		{
-			string result;
 			if (type.IsGenericType)
 			{
-				result = type.ToString();
+				return type.ToString();
 			}
-			else
+			for (int i = 0; i < GenTypes.IgnoredNamespaceNames.Count; i++)
 			{
-				for (int i = 0; i < GenTypes.IgnoredNamespaceNames.Count; i++)
+				if (type.Namespace == GenTypes.IgnoredNamespaceNames[i])
 				{
-					if (type.Namespace == GenTypes.IgnoredNamespaceNames[i])
-					{
-						return type.Name;
-					}
+					return type.Name;
 				}
-				result = type.FullName;
 			}
-			return result;
+			return type.FullName;
 		}
 
 		public static bool IsCustomType(Type type)
@@ -182,13 +170,7 @@ namespace Verse
 		}
 
 		[CompilerGenerated]
-		private static bool <AllTypesWithAttribute<TAttr>(Type x) where TAttr : Attribute
-		{
-			return x.HasAttribute<TAttr>();
-		}
-
-		[CompilerGenerated]
-		private static bool <AllLeafSubclasses>m__1(Type type)
+		private static bool <AllLeafSubclasses>m__0(Type type)
 		{
 			return !type.AllSubclasses().Any<Type>();
 		}
@@ -244,9 +226,9 @@ namespace Verse
 						i++;
 						break;
 					default:
-						goto IL_F2;
+						goto IL_EC;
 					}
-					IL_D1:
+					IL_CC:
 					if (i < mod.assemblies.loadedAssemblies.Count)
 					{
 						this.$current = mod.assemblies.loadedAssemblies[i];
@@ -257,12 +239,12 @@ namespace Verse
 						flag = true;
 						return true;
 					}
-					IL_F2:
+					IL_EC:
 					if (enumerator.MoveNext())
 					{
 						mod = enumerator.Current;
 						i = 0;
-						goto IL_D1;
+						goto IL_CC;
 					}
 				}
 				finally
@@ -391,25 +373,10 @@ namespace Verse
 					{
 					case 1u:
 						i++;
-						break;
-					default:
-						goto IL_11C;
+						goto IL_FC;
 					}
-					IL_107:
-					if (i < array.Length)
-					{
-						type = array[i];
-						this.$current = type;
-						if (!this.$disposing)
-						{
-							this.$PC = 1;
-						}
-						flag = true;
-						return true;
-					}
-					IL_11B:
-					IL_11C:
-					if (enumerator.MoveNext())
+					IL_10F:
+					while (enumerator.MoveNext())
 					{
 						assembly = enumerator.Current;
 						assemblyTypes = null;
@@ -425,10 +392,23 @@ namespace Verse
 						{
 							array = assemblyTypes;
 							i = 0;
-							goto IL_107;
+							goto IL_FC;
 						}
-						goto IL_11B;
 					}
+					goto IL_13F;
+					IL_FC:
+					if (i >= array.Length)
+					{
+						goto IL_10F;
+					}
+					type = array[i];
+					this.$current = type;
+					if (!this.$disposing)
+					{
+						this.$PC = 1;
+					}
+					flag = true;
+					return true;
 				}
 				finally
 				{
@@ -440,6 +420,7 @@ namespace Verse
 						}
 					}
 				}
+				IL_13F:
 				this.$PC = -1;
 				return false;
 			}
@@ -579,7 +560,7 @@ namespace Verse
 				case 1u:
 					break;
 				case 2u:
-					goto IL_72;
+					goto IL_70;
 				default:
 					return false;
 				}
@@ -587,14 +568,11 @@ namespace Verse
 				num = 4294967293u;
 				try
 				{
-					IL_72:
+					IL_70:
 					switch (num)
 					{
-					case 2u:
-						IL_C7:
-						break;
 					}
-					if (enumerator.MoveNext())
+					while (enumerator.MoveNext())
 					{
 						descendant = enumerator.Current;
 						if (!descendant.IsAbstract)
@@ -607,7 +585,6 @@ namespace Verse
 							flag = true;
 							return true;
 						}
-						goto IL_C7;
 					}
 				}
 				finally

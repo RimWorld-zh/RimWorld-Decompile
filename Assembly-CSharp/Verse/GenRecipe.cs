@@ -223,7 +223,7 @@ namespace Verse
 					}
 					if (recipeDef.products == null)
 					{
-						goto IL_2C7;
+						goto IL_2B8;
 					}
 					i = 0;
 					break;
@@ -259,7 +259,7 @@ namespace Verse
 							}
 						}
 					}
-					goto IL_49F;
+					goto IL_487;
 				case 3u:
 					Block_18:
 					try
@@ -289,7 +289,7 @@ namespace Verse
 							}
 						}
 					}
-					goto IL_49F;
+					goto IL_487;
 				default:
 					return false;
 				}
@@ -343,16 +343,16 @@ namespace Verse
 					}
 					return true;
 				}
-				IL_2C7:
+				IL_2B8:
 				if (recipeDef.specialProducts != null)
 				{
 					j = 0;
-					goto IL_4D3;
+					goto IL_4B9;
 				}
-				goto IL_4EF;
-				IL_49F:
+				goto IL_4D4;
+				IL_487:
 				k++;
-				IL_4AE:
+				IL_495:
 				if (k >= ingredients.Count)
 				{
 					j++;
@@ -369,19 +369,19 @@ namespace Verse
 					}
 					if (specialProductType != SpecialProductType.Smelted)
 					{
-						goto IL_49F;
+						goto IL_487;
 					}
 					enumerator = ing.SmeltProducts(efficiency).GetEnumerator();
 					num = 4294967293u;
 					goto Block_18;
 				}
-				IL_4D3:
+				IL_4B9:
 				if (j < recipeDef.specialProducts.Count)
 				{
 					k = 0;
-					goto IL_4AE;
+					goto IL_495;
 				}
-				IL_4EF:
+				IL_4D4:
 				this.$PC = -1;
 				return false;
 			}

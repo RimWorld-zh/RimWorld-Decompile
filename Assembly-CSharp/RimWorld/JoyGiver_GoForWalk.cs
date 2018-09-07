@@ -14,51 +14,43 @@ namespace RimWorld
 
 		public override Job TryGiveJob(Pawn pawn)
 		{
-			Job result;
 			if (!JoyUtility.EnjoyableOutsideNow(pawn, null))
 			{
-				result = null;
+				return null;
 			}
-			else if (PawnUtility.WillSoonHaveBasicNeed(pawn))
+			if (PawnUtility.WillSoonHaveBasicNeed(pawn))
 			{
-				result = null;
+				return null;
 			}
-			else
+			Predicate<IntVec3> cellValidator = (IntVec3 x) => !PawnUtility.KnownDangerAt(x, pawn.Map, pawn) && !x.GetTerrain(pawn.Map).avoidWander && x.Standable(pawn.Map) && !x.Roofed(pawn.Map);
+			Predicate<Region> validator = delegate(Region x)
 			{
-				Predicate<IntVec3> cellValidator = (IntVec3 x) => !PawnUtility.KnownDangerAt(x, pawn.Map, pawn) && !x.GetTerrain(pawn.Map).avoidWander && x.Standable(pawn.Map) && !x.Roofed(pawn.Map);
-				Predicate<Region> validator = delegate(Region x)
-				{
-					IntVec3 intVec;
-					return x.Room.PsychologicallyOutdoors && !x.IsForbiddenEntirely(pawn) && x.TryFindRandomCellInRegionUnforbidden(pawn, cellValidator, out intVec);
-				};
-				Region reg;
-				IntVec3 root;
-				List<IntVec3> list;
-				if (!CellFinder.TryFindClosestRegionWith(pawn.GetRegion(RegionType.Set_Passable), TraverseParms.For(pawn, Danger.Deadly, TraverseMode.ByPawn, false), validator, 100, out reg, RegionType.Set_Passable))
-				{
-					result = null;
-				}
-				else if (!reg.TryFindRandomCellInRegionUnforbidden(pawn, cellValidator, out root))
-				{
-					result = null;
-				}
-				else if (!WalkPathFinder.TryFindWalkPath(pawn, root, out list))
-				{
-					result = null;
-				}
-				else
-				{
-					Job job = new Job(this.def.jobDef, list[0]);
-					job.targetQueueA = new List<LocalTargetInfo>();
-					for (int i = 1; i < list.Count; i++)
-					{
-						job.targetQueueA.Add(list[i]);
-					}
-					job.locomotionUrgency = LocomotionUrgency.Walk;
-					result = job;
-				}
+				IntVec3 intVec;
+				return x.Room.PsychologicallyOutdoors && !x.IsForbiddenEntirely(pawn) && x.TryFindRandomCellInRegionUnforbidden(pawn, cellValidator, out intVec);
+			};
+			Region reg;
+			if (!CellFinder.TryFindClosestRegionWith(pawn.GetRegion(RegionType.Set_Passable), TraverseParms.For(pawn, Danger.Deadly, TraverseMode.ByPawn, false), validator, 100, out reg, RegionType.Set_Passable))
+			{
+				return null;
 			}
-			return result;
+			IntVec3 root;
+			if (!reg.TryFindRandomCellInRegionUnforbidden(pawn, cellValidator, out root))
+			{
+				return null;
+			}
+			List<IntVec3> list;
+			if (!WalkPathFinder.TryFindWalkPath(pawn, root, out list))
+			{
+				return null;
+			}
+			Job job = new Job(this.def.jobDef, list[0]);
+			job.targetQueueA = new List<LocalTargetInfo>();
+			for (int i = 1; i < list.Count; i++)
+			{
+				job.targetQueueA.Add(list[i]);
+			}
+			job.locomotionUrgency = LocomotionUrgency.Walk;
+			return job;
 		}
 
 		[CompilerGenerated]

@@ -11,7 +11,7 @@ namespace RimWorld
 	{
 		protected float chance = 1f;
 
-		protected PawnGenerationContext context = PawnGenerationContext.All;
+		protected PawnGenerationContext context;
 
 		protected bool hideOffMap;
 
@@ -82,44 +82,49 @@ namespace RimWorld
 
 		public override void Notify_NewPawnGenerating(Pawn pawn, PawnGenerationContext context)
 		{
-			if (this.context.Includes(context))
+			if (!this.context.Includes(context))
 			{
-				if (!this.hideOffMap || context != PawnGenerationContext.PlayerStarter)
-				{
-					if (Rand.Chance(this.chance) && pawn.RaceProps.Humanlike)
-					{
-						this.ModifyNewPawn(pawn);
-					}
-				}
+				return;
+			}
+			if (this.hideOffMap && context == PawnGenerationContext.PlayerStarter)
+			{
+				return;
+			}
+			if (Rand.Chance(this.chance) && pawn.RaceProps.Humanlike)
+			{
+				this.ModifyNewPawn(pawn);
 			}
 		}
 
 		public override void Notify_PawnGenerated(Pawn pawn, PawnGenerationContext context, bool redressed)
 		{
-			if (this.context.Includes(context))
+			if (!this.context.Includes(context))
 			{
-				if (!this.hideOffMap || context != PawnGenerationContext.PlayerStarter)
-				{
-					if (Rand.Chance(this.chance) && pawn.RaceProps.Humanlike)
-					{
-						this.ModifyPawnPostGenerate(pawn, redressed);
-					}
-				}
+				return;
+			}
+			if (this.hideOffMap && context == PawnGenerationContext.PlayerStarter)
+			{
+				return;
+			}
+			if (Rand.Chance(this.chance) && pawn.RaceProps.Humanlike)
+			{
+				this.ModifyPawnPostGenerate(pawn, redressed);
 			}
 		}
 
 		public override void PostMapGenerate(Map map)
 		{
-			if (Find.GameInitData != null)
+			if (Find.GameInitData == null)
 			{
-				if (this.hideOffMap && this.context.Includes(PawnGenerationContext.PlayerStarter))
+				return;
+			}
+			if (this.hideOffMap && this.context.Includes(PawnGenerationContext.PlayerStarter))
+			{
+				foreach (Pawn pawn in Find.GameInitData.startingAndOptionalPawns)
 				{
-					foreach (Pawn pawn in Find.GameInitData.startingAndOptionalPawns)
+					if (Rand.Chance(this.chance) && pawn.RaceProps.Humanlike)
 					{
-						if (Rand.Chance(this.chance) && pawn.RaceProps.Humanlike)
-						{
-							this.ModifyHideOffMapStartingPawnPostMapGenerate(pawn);
-						}
+						this.ModifyHideOffMapStartingPawnPostMapGenerate(pawn);
 					}
 				}
 			}

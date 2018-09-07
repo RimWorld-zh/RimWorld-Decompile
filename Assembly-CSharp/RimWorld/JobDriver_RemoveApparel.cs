@@ -33,7 +33,7 @@ namespace RimWorld
 			Scribe_Values.Look<int>(ref this.duration, "duration", 0, false);
 		}
 
-		public override bool TryMakePreToilReservations()
+		public override bool TryMakePreToilReservations(bool errorOnFailed)
 		{
 			return true;
 		}

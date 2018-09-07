@@ -32,12 +32,13 @@ namespace RimWorld
 		public override void Tick()
 		{
 			base.Tick();
-			if (!base.Destroyed)
+			if (base.Destroyed)
 			{
-				for (int i = 0; i < 4; i++)
-				{
-					this.StartRandomFireAndDoFlameDamage();
-				}
+				return;
+			}
+			for (int i = 0; i < 4; i++)
+			{
+				this.StartRandomFireAndDoFlameDamage();
 			}
 		}
 

@@ -11,17 +11,12 @@ namespace RimWorld
 
 		protected override bool CanFireNowSub(IncidentParms parms)
 		{
-			bool result;
 			if (!base.CanFireNowSub(parms))
 			{
-				result = false;
+				return false;
 			}
-			else
-			{
-				Map map = (Map)parms.target;
-				result = (map.mapTemperature.SeasonalTemp > 0f && map.mapTemperature.SeasonalTemp < 15f);
-			}
-			return result;
+			Map map = (Map)parms.target;
+			return map.mapTemperature.SeasonalTemp > 0f && map.mapTemperature.SeasonalTemp < 15f;
 		}
 	}
 }

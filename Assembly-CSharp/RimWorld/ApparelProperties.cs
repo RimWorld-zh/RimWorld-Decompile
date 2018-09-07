@@ -16,19 +16,19 @@ namespace RimWorld
 		public List<ApparelLayerDef> layers = new List<ApparelLayerDef>();
 
 		[NoTranslate]
-		public string wornGraphicPath = "";
+		public string wornGraphicPath = string.Empty;
 
 		[NoTranslate]
 		public List<string> tags = new List<string>();
 
 		[NoTranslate]
-		public List<string> defaultOutfitTags = null;
+		public List<string> defaultOutfitTags;
 
 		public float wearPerDay = 0.4f;
 
 		public bool careIfWornByCorpse = true;
 
-		public bool hatRenderedFrontOfFace = false;
+		public bool hatRenderedFrontOfFace;
 
 		public bool useDeflectMetalEffect;
 
@@ -36,7 +36,7 @@ namespace RimWorld
 		private float cachedHumanBodyCoverage = -1f;
 
 		[Unsaved]
-		private BodyPartGroupDef[][] interferingBodyPartGroups = null;
+		private BodyPartGroupDef[][] interferingBodyPartGroups;
 
 		private static BodyPartGroupDef[] apparelRelevantGroups;
 
@@ -66,17 +66,12 @@ namespace RimWorld
 		{
 			get
 			{
-				ApparelLayerDef result;
 				if (this.layers.Count > 0)
 				{
-					result = this.layers[this.layers.Count - 1];
+					return this.layers[this.layers.Count - 1];
 				}
-				else
-				{
-					Log.ErrorOnce("Failed to get last layer on apparel item (see your config errors)", 31234937, false);
-					result = ApparelLayerDefOf.Belt;
-				}
-				return result;
+				Log.ErrorOnce("Failed to get last layer on apparel item (see your config errors)", 31234937, false);
+				return ApparelLayerDefOf.Belt;
 			}
 		}
 

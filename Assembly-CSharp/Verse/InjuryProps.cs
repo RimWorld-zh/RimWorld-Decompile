@@ -8,15 +8,15 @@ namespace Verse
 
 		public float averagePainPerSeverityPermanent = 0.5f;
 
-		public float bleedRate = 0f;
+		public float bleedRate;
 
-		public bool canMerge = false;
+		public bool canMerge;
 
-		public string destroyedLabel = null;
+		public string destroyedLabel;
 
-		public string destroyedOutLabel = null;
+		public string destroyedOutLabel;
 
-		public bool useRemovedLabel = false;
+		public bool useRemovedLabel;
 
 		public InjuryProps()
 		{

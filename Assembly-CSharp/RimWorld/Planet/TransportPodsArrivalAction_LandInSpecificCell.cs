@@ -30,20 +30,15 @@ namespace RimWorld.Planet
 		public override FloatMenuAcceptanceReport StillValid(IEnumerable<IThingHolder> pods, int destinationTile)
 		{
 			FloatMenuAcceptanceReport floatMenuAcceptanceReport = base.StillValid(pods, destinationTile);
-			FloatMenuAcceptanceReport result;
 			if (!floatMenuAcceptanceReport)
 			{
-				result = floatMenuAcceptanceReport;
+				return floatMenuAcceptanceReport;
 			}
-			else if (this.mapParent != null && this.mapParent.Tile != destinationTile)
+			if (this.mapParent != null && this.mapParent.Tile != destinationTile)
 			{
-				result = false;
+				return false;
 			}
-			else
-			{
-				result = TransportPodsArrivalAction_LandInSpecificCell.CanLandInSpecificCell(pods, this.mapParent);
-			}
-			return result;
+			return TransportPodsArrivalAction_LandInSpecificCell.CanLandInSpecificCell(pods, this.mapParent);
 		}
 
 		public override void Arrived(List<ActiveDropPodInfo> pods, int tile)

@@ -12,35 +12,27 @@ namespace Verse.AI
 
 		public override bool StateCanOccur(Pawn pawn)
 		{
-			bool result;
 			if (!base.StateCanOccur(pawn))
 			{
-				result = false;
+				return false;
 			}
-			else if (!pawn.Spawned)
+			if (!pawn.Spawned)
 			{
-				result = false;
+				return false;
 			}
-			else
+			List<ChemicalDef> allDefsListForReading = DefDatabase<ChemicalDef>.AllDefsListForReading;
+			for (int i = 0; i < allDefsListForReading.Count; i++)
 			{
-				List<ChemicalDef> allDefsListForReading = DefDatabase<ChemicalDef>.AllDefsListForReading;
-				for (int i = 0; i < allDefsListForReading.Count; i++)
+				if (AddictionUtility.CanBingeOnNow(pawn, allDefsListForReading[i], this.def.drugCategory))
 				{
-					if (AddictionUtility.CanBingeOnNow(pawn, allDefsListForReading[i], this.def.drugCategory))
-					{
-						return true;
-					}
-					if (this.def.drugCategory == DrugCategory.Hard)
-					{
-						if (AddictionUtility.CanBingeOnNow(pawn, allDefsListForReading[i], DrugCategory.Social))
-						{
-							return true;
-						}
-					}
+					return true;
 				}
-				result = false;
+				if (this.def.drugCategory == DrugCategory.Hard && AddictionUtility.CanBingeOnNow(pawn, allDefsListForReading[i], DrugCategory.Social))
+				{
+					return true;
+				}
 			}
-			return result;
+			return false;
 		}
 	}
 }

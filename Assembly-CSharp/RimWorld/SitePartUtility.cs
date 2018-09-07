@@ -8,16 +8,11 @@ namespace RimWorld
 	{
 		public static string GetDescriptionDialogue(Site site, SitePart sitePart)
 		{
-			string result;
 			if (sitePart != null && !sitePart.def.alwaysHidden)
 			{
-				result = sitePart.def.Worker.GetPostProcessedDescriptionDialogue(site, sitePart);
+				return sitePart.def.Worker.GetPostProcessedDescriptionDialogue(site, sitePart);
 			}
-			else
-			{
-				result = "HiddenOrNoSitePartDescription".Translate();
-			}
-			return result;
+			return "HiddenOrNoSitePartDescription".Translate();
 		}
 	}
 }

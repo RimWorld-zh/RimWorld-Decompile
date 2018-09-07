@@ -32,20 +32,15 @@ namespace RimWorld
 
 		public override AcceptanceReport CanDesignateCell(IntVec3 c)
 		{
-			AcceptanceReport result;
 			if (!c.InBounds(base.Map) || c.Fogged(base.Map))
 			{
-				result = false;
+				return false;
 			}
-			else if (!c.GetThingList(base.Map).Any((Thing t) => this.CanDesignateThing(t).Accepted))
+			if (!c.GetThingList(base.Map).Any((Thing t) => this.CanDesignateThing(t).Accepted))
 			{
-				result = "MessageMustDesignateForbiddable".Translate();
+				return "MessageMustDesignateForbiddable".Translate();
 			}
-			else
-			{
-				result = true;
-			}
-			return result;
+			return true;
 		}
 
 		public override void DesignateSingleCell(IntVec3 c)
@@ -62,17 +57,12 @@ namespace RimWorld
 
 		public override AcceptanceReport CanDesignateThing(Thing t)
 		{
-			AcceptanceReport result;
 			if (t.def.category != ThingCategory.Item)
 			{
-				result = false;
+				return false;
 			}
-			else
-			{
-				CompForbiddable compForbiddable = t.TryGetComp<CompForbiddable>();
-				result = (compForbiddable != null && !compForbiddable.Forbidden);
-			}
-			return result;
+			CompForbiddable compForbiddable = t.TryGetComp<CompForbiddable>();
+			return compForbiddable != null && !compForbiddable.Forbidden;
 		}
 
 		public override void DesignateThing(Thing t)

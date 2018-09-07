@@ -15,92 +15,97 @@ namespace Verse
 
 		public void Clear()
 		{
-			if (Prefs.DevMode)
+			if (!Prefs.DevMode)
 			{
-				this.deepSaved.Clear();
-				this.referenced.Clear();
+				return;
 			}
+			this.deepSaved.Clear();
+			this.referenced.Clear();
 		}
 
 		public void CheckForErrorsAndClear()
 		{
-			if (Prefs.DevMode)
+			if (!Prefs.DevMode)
 			{
-				if (!Scribe.saver.savingForDebug)
+				return;
+			}
+			if (!Scribe.saver.savingForDebug)
+			{
+				foreach (DebugLoadIDsSavingErrorsChecker.ReferencedObject referencedObject in this.referenced)
 				{
-					foreach (DebugLoadIDsSavingErrorsChecker.ReferencedObject referencedObject in this.referenced)
+					if (!this.deepSaved.Contains(referencedObject.loadID))
 					{
-						if (!this.deepSaved.Contains(referencedObject.loadID))
+						Log.Warning(string.Concat(new string[]
 						{
-							Log.Warning(string.Concat(new string[]
-							{
-								"Object with load ID ",
-								referencedObject.loadID,
-								" is referenced (xml node name: ",
-								referencedObject.label,
-								") but is not deep-saved. This will cause errors during loading."
-							}), false);
-						}
+							"Object with load ID ",
+							referencedObject.loadID,
+							" is referenced (xml node name: ",
+							referencedObject.label,
+							") but is not deep-saved. This will cause errors during loading."
+						}), false);
 					}
 				}
-				this.Clear();
 			}
+			this.Clear();
 		}
 
 		public void RegisterDeepSaved(object obj, string label)
 		{
-			if (Prefs.DevMode)
+			if (!Prefs.DevMode)
 			{
-				if (Scribe.mode != LoadSaveMode.Saving)
+				return;
+			}
+			if (Scribe.mode != LoadSaveMode.Saving)
+			{
+				Log.Error(string.Concat(new object[]
 				{
-					Log.Error(string.Concat(new object[]
-					{
-						"Registered ",
-						obj,
-						", but current mode is ",
-						Scribe.mode
-					}), false);
-				}
-				else if (obj != null)
+					"Registered ",
+					obj,
+					", but current mode is ",
+					Scribe.mode
+				}), false);
+				return;
+			}
+			if (obj == null)
+			{
+				return;
+			}
+			ILoadReferenceable loadReferenceable = obj as ILoadReferenceable;
+			if (loadReferenceable != null && !this.deepSaved.Add(loadReferenceable.GetUniqueLoadID()))
+			{
+				Log.Warning(string.Concat(new string[]
 				{
-					ILoadReferenceable loadReferenceable = obj as ILoadReferenceable;
-					if (loadReferenceable != null)
-					{
-						if (!this.deepSaved.Add(loadReferenceable.GetUniqueLoadID()))
-						{
-							Log.Warning(string.Concat(new string[]
-							{
-								"DebugLoadIDsSavingErrorsChecker error: tried to register deep-saved object with loadID ",
-								loadReferenceable.GetUniqueLoadID(),
-								", but it's already here. label=",
-								label,
-								" (not cleared after the previous save? different objects have the same load ID? the same object is deep-saved twice?)"
-							}), false);
-						}
-					}
-				}
+					"DebugLoadIDsSavingErrorsChecker error: tried to register deep-saved object with loadID ",
+					loadReferenceable.GetUniqueLoadID(),
+					", but it's already here. label=",
+					label,
+					" (not cleared after the previous save? different objects have the same load ID? the same object is deep-saved twice?)"
+				}), false);
 			}
 		}
 
 		public void RegisterReferenced(ILoadReferenceable obj, string label)
 		{
-			if (Prefs.DevMode)
+			if (!Prefs.DevMode)
 			{
-				if (Scribe.mode != LoadSaveMode.Saving)
-				{
-					Log.Error(string.Concat(new object[]
-					{
-						"Registered ",
-						obj,
-						", but current mode is ",
-						Scribe.mode
-					}), false);
-				}
-				else if (obj != null)
-				{
-					this.referenced.Add(new DebugLoadIDsSavingErrorsChecker.ReferencedObject(obj.GetUniqueLoadID(), label));
-				}
+				return;
 			}
+			if (Scribe.mode != LoadSaveMode.Saving)
+			{
+				Log.Error(string.Concat(new object[]
+				{
+					"Registered ",
+					obj,
+					", but current mode is ",
+					Scribe.mode
+				}), false);
+				return;
+			}
+			if (obj == null)
+			{
+				return;
+			}
+			this.referenced.Add(new DebugLoadIDsSavingErrorsChecker.ReferencedObject(obj.GetUniqueLoadID(), label));
 		}
 
 		private struct ReferencedObject : IEquatable<DebugLoadIDsSavingErrorsChecker.ReferencedObject>

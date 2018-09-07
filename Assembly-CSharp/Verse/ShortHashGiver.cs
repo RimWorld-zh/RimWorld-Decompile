@@ -58,29 +58,27 @@ namespace Verse
 			if (def.shortHash != 0)
 			{
 				Log.Error(def + " already has short hash.", false);
+				return;
 			}
-			else
+			HashSet<ushort> hashSet;
+			if (!ShortHashGiver.takenHashesPerDeftype.TryGetValue(defType, out hashSet))
 			{
-				HashSet<ushort> hashSet;
-				if (!ShortHashGiver.takenHashesPerDeftype.TryGetValue(defType, out hashSet))
-				{
-					hashSet = new HashSet<ushort>();
-					ShortHashGiver.takenHashesPerDeftype.Add(defType, hashSet);
-				}
-				ushort num = (ushort)(GenText.StableStringHash(def.defName) % 65535);
-				int num2 = 0;
-				while (num == 0 || hashSet.Contains(num))
-				{
-					num += 1;
-					num2++;
-					if (num2 > 5000)
-					{
-						Log.Message("Short hashes are saturated. There are probably too many Defs.", false);
-					}
-				}
-				def.shortHash = num;
-				hashSet.Add(num);
+				hashSet = new HashSet<ushort>();
+				ShortHashGiver.takenHashesPerDeftype.Add(defType, hashSet);
 			}
+			ushort num = (ushort)(GenText.StableStringHash(def.defName) % 65535);
+			int num2 = 0;
+			while (num == 0 || hashSet.Contains(num))
+			{
+				num += 1;
+				num2++;
+				if (num2 > 5000)
+				{
+					Log.Message("Short hashes are saturated. There are probably too many Defs.", false);
+				}
+			}
+			def.shortHash = num;
+			hashSet.Add(num);
 		}
 
 		// Note: this type is marked as 'beforefieldinit'.

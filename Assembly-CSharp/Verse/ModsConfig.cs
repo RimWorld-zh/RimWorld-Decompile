@@ -84,11 +84,12 @@ namespace Verse
 
 		public static void Reorder(int modIndex, int newIndex)
 		{
-			if (modIndex != newIndex)
+			if (modIndex == newIndex)
 			{
-				ModsConfig.data.activeMods.Insert(newIndex, ModsConfig.data.activeMods[modIndex]);
-				ModsConfig.data.activeMods.RemoveAt((modIndex >= newIndex) ? (modIndex + 1) : modIndex);
+				return;
 			}
+			ModsConfig.data.activeMods.Insert(newIndex, ModsConfig.data.activeMods[modIndex]);
+			ModsConfig.data.activeMods.RemoveAt((modIndex >= newIndex) ? (modIndex + 1) : modIndex);
 		}
 
 		public static bool IsActive(ModMetaData mod)

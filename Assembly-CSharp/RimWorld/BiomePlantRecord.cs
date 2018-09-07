@@ -8,7 +8,7 @@ namespace RimWorld
 	{
 		public ThingDef plant;
 
-		public float commonality = 0f;
+		public float commonality;
 
 		public BiomePlantRecord()
 		{

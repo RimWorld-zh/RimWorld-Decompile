@@ -29,23 +29,21 @@ namespace RimWorld
 			if (this.HasTrait(trait.def))
 			{
 				Log.Warning(this.pawn + " already has trait " + trait.def, false);
+				return;
 			}
-			else
+			this.allTraits.Add(trait);
+			if (this.pawn.workSettings != null)
 			{
-				this.allTraits.Add(trait);
-				if (this.pawn.workSettings != null)
-				{
-					this.pawn.workSettings.Notify_GainedTrait();
-				}
-				this.pawn.story.Notify_TraitChanged();
-				if (this.pawn.skills != null)
-				{
-					this.pawn.skills.Notify_SkillDisablesChanged();
-				}
-				if (!this.pawn.Dead && this.pawn.RaceProps.Humanlike)
-				{
-					this.pawn.needs.mood.thoughts.situational.Notify_SituationalThoughtsDirty();
-				}
+				this.pawn.workSettings.Notify_GainedTrait();
+			}
+			this.pawn.story.Notify_TraitChanged();
+			if (this.pawn.skills != null)
+			{
+				this.pawn.skills.Notify_SkillDisablesChanged();
+			}
+			if (!this.pawn.Dead && this.pawn.RaceProps.Humanlike)
+			{
+				this.pawn.needs.mood.thoughts.situational.Notify_SituationalThoughtsDirty();
 			}
 		}
 
@@ -134,14 +132,14 @@ namespace RimWorld
 				{
 				case 0u:
 					i = 0;
-					goto IL_E2;
+					goto IL_DB;
 				case 1u:
 					j++;
 					break;
 				default:
 					return false;
 				}
-				IL_B2:
+				IL_AD:
 				if (j < trait.CurrentData.theOnlyAllowedMentalBreaks.Count)
 				{
 					this.$current = trait.CurrentData.theOnlyAllowedMentalBreaks[j];
@@ -151,9 +149,9 @@ namespace RimWorld
 					}
 					return true;
 				}
-				IL_D3:
+				IL_CD:
 				i++;
-				IL_E2:
+				IL_DB:
 				if (i >= this.allTraits.Count)
 				{
 					this.$PC = -1;
@@ -164,9 +162,9 @@ namespace RimWorld
 					if (trait.CurrentData.theOnlyAllowedMentalBreaks != null)
 					{
 						j = 0;
-						goto IL_B2;
+						goto IL_AD;
 					}
-					goto IL_D3;
+					goto IL_CD;
 				}
 				return false;
 			}

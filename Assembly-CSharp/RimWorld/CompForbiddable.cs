@@ -10,7 +10,7 @@ namespace RimWorld
 {
 	public class CompForbiddable : ThingComp
 	{
-		private bool forbiddenInt = false;
+		private bool forbiddenInt;
 
 		public CompForbiddable()
 		{
@@ -24,25 +24,26 @@ namespace RimWorld
 			}
 			set
 			{
-				if (value != this.forbiddenInt)
+				if (value == this.forbiddenInt)
 				{
-					this.forbiddenInt = value;
-					if (this.parent.Spawned)
+					return;
+				}
+				this.forbiddenInt = value;
+				if (this.parent.Spawned)
+				{
+					if (this.forbiddenInt)
 					{
-						if (this.forbiddenInt)
-						{
-							this.parent.Map.listerHaulables.Notify_Forbidden(this.parent);
-							this.parent.Map.listerMergeables.Notify_Forbidden(this.parent);
-						}
-						else
-						{
-							this.parent.Map.listerHaulables.Notify_Unforbidden(this.parent);
-							this.parent.Map.listerMergeables.Notify_Unforbidden(this.parent);
-						}
-						if (this.parent is Building_Door)
-						{
-							this.parent.Map.reachability.ClearCache();
-						}
+						this.parent.Map.listerHaulables.Notify_Forbidden(this.parent);
+						this.parent.Map.listerMergeables.Notify_Forbidden(this.parent);
+					}
+					else
+					{
+						this.parent.Map.listerHaulables.Notify_Unforbidden(this.parent);
+						this.parent.Map.listerMergeables.Notify_Unforbidden(this.parent);
+					}
+					if (this.parent is Building_Door)
+					{
+						this.parent.Map.reachability.ClearCache();
 					}
 				}
 			}

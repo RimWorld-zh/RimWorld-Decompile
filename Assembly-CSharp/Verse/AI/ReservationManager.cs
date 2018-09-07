@@ -13,14 +13,14 @@ namespace Verse.AI
 	{
 		private Map map;
 
-		private List<Reservation> reservations = new List<Reservation>();
+		private List<ReservationManager.Reservation> reservations = new List<ReservationManager.Reservation>();
 
 		private static readonly Material DebugReservedThingIcon = MaterialPool.MatFrom("UI/Overlays/ReservedForWork", ShaderDatabase.Cutout);
 
 		public const int StackCount_All = -1;
 
 		[CompilerGenerated]
-		private static Func<Reservation, Thing> <>f__am$cache0;
+		private static Func<ReservationManager.Reservation, Thing> <>f__am$cache0;
 
 		public ReservationManager(Map map)
 		{
@@ -29,12 +29,12 @@ namespace Verse.AI
 
 		public void ExposeData()
 		{
-			Scribe_Collections.Look<Reservation>(ref this.reservations, "reservations", LookMode.Deep, new object[0]);
+			Scribe_Collections.Look<ReservationManager.Reservation>(ref this.reservations, "reservations", LookMode.Deep, new object[0]);
 			if (Scribe.mode == LoadSaveMode.PostLoadInit)
 			{
 				for (int i = this.reservations.Count - 1; i >= 0; i--)
 				{
-					Reservation reservation = this.reservations[i];
+					ReservationManager.Reservation reservation = this.reservations[i];
 					if (reservation.Target.Thing != null && reservation.Target.Thing.Destroyed)
 					{
 						Log.Error("Loaded reservation with destroyed target: " + reservation + ". Deleting it...", false);
@@ -61,221 +61,188 @@ namespace Verse.AI
 
 		public bool CanReserve(Pawn claimant, LocalTargetInfo target, int maxPawns = 1, int stackCount = -1, ReservationLayerDef layer = null, bool ignoreOtherReservations = false)
 		{
-			bool result;
 			if (claimant == null)
 			{
-				Log.Error("CanReserve with claimant==null", false);
-				result = false;
+				Log.Error("CanReserve with null claimant", false);
+				return false;
 			}
-			else if (!target.IsValid || (target.HasThing && target.Thing.Destroyed))
+			if (!claimant.Spawned || claimant.Map != this.map)
 			{
-				result = false;
+				return false;
 			}
-			else if (!claimant.Spawned || claimant.Map != this.map)
+			if (!target.IsValid || target.ThingDestroyed)
 			{
-				result = false;
+				return false;
 			}
-			else if (target.HasThing && target.Thing.Spawned && target.Thing.Map != this.map)
+			if (target.HasThing && target.Thing.SpawnedOrAnyParentSpawned && target.Thing.MapHeld != this.map)
 			{
-				result = false;
+				return false;
 			}
-			else
+			int num = (!target.HasThing) ? 1 : target.Thing.stackCount;
+			int num2 = (stackCount != -1) ? stackCount : num;
+			if (num2 > num)
 			{
-				int num = 1;
-				if (target.HasThing)
+				return false;
+			}
+			if (!ignoreOtherReservations)
+			{
+				if (this.map.physicalInteractionReservationManager.IsReserved(target) && !this.map.physicalInteractionReservationManager.IsReservedBy(claimant, target))
 				{
-					num = target.Thing.stackCount;
+					return false;
 				}
-				if (stackCount == -1)
+				for (int i = 0; i < this.reservations.Count; i++)
 				{
-					stackCount = num;
-				}
-				if (stackCount > num)
-				{
-					result = false;
-				}
-				else if (ignoreOtherReservations)
-				{
-					result = true;
-				}
-				else if (this.map.physicalInteractionReservationManager.IsReserved(target) && !this.map.physicalInteractionReservationManager.IsReservedBy(claimant, target))
-				{
-					result = false;
-				}
-				else
-				{
-					int num2 = 0;
-					int count = this.reservations.Count;
-					int num3 = 0;
-					for (int i = 0; i < count; i++)
+					ReservationManager.Reservation reservation = this.reservations[i];
+					if (reservation.Target == target && reservation.Layer == layer && reservation.Claimant == claimant && (reservation.StackCount == -1 || reservation.StackCount >= num2))
 					{
-						Reservation reservation = this.reservations[i];
-						if (!(reservation.Target != target))
+						return true;
+					}
+				}
+				int num3 = 0;
+				int num4 = 0;
+				for (int j = 0; j < this.reservations.Count; j++)
+				{
+					ReservationManager.Reservation reservation2 = this.reservations[j];
+					if (!(reservation2.Target != target) && reservation2.Layer == layer)
+					{
+						if (reservation2.Claimant != claimant)
 						{
-							if (reservation.Layer == layer)
+							if (ReservationManager.RespectsReservationsOf(claimant, reservation2.Claimant))
 							{
-								if (ReservationManager.RespectsReservationsOf(claimant, reservation.Claimant))
+								if (reservation2.MaxPawns != maxPawns)
 								{
-									if (reservation.Claimant == claimant)
-									{
-										return true;
-									}
-									if (reservation.MaxPawns != maxPawns)
-									{
-										return false;
-									}
-									num2++;
-									if (reservation.StackCount == -1)
-									{
-										num3 = num;
-									}
-									else
-									{
-										num3 += reservation.StackCount;
-									}
-									if (num2 >= maxPawns || num3 + stackCount > num)
-									{
-										return false;
-									}
+									return false;
+								}
+								num3++;
+								if (reservation2.StackCount == -1)
+								{
+									num4 += num;
+								}
+								else
+								{
+									num4 += reservation2.StackCount;
+								}
+								if (num3 >= maxPawns || num2 + num4 > num)
+								{
+									return false;
 								}
 							}
 						}
 					}
-					result = true;
 				}
 			}
-			return result;
+			return true;
 		}
 
 		public int CanReserveStack(Pawn claimant, LocalTargetInfo target, int maxPawns = 1, ReservationLayerDef layer = null, bool ignoreOtherReservations = false)
 		{
-			int result;
 			if (claimant == null)
 			{
-				Log.Error("CanReserve with claimant==null", false);
-				result = 0;
+				Log.Error("CanReserve with null claimant", false);
+				return 0;
 			}
-			else if (!target.IsValid || (target.HasThing && target.Thing.Destroyed))
+			if (!claimant.Spawned || claimant.Map != this.map)
 			{
-				result = 0;
+				return 0;
 			}
-			else if (!claimant.Spawned || claimant.Map != this.map)
+			if (!target.IsValid || target.ThingDestroyed)
 			{
-				result = 0;
+				return 0;
 			}
-			else if (target.HasThing && target.Thing.Spawned && target.Thing.Map != this.map)
+			if (target.HasThing && target.Thing.SpawnedOrAnyParentSpawned && target.Thing.MapHeld != this.map)
 			{
-				result = 0;
+				return 0;
 			}
-			else
+			int num = (!target.HasThing) ? 1 : target.Thing.stackCount;
+			int num2 = 0;
+			if (!ignoreOtherReservations)
 			{
-				int num = 1;
-				if (target.HasThing)
+				if (this.map.physicalInteractionReservationManager.IsReserved(target) && !this.map.physicalInteractionReservationManager.IsReservedBy(claimant, target))
 				{
-					num = target.Thing.stackCount;
+					return 0;
 				}
-				if (ignoreOtherReservations)
+				int num3 = 0;
+				for (int i = 0; i < this.reservations.Count; i++)
 				{
-					result = num;
-				}
-				else if (this.map.physicalInteractionReservationManager.IsReserved(target) && !this.map.physicalInteractionReservationManager.IsReservedBy(claimant, target))
-				{
-					result = 0;
-				}
-				else
-				{
-					int num2 = 0;
-					int count = this.reservations.Count;
-					int num3 = 0;
-					for (int i = 0; i < count; i++)
+					ReservationManager.Reservation reservation = this.reservations[i];
+					if (!(reservation.Target != target) && reservation.Layer == layer)
 					{
-						Reservation reservation = this.reservations[i];
-						if (!(reservation.Target != target))
+						if (reservation.Claimant != claimant)
 						{
-							if (reservation.Layer == layer)
+							if (ReservationManager.RespectsReservationsOf(claimant, reservation.Claimant))
 							{
-								if (ReservationManager.RespectsReservationsOf(claimant, reservation.Claimant))
+								if (reservation.MaxPawns != maxPawns)
 								{
-									if (reservation.Claimant != claimant)
-									{
-										if (reservation.MaxPawns != maxPawns)
-										{
-											return 0;
-										}
-										num2++;
-										if (reservation.StackCount == -1)
-										{
-											num3 = num;
-										}
-										else
-										{
-											num3 += reservation.StackCount;
-										}
-										if (num2 >= maxPawns || num3 >= num)
-										{
-											return 0;
-										}
-									}
+									return 0;
+								}
+								num3++;
+								if (reservation.StackCount == -1)
+								{
+									num2 += num;
+								}
+								else
+								{
+									num2 += reservation.StackCount;
+								}
+								if (num3 >= maxPawns || num2 >= num)
+								{
+									return 0;
 								}
 							}
 						}
 					}
-					result = num - num3;
 				}
 			}
-			return result;
+			return Mathf.Max(num - num2, 0);
 		}
 
-		public bool Reserve(Pawn claimant, Job job, LocalTargetInfo target, int maxPawns = 1, int stackCount = -1, ReservationLayerDef layer = null)
+		public bool Reserve(Pawn claimant, Job job, LocalTargetInfo target, int maxPawns = 1, int stackCount = -1, ReservationLayerDef layer = null, bool errorOnFailed = true)
 		{
 			if (maxPawns > 1 && stackCount == -1)
 			{
 				Log.ErrorOnce("Reserving with maxPawns > 1 and stackCount = All; this will not have a useful effect (suppressing future warnings)", 83269, false);
 			}
-			bool result;
-			if (!target.IsValid)
-			{
-				result = false;
-			}
-			else if (this.ReservedBy(target, claimant, job))
-			{
-				result = true;
-			}
-			else if (target.ThingDestroyed)
-			{
-				result = false;
-			}
-			else if (job == null)
+			if (job == null)
 			{
 				Log.Warning(claimant.ToStringSafe<Pawn>() + " tried to reserve thing " + target.ToStringSafe<LocalTargetInfo>() + " without a valid job", false);
-				result = false;
+				return false;
 			}
-			else if (!this.CanReserve(claimant, target, maxPawns, stackCount, layer, false))
+			int num = (!target.HasThing) ? 1 : target.Thing.stackCount;
+			int num2 = (stackCount != -1) ? stackCount : num;
+			for (int i = 0; i < this.reservations.Count; i++)
 			{
-				if (job != null && job.playerForced && this.CanReserve(claimant, target, maxPawns, stackCount, layer, true))
+				ReservationManager.Reservation reservation = this.reservations[i];
+				if (reservation.Target == target && reservation.Claimant == claimant && reservation.Job == job && reservation.Layer == layer && (reservation.StackCount == -1 || reservation.StackCount >= num2))
 				{
-					this.reservations.Add(new Reservation(claimant, job, maxPawns, stackCount, target, layer));
-					foreach (Reservation reservation in new List<Reservation>(this.reservations))
+					return true;
+				}
+			}
+			if (!target.IsValid || target.ThingDestroyed)
+			{
+				return false;
+			}
+			if (this.CanReserve(claimant, target, maxPawns, stackCount, layer, false))
+			{
+				this.reservations.Add(new ReservationManager.Reservation(claimant, job, maxPawns, stackCount, target, layer));
+				return true;
+			}
+			if (job != null && job.playerForced && this.CanReserve(claimant, target, maxPawns, stackCount, layer, true))
+			{
+				this.reservations.Add(new ReservationManager.Reservation(claimant, job, maxPawns, stackCount, target, layer));
+				foreach (ReservationManager.Reservation reservation2 in this.reservations.ToList<ReservationManager.Reservation>())
+				{
+					if (reservation2.Target == target && reservation2.Claimant != claimant && reservation2.Layer == layer && ReservationManager.RespectsReservationsOf(claimant, reservation2.Claimant))
 					{
-						if (reservation.Target == target && reservation.Claimant != claimant && reservation.Layer == layer && ReservationManager.RespectsReservationsOf(claimant, reservation.Claimant))
-						{
-							reservation.Claimant.jobs.EndJob(reservation.Job, JobCondition.InterruptForced);
-						}
+						reservation2.Claimant.jobs.EndCurrentOrQueuedJob(reservation2.Job, JobCondition.InterruptForced);
 					}
-					result = true;
 				}
-				else
-				{
-					this.LogCouldNotReserveError(claimant, job, target, maxPawns, stackCount, layer);
-					result = false;
-				}
+				return true;
 			}
-			else
+			if (errorOnFailed)
 			{
-				this.reservations.Add(new Reservation(claimant, job, maxPawns, stackCount, target, layer));
-				result = true;
+				this.LogCouldNotReserveError(claimant, job, target, maxPawns, stackCount, layer);
 			}
-			return result;
+			return false;
 		}
 
 		public void Release(LocalTargetInfo target, Pawn claimant, Job job)
@@ -290,10 +257,10 @@ namespace Verse.AI
 					claimant
 				}), false);
 			}
-			Reservation reservation = null;
+			ReservationManager.Reservation reservation = null;
 			for (int i = 0; i < this.reservations.Count; i++)
 			{
-				Reservation reservation2 = this.reservations[i];
+				ReservationManager.Reservation reservation2 = this.reservations[i];
 				if (reservation2.Target == target && reservation2.Claimant == claimant && reservation2.Job == job)
 				{
 					reservation = reservation2;
@@ -310,18 +277,23 @@ namespace Verse.AI
 					claimant,
 					"."
 				}), false);
+				return;
 			}
-			else
-			{
-				this.reservations.Remove(reservation);
-			}
+			this.reservations.Remove(reservation);
 		}
 
 		public void ReleaseAllForTarget(Thing t)
 		{
-			if (t != null)
+			if (t == null)
 			{
-				this.reservations.RemoveAll((Reservation r) => r.Target.Thing == t);
+				return;
+			}
+			for (int i = this.reservations.Count - 1; i >= 0; i--)
+			{
+				if (this.reservations[i].Target.Thing == t)
+				{
+					this.reservations.RemoveAt(i);
+				}
 			}
 		}
 
@@ -338,6 +310,10 @@ namespace Verse.AI
 
 		public void ReleaseAllClaimedBy(Pawn claimant)
 		{
+			if (claimant == null)
+			{
+				return;
+			}
 			for (int i = this.reservations.Count - 1; i >= 0; i--)
 			{
 				if (this.reservations[i].Claimant == claimant)
@@ -349,7 +325,11 @@ namespace Verse.AI
 
 		public LocalTargetInfo FirstReservationFor(Pawn claimant)
 		{
-			for (int i = this.reservations.Count - 1; i >= 0; i--)
+			if (claimant == null)
+			{
+				return LocalTargetInfo.Invalid;
+			}
+			for (int i = 0; i < this.reservations.Count; i++)
 			{
 				if (this.reservations[i].Claimant == claimant)
 				{
@@ -361,10 +341,13 @@ namespace Verse.AI
 
 		public bool IsReservedByAnyoneOf(LocalTargetInfo target, Faction faction)
 		{
-			int count = this.reservations.Count;
-			for (int i = 0; i < count; i++)
+			if (!target.IsValid)
 			{
-				Reservation reservation = this.reservations[i];
+				return false;
+			}
+			for (int i = 0; i < this.reservations.Count; i++)
+			{
+				ReservationManager.Reservation reservation = this.reservations[i];
 				if (reservation.Target == target && reservation.Claimant.Faction == faction)
 				{
 					return true;
@@ -380,10 +363,13 @@ namespace Verse.AI
 
 		public Pawn FirstRespectedReserver(LocalTargetInfo target, Pawn claimant)
 		{
-			int count = this.reservations.Count;
-			for (int i = 0; i < count; i++)
+			if (!target.IsValid)
 			{
-				Reservation reservation = this.reservations[i];
+				return null;
+			}
+			for (int i = 0; i < this.reservations.Count; i++)
+			{
+				ReservationManager.Reservation reservation = this.reservations[i];
 				if (reservation.Target == target && ReservationManager.RespectsReservationsOf(claimant, reservation.Claimant))
 				{
 					return reservation.Claimant;
@@ -394,10 +380,13 @@ namespace Verse.AI
 
 		public bool ReservedBy(LocalTargetInfo target, Pawn claimant, Job job = null)
 		{
-			int count = this.reservations.Count;
-			for (int i = 0; i < count; i++)
+			if (!target.IsValid)
 			{
-				Reservation reservation = this.reservations[i];
+				return false;
+			}
+			for (int i = 0; i < this.reservations.Count; i++)
+			{
+				ReservationManager.Reservation reservation = this.reservations[i];
 				if (reservation.Target == target && reservation.Claimant == claimant && (job == null || reservation.Job == job))
 				{
 					return true;
@@ -408,10 +397,13 @@ namespace Verse.AI
 
 		public bool ReservedBy<TDriver>(LocalTargetInfo target, Pawn claimant, LocalTargetInfo? targetAIsNot = null, LocalTargetInfo? targetBIsNot = null, LocalTargetInfo? targetCIsNot = null)
 		{
-			int count = this.reservations.Count;
-			for (int i = 0; i < count; i++)
+			if (!target.IsValid)
 			{
-				Reservation reservation = this.reservations[i];
+				return false;
+			}
+			for (int i = 0; i < this.reservations.Count; i++)
+			{
+				ReservationManager.Reservation reservation = this.reservations[i];
 				if (reservation.Target == target && reservation.Claimant == claimant && reservation.Job != null && reservation.Job.GetCachedDriver(claimant) is TDriver && (targetAIsNot == null || reservation.Job.targetA != targetAIsNot) && (targetBIsNot == null || reservation.Job.targetB != targetBIsNot) && (targetCIsNot == null || reservation.Job.targetC != targetCIsNot))
 				{
 					return true;
@@ -428,43 +420,38 @@ namespace Verse.AI
 
 		private static bool RespectsReservationsOf(Pawn newClaimant, Pawn oldClaimant)
 		{
-			bool result;
 			if (newClaimant == oldClaimant)
 			{
-				result = true;
+				return true;
 			}
-			else if (newClaimant.Faction == null || oldClaimant.Faction == null)
+			if (newClaimant.Faction == null || oldClaimant.Faction == null)
 			{
-				result = false;
+				return false;
 			}
-			else if (newClaimant.Faction == oldClaimant.Faction)
+			if (newClaimant.Faction == oldClaimant.Faction)
 			{
-				result = true;
+				return true;
 			}
-			else if (!newClaimant.Faction.HostileTo(oldClaimant.Faction))
+			if (!newClaimant.Faction.HostileTo(oldClaimant.Faction))
 			{
-				result = true;
+				return true;
 			}
-			else if (oldClaimant.HostFaction != null && oldClaimant.HostFaction == newClaimant.HostFaction)
+			if (oldClaimant.HostFaction != null && oldClaimant.HostFaction == newClaimant.HostFaction)
 			{
-				result = true;
+				return true;
 			}
-			else
+			if (newClaimant.HostFaction != null)
 			{
-				if (newClaimant.HostFaction != null)
+				if (oldClaimant.HostFaction != null)
 				{
-					if (oldClaimant.HostFaction != null)
-					{
-						return true;
-					}
-					if (newClaimant.HostFaction == oldClaimant.Faction)
-					{
-						return true;
-					}
+					return true;
 				}
-				result = false;
+				if (newClaimant.HostFaction == oldClaimant.Faction)
+				{
+					return true;
+				}
 			}
-			return result;
+			return false;
 		}
 
 		internal string DebugString()
@@ -488,7 +475,7 @@ namespace Verse.AI
 		{
 			for (int i = 0; i < this.reservations.Count; i++)
 			{
-				Reservation reservation = this.reservations[i];
+				ReservationManager.Reservation reservation = this.reservations[i];
 				if (reservation.Target.Thing != null)
 				{
 					if (reservation.Target.Thing.Spawned)
@@ -533,7 +520,7 @@ namespace Verse.AI
 			}
 			else
 			{
-				text2 = "";
+				text2 = string.Empty;
 			}
 			string text3 = string.Concat(new object[]
 			{
@@ -601,23 +588,121 @@ namespace Verse.AI
 		}
 
 		[CompilerGenerated]
-		private static Thing <AllReservedThings>m__0(Reservation res)
+		private static Thing <AllReservedThings>m__0(ReservationManager.Reservation res)
 		{
 			return res.Target.Thing;
 		}
 
-		[CompilerGenerated]
-		private sealed class <ReleaseAllForTarget>c__AnonStorey0
+		public class Reservation : IExposable
 		{
-			internal Thing t;
+			private Pawn claimant;
 
-			public <ReleaseAllForTarget>c__AnonStorey0()
+			private Job job;
+
+			private LocalTargetInfo target;
+
+			private ReservationLayerDef layer;
+
+			private int maxPawns;
+
+			private int stackCount = -1;
+
+			public Reservation()
 			{
 			}
 
-			internal bool <>m__0(Reservation r)
+			public Reservation(Pawn claimant, Job job, int maxPawns, int stackCount, LocalTargetInfo target, ReservationLayerDef layer)
 			{
-				return r.Target.Thing == this.t;
+				this.claimant = claimant;
+				this.job = job;
+				this.maxPawns = maxPawns;
+				this.stackCount = stackCount;
+				this.target = target;
+				this.layer = layer;
+			}
+
+			public Pawn Claimant
+			{
+				get
+				{
+					return this.claimant;
+				}
+			}
+
+			public Job Job
+			{
+				get
+				{
+					return this.job;
+				}
+			}
+
+			public LocalTargetInfo Target
+			{
+				get
+				{
+					return this.target;
+				}
+			}
+
+			public ReservationLayerDef Layer
+			{
+				get
+				{
+					return this.layer;
+				}
+			}
+
+			public int MaxPawns
+			{
+				get
+				{
+					return this.maxPawns;
+				}
+			}
+
+			public int StackCount
+			{
+				get
+				{
+					return this.stackCount;
+				}
+			}
+
+			public Faction Faction
+			{
+				get
+				{
+					return this.claimant.Faction;
+				}
+			}
+
+			public void ExposeData()
+			{
+				Scribe_References.Look<Pawn>(ref this.claimant, "claimant", false);
+				Scribe_References.Look<Job>(ref this.job, "job", false);
+				Scribe_TargetInfo.Look(ref this.target, "target");
+				Scribe_Values.Look<int>(ref this.maxPawns, "maxPawns", 0, false);
+				Scribe_Values.Look<int>(ref this.stackCount, "stackCount", 0, false);
+				Scribe_Defs.Look<ReservationLayerDef>(ref this.layer, "layer");
+			}
+
+			public override string ToString()
+			{
+				return string.Concat(new object[]
+				{
+					(this.claimant == null) ? "null" : this.claimant.LabelShort,
+					":",
+					this.job.ToStringSafe<Job>(),
+					", ",
+					this.target.ToStringSafe<LocalTargetInfo>(),
+					", ",
+					this.layer.ToStringSafe<ReservationLayerDef>(),
+					", ",
+					this.maxPawns,
+					", ",
+					this.stackCount
+				});
 			}
 		}
 	}

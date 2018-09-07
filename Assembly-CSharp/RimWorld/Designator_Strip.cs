@@ -42,20 +42,15 @@ namespace RimWorld
 
 		public override AcceptanceReport CanDesignateCell(IntVec3 c)
 		{
-			AcceptanceReport result;
 			if (!c.InBounds(base.Map))
 			{
-				result = false;
+				return false;
 			}
-			else if (!this.StrippablesInCell(c).Any<Thing>())
+			if (!this.StrippablesInCell(c).Any<Thing>())
 			{
-				result = "MessageMustDesignateStrippable".Translate();
+				return "MessageMustDesignateStrippable".Translate();
 			}
-			else
-			{
-				result = true;
-			}
-			return result;
+			return true;
 		}
 
 		public override void DesignateSingleCell(IntVec3 c)
@@ -68,16 +63,11 @@ namespace RimWorld
 
 		public override AcceptanceReport CanDesignateThing(Thing t)
 		{
-			AcceptanceReport result;
 			if (base.Map.designationManager.DesignationOn(t, this.Designation) != null)
 			{
-				result = false;
+				return false;
 			}
-			else
-			{
-				result = StrippableUtility.CanBeStrippedByColony(t);
-			}
-			return result;
+			return StrippableUtility.CanBeStrippedByColony(t);
 		}
 
 		public override void DesignateThing(Thing t)
@@ -139,7 +129,7 @@ namespace RimWorld
 					i = 0;
 					break;
 				case 1u:
-					IL_BF:
+					IL_BD:
 					i++;
 					break;
 				default:
@@ -160,7 +150,7 @@ namespace RimWorld
 						}
 						return true;
 					}
-					goto IL_BF;
+					goto IL_BD;
 				}
 				return false;
 			}

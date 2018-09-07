@@ -72,16 +72,11 @@ namespace RimWorld
 			GenStep_Outpost.possibleRects.Add(new CellRect(rectToDefend.CenterCell.x - this.size / 2, rectToDefend.maxZ + 1, this.size, this.size));
 			CellRect mapRect = new CellRect(0, 0, map.Size.x, map.Size.z);
 			GenStep_Outpost.possibleRects.RemoveAll((CellRect x) => !x.FullyContainedWithin(mapRect));
-			CellRect result;
 			if (GenStep_Outpost.possibleRects.Any<CellRect>())
 			{
-				result = GenStep_Outpost.possibleRects.RandomElement<CellRect>();
+				return GenStep_Outpost.possibleRects.RandomElement<CellRect>();
 			}
-			else
-			{
-				result = rectToDefend;
-			}
-			return result;
+			return rectToDefend;
 		}
 
 		// Note: this type is marked as 'beforefieldinit'.

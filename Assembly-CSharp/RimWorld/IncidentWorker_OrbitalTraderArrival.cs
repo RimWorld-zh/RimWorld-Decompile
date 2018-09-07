@@ -24,36 +24,26 @@ namespace RimWorld
 
 		protected override bool CanFireNowSub(IncidentParms parms)
 		{
-			bool result;
 			if (!base.CanFireNowSub(parms))
 			{
-				result = false;
+				return false;
 			}
-			else
-			{
-				Map map = (Map)parms.target;
-				result = (map.passingShipManager.passingShips.Count < 5);
-			}
-			return result;
+			Map map = (Map)parms.target;
+			return map.passingShipManager.passingShips.Count < 5;
 		}
 
 		protected override bool TryExecuteWorker(IncidentParms parms)
 		{
 			Map map = (Map)parms.target;
-			bool result;
 			if (map.passingShipManager.passingShips.Count >= 5)
 			{
-				result = false;
+				return false;
 			}
-			else
+			TraderKindDef def;
+			if ((from x in DefDatabase<TraderKindDef>.AllDefs
+			where x.orbital
+			select x).TryRandomElementByWeight((TraderKindDef traderDef) => traderDef.CalculatedCommonality, out def))
 			{
-				TraderKindDef def;
-				if (!(from x in DefDatabase<TraderKindDef>.AllDefs
-				where x.orbital
-				select x).TryRandomElementByWeight((TraderKindDef traderDef) => traderDef.CalculatedCommonality, out def))
-				{
-					throw new InvalidOperationException();
-				}
 				TradeShip tradeShip = new TradeShip(def);
 				if (map.listerBuildings.allBuildingsColonist.Any((Building b) => b.def.IsCommsConsole && b.GetComp<CompPowerTrader>().PowerOn))
 				{
@@ -65,9 +55,9 @@ namespace RimWorld
 				}
 				map.passingShipManager.AddShip(tradeShip);
 				tradeShip.GenerateThings();
-				result = true;
+				return true;
 			}
-			return result;
+			throw new InvalidOperationException();
 		}
 
 		[CompilerGenerated]

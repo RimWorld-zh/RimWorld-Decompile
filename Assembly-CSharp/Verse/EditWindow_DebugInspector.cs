@@ -18,7 +18,7 @@ namespace Verse
 	{
 		private StringBuilder debugStringBuilder = new StringBuilder();
 
-		public bool fullMode = false;
+		public bool fullMode;
 
 		private float columnWidth = 360f;
 
@@ -261,7 +261,7 @@ namespace Verse
 									thing.LabelShort,
 									", ",
 									thing.Faction,
-									(!potentialTargetsFor[i].ThreatDisabled(null)) ? "" : " (threat disabled)"
+									(!potentialTargetsFor[i].ThreatDisabled(null)) ? string.Empty : " (threat disabled)"
 								}));
 							}
 						}
@@ -472,7 +472,7 @@ namespace Verse
 						PowerNet powerNet = Find.CurrentMap.powerNetGrid.TransmittedPowerNetAt(intVec);
 						if (powerNet != null)
 						{
-							stringBuilder.AppendLine("" + powerNet.DebugString());
+							stringBuilder.AppendLine(string.Empty + powerNet.DebugString());
 						}
 						else
 						{

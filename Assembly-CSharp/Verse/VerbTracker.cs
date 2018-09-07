@@ -12,9 +12,9 @@ namespace Verse
 {
 	public class VerbTracker : IExposable
 	{
-		public IVerbOwner directOwner = null;
+		public IVerbOwner directOwner;
 
-		private List<Verb> verbs = null;
+		private List<Verb> verbs;
 
 		[CompilerGenerated]
 		private static Predicate<Verb> <>f__am$cache0;
@@ -57,12 +57,13 @@ namespace Verse
 
 		public void VerbsTick()
 		{
-			if (this.verbs != null)
+			if (this.verbs == null)
 			{
-				for (int i = 0; i < this.verbs.Count; i++)
-				{
-					this.verbs[i].VerbTick();
-				}
+				return;
+			}
+			for (int i = 0; i < this.verbs.Count; i++)
+			{
+				this.verbs[i].VerbTick();
 			}
 		}
 
@@ -144,28 +145,25 @@ namespace Verse
 		public void ExposeData()
 		{
 			Scribe_Collections.Look<Verb>(ref this.verbs, "verbs", LookMode.Deep, new object[0]);
-			if (Scribe.mode == LoadSaveMode.PostLoadInit)
+			if (Scribe.mode == LoadSaveMode.ResolvingCrossRefs && this.verbs != null)
 			{
-				if (this.verbs != null)
+				if (this.verbs.RemoveAll((Verb x) => x == null) != 0)
 				{
-					if (this.verbs.RemoveAll((Verb x) => x == null) != 0)
-					{
-						Log.Error("Some verbs were null after loading. directOwner=" + this.directOwner.ToStringSafe<IVerbOwner>(), false);
-					}
-					List<Verb> sources = this.verbs;
-					this.verbs = new List<Verb>();
-					this.InitVerbs(delegate(Type type, string id)
-					{
-						Verb verb = sources.FirstOrDefault((Verb v) => v.loadID == id && v.GetType() == type);
-						if (verb == null)
-						{
-							Log.Warning(string.Format("Replaced verb {0}/{1}; may have been changed through a version update or a mod change", type, id), false);
-							verb = (Verb)Activator.CreateInstance(type);
-						}
-						this.verbs.Add(verb);
-						return verb;
-					});
+					Log.Error("Some verbs were null after loading. directOwner=" + this.directOwner.ToStringSafe<IVerbOwner>(), false);
 				}
+				List<Verb> sources = this.verbs;
+				this.verbs = new List<Verb>();
+				this.InitVerbs(delegate(Type type, string id)
+				{
+					Verb verb = sources.FirstOrDefault((Verb v) => v.loadID == id && v.GetType() == type);
+					if (verb == null)
+					{
+						Log.Warning(string.Format("Replaced verb {0}/{1}; may have been changed through a version update or a mod change", type, id), false);
+						verb = (Verb)Activator.CreateInstance(type);
+					}
+					this.verbs.Add(verb);
+					return verb;
+				});
 			}
 		}
 
@@ -303,11 +301,11 @@ namespace Verse
 					i = 0;
 					break;
 				case 1u:
-					IL_D8:
+					IL_D6:
 					i++;
 					break;
 				case 2u:
-					IL_194:
+					IL_191:
 					this.$PC = -1;
 					return false;
 				default:
@@ -317,7 +315,7 @@ namespace Verse
 				{
 					if (this.directOwner.Tools.NullOrEmpty<Tool>() || ce == null || !ce.parent.def.IsMeleeWeapon)
 					{
-						goto IL_194;
+						goto IL_191;
 					}
 					this.$current = base.CreateVerbTargetCommand(ownerThing, (from v in verbs
 					where v.verbProps.IsMeleeAttack
@@ -332,7 +330,7 @@ namespace Verse
 					verb = verbs[i];
 					if (!verb.verbProps.hasStandardCommand)
 					{
-						goto IL_D8;
+						goto IL_D6;
 					}
 					this.$current = base.CreateVerbTargetCommand(ownerThing, verb);
 					if (!this.$disposing)

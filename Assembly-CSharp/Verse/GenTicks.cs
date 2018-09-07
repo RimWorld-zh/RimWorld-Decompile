@@ -16,20 +16,15 @@ namespace Verse
 		{
 			get
 			{
-				int result;
 				if (Current.ProgramState != ProgramState.Playing && Find.GameInitData != null && Find.GameInitData.gameToLoad.NullOrEmpty())
 				{
-					result = GenTicks.ConfiguredTicksAbsAtGameStart;
+					return GenTicks.ConfiguredTicksAbsAtGameStart;
 				}
-				else if (Current.Game != null && Find.TickManager != null)
+				if (Current.Game != null && Find.TickManager != null)
 				{
-					result = Find.TickManager.TicksAbs;
+					return Find.TickManager.TicksAbs;
 				}
-				else
-				{
-					result = 0;
-				}
-				return result;
+				return 0;
 			}
 		}
 
@@ -37,16 +32,11 @@ namespace Verse
 		{
 			get
 			{
-				int result;
 				if (Current.Game != null && Find.TickManager != null)
 				{
-					result = Find.TickManager.TicksGame;
+					return Find.TickManager.TicksGame;
 				}
-				else
-				{
-					result = 0;
-				}
-				return result;
+				return 0;
 			}
 		}
 
@@ -56,42 +46,37 @@ namespace Verse
 			{
 				GameInitData gameInitData = Find.GameInitData;
 				ConfiguredTicksAbsAtGameStartCache ticksAbsCache = Find.World.ticksAbsCache;
-				int num;
 				int result;
-				if (ticksAbsCache.TryGetCachedValue(gameInitData, out num))
+				if (ticksAbsCache.TryGetCachedValue(gameInitData, out result))
 				{
-					result = num;
+					return result;
+				}
+				Vector2 vector;
+				if (gameInitData.startingTile >= 0)
+				{
+					vector = Find.WorldGrid.LongLatOf(gameInitData.startingTile);
 				}
 				else
 				{
-					Vector2 vector;
-					if (gameInitData.startingTile >= 0)
-					{
-						vector = Find.WorldGrid.LongLatOf(gameInitData.startingTile);
-					}
-					else
-					{
-						vector = Vector2.zero;
-					}
-					Twelfth twelfth;
-					if (gameInitData.startingSeason != Season.Undefined)
-					{
-						twelfth = gameInitData.startingSeason.GetFirstTwelfth(vector.y);
-					}
-					else if (gameInitData.startingTile >= 0)
-					{
-						twelfth = TwelfthUtility.FindStartingWarmTwelfth(gameInitData.startingTile);
-					}
-					else
-					{
-						twelfth = Season.Summer.GetFirstTwelfth(0f);
-					}
-					int num2 = (24 - GenDate.TimeZoneAt(vector.x)) % 24;
-					int num3 = 300000 * (int)twelfth + 2500 * (6 + num2);
-					ticksAbsCache.Cache(num3, gameInitData);
-					result = num3;
+					vector = Vector2.zero;
 				}
-				return result;
+				Twelfth twelfth;
+				if (gameInitData.startingSeason != Season.Undefined)
+				{
+					twelfth = gameInitData.startingSeason.GetFirstTwelfth(vector.y);
+				}
+				else if (gameInitData.startingTile >= 0)
+				{
+					twelfth = TwelfthUtility.FindStartingWarmTwelfth(gameInitData.startingTile);
+				}
+				else
+				{
+					twelfth = Season.Summer.GetFirstTwelfth(0f);
+				}
+				int num = (24 - GenDate.TimeZoneAt(vector.x)) % 24;
+				int num2 = 300000 * (int)twelfth + 2500 * (6 + num);
+				ticksAbsCache.Cache(num2, gameInitData);
+				return num2;
 			}
 		}
 

@@ -23,7 +23,7 @@ namespace Verse
 
 		private int sortColumn = -1;
 
-		private Window_DebugTable.SortMode sortMode = Window_DebugTable.SortMode.Off;
+		private Window_DebugTable.SortMode sortMode;
 
 		private bool[] colVisible;
 
@@ -72,7 +72,7 @@ namespace Verse
 						list[i - 1].Add(this.tableRaw[j, i]);
 					}
 				}
-				Window_DebugTable.NumericStringComparer comparer = new Window_DebugTable.NumericStringComparer();
+				NumericStringComparer comparer = new NumericStringComparer();
 				Window_DebugTable.SortMode sortMode = this.sortMode;
 				if (sortMode != Window_DebugTable.SortMode.Ascending)
 				{
@@ -267,56 +267,6 @@ namespace Verse
 			Off,
 			Ascending,
 			Descending
-		}
-
-		public class NumericStringComparer : IComparer<string>
-		{
-			public NumericStringComparer()
-			{
-			}
-
-			public int Compare(string x, string y)
-			{
-				if (x.Contains("~"))
-				{
-					string[] array = x.Split(new char[]
-					{
-						'~'
-					});
-					if (array.Length == 2)
-					{
-						x = array[0];
-					}
-				}
-				if (y.Contains("~"))
-				{
-					string[] array2 = y.Split(new char[]
-					{
-						'~'
-					});
-					if (array2.Length == 2)
-					{
-						y = array2[0];
-					}
-				}
-				if ((x.EndsWith("%") && y.EndsWith("%")) || (x.EndsWith("C") && y.EndsWith("C")))
-				{
-					x = x.Substring(0, x.Length - 1);
-					y = y.Substring(0, y.Length - 1);
-				}
-				float num;
-				float value;
-				int result;
-				if (float.TryParse(x, out num) && float.TryParse(y, out value))
-				{
-					result = num.CompareTo(value);
-				}
-				else
-				{
-					result = x.CompareTo(y);
-				}
-				return result;
-			}
 		}
 	}
 }

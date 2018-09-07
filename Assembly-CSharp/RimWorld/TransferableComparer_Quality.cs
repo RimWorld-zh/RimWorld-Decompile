@@ -15,17 +15,12 @@ namespace RimWorld
 
 		private int GetValueFor(Transferable t)
 		{
-			QualityCategory qualityCategory;
-			int result;
-			if (!t.AnyThing.TryGetQuality(out qualityCategory))
+			QualityCategory result;
+			if (!t.AnyThing.TryGetQuality(out result))
 			{
-				result = -1;
+				return -1;
 			}
-			else
-			{
-				result = (int)qualityCategory;
-			}
-			return result;
+			return (int)result;
 		}
 	}
 }

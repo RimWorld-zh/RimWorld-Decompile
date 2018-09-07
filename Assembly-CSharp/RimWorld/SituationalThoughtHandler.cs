@@ -1,7 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Runtime.CompilerServices;
-using UnityEngine.Profiling;
 using Verse;
 
 namespace RimWorld
@@ -32,9 +31,7 @@ namespace RimWorld
 
 		public void SituationalThoughtInterval()
 		{
-			Profiler.BeginSample("SituationalThoughtInterval()");
 			this.RemoveExpiredThoughtsFromCache();
-			Profiler.EndSample();
 		}
 
 		public void AppendMoodThoughts(List<Thought> outThoughts)
@@ -65,36 +62,37 @@ namespace RimWorld
 		private void CheckRecalculateMoodThoughts()
 		{
 			int ticksGame = Find.TickManager.TicksGame;
-			if (ticksGame - this.lastMoodThoughtsRecalculationTick >= 100)
+			if (ticksGame - this.lastMoodThoughtsRecalculationTick < 100)
 			{
-				this.lastMoodThoughtsRecalculationTick = ticksGame;
-				try
+				return;
+			}
+			this.lastMoodThoughtsRecalculationTick = ticksGame;
+			try
+			{
+				this.tmpCachedThoughts.Clear();
+				for (int i = 0; i < this.cachedThoughts.Count; i++)
 				{
-					this.tmpCachedThoughts.Clear();
-					for (int i = 0; i < this.cachedThoughts.Count; i++)
+					this.cachedThoughts[i].RecalculateState();
+					this.tmpCachedThoughts.Add(this.cachedThoughts[i].def);
+				}
+				List<ThoughtDef> situationalNonSocialThoughtDefs = ThoughtUtility.situationalNonSocialThoughtDefs;
+				int j = 0;
+				int count = situationalNonSocialThoughtDefs.Count;
+				while (j < count)
+				{
+					if (!this.tmpCachedThoughts.Contains(situationalNonSocialThoughtDefs[j]))
 					{
-						this.cachedThoughts[i].RecalculateState();
-						this.tmpCachedThoughts.Add(this.cachedThoughts[i].def);
-					}
-					List<ThoughtDef> situationalNonSocialThoughtDefs = ThoughtUtility.situationalNonSocialThoughtDefs;
-					int j = 0;
-					int count = situationalNonSocialThoughtDefs.Count;
-					while (j < count)
-					{
-						if (!this.tmpCachedThoughts.Contains(situationalNonSocialThoughtDefs[j]))
+						Thought_Situational thought_Situational = this.TryCreateThought(situationalNonSocialThoughtDefs[j]);
+						if (thought_Situational != null)
 						{
-							Thought_Situational thought_Situational = this.TryCreateThought(situationalNonSocialThoughtDefs[j]);
-							if (thought_Situational != null)
-							{
-								this.cachedThoughts.Add(thought_Situational);
-							}
+							this.cachedThoughts.Add(thought_Situational);
 						}
-						j++;
 					}
+					j++;
 				}
-				finally
-				{
-				}
+			}
+			finally
+			{
 			}
 		}
 

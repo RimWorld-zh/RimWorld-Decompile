@@ -45,29 +45,21 @@ namespace RimWorld
 
 		public override bool HasJobOnThing(Pawn pawn, Thing t, bool forced = false)
 		{
-			bool result;
 			if (pawn.Faction != Faction.OfPlayer)
 			{
-				result = false;
+				return false;
 			}
-			else
+			Filth filth = t as Filth;
+			if (filth == null)
 			{
-				Filth filth = t as Filth;
-				if (filth == null)
-				{
-					result = false;
-				}
-				else if (!filth.Map.areaManager.Home[filth.Position])
-				{
-					result = false;
-				}
-				else
-				{
-					LocalTargetInfo target = t;
-					result = (pawn.CanReserve(target, 1, -1, null, forced) && filth.TicksSinceThickened >= this.MinTicksSinceThickened);
-				}
+				return false;
 			}
-			return result;
+			if (!filth.Map.areaManager.Home[filth.Position])
+			{
+				return false;
+			}
+			LocalTargetInfo target = t;
+			return pawn.CanReserve(target, 1, -1, null, forced) && filth.TicksSinceThickened >= this.MinTicksSinceThickened;
 		}
 
 		public override Job JobOnThing(Pawn pawn, Thing t, bool forced = false)

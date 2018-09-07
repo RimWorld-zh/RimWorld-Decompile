@@ -35,41 +35,33 @@ namespace RimWorld
 		public override bool HasJobOnThing(Pawn pawn, Thing t, bool forced = false)
 		{
 			Pawn pawn2 = t as Pawn;
-			bool result;
 			if (pawn2 == null || !pawn2.RaceProps.Animal)
 			{
-				result = false;
+				return false;
 			}
-			else if (pawn.Map.designationManager.DesignationOn(t, DesignationDefOf.Slaughter) == null)
+			if (pawn.Map.designationManager.DesignationOn(t, DesignationDefOf.Slaughter) == null)
 			{
-				result = false;
+				return false;
 			}
-			else if (pawn.Faction != t.Faction)
+			if (pawn.Faction != t.Faction)
 			{
-				result = false;
+				return false;
 			}
-			else if (pawn2.InAggroMentalState)
+			if (pawn2.InAggroMentalState)
 			{
-				result = false;
+				return false;
 			}
-			else
+			LocalTargetInfo target = t;
+			if (!pawn.CanReserve(target, 1, -1, null, forced))
 			{
-				LocalTargetInfo target = t;
-				if (!pawn.CanReserve(target, 1, -1, null, forced))
-				{
-					result = false;
-				}
-				else if (pawn.story != null && pawn.story.WorkTagIsDisabled(WorkTags.Violent))
-				{
-					JobFailReason.Is("IsIncapableOfViolenceShort".Translate(), null);
-					result = false;
-				}
-				else
-				{
-					result = true;
-				}
+				return false;
 			}
-			return result;
+			if (pawn.story != null && pawn.story.WorkTagIsDisabled(WorkTags.Violent))
+			{
+				JobFailReason.Is("IsIncapableOfViolenceShort".Translate(), null);
+				return false;
+			}
+			return true;
 		}
 
 		public override Job JobOnThing(Pawn pawn, Thing t, bool forced = false)

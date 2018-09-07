@@ -40,7 +40,7 @@ namespace RimWorld
 			string failReason;
 			if (!this.CanBeUsedBy(myPawn, out failReason))
 			{
-				yield return new FloatMenuOption(this.FloatMenuOptionLabel + ((failReason == null) ? "" : (" (" + failReason + ")")), null, MenuOptionPriority.Default, null, null, 0f, null, null);
+				yield return new FloatMenuOption(this.FloatMenuOptionLabel + ((failReason == null) ? string.Empty : (" (" + failReason + ")")), null, MenuOptionPriority.Default, null, null, 0f, null, null);
 			}
 			else if (!myPawn.CanReach(this.parent, PathEndMode.Touch, Danger.Deadly, false, TraverseMode.ByPawn))
 			{
@@ -77,34 +77,37 @@ namespace RimWorld
 
 		public void TryStartUseJob(Pawn user)
 		{
-			if (user.CanReserveAndReach(this.parent, PathEndMode.Touch, Danger.Deadly, 1, -1, null, false))
+			if (!user.CanReserveAndReach(this.parent, PathEndMode.Touch, Danger.Deadly, 1, -1, null, false))
 			{
-				string text;
-				if (this.CanBeUsedBy(user, out text))
-				{
-					Job job = new Job(this.Props.useJob, this.parent);
-					user.jobs.TryTakeOrderedJob(job, JobTag.Misc);
-				}
+				return;
 			}
+			string text;
+			if (!this.CanBeUsedBy(user, out text))
+			{
+				return;
+			}
+			Job job = new Job(this.Props.useJob, this.parent);
+			user.jobs.TryTakeOrderedJob(job, JobTag.Misc);
 		}
 
 		public void UsedBy(Pawn p)
 		{
 			string text;
-			if (this.CanBeUsedBy(p, out text))
+			if (!this.CanBeUsedBy(p, out text))
 			{
-				foreach (CompUseEffect compUseEffect in from x in this.parent.GetComps<CompUseEffect>()
-				orderby x.OrderPriority descending
-				select x)
+				return;
+			}
+			foreach (CompUseEffect compUseEffect in from x in this.parent.GetComps<CompUseEffect>()
+			orderby x.OrderPriority descending
+			select x)
+			{
+				try
 				{
-					try
-					{
-						compUseEffect.DoEffect(p);
-					}
-					catch (Exception arg)
-					{
-						Log.Error("Error in CompUseEffect: " + arg, false);
-					}
+					compUseEffect.DoEffect(p);
+				}
+				catch (Exception arg)
+				{
+					Log.Error("Error in CompUseEffect: " + arg, false);
 				}
 			}
 		}
@@ -163,7 +166,7 @@ namespace RimWorld
 				case 0u:
 					if (!base.CanBeUsedBy(myPawn, out failReason))
 					{
-						this.$current = new FloatMenuOption(this.FloatMenuOptionLabel + ((failReason == null) ? "" : (" (" + failReason + ")")), null, MenuOptionPriority.Default, null, null, 0f, null, null);
+						this.$current = new FloatMenuOption(this.FloatMenuOptionLabel + ((failReason == null) ? string.Empty : (" (" + failReason + ")")), null, MenuOptionPriority.Default, null, null, 0f, null, null);
 						if (!this.$disposing)
 						{
 							this.$PC = 1;

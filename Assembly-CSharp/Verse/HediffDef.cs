@@ -13,58 +13,58 @@ namespace Verse
 	{
 		public Type hediffClass = typeof(Hediff);
 
-		public List<HediffCompProperties> comps = null;
+		public List<HediffCompProperties> comps;
 
 		public float initialSeverity = 0.5f;
 
 		public float lethalSeverity = -1f;
 
-		public List<HediffStage> stages = null;
+		public List<HediffStage> stages;
 
-		public bool tendable = false;
+		public bool tendable;
 
 		public bool isBad = true;
 
-		public ThingDef spawnThingOnRemoved = null;
+		public ThingDef spawnThingOnRemoved;
 
-		public float chanceToCauseNoPain = 0f;
+		public float chanceToCauseNoPain;
 
-		public bool makesSickThought = false;
+		public bool makesSickThought;
 
 		public bool makesAlert = true;
 
-		public NeedDef causesNeed = null;
+		public NeedDef causesNeed;
 
-		public float minSeverity = 0f;
+		public float minSeverity;
 
 		public float maxSeverity = float.MaxValue;
 
-		public bool scenarioCanAdd = false;
+		public bool scenarioCanAdd;
 
-		public List<HediffGiver> hediffGivers = null;
+		public List<HediffGiver> hediffGivers;
 
-		public bool cureAllAtOnceIfCuredByItem = false;
+		public bool cureAllAtOnceIfCuredByItem;
 
-		public TaleDef taleOnVisible = null;
+		public TaleDef taleOnVisible;
 
 		public bool everCurableByItem = true;
 
-		public string battleStateLabel = null;
+		public string battleStateLabel;
 
-		public string labelNounPretty = null;
+		public string labelNounPretty;
 
-		public bool displayWound = false;
+		public bool displayWound;
 
 		public Color defaultLabelColor = Color.white;
 
-		public InjuryProps injuryProps = null;
+		public InjuryProps injuryProps;
 
-		public AddedBodyPartProps addedPartProps = null;
+		public AddedBodyPartProps addedPartProps;
 
 		[MustTranslate]
-		public string labelNoun = null;
+		public string labelNoun;
 
-		private bool alwaysAllowMothballCached = false;
+		private bool alwaysAllowMothballCached;
 
 		private bool alwaysAllowMothball;
 
@@ -176,21 +176,16 @@ namespace Verse
 
 		public string PrettyTextForPart(BodyPartRecord bodyPart)
 		{
-			string result;
 			if (this.labelNounPretty.NullOrEmpty())
 			{
-				result = null;
+				return null;
 			}
-			else
-			{
-				result = string.Format(this.labelNounPretty, this.label, bodyPart.Label);
-			}
-			return result;
+			return string.Format(this.labelNounPretty, this.label, bodyPart.Label);
 		}
 
 		public override IEnumerable<string> ConfigErrors()
 		{
-			foreach (string err in this.<ConfigErrors>__BaseCallProxy0())
+			foreach (string err in base.ConfigErrors())
 			{
 				yield return err;
 			}
@@ -320,15 +315,15 @@ namespace Verse
 				case 1u:
 					break;
 				case 2u:
-					goto IL_103;
+					goto IL_FF;
 				case 3u:
-					goto IL_156;
+					goto IL_152;
 				case 4u:
-					goto IL_190;
+					goto IL_18C;
 				case 5u:
-					goto IL_1CA;
+					goto IL_1C6;
 				case 6u:
-					goto IL_213;
+					goto IL_20F;
 				case 7u:
 					Block_16:
 					try
@@ -359,15 +354,15 @@ namespace Verse
 						}
 					}
 					i++;
-					goto IL_306;
+					goto IL_2FC;
 				case 8u:
-					IL_3C8:
+					IL_3BA:
 					j++;
-					goto IL_3D7;
+					goto IL_3C8;
 				case 9u:
-					IL_482:
+					IL_471:
 					k++;
-					goto IL_491;
+					goto IL_47F;
 				default:
 					return false;
 				}
@@ -407,7 +402,7 @@ namespace Verse
 					}
 					return true;
 				}
-				IL_103:
+				IL_FF:
 				if (!this.comps.NullOrEmpty<HediffCompProperties>() && !typeof(HediffWithComps).IsAssignableFrom(this.hediffClass))
 				{
 					this.$current = "has comps but hediffClass is not HediffWithComps or subclass thereof";
@@ -417,7 +412,7 @@ namespace Verse
 					}
 					return true;
 				}
-				IL_156:
+				IL_152:
 				if (this.minSeverity > this.initialSeverity)
 				{
 					this.$current = "minSeverity is greater than initialSeverity";
@@ -427,7 +422,7 @@ namespace Verse
 					}
 					return true;
 				}
-				IL_190:
+				IL_18C:
 				if (this.maxSeverity < this.initialSeverity)
 				{
 					this.$current = "maxSeverity is lower than initialSeverity";
@@ -437,7 +432,7 @@ namespace Verse
 					}
 					return true;
 				}
-				IL_1CA:
+				IL_1C6:
 				if (!this.tendable && base.HasComp(typeof(HediffComp_TendDuration)))
 				{
 					this.$current = "has HediffComp_TendDuration but tendable = false";
@@ -447,30 +442,30 @@ namespace Verse
 					}
 					return true;
 				}
-				IL_213:
+				IL_20F:
 				if (this.comps == null)
 				{
-					goto IL_322;
+					goto IL_317;
 				}
 				i = 0;
-				IL_306:
+				IL_2FC:
 				if (i < this.comps.Count)
 				{
 					enumerator2 = this.comps[i].ConfigErrors(this).GetEnumerator();
 					num = 4294967293u;
 					goto Block_16;
 				}
-				IL_322:
+				IL_317:
 				if (this.stages == null)
 				{
-					goto IL_4AD;
+					goto IL_49A;
 				}
 				if (typeof(Hediff_Addiction).IsAssignableFrom(this.hediffClass))
 				{
-					goto IL_3F3;
+					goto IL_3E3;
 				}
 				j = 0;
-				IL_3D7:
+				IL_3C8:
 				if (j < this.stages.Count)
 				{
 					if (j >= 1 && this.stages[j].minSeverity <= this.stages[j - 1].minSeverity)
@@ -482,16 +477,16 @@ namespace Verse
 						}
 						return true;
 					}
-					goto IL_3C8;
+					goto IL_3BA;
 				}
-				IL_3F3:
+				IL_3E3:
 				k = 0;
-				IL_491:
+				IL_47F:
 				if (k < this.stages.Count)
 				{
 					if (this.stages[k].makeImmuneTo == null)
 					{
-						goto IL_482;
+						goto IL_471;
 					}
 					if (!this.stages[k].makeImmuneTo.Any((HediffDef im) => im.HasComp(typeof(HediffComp_Immunizable))))
 					{
@@ -502,9 +497,9 @@ namespace Verse
 						}
 						return true;
 					}
-					goto IL_482;
+					goto IL_471;
 				}
-				IL_4AD:
+				IL_49A:
 				this.$PC = -1;
 				return false;
 			}
@@ -622,7 +617,7 @@ namespace Verse
 				case 0u:
 					if (this.stages == null || this.stages.Count != 1)
 					{
-						goto IL_E7;
+						goto IL_E1;
 					}
 					enumerator = this.stages[0].SpecialDisplayStats().GetEnumerator();
 					num = 4294967293u;
@@ -659,7 +654,7 @@ namespace Verse
 						}
 					}
 				}
-				IL_E7:
+				IL_E1:
 				this.$PC = -1;
 				return false;
 			}

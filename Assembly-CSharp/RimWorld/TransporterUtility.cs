@@ -10,16 +10,17 @@ namespace RimWorld
 		public static void GetTransportersInGroup(int transportersGroup, Map map, List<CompTransporter> outTransporters)
 		{
 			outTransporters.Clear();
-			if (transportersGroup >= 0)
+			if (transportersGroup < 0)
 			{
-				List<Thing> list = map.listerThings.ThingsInGroup(ThingRequestGroup.Transporter);
-				for (int i = 0; i < list.Count; i++)
+				return;
+			}
+			List<Thing> list = map.listerThings.ThingsInGroup(ThingRequestGroup.Transporter);
+			for (int i = 0; i < list.Count; i++)
+			{
+				CompTransporter compTransporter = list[i].TryGetComp<CompTransporter>();
+				if (compTransporter.groupID == transportersGroup)
 				{
-					CompTransporter compTransporter = list[i].TryGetComp<CompTransporter>();
-					if (compTransporter.groupID == transportersGroup)
-					{
-						outTransporters.Add(compTransporter);
-					}
+					outTransporters.Add(compTransporter);
 				}
 			}
 		}

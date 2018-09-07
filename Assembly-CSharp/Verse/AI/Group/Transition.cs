@@ -41,15 +41,13 @@ namespace Verse.AI.Group
 			if (this.sources.Contains(source))
 			{
 				Log.Error("Double-added source to Transition: " + source, false);
+				return;
 			}
-			else
+			if (!this.canMoveToSameState && this.target == source)
 			{
-				if (!this.canMoveToSameState && this.target == source)
-				{
-					Log.Error("Transition !canMoveToSameState and target is source: " + source, false);
-				}
-				this.sources.Add(source);
+				Log.Error("Transition !canMoveToSameState and target is source: " + source, false);
 			}
+			this.sources.Add(source);
 		}
 
 		public void AddSources(IEnumerable<LordToil> sources)
@@ -110,7 +108,7 @@ namespace Verse.AI.Group
 						}
 						if (!flag)
 						{
-							goto IL_10F;
+							goto IL_101;
 						}
 					}
 					if (DebugViewSettings.logLordToilTransitions)
@@ -130,27 +128,28 @@ namespace Verse.AI.Group
 					this.Execute(lord);
 					return true;
 				}
-				IL_10F:;
+				IL_101:;
 			}
 			return false;
 		}
 
 		public void Execute(Lord lord)
 		{
-			if (this.canMoveToSameState || this.target != lord.CurLordToil)
+			if (!this.canMoveToSameState && this.target == lord.CurLordToil)
 			{
-				for (int i = 0; i < this.preActions.Count; i++)
-				{
-					this.preActions[i].DoAction(this);
-				}
-				if (this.target != lord.CurLordToil || this.updateDutiesIfMovedToSameState)
-				{
-					lord.GotoToil(this.target);
-				}
-				for (int j = 0; j < this.postActions.Count; j++)
-				{
-					this.postActions[j].DoAction(this);
-				}
+				return;
+			}
+			for (int i = 0; i < this.preActions.Count; i++)
+			{
+				this.preActions[i].DoAction(this);
+			}
+			if (this.target != lord.CurLordToil || this.updateDutiesIfMovedToSameState)
+			{
+				lord.GotoToil(this.target);
+			}
+			for (int j = 0; j < this.postActions.Count; j++)
+			{
+				this.postActions[j].DoAction(this);
 			}
 		}
 

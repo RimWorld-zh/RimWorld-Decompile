@@ -60,14 +60,15 @@ namespace RimWorld.Planet
 
 		public void RecalculatePerceivedMovementDifficultyAt(int tile, int? ticksAbs = null)
 		{
-			if (Find.WorldGrid.InBounds(tile))
+			if (!Find.WorldGrid.InBounds(tile))
 			{
-				bool flag = this.PassableFast(tile);
-				this.movementDifficulty[tile] = WorldPathGrid.CalculatedMovementDifficultyAt(tile, true, ticksAbs, null);
-				if (flag != this.PassableFast(tile))
-				{
-					Find.WorldReachability.ClearCache();
-				}
+				return;
+			}
+			bool flag = this.PassableFast(tile);
+			this.movementDifficulty[tile] = WorldPathGrid.CalculatedMovementDifficultyAt(tile, true, ticksAbs, null);
+			if (flag != this.PassableFast(tile))
+			{
+				Find.WorldReachability.ClearCache();
 			}
 		}
 
@@ -93,34 +94,28 @@ namespace RimWorld.Planet
 			{
 				explanation.AppendLine();
 			}
-			float result;
 			if (tile2.biome.impassable || tile2.hilliness == Hilliness.Impassable)
 			{
 				if (explanation != null)
 				{
 					explanation.Append("Impassable".Translate());
 				}
-				result = 1000f;
+				return 1000f;
 			}
-			else
+			float num = 0f;
+			num += tile2.biome.movementDifficulty;
+			if (explanation != null)
 			{
-				float num = 0f;
-				num += tile2.biome.movementDifficulty;
-				if (explanation != null)
-				{
-					explanation.Append(tile2.biome.LabelCap + ": " + tile2.biome.movementDifficulty.ToStringWithSign("0.#"));
-				}
-				float num2 = WorldPathGrid.HillinessMovementDifficultyOffset(tile2.hilliness);
-				num += num2;
-				if (explanation != null && num2 != 0f)
-				{
-					explanation.AppendLine();
-					explanation.Append(tile2.hilliness.GetLabelCap() + ": " + num2.ToStringWithSign("0.#"));
-				}
-				num += WorldPathGrid.GetCurrentWinterMovementDifficultyOffset(tile, new int?((ticksAbs == null) ? GenTicks.TicksAbs : ticksAbs.Value), explanation);
-				result = num;
+				explanation.Append(tile2.biome.LabelCap + ": " + tile2.biome.movementDifficulty.ToStringWithSign("0.#"));
 			}
-			return result;
+			float num2 = WorldPathGrid.HillinessMovementDifficultyOffset(tile2.hilliness);
+			num += num2;
+			if (explanation != null && num2 != 0f)
+			{
+				explanation.AppendLine();
+				explanation.Append(tile2.hilliness.GetLabelCap() + ": " + num2.ToStringWithSign("0.#"));
+			}
+			return num + WorldPathGrid.GetCurrentWinterMovementDifficultyOffset(tile, new int?((ticksAbs == null) ? GenTicks.TicksAbs : ticksAbs.Value), explanation);
 		}
 
 		public static float GetCurrentWinterMovementDifficultyOffset(int tile, int? ticksAbs = null, StringBuilder explanation = null)
@@ -140,7 +135,6 @@ namespace RimWorld.Planet
 			SeasonUtility.GetSeason(yearPct, vector.y, out num, out num2, out num3, out num4, out num5, out num6);
 			float num7 = num4 + num6;
 			num7 *= Mathf.InverseLerp(5f, 0f, GenTemperature.GetTemperatureFromSeasonAtTile(ticksAbs.Value, tile));
-			float result;
 			if (num7 > 0.01f)
 			{
 				float num8 = 2f * num7;
@@ -155,13 +149,9 @@ namespace RimWorld.Planet
 					explanation.Append(": ");
 					explanation.Append(num8.ToStringWithSign("0.#"));
 				}
-				result = num8;
+				return num8;
 			}
-			else
-			{
-				result = 0f;
-			}
-			return result;
+			return 0f;
 		}
 
 		public static bool WillWinterEverAffectMovementDifficulty(int tile)
@@ -181,29 +171,21 @@ namespace RimWorld.Planet
 
 		private static float HillinessMovementDifficultyOffset(Hilliness hilliness)
 		{
-			float result;
 			switch (hilliness)
 			{
 			case Hilliness.Flat:
-				result = 0f;
-				break;
+				return 0f;
 			case Hilliness.SmallHills:
-				result = 0.5f;
-				break;
+				return 0.5f;
 			case Hilliness.LargeHills:
-				result = 1.5f;
-				break;
+				return 1.5f;
 			case Hilliness.Mountainous:
-				result = 3f;
-				break;
+				return 3f;
 			case Hilliness.Impassable:
-				result = 1000f;
-				break;
+				return 1000f;
 			default:
-				result = 0f;
-				break;
+				return 0f;
 			}
-			return result;
 		}
 	}
 }

@@ -1,7 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Runtime.CompilerServices;
-using UnityEngine.Profiling;
 using Verse;
 using Verse.AI;
 
@@ -9,7 +8,7 @@ namespace RimWorld
 {
 	public class JobGiver_Work : ThinkNode
 	{
-		public bool emergency = false;
+		public bool emergency;
 
 		public JobGiver_Work()
 		{
@@ -24,41 +23,32 @@ namespace RimWorld
 
 		public override float GetPriority(Pawn pawn)
 		{
-			float result;
 			if (pawn.workSettings == null || !pawn.workSettings.EverWork)
 			{
-				result = 0f;
+				return 0f;
 			}
-			else
+			TimeAssignmentDef timeAssignmentDef = (pawn.timetable != null) ? pawn.timetable.CurrentAssignment : TimeAssignmentDefOf.Anything;
+			if (timeAssignmentDef == TimeAssignmentDefOf.Anything)
 			{
-				TimeAssignmentDef timeAssignmentDef = (pawn.timetable != null) ? pawn.timetable.CurrentAssignment : TimeAssignmentDefOf.Anything;
-				if (timeAssignmentDef == TimeAssignmentDefOf.Anything)
-				{
-					result = 5.5f;
-				}
-				else if (timeAssignmentDef == TimeAssignmentDefOf.Work)
-				{
-					result = 9f;
-				}
-				else if (timeAssignmentDef == TimeAssignmentDefOf.Sleep)
-				{
-					result = 2f;
-				}
-				else
-				{
-					if (timeAssignmentDef != TimeAssignmentDefOf.Joy)
-					{
-						throw new NotImplementedException();
-					}
-					result = 2f;
-				}
+				return 5.5f;
 			}
-			return result;
+			if (timeAssignmentDef == TimeAssignmentDefOf.Work)
+			{
+				return 9f;
+			}
+			if (timeAssignmentDef == TimeAssignmentDefOf.Sleep)
+			{
+				return 2f;
+			}
+			if (timeAssignmentDef == TimeAssignmentDefOf.Joy)
+			{
+				return 2f;
+			}
+			throw new NotImplementedException();
 		}
 
 		public override ThinkResult TryIssueJobPackage(Pawn pawn, JobIssueParams jobParams)
 		{
-			Profiler.BeginSample("JobGiver_Work");
 			if (this.emergency && pawn.mindState.priorityWork.IsPrioritized)
 			{
 				List<WorkGiverDef> workGiversByPriority = pawn.mindState.priorityWork.WorkType.workGiversByPriority;
@@ -68,7 +58,6 @@ namespace RimWorld
 					Job job = this.GiverTryGiveJobPrioritized(pawn, worker, pawn.mindState.priorityWork.Cell);
 					if (job != null)
 					{
-						Profiler.EndSample();
 						job.playerForced = true;
 						return new ThinkResult(job, this, new JobTag?(workGiversByPriority[i].tagToGive), false);
 					}
@@ -88,7 +77,6 @@ namespace RimWorld
 				}
 				if (this.PawnCanUseWorkGiver(pawn, workGiver))
 				{
-					Profiler.BeginSample("WorkGiver: " + workGiver.def.defName);
 					try
 					{
 						Job job2 = workGiver.NonScanJob(pawn);
@@ -218,11 +206,9 @@ namespace RimWorld
 					}
 					finally
 					{
-						Profiler.EndSample();
 					}
 					if (targetInfo.IsValid)
 					{
-						Profiler.EndSample();
 						pawn.mindState.lastGivenWorkType = workGiver.def.workType;
 						Job job3;
 						if (targetInfo.HasThing)
@@ -250,72 +236,63 @@ namespace RimWorld
 					num = workGiver.def.priorityInType;
 				}
 			}
-			Profiler.EndSample();
 			return ThinkResult.NoJob;
 		}
 
 		private bool PawnCanUseWorkGiver(Pawn pawn, WorkGiver giver)
 		{
-			return (giver.def.canBeDoneByNonColonists || pawn.IsColonist) && (pawn.story == null || !pawn.story.WorkTagIsDisabled(giver.def.workTags)) && !giver.ShouldSkip(pawn, false) && giver.MissingRequiredCapacity(pawn) == null;
+			return (giver.def.nonColonistsCanDo || pawn.IsColonist) && (pawn.story == null || !pawn.story.WorkTagIsDisabled(giver.def.workTags)) && !giver.ShouldSkip(pawn, false) && giver.MissingRequiredCapacity(pawn) == null;
 		}
 
 		private Job GiverTryGiveJobPrioritized(Pawn pawn, WorkGiver giver, IntVec3 cell)
 		{
-			Job result;
 			if (!this.PawnCanUseWorkGiver(pawn, giver))
 			{
-				result = null;
+				return null;
 			}
-			else
+			try
 			{
-				try
+				Job job = giver.NonScanJob(pawn);
+				if (job != null)
 				{
-					Job job = giver.NonScanJob(pawn);
-					if (job != null)
+					return job;
+				}
+				WorkGiver_Scanner scanner = giver as WorkGiver_Scanner;
+				if (scanner != null)
+				{
+					if (giver.def.scanThings)
 					{
-						return job;
-					}
-					WorkGiver_Scanner scanner = giver as WorkGiver_Scanner;
-					if (scanner != null)
-					{
-						if (giver.def.scanThings)
+						Predicate<Thing> predicate = (Thing t) => !t.IsForbidden(pawn) && scanner.HasJobOnThing(pawn, t, false);
+						List<Thing> thingList = cell.GetThingList(pawn.Map);
+						for (int i = 0; i < thingList.Count; i++)
 						{
-							Predicate<Thing> predicate = (Thing t) => !t.IsForbidden(pawn) && scanner.HasJobOnThing(pawn, t, false);
-							List<Thing> thingList = cell.GetThingList(pawn.Map);
-							for (int i = 0; i < thingList.Count; i++)
-							{
-								Thing thing = thingList[i];
-								if (scanner.PotentialWorkThingRequest.Accepts(thing) && predicate(thing))
-								{
-									pawn.mindState.lastGivenWorkType = giver.def.workType;
-									return scanner.JobOnThing(pawn, thing, false);
-								}
-							}
-						}
-						if (giver.def.scanCells)
-						{
-							if (!cell.IsForbidden(pawn) && scanner.HasJobOnCell(pawn, cell, false))
+							Thing thing = thingList[i];
+							if (scanner.PotentialWorkThingRequest.Accepts(thing) && predicate(thing))
 							{
 								pawn.mindState.lastGivenWorkType = giver.def.workType;
-								return scanner.JobOnCell(pawn, cell, false);
+								return scanner.JobOnThing(pawn, thing, false);
 							}
 						}
 					}
-				}
-				catch (Exception ex)
-				{
-					Log.Error(string.Concat(new object[]
+					if (giver.def.scanCells && !cell.IsForbidden(pawn) && scanner.HasJobOnCell(pawn, cell, false))
 					{
-						pawn,
-						" threw exception in GiverTryGiveJobTargeted on WorkGiver ",
-						giver.def.defName,
-						": ",
-						ex.ToString()
-					}), false);
+						pawn.mindState.lastGivenWorkType = giver.def.workType;
+						return scanner.JobOnCell(pawn, cell, false);
+					}
 				}
-				result = null;
 			}
-			return result;
+			catch (Exception ex)
+			{
+				Log.Error(string.Concat(new object[]
+				{
+					pawn,
+					" threw exception in GiverTryGiveJobTargeted on WorkGiver ",
+					giver.def.defName,
+					": ",
+					ex.ToString()
+				}), false);
+			}
+			return null;
 		}
 
 		[CompilerGenerated]

@@ -36,7 +36,6 @@ namespace RimWorld
 
 		public override bool ActivateOn(Lord lord, TriggerSignal signal)
 		{
-			bool result;
 			if (signal.type == TriggerSignalType.Tick)
 			{
 				if (this.data == null || !(this.data is TriggerData_FractionColonyDamageTaken))
@@ -44,13 +43,9 @@ namespace RimWorld
 					BackCompatibility.TriggerDataFractionColonyDamageTakenNull(this, lord.Map);
 				}
 				float num = Mathf.Max((float)lord.initialColonyHealthTotal * this.desiredColonyDamageFraction, this.minDamage);
-				result = (lord.Map.damageWatcher.DamageTakenEver > this.Data.startColonyDamage + num);
+				return lord.Map.damageWatcher.DamageTakenEver > this.Data.startColonyDamage + num;
 			}
-			else
-			{
-				result = false;
-			}
-			return result;
+			return false;
 		}
 	}
 }

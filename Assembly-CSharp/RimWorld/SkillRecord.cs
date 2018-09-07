@@ -10,9 +10,9 @@ namespace RimWorld
 
 		public SkillDef def;
 
-		public int levelInt = 0;
+		public int levelInt;
 
-		public Passion passion = Passion.None;
+		public Passion passion;
 
 		public float xpSinceLastLevel;
 
@@ -73,16 +73,11 @@ namespace RimWorld
 		{
 			get
 			{
-				int result;
 				if (this.TotallyDisabled)
 				{
-					result = 0;
+					return 0;
 				}
-				else
-				{
-					result = this.levelInt;
-				}
-				return result;
+				return this.levelInt;
 			}
 			set
 			{
@@ -135,77 +130,53 @@ namespace RimWorld
 		{
 			get
 			{
-				string result;
 				switch (this.levelInt)
 				{
 				case 0:
-					result = "Skill0".Translate();
-					break;
+					return "Skill0".Translate();
 				case 1:
-					result = "Skill1".Translate();
-					break;
+					return "Skill1".Translate();
 				case 2:
-					result = "Skill2".Translate();
-					break;
+					return "Skill2".Translate();
 				case 3:
-					result = "Skill3".Translate();
-					break;
+					return "Skill3".Translate();
 				case 4:
-					result = "Skill4".Translate();
-					break;
+					return "Skill4".Translate();
 				case 5:
-					result = "Skill5".Translate();
-					break;
+					return "Skill5".Translate();
 				case 6:
-					result = "Skill6".Translate();
-					break;
+					return "Skill6".Translate();
 				case 7:
-					result = "Skill7".Translate();
-					break;
+					return "Skill7".Translate();
 				case 8:
-					result = "Skill8".Translate();
-					break;
+					return "Skill8".Translate();
 				case 9:
-					result = "Skill9".Translate();
-					break;
+					return "Skill9".Translate();
 				case 10:
-					result = "Skill10".Translate();
-					break;
+					return "Skill10".Translate();
 				case 11:
-					result = "Skill11".Translate();
-					break;
+					return "Skill11".Translate();
 				case 12:
-					result = "Skill12".Translate();
-					break;
+					return "Skill12".Translate();
 				case 13:
-					result = "Skill13".Translate();
-					break;
+					return "Skill13".Translate();
 				case 14:
-					result = "Skill14".Translate();
-					break;
+					return "Skill14".Translate();
 				case 15:
-					result = "Skill15".Translate();
-					break;
+					return "Skill15".Translate();
 				case 16:
-					result = "Skill16".Translate();
-					break;
+					return "Skill16".Translate();
 				case 17:
-					result = "Skill17".Translate();
-					break;
+					return "Skill17".Translate();
 				case 18:
-					result = "Skill18".Translate();
-					break;
+					return "Skill18".Translate();
 				case 19:
-					result = "Skill19".Translate();
-					break;
+					return "Skill19".Translate();
 				case 20:
-					result = "Skill20".Translate();
-					break;
+					return "Skill20".Translate();
 				default:
-					result = "Unknown";
-					break;
+					return "Unknown";
 				}
-				return result;
 			}
 		}
 
@@ -274,114 +245,112 @@ namespace RimWorld
 
 		public void Learn(float xp, bool direct = false)
 		{
-			if (!this.TotallyDisabled)
+			if (this.TotallyDisabled)
 			{
-				if (xp >= 0f || this.levelInt != 0)
+				return;
+			}
+			if (xp < 0f && this.levelInt == 0)
+			{
+				return;
+			}
+			if (xp > 0f)
+			{
+				xp *= this.LearnRateFactor(direct);
+			}
+			this.xpSinceLastLevel += xp;
+			if (!direct)
+			{
+				this.xpSinceMidnight += xp;
+			}
+			if (this.levelInt == 20 && this.xpSinceLastLevel > this.XpRequiredForLevelUp - 1f)
+			{
+				this.xpSinceLastLevel = this.XpRequiredForLevelUp - 1f;
+			}
+			while (this.xpSinceLastLevel >= this.XpRequiredForLevelUp)
+			{
+				this.xpSinceLastLevel -= this.XpRequiredForLevelUp;
+				this.levelInt++;
+				if (this.levelInt == 14)
 				{
-					if (xp > 0f)
+					if (this.passion == Passion.None)
 					{
-						xp *= this.LearnRateFactor(direct);
-					}
-					this.xpSinceLastLevel += xp;
-					if (!direct)
-					{
-						this.xpSinceMidnight += xp;
-					}
-					if (this.levelInt == 20 && this.xpSinceLastLevel > this.XpRequiredForLevelUp - 1f)
-					{
-						this.xpSinceLastLevel = this.XpRequiredForLevelUp - 1f;
-					}
-					while (this.xpSinceLastLevel >= this.XpRequiredForLevelUp)
-					{
-						this.xpSinceLastLevel -= this.XpRequiredForLevelUp;
-						this.levelInt++;
-						if (this.levelInt == 14)
+						TaleRecorder.RecordTale(TaleDefOf.GainedMasterSkillWithoutPassion, new object[]
 						{
-							if (this.passion == Passion.None)
-							{
-								TaleRecorder.RecordTale(TaleDefOf.GainedMasterSkillWithoutPassion, new object[]
-								{
-									this.pawn,
-									this.def
-								});
-							}
-							else
-							{
-								TaleRecorder.RecordTale(TaleDefOf.GainedMasterSkillWithPassion, new object[]
-								{
-									this.pawn,
-									this.def
-								});
-							}
-						}
-						if (this.levelInt >= 20)
-						{
-							this.levelInt = 20;
-							this.xpSinceLastLevel = Mathf.Clamp(this.xpSinceLastLevel, 0f, this.XpRequiredForLevelUp - 1f);
-							break;
-						}
+							this.pawn,
+							this.def
+						});
 					}
-					while (this.xpSinceLastLevel < 0f)
+					else
 					{
-						this.levelInt--;
-						this.xpSinceLastLevel += this.XpRequiredForLevelUp;
-						if (this.levelInt <= 0)
+						TaleRecorder.RecordTale(TaleDefOf.GainedMasterSkillWithPassion, new object[]
 						{
-							this.levelInt = 0;
-							this.xpSinceLastLevel = 0f;
-							break;
-						}
+							this.pawn,
+							this.def
+						});
 					}
+				}
+				if (this.levelInt >= 20)
+				{
+					this.levelInt = 20;
+					this.xpSinceLastLevel = Mathf.Clamp(this.xpSinceLastLevel, 0f, this.XpRequiredForLevelUp - 1f);
+					break;
+				}
+			}
+			while (this.xpSinceLastLevel < 0f)
+			{
+				this.levelInt--;
+				this.xpSinceLastLevel += this.XpRequiredForLevelUp;
+				if (this.levelInt <= 0)
+				{
+					this.levelInt = 0;
+					this.xpSinceLastLevel = 0f;
+					break;
 				}
 			}
 		}
 
 		public float LearnRateFactor(bool direct = false)
 		{
-			float result;
 			if (DebugSettings.fastLearning)
 			{
-				result = 200f;
+				return 200f;
 			}
-			else
+			float num;
+			switch (this.passion)
 			{
-				float num;
-				switch (this.passion)
-				{
-				case Passion.None:
-					num = 0.35f;
-					break;
-				case Passion.Minor:
-					num = 1f;
-					break;
-				case Passion.Major:
-					num = 1.5f;
-					break;
-				default:
-					throw new NotImplementedException("Passion level " + this.passion);
-				}
-				if (!direct)
-				{
-					num *= this.pawn.GetStatValue(StatDefOf.GlobalLearningFactor, true);
-					if (this.LearningSaturatedToday)
-					{
-						num *= 0.2f;
-					}
-				}
-				result = num;
+			case Passion.None:
+				num = 0.35f;
+				break;
+			case Passion.Minor:
+				num = 1f;
+				break;
+			case Passion.Major:
+				num = 1.5f;
+				break;
+			default:
+				throw new NotImplementedException("Passion level " + this.passion);
 			}
-			return result;
+			if (!direct)
+			{
+				num *= this.pawn.GetStatValue(StatDefOf.GlobalLearningFactor, true);
+				if (this.LearningSaturatedToday)
+				{
+					num *= 0.2f;
+				}
+			}
+			return num;
 		}
 
 		public void EnsureMinLevelWithMargin(int minLevel)
 		{
-			if (!this.TotallyDisabled)
+			if (this.TotallyDisabled)
 			{
-				if (this.Level < minLevel || (this.Level == minLevel && this.xpSinceLastLevel < this.XpRequiredForLevelUp / 2f))
-				{
-					this.Level = minLevel;
-					this.xpSinceLastLevel = this.XpRequiredForLevelUp / 2f;
-				}
+				return;
+			}
+			if (this.Level < minLevel || (this.Level == minLevel && this.xpSinceLastLevel < this.XpRequiredForLevelUp / 2f))
+			{
+				this.Level = minLevel;
+				this.xpSinceLastLevel = this.XpRequiredForLevelUp / 2f;
 			}
 		}
 

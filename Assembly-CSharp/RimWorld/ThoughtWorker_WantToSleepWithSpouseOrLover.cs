@@ -13,28 +13,23 @@ namespace RimWorld
 		protected override ThoughtState CurrentStateInternal(Pawn p)
 		{
 			DirectPawnRelation directPawnRelation = LovePartnerRelationUtility.ExistingMostLikedLovePartnerRel(p, false);
-			ThoughtState result;
 			if (directPawnRelation == null)
 			{
-				result = false;
+				return false;
 			}
-			else if (!directPawnRelation.otherPawn.IsColonist || directPawnRelation.otherPawn.IsWorldPawn() || !directPawnRelation.otherPawn.relations.everSeenByPlayer)
+			if (!directPawnRelation.otherPawn.IsColonist || directPawnRelation.otherPawn.IsWorldPawn() || !directPawnRelation.otherPawn.relations.everSeenByPlayer)
 			{
-				result = false;
+				return false;
 			}
-			else if (p.ownership.OwnedBed != null && p.ownership.OwnedBed == directPawnRelation.otherPawn.ownership.OwnedBed)
+			if (p.ownership.OwnedBed != null && p.ownership.OwnedBed == directPawnRelation.otherPawn.ownership.OwnedBed)
 			{
-				result = false;
+				return false;
 			}
-			else if (p.relations.OpinionOf(directPawnRelation.otherPawn) <= 0)
+			if (p.relations.OpinionOf(directPawnRelation.otherPawn) <= 0)
 			{
-				result = false;
+				return false;
 			}
-			else
-			{
-				result = true;
-			}
-			return result;
+			return true;
 		}
 	}
 }

@@ -38,7 +38,7 @@ namespace Verse
 			{
 				return this.nomatch.Apply(xml);
 			}
-			return false;
+			return true;
 		}
 
 		public override string ToString()

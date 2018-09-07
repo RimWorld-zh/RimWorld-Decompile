@@ -60,13 +60,13 @@ namespace RimWorld
 			{
 				SkillDef skillDef = SkillUI.skillDefsInListOrderCached[j];
 				float y = (float)j * 27f + offset.y;
-				SkillUI.DrawSkill(p.skills.GetSkill(skillDef), new Vector2(offset.x, y), mode, "");
+				SkillUI.DrawSkill(p.skills.GetSkill(skillDef), new Vector2(offset.x, y), mode, string.Empty);
 			}
 		}
 
 		public static void DrawSkill(SkillRecord skill, Vector2 topLeft, SkillUI.SkillDrawMode mode, string tooltipPrefix = "")
 		{
-			SkillUI.DrawSkill(skill, new Rect(topLeft.x, topLeft.y, 240f, 24f), mode, "");
+			SkillUI.DrawSkill(skill, new Rect(topLeft.x, topLeft.y, 240f, 24f), mode, string.Empty);
 		}
 
 		public static void DrawSkill(SkillRecord skill, Rect holdingRect, SkillUI.SkillDrawMode mode, string tooltipPrefix = "")
@@ -109,7 +109,7 @@ namespace RimWorld
 			GUI.color = Color.white;
 			GUI.EndGroup();
 			string text = SkillUI.GetSkillDescription(skill);
-			if (tooltipPrefix != "")
+			if (tooltipPrefix != string.Empty)
 			{
 				text = tooltipPrefix + "\n\n" + text;
 			}
@@ -179,7 +179,7 @@ namespace RimWorld
 					stringBuilder.AppendLine();
 					stringBuilder.Append("LearnedMaxToday".Translate(new object[]
 					{
-						sk.xpSinceMidnight,
+						sk.xpSinceMidnight.ToString("F0"),
 						4000,
 						0.2f.ToStringPercent("F0")
 					}));

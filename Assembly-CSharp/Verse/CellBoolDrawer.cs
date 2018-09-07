@@ -8,7 +8,7 @@ namespace Verse
 	{
 		public ICellBoolGiver giver;
 
-		private bool wantDraw = false;
+		private bool wantDraw;
 
 		private Material material;
 

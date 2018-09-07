@@ -27,8 +27,7 @@ namespace Verse
 		public static bool TryGetCommandLineArg(string key, out string value)
 		{
 			string[] commandLineArgs = Environment.GetCommandLineArgs();
-			int i = 0;
-			while (i < commandLineArgs.Length)
+			for (int i = 0; i < commandLineArgs.Length; i++)
 			{
 				if (commandLineArgs[i].Contains('='))
 				{
@@ -45,10 +44,6 @@ namespace Verse
 						}
 					}
 				}
-				IL_78:
-				i++;
-				continue;
-				goto IL_78;
 			}
 			value = null;
 			return false;
@@ -60,7 +55,7 @@ namespace Verse
 			{
 				string[] commandLineArgs = Environment.GetCommandLineArgs();
 				string text = commandLineArgs[0];
-				string text2 = "";
+				string text2 = string.Empty;
 				for (int i = 1; i < commandLineArgs.Length; i++)
 				{
 					if (!text2.NullOrEmpty())

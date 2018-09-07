@@ -12,6 +12,10 @@ namespace RimWorld
 {
 	public class Verb_MeleeAttackDamage : Verb_MeleeAttack
 	{
+		private const float MeleeDamageRandomFactorMin = 0.8f;
+
+		private const float MeleeDamageRandomFactorMax = 1.2f;
+
 		public Verb_MeleeAttackDamage()
 		{
 		}
@@ -51,7 +55,7 @@ namespace RimWorld
 			}
 			Vector3 direction = (target.Thing.Position - base.CasterPawn.Position).ToVector3();
 			DamageDef def = damDef;
-			float num = (float)GenMath.RoundRandom(damAmount);
+			float num = damAmount;
 			float num2 = armorPenetration;
 			Thing caster = this.caster;
 			DamageInfo mainDinfo = new DamageInfo(def, num, num2, -1f, caster, null, source, DamageInfo.SourceCategory.ThingOrUnknown, null);
@@ -191,7 +195,7 @@ namespace RimWorld
 					}
 					direction = (target.Thing.Position - base.CasterPawn.Position).ToVector3();
 					DamageDef def = damDef;
-					float num2 = (float)GenMath.RoundRandom(damAmount);
+					float num2 = damAmount;
 					float num3 = armorPenetration;
 					Thing caster = this.caster;
 					mainDinfo = new DamageInfo(def, num2, num3, -1f, caster, null, source, DamageInfo.SourceCategory.ThingOrUnknown, null);
@@ -209,7 +213,7 @@ namespace RimWorld
 				case 1u:
 					if (!this.surpriseAttack || ((this.verbProps.surpriseAttack == null || this.verbProps.surpriseAttack.extraMeleeDamages.NullOrEmpty<ExtraMeleeDamage>()) && this.tool != null && this.tool.surpriseAttack != null && !this.tool.surpriseAttack.extraMeleeDamages.NullOrEmpty<ExtraMeleeDamage>()))
 					{
-						goto IL_515;
+						goto IL_503;
 					}
 					extraDamages = Enumerable.Empty<ExtraMeleeDamage>();
 					if (this.verbProps.surpriseAttack != null && this.verbProps.surpriseAttack.extraMeleeDamages != null)
@@ -266,7 +270,7 @@ namespace RimWorld
 						}
 					}
 				}
-				IL_515:
+				IL_503:
 				this.$PC = -1;
 				return false;
 			}

@@ -11,7 +11,7 @@ namespace RimWorld
 
 		public override float PullRecord()
 		{
-			return StorytellerUtility.DefaultThreatPointsNow(Find.AnyPlayerHomeMap) / 10f;
+			return (Find.AnyPlayerHomeMap == null) ? 0f : (StorytellerUtility.DefaultThreatPointsNow(Find.AnyPlayerHomeMap) / 10f);
 		}
 	}
 }

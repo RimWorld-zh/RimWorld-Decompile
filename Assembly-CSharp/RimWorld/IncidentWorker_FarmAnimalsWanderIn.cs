@@ -21,55 +21,45 @@ namespace RimWorld
 
 		protected override bool CanFireNowSub(IncidentParms parms)
 		{
-			bool result;
 			if (!base.CanFireNowSub(parms))
 			{
-				result = false;
+				return false;
 			}
-			else
-			{
-				Map map = (Map)parms.target;
-				IntVec3 intVec;
-				PawnKindDef pawnKindDef;
-				result = (RCellFinder.TryFindRandomPawnEntryCell(out intVec, map, CellFinder.EdgeRoadChance_Animal, null) && this.TryFindRandomPawnKind(map, out pawnKindDef));
-			}
-			return result;
+			Map map = (Map)parms.target;
+			IntVec3 intVec;
+			PawnKindDef pawnKindDef;
+			return RCellFinder.TryFindRandomPawnEntryCell(out intVec, map, CellFinder.EdgeRoadChance_Animal, null) && this.TryFindRandomPawnKind(map, out pawnKindDef);
 		}
 
 		protected override bool TryExecuteWorker(IncidentParms parms)
 		{
 			Map map = (Map)parms.target;
 			IntVec3 intVec;
-			bool result;
-			PawnKindDef pawnKindDef;
 			if (!RCellFinder.TryFindRandomPawnEntryCell(out intVec, map, CellFinder.EdgeRoadChance_Animal, null))
 			{
-				result = false;
+				return false;
 			}
-			else if (!this.TryFindRandomPawnKind(map, out pawnKindDef))
+			PawnKindDef pawnKindDef;
+			if (!this.TryFindRandomPawnKind(map, out pawnKindDef))
 			{
-				result = false;
+				return false;
 			}
-			else
+			int num = Mathf.Clamp(GenMath.RoundRandom(2.5f / pawnKindDef.RaceProps.baseBodySize), 2, 10);
+			for (int i = 0; i < num; i++)
 			{
-				int num = Mathf.Clamp(GenMath.RoundRandom(2.5f / pawnKindDef.RaceProps.baseBodySize), 2, 10);
-				for (int i = 0; i < num; i++)
-				{
-					IntVec3 loc = CellFinder.RandomClosewalkCellNear(intVec, map, 12, null);
-					Pawn pawn = PawnGenerator.GeneratePawn(pawnKindDef, null);
-					GenSpawn.Spawn(pawn, loc, map, Rot4.Random, WipeMode.Vanish, false);
-					pawn.SetFaction(Faction.OfPlayer, null);
-				}
-				Find.LetterStack.ReceiveLetter("LetterLabelFarmAnimalsWanderIn".Translate(new object[]
-				{
-					pawnKindDef.GetLabelPlural(-1)
-				}).CapitalizeFirst(), "LetterFarmAnimalsWanderIn".Translate(new object[]
-				{
-					pawnKindDef.GetLabelPlural(-1)
-				}), LetterDefOf.PositiveEvent, new TargetInfo(intVec, map, false), null, null);
-				result = true;
+				IntVec3 loc = CellFinder.RandomClosewalkCellNear(intVec, map, 12, null);
+				Pawn pawn = PawnGenerator.GeneratePawn(pawnKindDef, null);
+				GenSpawn.Spawn(pawn, loc, map, Rot4.Random, WipeMode.Vanish, false);
+				pawn.SetFaction(Faction.OfPlayer, null);
 			}
-			return result;
+			Find.LetterStack.ReceiveLetter("LetterLabelFarmAnimalsWanderIn".Translate(new object[]
+			{
+				pawnKindDef.GetLabelPlural(-1)
+			}).CapitalizeFirst(), "LetterFarmAnimalsWanderIn".Translate(new object[]
+			{
+				pawnKindDef.GetLabelPlural(-1)
+			}), LetterDefOf.PositiveEvent, new TargetInfo(intVec, map, false), null, null);
+			return true;
 		}
 
 		private bool TryFindRandomPawnKind(Map map, out PawnKindDef kind)

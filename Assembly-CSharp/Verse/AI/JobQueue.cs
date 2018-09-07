@@ -62,33 +62,23 @@ namespace Verse.AI
 		public QueuedJob Extract(Job j)
 		{
 			int num = this.jobs.FindIndex((QueuedJob qj) => qj.job == j);
-			QueuedJob result;
 			if (num >= 0)
 			{
-				QueuedJob queuedJob = this.jobs[num];
+				QueuedJob result = this.jobs[num];
 				this.jobs.RemoveAt(num);
-				result = queuedJob;
+				return result;
 			}
-			else
-			{
-				result = null;
-			}
-			return result;
+			return null;
 		}
 
 		public QueuedJob Dequeue()
 		{
-			QueuedJob result;
 			if (this.jobs.NullOrEmpty<QueuedJob>())
 			{
-				result = null;
+				return null;
 			}
-			else
-			{
-				QueuedJob queuedJob = this.jobs[0];
-				this.jobs.RemoveAt(0);
-				result = queuedJob;
-			}
+			QueuedJob result = this.jobs[0];
+			this.jobs.RemoveAt(0);
 			return result;
 		}
 

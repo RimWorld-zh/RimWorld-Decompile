@@ -9,9 +9,9 @@ namespace RimWorld
 
 		public Pawn otherPawn;
 
-		public int age = 0;
+		public int age;
 
-		private int forcedStage = 0;
+		private int forcedStage;
 
 		private string cachedLabelCap;
 

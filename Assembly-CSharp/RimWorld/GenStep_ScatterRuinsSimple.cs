@@ -97,7 +97,7 @@ namespace RimWorld
 			{
 				if (!intVec.InBounds(map))
 				{
-					break;
+					return;
 				}
 				this.TrySetCellAsWall(intVec, map, stuffDef);
 				if (Rand.Chance(0.4f))

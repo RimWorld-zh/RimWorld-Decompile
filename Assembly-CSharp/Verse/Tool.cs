@@ -19,7 +19,7 @@ namespace Verse
 
 		[TranslationHandle]
 		[Unsaved]
-		public string untranslatedLabel = null;
+		public string untranslatedLabel;
 
 		public bool labelUsedInLogging = true;
 
@@ -35,9 +35,9 @@ namespace Verse
 
 		public HediffDef hediff;
 
-		public float commonality = 1f;
+		public float chanceFactor = 1f;
 
-		public bool alwaysTreatAsWeapon = false;
+		public bool alwaysTreatAsWeapon;
 
 		public BodyPartGroupDef linkedBodyPartsGroup;
 

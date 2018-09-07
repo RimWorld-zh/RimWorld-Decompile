@@ -21,23 +21,18 @@ namespace RimWorld
 
 		public override bool CanBeUsedBy(Pawn p, out string failReason)
 		{
-			bool result;
 			if (Find.ResearchManager.currentProj == null)
 			{
 				failReason = "NoActiveResearchProjectToFinish".Translate();
-				result = false;
+				return false;
 			}
-			else
-			{
-				failReason = null;
-				result = true;
-			}
-			return result;
+			failReason = null;
+			return true;
 		}
 
 		private void FinishInstantly(ResearchProjectDef proj, Pawn usedBy)
 		{
-			Find.ResearchManager.InstantFinish(proj, false);
+			Find.ResearchManager.FinishProject(proj, false, null);
 			Messages.Message("MessageResearchProjectFinishedByItem".Translate(new object[]
 			{
 				proj.LabelCap

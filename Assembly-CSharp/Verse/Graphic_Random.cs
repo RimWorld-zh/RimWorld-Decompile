@@ -28,30 +28,20 @@ namespace Verse
 
 		public override Material MatAt(Rot4 rot, Thing thing = null)
 		{
-			Material result;
 			if (thing == null)
 			{
-				result = this.MatSingle;
+				return this.MatSingle;
 			}
-			else
-			{
-				result = this.MatSingleFor(thing);
-			}
-			return result;
+			return this.MatSingleFor(thing);
 		}
 
 		public override Material MatSingleFor(Thing thing)
 		{
-			Material matSingle;
 			if (thing == null)
 			{
-				matSingle = this.MatSingle;
+				return this.MatSingle;
 			}
-			else
-			{
-				matSingle = this.SubGraphicFor(thing).MatSingle;
-			}
-			return matSingle;
+			return this.SubGraphicFor(thing).MatSingle;
 		}
 
 		public override void DrawWorker(Vector3 loc, Rot4 rot, ThingDef thingDef, Thing thing, float extraRotation)
@@ -70,16 +60,11 @@ namespace Verse
 
 		public Graphic SubGraphicFor(Thing thing)
 		{
-			Graphic result;
 			if (thing == null)
 			{
-				result = this.subGraphics[0];
+				return this.subGraphics[0];
 			}
-			else
-			{
-				result = this.subGraphics[thing.thingIDNumber % this.subGraphics.Length];
-			}
-			return result;
+			return this.subGraphics[thing.thingIDNumber % this.subGraphics.Length];
 		}
 
 		public Graphic FirstSubgraphic()

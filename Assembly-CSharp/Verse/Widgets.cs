@@ -7,7 +7,6 @@ using System.Text.RegularExpressions;
 using RimWorld;
 using RimWorld.Planet;
 using UnityEngine;
-using UnityEngine.Profiling;
 using Verse.Sound;
 
 namespace Verse
@@ -191,7 +190,7 @@ namespace Verse
 			Widgets.dropdownPainting = false;
 			Widgets.dropdownPainting_Payload = null;
 			Widgets.dropdownPainting_Type = null;
-			Widgets.dropdownPainting_Text = "";
+			Widgets.dropdownPainting_Text = string.Empty;
 			Widgets.dropdownPainting_Icon = null;
 			Color color = new Color(1f, 1f, 1f, 0f);
 			Widgets.LineTexAA = new Texture2D(1, 3, TextureFormat.ARGB32, false);
@@ -255,12 +254,13 @@ namespace Verse
 
 		public static void ThingIcon(Rect rect, ThingDef thingDef)
 		{
-			if (!(thingDef.uiIcon == null) && !(thingDef.uiIcon == BaseContent.BadTex))
+			if (thingDef.uiIcon == null || thingDef.uiIcon == BaseContent.BadTex)
 			{
-				GUI.color = thingDef.uiIconColor;
-				Widgets.ThingIconWorker(rect, thingDef, thingDef.uiIcon, thingDef.uiIconAngle);
-				GUI.color = Color.white;
+				return;
 			}
+			GUI.color = thingDef.uiIconColor;
+			Widgets.ThingIconWorker(rect, thingDef, thingDef.uiIcon, thingDef.uiIconAngle);
+			GUI.color = Color.white;
 		}
 
 		private static void ThingIconWorker(Rect rect, ThingDef thingDef, Texture resolvedIcon, float resolvedIconAngle)
@@ -302,23 +302,24 @@ namespace Verse
 			float num = end.x - start.x;
 			float num2 = end.y - start.y;
 			float num3 = Mathf.Sqrt(num * num + num2 * num2);
-			if (num3 >= 0.01f)
+			if (num3 < 0.01f)
 			{
-				width *= 3f;
-				float num4 = width * num2 / num3;
-				float num5 = width * num / num3;
-				Matrix4x4 identity = Matrix4x4.identity;
-				identity.m00 = num;
-				identity.m01 = -num4;
-				identity.m03 = start.x + 0.5f * num4;
-				identity.m10 = num2;
-				identity.m11 = num5;
-				identity.m13 = start.y - 0.5f * num5;
-				GL.PushMatrix();
-				GL.MultMatrix(identity);
-				Graphics.DrawTexture(Widgets.LineRect, Widgets.LineTexAA, Widgets.LineRect, 0, 0, 0, 0, color, Widgets.LineMat);
-				GL.PopMatrix();
+				return;
 			}
+			width *= 3f;
+			float num4 = width * num2 / num3;
+			float num5 = width * num / num3;
+			Matrix4x4 identity = Matrix4x4.identity;
+			identity.m00 = num;
+			identity.m01 = -num4;
+			identity.m03 = start.x + 0.5f * num4;
+			identity.m10 = num2;
+			identity.m11 = num5;
+			identity.m13 = start.y - 0.5f * num5;
+			GL.PushMatrix();
+			GL.MultMatrix(identity);
+			Graphics.DrawTexture(Widgets.LineRect, Widgets.LineTexAA, Widgets.LineRect, 0, 0, 0, 0, color, Widgets.LineMat);
+			GL.PopMatrix();
 		}
 
 		public static void DrawLineHorizontal(float x, float y, float length)
@@ -397,11 +398,17 @@ namespace Verse
 			GUI.Label(rect, label, Text.CurFontStyle);
 		}
 
-		public static void LabelScrollable(Rect rect, string label, ref Vector2 scrollbarPosition, bool dontConsumeScrollEventsIfNoScrollbar = false)
+		public static void LabelScrollable(Rect rect, string label, ref Vector2 scrollbarPosition, bool dontConsumeScrollEventsIfNoScrollbar = false, bool takeScrollbarSpaceEvenIfNoScrollbar = true)
 		{
-			Rect rect2 = new Rect(0f, 0f, rect.width - 16f, Mathf.Max(Text.CalcHeight(label, rect.width) + 10f, rect.height));
-			bool flag = !dontConsumeScrollEventsIfNoScrollbar || Text.CalcHeight(label, rect.width) > rect.height;
+			bool flag = takeScrollbarSpaceEvenIfNoScrollbar || Text.CalcHeight(label, rect.width) > rect.height;
+			bool flag2 = flag && (!dontConsumeScrollEventsIfNoScrollbar || Text.CalcHeight(label, rect.width - 16f) > rect.height);
+			float num = rect.width;
 			if (flag)
+			{
+				num -= 16f;
+			}
+			Rect rect2 = new Rect(0f, 0f, num, Mathf.Max(Text.CalcHeight(label, num) + 5f, rect.height));
+			if (flag2)
 			{
 				Widgets.BeginScrollView(rect, ref scrollbarPosition, rect2, true);
 			}
@@ -410,7 +417,7 @@ namespace Verse
 				GUI.BeginGroup(rect);
 			}
 			Widgets.Label(rect2, label);
-			if (flag)
+			if (flag2)
 			{
 				Widgets.EndScrollView();
 			}
@@ -450,13 +457,10 @@ namespace Verse
 					Widgets.checkboxPainting = true;
 					Widgets.checkboxPaintingState = checkOn;
 				}
-				if (paintable && Mouse.IsOver(rect))
+				if (paintable && Mouse.IsOver(rect) && Widgets.checkboxPainting && Input.GetMouseButton(0) && checkOn != Widgets.checkboxPaintingState)
 				{
-					if (Widgets.checkboxPainting && Input.GetMouseButton(0) && checkOn != Widgets.checkboxPaintingState)
-					{
-						checkOn = Widgets.checkboxPaintingState;
-						flag = true;
-					}
+					checkOn = Widgets.checkboxPaintingState;
+					flag = true;
 				}
 				if (flag)
 				{
@@ -485,19 +489,16 @@ namespace Verse
 				rect.width = Mathf.Min(rect.width, Text.CalcSize(label).x + 24f + 10f);
 			}
 			Widgets.Label(rect, label);
-			if (!disabled)
+			if (!disabled && Widgets.ButtonInvisible(rect, false))
 			{
-				if (Widgets.ButtonInvisible(rect, false))
+				checkOn = !checkOn;
+				if (checkOn)
 				{
-					checkOn = !checkOn;
-					if (checkOn)
-					{
-						SoundDefOf.Checkbox_TurnedOn.PlayOneShotOnCamera(null);
-					}
-					else
-					{
-						SoundDefOf.Checkbox_TurnedOff.PlayOneShotOnCamera(null);
-					}
+					SoundDefOf.Checkbox_TurnedOn.PlayOneShotOnCamera(null);
+				}
+				else
+				{
+					SoundDefOf.Checkbox_TurnedOff.PlayOneShotOnCamera(null);
 				}
 			}
 			Widgets.CheckboxDraw(rect.x + rect.width - 24f, rect.y, checkOn, disabled, 24f, null, null);
@@ -600,7 +601,6 @@ namespace Verse
 					flag = true;
 				}
 			}
-			MultiCheckboxState result;
 			if (flag)
 			{
 				if (multiCheckboxState == MultiCheckboxState.On)
@@ -611,13 +611,9 @@ namespace Verse
 				{
 					SoundDefOf.Checkbox_TurnedOff.PlayOneShotOnCamera(null);
 				}
-				result = multiCheckboxState;
+				return multiCheckboxState;
 			}
-			else
-			{
-				result = state;
-			}
-			return result;
+			return state;
 		}
 
 		public static bool RadioButton(Vector2 topLeft, bool chosen)
@@ -655,6 +651,8 @@ namespace Verse
 
 		private static void RadioButtonDraw(float x, float y, bool chosen)
 		{
+			Color color = GUI.color;
+			GUI.color = Color.white;
 			Texture2D image;
 			if (chosen)
 			{
@@ -666,6 +664,7 @@ namespace Verse
 			}
 			Rect position = new Rect(x, y, 24f, 24f);
 			GUI.DrawTexture(position, image);
+			GUI.color = color;
 		}
 
 		public static bool ButtonText(Rect rect, string label, bool drawBackground = true, bool doMouseoverSound = false, bool active = true)
@@ -728,20 +727,15 @@ namespace Verse
 			Widgets.Label(rect, label);
 			Text.Anchor = anchor;
 			GUI.color = color;
-			Widgets.DraggableResult result;
 			if (active && draggable)
 			{
-				result = Widgets.ButtonInvisibleDraggable(rect, false);
+				return Widgets.ButtonInvisibleDraggable(rect, false);
 			}
-			else if (active)
+			if (active)
 			{
-				result = ((!Widgets.ButtonInvisible(rect, false)) ? Widgets.DraggableResult.Idle : Widgets.DraggableResult.Pressed);
+				return (!Widgets.ButtonInvisible(rect, false)) ? Widgets.DraggableResult.Idle : Widgets.DraggableResult.Pressed;
 			}
-			else
-			{
-				result = Widgets.DraggableResult.Idle;
-			}
-			return result;
+			return Widgets.DraggableResult.Idle;
 		}
 
 		public static void DrawRectFast(Rect position, Color color, GUIContent content = null)
@@ -788,7 +782,6 @@ namespace Verse
 			Rect rect2 = rect;
 			rect2.width += functionalSizeOffset.x;
 			rect2.height += functionalSizeOffset.y;
-			Profiler.BeginSample("ButtonTextSubtle");
 			bool flag = false;
 			if (Mouse.IsOver(rect2))
 			{
@@ -799,9 +792,7 @@ namespace Verse
 			{
 				MouseoverSounds.DoRegion(rect2, mouseoverSound);
 			}
-			Profiler.BeginSample("atlas");
 			Widgets.DrawAtlas(rect, Widgets.ButtonSubtleAtlas);
-			Profiler.EndSample();
 			GUI.color = Color.white;
 			if (barPercent > 0.001f)
 			{
@@ -825,9 +816,7 @@ namespace Verse
 			Widgets.Label(rect4, label);
 			Text.Anchor = TextAnchor.UpperLeft;
 			Text.WordWrap = true;
-			bool result = Widgets.ButtonInvisible(rect2, false);
-			Profiler.EndSample();
-			return result;
+			return Widgets.ButtonInvisible(rect2, false);
 		}
 
 		public static bool ButtonImage(Rect butRect, Texture2D tex)
@@ -907,7 +896,7 @@ namespace Verse
 
 		public static bool ButtonImageWithBG(Rect butRect, Texture2D image, Vector2? imageSize = null)
 		{
-			bool result = Widgets.ButtonText(butRect, "", true, false, true);
+			bool result = Widgets.ButtonText(butRect, string.Empty, true, false, true);
 			Rect position;
 			if (imageSize != null)
 			{
@@ -933,7 +922,7 @@ namespace Verse
 			{
 				MouseoverSounds.DoRegion(butRect);
 			}
-			return GUI.Button(butRect, "", Widgets.EmptyStyle);
+			return GUI.Button(butRect, string.Empty, Widgets.EmptyStyle);
 		}
 
 		public static Widgets.DraggableResult ButtonInvisibleDraggable(Rect butRect, bool doMouseoverSound = false)
@@ -981,7 +970,7 @@ namespace Verse
 		{
 			if (text == null)
 			{
-				text = "";
+				text = string.Empty;
 			}
 			return GUI.TextField(rect, text, Text.CurTextFieldStyle);
 		}
@@ -989,23 +978,18 @@ namespace Verse
 		public static string TextField(Rect rect, string text, int maxLength, Regex inputValidator)
 		{
 			string text2 = Widgets.TextField(rect, text);
-			string result;
 			if (text2.Length <= maxLength && inputValidator.IsMatch(text2))
 			{
-				result = text2;
+				return text2;
 			}
-			else
-			{
-				result = text;
-			}
-			return result;
+			return text;
 		}
 
 		public static string TextArea(Rect rect, string text, bool readOnly = false)
 		{
 			if (text == null)
 			{
-				text = "";
+				text = string.Empty;
 			}
 			return GUI.TextArea(rect, text, (!readOnly) ? Text.CurTextAreaStyle : Text.CurTextAreaReadOnlyStyle);
 		}
@@ -1027,16 +1011,11 @@ namespace Verse
 			Text.Anchor = TextAnchor.MiddleRight;
 			Widgets.Label(rect2, label);
 			Text.Anchor = anchor;
-			string result;
 			if (rect.height <= 30f)
 			{
-				result = Widgets.TextField(rect3, text);
+				return Widgets.TextField(rect3, text);
 			}
-			else
-			{
-				result = Widgets.TextArea(rect3, text, false);
-			}
-			return result;
+			return Widgets.TextArea(rect3, text, false);
 		}
 
 		public static void TextFieldNumeric<T>(Rect rect, ref T val, ref string buffer, float min = 0f, float max = 1E+09f) where T : struct
@@ -1066,17 +1045,19 @@ namespace Verse
 		{
 			if (typeof(T) == typeof(int))
 			{
-				int num;
 				if (edited.NullOrEmpty())
 				{
 					Widgets.ResetValue<T>(edited, ref val, ref buffer, min, max);
+					return;
 				}
-				else if (int.TryParse(edited, out num))
+				int num;
+				if (int.TryParse(edited, out num))
 				{
 					val = (T)((object)Mathf.RoundToInt(Mathf.Clamp((float)num, min, max)));
 					buffer = Widgets.ToStringTypedIn<T>(val);
+					return;
 				}
-				else if (force)
+				if (force)
 				{
 					Widgets.ResetValue<T>(edited, ref val, ref buffer, min, max);
 				}
@@ -1088,8 +1069,9 @@ namespace Verse
 				{
 					val = (T)((object)Mathf.Clamp(value, min, max));
 					buffer = Widgets.ToStringTypedIn<T>(val);
+					return;
 				}
-				else if (force)
+				if (force)
 				{
 					Widgets.ResetValue<T>(edited, ref val, ref buffer, min, max);
 				}
@@ -1116,94 +1098,72 @@ namespace Verse
 
 		private static string ToStringTypedIn<T>(T val)
 		{
-			string result;
 			if (typeof(T) == typeof(float))
 			{
-				result = ((float)((object)val)).ToString("0.##########");
+				return ((float)((object)val)).ToString("0.##########");
 			}
-			else
-			{
-				result = val.ToString();
-			}
-			return result;
+			return val.ToString();
 		}
 
 		private static bool IsPartiallyOrFullyTypedNumber<T>(ref T val, string s, float min, float max)
 		{
-			bool result;
-			if (s == "")
+			if (s == string.Empty)
 			{
-				result = true;
+				return true;
 			}
-			else if (s[0] == '-' && min >= 0f)
+			if (s[0] == '-' && min >= 0f)
 			{
-				result = false;
+				return false;
 			}
-			else if (s.Length > 1 && s[s.Length - 1] == '-')
+			if (s.Length > 1 && s[s.Length - 1] == '-')
 			{
-				result = false;
+				return false;
 			}
-			else if (s == "00")
+			if (s == "00")
 			{
-				result = false;
+				return false;
 			}
-			else if (s.Length > 12)
+			if (s.Length > 12)
 			{
-				result = false;
+				return false;
 			}
-			else
+			if (typeof(T) == typeof(float))
 			{
-				if (typeof(T) == typeof(float))
+				int num = s.CharacterCount('.');
+				if (num <= 1 && s.ContainsOnlyCharacters("-.0123456789"))
 				{
-					int num = s.CharacterCount('.');
-					if (num <= 1 && s.ContainsOnlyCharacters("-.0123456789"))
-					{
-						return true;
-					}
+					return true;
 				}
-				result = s.IsFullyTypedNumber<T>();
 			}
-			return result;
+			return s.IsFullyTypedNumber<T>();
 		}
 
 		private static bool IsFullyTypedNumber<T>(this string s)
 		{
-			bool result;
-			if (s == "")
+			if (s == string.Empty)
 			{
-				result = false;
+				return false;
 			}
-			else
+			if (typeof(T) == typeof(float))
 			{
-				if (typeof(T) == typeof(float))
+				string[] array = s.Split(new char[]
 				{
-					string[] array = s.Split(new char[]
-					{
-						'.'
-					});
-					if (array.Length > 2 || array.Length < 1)
-					{
-						return false;
-					}
-					if (!array[0].ContainsOnlyCharacters("-0123456789"))
-					{
-						return false;
-					}
-					if (array.Length == 2 && (array[1].Length == 0 || !array[1].ContainsOnlyCharacters("0123456789")))
-					{
-						return false;
-					}
-				}
-				if (typeof(T) == typeof(int))
+					'.'
+				});
+				if (array.Length > 2 || array.Length < 1)
 				{
-					if (!s.ContainsOnlyCharacters("-0123456789"))
-					{
-						return false;
-					}
+					return false;
 				}
-				result = true;
+				if (!array[0].ContainsOnlyCharacters("-0123456789"))
+				{
+					return false;
+				}
+				if (array.Length == 2 && (array[1].Length == 0 || !array[1].ContainsOnlyCharacters("0123456789")))
+				{
+					return false;
+				}
 			}
-			return result;
+			return typeof(T) != typeof(int) || s.ContainsOnlyCharacters("-0123456789");
 		}
 
 		private static bool ContainsOnlyCharacters(this string s, string allowedChars)
@@ -1369,21 +1329,25 @@ namespace Verse
 			{
 				value -= 10 * multiplier * GenUI.CurrentAdjustmentMultiplier();
 				editBuffer = value.ToStringCached();
+				SoundDefOf.Checkbox_TurnedOff.PlayOneShotOnCamera(null);
 			}
 			if (Widgets.ButtonText(new Rect(rect.xMin + (float)num, rect.yMin, (float)num, rect.height), (-1 * multiplier).ToStringCached(), true, false, true))
 			{
 				value -= multiplier * GenUI.CurrentAdjustmentMultiplier();
 				editBuffer = value.ToStringCached();
+				SoundDefOf.Checkbox_TurnedOff.PlayOneShotOnCamera(null);
 			}
-			if (Widgets.ButtonText(new Rect(rect.xMax - (float)num, rect.yMin, (float)num, rect.height), (10 * multiplier).ToStringCached(), true, false, true))
+			if (Widgets.ButtonText(new Rect(rect.xMax - (float)num, rect.yMin, (float)num, rect.height), "+" + (10 * multiplier).ToStringCached(), true, false, true))
 			{
 				value += 10 * multiplier * GenUI.CurrentAdjustmentMultiplier();
 				editBuffer = value.ToStringCached();
+				SoundDefOf.Checkbox_TurnedOn.PlayOneShotOnCamera(null);
 			}
-			if (Widgets.ButtonText(new Rect(rect.xMax - (float)(num * 2), rect.yMin, (float)num, rect.height), multiplier.ToStringCached(), true, false, true))
+			if (Widgets.ButtonText(new Rect(rect.xMax - (float)(num * 2), rect.yMin, (float)num, rect.height), "+" + multiplier.ToStringCached(), true, false, true))
 			{
 				value += multiplier * GenUI.CurrentAdjustmentMultiplier();
 				editBuffer = value.ToStringCached();
+				SoundDefOf.Checkbox_TurnedOn.PlayOneShotOnCamera(null);
 			}
 			Widgets.TextFieldNumeric<int>(new Rect(rect.xMin + (float)(num * 2), rect.yMin, rect.width - (float)(num * 4), rect.height), ref value, ref editBuffer, 0f, 1E+09f);
 		}
@@ -1465,17 +1429,14 @@ namespace Verse
 							Widgets.CheckPlayDragSliderSound();
 						}
 					}
-					else if (Widgets.curDragEnd == Widgets.RangeEnd.Max)
+					else if (Widgets.curDragEnd == Widgets.RangeEnd.Max && num5 != range.max)
 					{
-						if (num5 != range.max)
+						range.max = num5;
+						if (range.min > range.max)
 						{
-							range.max = num5;
-							if (range.min > range.max)
-							{
-								range.min = range.max;
-							}
-							Widgets.CheckPlayDragSliderSound();
+							range.min = range.max;
 						}
+						Widgets.CheckPlayDragSliderSound();
 					}
 					Event.current.Use();
 				}
@@ -1566,22 +1527,19 @@ namespace Verse
 							Widgets.CheckPlayDragSliderSound();
 						}
 					}
-					else if (Widgets.curDragEnd == Widgets.RangeEnd.Max)
+					else if (Widgets.curDragEnd == Widgets.RangeEnd.Max && num6 != range.max)
 					{
-						if (num6 != range.max)
+						range.max = num6;
+						if (range.max < min + minWidth)
 						{
-							range.max = num6;
-							if (range.max < min + minWidth)
-							{
-								range.max = min + minWidth;
-							}
-							int num8 = Mathf.Min(max, range.max - minWidth);
-							if (range.min > num8)
-							{
-								range.min = num8;
-							}
-							Widgets.CheckPlayDragSliderSound();
+							range.max = min + minWidth;
 						}
+						int num8 = Mathf.Min(max, range.max - minWidth);
+						if (range.min > num8)
+						{
+							range.min = num8;
+						}
+						Widgets.CheckPlayDragSliderSound();
 					}
 					Event.current.Use();
 				}
@@ -1685,17 +1643,14 @@ namespace Verse
 							SoundDefOf.DragSlider.PlayOneShotOnCamera(null);
 						}
 					}
-					else if (Widgets.curDragEnd == Widgets.RangeEnd.Max)
+					else if (Widgets.curDragEnd == Widgets.RangeEnd.Max && range.max != (QualityCategory)num6)
 					{
-						if (range.max != (QualityCategory)num6)
+						range.max = (QualityCategory)num6;
+						if (range.min > range.max)
 						{
-							range.max = (QualityCategory)num6;
-							if (range.min > range.max)
-							{
-								range.min = range.max;
-							}
-							SoundDefOf.DragSlider.PlayOneShotOnCamera(null);
+							range.min = range.max;
 						}
+						SoundDefOf.DragSlider.PlayOneShotOnCamera(null);
 					}
 					Event.current.Use();
 				}
@@ -1783,44 +1738,45 @@ namespace Verse
 
 		public static void FillableBarChangeArrows(Rect barRect, int changeRate)
 		{
-			if (changeRate != 0)
+			if (changeRate == 0)
 			{
-				if (changeRate > Widgets.MaxFillableBarChangeRate)
-				{
-					changeRate = Widgets.MaxFillableBarChangeRate;
-				}
-				if (changeRate < -Widgets.MaxFillableBarChangeRate)
-				{
-					changeRate = -Widgets.MaxFillableBarChangeRate;
-				}
-				float num = barRect.height;
-				if (num > 16f)
-				{
-					num = 16f;
-				}
-				int num2 = Mathf.Abs(changeRate);
-				float y = barRect.y + barRect.height / 2f - num / 2f;
-				float num3;
-				float num4;
-				Texture2D image;
-				if (changeRate > 0)
-				{
-					num3 = barRect.x + barRect.width + 2f;
-					num4 = 8f;
-					image = Widgets.FillArrowTexRight;
-				}
-				else
-				{
-					num3 = barRect.x - 8f - 2f;
-					num4 = -8f;
-					image = Widgets.FillArrowTexLeft;
-				}
-				for (int i = 0; i < num2; i++)
-				{
-					Rect position = new Rect(num3, y, 8f, num);
-					GUI.DrawTexture(position, image);
-					num3 += num4;
-				}
+				return;
+			}
+			if (changeRate > Widgets.MaxFillableBarChangeRate)
+			{
+				changeRate = Widgets.MaxFillableBarChangeRate;
+			}
+			if (changeRate < -Widgets.MaxFillableBarChangeRate)
+			{
+				changeRate = -Widgets.MaxFillableBarChangeRate;
+			}
+			float num = barRect.height;
+			if (num > 16f)
+			{
+				num = 16f;
+			}
+			int num2 = Mathf.Abs(changeRate);
+			float y = barRect.y + barRect.height / 2f - num / 2f;
+			float num3;
+			float num4;
+			Texture2D image;
+			if (changeRate > 0)
+			{
+				num3 = barRect.x + barRect.width + 2f;
+				num4 = 8f;
+				image = Widgets.FillArrowTexRight;
+			}
+			else
+			{
+				num3 = barRect.x - 8f - 2f;
+				num4 = -8f;
+				image = Widgets.FillArrowTexLeft;
+			}
+			for (int i = 0; i < num2; i++)
+			{
+				Rect position = new Rect(num3, y, 8f, num);
+				GUI.DrawTexture(position, image);
+				num3 += num4;
 			}
 		}
 
@@ -2053,74 +2009,54 @@ namespace Verse
 		public static bool InfoCardButton(float x, float y, Thing thing)
 		{
 			IConstructible constructible = thing as IConstructible;
-			bool result;
 			if (constructible != null)
 			{
 				ThingDef thingDef = thing.def.entityDefToBuild as ThingDef;
 				if (thingDef != null)
 				{
-					result = Widgets.InfoCardButton(x, y, thingDef, constructible.UIStuff());
+					return Widgets.InfoCardButton(x, y, thingDef, constructible.UIStuff());
 				}
-				else
-				{
-					result = Widgets.InfoCardButton(x, y, thing.def.entityDefToBuild);
-				}
-			}
-			else if (Widgets.InfoCardButtonWorker(x, y))
-			{
-				Find.WindowStack.Add(new Dialog_InfoCard(thing));
-				result = true;
+				return Widgets.InfoCardButton(x, y, thing.def.entityDefToBuild);
 			}
 			else
 			{
-				result = false;
+				if (Widgets.InfoCardButtonWorker(x, y))
+				{
+					Find.WindowStack.Add(new Dialog_InfoCard(thing));
+					return true;
+				}
+				return false;
 			}
-			return result;
 		}
 
 		public static bool InfoCardButton(float x, float y, Def def)
 		{
-			bool result;
 			if (Widgets.InfoCardButtonWorker(x, y))
 			{
 				Find.WindowStack.Add(new Dialog_InfoCard(def));
-				result = true;
+				return true;
 			}
-			else
-			{
-				result = false;
-			}
-			return result;
+			return false;
 		}
 
 		public static bool InfoCardButton(float x, float y, ThingDef thingDef, ThingDef stuffDef)
 		{
-			bool result;
 			if (Widgets.InfoCardButtonWorker(x, y))
 			{
 				Find.WindowStack.Add(new Dialog_InfoCard(thingDef, stuffDef));
-				result = true;
+				return true;
 			}
-			else
-			{
-				result = false;
-			}
-			return result;
+			return false;
 		}
 
 		public static bool InfoCardButton(float x, float y, WorldObject worldObject)
 		{
-			bool result;
 			if (Widgets.InfoCardButtonWorker(x, y))
 			{
 				Find.WindowStack.Add(new Dialog_InfoCard(worldObject));
-				result = true;
+				return true;
 			}
-			else
-			{
-				result = false;
-			}
-			return result;
+			return false;
 		}
 
 		public static bool InfoCardButtonCentered(Rect rect, Thing thing)
@@ -2144,41 +2080,35 @@ namespace Verse
 
 		public static void DrawTextureFitted(Rect outerRect, Texture tex, float scale, Vector2 texProportions, Rect texCoords, float angle = 0f, Material mat = null)
 		{
-			if (Event.current.type == EventType.Repaint)
+			if (Event.current.type != EventType.Repaint)
 			{
-				Rect rect = new Rect(0f, 0f, texProportions.x, texProportions.y);
-				float num;
-				if (rect.width / rect.height < outerRect.width / outerRect.height)
-				{
-					num = outerRect.height / rect.height;
-				}
-				else
-				{
-					num = outerRect.width / rect.width;
-				}
-				num *= scale;
-				rect.width *= num;
-				rect.height *= num;
-				rect.x = outerRect.x + outerRect.width / 2f - rect.width / 2f;
-				rect.y = outerRect.y + outerRect.height / 2f - rect.height / 2f;
-				Matrix4x4 matrix = Matrix4x4.identity;
-				if (angle != 0f)
-				{
-					matrix = GUI.matrix;
-					UI.RotateAroundPivot(angle, rect.center);
-				}
-				if (mat == null)
-				{
-					GUI.DrawTextureWithTexCoords(rect, tex, texCoords);
-				}
-				else
-				{
-					Graphics.DrawTexture(rect, tex, texCoords, 0, 0, 0, 0, mat);
-				}
-				if (angle != 0f)
-				{
-					GUI.matrix = matrix;
-				}
+				return;
+			}
+			Rect rect = new Rect(0f, 0f, texProportions.x, texProportions.y);
+			float num;
+			if (rect.width / rect.height < outerRect.width / outerRect.height)
+			{
+				num = outerRect.height / rect.height;
+			}
+			else
+			{
+				num = outerRect.width / rect.width;
+			}
+			num *= scale;
+			rect.width *= num;
+			rect.height *= num;
+			rect.x = outerRect.x + outerRect.width / 2f - rect.width / 2f;
+			rect.y = outerRect.y + outerRect.height / 2f - rect.height / 2f;
+			Matrix4x4 matrix = Matrix4x4.identity;
+			if (angle != 0f)
+			{
+				matrix = GUI.matrix;
+				UI.RotateAroundPivot(angle, rect.center);
+			}
+			GenUI.DrawTextureWithMaterial(rect, tex, mat, texCoords);
+			if (angle != 0f)
+			{
+				GUI.matrix = matrix;
 			}
 		}
 
@@ -2192,19 +2122,20 @@ namespace Verse
 
 		public static void DrawTextureRotated(Rect rect, Texture tex, float angle)
 		{
-			if (Event.current.type == EventType.Repaint)
+			if (Event.current.type != EventType.Repaint)
 			{
-				if (angle == 0f)
-				{
-					GUI.DrawTexture(rect, tex);
-				}
-				else
-				{
-					Matrix4x4 matrix = GUI.matrix;
-					UI.RotateAroundPivot(angle, rect.center);
-					GUI.DrawTexture(rect, tex);
-					GUI.matrix = matrix;
-				}
+				return;
+			}
+			if (angle == 0f)
+			{
+				GUI.DrawTexture(rect, tex);
+			}
+			else
+			{
+				Matrix4x4 matrix = GUI.matrix;
+				UI.RotateAroundPivot(angle, rect.center);
+				GUI.DrawTexture(rect, tex);
+				GUI.matrix = matrix;
 			}
 		}
 

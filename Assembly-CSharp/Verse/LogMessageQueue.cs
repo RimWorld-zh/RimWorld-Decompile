@@ -9,7 +9,7 @@ namespace Verse
 
 		private Queue<LogMessage> messages = new Queue<LogMessage>();
 
-		private LogMessage lastMessage = null;
+		private LogMessage lastMessage;
 
 		public LogMessageQueue()
 		{
@@ -28,16 +28,14 @@ namespace Verse
 			if (this.lastMessage != null && msg.CanCombineWith(this.lastMessage))
 			{
 				this.lastMessage.repeats++;
+				return;
 			}
-			else
+			this.lastMessage = msg;
+			this.messages.Enqueue(msg);
+			if (this.messages.Count > this.maxMessages)
 			{
-				this.lastMessage = msg;
-				this.messages.Enqueue(msg);
-				if (this.messages.Count > this.maxMessages)
-				{
-					LogMessage oldMessage = this.messages.Dequeue();
-					EditWindow_Log.Notify_MessageDequeued(oldMessage);
-				}
+				LogMessage oldMessage = this.messages.Dequeue();
+				EditWindow_Log.Notify_MessageDequeued(oldMessage);
 			}
 		}
 

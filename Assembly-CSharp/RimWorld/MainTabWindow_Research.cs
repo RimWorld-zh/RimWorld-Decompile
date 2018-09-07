@@ -12,15 +12,15 @@ namespace RimWorld
 	[StaticConstructorOnStartup]
 	public class MainTabWindow_Research : MainTabWindow
 	{
-		protected ResearchProjectDef selectedProject = null;
+		protected ResearchProjectDef selectedProject;
 
-		private bool noBenchWarned = false;
+		private bool noBenchWarned;
 
-		private bool requiredByThisFound = false;
+		private bool requiredByThisFound;
 
 		private Vector2 leftScrollPosition = Vector2.zero;
 
-		private float leftScrollViewHeight = 0f;
+		private float leftScrollViewHeight;
 
 		private Vector2 rightScrollPosition = default(Vector2);
 
@@ -28,11 +28,11 @@ namespace RimWorld
 
 		private float rightViewHeight;
 
-		private ResearchTabDef curTabInt = null;
+		private ResearchTabDef curTabInt;
 
-		private bool editMode = false;
+		private bool editMode;
 
-		private ResearchProjectDef draggingTab = null;
+		private ResearchProjectDef draggingTab;
 
 		private const float LeftAreaWidth = 200f;
 
@@ -83,14 +83,15 @@ namespace RimWorld
 			}
 			set
 			{
-				if (value != this.curTabInt)
+				if (value == this.curTabInt)
 				{
-					this.curTabInt = value;
-					Vector2 vector = this.ViewSize(this.CurTab);
-					this.rightViewWidth = vector.x;
-					this.rightViewHeight = vector.y;
-					this.rightScrollPosition = Vector2.zero;
+					return;
 				}
+				this.curTabInt = value;
+				Vector2 vector = this.ViewSize(this.CurTab);
+				this.rightViewWidth = vector.x;
+				this.rightViewHeight = vector.y;
+				this.rightScrollPosition = Vector2.zero;
 			}
 		}
 
@@ -282,7 +283,7 @@ namespace RimWorld
 					if (Widgets.ButtonText(rect7, "Debug Insta-finish", true, false, true))
 					{
 						Find.ResearchManager.currentProj = this.selectedProject;
-						Find.ResearchManager.InstantFinish(this.selectedProject, false);
+						Find.ResearchManager.FinishProject(this.selectedProject, false, null);
 					}
 				}
 				Rect rect8 = new Rect(15f, rect6.y + rect6.height + 20f, position.width - 30f, 35f);
@@ -453,12 +454,9 @@ namespace RimWorld
 					for (int m = 0; m < researchProjectDef4.prerequisites.CountAllowNull<ResearchProjectDef>(); m++)
 					{
 						ResearchProjectDef researchProjectDef5 = researchProjectDef4.prerequisites[m];
-						if (researchProjectDef5 != null)
+						if (researchProjectDef5 != null && this.selectedProject == researchProjectDef5)
 						{
-							if (this.selectedProject == researchProjectDef5)
-							{
-								borderColor = TexUI.HighlightLineResearchColor;
-							}
+							borderColor = TexUI.HighlightLineResearchColor;
 						}
 					}
 					if (this.requiredByThisFound)
@@ -497,26 +495,21 @@ namespace RimWorld
 
 		private float DrawResearchPrereqs(ResearchProjectDef project, Rect rect)
 		{
-			float result;
 			if (project.prerequisites.NullOrEmpty<ResearchProjectDef>())
 			{
-				result = 0f;
+				return 0f;
 			}
-			else
+			float yMin = rect.yMin;
+			Widgets.LabelCacheHeight(ref rect, "ResearchPrerequisites".Translate() + ":", true, false);
+			rect.yMin += rect.height;
+			for (int i = 0; i < project.prerequisites.Count; i++)
 			{
-				float yMin = rect.yMin;
-				Widgets.LabelCacheHeight(ref rect, "ResearchPrerequisites".Translate() + ":", true, false);
+				this.SetPrerequisiteStatusColor(project.prerequisites[i].IsFinished, project);
+				Widgets.LabelCacheHeight(ref rect, "  " + project.prerequisites[i].LabelCap, true, false);
 				rect.yMin += rect.height;
-				for (int i = 0; i < project.prerequisites.Count; i++)
-				{
-					this.SetPrerequisiteStatusColor(project.prerequisites[i].IsFinished, project);
-					Widgets.LabelCacheHeight(ref rect, "  " + project.prerequisites[i].LabelCap, true, false);
-					rect.yMin += rect.height;
-				}
-				GUI.color = Color.white;
-				result = rect.yMin - yMin;
 			}
-			return result;
+			GUI.color = Color.white;
+			return rect.yMin - yMin;
 		}
 
 		private float DrawResearchBenchRequirements(ResearchProjectDef project, Rect rect)
@@ -568,16 +561,17 @@ namespace RimWorld
 
 		private void SetPrerequisiteStatusColor(bool present, ResearchProjectDef project)
 		{
-			if (!project.IsFinished)
+			if (project.IsFinished)
 			{
-				if (present)
-				{
-					GUI.color = MainTabWindow_Research.FulfilledPrerequisiteColor;
-				}
-				else
-				{
-					GUI.color = MainTabWindow_Research.MissingPrerequisiteColor;
-				}
+				return;
+			}
+			if (present)
+			{
+				GUI.color = MainTabWindow_Research.FulfilledPrerequisiteColor;
+			}
+			else
+			{
+				GUI.color = MainTabWindow_Research.MissingPrerequisiteColor;
 			}
 		}
 

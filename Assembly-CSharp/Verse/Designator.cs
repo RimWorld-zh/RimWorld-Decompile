@@ -12,13 +12,13 @@ namespace Verse
 {
 	public abstract class Designator : Command
 	{
-		protected bool useMouseIcon = false;
+		protected bool useMouseIcon;
 
-		public SoundDef soundDragSustain = null;
+		public SoundDef soundDragSustain;
 
-		public SoundDef soundDragChanged = null;
+		public SoundDef soundDragChanged;
 
-		protected SoundDef soundSucceeded = null;
+		protected SoundDef soundSucceeded;
 
 		protected SoundDef soundFailed = SoundDefOf.Designate_Failed;
 
@@ -90,20 +90,15 @@ namespace Verse
 		{
 			get
 			{
-				string result;
 				if (this.tutorTag == null)
 				{
-					result = null;
+					return null;
 				}
-				else
+				if (this.cachedTutorTagSelect == null)
 				{
-					if (this.cachedTutorTagSelect == null)
-					{
-						this.cachedTutorTagSelect = "SelectDesignator-" + this.tutorTag;
-					}
-					result = this.cachedTutorTagSelect;
+					this.cachedTutorTagSelect = "SelectDesignator-" + this.tutorTag;
 				}
-				return result;
+				return this.cachedTutorTagSelect;
 			}
 		}
 
@@ -111,20 +106,15 @@ namespace Verse
 		{
 			get
 			{
-				string result;
 				if (this.tutorTag == null)
 				{
-					result = null;
+					return null;
 				}
-				else
+				if (this.cachedTutorTagDesignate == null)
 				{
-					if (this.cachedTutorTagDesignate == null)
-					{
-						this.cachedTutorTagDesignate = "Designate-" + this.tutorTag;
-					}
-					result = this.cachedTutorTagDesignate;
+					this.cachedTutorTagDesignate = "Designate-" + this.tutorTag;
 				}
-				return result;
+				return this.cachedTutorTagDesignate;
 			}
 		}
 
@@ -144,7 +134,7 @@ namespace Verse
 		{
 			get
 			{
-				foreach (FloatMenuOption o in this.<get_RightClickFloatMenuOptions>__BaseCallProxy0())
+				foreach (FloatMenuOption o in base.RightClickFloatMenuOptions)
 				{
 					yield return o;
 				}
@@ -229,11 +219,12 @@ namespace Verse
 
 		public override void ProcessInput(Event ev)
 		{
-			if (this.CheckCanInteract())
+			if (!this.CheckCanInteract())
 			{
-				base.ProcessInput(ev);
-				Find.DesignatorManager.Select(this);
+				return;
 			}
+			base.ProcessInput(ev);
+			Find.DesignatorManager.Select(this);
 		}
 
 		public virtual AcceptanceReport CanDesignateThing(Thing t)
@@ -250,27 +241,28 @@ namespace Verse
 
 		public virtual void DesignateMultiCell(IEnumerable<IntVec3> cells)
 		{
-			if (!TutorSystem.TutorialMode || TutorSystem.AllowAction(new EventPack(this.TutorTagDesignate, cells)))
+			if (TutorSystem.TutorialMode && !TutorSystem.AllowAction(new EventPack(this.TutorTagDesignate, cells)))
 			{
-				bool somethingSucceeded = false;
-				bool flag = false;
-				foreach (IntVec3 intVec in cells)
+				return;
+			}
+			bool somethingSucceeded = false;
+			bool flag = false;
+			foreach (IntVec3 intVec in cells)
+			{
+				if (this.CanDesignateCell(intVec).Accepted)
 				{
-					if (this.CanDesignateCell(intVec).Accepted)
+					this.DesignateSingleCell(intVec);
+					somethingSucceeded = true;
+					if (!flag)
 					{
-						this.DesignateSingleCell(intVec);
-						somethingSucceeded = true;
-						if (!flag)
-						{
-							flag = this.ShowWarningForCell(intVec);
-						}
+						flag = this.ShowWarningForCell(intVec);
 					}
 				}
-				this.Finalize(somethingSucceeded);
-				if (TutorSystem.TutorialMode)
-				{
-					TutorSystem.Notify_Event(new EventPack(this.TutorTagDesignate, cells));
-				}
+			}
+			this.Finalize(somethingSucceeded);
+			if (TutorSystem.TutorialMode)
+			{
+				TutorSystem.Notify_Event(new EventPack(this.TutorTagDesignate, cells));
 			}
 		}
 
@@ -342,7 +334,7 @@ namespace Verse
 		{
 			if (this.useMouseIcon)
 			{
-				GenUI.DrawMouseAttachment(this.icon, "", this.iconAngle, this.iconOffset, null);
+				GenUI.DrawMouseAttachment(this.icon, string.Empty, this.iconAngle, this.iconOffset, null);
 			}
 		}
 
@@ -431,13 +423,13 @@ namespace Verse
 				case 1u:
 					break;
 				case 2u:
-					goto IL_265;
+					goto IL_25C;
 				case 3u:
-					goto IL_265;
+					goto IL_25C;
 				case 4u:
-					goto IL_42F;
+					goto IL_420;
 				case 5u:
-					goto IL_42F;
+					goto IL_420;
 				default:
 					return false;
 				}
@@ -509,7 +501,7 @@ namespace Verse
 					}
 					return true;
 				}
-				IL_265:
+				IL_25C:
 				<>c__AnonStorey.designation = this.Designation;
 				if (this.Designation != null)
 				{
@@ -553,7 +545,7 @@ namespace Verse
 					}
 					return true;
 				}
-				IL_42F:
+				IL_420:
 				this.$PC = -1;
 				return false;
 			}

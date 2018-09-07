@@ -7,18 +7,19 @@ namespace Verse
 	{
 		public static void InputLogOnGUI()
 		{
-			if (DebugViewSettings.logInput)
+			if (!DebugViewSettings.logInput)
 			{
-				if (Event.current.type == EventType.MouseDown || Event.current.type == EventType.MouseUp || Event.current.type == EventType.KeyDown || Event.current.type == EventType.KeyUp || Event.current.type == EventType.ScrollWheel)
+				return;
+			}
+			if (Event.current.type == EventType.MouseDown || Event.current.type == EventType.MouseUp || Event.current.type == EventType.KeyDown || Event.current.type == EventType.KeyUp || Event.current.type == EventType.ScrollWheel)
+			{
+				Log.Message(string.Concat(new object[]
 				{
-					Log.Message(string.Concat(new object[]
-					{
-						"Frame ",
-						Time.frameCount,
-						": ",
-						Event.current.ToStringFull()
-					}), false);
-				}
+					"Frame ",
+					Time.frameCount,
+					": ",
+					Event.current.ToStringFull()
+				}), false);
 			}
 		}
 

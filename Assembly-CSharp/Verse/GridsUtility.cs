@@ -289,52 +289,39 @@ namespace Verse
 		public static bool IsInPrisonCell(this IntVec3 c, Map map)
 		{
 			Room roomOrAdjacent = c.GetRoomOrAdjacent(map, RegionType.Set_Passable);
-			bool result;
 			if (roomOrAdjacent != null)
 			{
-				result = roomOrAdjacent.isPrisonCell;
+				return roomOrAdjacent.isPrisonCell;
 			}
-			else
-			{
-				Log.Error("Checking prison cell status of " + c + " which is not in or adjacent to a room.", false);
-				result = false;
-			}
-			return result;
+			Log.Error("Checking prison cell status of " + c + " which is not in or adjacent to a room.", false);
+			return false;
 		}
 
 		public static bool UsesOutdoorTemperature(this IntVec3 c, Map map)
 		{
 			Room room = c.GetRoom(map, RegionType.Set_All);
-			bool result;
 			if (room != null)
 			{
-				result = room.UsesOutdoorTemperature;
+				return room.UsesOutdoorTemperature;
 			}
-			else
+			Building edifice = c.GetEdifice(map);
+			if (edifice != null)
 			{
-				Building edifice = c.GetEdifice(map);
-				if (edifice != null)
+				IntVec3[] array = GenAdj.CellsAdjacent8Way(edifice).ToArray<IntVec3>();
+				for (int i = 0; i < array.Length; i++)
 				{
-					IntVec3[] array = GenAdj.CellsAdjacent8Way(edifice).ToArray<IntVec3>();
-					for (int i = 0; i < array.Length; i++)
+					if (array[i].InBounds(map))
 					{
-						if (array[i].InBounds(map))
+						room = array[i].GetRoom(map, RegionType.Set_All);
+						if (room != null && room.UsesOutdoorTemperature)
 						{
-							room = array[i].GetRoom(map, RegionType.Set_All);
-							if (room != null && room.UsesOutdoorTemperature)
-							{
-								return true;
-							}
+							return true;
 						}
 					}
-					result = false;
 				}
-				else
-				{
-					result = false;
-				}
+				return false;
 			}
-			return result;
+			return false;
 		}
 	}
 }

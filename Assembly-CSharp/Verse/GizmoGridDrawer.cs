@@ -29,16 +29,11 @@ namespace Verse
 		{
 			get
 			{
-				float result;
 				if (Time.frameCount > GizmoGridDrawer.heightDrawnFrame + 2)
 				{
-					result = 0f;
+					return 0f;
 				}
-				else
-				{
-					result = GizmoGridDrawer.heightDrawn;
-				}
-				return result;
+				return GizmoGridDrawer.heightDrawn;
 			}
 		}
 

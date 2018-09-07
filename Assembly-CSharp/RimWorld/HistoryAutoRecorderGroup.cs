@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Runtime.CompilerServices;
 using UnityEngine;
 using Verse;
 
@@ -7,28 +8,22 @@ namespace RimWorld
 {
 	public class HistoryAutoRecorderGroup : IExposable
 	{
-		public HistoryAutoRecorderGroupDef def = null;
+		public HistoryAutoRecorderGroupDef def;
 
-		public List<HistoryAutoRecorder> recorders;
+		public List<HistoryAutoRecorder> recorders = new List<HistoryAutoRecorder>();
 
-		private List<SimpleCurveDrawInfo> curves;
+		private List<SimpleCurveDrawInfo> curves = new List<SimpleCurveDrawInfo>();
 
 		private int cachedGraphTickCount = -1;
 
+		[CompilerGenerated]
+		private static Predicate<HistoryAutoRecorder> <>f__am$cache0;
+
+		[CompilerGenerated]
+		private static Predicate<HistoryAutoRecorder> <>f__am$cache1;
+
 		public HistoryAutoRecorderGroup()
 		{
-			this.recorders = new List<HistoryAutoRecorder>();
-			this.curves = new List<SimpleCurveDrawInfo>();
-		}
-
-		public void CreateRecorders()
-		{
-			foreach (HistoryAutoRecorderDef historyAutoRecorderDef in this.def.historyAutoRecorderDefs)
-			{
-				HistoryAutoRecorder historyAutoRecorder = new HistoryAutoRecorder();
-				historyAutoRecorder.def = historyAutoRecorderDef;
-				this.recorders.Add(historyAutoRecorder);
-			}
 		}
 
 		public float GetMaxDay()
@@ -102,6 +97,59 @@ namespace RimWorld
 		{
 			Scribe_Defs.Look<HistoryAutoRecorderGroupDef>(ref this.def, "def");
 			Scribe_Collections.Look<HistoryAutoRecorder>(ref this.recorders, "recorders", LookMode.Deep, new object[0]);
+			if (Scribe.mode == LoadSaveMode.PostLoadInit)
+			{
+				this.AddOrRemoveHistoryRecorders();
+			}
+		}
+
+		public void AddOrRemoveHistoryRecorders()
+		{
+			if (this.recorders.RemoveAll((HistoryAutoRecorder x) => x == null) != 0)
+			{
+				Log.Warning("Some history auto recorders were null.", false);
+			}
+			using (List<HistoryAutoRecorderDef>.Enumerator enumerator = this.def.historyAutoRecorderDefs.GetEnumerator())
+			{
+				while (enumerator.MoveNext())
+				{
+					HistoryAutoRecorderDef recorderDef = enumerator.Current;
+					if (!this.recorders.Any((HistoryAutoRecorder x) => x.def == recorderDef))
+					{
+						HistoryAutoRecorder historyAutoRecorder = new HistoryAutoRecorder();
+						historyAutoRecorder.def = recorderDef;
+						this.recorders.Add(historyAutoRecorder);
+					}
+				}
+			}
+			this.recorders.RemoveAll((HistoryAutoRecorder x) => x.def == null);
+		}
+
+		[CompilerGenerated]
+		private static bool <AddOrRemoveHistoryRecorders>m__0(HistoryAutoRecorder x)
+		{
+			return x == null;
+		}
+
+		[CompilerGenerated]
+		private static bool <AddOrRemoveHistoryRecorders>m__1(HistoryAutoRecorder x)
+		{
+			return x.def == null;
+		}
+
+		[CompilerGenerated]
+		private sealed class <AddOrRemoveHistoryRecorders>c__AnonStorey0
+		{
+			internal HistoryAutoRecorderDef recorderDef;
+
+			public <AddOrRemoveHistoryRecorders>c__AnonStorey0()
+			{
+			}
+
+			internal bool <>m__0(HistoryAutoRecorder x)
+			{
+				return x.def == this.recorderDef;
+			}
 		}
 	}
 }

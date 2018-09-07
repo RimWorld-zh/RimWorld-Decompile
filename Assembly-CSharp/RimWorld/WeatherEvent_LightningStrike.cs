@@ -11,7 +11,7 @@ namespace RimWorld
 	{
 		private IntVec3 strikeLoc = IntVec3.Invalid;
 
-		private Mesh boltMesh = null;
+		private Mesh boltMesh;
 
 		private static readonly Material LightningMat = MatLoader.LoadMat("Weather/LightningBolt", -1);
 

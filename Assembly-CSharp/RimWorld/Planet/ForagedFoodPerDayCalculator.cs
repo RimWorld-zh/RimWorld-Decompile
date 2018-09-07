@@ -15,10 +15,10 @@ namespace RimWorld.Planet
 
 		public const float NotMovingProgressFactor = 2f;
 
-		public static Pair<ThingDef, float> ForagedFoodPerDay(List<Pawn> pawns, BiomeDef biome, Faction faction, bool caravanMovingNow, bool caravanResting, StringBuilder explanation = null)
+		public static Pair<ThingDef, float> ForagedFoodPerDay(List<Pawn> pawns, BiomeDef biome, Faction faction, bool caravanMovingNow, bool caravanNightResting, StringBuilder explanation = null)
 		{
 			float foragedFoodCountPerInterval = ForagedFoodPerDayCalculator.GetForagedFoodCountPerInterval(pawns, biome, faction, explanation);
-			float progressPerTick = ForagedFoodPerDayCalculator.GetProgressPerTick(caravanMovingNow, caravanResting, explanation);
+			float progressPerTick = ForagedFoodPerDayCalculator.GetProgressPerTick(caravanMovingNow, caravanNightResting, explanation);
 			float num = foragedFoodCountPerInterval * progressPerTick * 60000f;
 			float num2;
 			if (num != 0f)
@@ -62,10 +62,10 @@ namespace RimWorld.Planet
 			return new Pair<ThingDef, float>(biome.foragedFood, num);
 		}
 
-		public static float GetProgressPerTick(bool caravanMovingNow, bool caravanResting, StringBuilder explanation = null)
+		public static float GetProgressPerTick(bool caravanMovingNow, bool caravanNightResting, StringBuilder explanation = null)
 		{
 			float num = 0.0001f;
-			if (!caravanMovingNow && !caravanResting)
+			if (!caravanMovingNow && !caravanNightResting)
 			{
 				num *= 2f;
 				if (explanation != null)
@@ -137,32 +137,22 @@ namespace RimWorld.Planet
 			}
 			num2 *= num;
 			num2 *= faction.def.forageabilityFactor;
-			float result;
 			if (biome.foragedFood != null)
 			{
-				result = num2 / biome.foragedFood.ingestible.CachedNutrition;
+				return num2 / biome.foragedFood.ingestible.CachedNutrition;
 			}
-			else
-			{
-				result = num2;
-			}
-			return result;
+			return num2;
 		}
 
 		public static float GetBaseForagedNutritionPerDay(Pawn p, out bool skip)
 		{
-			float result;
 			if (!p.IsFreeColonist || p.InMentalState || p.Downed || p.CarriedByCaravan())
 			{
 				skip = true;
-				result = 0f;
+				return 0f;
 			}
-			else
-			{
-				skip = false;
-				result = ((!StatDefOf.ForagedNutritionPerDay.Worker.IsDisabledFor(p)) ? p.GetStatValue(StatDefOf.ForagedNutritionPerDay, true) : 0f);
-			}
-			return result;
+			skip = false;
+			return (!StatDefOf.ForagedNutritionPerDay.Worker.IsDisabledFor(p)) ? p.GetStatValue(StatDefOf.ForagedNutritionPerDay, true) : 0f;
 		}
 
 		public static Pair<ThingDef, float> ForagedFoodPerDay(Caravan caravan, StringBuilder explanation = null)

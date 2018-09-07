@@ -12,10 +12,10 @@ namespace RimWorld
 	public static class GiveToPackAnimalUtility
 	{
 		[CompilerGenerated]
-		private static Func<Pawn, bool> <>f__am$cache0;
+		private static Func<Pawn, bool> <>f__mg$cache0;
 
 		[CompilerGenerated]
-		private static Func<Pawn, bool> <>f__am$cache1;
+		private static Func<Pawn, bool> <>f__am$cache0;
 
 		public static IEnumerable<Pawn> CarrierCandidatesFor(Pawn pawn)
 		{
@@ -25,9 +25,12 @@ namespace RimWorld
 			select x;
 			if (pawn.Map.IsPlayerHome)
 			{
-				enumerable = from x in enumerable
-				where x.IsFormingCaravan()
-				select x;
+				IEnumerable<Pawn> source = enumerable;
+				if (GiveToPackAnimalUtility.<>f__mg$cache0 == null)
+				{
+					GiveToPackAnimalUtility.<>f__mg$cache0 = new Func<Pawn, bool>(CaravanFormingUtility.IsFormingCaravan);
+				}
+				enumerable = source.Where(GiveToPackAnimalUtility.<>f__mg$cache0);
 			}
 			return enumerable;
 		}
@@ -56,12 +59,6 @@ namespace RimWorld
 		private static bool <CarrierCandidatesFor>m__0(Pawn x)
 		{
 			return x.RaceProps.packAnimal && !x.inventory.UnloadEverything;
-		}
-
-		[CompilerGenerated]
-		private static bool <CarrierCandidatesFor>m__1(Pawn x)
-		{
-			return x.IsFormingCaravan();
 		}
 	}
 }

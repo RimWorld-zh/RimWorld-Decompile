@@ -38,11 +38,9 @@ namespace RimWorld
 				num++;
 				if (num > 15)
 				{
-					goto Block_3;
+					return list;
 				}
 			}
-			return list;
-			Block_3:
 			return list;
 		}
 

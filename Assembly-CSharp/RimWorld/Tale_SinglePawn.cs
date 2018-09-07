@@ -110,7 +110,7 @@ namespace RimWorld
 				case 1u:
 					break;
 				case 2u:
-					goto IL_E6;
+					goto IL_E1;
 				default:
 					return false;
 				}
@@ -145,7 +145,7 @@ namespace RimWorld
 				num = 4294967293u;
 				try
 				{
-					IL_E6:
+					IL_E1:
 					switch (num)
 					{
 					}

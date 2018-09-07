@@ -38,35 +38,27 @@ namespace RimWorld
 
 		public override bool HasJobOnCell(Pawn pawn, IntVec3 c, bool forced = false)
 		{
-			bool result;
 			if (c.IsForbidden(pawn) || pawn.Map.designationManager.DesignationAt(c, DesignationDefOf.SmoothWall) == null)
 			{
-				result = false;
+				return false;
 			}
-			else
+			Building edifice = c.GetEdifice(pawn.Map);
+			if (edifice == null || !edifice.def.IsSmoothable)
 			{
-				Building edifice = c.GetEdifice(pawn.Map);
-				if (edifice == null || !edifice.def.IsSmoothable)
+				Log.ErrorOnce("Failed to find valid edifice when trying to smooth a wall", 58988176, false);
+				pawn.Map.designationManager.TryRemoveDesignation(c, DesignationDefOf.SmoothWall);
+				return false;
+			}
+			LocalTargetInfo target = edifice;
+			if (pawn.CanReserve(target, 1, -1, null, forced))
+			{
+				target = c;
+				if (pawn.CanReserve(target, 1, -1, null, forced))
 				{
-					Log.ErrorOnce("Failed to find valid edifice when trying to smooth a wall", 58988176, false);
-					pawn.Map.designationManager.TryRemoveDesignation(c, DesignationDefOf.SmoothWall);
-					result = false;
-				}
-				else
-				{
-					LocalTargetInfo target = edifice;
-					if (pawn.CanReserve(target, 1, -1, null, forced))
-					{
-						target = c;
-						if (pawn.CanReserve(target, 1, -1, null, forced))
-						{
-							return true;
-						}
-					}
-					result = false;
+					return true;
 				}
 			}
-			return result;
+			return false;
 		}
 
 		public override Job JobOnCell(Pawn pawn, IntVec3 c, bool forced = false)

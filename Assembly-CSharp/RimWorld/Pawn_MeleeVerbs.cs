@@ -1,7 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Runtime.CompilerServices;
-using UnityEngine.Profiling;
 using Verse;
 using Verse.AI;
 
@@ -11,13 +10,13 @@ namespace RimWorld
 	{
 		private Pawn pawn;
 
-		private Verb curMeleeVerb = null;
+		private Verb curMeleeVerb;
 
-		private Thing curMeleeVerbTarget = null;
+		private Thing curMeleeVerbTarget;
 
-		private int curMeleeVerbUpdateTick = 0;
+		private int curMeleeVerbUpdateTick;
 
-		private Pawn_MeleeVerbs_TerrainSource terrainVerbs = null;
+		private Pawn_MeleeVerbs_TerrainSource terrainVerbs;
 
 		public int lastTerrainBasedVerbUseTick = -99999;
 
@@ -99,59 +98,50 @@ namespace RimWorld
 
 		public bool TryMeleeAttack(Thing target, Verb verbToUse = null, bool surpriseAttack = false)
 		{
-			bool result;
 			if (this.pawn.stances.FullBodyBusy)
 			{
-				result = false;
+				return false;
+			}
+			if (verbToUse != null)
+			{
+				if (!verbToUse.IsStillUsableBy(this.pawn))
+				{
+					return false;
+				}
+				if (!verbToUse.IsMeleeAttack)
+				{
+					Log.Warning(string.Concat(new object[]
+					{
+						"Pawn ",
+						this.pawn,
+						" tried to melee attack ",
+						target,
+						" with non melee-attack verb ",
+						verbToUse,
+						"."
+					}), false);
+					return false;
+				}
+			}
+			Verb verb;
+			if (verbToUse != null)
+			{
+				verb = verbToUse;
 			}
 			else
 			{
-				if (verbToUse != null)
-				{
-					if (!verbToUse.IsStillUsableBy(this.pawn))
-					{
-						return false;
-					}
-					if (!verbToUse.IsMeleeAttack)
-					{
-						Log.Warning(string.Concat(new object[]
-						{
-							"Pawn ",
-							this.pawn,
-							" tried to melee attack ",
-							target,
-							" with non melee-attack verb ",
-							verbToUse,
-							"."
-						}), false);
-						return false;
-					}
-				}
-				Verb verb;
-				if (verbToUse != null)
-				{
-					verb = verbToUse;
-				}
-				else
-				{
-					verb = this.TryGetMeleeVerb(target);
-				}
-				if (verb == null)
-				{
-					result = false;
-				}
-				else
-				{
-					verb.TryStartCastOn(target, surpriseAttack, true);
-					result = true;
-				}
+				verb = this.TryGetMeleeVerb(target);
 			}
-			return result;
+			if (verb == null)
+			{
+				return false;
+			}
+			verb.TryStartCastOn(target, surpriseAttack, true);
+			return true;
 		}
 
 		public List<VerbEntry> GetUpdatedAvailableVerbsList(bool terrainTools)
 		{
-			Profiler.BeginSample("GetUpdatedAvailableVerbsList");
 			Pawn_MeleeVerbs.meleeVerbs.Clear();
 			if (!terrainTools)
 			{
@@ -234,7 +224,6 @@ namespace RimWorld
 					}
 				}
 			}
-			Profiler.EndSample();
 			return Pawn_MeleeVerbs.meleeVerbs;
 		}
 
@@ -269,23 +258,22 @@ namespace RimWorld
 
 		public void ExposeData()
 		{
-			if (Scribe.mode == LoadSaveMode.Saving)
+			if (Scribe.mode == LoadSaveMode.Saving && this.curMeleeVerb != null && !this.curMeleeVerb.IsStillUsableBy(this.pawn))
 			{
-				if (this.curMeleeVerb != null && !this.curMeleeVerb.IsStillUsableBy(this.pawn))
-				{
-					this.curMeleeVerb = null;
-				}
+				this.curMeleeVerb = null;
 			}
 			Scribe_References.Look<Verb>(ref this.curMeleeVerb, "curMeleeVerb", false);
 			Scribe_Values.Look<int>(ref this.curMeleeVerbUpdateTick, "curMeleeVerbUpdateTick", 0, false);
 			Scribe_Deep.Look<Pawn_MeleeVerbs_TerrainSource>(ref this.terrainVerbs, "terrainVerbs", new object[0]);
 			Scribe_Values.Look<int>(ref this.lastTerrainBasedVerbUseTick, "lastTerrainBasedVerbUseTick", -99999, false);
-			if (Scribe.mode == LoadSaveMode.LoadingVars)
+			if (Scribe.mode == LoadSaveMode.LoadingVars && this.terrainVerbs != null)
 			{
-				if (this.terrainVerbs != null)
-				{
-					this.terrainVerbs.parent = this;
-				}
+				this.terrainVerbs.parent = this;
+			}
+			if (Scribe.mode == LoadSaveMode.PostLoadInit && this.curMeleeVerb != null && this.curMeleeVerb.BuggedAfterLoading)
+			{
+				this.curMeleeVerb = null;
+				Log.Warning(this.pawn.ToStringSafe<Pawn>() + " had a bugged melee verb after loading.", false);
 			}
 		}
 

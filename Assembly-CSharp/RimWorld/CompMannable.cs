@@ -13,7 +13,7 @@ namespace RimWorld
 	{
 		private int lastManTick = -1;
 
-		private Pawn lastManPawn = null;
+		private Pawn lastManPawn;
 
 		public CompMannable()
 		{
@@ -31,16 +31,11 @@ namespace RimWorld
 		{
 			get
 			{
-				Pawn result;
 				if (!this.MannedNow)
 				{
-					result = null;
+					return null;
 				}
-				else
-				{
-					result = this.lastManPawn;
-				}
-				return result;
+				return this.lastManPawn;
 			}
 		}
 

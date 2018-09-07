@@ -10,15 +10,15 @@ namespace Verse
 {
 	public class ThingCategoryDef : Def
 	{
-		public ThingCategoryDef parent = null;
+		public ThingCategoryDef parent;
 
 		[NoTranslate]
-		public string iconPath = null;
+		public string iconPath;
 
-		public bool resourceReadoutRoot = false;
+		public bool resourceReadoutRoot;
 
 		[Unsaved]
-		public TreeNode_ThingCategory treeNode = null;
+		public TreeNode_ThingCategory treeNode;
 
 		[Unsaved]
 		public List<ThingCategoryDef> childCategories = new List<ThingCategoryDef>();
@@ -178,7 +178,7 @@ namespace Verse
 						}
 						return true;
 					}
-					goto IL_F4;
+					goto IL_EE;
 				case 1u:
 					enumerator = this.parent.Parents.GetEnumerator();
 					num = 4294967293u;
@@ -215,7 +215,7 @@ namespace Verse
 						}
 					}
 				}
-				IL_F4:
+				IL_EE:
 				this.$PC = -1;
 				return false;
 			}

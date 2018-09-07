@@ -155,21 +155,18 @@ namespace RimWorld
 					GenDraw.DrawTargetHighlight(targ);
 					bool flag;
 					float num = this.targetingVerb.HighlightFieldRadiusAroundTarget(out flag);
-					if (num > 0.2f)
+					ShootLine shootLine;
+					if (num > 0.2f && this.targetingVerb.TryFindShootLineFromTo(this.targetingVerb.caster.Position, targ, out shootLine))
 					{
-						ShootLine shootLine;
-						if (this.targetingVerb.TryFindShootLineFromTo(this.targetingVerb.caster.Position, targ, out shootLine))
+						if (flag)
 						{
-							if (flag)
-							{
-								GenExplosion.RenderPredictedAreaOfEffect(shootLine.Dest, num);
-							}
-							else
-							{
-								GenDraw.DrawFieldEdges((from x in GenRadial.RadialCellsAround(shootLine.Dest, num, true)
-								where x.InBounds(Find.CurrentMap)
-								select x).ToList<IntVec3>());
-							}
+							GenExplosion.RenderPredictedAreaOfEffect(shootLine.Dest, num);
+						}
+						else
+						{
+							GenDraw.DrawFieldEdges((from x in GenRadial.RadialCellsAround(shootLine.Dest, num, true)
+							where x.InBounds(Find.CurrentMap)
+							select x).ToList<IntVec3>());
 						}
 					}
 				}
@@ -186,43 +183,32 @@ namespace RimWorld
 
 		public bool IsPawnTargeting(Pawn p)
 		{
-			bool result;
 			if (this.caster == p)
 			{
-				result = true;
+				return true;
 			}
-			else
+			if (this.targetingVerb != null && this.targetingVerb.CasterIsPawn)
 			{
-				if (this.targetingVerb != null)
+				if (this.targetingVerb.CasterPawn == p)
 				{
-					if (this.targetingVerb.CasterIsPawn)
+					return true;
+				}
+				for (int i = 0; i < this.targetingVerbAdditionalPawns.Count; i++)
+				{
+					if (this.targetingVerbAdditionalPawns[i] == p)
 					{
-						if (this.targetingVerb.CasterPawn == p)
-						{
-							return true;
-						}
-						for (int i = 0; i < this.targetingVerbAdditionalPawns.Count; i++)
-						{
-							if (this.targetingVerbAdditionalPawns[i] == p)
-							{
-								return true;
-							}
-						}
+						return true;
 					}
 				}
-				result = false;
 			}
-			return result;
+			return false;
 		}
 
 		private void ConfirmStillValid()
 		{
-			if (this.caster != null)
+			if (this.caster != null && (this.caster.Map != Find.CurrentMap || this.caster.Destroyed || !Find.Selector.IsSelected(this.caster)))
 			{
-				if (this.caster.Map != Find.CurrentMap || this.caster.Destroyed || !Find.Selector.IsSelected(this.caster))
-				{
-					this.StopTargeting();
-				}
+				this.StopTargeting();
 			}
 			if (this.targetingVerb != null)
 			{
@@ -278,76 +264,72 @@ namespace RimWorld
 		private void OrderPawnForceTarget(Verb verb)
 		{
 			LocalTargetInfo targetA = this.CurrentTargetUnderMouse(true);
-			if (targetA.IsValid)
+			if (!targetA.IsValid)
 			{
-				if (verb.verbProps.IsMeleeAttack)
+				return;
+			}
+			if (verb.verbProps.IsMeleeAttack)
+			{
+				Job job = new Job(JobDefOf.AttackMelee, targetA);
+				job.playerForced = true;
+				Pawn pawn = targetA.Thing as Pawn;
+				if (pawn != null)
 				{
-					Job job = new Job(JobDefOf.AttackMelee, targetA);
-					job.playerForced = true;
-					Pawn pawn = targetA.Thing as Pawn;
-					if (pawn != null)
-					{
-						job.killIncappedTarget = pawn.Downed;
-					}
-					verb.CasterPawn.jobs.TryTakeOrderedJob(job, JobTag.Misc);
+					job.killIncappedTarget = pawn.Downed;
 				}
-				else
-				{
-					JobDef def = (!verb.verbProps.ai_IsWeapon) ? JobDefOf.UseVerbOnThing : JobDefOf.AttackStatic;
-					Job job2 = new Job(def);
-					job2.verbToUse = verb;
-					job2.targetA = targetA;
-					verb.CasterPawn.jobs.TryTakeOrderedJob(job2, JobTag.Misc);
-				}
+				verb.CasterPawn.jobs.TryTakeOrderedJob(job, JobTag.Misc);
+			}
+			else
+			{
+				JobDef def = (!verb.verbProps.ai_IsWeapon) ? JobDefOf.UseVerbOnThing : JobDefOf.AttackStatic;
+				Job job2 = new Job(def);
+				job2.verbToUse = verb;
+				job2.targetA = targetA;
+				verb.CasterPawn.jobs.TryTakeOrderedJob(job2, JobTag.Misc);
 			}
 		}
 
 		private LocalTargetInfo CurrentTargetUnderMouse(bool mustBeHittableNowIfNotMelee)
 		{
-			LocalTargetInfo result;
 			if (!this.IsTargeting)
 			{
-				result = LocalTargetInfo.Invalid;
+				return LocalTargetInfo.Invalid;
 			}
-			else
+			TargetingParameters clickParams = (this.targetingVerb == null) ? this.targetParams : this.targetingVerb.verbProps.targetParams;
+			LocalTargetInfo localTargetInfo = LocalTargetInfo.Invalid;
+			using (IEnumerator<LocalTargetInfo> enumerator = GenUI.TargetsAtMouse(clickParams, false).GetEnumerator())
 			{
-				TargetingParameters clickParams = (this.targetingVerb == null) ? this.targetParams : this.targetingVerb.verbProps.targetParams;
-				LocalTargetInfo localTargetInfo = LocalTargetInfo.Invalid;
-				using (IEnumerator<LocalTargetInfo> enumerator = GenUI.TargetsAtMouse(clickParams, false).GetEnumerator())
+				if (enumerator.MoveNext())
 				{
-					if (enumerator.MoveNext())
-					{
-						LocalTargetInfo localTargetInfo2 = enumerator.Current;
-						localTargetInfo = localTargetInfo2;
-					}
+					LocalTargetInfo localTargetInfo2 = enumerator.Current;
+					localTargetInfo = localTargetInfo2;
 				}
-				if (localTargetInfo.IsValid && mustBeHittableNowIfNotMelee && !(localTargetInfo.Thing is Pawn) && this.targetingVerb != null && !this.targetingVerb.verbProps.IsMeleeAttack)
+			}
+			if (localTargetInfo.IsValid && mustBeHittableNowIfNotMelee && !(localTargetInfo.Thing is Pawn) && this.targetingVerb != null && !this.targetingVerb.verbProps.IsMeleeAttack)
+			{
+				if (this.targetingVerbAdditionalPawns != null && this.targetingVerbAdditionalPawns.Any<Pawn>())
 				{
-					if (this.targetingVerbAdditionalPawns != null && this.targetingVerbAdditionalPawns.Any<Pawn>())
+					bool flag = false;
+					for (int i = 0; i < this.targetingVerbAdditionalPawns.Count; i++)
 					{
-						bool flag = false;
-						for (int i = 0; i < this.targetingVerbAdditionalPawns.Count; i++)
+						Verb verb = this.GetTargetingVerb(this.targetingVerbAdditionalPawns[i]);
+						if (verb != null && verb.CanHitTarget(localTargetInfo))
 						{
-							Verb verb = this.GetTargetingVerb(this.targetingVerbAdditionalPawns[i]);
-							if (verb != null && verb.CanHitTarget(localTargetInfo))
-							{
-								flag = true;
-								break;
-							}
-						}
-						if (!flag)
-						{
-							localTargetInfo = LocalTargetInfo.Invalid;
+							flag = true;
+							break;
 						}
 					}
-					else if (!this.targetingVerb.CanHitTarget(localTargetInfo))
+					if (!flag)
 					{
 						localTargetInfo = LocalTargetInfo.Invalid;
 					}
 				}
-				result = localTargetInfo;
+				else if (!this.targetingVerb.CanHitTarget(localTargetInfo))
+				{
+					localTargetInfo = LocalTargetInfo.Invalid;
+				}
 			}
-			return result;
+			return localTargetInfo;
 		}
 
 		private Verb GetTargetingVerb(Pawn pawn)

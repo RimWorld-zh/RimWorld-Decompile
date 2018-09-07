@@ -7,22 +7,22 @@ namespace Verse
 	public class LogEntryDef : Def
 	{
 		[NoTranslate]
-		public string iconMiss = null;
+		public string iconMiss;
 
 		[NoTranslate]
-		public string iconDamaged = null;
+		public string iconDamaged;
 
 		[NoTranslate]
-		public string iconDamagedFromInstigator = null;
+		public string iconDamagedFromInstigator;
 
 		[Unsaved]
-		public Texture2D iconMissTex = null;
+		public Texture2D iconMissTex;
 
 		[Unsaved]
-		public Texture2D iconDamagedTex = null;
+		public Texture2D iconDamagedTex;
 
 		[Unsaved]
-		public Texture2D iconDamagedFromInstigatorTex = null;
+		public Texture2D iconDamagedFromInstigatorTex;
 
 		public LogEntryDef()
 		{

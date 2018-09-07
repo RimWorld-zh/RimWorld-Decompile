@@ -60,7 +60,9 @@ namespace RimWorld
 		{
 			if (StatsReportUtility.cachedDrawEntries.NullOrEmpty<StatDrawEntry>())
 			{
-				StatsReportUtility.cachedDrawEntries.AddRange(def.SpecialDisplayStats(StatRequest.For(def as BuildableDef, stuff, QualityCategory.Normal)));
+				BuildableDef buildableDef = def as BuildableDef;
+				StatRequest req = (buildableDef == null) ? StatRequest.ForEmpty() : StatRequest.For(buildableDef, stuff, QualityCategory.Normal);
+				StatsReportUtility.cachedDrawEntries.AddRange(def.SpecialDisplayStats(req));
 				StatsReportUtility.cachedDrawEntries.AddRange(from r in StatsReportUtility.StatsToDraw(def, stuff)
 				where r.ShouldDisplay
 				select r);
@@ -137,7 +139,7 @@ namespace RimWorld
 			}
 			if (thing.def.useHitPoints)
 			{
-				yield return new StatDrawEntry(StatCategoryDefOf.BasicsNonPawn, "HitPointsBasic".Translate().CapitalizeFirst(), thing.HitPoints.ToString() + " / " + thing.MaxHitPoints.ToString(), 0, "")
+				yield return new StatDrawEntry(StatCategoryDefOf.BasicsNonPawn, "HitPointsBasic".Translate().CapitalizeFirst(), thing.HitPoints.ToString() + " / " + thing.MaxHitPoints.ToString(), 0, string.Empty)
 				{
 					overrideReportText = string.Concat(new string[]
 					{
@@ -201,7 +203,7 @@ namespace RimWorld
 
 		private static StatDrawEntry DescriptionEntry(Def def)
 		{
-			return new StatDrawEntry(StatCategoryDefOf.Basics, "Description".Translate(), "", 99999, "")
+			return new StatDrawEntry(StatCategoryDefOf.Basics, "Description".Translate(), string.Empty, 99999, string.Empty)
 			{
 				overrideReportText = def.description
 			};
@@ -209,7 +211,7 @@ namespace RimWorld
 
 		private static StatDrawEntry DescriptionEntry(Thing thing)
 		{
-			return new StatDrawEntry(StatCategoryDefOf.Basics, "Description".Translate(), "", 99999, "")
+			return new StatDrawEntry(StatCategoryDefOf.Basics, "Description".Translate(), string.Empty, 99999, string.Empty)
 			{
 				overrideReportText = thing.DescriptionFlavor
 			};
@@ -217,7 +219,7 @@ namespace RimWorld
 
 		private static StatDrawEntry DescriptionEntry(WorldObject worldObject)
 		{
-			return new StatDrawEntry(StatCategoryDefOf.Basics, "Description".Translate(), "", 99999, "")
+			return new StatDrawEntry(StatCategoryDefOf.Basics, "Description".Translate(), string.Empty, 99999, string.Empty)
 			{
 				overrideReportText = worldObject.GetDescription()
 			};
@@ -226,19 +228,14 @@ namespace RimWorld
 		private static StatDrawEntry QualityEntry(Thing t)
 		{
 			QualityCategory cat;
-			StatDrawEntry result;
 			if (!t.TryGetQuality(out cat))
 			{
-				result = null;
+				return null;
 			}
-			else
+			return new StatDrawEntry(StatCategoryDefOf.Basics, "Quality".Translate(), cat.GetLabel().CapitalizeFirst(), 99999, string.Empty)
 			{
-				result = new StatDrawEntry(StatCategoryDefOf.Basics, "Quality".Translate(), cat.GetLabel().CapitalizeFirst(), 99999, "")
-				{
-					overrideReportText = "QualityDescription".Translate()
-				};
-			}
-			return result;
+				overrideReportText = "QualityDescription".Translate()
+			};
 		}
 
 		private static void SelectEntry(StatDrawEntry rec, bool playSound = true)
@@ -409,7 +406,7 @@ namespace RimWorld
 					eDef = (def as BuildableDef);
 					if (eDef == null)
 					{
-						goto IL_179;
+						goto IL_173;
 					}
 					StatRequest statRequest = StatRequest.For(eDef, stuff, QualityCategory.Normal);
 					enumerator = (from st in DefDatabase<StatDef>.AllDefs
@@ -450,7 +447,7 @@ namespace RimWorld
 						}
 					}
 				}
-				IL_179:
+				IL_173:
 				this.$PC = -1;
 				return false;
 			}
@@ -604,53 +601,20 @@ namespace RimWorld
 					break;
 				case 3u:
 				case 4u:
-					goto IL_F5;
+					goto IL_F3;
 				case 5u:
-					goto IL_33B;
+					goto IL_331;
 				case 6u:
-					Block_8:
-					try
-					{
-						switch (num)
-						{
-						}
-						if (enumerator2.MoveNext())
-						{
-							stat2 = enumerator2.Current;
-							this.$current = stat2;
-							if (!this.$disposing)
-							{
-								this.$PC = 6;
-							}
-							flag = true;
-							return true;
-						}
-					}
-					finally
-					{
-						if (!flag)
-						{
-							if (enumerator2 != null)
-							{
-								enumerator2.Dispose();
-							}
-						}
-					}
-					if (!<StatsToDraw>c__AnonStorey.thing.def.equippedStatOffsets.NullOrEmpty<StatModifier>())
-					{
-						i = 0;
-						goto IL_480;
-					}
-					goto IL_4A6;
+					goto IL_34F;
 				case 7u:
 					i++;
-					goto IL_480;
+					goto IL_470;
 				case 8u:
 					j++;
-					goto IL_580;
+					goto IL_56B;
 				case 9u:
 					k++;
-					goto IL_66B;
+					goto IL_652;
 				default:
 					return false;
 				}
@@ -660,7 +624,7 @@ namespace RimWorld
 				num = 4294967293u;
 				try
 				{
-					IL_F5:
+					IL_F3:
 					switch (num)
 					{
 					}
@@ -698,7 +662,7 @@ namespace RimWorld
 				}
 				if (<StatsToDraw>c__AnonStorey.thing.def.useHitPoints)
 				{
-					StatDrawEntry hpe = new StatDrawEntry(StatCategoryDefOf.BasicsNonPawn, "HitPointsBasic".Translate().CapitalizeFirst(), <StatsToDraw>c__AnonStorey.thing.HitPoints.ToString() + " / " + <StatsToDraw>c__AnonStorey.thing.MaxHitPoints.ToString(), 0, "");
+					StatDrawEntry hpe = new StatDrawEntry(StatCategoryDefOf.BasicsNonPawn, "HitPointsBasic".Translate().CapitalizeFirst(), <StatsToDraw>c__AnonStorey.thing.HitPoints.ToString() + " / " + <StatsToDraw>c__AnonStorey.thing.MaxHitPoints.ToString(), 0, string.Empty);
 					hpe.overrideReportText = string.Concat(new string[]
 					{
 						"HitPointsBasic".Translate().CapitalizeFirst(),
@@ -716,11 +680,43 @@ namespace RimWorld
 					}
 					return true;
 				}
-				IL_33B:
+				IL_331:
 				enumerator2 = <StatsToDraw>c__AnonStorey.thing.SpecialDisplayStats().GetEnumerator();
 				num = 4294967293u;
-				goto Block_8;
-				IL_480:
+				try
+				{
+					IL_34F:
+					switch (num)
+					{
+					}
+					if (enumerator2.MoveNext())
+					{
+						stat2 = enumerator2.Current;
+						this.$current = stat2;
+						if (!this.$disposing)
+						{
+							this.$PC = 6;
+						}
+						flag = true;
+						return true;
+					}
+				}
+				finally
+				{
+					if (!flag)
+					{
+						if (enumerator2 != null)
+						{
+							enumerator2.Dispose();
+						}
+					}
+				}
+				if (<StatsToDraw>c__AnonStorey.thing.def.equippedStatOffsets.NullOrEmpty<StatModifier>())
+				{
+					goto IL_495;
+				}
+				i = 0;
+				IL_470:
 				if (i < <StatsToDraw>c__AnonStorey.thing.def.equippedStatOffsets.Count)
 				{
 					this.$current = new StatDrawEntry(StatCategoryDefOf.EquippedStatOffsets, <StatsToDraw>c__AnonStorey.thing.def.equippedStatOffsets[i].stat, <StatsToDraw>c__AnonStorey.thing.def.equippedStatOffsets[i].value, StatRequest.ForEmpty(), ToStringNumberSense.Offset);
@@ -730,17 +726,17 @@ namespace RimWorld
 					}
 					return true;
 				}
-				IL_4A6:
+				IL_495:
 				if (!<StatsToDraw>c__AnonStorey.thing.def.IsStuff)
 				{
-					goto IL_697;
+					goto IL_67C;
 				}
 				if (<StatsToDraw>c__AnonStorey.thing.def.stuffProps.statFactors.NullOrEmpty<StatModifier>())
 				{
-					goto IL_5AB;
+					goto IL_595;
 				}
 				j = 0;
-				IL_580:
+				IL_56B:
 				if (j < <StatsToDraw>c__AnonStorey.thing.def.stuffProps.statFactors.Count)
 				{
 					this.$current = new StatDrawEntry(StatCategoryDefOf.StuffStatFactors, <StatsToDraw>c__AnonStorey.thing.def.stuffProps.statFactors[j].stat, <StatsToDraw>c__AnonStorey.thing.def.stuffProps.statFactors[j].value, StatRequest.ForEmpty(), ToStringNumberSense.Factor);
@@ -750,13 +746,13 @@ namespace RimWorld
 					}
 					return true;
 				}
-				IL_5AB:
+				IL_595:
 				if (<StatsToDraw>c__AnonStorey.thing.def.stuffProps.statOffsets.NullOrEmpty<StatModifier>())
 				{
-					goto IL_696;
+					goto IL_67C;
 				}
 				k = 0;
-				IL_66B:
+				IL_652:
 				if (k < <StatsToDraw>c__AnonStorey.thing.def.stuffProps.statOffsets.Count)
 				{
 					this.$current = new StatDrawEntry(StatCategoryDefOf.StuffStatOffsets, <StatsToDraw>c__AnonStorey.thing.def.stuffProps.statOffsets[k].stat, <StatsToDraw>c__AnonStorey.thing.def.stuffProps.statOffsets[k].value, StatRequest.ForEmpty(), ToStringNumberSense.Offset);
@@ -766,8 +762,7 @@ namespace RimWorld
 					}
 					return true;
 				}
-				IL_696:
-				IL_697:
+				IL_67C:
 				this.$PC = -1;
 				return false;
 			}

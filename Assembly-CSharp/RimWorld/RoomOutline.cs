@@ -16,16 +16,11 @@ namespace RimWorld
 		{
 			get
 			{
-				int result;
 				if (this.rect.Width <= 2 || this.rect.Height <= 2)
 				{
-					result = 0;
+					return 0;
 				}
-				else
-				{
-					result = (this.rect.Width - 2) * (this.rect.Height - 2);
-				}
-				return result;
+				return (this.rect.Width - 2) * (this.rect.Height - 2);
 			}
 		}
 	}

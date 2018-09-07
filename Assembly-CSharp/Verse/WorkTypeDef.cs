@@ -27,11 +27,11 @@ namespace Verse
 
 		public bool visible = true;
 
-		public int naturalPriority = 0;
+		public int naturalPriority;
 
-		public bool alwaysStartActive = false;
+		public bool alwaysStartActive;
 
-		public bool requireCapableColonist = false;
+		public bool requireCapableColonist;
 
 		public List<SkillDef> relevantSkills = new List<SkillDef>();
 
@@ -47,7 +47,7 @@ namespace Verse
 
 		public override IEnumerable<string> ConfigErrors()
 		{
-			foreach (string e in this.<ConfigErrors>__BaseCallProxy0())
+			foreach (string e in base.ConfigErrors())
 			{
 				yield return e;
 			}
@@ -127,7 +127,7 @@ namespace Verse
 				case 1u:
 					break;
 				case 2u:
-					goto IL_117;
+					goto IL_113;
 				default:
 					return false;
 				}
@@ -160,7 +160,7 @@ namespace Verse
 				}
 				if (this.naturalPriority >= 0 && this.naturalPriority <= 10000)
 				{
-					goto IL_117;
+					goto IL_113;
 				}
 				this.$current = "naturalPriority is " + this.naturalPriority + ", but it must be between 0 and 10000";
 				if (!this.$disposing)
@@ -168,7 +168,7 @@ namespace Verse
 					this.$PC = 2;
 				}
 				return true;
-				IL_117:
+				IL_113:
 				this.$PC = -1;
 				return false;
 			}

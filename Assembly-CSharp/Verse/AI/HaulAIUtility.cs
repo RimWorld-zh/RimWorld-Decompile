@@ -3,7 +3,6 @@ using System.Collections.Generic;
 using System.Runtime.CompilerServices;
 using RimWorld;
 using UnityEngine;
-using UnityEngine.Profiling;
 
 namespace Verse.AI
 {
@@ -32,12 +31,11 @@ namespace Verse.AI
 
 		public static bool PawnCanAutomaticallyHaul(Pawn p, Thing t, bool forced)
 		{
-			bool result;
 			if (!t.def.EverHaulable)
 			{
-				result = false;
+				return false;
 			}
-			else if (t.IsForbidden(p))
+			if (t.IsForbidden(p))
 			{
 				if (!t.Position.InAllowedArea(p))
 				{
@@ -47,62 +45,38 @@ namespace Verse.AI
 				{
 					JobFailReason.Is(HaulAIUtility.ForbiddenLowerTrans, null);
 				}
-				result = false;
+				return false;
 			}
-			else
-			{
-				result = ((t.def.alwaysHaulable || t.Map.designationManager.DesignationOn(t, DesignationDefOf.Haul) != null || t.IsInValidStorage()) && HaulAIUtility.PawnCanAutomaticallyHaulFast(p, t, forced));
-			}
-			return result;
+			return (t.def.alwaysHaulable || t.Map.designationManager.DesignationOn(t, DesignationDefOf.Haul) != null || t.IsInValidStorage()) && HaulAIUtility.PawnCanAutomaticallyHaulFast(p, t, forced);
 		}
 
 		public static bool PawnCanAutomaticallyHaulFast(Pawn p, Thing t, bool forced)
 		{
 			UnfinishedThing unfinishedThing = t as UnfinishedThing;
-			bool result;
 			if (unfinishedThing != null && unfinishedThing.BoundBill != null)
 			{
-				result = false;
+				return false;
 			}
-			else
+			if (!p.CanReach(t, PathEndMode.ClosestTouch, p.NormalMaxDanger(), false, TraverseMode.ByPawn))
 			{
-				Profiler.BeginSample("CanReach");
-				if (!p.CanReach(t, PathEndMode.ClosestTouch, p.NormalMaxDanger(), false, TraverseMode.ByPawn))
-				{
-					Profiler.EndSample();
-					result = false;
-				}
-				else
-				{
-					Profiler.EndSample();
-					LocalTargetInfo target = t;
-					if (!p.CanReserve(target, 1, -1, null, forced))
-					{
-						result = false;
-					}
-					else
-					{
-						if (t.def.IsNutritionGivingIngestible && t.def.ingestible.HumanEdible)
-						{
-							if (!t.IsSociallyProper(p, false, true))
-							{
-								JobFailReason.Is(HaulAIUtility.ReservedForPrisonersTrans, null);
-								return false;
-							}
-						}
-						if (t.IsBurning())
-						{
-							JobFailReason.Is(HaulAIUtility.BurningLowerTrans, null);
-							result = false;
-						}
-						else
-						{
-							result = true;
-						}
-					}
-				}
+				return false;
 			}
-			return result;
+			LocalTargetInfo target = t;
+			if (!p.CanReserve(target, 1, -1, null, forced))
+			{
+				return false;
+			}
+			if (t.def.IsNutritionGivingIngestible && t.def.ingestible.HumanEdible && !t.IsSociallyProper(p, false, true))
+			{
+				JobFailReason.Is(HaulAIUtility.ReservedForPrisonersTrans, null);
+				return false;
+			}
+			if (t.IsBurning())
+			{
+				JobFailReason.Is(HaulAIUtility.BurningLowerTrans, null);
+				return false;
+			}
+			return true;
 		}
 
 		public static Job HaulToStorageJob(Pawn p, Thing t)
@@ -110,30 +84,22 @@ namespace Verse.AI
 			StoragePriority currentPriority = StoreUtility.CurrentStoragePriorityOf(t);
 			IntVec3 storeCell;
 			IHaulDestination haulDestination;
-			Job result;
 			if (!StoreUtility.TryFindBestBetterStorageFor(t, p, p.Map, currentPriority, p.Faction, out storeCell, out haulDestination, true))
 			{
 				JobFailReason.Is(HaulAIUtility.NoEmptyPlaceLowerTrans, null);
-				result = null;
+				return null;
 			}
-			else if (haulDestination is ISlotGroupParent)
+			if (haulDestination is ISlotGroupParent)
 			{
-				result = HaulAIUtility.HaulToCellStorageJob(p, t, storeCell, false);
+				return HaulAIUtility.HaulToCellStorageJob(p, t, storeCell, false);
 			}
-			else
+			Thing thing = haulDestination as Thing;
+			if (thing != null && thing.TryGetInnerInteractableThingOwner() != null)
 			{
-				Thing thing = haulDestination as Thing;
-				if (thing != null && thing.TryGetInnerInteractableThingOwner() != null)
-				{
-					result = HaulAIUtility.HaulToContainerJob(p, t, thing);
-				}
-				else
-				{
-					Log.Error("Don't know how to handle HaulToStorageJob for storage " + haulDestination.ToStringSafe<IHaulDestination>() + ". thing=" + t.ToStringSafe<Thing>(), false);
-					result = null;
-				}
+				return HaulAIUtility.HaulToContainerJob(p, t, thing);
 			}
-			return result;
+			Log.Error("Don't know how to handle HaulToStorageJob for storage " + haulDestination.ToStringSafe<IHaulDestination>() + ". thing=" + t.ToStringSafe<Thing>(), false);
+			return null;
 		}
 
 		public static Job HaulToCellStorageJob(Pawn p, Thing t, IntVec3 storeCell, bool fitInStoreCell)
@@ -191,21 +157,16 @@ namespace Verse.AI
 		public static Job HaulToContainerJob(Pawn p, Thing t, Thing container)
 		{
 			ThingOwner thingOwner = container.TryGetInnerInteractableThingOwner();
-			Job result;
 			if (thingOwner == null)
 			{
 				Log.Error(container.ToStringSafe<Thing>() + " gave null ThingOwner.", false);
-				result = null;
+				return null;
 			}
-			else
+			return new Job(JobDefOf.HaulToContainer, t, container)
 			{
-				result = new Job(JobDefOf.HaulToContainer, t, container)
-				{
-					count = Mathf.Min(t.stackCount, thingOwner.GetCountCanAccept(t, true)),
-					haulMode = HaulMode.ToContainer
-				};
-			}
-			return result;
+				count = Mathf.Min(t.stackCount, thingOwner.GetCountCanAccept(t, true)),
+				haulMode = HaulMode.ToContainer
+			};
 		}
 
 		public static bool CanHaulAside(Pawn p, Thing t, out IntVec3 storeCell)
@@ -217,123 +178,105 @@ namespace Verse.AI
 		public static Job HaulAsideJobFor(Pawn p, Thing t)
 		{
 			IntVec3 c;
-			Job result;
 			if (!HaulAIUtility.CanHaulAside(p, t, out c))
 			{
-				result = null;
+				return null;
 			}
-			else
+			return new Job(JobDefOf.HaulToCell, t, c)
 			{
-				result = new Job(JobDefOf.HaulToCell, t, c)
-				{
-					count = 99999,
-					haulOpportunisticDuplicates = false,
-					haulMode = HaulMode.ToCellNonStorage,
-					ignoreDesignations = true
-				};
-			}
-			return result;
+				count = 99999,
+				haulOpportunisticDuplicates = false,
+				haulMode = HaulMode.ToCellNonStorage,
+				ignoreDesignations = true
+			};
 		}
 
 		private static bool TryFindSpotToPlaceHaulableCloseTo(Thing haulable, Pawn worker, IntVec3 center, out IntVec3 spot)
 		{
 			Region region = center.GetRegion(worker.Map, RegionType.Set_Passable);
-			bool result;
 			if (region == null)
 			{
 				spot = center;
-				result = false;
+				return false;
 			}
-			else
+			TraverseParms traverseParms = TraverseParms.For(worker, Danger.Deadly, TraverseMode.ByPawn, false);
+			IntVec3 foundCell = IntVec3.Invalid;
+			RegionTraverser.BreadthFirstTraverse(region, (Region from, Region r) => r.Allows(traverseParms, false), delegate(Region r)
 			{
-				TraverseParms traverseParms = TraverseParms.For(worker, Danger.Deadly, TraverseMode.ByPawn, false);
-				IntVec3 foundCell = IntVec3.Invalid;
-				RegionTraverser.BreadthFirstTraverse(region, (Region from, Region r) => r.Allows(traverseParms, false), delegate(Region r)
+				HaulAIUtility.candidates.Clear();
+				HaulAIUtility.candidates.AddRange(r.Cells);
+				HaulAIUtility.candidates.Sort((IntVec3 a, IntVec3 b) => a.DistanceToSquared(center).CompareTo(b.DistanceToSquared(center)));
+				for (int i = 0; i < HaulAIUtility.candidates.Count; i++)
 				{
-					HaulAIUtility.candidates.Clear();
-					HaulAIUtility.candidates.AddRange(r.Cells);
-					HaulAIUtility.candidates.Sort((IntVec3 a, IntVec3 b) => a.DistanceToSquared(center).CompareTo(b.DistanceToSquared(center)));
-					for (int i = 0; i < HaulAIUtility.candidates.Count; i++)
+					IntVec3 intVec = HaulAIUtility.candidates[i];
+					if (HaulAIUtility.HaulablePlaceValidator(haulable, worker, intVec))
 					{
-						IntVec3 intVec = HaulAIUtility.candidates[i];
-						if (HaulAIUtility.HaulablePlaceValidator(haulable, worker, intVec))
-						{
-							foundCell = intVec;
-							return true;
-						}
+						foundCell = intVec;
+						return true;
 					}
-					return false;
-				}, 100, RegionType.Set_Passable);
-				if (foundCell.IsValid)
-				{
-					spot = foundCell;
-					result = true;
 				}
-				else
-				{
-					spot = center;
-					result = false;
-				}
+				return false;
+			}, 100, RegionType.Set_Passable);
+			if (foundCell.IsValid)
+			{
+				spot = foundCell;
+				return true;
 			}
-			return result;
+			spot = center;
+			return false;
 		}
 
 		private static bool HaulablePlaceValidator(Thing haulable, Pawn worker, IntVec3 c)
 		{
-			bool result;
 			if (!worker.CanReserveAndReach(c, PathEndMode.OnCell, worker.NormalMaxDanger(), 1, -1, null, false))
 			{
-				result = false;
+				return false;
 			}
-			else if (GenPlace.HaulPlaceBlockerIn(haulable, c, worker.Map, true) != null)
+			if (GenPlace.HaulPlaceBlockerIn(haulable, c, worker.Map, true) != null)
 			{
-				result = false;
+				return false;
 			}
-			else if (!c.Standable(worker.Map))
+			if (!c.Standable(worker.Map))
 			{
-				result = false;
+				return false;
 			}
-			else if (c == haulable.Position && haulable.Spawned)
+			if (c == haulable.Position && haulable.Spawned)
 			{
-				result = false;
+				return false;
 			}
-			else if (c.ContainsStaticFire(worker.Map))
+			if (c.ContainsStaticFire(worker.Map))
 			{
-				result = false;
+				return false;
 			}
-			else
+			if (haulable != null && haulable.def.BlockPlanting)
 			{
-				if (haulable != null && haulable.def.BlockPlanting)
+				Zone zone = worker.Map.zoneManager.ZoneAt(c);
+				if (zone is Zone_Growing)
 				{
-					Zone zone = worker.Map.zoneManager.ZoneAt(c);
-					if (zone is Zone_Growing)
+					return false;
+				}
+			}
+			if (haulable.def.passability != Traversability.Standable)
+			{
+				for (int i = 0; i < 8; i++)
+				{
+					IntVec3 c2 = c + GenAdj.AdjacentCells[i];
+					if (worker.Map.designationManager.DesignationAt(c2, DesignationDefOf.Mine) != null)
 					{
 						return false;
 					}
 				}
-				if (haulable.def.passability != Traversability.Standable)
-				{
-					for (int i = 0; i < 8; i++)
-					{
-						IntVec3 c2 = c + GenAdj.AdjacentCells[i];
-						if (worker.Map.designationManager.DesignationAt(c2, DesignationDefOf.Mine) != null)
-						{
-							return false;
-						}
-					}
-				}
-				Building edifice = c.GetEdifice(worker.Map);
-				if (edifice != null)
-				{
-					Building_Trap building_Trap = edifice as Building_Trap;
-					if (building_Trap != null)
-					{
-						return false;
-					}
-				}
-				result = true;
 			}
-			return result;
+			Building edifice = c.GetEdifice(worker.Map);
+			if (edifice != null)
+			{
+				Building_Trap building_Trap = edifice as Building_Trap;
+				if (building_Trap != null)
+				{
+					return false;
+				}
+			}
+			return true;
 		}
 
 		// Note: this type is marked as 'beforefieldinit'.

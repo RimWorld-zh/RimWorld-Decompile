@@ -7,7 +7,7 @@ namespace Verse
 {
 	public static class SteamUtility
 	{
-		private static string cachedPersonaName = null;
+		private static string cachedPersonaName;
 
 		public static string SteamPersonaName
 		{

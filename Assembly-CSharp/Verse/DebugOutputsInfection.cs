@@ -32,25 +32,19 @@ namespace Verse
 		private static Func<HediffDef, float> <>f__am$cache5;
 
 		[CompilerGenerated]
-		private static Func<HediffDef, float> <>f__am$cache6;
+		private static Func<HediffDef, string> <>f__am$cache6;
 
 		[CompilerGenerated]
 		private static Func<HediffDef, string> <>f__am$cache7;
 
 		[CompilerGenerated]
-		private static Func<HediffDef, string> <>f__am$cache8;
+		private static Func<Pawn, Pawn, Pawn, string> <>f__am$cache8;
 
 		[CompilerGenerated]
-		private static Func<Pawn, Pawn, Pawn, string> <>f__am$cache9;
+		private static Predicate<HediffStage> <>f__am$cache9;
 
 		[CompilerGenerated]
-		private static Func<HediffStage, bool> <>f__am$cacheA;
-
-		[CompilerGenerated]
-		private static Predicate<HediffStage> <>f__am$cacheB;
-
-		[CompilerGenerated]
-		private static Predicate<PawnCapacityModifier> <>f__am$cacheC;
+		private static Predicate<PawnCapacityModifier> <>f__am$cacheA;
 
 		private static List<Pawn> GenerateDoctorArray()
 		{
@@ -90,7 +84,6 @@ namespace Verse
 			};
 			Func<Func<DebugOutputsInfection.InfectionLuck, float>, string> stringizeWithLuck = (Func<DebugOutputsInfection.InfectionLuck, float> func) => string.Format("{0:F2} / {1:F2}", func(DebugOutputsInfection.InfectionLuck.Bad), func(DebugOutputsInfection.InfectionLuck.Good));
 			Func<HediffDef, bool> isAnimal = (HediffDef d) => d.defName.Contains("Animal");
-			Func<HediffDef, float> revealSeverity = (HediffDef d) => d.stages.First((HediffStage s) => s.becomeVisible).minSeverity;
 			Func<HediffDef, float> baseSeverityIncrease = (HediffDef d) => d.CompProps<HediffCompProperties_Immunizable>().severityPerDayNotImmune;
 			Func<HediffDef, DebugOutputsInfection.InfectionLuck, float> baseImmunityIncrease = (HediffDef d, DebugOutputsInfection.InfectionLuck il) => d.CompProps<HediffCompProperties_Immunizable>().immunityPerDaySick * ilc(il);
 			Func<HediffDef, float, float> tendedSeverityIncrease = (HediffDef d, float tend) => baseSeverityIncrease(d) + d.CompProps<HediffCompProperties_TendDuration>().severityPerDayTended * tend;
@@ -101,26 +94,19 @@ namespace Verse
 				float num2 = num * StatDefOf.ImmunityGainSpeed.GetStatPart<StatPart_Resting>().factor;
 				return baseImmunityIncrease(d, il) * num2;
 			};
-			Func<HediffDef, DebugOutputsInfection.InfectionLuck, float> immunityOnReveal = (HediffDef d, DebugOutputsInfection.InfectionLuck il) => revealSeverity(d) / baseSeverityIncrease(d) * immunityIncrease(d, il, false);
 			Func<HediffDef, DebugOutputsInfection.InfectionLuck, float, float> immunityOnLethality = delegate(HediffDef d, DebugOutputsInfection.InfectionLuck il, float tend)
 			{
-				float result;
 				if (tendedSeverityIncrease(d, tend) <= 0f)
 				{
-					result = float.PositiveInfinity;
+					return float.PositiveInfinity;
 				}
-				else
-				{
-					result = immunityOnReveal(d, il) + (d.lethalSeverity - revealSeverity(d)) / tendedSeverityIncrease(d, tend) * immunityIncrease(d, il, true);
-				}
-				return result;
+				return d.lethalSeverity / tendedSeverityIncrease(d, tend) * immunityIncrease(d, il, true);
 			};
 			List<TableDataGetter<HediffDef>> list = new List<TableDataGetter<HediffDef>>();
-			list.Add(new TableDataGetter<HediffDef>("defName", (HediffDef d) => d.defName + ((!d.stages.Any((HediffStage stage) => stage.capMods.Any((PawnCapacityModifier cap) => cap.capacity == PawnCapacityDefOf.BloodFiltration))) ? "" : " (inaccurate)")));
+			list.Add(new TableDataGetter<HediffDef>("defName", (HediffDef d) => d.defName + ((!d.stages.Any((HediffStage stage) => stage.capMods.Any((PawnCapacityModifier cap) => cap.capacity == PawnCapacityDefOf.BloodFiltration))) ? string.Empty : " (inaccurate)")));
 			list.Add(new TableDataGetter<HediffDef>("lethal\nseverity", (HediffDef d) => d.lethalSeverity.ToString("F2")));
 			list.Add(new TableDataGetter<HediffDef>("base\nseverity\nincrease", (HediffDef d) => baseSeverityIncrease(d).ToString("F2")));
 			list.Add(new TableDataGetter<HediffDef>("base\nimmunity\nincrease", (HediffDef d) => stringizeWithLuck((DebugOutputsInfection.InfectionLuck il) => baseImmunityIncrease(d, il))));
-			list.Add(new TableDataGetter<HediffDef>("immunity\non reveal", (HediffDef d) => stringizeWithLuck((DebugOutputsInfection.InfectionLuck il) => immunityOnReveal(d, il))));
 			List<Pawn> source = DebugOutputsInfection.GenerateDoctorArray();
 			float tendquality;
 			for (tendquality = 0f; tendquality <= 1.01f; tendquality += 0.1f)
@@ -161,16 +147,11 @@ namespace Verse
 				{
 					float num = immunityOnLethality(d, DebugOutputsInfection.InfectionLuck.Bad, tq);
 					float num2 = immunityOnLethality(d, DebugOutputsInfection.InfectionLuck.Good, tq);
-					string result;
 					if (num == float.PositiveInfinity)
 					{
-						result = float.PositiveInfinity.ToString();
+						return float.PositiveInfinity.ToString();
 					}
-					else
-					{
-						result = Mathf.Clamp01((num2 - 1f) / (num2 - num)).ToStringPercent();
-					}
-					return result;
+					return Mathf.Clamp01((num2 - 1f) / (num2 - num)).ToStringPercent();
 				}));
 			}
 			DebugTables.MakeTablesDialog<HediffDef>(DebugOutputsInfection.InfectionList(), list.ToArray());
@@ -313,29 +294,23 @@ namespace Verse
 		[CompilerGenerated]
 		private static float <Infections>m__5(HediffDef d)
 		{
-			return d.stages.First((HediffStage s) => s.becomeVisible).minSeverity;
+			return d.CompProps<HediffCompProperties_Immunizable>().severityPerDayNotImmune;
 		}
 
 		[CompilerGenerated]
-		private static float <Infections>m__6(HediffDef d)
+		private static string <Infections>m__6(HediffDef d)
 		{
-			return d.CompProps<HediffCompProperties_Immunizable>().severityPerDayNotImmune;
+			return d.defName + ((!d.stages.Any((HediffStage stage) => stage.capMods.Any((PawnCapacityModifier cap) => cap.capacity == PawnCapacityDefOf.BloodFiltration))) ? string.Empty : " (inaccurate)");
 		}
 
 		[CompilerGenerated]
 		private static string <Infections>m__7(HediffDef d)
 		{
-			return d.defName + ((!d.stages.Any((HediffStage stage) => stage.capMods.Any((PawnCapacityModifier cap) => cap.capacity == PawnCapacityDefOf.BloodFiltration))) ? "" : " (inaccurate)");
-		}
-
-		[CompilerGenerated]
-		private static string <Infections>m__8(HediffDef d)
-		{
 			return d.lethalSeverity.ToString("F2");
 		}
 
 		[CompilerGenerated]
-		private static string <Infections>m__9(Pawn low, Pawn exp, Pawn high)
+		private static string <Infections>m__8(Pawn low, Pawn exp, Pawn high)
 		{
 			string arg = (low == null) ? "X" : low.skills.GetSkill(SkillDefOf.Medicine).Level.ToString();
 			string arg2 = (exp == null) ? "X" : exp.skills.GetSkill(SkillDefOf.Medicine).Level.ToString();
@@ -344,19 +319,13 @@ namespace Verse
 		}
 
 		[CompilerGenerated]
-		private static bool <Infections>m__A(HediffStage s)
-		{
-			return s.becomeVisible;
-		}
-
-		[CompilerGenerated]
-		private static bool <Infections>m__B(HediffStage stage)
+		private static bool <Infections>m__9(HediffStage stage)
 		{
 			return stage.capMods.Any((PawnCapacityModifier cap) => cap.capacity == PawnCapacityDefOf.BloodFiltration);
 		}
 
 		[CompilerGenerated]
-		private static bool <Infections>m__C(PawnCapacityModifier cap)
+		private static bool <Infections>m__A(PawnCapacityModifier cap)
 		{
 			return cap.capacity == PawnCapacityDefOf.BloodFiltration;
 		}
@@ -394,13 +363,9 @@ namespace Verse
 
 			internal Func<HediffDef, DebugOutputsInfection.InfectionLuck, float> baseImmunityIncrease;
 
-			internal Func<HediffDef, float> revealSeverity;
-
-			internal Func<HediffDef, DebugOutputsInfection.InfectionLuck, bool, float> immunityIncrease;
-
 			internal Func<HediffDef, float, float> tendedSeverityIncrease;
 
-			internal Func<HediffDef, DebugOutputsInfection.InfectionLuck, float> immunityOnReveal;
+			internal Func<HediffDef, DebugOutputsInfection.InfectionLuck, bool, float> immunityIncrease;
 
 			internal Func<Func<DebugOutputsInfection.InfectionLuck, float>, string> stringizeWithLuck;
 
@@ -428,38 +393,23 @@ namespace Verse
 				return this.baseImmunityIncrease(d, il) * num2;
 			}
 
-			internal float <>m__3(HediffDef d, DebugOutputsInfection.InfectionLuck il)
+			internal float <>m__3(HediffDef d, DebugOutputsInfection.InfectionLuck il, float tend)
 			{
-				return this.revealSeverity(d) / this.baseSeverityIncrease(d) * this.immunityIncrease(d, il, false);
-			}
-
-			internal float <>m__4(HediffDef d, DebugOutputsInfection.InfectionLuck il, float tend)
-			{
-				float result;
 				if (this.tendedSeverityIncrease(d, tend) <= 0f)
 				{
-					result = float.PositiveInfinity;
+					return float.PositiveInfinity;
 				}
-				else
-				{
-					result = this.immunityOnReveal(d, il) + (d.lethalSeverity - this.revealSeverity(d)) / this.tendedSeverityIncrease(d, tend) * this.immunityIncrease(d, il, true);
-				}
-				return result;
+				return d.lethalSeverity / this.tendedSeverityIncrease(d, tend) * this.immunityIncrease(d, il, true);
 			}
 
-			internal string <>m__5(HediffDef d)
+			internal string <>m__4(HediffDef d)
 			{
 				return this.baseSeverityIncrease(d).ToString("F2");
 			}
 
-			internal string <>m__6(HediffDef d)
+			internal string <>m__5(HediffDef d)
 			{
 				return this.stringizeWithLuck((DebugOutputsInfection.InfectionLuck il) => this.baseImmunityIncrease(d, il));
-			}
-
-			internal string <>m__7(HediffDef d)
-			{
-				return this.stringizeWithLuck((DebugOutputsInfection.InfectionLuck il) => this.immunityOnReveal(d, il));
 			}
 
 			private sealed class <Infections>c__AnonStorey2
@@ -477,121 +427,100 @@ namespace Verse
 					return this.<>f__ref$1.baseImmunityIncrease(this.d, il);
 				}
 			}
+		}
 
-			private sealed class <Infections>c__AnonStorey3
+		[CompilerGenerated]
+		private sealed class <Infections>c__AnonStorey3
+		{
+			internal float tendquality;
+
+			public <Infections>c__AnonStorey3()
 			{
-				internal HediffDef d;
-
-				internal DebugOutputsInfection.<Infections>c__AnonStorey1 <>f__ref$1;
-
-				public <Infections>c__AnonStorey3()
-				{
-				}
-
-				internal float <>m__0(DebugOutputsInfection.InfectionLuck il)
-				{
-					return this.<>f__ref$1.immunityOnReveal(this.d, il);
-				}
 			}
 		}
 
 		[CompilerGenerated]
 		private sealed class <Infections>c__AnonStorey4
 		{
-			internal float tendquality;
-
-			public <Infections>c__AnonStorey4()
-			{
-			}
-		}
-
-		[CompilerGenerated]
-		private sealed class <Infections>c__AnonStorey5
-		{
 			internal float tq;
 
 			internal DebugOutputsInfection.<Infections>c__AnonStorey1 <>f__ref$1;
 
-			internal DebugOutputsInfection.<Infections>c__AnonStorey4 <>f__ref$4;
+			internal DebugOutputsInfection.<Infections>c__AnonStorey3 <>f__ref$3;
 
-			public <Infections>c__AnonStorey5()
+			public <Infections>c__AnonStorey4()
 			{
 			}
 
 			internal bool <>m__0(Pawn doc)
 			{
-				return TendUtility.CalculateBaseTendQuality(doc, null, null) >= Mathf.Clamp01(this.<>f__ref$4.tendquality - 0.25f);
+				return TendUtility.CalculateBaseTendQuality(doc, null, null) >= Mathf.Clamp01(this.<>f__ref$3.tendquality - 0.25f);
 			}
 
 			internal bool <>m__1(Pawn doc)
 			{
-				return TendUtility.CalculateBaseTendQuality(doc, null, ThingDefOf.MedicineHerbal) >= Mathf.Clamp01(this.<>f__ref$4.tendquality - 0.25f);
+				return TendUtility.CalculateBaseTendQuality(doc, null, ThingDefOf.MedicineHerbal) >= Mathf.Clamp01(this.<>f__ref$3.tendquality - 0.25f);
 			}
 
 			internal bool <>m__2(Pawn doc)
 			{
-				return TendUtility.CalculateBaseTendQuality(doc, null, ThingDefOf.MedicineIndustrial) >= Mathf.Clamp01(this.<>f__ref$4.tendquality - 0.25f);
+				return TendUtility.CalculateBaseTendQuality(doc, null, ThingDefOf.MedicineIndustrial) >= Mathf.Clamp01(this.<>f__ref$3.tendquality - 0.25f);
 			}
 
 			internal bool <>m__3(Pawn doc)
 			{
-				return TendUtility.CalculateBaseTendQuality(doc, null, ThingDefOf.MedicineUltratech) >= Mathf.Clamp01(this.<>f__ref$4.tendquality - 0.25f);
+				return TendUtility.CalculateBaseTendQuality(doc, null, ThingDefOf.MedicineUltratech) >= Mathf.Clamp01(this.<>f__ref$3.tendquality - 0.25f);
 			}
 
 			internal bool <>m__4(Pawn doc)
 			{
-				return TendUtility.CalculateBaseTendQuality(doc, null, null) >= this.<>f__ref$4.tendquality;
+				return TendUtility.CalculateBaseTendQuality(doc, null, null) >= this.<>f__ref$3.tendquality;
 			}
 
 			internal bool <>m__5(Pawn doc)
 			{
-				return TendUtility.CalculateBaseTendQuality(doc, null, ThingDefOf.MedicineHerbal) >= this.<>f__ref$4.tendquality;
+				return TendUtility.CalculateBaseTendQuality(doc, null, ThingDefOf.MedicineHerbal) >= this.<>f__ref$3.tendquality;
 			}
 
 			internal bool <>m__6(Pawn doc)
 			{
-				return TendUtility.CalculateBaseTendQuality(doc, null, ThingDefOf.MedicineIndustrial) >= this.<>f__ref$4.tendquality;
+				return TendUtility.CalculateBaseTendQuality(doc, null, ThingDefOf.MedicineIndustrial) >= this.<>f__ref$3.tendquality;
 			}
 
 			internal bool <>m__7(Pawn doc)
 			{
-				return TendUtility.CalculateBaseTendQuality(doc, null, ThingDefOf.MedicineUltratech) >= this.<>f__ref$4.tendquality;
+				return TendUtility.CalculateBaseTendQuality(doc, null, ThingDefOf.MedicineUltratech) >= this.<>f__ref$3.tendquality;
 			}
 
 			internal bool <>m__8(Pawn doc)
 			{
-				return TendUtility.CalculateBaseTendQuality(doc, null, null) >= Mathf.Clamp01(this.<>f__ref$4.tendquality + 0.25f);
+				return TendUtility.CalculateBaseTendQuality(doc, null, null) >= Mathf.Clamp01(this.<>f__ref$3.tendquality + 0.25f);
 			}
 
 			internal bool <>m__9(Pawn doc)
 			{
-				return TendUtility.CalculateBaseTendQuality(doc, null, ThingDefOf.MedicineHerbal) >= Mathf.Clamp01(this.<>f__ref$4.tendquality + 0.25f);
+				return TendUtility.CalculateBaseTendQuality(doc, null, ThingDefOf.MedicineHerbal) >= Mathf.Clamp01(this.<>f__ref$3.tendquality + 0.25f);
 			}
 
 			internal bool <>m__A(Pawn doc)
 			{
-				return TendUtility.CalculateBaseTendQuality(doc, null, ThingDefOf.MedicineIndustrial) >= Mathf.Clamp01(this.<>f__ref$4.tendquality + 0.25f);
+				return TendUtility.CalculateBaseTendQuality(doc, null, ThingDefOf.MedicineIndustrial) >= Mathf.Clamp01(this.<>f__ref$3.tendquality + 0.25f);
 			}
 
 			internal bool <>m__B(Pawn doc)
 			{
-				return TendUtility.CalculateBaseTendQuality(doc, null, ThingDefOf.MedicineUltratech) >= Mathf.Clamp01(this.<>f__ref$4.tendquality + 0.25f);
+				return TendUtility.CalculateBaseTendQuality(doc, null, ThingDefOf.MedicineUltratech) >= Mathf.Clamp01(this.<>f__ref$3.tendquality + 0.25f);
 			}
 
 			internal string <>m__C(HediffDef d)
 			{
 				float num = this.<>f__ref$1.immunityOnLethality(d, DebugOutputsInfection.InfectionLuck.Bad, this.tq);
 				float num2 = this.<>f__ref$1.immunityOnLethality(d, DebugOutputsInfection.InfectionLuck.Good, this.tq);
-				string result;
 				if (num == float.PositiveInfinity)
 				{
-					result = float.PositiveInfinity.ToString();
+					return float.PositiveInfinity.ToString();
 				}
-				else
-				{
-					result = Mathf.Clamp01((num2 - 1f) / (num2 - num)).ToStringPercent();
-				}
-				return result;
+				return Mathf.Clamp01((num2 - 1f) / (num2 - num)).ToStringPercent();
 			}
 		}
 
@@ -721,17 +650,43 @@ namespace Verse
 									switch (num)
 									{
 									case 1u:
-										IL_3F7:
-										break;
-									case 2u:
-										i++;
-										goto IL_4E1;
-									default:
-										goto IL_55B;
-									}
-									IL_3F8:
-									if (patient.Dead || !patient.health.hediffSet.HasHediff(result.illness, false))
-									{
+										IL_3E9:
+										while (!patient.Dead && patient.health.hediffSet.HasHediff(result.illness, false))
+										{
+											if (activeHediff.TendableNow(false))
+											{
+												activeHediff.Tended(TendUtility.CalculateBaseTendQuality(doctor, patient, meds), 0);
+												result.medicineUsed += 1f;
+											}
+											enumerator4 = patient.health.hediffSet.GetHediffsTendable().GetEnumerator();
+											try
+											{
+												while (enumerator4.MoveNext())
+												{
+													Hediff hediff2 = enumerator4.Current;
+													hediff2.Tended(TendUtility.CalculateBaseTendQuality(doctor, patient, meds), 0);
+												}
+											}
+											finally
+											{
+												if (enumerator4 != null)
+												{
+													enumerator4.Dispose();
+												}
+											}
+											Find.TickManager.DebugSetTicksGame(Find.TickManager.TicksGame + 1);
+											patient.health.HealthTick();
+											if (Find.TickManager.TicksGame % 900 == 0)
+											{
+												this.$current = null;
+												if (!this.$disposing)
+												{
+													this.$PC = 1;
+												}
+												flag = true;
+												return true;
+											}
+										}
 										if (patient.Dead)
 										{
 											result.deathChance += 1f;
@@ -749,55 +704,26 @@ namespace Verse
 										}
 										flag = true;
 										return true;
+									case 2u:
+										i++;
+										break;
+									default:
+										goto IL_54A;
 									}
-									if (activeHediff.TendableNow(false))
-									{
-										activeHediff.Tended(TendUtility.CalculateBaseTendQuality(doctor, patient, meds), 0);
-										result.medicineUsed += 1f;
-									}
-									enumerator4 = patient.health.hediffSet.GetHediffsTendable().GetEnumerator();
-									try
-									{
-										while (enumerator4.MoveNext())
-										{
-											Hediff hediff2 = enumerator4.Current;
-											hediff2.Tended(TendUtility.CalculateBaseTendQuality(doctor, patient, meds), 0);
-										}
-									}
-									finally
-									{
-										if (enumerator4 != null)
-										{
-											enumerator4.Dispose();
-										}
-									}
-									Find.TickManager.DebugSetTicksGame(Find.TickManager.TicksGame + 1);
-									patient.health.HealthTick();
-									if (Find.TickManager.TicksGame % 900 == 0)
-									{
-										this.$current = null;
-										if (!this.$disposing)
-										{
-											this.$PC = 1;
-										}
-										flag = true;
-										return true;
-									}
-									goto IL_3F7;
-									IL_4E1:
+									IL_4D1:
 									if (i < trials)
 									{
 										patient = PawnGenerator.GeneratePawn(pawngen);
 										startTicks = Find.TickManager.TicksGame;
 										patient.health.AddHediff(result.illness, null, null, null);
 										activeHediff = patient.health.hediffSet.GetFirstHediffOfDef(result.illness, false);
-										goto IL_3F8;
+										goto IL_3E9;
 									}
 									result.recoveryTimeDays /= (float)trials - result.deathChance;
 									result.deathChance /= (float)trials;
 									result.medicineUsed /= (float)trials;
 									results.Add(result);
-									IL_55B:
+									IL_54A:
 									if (enumerator3.MoveNext())
 									{
 										skill = enumerator3.Current;
@@ -807,7 +733,7 @@ namespace Verse
 										result.medicine = meds;
 										doctor = doctors[skill];
 										i = 0;
-										goto IL_4E1;
+										goto IL_4D1;
 									}
 								}
 								finally

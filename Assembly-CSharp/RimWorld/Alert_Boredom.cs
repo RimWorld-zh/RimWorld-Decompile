@@ -49,12 +49,9 @@ namespace RimWorld
 		{
 			foreach (Pawn p in PawnsFinder.AllMaps_FreeColonistsSpawned)
 			{
-				if (p.needs.joy.CurLevelPercentage < 0.24000001f || p.GetTimeAssignment() == TimeAssignmentDefOf.Joy)
+				if ((p.needs.joy.CurLevelPercentage < 0.24000001f || p.GetTimeAssignment() == TimeAssignmentDefOf.Joy) && p.needs.joy.tolerances.BoredOfAllAvailableJoyKinds(p))
 				{
-					if (p.needs.joy.tolerances.BoredOfAllAvailableJoyKinds(p))
-					{
-						yield return p;
-					}
+					yield return p;
 				}
 			}
 			yield break;
@@ -98,19 +95,11 @@ namespace RimWorld
 				{
 					switch (num)
 					{
-					case 1u:
-						IL_D7:
-						break;
 					}
-					IL_D8:
-					if (enumerator.MoveNext())
+					while (enumerator.MoveNext())
 					{
 						p = enumerator.Current;
-						if (p.needs.joy.CurLevelPercentage >= 0.24000001f && p.GetTimeAssignment() != TimeAssignmentDefOf.Joy)
-						{
-							goto IL_D8;
-						}
-						if (p.needs.joy.tolerances.BoredOfAllAvailableJoyKinds(p))
+						if ((p.needs.joy.CurLevelPercentage < 0.24000001f || p.GetTimeAssignment() == TimeAssignmentDefOf.Joy) && p.needs.joy.tolerances.BoredOfAllAvailableJoyKinds(p))
 						{
 							this.$current = p;
 							if (!this.$disposing)
@@ -120,7 +109,6 @@ namespace RimWorld
 							flag = true;
 							return true;
 						}
-						goto IL_D7;
 					}
 				}
 				finally

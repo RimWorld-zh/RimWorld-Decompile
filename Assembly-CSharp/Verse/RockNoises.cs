@@ -6,7 +6,7 @@ namespace Verse
 {
 	public static class RockNoises
 	{
-		public static List<RockNoises.RockNoise> rockNoises = null;
+		public static List<RockNoises.RockNoise> rockNoises;
 
 		private const float RockNoiseFreq = 0.005f;
 

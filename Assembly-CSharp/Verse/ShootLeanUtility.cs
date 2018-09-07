@@ -9,16 +9,11 @@ namespace Verse
 
 		private static bool[] GetWorkingBlockedArray()
 		{
-			bool[] result;
 			if (ShootLeanUtility.blockedArrays.Count > 0)
 			{
-				result = ShootLeanUtility.blockedArrays.Dequeue();
+				return ShootLeanUtility.blockedArrays.Dequeue();
 			}
-			else
-			{
-				result = new bool[8];
-			}
-			return result;
+			return new bool[8];
 		}
 
 		private static void ReturnWorkingBlockedArray(bool[] ar)
@@ -43,36 +38,23 @@ namespace Verse
 			{
 				workingBlockedArray[i] = !(shooterLoc + GenAdj.AdjacentCells[i]).CanBeSeenOver(map);
 			}
-			if (!workingBlockedArray[1])
+			if (!workingBlockedArray[1] && ((workingBlockedArray[0] && !workingBlockedArray[5] && flag) || (workingBlockedArray[2] && !workingBlockedArray[4] && flag2)))
 			{
-				if ((workingBlockedArray[0] && !workingBlockedArray[5] && flag) || (workingBlockedArray[2] && !workingBlockedArray[4] && flag2))
-				{
-					listToFill.Add(shooterLoc + new IntVec3(1, 0, 0));
-				}
+				listToFill.Add(shooterLoc + new IntVec3(1, 0, 0));
 			}
-			if (!workingBlockedArray[3])
+			if (!workingBlockedArray[3] && ((workingBlockedArray[0] && !workingBlockedArray[6] && flag) || (workingBlockedArray[2] && !workingBlockedArray[7] && flag2)))
 			{
-				if ((workingBlockedArray[0] && !workingBlockedArray[6] && flag) || (workingBlockedArray[2] && !workingBlockedArray[7] && flag2))
-				{
-					listToFill.Add(shooterLoc + new IntVec3(-1, 0, 0));
-				}
+				listToFill.Add(shooterLoc + new IntVec3(-1, 0, 0));
 			}
-			if (!workingBlockedArray[2])
+			if (!workingBlockedArray[2] && ((workingBlockedArray[3] && !workingBlockedArray[7] && flag3) || (workingBlockedArray[1] && !workingBlockedArray[4] && flag4)))
 			{
-				if ((workingBlockedArray[3] && !workingBlockedArray[7] && flag3) || (workingBlockedArray[1] && !workingBlockedArray[4] && flag4))
-				{
-					listToFill.Add(shooterLoc + new IntVec3(0, 0, -1));
-				}
+				listToFill.Add(shooterLoc + new IntVec3(0, 0, -1));
 			}
-			if (!workingBlockedArray[0])
+			if (!workingBlockedArray[0] && ((workingBlockedArray[3] && !workingBlockedArray[6] && flag3) || (workingBlockedArray[1] && !workingBlockedArray[5] && flag4)))
 			{
-				if ((workingBlockedArray[3] && !workingBlockedArray[6] && flag3) || (workingBlockedArray[1] && !workingBlockedArray[5] && flag4))
-				{
-					listToFill.Add(shooterLoc + new IntVec3(0, 0, 1));
-				}
+				listToFill.Add(shooterLoc + new IntVec3(0, 0, 1));
 			}
-			int j = 0;
-			while (j < 4)
+			for (int j = 0; j < 4; j++)
 			{
 				if (!workingBlockedArray[j])
 				{
@@ -93,10 +75,6 @@ namespace Verse
 						}
 					}
 				}
-				IL_27F:
-				j++;
-				continue;
-				goto IL_27F;
 			}
 			ShootLeanUtility.ReturnWorkingBlockedArray(workingBlockedArray);
 		}

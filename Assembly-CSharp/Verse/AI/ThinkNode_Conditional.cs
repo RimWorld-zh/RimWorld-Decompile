@@ -4,7 +4,7 @@ namespace Verse.AI
 {
 	public abstract class ThinkNode_Conditional : ThinkNode_Priority
 	{
-		public bool invert = false;
+		public bool invert;
 
 		protected ThinkNode_Conditional()
 		{
@@ -19,16 +19,11 @@ namespace Verse.AI
 
 		public override ThinkResult TryIssueJobPackage(Pawn pawn, JobIssueParams jobParams)
 		{
-			ThinkResult result;
 			if (this.Satisfied(pawn) == !this.invert)
 			{
-				result = base.TryIssueJobPackage(pawn, jobParams);
+				return base.TryIssueJobPackage(pawn, jobParams);
 			}
-			else
-			{
-				result = ThinkResult.NoJob;
-			}
-			return result;
+			return ThinkResult.NoJob;
 		}
 
 		protected abstract bool Satisfied(Pawn pawn);

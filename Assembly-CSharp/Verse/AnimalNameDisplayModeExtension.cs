@@ -6,27 +6,19 @@ namespace Verse
 	{
 		public static string ToStringHuman(this AnimalNameDisplayMode mode)
 		{
-			string result;
-			if (mode != AnimalNameDisplayMode.None)
+			if (mode == AnimalNameDisplayMode.None)
 			{
-				if (mode != AnimalNameDisplayMode.TameNamed)
-				{
-					if (mode != AnimalNameDisplayMode.TameAll)
-					{
-						throw new NotImplementedException();
-					}
-					result = "AnimalNameDisplayMode_TameAll".Translate();
-				}
-				else
-				{
-					result = "AnimalNameDisplayMode_TameNamed".Translate();
-				}
+				return "None".Translate();
 			}
-			else
+			if (mode == AnimalNameDisplayMode.TameNamed)
 			{
-				result = "None".Translate();
+				return "AnimalNameDisplayMode_TameNamed".Translate();
 			}
-			return result;
+			if (mode != AnimalNameDisplayMode.TameAll)
+			{
+				throw new NotImplementedException();
+			}
+			return "AnimalNameDisplayMode_TameAll".Translate();
 		}
 	}
 }

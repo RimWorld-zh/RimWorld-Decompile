@@ -13,33 +13,33 @@ namespace Verse
 		public BodyDef body;
 
 		[TranslationHandle]
-		public BodyPartDef def = null;
+		public BodyPartDef def;
 
 		[MustTranslate]
 		public string customLabel;
 
 		[TranslationHandle(Priority = 100)]
 		[Unsaved]
-		public string untranslatedCustomLabel = null;
+		public string untranslatedCustomLabel;
 
 		public List<BodyPartRecord> parts = new List<BodyPartRecord>();
 
-		public BodyPartHeight height = BodyPartHeight.Undefined;
+		public BodyPartHeight height;
 
-		public BodyPartDepth depth = BodyPartDepth.Undefined;
+		public BodyPartDepth depth;
 
 		public float coverage = 1f;
 
 		public List<BodyPartGroupDef> groups = new List<BodyPartGroupDef>();
 
 		[Unsaved]
-		public BodyPartRecord parent = null;
+		public BodyPartRecord parent;
 
 		[Unsaved]
-		public float coverageAbsWithChildren = 0f;
+		public float coverageAbsWithChildren;
 
 		[Unsaved]
-		public float coverageAbs = 0f;
+		public float coverageAbs;
 
 		public BodyPartRecord()
 		{
@@ -240,12 +240,12 @@ namespace Verse
 						}
 					}
 					i++;
-					goto IL_12C;
+					goto IL_124;
 				default:
 					return false;
 				}
 				i = 0;
-				IL_12C:
+				IL_124:
 				if (i < this.parts.Count)
 				{
 					enumerator = this.parts[i].GetChildParts(tag).GetEnumerator();

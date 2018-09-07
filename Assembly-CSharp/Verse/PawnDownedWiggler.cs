@@ -9,9 +9,9 @@ namespace Verse
 
 		public float downedAngle = PawnDownedWiggler.RandomDownedAngle;
 
-		public int ticksToIncapIcon = 0;
+		public int ticksToIncapIcon;
 
-		private bool usingCustomRotation = false;
+		private bool usingCustomRotation;
 
 		private const float DownedAngleWidth = 45f;
 

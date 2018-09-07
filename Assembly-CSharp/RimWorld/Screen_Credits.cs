@@ -11,13 +11,13 @@ namespace RimWorld
 	{
 		private List<CreditsEntry> creds;
 
-		public bool wonGame = false;
+		public bool wonGame;
 
 		private float timeUntilAutoScroll;
 
-		private float scrollPosition = 0f;
+		private float scrollPosition;
 
-		private bool playedMusic = false;
+		private bool playedMusic;
 
 		public float creationRealtime = -1f;
 
@@ -33,7 +33,7 @@ namespace RimWorld
 
 		private const GameFont Font = GameFont.Medium;
 
-		public Screen_Credits() : this("")
+		public Screen_Credits() : this(string.Empty)
 		{
 		}
 
@@ -103,17 +103,12 @@ namespace RimWorld
 		{
 			get
 			{
-				float result;
 				if (this.wonGame)
 				{
 					float num = SongDefOf.EndCreditsSong.clip.length + 5f - 6f;
-					result = this.MaxScrollPosition / num;
+					return this.MaxScrollPosition / num;
 				}
-				else
-				{
-					result = 30f;
-				}
-				return result;
+				return 30f;
 			}
 		}
 

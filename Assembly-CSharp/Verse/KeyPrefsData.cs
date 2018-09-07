@@ -36,7 +36,6 @@ namespace Verse
 		public bool SetBinding(KeyBindingDef keyDef, KeyPrefs.BindingSlot slot, KeyCode keyCode)
 		{
 			KeyBindingData keyBindingData;
-			bool result;
 			if (this.keyPrefs.TryGetValue(keyDef, out keyBindingData))
 			{
 				if (slot != KeyPrefs.BindingSlot.A)
@@ -52,38 +51,29 @@ namespace Verse
 				{
 					keyBindingData.keyBindingA = keyCode;
 				}
-				result = true;
+				return true;
 			}
-			else
-			{
-				Log.Error("Key not found in keyprefs: \"" + keyDef.LabelCap + "\"", false);
-				result = false;
-			}
-			return result;
+			Log.Error("Key not found in keyprefs: \"" + keyDef.LabelCap + "\"", false);
+			return false;
 		}
 
 		public KeyCode GetBoundKeyCode(KeyBindingDef keyDef, KeyPrefs.BindingSlot slot)
 		{
 			KeyBindingData keyBindingData;
-			KeyCode result;
 			if (!this.keyPrefs.TryGetValue(keyDef, out keyBindingData))
 			{
 				Log.Error("Key not found in keyprefs: \"" + keyDef.LabelCap + "\"", false);
-				result = KeyCode.None;
+				return KeyCode.None;
 			}
-			else if (slot != KeyPrefs.BindingSlot.A)
+			if (slot == KeyPrefs.BindingSlot.A)
 			{
-				if (slot != KeyPrefs.BindingSlot.B)
-				{
-					throw new InvalidOperationException();
-				}
-				result = keyBindingData.keyBindingB;
+				return keyBindingData.keyBindingA;
 			}
-			else
+			if (slot != KeyPrefs.BindingSlot.B)
 			{
-				result = keyBindingData.keyBindingA;
+				throw new InvalidOperationException();
 			}
-			return result;
+			return keyBindingData.keyBindingB;
 		}
 
 		private IEnumerable<KeyBindingDef> ConflictingBindings(KeyBindingDef keyDef, KeyCode code)
@@ -94,12 +84,9 @@ namespace Verse
 				{
 					KeyBindingDef def = enumerator.Current;
 					KeyBindingData prefData;
-					if (def != keyDef && ((def.category == keyDef.category && def.category.selfConflicting) || keyDef.category.checkForConflicts.Contains(def.category) || (keyDef.extraConflictTags != null && def.extraConflictTags != null && keyDef.extraConflictTags.Any((string tag) => def.extraConflictTags.Contains(tag)))) && this.keyPrefs.TryGetValue(def, out prefData))
+					if (def != keyDef && ((def.category == keyDef.category && def.category.selfConflicting) || keyDef.category.checkForConflicts.Contains(def.category) || (keyDef.extraConflictTags != null && def.extraConflictTags != null && keyDef.extraConflictTags.Any((string tag) => def.extraConflictTags.Contains(tag)))) && this.keyPrefs.TryGetValue(def, out prefData) && (prefData.keyBindingA == code || prefData.keyBindingB == code))
 					{
-						if (prefData.keyBindingA == code || prefData.keyBindingB == code)
-						{
-							yield return def;
-						}
+						yield return def;
 					}
 				}
 			}
@@ -172,7 +159,7 @@ namespace Verse
 						" are both bound to ",
 						boundKeyCode,
 						".",
-						(!flag) ? "" : " Fixed automatically."
+						(!flag) ? string.Empty : " Fixed automatically."
 					}), false);
 					if (flag)
 					{
@@ -236,19 +223,11 @@ namespace Verse
 				{
 					switch (num)
 					{
-					case 1u:
-						IL_1B6:
-						break;
 					}
-					IL_1B7:
-					if (enumerator.MoveNext())
+					while (enumerator.MoveNext())
 					{
 						KeyBindingDef def = enumerator.Current;
-						if (def == keyDef || ((def.category != keyDef.category || !def.category.selfConflicting) && !keyDef.category.checkForConflicts.Contains(def.category) && (keyDef.extraConflictTags == null || def.extraConflictTags == null || !keyDef.extraConflictTags.Any((string tag) => def.extraConflictTags.Contains(tag)))) || !this.keyPrefs.TryGetValue(def, out prefData))
-						{
-							goto IL_1B7;
-						}
-						if (prefData.keyBindingA == code || prefData.keyBindingB == code)
+						if (def != keyDef && ((def.category == keyDef.category && def.category.selfConflicting) || keyDef.category.checkForConflicts.Contains(def.category) || (keyDef.extraConflictTags != null && def.extraConflictTags != null && keyDef.extraConflictTags.Any((string tag) => def.extraConflictTags.Contains(tag)))) && this.keyPrefs.TryGetValue(def, out prefData) && (prefData.keyBindingA == code || prefData.keyBindingB == code))
 						{
 							this.$current = def;
 							if (!this.$disposing)
@@ -258,7 +237,6 @@ namespace Verse
 							flag = true;
 							return true;
 						}
-						goto IL_1B6;
 					}
 				}
 				finally

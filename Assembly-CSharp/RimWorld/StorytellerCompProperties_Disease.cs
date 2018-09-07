@@ -4,7 +4,7 @@ namespace RimWorld
 {
 	public class StorytellerCompProperties_Disease : StorytellerCompProperties
 	{
-		public IncidentCategoryDef incidentCategory;
+		public IncidentCategoryDef category;
 
 		public StorytellerCompProperties_Disease()
 		{

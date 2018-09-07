@@ -11,11 +11,11 @@ namespace RimWorld
 {
 	public class JobDriver_CleanFilth : JobDriver
 	{
-		private float cleaningWorkDone = 0f;
+		private float cleaningWorkDone;
 
-		private float totalCleaningWorkDone = 0f;
+		private float totalCleaningWorkDone;
 
-		private float totalCleaningWorkRequired = 0f;
+		private float totalCleaningWorkRequired;
 
 		private const TargetIndex FilthInd = TargetIndex.A;
 
@@ -31,7 +31,7 @@ namespace RimWorld
 			}
 		}
 
-		public override bool TryMakePreToilReservations()
+		public override bool TryMakePreToilReservations(bool errorOnFailed)
 		{
 			this.pawn.ReserveAsManyAsPossible(this.job.GetTargetQueue(TargetIndex.A), this.job, 1, -1, null);
 			return true;
@@ -64,6 +64,7 @@ namespace RimWorld
 					{
 						clean.actor.records.Increment(RecordDefOf.MessesCleaned);
 						this.ReadyForNextToil();
+						return;
 					}
 				}
 			};
@@ -164,6 +165,7 @@ namespace RimWorld
 							{
 								<MakeNewToils>c__AnonStorey.clean.actor.records.Increment(RecordDefOf.MessesCleaned);
 								<MakeNewToils>c__AnonStorey.<>f__ref$0.$this.ReadyForNextToil();
+								return;
 							}
 						}
 					};
@@ -277,6 +279,7 @@ namespace RimWorld
 						{
 							this.clean.actor.records.Increment(RecordDefOf.MessesCleaned);
 							this.<>f__ref$0.$this.ReadyForNextToil();
+							return;
 						}
 					}
 				}

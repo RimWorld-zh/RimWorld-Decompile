@@ -6,82 +6,61 @@ namespace Verse
 	{
 		public static SnowCategory GetSnowCategory(float snowDepth)
 		{
-			SnowCategory result;
 			if (snowDepth < 0.03f)
 			{
-				result = SnowCategory.None;
+				return SnowCategory.None;
 			}
-			else if (snowDepth < 0.25f)
+			if (snowDepth < 0.25f)
 			{
-				result = SnowCategory.Dusting;
+				return SnowCategory.Dusting;
 			}
-			else if (snowDepth < 0.5f)
+			if (snowDepth < 0.5f)
 			{
-				result = SnowCategory.Thin;
+				return SnowCategory.Thin;
 			}
-			else if (snowDepth < 0.75f)
+			if (snowDepth < 0.75f)
 			{
-				result = SnowCategory.Medium;
+				return SnowCategory.Medium;
 			}
-			else
-			{
-				result = SnowCategory.Thick;
-			}
-			return result;
+			return SnowCategory.Thick;
 		}
 
 		public static string GetDescription(SnowCategory category)
 		{
-			string result;
 			switch (category)
 			{
 			case SnowCategory.None:
-				result = "SnowNone".Translate();
-				break;
+				return "SnowNone".Translate();
 			case SnowCategory.Dusting:
-				result = "SnowDusting".Translate();
-				break;
+				return "SnowDusting".Translate();
 			case SnowCategory.Thin:
-				result = "SnowThin".Translate();
-				break;
+				return "SnowThin".Translate();
 			case SnowCategory.Medium:
-				result = "SnowMedium".Translate();
-				break;
+				return "SnowMedium".Translate();
 			case SnowCategory.Thick:
-				result = "SnowThick".Translate();
-				break;
+				return "SnowThick".Translate();
 			default:
-				result = "Unknown snow";
-				break;
+				return "Unknown snow";
 			}
-			return result;
 		}
 
 		public static int MovementTicksAddOn(SnowCategory category)
 		{
-			int result;
 			switch (category)
 			{
 			case SnowCategory.None:
-				result = 0;
-				break;
+				return 0;
 			case SnowCategory.Dusting:
-				result = 0;
-				break;
+				return 0;
 			case SnowCategory.Thin:
-				result = 4;
-				break;
+				return 4;
 			case SnowCategory.Medium:
-				result = 8;
-				break;
+				return 8;
 			case SnowCategory.Thick:
-				result = 12;
-				break;
+				return 12;
 			default:
-				result = 0;
-				break;
+				return 0;
 			}
-			return result;
 		}
 
 		public static void AddSnowRadial(IntVec3 center, Map map, float radius, float depth)

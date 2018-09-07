@@ -97,15 +97,13 @@ namespace Verse
 			if (!area.Mutable)
 			{
 				Log.Error("Tried to delete non-Deletable area " + area, false);
+				return;
 			}
-			else
+			this.areas.Remove(area);
+			this.NotifyEveryoneAreaRemoved(area);
+			if (Designator_AreaAllowed.SelectedArea == area)
 			{
-				this.areas.Remove(area);
-				this.NotifyEveryoneAreaRemoved(area);
-				if (Designator_AreaAllowed.SelectedArea == area)
-				{
-					Designator_AreaAllowed.ClearSelectedArea();
-				}
+				Designator_AreaAllowed.ClearSelectedArea();
 			}
 		}
 
@@ -175,20 +173,15 @@ namespace Verse
 
 		public bool TryMakeNewAllowed(out Area_Allowed area)
 		{
-			bool result;
 			if (!this.CanMakeNewAllowed())
 			{
 				area = null;
-				result = false;
+				return false;
 			}
-			else
-			{
-				area = new Area_Allowed(this, null);
-				this.areas.Add(area);
-				this.SortAreas();
-				result = true;
-			}
-			return result;
+			area = new Area_Allowed(this, null);
+			this.areas.Add(area);
+			this.SortAreas();
+			return true;
 		}
 
 		[CompilerGenerated]

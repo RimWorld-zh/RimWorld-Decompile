@@ -36,9 +36,26 @@ namespace RimWorld
 			}
 		}
 
-		public override bool TryMakePreToilReservations()
+		public override bool TryMakePreToilReservations(bool errorOnFailed)
 		{
-			return this.pawn.Reserve(this.Takee, this.job, 1, -1, null) && this.pawn.Reserve(this.DropBed, this.job, this.DropBed.SleepingSlotsCount, 0, null);
+			Pawn pawn = this.pawn;
+			LocalTargetInfo target = this.Takee;
+			Job job = this.job;
+			bool result;
+			if (pawn.Reserve(target, job, 1, -1, null, errorOnFailed))
+			{
+				pawn = this.pawn;
+				target = this.DropBed;
+				job = this.job;
+				int sleepingSlotsCount = this.DropBed.SleepingSlotsCount;
+				int stackCount = 0;
+				result = pawn.Reserve(target, job, sleepingSlotsCount, stackCount, null, errorOnFailed);
+			}
+			else
+			{
+				result = false;
+			}
+			return result;
 		}
 
 		protected override IEnumerable<Toil> MakeNewToils()

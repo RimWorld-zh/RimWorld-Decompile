@@ -14,23 +14,18 @@ namespace Verse
 
 		public static TraverseParms For(Pawn pawn, Danger maxDanger = Danger.Deadly, TraverseMode mode = TraverseMode.ByPawn, bool canBash = false)
 		{
-			TraverseParms result;
 			if (pawn == null)
 			{
 				Log.Error("TraverseParms for null pawn.", false);
-				result = TraverseParms.For(TraverseMode.NoPassClosedDoors, maxDanger, canBash);
+				return TraverseParms.For(TraverseMode.NoPassClosedDoors, maxDanger, canBash);
 			}
-			else
+			return new TraverseParms
 			{
-				result = new TraverseParms
-				{
-					pawn = pawn,
-					maxDanger = maxDanger,
-					mode = mode,
-					canBash = canBash
-				};
-			}
-			return result;
+				pawn = pawn,
+				maxDanger = maxDanger,
+				mode = mode,
+				canBash = canBash
+			};
 		}
 
 		public static TraverseParms For(TraverseMode mode, Danger maxDanger = Danger.Deadly, bool canBash = false)
@@ -97,11 +92,10 @@ namespace Verse
 
 		public override string ToString()
 		{
-			string text = (!this.canBash) ? "" : " canBash";
-			string result;
+			string text = (!this.canBash) ? string.Empty : " canBash";
 			if (this.mode == TraverseMode.ByPawn)
 			{
-				result = string.Concat(new object[]
+				return string.Concat(new object[]
 				{
 					"(",
 					this.mode,
@@ -113,19 +107,15 @@ namespace Verse
 					")"
 				});
 			}
-			else
+			return string.Concat(new object[]
 			{
-				result = string.Concat(new object[]
-				{
-					"(",
-					this.mode,
-					" ",
-					this.maxDanger,
-					text,
-					")"
-				});
-			}
-			return result;
+				"(",
+				this.mode,
+				" ",
+				this.maxDanger,
+				text,
+				")"
+			});
 		}
 	}
 }

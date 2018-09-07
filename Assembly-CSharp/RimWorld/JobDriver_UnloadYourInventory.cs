@@ -29,7 +29,7 @@ namespace RimWorld
 			Scribe_Values.Look<int>(ref this.countToDrop, "countToDrop", -1, false);
 		}
 
-		public override bool TryMakePreToilReservations()
+		public override bool TryMakePreToilReservations(bool errorOnFailed)
 		{
 			return true;
 		}
@@ -74,22 +74,20 @@ namespace RimWorld
 					if (thing == null || !this.pawn.inventory.innerContainer.Contains(thing))
 					{
 						base.EndJobWith(JobCondition.Incompletable);
+						return;
+					}
+					if (!this.pawn.health.capacities.CapableOf(PawnCapacityDefOf.Manipulation) || !thing.def.EverStorable(false))
+					{
+						this.pawn.inventory.innerContainer.TryDrop(thing, ThingPlaceMode.Near, this.countToDrop, out thing, null, null);
+						base.EndJobWith(JobCondition.Succeeded);
 					}
 					else
 					{
-						if (!this.pawn.health.capacities.CapableOf(PawnCapacityDefOf.Manipulation) || !thing.def.EverStorable(false))
-						{
-							this.pawn.inventory.innerContainer.TryDrop(thing, ThingPlaceMode.Near, this.countToDrop, out thing, null, null);
-							base.EndJobWith(JobCondition.Succeeded);
-						}
-						else
-						{
-							this.pawn.inventory.innerContainer.TryTransferToContainer(thing, this.pawn.carryTracker.innerContainer, this.countToDrop, out thing, true);
-							this.job.count = this.countToDrop;
-							this.job.SetTarget(TargetIndex.A, thing);
-						}
-						thing.SetForbidden(false, false);
+						this.pawn.inventory.innerContainer.TryTransferToContainer(thing, this.pawn.carryTracker.innerContainer, this.countToDrop, out thing, true);
+						this.job.count = this.countToDrop;
+						this.job.SetTarget(TargetIndex.A, thing);
 					}
+					thing.SetForbidden(false, false);
 				}
 			};
 			Toil carryToCell = Toils_Haul.CarryHauledThingToCell(TargetIndex.B);
@@ -190,22 +188,20 @@ namespace RimWorld
 						if (thing == null || !this.pawn.inventory.innerContainer.Contains(thing))
 						{
 							base.EndJobWith(JobCondition.Incompletable);
+							return;
+						}
+						if (!this.pawn.health.capacities.CapableOf(PawnCapacityDefOf.Manipulation) || !thing.def.EverStorable(false))
+						{
+							this.pawn.inventory.innerContainer.TryDrop(thing, ThingPlaceMode.Near, this.countToDrop, out thing, null, null);
+							base.EndJobWith(JobCondition.Succeeded);
 						}
 						else
 						{
-							if (!this.pawn.health.capacities.CapableOf(PawnCapacityDefOf.Manipulation) || !thing.def.EverStorable(false))
-							{
-								this.pawn.inventory.innerContainer.TryDrop(thing, ThingPlaceMode.Near, this.countToDrop, out thing, null, null);
-								base.EndJobWith(JobCondition.Succeeded);
-							}
-							else
-							{
-								this.pawn.inventory.innerContainer.TryTransferToContainer(thing, this.pawn.carryTracker.innerContainer, this.countToDrop, out thing, true);
-								this.job.count = this.countToDrop;
-								this.job.SetTarget(TargetIndex.A, thing);
-							}
-							thing.SetForbidden(false, false);
+							this.pawn.inventory.innerContainer.TryTransferToContainer(thing, this.pawn.carryTracker.innerContainer, this.countToDrop, out thing, true);
+							this.job.count = this.countToDrop;
+							this.job.SetTarget(TargetIndex.A, thing);
 						}
+						thing.SetForbidden(false, false);
 					};
 					this.$current = dropOrStartCarrying;
 					if (!this.$disposing)
@@ -316,22 +312,20 @@ namespace RimWorld
 				if (thing == null || !this.pawn.inventory.innerContainer.Contains(thing))
 				{
 					base.EndJobWith(JobCondition.Incompletable);
+					return;
+				}
+				if (!this.pawn.health.capacities.CapableOf(PawnCapacityDefOf.Manipulation) || !thing.def.EverStorable(false))
+				{
+					this.pawn.inventory.innerContainer.TryDrop(thing, ThingPlaceMode.Near, this.countToDrop, out thing, null, null);
+					base.EndJobWith(JobCondition.Succeeded);
 				}
 				else
 				{
-					if (!this.pawn.health.capacities.CapableOf(PawnCapacityDefOf.Manipulation) || !thing.def.EverStorable(false))
-					{
-						this.pawn.inventory.innerContainer.TryDrop(thing, ThingPlaceMode.Near, this.countToDrop, out thing, null, null);
-						base.EndJobWith(JobCondition.Succeeded);
-					}
-					else
-					{
-						this.pawn.inventory.innerContainer.TryTransferToContainer(thing, this.pawn.carryTracker.innerContainer, this.countToDrop, out thing, true);
-						this.job.count = this.countToDrop;
-						this.job.SetTarget(TargetIndex.A, thing);
-					}
-					thing.SetForbidden(false, false);
+					this.pawn.inventory.innerContainer.TryTransferToContainer(thing, this.pawn.carryTracker.innerContainer, this.countToDrop, out thing, true);
+					this.job.count = this.countToDrop;
+					this.job.SetTarget(TargetIndex.A, thing);
 				}
+				thing.SetForbidden(false, false);
 			}
 		}
 	}

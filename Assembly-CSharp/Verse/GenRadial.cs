@@ -106,20 +106,15 @@ namespace Verse
 			{
 				float num = (float)A.LengthHorizontalSquared;
 				float num2 = (float)B.LengthHorizontalSquared;
-				int result;
 				if (num < num2)
 				{
-					result = -1;
+					return -1;
 				}
-				else if (num == num2)
+				if (num == num2)
 				{
-					result = 0;
+					return 0;
 				}
-				else
-				{
-					result = 1;
-				}
-				return result;
+				return 1;
 			});
 			for (int k = 0; k < 10000; k++)
 			{
@@ -130,34 +125,28 @@ namespace Verse
 
 		public static int NumCellsToFillForRadius_ManualRadialPattern(int radius)
 		{
-			int result;
 			if (radius == 0)
 			{
-				result = 1;
+				return 1;
 			}
-			else if (radius == 1)
+			if (radius == 1)
 			{
-				result = 9;
+				return 9;
 			}
-			else if (radius == 2)
+			if (radius == 2)
 			{
-				result = 21;
+				return 21;
 			}
-			else if (radius == 3)
+			if (radius == 3)
 			{
-				result = 37;
+				return 37;
 			}
-			else
-			{
-				Log.Error("NumSquares radius error", false);
-				result = 0;
-			}
-			return result;
+			Log.Error("NumSquares radius error", false);
+			return 0;
 		}
 
 		public static int NumCellsInRadius(float radius)
 		{
-			int result;
 			if (radius >= GenRadial.MaxRadialPatternRadius)
 			{
 				Log.Error(string.Concat(new object[]
@@ -167,21 +156,17 @@ namespace Verse
 					". Max is ",
 					GenRadial.MaxRadialPatternRadius
 				}), false);
-				result = 10000;
+				return 10000;
 			}
-			else
+			float num = radius + float.Epsilon;
+			for (int i = 0; i < 10000; i++)
 			{
-				float num = radius + float.Epsilon;
-				for (int i = 0; i < 10000; i++)
+				if (GenRadial.RadialPatternRadii[i] > num)
 				{
-					if (GenRadial.RadialPatternRadii[i] > num)
-					{
-						return i;
-					}
+					return i;
 				}
-				result = 10000;
 			}
-			return result;
+			return 10000;
 		}
 
 		public static float RadiusOfNumCells(int numCells)
@@ -225,7 +210,7 @@ namespace Verse
 						Thing t = thingList[j];
 						if (t.def.size.x <= 1 || t.def.size.z <= 1)
 						{
-							goto IL_14F;
+							goto IL_14A;
 						}
 						if (returnedThings == null)
 						{
@@ -234,14 +219,14 @@ namespace Verse
 						if (!returnedThings.Contains(t))
 						{
 							returnedThings.Add(t);
-							goto IL_14F;
+							goto IL_14A;
 						}
-						IL_170:
+						IL_16A:
 						j++;
 						continue;
-						IL_14F:
+						IL_14A:
 						yield return t;
-						goto IL_170;
+						goto IL_16A;
 					}
 				}
 			}
@@ -253,43 +238,41 @@ namespace Verse
 			if (GenRadial.working)
 			{
 				Log.Error("Nested calls to ProcessEquidistantCells() are not allowed.", false);
+				return;
 			}
-			else
+			GenRadial.tmpCells.Clear();
+			GenRadial.working = true;
+			try
+			{
+				float num = -1f;
+				int num2 = GenRadial.NumCellsInRadius(radius);
+				for (int i = 0; i < num2; i++)
+				{
+					IntVec3 intVec = center + GenRadial.RadialPattern[i];
+					if (map == null || intVec.InBounds(map))
+					{
+						float num3 = (float)intVec.DistanceToSquared(center);
+						if (Mathf.Abs(num3 - num) > 0.0001f)
+						{
+							if (GenRadial.tmpCells.Any<IntVec3>() && processor(GenRadial.tmpCells))
+							{
+								return;
+							}
+							num = num3;
+							GenRadial.tmpCells.Clear();
+						}
+						GenRadial.tmpCells.Add(intVec);
+					}
+				}
+				if (GenRadial.tmpCells.Any<IntVec3>())
+				{
+					processor(GenRadial.tmpCells);
+				}
+			}
+			finally
 			{
 				GenRadial.tmpCells.Clear();
-				GenRadial.working = true;
-				try
-				{
-					float num = -1f;
-					int num2 = GenRadial.NumCellsInRadius(radius);
-					for (int i = 0; i < num2; i++)
-					{
-						IntVec3 intVec = center + GenRadial.RadialPattern[i];
-						if (map == null || intVec.InBounds(map))
-						{
-							float num3 = (float)intVec.DistanceToSquared(center);
-							if (Mathf.Abs(num3 - num) > 0.0001f)
-							{
-								if (GenRadial.tmpCells.Any<IntVec3>() && processor(GenRadial.tmpCells))
-								{
-									return;
-								}
-								num = num3;
-								GenRadial.tmpCells.Clear();
-							}
-							GenRadial.tmpCells.Add(intVec);
-						}
-					}
-					if (GenRadial.tmpCells.Any<IntVec3>())
-					{
-						processor(GenRadial.tmpCells);
-					}
-				}
-				finally
-				{
-					GenRadial.tmpCells.Clear();
-					GenRadial.working = false;
-				}
+				GenRadial.working = false;
 			}
 		}
 
@@ -298,20 +281,15 @@ namespace Verse
 		{
 			float num = (float)A.LengthHorizontalSquared;
 			float num2 = (float)B.LengthHorizontalSquared;
-			int result;
 			if (num < num2)
 			{
-				result = -1;
+				return -1;
 			}
-			else if (num == num2)
+			if (num == num2)
 			{
-				result = 0;
+				return 0;
 			}
-			else
-			{
-				result = 1;
-			}
-			return result;
+			return 1;
 		}
 
 		[CompilerGenerated]
@@ -564,15 +542,15 @@ namespace Verse
 					numCells = GenRadial.NumCellsInRadius(radius);
 					returnedThings = null;
 					i = ((!useCenter) ? 1 : 0);
-					goto IL_1A3;
+					goto IL_19C;
 				case 1u:
+					IL_16A:
+					j++;
 					break;
 				default:
 					return false;
 				}
-				IL_170:
-				j++;
-				IL_17E:
+				IL_178:
 				if (j < thingList.Count)
 				{
 					t = thingList[j];
@@ -584,7 +562,7 @@ namespace Verse
 						}
 						if (returnedThings.Contains(t))
 						{
-							goto IL_170;
+							goto IL_16A;
 						}
 						returnedThings.Add(t);
 					}
@@ -595,9 +573,9 @@ namespace Verse
 					}
 					return true;
 				}
-				IL_195:
+				IL_18E:
 				i++;
-				IL_1A3:
+				IL_19C:
 				if (i >= numCells)
 				{
 					this.$PC = -1;
@@ -607,11 +585,11 @@ namespace Verse
 					cell = GenRadial.RadialPattern[i] + center;
 					if (!cell.InBounds(map))
 					{
-						goto IL_195;
+						goto IL_18E;
 					}
 					thingList = cell.GetThingList(map);
 					j = 0;
-					goto IL_17E;
+					goto IL_178;
 				}
 				return false;
 			}

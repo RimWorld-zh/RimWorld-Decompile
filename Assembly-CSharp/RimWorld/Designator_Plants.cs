@@ -29,50 +29,34 @@ namespace RimWorld
 
 		public override AcceptanceReport CanDesignateThing(Thing t)
 		{
-			AcceptanceReport result;
 			if (t.def.plant == null)
 			{
-				result = false;
+				return false;
 			}
-			else if (base.Map.designationManager.DesignationOn(t, this.designationDef) != null)
+			if (base.Map.designationManager.DesignationOn(t, this.designationDef) != null)
 			{
-				result = false;
+				return false;
 			}
-			else
-			{
-				result = true;
-			}
-			return result;
+			return true;
 		}
 
 		public override AcceptanceReport CanDesignateCell(IntVec3 c)
 		{
-			AcceptanceReport result;
 			if (!c.InBounds(base.Map) || c.Fogged(base.Map))
 			{
-				result = false;
+				return false;
 			}
-			else
+			Plant plant = c.GetPlant(base.Map);
+			if (plant == null)
 			{
-				Plant plant = c.GetPlant(base.Map);
-				if (plant == null)
-				{
-					result = "MessageMustDesignatePlants".Translate();
-				}
-				else
-				{
-					AcceptanceReport acceptanceReport = this.CanDesignateThing(plant);
-					if (!acceptanceReport.Accepted)
-					{
-						result = acceptanceReport;
-					}
-					else
-					{
-						result = true;
-					}
-				}
+				return "MessageMustDesignatePlants".Translate();
 			}
-			return result;
+			AcceptanceReport result = this.CanDesignateThing(plant);
+			if (!result.Accepted)
+			{
+				return result;
+			}
+			return true;
 		}
 
 		public override void DesignateSingleCell(IntVec3 c)

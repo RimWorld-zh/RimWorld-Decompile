@@ -124,28 +124,23 @@ namespace Verse
 
 		public override Texture2D IconFromPOV(Thing pov)
 		{
-			Texture2D result;
 			if (this.damagedParts.NullOrEmpty<BodyPartRecord>())
 			{
-				result = this.def.iconMissTex;
+				return this.def.iconMissTex;
 			}
-			else if (this.deflected)
+			if (this.deflected)
 			{
-				result = this.def.iconMissTex;
+				return this.def.iconMissTex;
 			}
-			else if (pov == null || pov == this.recipientPawn)
+			if (pov == null || pov == this.recipientPawn)
 			{
-				result = this.def.iconDamagedTex;
+				return this.def.iconDamagedTex;
 			}
-			else if (pov == this.initiator)
+			if (pov == this.initiator)
 			{
-				result = this.def.iconDamagedFromInstigatorTex;
+				return this.def.iconDamagedFromInstigatorTex;
 			}
-			else
-			{
-				result = this.def.iconDamagedTex;
-			}
-			return result;
+			return this.def.iconDamagedTex;
 		}
 
 		protected override BodyDef DamagedBody()
@@ -263,7 +258,7 @@ namespace Verse
 				case 1u:
 					break;
 				case 2u:
-					goto IL_90;
+					goto IL_8F;
 				default:
 					return false;
 				}
@@ -276,7 +271,7 @@ namespace Verse
 					}
 					return true;
 				}
-				IL_90:
+				IL_8F:
 				this.$PC = -1;
 				return false;
 			}

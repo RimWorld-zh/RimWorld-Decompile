@@ -38,31 +38,26 @@ namespace Steamworks
 				num = 206760;
 			}
 			IntPtr moduleHandle = DllCheck.GetModuleHandle(lpModuleName);
-			bool result;
 			if (moduleHandle == IntPtr.Zero)
 			{
-				result = true;
+				return true;
 			}
-			else
+			StringBuilder stringBuilder = new StringBuilder(256);
+			DllCheck.GetModuleFileName(moduleHandle, stringBuilder, stringBuilder.Capacity);
+			string text = stringBuilder.ToString();
+			if (File.Exists(text))
 			{
-				StringBuilder stringBuilder = new StringBuilder(256);
-				DllCheck.GetModuleFileName(moduleHandle, stringBuilder, stringBuilder.Capacity);
-				string text = stringBuilder.ToString();
-				if (File.Exists(text))
+				FileInfo fileInfo = new FileInfo(text);
+				if (fileInfo.Length != (long)num)
 				{
-					FileInfo fileInfo = new FileInfo(text);
-					if (fileInfo.Length != (long)num)
-					{
-						return false;
-					}
-					if (FileVersionInfo.GetVersionInfo(text).FileVersion != "02.89.45.04")
-					{
-						return false;
-					}
+					return false;
 				}
-				result = true;
+				if (FileVersionInfo.GetVersionInfo(text).FileVersion != "02.89.45.04")
+				{
+					return false;
+				}
 			}
-			return result;
+			return true;
 		}
 	}
 }

@@ -154,7 +154,7 @@ namespace Verse
 			array[3] = new TableDataGetter<BiomeDef>("diseaseMtbDays", (BiomeDef d) => d.diseaseMtbDays.ToString("F0"));
 			array[4] = new TableDataGetter<BiomeDef>("movementDifficulty", (BiomeDef d) => (!d.impassable) ? d.movementDifficulty.ToString("F1") : "-");
 			array[5] = new TableDataGetter<BiomeDef>("forageability", (BiomeDef d) => d.forageability.ToStringPercent());
-			array[6] = new TableDataGetter<BiomeDef>("forageFood", (BiomeDef d) => (d.foragedFood == null) ? "" : d.foragedFood.label);
+			array[6] = new TableDataGetter<BiomeDef>("forageFood", (BiomeDef d) => (d.foragedFood == null) ? string.Empty : d.foragedFood.label);
 			array[7] = new TableDataGetter<BiomeDef>("forageable plants", (BiomeDef d) => (from pd in d.AllWildPlants
 			where pd.plant.harvestedThingDef != null && pd.plant.harvestedThingDef.IsNutritionGivingIngestible
 			select pd.defName).ToCommaList(false));
@@ -169,17 +169,12 @@ namespace Verse
 			DebugOutputsEcology.BiomeAnimalsInternal(delegate(PawnKindDef k, BiomeDef b)
 			{
 				float num = b.CommonalityOfAnimal(k);
-				string result;
 				if (num == 0f)
 				{
-					result = "";
+					return string.Empty;
 				}
-				else
-				{
-					float f = num / DefDatabase<PawnKindDef>.AllDefs.Sum((PawnKindDef ki) => b.CommonalityOfAnimal(ki));
-					result = f.ToStringPercent("F1");
-				}
-				return result;
+				float f = num / DefDatabase<PawnKindDef>.AllDefs.Sum((PawnKindDef ki) => b.CommonalityOfAnimal(ki));
+				return f.ToStringPercent("F1");
 			});
 		}
 
@@ -192,24 +187,18 @@ namespace Verse
 		private static float ExpectedAnimalCount(PawnKindDef k, BiomeDef b)
 		{
 			float num = b.CommonalityOfAnimal(k);
-			float result;
 			if (num == 0f)
 			{
-				result = 0f;
+				return 0f;
 			}
-			else
-			{
-				float num2 = DefDatabase<PawnKindDef>.AllDefs.Sum((PawnKindDef ki) => b.CommonalityOfAnimal(ki));
-				float num3 = num / num2;
-				float num4 = 10000f / b.animalDensity;
-				float num5 = 62500f / num4;
-				float totalCommonality = DefDatabase<PawnKindDef>.AllDefs.Sum((PawnKindDef ki) => b.CommonalityOfAnimal(ki));
-				float num6 = DefDatabase<PawnKindDef>.AllDefs.Sum((PawnKindDef ki) => k.ecoSystemWeight * (b.CommonalityOfAnimal(ki) / totalCommonality));
-				float num7 = num5 / num6;
-				float num8 = num7 * num3;
-				result = num8;
-			}
-			return result;
+			float num2 = DefDatabase<PawnKindDef>.AllDefs.Sum((PawnKindDef ki) => b.CommonalityOfAnimal(ki));
+			float num3 = num / num2;
+			float num4 = 10000f / b.animalDensity;
+			float num5 = 62500f / num4;
+			float totalCommonality = DefDatabase<PawnKindDef>.AllDefs.Sum((PawnKindDef ki) => b.CommonalityOfAnimal(ki));
+			float num6 = DefDatabase<PawnKindDef>.AllDefs.Sum((PawnKindDef ki) => k.ecoSystemWeight * (b.CommonalityOfAnimal(ki) / totalCommonality));
+			float num7 = num5 / num6;
+			return num7 * num3;
 		}
 
 		private static void BiomeAnimalsInternal(Func<PawnKindDef, BiomeDef, string> densityInBiomeOutputter)
@@ -218,7 +207,7 @@ namespace Verse
 			where b.implemented && b.canBuildBase
 			orderby b.animalDensity
 			select new TableDataGetter<PawnKindDef>(b.defName, (PawnKindDef k) => densityInBiomeOutputter(k, b))).ToList<TableDataGetter<PawnKindDef>>();
-			list.Insert(0, new TableDataGetter<PawnKindDef>("animal", (PawnKindDef k) => k.defName + "" + ((!k.race.race.predator) ? "" : " (P)")));
+			list.Insert(0, new TableDataGetter<PawnKindDef>("animal", (PawnKindDef k) => k.defName + string.Empty + ((!k.race.race.predator) ? string.Empty : " (P)")));
 			DebugTables.MakeTablesDialog<PawnKindDef>(from d in DefDatabase<PawnKindDef>.AllDefs
 			where d.race != null && d.RaceProps.Animal
 			orderby d.defName
@@ -368,7 +357,7 @@ namespace Verse
 		[CompilerGenerated]
 		private static string <Biomes>m__F(BiomeDef d)
 		{
-			return (d.foragedFood == null) ? "" : d.foragedFood.label;
+			return (d.foragedFood == null) ? string.Empty : d.foragedFood.label;
 		}
 
 		[CompilerGenerated]
@@ -395,17 +384,12 @@ namespace Verse
 		private static string <BiomeAnimalsSpawnChances>m__13(PawnKindDef k, BiomeDef b)
 		{
 			float num = b.CommonalityOfAnimal(k);
-			string result;
 			if (num == 0f)
 			{
-				result = "";
+				return string.Empty;
 			}
-			else
-			{
-				float f = num / DefDatabase<PawnKindDef>.AllDefs.Sum((PawnKindDef ki) => b.CommonalityOfAnimal(ki));
-				result = f.ToStringPercent("F1");
-			}
-			return result;
+			float f = num / DefDatabase<PawnKindDef>.AllDefs.Sum((PawnKindDef ki) => b.CommonalityOfAnimal(ki));
+			return f.ToStringPercent("F1");
 		}
 
 		[CompilerGenerated]
@@ -429,7 +413,7 @@ namespace Verse
 		[CompilerGenerated]
 		private static string <BiomeAnimalsInternal>m__17(PawnKindDef k)
 		{
-			return k.defName + "" + ((!k.race.race.predator) ? "" : " (P)");
+			return k.defName + string.Empty + ((!k.race.race.predator) ? string.Empty : " (P)");
 		}
 
 		[CompilerGenerated]

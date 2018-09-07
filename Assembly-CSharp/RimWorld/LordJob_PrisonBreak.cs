@@ -32,6 +32,14 @@ namespace RimWorld
 			}
 		}
 
+		public override bool AddFleeToil
+		{
+			get
+			{
+				return false;
+			}
+		}
+
 		public override StateGraph CreateGraph()
 		{
 			StateGraph stateGraph = new StateGraph();
@@ -85,12 +93,12 @@ namespace RimWorld
 
 		public override void Notify_PawnAdded(Pawn p)
 		{
-			ReachabilityUtility.ClearCache();
+			ReachabilityUtility.ClearCacheFor(p);
 		}
 
 		public override void Notify_PawnLost(Pawn p, PawnLostCondition condition)
 		{
-			ReachabilityUtility.ClearCache();
+			ReachabilityUtility.ClearCacheFor(p);
 		}
 
 		public override bool CanOpenAnyDoor(Pawn p)
@@ -101,17 +109,12 @@ namespace RimWorld
 		public override bool ValidateAttackTarget(Pawn searcher, Thing target)
 		{
 			Pawn pawn = target as Pawn;
-			bool result;
 			if (pawn == null)
 			{
-				result = true;
+				return true;
 			}
-			else
-			{
-				MentalStateDef mentalStateDef = pawn.MentalStateDef;
-				result = (mentalStateDef == null || !mentalStateDef.escapingPrisonersIgnore);
-			}
-			return result;
+			MentalStateDef mentalStateDef = pawn.MentalStateDef;
+			return mentalStateDef == null || !mentalStateDef.escapingPrisonersIgnore;
 		}
 	}
 }

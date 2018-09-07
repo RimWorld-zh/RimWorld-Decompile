@@ -18,7 +18,7 @@ namespace Verse
 		{
 			for (int i = 0; i < 50; i++)
 			{
-				ThreadLocalDeepProfiler.Prefixes[i] = "";
+				ThreadLocalDeepProfiler.Prefixes[i] = string.Empty;
 				for (int j = 0; j < i; j++)
 				{
 					string[] prefixes;
@@ -34,33 +34,33 @@ namespace Verse
 
 		public void Start(string label = null)
 		{
-			if (Prefs.LogVerbose)
+			if (!Prefs.LogVerbose)
 			{
-				this.watchers.Push(new ThreadLocalDeepProfiler.Watcher(label));
+				return;
 			}
+			this.watchers.Push(new ThreadLocalDeepProfiler.Watcher(label));
 		}
 
 		public void End()
 		{
-			if (Prefs.LogVerbose)
+			if (!Prefs.LogVerbose)
 			{
-				if (this.watchers.Count == 0)
-				{
-					Log.Error("Ended deep profiling while not profiling.", false);
-				}
-				else
-				{
-					ThreadLocalDeepProfiler.Watcher watcher = this.watchers.Pop();
-					watcher.Watch.Stop();
-					if (this.watchers.Count > 0)
-					{
-						this.watchers.Peek().AddChildResult(watcher);
-					}
-					else
-					{
-						this.Output(watcher);
-					}
-				}
+				return;
+			}
+			if (this.watchers.Count == 0)
+			{
+				Log.Error("Ended deep profiling while not profiling.", false);
+				return;
+			}
+			ThreadLocalDeepProfiler.Watcher watcher = this.watchers.Pop();
+			watcher.Watch.Stop();
+			if (this.watchers.Count > 0)
+			{
+				this.watchers.Peek().AddChildResult(watcher);
+			}
+			else
+			{
+				this.Output(watcher);
 			}
 		}
 

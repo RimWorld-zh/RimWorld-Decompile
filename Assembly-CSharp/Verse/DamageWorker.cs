@@ -103,12 +103,12 @@ namespace Verse
 			{
 				if (DamageWorker.thingsToAffect[j].def.Altitude >= num)
 				{
-					this.defaultDamageThing(explosion, DamageWorker.thingsToAffect[j], damagedThings, c);
+					this.ExplosionDamageThing(explosion, DamageWorker.thingsToAffect[j], damagedThings, c);
 				}
 			}
 			if (!flag)
 			{
-				this.defaultDamageTerrain(explosion, c);
+				this.ExplosionDamageTerrain(explosion, c);
 			}
 			if (this.def.explosionSnowMeltAmount > 0.0001f)
 			{
@@ -133,83 +133,86 @@ namespace Verse
 			}
 		}
 
-		protected virtual void defaultDamageThing(Explosion explosion, Thing t, List<Thing> damagedThings, IntVec3 cell)
+		protected virtual void ExplosionDamageThing(Explosion explosion, Thing t, List<Thing> damagedThings, IntVec3 cell)
 		{
-			if (t.def.category != ThingCategory.Mote && t.def.category != ThingCategory.Ethereal)
+			if (t.def.category == ThingCategory.Mote || t.def.category == ThingCategory.Ethereal)
 			{
-				if (!damagedThings.Contains(t))
-				{
-					damagedThings.Add(t);
-					if (this.def == DamageDefOf.Bomb && t.def == ThingDefOf.Fire && !t.Destroyed)
-					{
-						t.Destroy(DestroyMode.Vanish);
-					}
-					else
-					{
-						float num;
-						if (t.Position == explosion.Position)
-						{
-							num = (float)Rand.RangeInclusive(0, 359);
-						}
-						else
-						{
-							num = (t.Position - explosion.Position).AngleFlat;
-						}
-						DamageDef damageDef = this.def;
-						float amount = (float)explosion.GetDamageAmountAt(cell);
-						float armorPenetrationAt = explosion.GetArmorPenetrationAt(cell);
-						float angle = num;
-						Thing instigator = explosion.instigator;
-						ThingDef weapon = explosion.weapon;
-						DamageInfo dinfo = new DamageInfo(damageDef, amount, armorPenetrationAt, angle, instigator, null, weapon, DamageInfo.SourceCategory.ThingOrUnknown, explosion.intendedTarget);
-						if (this.def.explosionAffectOutsidePartsOnly)
-						{
-							dinfo.SetBodyRegion(BodyPartHeight.Undefined, BodyPartDepth.Outside);
-						}
-						if (t.def.category == ThingCategory.Building)
-						{
-							int num2 = Mathf.RoundToInt(dinfo.Amount * this.def.explosionBuildingDamageFactor);
-							dinfo.SetAmount((float)num2);
-						}
-						else if (t.def.category == ThingCategory.Plant)
-						{
-							int num3 = Mathf.RoundToInt(dinfo.Amount * this.def.explosionPlantDamageFactor);
-							dinfo.SetAmount((float)num3);
-						}
-						BattleLogEntry_ExplosionImpact battleLogEntry_ExplosionImpact = null;
-						Pawn pawn = t as Pawn;
-						if (pawn != null)
-						{
-							battleLogEntry_ExplosionImpact = new BattleLogEntry_ExplosionImpact(explosion.instigator, t, explosion.weapon, explosion.projectile, this.def);
-							Find.BattleLog.Add(battleLogEntry_ExplosionImpact);
-						}
-						DamageWorker.DamageResult damageResult = t.TakeDamage(dinfo);
-						damageResult.AssociateWithLog(battleLogEntry_ExplosionImpact);
-						if (pawn != null && damageResult.wounded && pawn.stances != null)
-						{
-							pawn.stances.StaggerFor(95);
-						}
-					}
-				}
+				return;
+			}
+			if (damagedThings.Contains(t))
+			{
+				return;
+			}
+			damagedThings.Add(t);
+			if (this.def == DamageDefOf.Bomb && t.def == ThingDefOf.Fire && !t.Destroyed)
+			{
+				t.Destroy(DestroyMode.Vanish);
+				return;
+			}
+			float num;
+			if (t.Position == explosion.Position)
+			{
+				num = (float)Rand.RangeInclusive(0, 359);
+			}
+			else
+			{
+				num = (t.Position - explosion.Position).AngleFlat;
+			}
+			DamageDef damageDef = this.def;
+			float amount = (float)explosion.GetDamageAmountAt(cell);
+			float armorPenetrationAt = explosion.GetArmorPenetrationAt(cell);
+			float angle = num;
+			Thing instigator = explosion.instigator;
+			ThingDef weapon = explosion.weapon;
+			DamageInfo dinfo = new DamageInfo(damageDef, amount, armorPenetrationAt, angle, instigator, null, weapon, DamageInfo.SourceCategory.ThingOrUnknown, explosion.intendedTarget);
+			if (this.def.explosionAffectOutsidePartsOnly)
+			{
+				dinfo.SetBodyRegion(BodyPartHeight.Undefined, BodyPartDepth.Outside);
+			}
+			if (t.def.category == ThingCategory.Building)
+			{
+				int num2 = Mathf.RoundToInt(dinfo.Amount * this.def.explosionBuildingDamageFactor);
+				dinfo.SetAmount((float)num2);
+			}
+			else if (t.def.category == ThingCategory.Plant)
+			{
+				int num3 = Mathf.RoundToInt(dinfo.Amount * this.def.explosionPlantDamageFactor);
+				dinfo.SetAmount((float)num3);
+			}
+			BattleLogEntry_ExplosionImpact battleLogEntry_ExplosionImpact = null;
+			Pawn pawn = t as Pawn;
+			if (pawn != null)
+			{
+				battleLogEntry_ExplosionImpact = new BattleLogEntry_ExplosionImpact(explosion.instigator, t, explosion.weapon, explosion.projectile, this.def);
+				Find.BattleLog.Add(battleLogEntry_ExplosionImpact);
+			}
+			DamageWorker.DamageResult damageResult = t.TakeDamage(dinfo);
+			damageResult.AssociateWithLog(battleLogEntry_ExplosionImpact);
+			if (pawn != null && damageResult.wounded && pawn.stances != null)
+			{
+				pawn.stances.StaggerFor(95);
 			}
 		}
 
-		protected virtual void defaultDamageTerrain(Explosion explosion, IntVec3 c)
+		protected virtual void ExplosionDamageTerrain(Explosion explosion, IntVec3 c)
 		{
-			if (this.def == DamageDefOf.Bomb)
+			if (this.def != DamageDefOf.Bomb)
 			{
-				if (explosion.Map.terrainGrid.CanRemoveTopLayerAt(c))
-				{
-					TerrainDef terrain = c.GetTerrain(explosion.Map);
-					if (terrain.destroyOnBombDamageThreshold >= 0f)
-					{
-						float num = (float)explosion.GetDamageAmountAt(c);
-						if (num >= terrain.destroyOnBombDamageThreshold)
-						{
-							explosion.Map.terrainGrid.Notify_TerrainDestroyed(c);
-						}
-					}
-				}
+				return;
+			}
+			if (!explosion.Map.terrainGrid.CanRemoveTopLayerAt(c))
+			{
+				return;
+			}
+			TerrainDef terrain = c.GetTerrain(explosion.Map);
+			if (terrain.destroyOnBombDamageThreshold < 0f)
+			{
+				return;
+			}
+			float num = (float)explosion.GetDamageAmountAt(c);
+			if (num >= terrain.destroyOnBombDamageThreshold)
+			{
+				explosion.Map.terrainGrid.Notify_TerrainDestroyed(c);
 			}
 		}
 
@@ -271,11 +274,11 @@ namespace Verse
 
 		public class DamageResult
 		{
-			public bool wounded = false;
+			public bool wounded;
 
-			public bool headshot = false;
+			public bool headshot;
 
-			public bool deflected = false;
+			public bool deflected;
 
 			public bool deflectedByMetalArmor;
 
@@ -283,13 +286,13 @@ namespace Verse
 
 			public bool diminishedByMetalArmor;
 
-			public Thing hitThing = null;
+			public Thing hitThing;
 
-			public List<BodyPartRecord> parts = null;
+			public List<BodyPartRecord> parts;
 
-			public List<Hediff> hediffs = null;
+			public List<Hediff> hediffs;
 
-			public float totalDamageDealt = 0f;
+			public float totalDamageDealt;
 
 			public DamageResult()
 			{
@@ -299,20 +302,15 @@ namespace Verse
 			{
 				get
 				{
-					BodyPartRecord result;
 					if (this.parts == null)
 					{
-						result = null;
+						return null;
 					}
-					else if (this.parts.Count <= 0)
+					if (this.parts.Count <= 0)
 					{
-						result = null;
+						return null;
 					}
-					else
-					{
-						result = this.parts[this.parts.Count - 1];
-					}
-					return result;
+					return this.parts[this.parts.Count - 1];
 				}
 			}
 
@@ -341,28 +339,29 @@ namespace Verse
 
 			public void AssociateWithLog(LogEntry_DamageResult log)
 			{
-				if (log != null)
+				if (log == null)
 				{
-					Pawn hitPawn = this.hitThing as Pawn;
-					if (hitPawn != null)
+					return;
+				}
+				Pawn hitPawn = this.hitThing as Pawn;
+				if (hitPawn != null)
+				{
+					List<BodyPartRecord> list = null;
+					List<bool> recipientPartsDestroyed = null;
+					if (!this.parts.NullOrEmpty<BodyPartRecord>() && hitPawn != null)
 					{
-						List<BodyPartRecord> list = null;
-						List<bool> recipientPartsDestroyed = null;
-						if (!this.parts.NullOrEmpty<BodyPartRecord>() && hitPawn != null)
-						{
-							list = this.parts.Distinct<BodyPartRecord>().ToList<BodyPartRecord>();
-							recipientPartsDestroyed = (from part in list
-							select hitPawn.health.hediffSet.GetPartHealth(part) <= 0f).ToList<bool>();
-						}
-						log.FillTargets(list, recipientPartsDestroyed, this.deflected);
+						list = this.parts.Distinct<BodyPartRecord>().ToList<BodyPartRecord>();
+						recipientPartsDestroyed = (from part in list
+						select hitPawn.health.hediffSet.GetPartHealth(part) <= 0f).ToList<bool>();
 					}
-					if (this.hediffs != null)
+					log.FillTargets(list, recipientPartsDestroyed, this.deflected);
+				}
+				if (this.hediffs != null)
+				{
+					for (int i = 0; i < this.hediffs.Count; i++)
 					{
-						for (int i = 0; i < this.hediffs.Count; i++)
-						{
-							this.hediffs[i].combatLogEntry = new WeakReference<LogEntry>(log);
-							this.hediffs[i].combatLogText = log.ToGameStringFromPOV(null, false);
-						}
+						this.hediffs[i].combatLogEntry = new WeakReference<LogEntry>(log);
+						this.hediffs[i].combatLogText = log.ToGameStringFromPOV(null, false);
 					}
 				}
 			}

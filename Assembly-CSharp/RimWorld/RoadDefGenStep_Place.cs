@@ -87,18 +87,20 @@ namespace RimWorld
 			}
 			else if (this.place is ThingDef)
 			{
-				if (GenConstruct.CanBuildOnTerrain(this.place, position, map, Rot4.North, null))
+				if (!GenConstruct.CanBuildOnTerrain(this.place, position, map, Rot4.North, null))
 				{
-					if (this.proximitySpacing <= 0 || GenClosest.ClosestThing_Global(position, map.listerThings.ThingsOfDef((ThingDef)this.place), (float)this.proximitySpacing, null, null) == null)
-					{
-						while (position.GetThingList(map).Count > 0)
-						{
-							position.GetThingList(map)[0].Destroy(DestroyMode.Vanish);
-						}
-						RoadDefGenStep_DryWithFallback.PlaceWorker(map, position, TerrainDefOf.Gravel);
-						GenSpawn.Spawn(ThingMaker.MakeThing((ThingDef)this.place, null), position, map, WipeMode.Vanish);
-					}
+					return;
 				}
+				if (this.proximitySpacing > 0 && GenClosest.ClosestThing_Global(position, map.listerThings.ThingsOfDef((ThingDef)this.place), (float)this.proximitySpacing, null, null) != null)
+				{
+					return;
+				}
+				while (position.GetThingList(map).Count > 0)
+				{
+					position.GetThingList(map)[0].Destroy(DestroyMode.Vanish);
+				}
+				RoadDefGenStep_DryWithFallback.PlaceWorker(map, position, TerrainDefOf.Gravel);
+				GenSpawn.Spawn(ThingMaker.MakeThing((ThingDef)this.place, null), position, map, WipeMode.Vanish);
 			}
 			else
 			{

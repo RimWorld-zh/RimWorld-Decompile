@@ -150,11 +150,11 @@ namespace RimWorld
 				case 1u:
 					break;
 				case 2u:
-					goto IL_148;
+					goto IL_143;
 				case 3u:
-					goto IL_1F3;
+					goto IL_1EA;
 				case 4u:
-					goto IL_298;
+					goto IL_28C;
 				default:
 					return false;
 				}
@@ -189,7 +189,7 @@ namespace RimWorld
 				num = 4294967293u;
 				try
 				{
-					IL_148:
+					IL_143:
 					switch (num)
 					{
 					}
@@ -217,13 +217,13 @@ namespace RimWorld
 				}
 				if (this.secondPawnData == null)
 				{
-					goto IL_30F;
+					goto IL_300;
 				}
 				enumerator3 = this.firstPawnData.GetRules("ANYPAWN").GetEnumerator();
 				num = 4294967293u;
 				try
 				{
-					IL_1F3:
+					IL_1EA:
 					switch (num)
 					{
 					}
@@ -253,7 +253,7 @@ namespace RimWorld
 				num = 4294967293u;
 				try
 				{
-					IL_298:
+					IL_28C:
 					switch (num)
 					{
 					}
@@ -279,7 +279,7 @@ namespace RimWorld
 						}
 					}
 				}
-				IL_30F:
+				IL_300:
 				this.$PC = -1;
 				return false;
 			}

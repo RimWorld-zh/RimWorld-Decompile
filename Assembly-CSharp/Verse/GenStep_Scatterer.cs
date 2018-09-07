@@ -12,19 +12,19 @@ namespace Verse
 
 		public FloatRange countPer10kCellsRange = FloatRange.Zero;
 
-		public bool nearPlayerStart = false;
+		public bool nearPlayerStart;
 
-		public bool nearMapCenter = false;
+		public bool nearMapCenter;
 
 		public float minSpacing = 10f;
 
-		public bool spotMustBeStandable = false;
+		public bool spotMustBeStandable;
 
-		public int minDistToPlayerStart = 0;
+		public int minDistToPlayerStart;
 
-		public int minEdgeDist = 0;
+		public int minEdgeDist;
 
-		public int extraNoBuildEdgeDist = 0;
+		public int extraNoBuildEdgeDist;
 
 		public List<ScattererValidator> validators = new List<ScattererValidator>();
 
@@ -43,21 +43,22 @@ namespace Verse
 
 		public override void Generate(Map map, GenStepParams parms)
 		{
-			if (this.allowInWaterBiome || !map.TileInfo.WaterCovered)
+			if (!this.allowInWaterBiome && map.TileInfo.WaterCovered)
 			{
-				int num = this.CalculateFinalCount(map);
-				for (int i = 0; i < num; i++)
-				{
-					IntVec3 intVec;
-					if (!this.TryFindScatterCell(map, out intVec))
-					{
-						return;
-					}
-					this.ScatterAt(intVec, map, 1);
-					this.usedSpots.Add(intVec);
-				}
-				this.usedSpots.Clear();
+				return;
 			}
+			int num = this.CalculateFinalCount(map);
+			for (int i = 0; i < num; i++)
+			{
+				IntVec3 intVec;
+				if (!this.TryFindScatterCell(map, out intVec))
+				{
+					return;
+				}
+				this.ScatterAt(intVec, map, 1);
+				this.usedSpots.Add(intVec);
+			}
+			this.usedSpots.Clear();
 		}
 
 		protected virtual bool TryFindScatterCell(Map map, out IntVec3 result)
@@ -92,42 +93,37 @@ namespace Verse
 
 		protected virtual bool CanScatterAt(IntVec3 loc, Map map)
 		{
-			bool result;
 			if (this.extraNoBuildEdgeDist > 0 && loc.CloseToEdge(map, this.extraNoBuildEdgeDist + 10))
 			{
-				result = false;
+				return false;
 			}
-			else if (this.minEdgeDist > 0 && loc.CloseToEdge(map, this.minEdgeDist))
+			if (this.minEdgeDist > 0 && loc.CloseToEdge(map, this.minEdgeDist))
 			{
-				result = false;
+				return false;
 			}
-			else if (this.NearUsedSpot(loc, this.minSpacing))
+			if (this.NearUsedSpot(loc, this.minSpacing))
 			{
-				result = false;
+				return false;
 			}
-			else if ((map.Center - loc).LengthHorizontalSquared < this.minDistToPlayerStart * this.minDistToPlayerStart)
+			if ((map.Center - loc).LengthHorizontalSquared < this.minDistToPlayerStart * this.minDistToPlayerStart)
 			{
-				result = false;
+				return false;
 			}
-			else if (this.spotMustBeStandable && !loc.Standable(map))
+			if (this.spotMustBeStandable && !loc.Standable(map))
 			{
-				result = false;
+				return false;
 			}
-			else
+			if (this.validators != null)
 			{
-				if (this.validators != null)
+				for (int i = 0; i < this.validators.Count; i++)
 				{
-					for (int i = 0; i < this.validators.Count; i++)
+					if (!this.validators[i].Allows(loc, map))
 					{
-						if (!this.validators[i].Allows(loc, map))
-						{
-							return false;
-						}
+						return false;
 					}
 				}
-				result = true;
 			}
-			return result;
+			return true;
 		}
 
 		protected bool NearUsedSpot(IntVec3 c, float dist)
@@ -144,16 +140,11 @@ namespace Verse
 
 		protected int CalculateFinalCount(Map map)
 		{
-			int result;
 			if (this.count < 0)
 			{
-				result = GenStep_Scatterer.CountFromPer10kCells(this.countPer10kCellsRange.RandomInRange, map, -1);
+				return GenStep_Scatterer.CountFromPer10kCells(this.countPer10kCellsRange.RandomInRange, map, -1);
 			}
-			else
-			{
-				result = this.count;
-			}
-			return result;
+			return this.count;
 		}
 
 		public static int CountFromPer10kCells(float countPer10kCells, Map map, int mapSize = -1)

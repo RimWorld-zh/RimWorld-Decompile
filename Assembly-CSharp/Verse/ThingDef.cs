@@ -18,7 +18,7 @@ namespace Verse
 
 		public ThingCategory category;
 
-		public TickerType tickerType = TickerType.Never;
+		public TickerType tickerType;
 
 		public int stackLimit = 1;
 
@@ -60,13 +60,15 @@ namespace Verse
 
 		public ThingDef slagDef;
 
-		public bool isFrame;
+		public bool isFrameInt;
 
 		public IntVec3 interactionCellOffset = IntVec3.Zero;
 
 		public bool hasInteractionCell;
 
 		public ThingDef interactionCellIcon;
+
+		public bool interactionCellIconReverse;
 
 		public ThingDef filthLeaving;
 
@@ -76,7 +78,7 @@ namespace Verse
 
 		public bool scatterableOnMapGen = true;
 
-		public float deepCommonality = 0f;
+		public float deepCommonality;
 
 		public int deepCountPerCell = 300;
 
@@ -132,7 +134,7 @@ namespace Verse
 
 		public bool drawGUIOverlay;
 
-		public ResourceCountPriority resourceReadoutPriority = ResourceCountPriority.Uncounted;
+		public ResourceCountPriority resourceReadoutPriority;
 
 		public bool resourceReadoutAlwaysShow;
 
@@ -174,7 +176,7 @@ namespace Verse
 
 		public bool neverOverlapFloors;
 
-		public SurfaceType surfaceType = SurfaceType.None;
+		public SurfaceType surfaceType;
 
 		public bool blockPlants;
 
@@ -191,15 +193,15 @@ namespace Verse
 
 		public ColorGenerator colorGeneratorInTraderStock;
 
-		private List<VerbProperties> verbs = null;
+		private List<VerbProperties> verbs;
 
 		public List<Tool> tools;
 
 		public float equippedAngleOffset;
 
-		public EquipmentType equipmentType = EquipmentType.None;
+		public EquipmentType equipmentType;
 
-		public TechLevel techLevel = TechLevel.Undefined;
+		public TechLevel techLevel;
 
 		[NoTranslate]
 		public List<string> weaponTags;
@@ -247,7 +249,7 @@ namespace Verse
 
 		public const float SmallVolumePerUnit = 0.1f;
 
-		private List<RecipeDef> allRecipesCached = null;
+		private List<RecipeDef> allRecipesCached;
 
 		private static List<VerbProperties> EmptyVerbPropertiesList = new List<VerbProperties>();
 
@@ -382,12 +384,9 @@ namespace Verse
 					List<RecipeDef> allDefsListForReading = DefDatabase<RecipeDef>.AllDefsListForReading;
 					for (int j = 0; j < allDefsListForReading.Count; j++)
 					{
-						if (allDefsListForReading[j].recipeUsers != null)
+						if (allDefsListForReading[j].recipeUsers != null && allDefsListForReading[j].recipeUsers.Contains(this))
 						{
-							if (allDefsListForReading[j].recipeUsers.Contains(this))
-							{
-								this.allRecipesCached.Add(allDefsListForReading[j]);
-							}
+							this.allRecipesCached.Add(allDefsListForReading[j]);
 						}
 					}
 				}
@@ -399,27 +398,22 @@ namespace Verse
 		{
 			get
 			{
-				bool result;
 				if (this.EverTransmitsPower)
 				{
-					result = false;
+					return false;
 				}
-				else
+				for (int i = 0; i < this.comps.Count; i++)
 				{
-					for (int i = 0; i < this.comps.Count; i++)
+					if (this.comps[i].compClass == typeof(CompPowerBattery))
 					{
-						if (this.comps[i].compClass == typeof(CompPowerBattery))
-						{
-							return true;
-						}
-						if (this.comps[i].compClass == typeof(CompPowerTrader))
-						{
-							return true;
-						}
+						return true;
 					}
-					result = false;
+					if (this.comps[i].compClass == typeof(CompPowerTrader))
+					{
+						return true;
+					}
 				}
-				return result;
+				return false;
 			}
 		}
 
@@ -435,20 +429,15 @@ namespace Verse
 		{
 			get
 			{
-				FillCategory result;
 				if (this.fillPercent < 0.01f)
 				{
-					result = FillCategory.None;
+					return FillCategory.None;
 				}
-				else if (this.fillPercent > 0.99f)
+				if (this.fillPercent > 0.99f)
 				{
-					result = FillCategory.Full;
+					return FillCategory.Full;
 				}
-				else
-				{
-					result = FillCategory.Partial;
-				}
-				return result;
+				return FillCategory.Partial;
 			}
 		}
 
@@ -464,40 +453,35 @@ namespace Verse
 		{
 			get
 			{
-				bool result;
 				if (this.building != null && this.building.SupportsPlants)
 				{
-					result = false;
+					return false;
 				}
-				else if (this.passability == Traversability.Impassable && this.category != ThingCategory.Plant)
+				if (this.passability == Traversability.Impassable && this.category != ThingCategory.Plant)
 				{
-					result = false;
+					return false;
 				}
-				else if (this.surfaceType >= SurfaceType.Item)
+				if (this.surfaceType >= SurfaceType.Item)
 				{
-					result = false;
+					return false;
 				}
-				else if (typeof(ISlotGroupParent).IsAssignableFrom(this.thingClass))
+				if (typeof(ISlotGroupParent).IsAssignableFrom(this.thingClass))
 				{
-					result = false;
+					return false;
 				}
-				else if (!this.canOverlapZones)
+				if (!this.canOverlapZones)
 				{
-					result = false;
+					return false;
 				}
-				else
+				if (this.IsBlueprint || this.IsFrame)
 				{
-					if (this.IsBlueprint || this.IsFrame)
+					ThingDef thingDef = this.entityDefToBuild as ThingDef;
+					if (thingDef != null)
 					{
-						ThingDef thingDef = this.entityDefToBuild as ThingDef;
-						if (thingDef != null)
-						{
-							return thingDef.CanOverlapZones;
-						}
+						return thingDef.CanOverlapZones;
 					}
-					result = true;
 				}
-				return result;
+				return true;
 			}
 		}
 
@@ -521,16 +505,11 @@ namespace Verse
 		{
 			get
 			{
-				List<VerbProperties> emptyVerbPropertiesList;
 				if (this.verbs != null)
 				{
-					emptyVerbPropertiesList = this.verbs;
+					return this.verbs;
 				}
-				else
-				{
-					emptyVerbPropertiesList = ThingDef.EmptyVerbPropertiesList;
-				}
-				return emptyVerbPropertiesList;
+				return ThingDef.EmptyVerbPropertiesList;
 			}
 		}
 
@@ -538,17 +517,12 @@ namespace Verse
 		{
 			get
 			{
-				bool result;
 				if (this.IsBlueprint || this.IsFrame)
 				{
-					result = true;
+					return true;
 				}
-				else
-				{
-					ThingCategory thingCategory = this.category;
-					result = (thingCategory == ThingCategory.Pawn || thingCategory == ThingCategory.Building);
-				}
-				return result;
+				ThingCategory thingCategory = this.category;
+				return thingCategory == ThingCategory.Pawn || thingCategory == ThingCategory.Building;
 			}
 		}
 
@@ -564,16 +538,11 @@ namespace Verse
 		{
 			get
 			{
-				ThingCategoryDef result;
 				if (this.thingCategories.NullOrEmpty<ThingCategoryDef>())
 				{
-					result = null;
+					return null;
 				}
-				else
-				{
-					result = this.thingCategories[0];
-				}
-				return result;
+				return this.thingCategories[0];
 			}
 		}
 
@@ -597,7 +566,7 @@ namespace Verse
 		{
 			get
 			{
-				return this.category == ThingCategory.Building && this.holdsRoof && (this.building == null || !this.building.isNaturalRock) && !this.IsSmoothed;
+				return this.category == ThingCategory.Building && this.holdsRoof && (this.building == null || !this.building.isNaturalRock || this.IsSmoothed);
 			}
 		}
 
@@ -673,7 +642,7 @@ namespace Verse
 		{
 			get
 			{
-				return this.isFrame;
+				return this.isFrameInt;
 			}
 		}
 
@@ -874,26 +843,21 @@ namespace Verse
 		{
 			get
 			{
-				bool result;
 				if (!this.IsWeapon)
 				{
-					result = false;
+					return false;
 				}
-				else
+				if (!this.verbs.NullOrEmpty<VerbProperties>())
 				{
-					if (!this.verbs.NullOrEmpty<VerbProperties>())
+					for (int i = 0; i < this.verbs.Count; i++)
 					{
-						for (int i = 0; i < this.verbs.Count; i++)
+						if (!this.verbs[i].IsMeleeAttack)
 						{
-							if (!this.verbs[i].IsMeleeAttack)
-							{
-								return true;
-							}
+							return true;
 						}
 					}
-					result = false;
 				}
-				return result;
+				return false;
 			}
 		}
 
@@ -909,26 +873,21 @@ namespace Verse
 		{
 			get
 			{
-				bool result;
 				if (!this.IsWeapon)
 				{
-					result = false;
+					return false;
 				}
-				else
+				if (!this.verbs.NullOrEmpty<VerbProperties>())
 				{
-					if (!this.verbs.NullOrEmpty<VerbProperties>())
+					for (int i = 0; i < this.verbs.Count; i++)
 					{
-						for (int i = 0; i < this.verbs.Count; i++)
+						if (this.verbs[i].LaunchesProjectile)
 						{
-							if (this.verbs[i].LaunchesProjectile)
-							{
-								return true;
-							}
+							return true;
 						}
 					}
-					result = false;
 				}
-				return result;
+				return false;
 			}
 		}
 
@@ -942,27 +901,22 @@ namespace Verse
 
 		public bool EverStorable(bool willMinifyIfPossible)
 		{
-			bool result;
 			if (typeof(MinifiedThing).IsAssignableFrom(this.thingClass))
 			{
-				result = true;
+				return true;
 			}
-			else
+			if (!this.thingCategories.NullOrEmpty<ThingCategoryDef>())
 			{
-				if (!this.thingCategories.NullOrEmpty<ThingCategoryDef>())
+				if (this.category == ThingCategory.Item)
 				{
-					if (this.category == ThingCategory.Item)
-					{
-						return true;
-					}
-					if (willMinifyIfPossible && this.Minifiable)
-					{
-						return true;
-					}
+					return true;
 				}
-				result = false;
+				if (willMinifyIfPossible && this.Minifiable)
+				{
+					return true;
+				}
 			}
-			return result;
+			return false;
 		}
 
 		public Thing GetConcreteExample(ThingDef stuff = null)
@@ -1098,7 +1052,7 @@ namespace Verse
 				}
 				if (this.rotatable && this.graphic != null && this.graphic != BaseContent.BadGraphic && this.graphic.ShouldDrawRotated && this.defaultPlacingRot == Rot4.South)
 				{
-					this.uiIconAngle = 180f;
+					this.uiIconAngle = 180f + this.graphic.DrawRotatedExtraAngleOffset;
 				}
 			}
 		}
@@ -1174,7 +1128,7 @@ namespace Verse
 
 		public override IEnumerable<string> ConfigErrors()
 		{
-			foreach (string str in this.<ConfigErrors>__BaseCallProxy0())
+			foreach (string str in base.ConfigErrors())
 			{
 				yield return str;
 			}
@@ -1354,12 +1308,12 @@ namespace Verse
 				{
 					if (this.statBases.Any((StatModifier s) => s.stat == StatDefOf.Mass))
 					{
-						goto IL_D9C;
+						goto IL_D74;
 					}
 				}
 				yield return "is haulable, but does not have an authored mass value";
 			}
-			IL_D9C:
+			IL_D74:
 			if (this.ingestible == null && this.GetStatValueAbstract(StatDefOf.Nutrition, null) != 0f)
 			{
 				yield return "has nutrition but ingestible properties are null";
@@ -1368,12 +1322,9 @@ namespace Verse
 			{
 				yield return "flammable but has no hitpoints (will burn indefinitely)";
 			}
-			if (this.graphicData != null && this.graphicData.shadowData != null)
+			if (this.graphicData != null && this.graphicData.shadowData != null && this.staticSunShadowHeight > 0f)
 			{
-				if (this.staticSunShadowHeight > 0f)
-				{
-					yield return "graphicData defines a shadowInfo but staticSunShadowHeight > 0";
-				}
+				yield return "graphicData defines a shadowInfo but staticSunShadowHeight > 0";
 			}
 			if (this.saveCompressible && this.Claimable)
 			{
@@ -1460,22 +1411,6 @@ namespace Verse
 					yield return e3;
 				}
 			}
-			if (this.recipes != null && this.race != null)
-			{
-				foreach (RecipeDef r in this.recipes)
-				{
-					if (r.requireBed != this.race.FleshType.requiresBedForSurgery)
-					{
-						yield return string.Format("surgery bed requirement mismatch; flesh-type {0} is {1}, recipe {2} is {3}", new object[]
-						{
-							this.race.FleshType,
-							this.race.FleshType.requiresBedForSurgery,
-							r,
-							r.requireBed
-						});
-					}
-				}
-			}
 			if (this.tools != null)
 			{
 				Tool dupeTool = this.tools.SelectMany((Tool lhs) => from rhs in this.tools
@@ -1505,59 +1440,49 @@ namespace Verse
 		{
 			get
 			{
-				string result;
 				if (!this.stuffProps.stuffAdjective.NullOrEmpty())
 				{
-					result = this.stuffProps.stuffAdjective;
+					return this.stuffProps.stuffAdjective;
 				}
-				else
-				{
-					result = this.label;
-				}
-				return result;
+				return this.label;
 			}
 		}
 
 		public bool IsWithinCategory(ThingCategoryDef category)
 		{
-			bool result;
 			if (this.thingCategories == null)
 			{
-				result = false;
+				return false;
 			}
-			else
+			for (int i = 0; i < this.thingCategories.Count; i++)
 			{
-				for (int i = 0; i < this.thingCategories.Count; i++)
+				if (this.thingCategories[i] == category || this.thingCategories[i].Parents.Contains(category))
 				{
-					if (this.thingCategories[i] == category || this.thingCategories[i].Parents.Contains(category))
-					{
-						return true;
-					}
+					return true;
 				}
-				result = false;
 			}
-			return result;
+			return false;
 		}
 
 		public override IEnumerable<StatDrawEntry> SpecialDisplayStats(StatRequest req)
 		{
-			foreach (StatDrawEntry stat in this.<SpecialDisplayStats>__BaseCallProxy1(req))
+			foreach (StatDrawEntry stat in base.SpecialDisplayStats(req))
 			{
 				yield return stat;
 			}
 			if (this.apparel != null)
 			{
 				string coveredParts = this.apparel.GetCoveredOuterPartsString(BodyDefOf.Human);
-				yield return new StatDrawEntry(StatCategoryDefOf.Apparel, "Covers".Translate(), coveredParts, 100, "");
-				yield return new StatDrawEntry(StatCategoryDefOf.Apparel, "Layer".Translate(), this.apparel.GetLayersString(), 95, "");
+				yield return new StatDrawEntry(StatCategoryDefOf.Apparel, "Covers".Translate(), coveredParts, 100, string.Empty);
+				yield return new StatDrawEntry(StatCategoryDefOf.Apparel, "Layer".Translate(), this.apparel.GetLayersString(), 95, string.Empty);
 			}
 			if (this.IsMedicine && this.MedicineTendXpGainFactor != 1f)
 			{
-				yield return new StatDrawEntry(StatCategoryDefOf.Basics, "MedicineXpGainFactor".Translate(), this.MedicineTendXpGainFactor.ToStringPercent(), 0, "");
+				yield return new StatDrawEntry(StatCategoryDefOf.Basics, "MedicineXpGainFactor".Translate(), this.MedicineTendXpGainFactor.ToStringPercent(), 0, string.Empty);
 			}
 			if (this.fillPercent > 0f && this.fillPercent < 1f && (this.category == ThingCategory.Item || this.category == ThingCategory.Building || this.category == ThingCategory.Plant))
 			{
-				yield return new StatDrawEntry(StatCategoryDefOf.Basics, "CoverEffectiveness".Translate(), this.BaseBlockChance().ToStringPercent(), 0, "")
+				yield return new StatDrawEntry(StatCategoryDefOf.Basics, "CoverEffectiveness".Translate(), this.BaseBlockChance().ToStringPercent(), 0, string.Empty)
 				{
 					overrideReportText = "CoverEffectivenessExplanation".Translate()
 				};
@@ -1578,7 +1503,7 @@ namespace Verse
 				if (warmup > 0f)
 				{
 					string warmupLabel = (this.category != ThingCategory.Pawn) ? "WarmupTime".Translate() : "MeleeWarmupTime".Translate();
-					yield return new StatDrawEntry(verbStatCategory, warmupLabel, warmup.ToString("0.##") + " s", 40, "");
+					yield return new StatDrawEntry(verbStatCategory, warmupLabel, warmup.ToString("0.##") + " s", 40, string.Empty);
 				}
 				if (verb.defaultProjectile != null)
 				{
@@ -1604,10 +1529,10 @@ namespace Verse
 					float range = verb.range;
 					if (burstShotCount > 1)
 					{
-						yield return new StatDrawEntry(verbStatCategory, "BurstShotCount".Translate(), burstShotCount.ToString(), 20, "");
-						yield return new StatDrawEntry(verbStatCategory, "BurstShotFireRate".Translate(), burstShotFireRate.ToString("0.##") + " rpm", 19, "");
+						yield return new StatDrawEntry(verbStatCategory, "BurstShotCount".Translate(), burstShotCount.ToString(), 20, string.Empty);
+						yield return new StatDrawEntry(verbStatCategory, "BurstShotFireRate".Translate(), burstShotFireRate.ToString("0.##") + " rpm", 19, string.Empty);
 					}
-					yield return new StatDrawEntry(verbStatCategory, "Range".Translate(), range.ToString("F0"), 10, "");
+					yield return new StatDrawEntry(verbStatCategory, "Range".Translate(), range.ToString("F0"), 10, string.Empty);
 					if (verb.defaultProjectile != null && verb.defaultProjectile.projectile != null && verb.defaultProjectile.projectile.stoppingPower != 0f)
 					{
 						StatCategoryDef statCategoryDef = verbStatCategory;
@@ -1619,8 +1544,8 @@ namespace Verse
 				}
 				if (verb.forcedMissRadius > 0f)
 				{
-					yield return new StatDrawEntry(verbStatCategory, "MissRadius".Translate(), verb.forcedMissRadius.ToString("0.#"), 30, "");
-					yield return new StatDrawEntry(verbStatCategory, "DirectHitChance".Translate(), (1f / (float)GenRadial.NumCellsInRadius(verb.forcedMissRadius)).ToStringPercent(), 29, "");
+					yield return new StatDrawEntry(verbStatCategory, "MissRadius".Translate(), verb.forcedMissRadius.ToString("0.#"), 30, string.Empty);
+					yield return new StatDrawEntry(verbStatCategory, "DirectHitChance".Translate(), (1f / (float)GenRadial.NumCellsInRadius(verb.forcedMissRadius)).ToStringPercent(), 29, string.Empty);
 				}
 			}
 			if (this.plant != null)
@@ -1662,7 +1587,7 @@ namespace Verse
 					{
 						if (diff.addedPartProps != null)
 						{
-							yield return new StatDrawEntry(StatCategoryDefOf.Basics, "BodyPartEfficiency".Translate(), diff.addedPartProps.partEfficiency.ToStringByStyle(ToStringStyle.PercentZero, ToStringNumberSense.Absolute), 0, "");
+							yield return new StatDrawEntry(StatCategoryDefOf.Basics, "BodyPartEfficiency".Translate(), diff.addedPartProps.partEfficiency.ToStringByStyle(ToStringStyle.PercentZero, ToStringNumberSense.Absolute), 0, string.Empty);
 						}
 						foreach (StatDrawEntry s5 in diff.SpecialDisplayStats(StatRequest.ForEmpty()))
 						{
@@ -1679,7 +1604,7 @@ namespace Verse
 									if (verb2.defaultProjectile != null)
 									{
 										int projDamage = verb2.defaultProjectile.projectile.GetDamageAmount(null, null);
-										yield return new StatDrawEntry(StatCategoryDefOf.Basics, "Damage".Translate(), projDamage.ToString(), 0, "");
+										yield return new StatDrawEntry(StatCategoryDefOf.Basics, "Damage".Translate(), projDamage.ToString(), 0, string.Empty);
 										if (verb2.defaultProjectile.projectile.damageDef.armorCategory != null)
 										{
 											float projArmorPenetration = verb2.defaultProjectile.projectile.GetArmorPenetration(null, null);
@@ -1694,7 +1619,7 @@ namespace Verse
 								else
 								{
 									int meleeDamage = verb2.meleeDamageBaseAmount;
-									yield return new StatDrawEntry(StatCategoryDefOf.Weapon, "Damage".Translate(), meleeDamage.ToString(), 0, "");
+									yield return new StatDrawEntry(StatCategoryDefOf.Weapon, "Damage".Translate(), meleeDamage.ToString(), 0, string.Empty);
 									if (verb2.meleeDamageDef.armorCategory != null)
 									{
 										float armorPenetration = verb2.meleeArmorPenetrationBase;
@@ -1713,7 +1638,7 @@ namespace Verse
 							else if (!vg.tools.NullOrEmpty<Tool>())
 							{
 								Tool tool = vg.tools[0];
-								yield return new StatDrawEntry(StatCategoryDefOf.Weapon, "Damage".Translate(), tool.power.ToString(), 0, "");
+								yield return new StatDrawEntry(StatCategoryDefOf.Weapon, "Damage".Translate(), tool.power.ToString(), 0, string.Empty);
 								if (ThingUtility.PrimaryMeleeWeaponDamageType(vg.tools).armorCategory != null)
 								{
 									float armorPenetration2 = tool.armorPenetration;
@@ -1732,7 +1657,7 @@ namespace Verse
 						ThoughtDef thought = DefDatabase<ThoughtDef>.AllDefs.FirstOrDefault((ThoughtDef x) => x.hediff == diff);
 						if (thought != null && thought.stages != null && thought.stages.Any<ThoughtStage>())
 						{
-							yield return new StatDrawEntry(StatCategoryDefOf.Basics, "MoodChange".Translate(), thought.stages.First<ThoughtStage>().baseMoodEffect.ToStringByStyle(ToStringStyle.Integer, ToStringNumberSense.Offset), 0, "");
+							yield return new StatDrawEntry(StatCategoryDefOf.Basics, "MoodChange".Translate(), thought.stages.First<ThoughtStage>().baseMoodEffect.ToStringByStyle(ToStringStyle.Integer, ToStringNumberSense.Offset), 0, string.Empty);
 						}
 					}
 				}
@@ -1851,19 +1776,15 @@ namespace Verse
 
 			internal string <e>__17;
 
-			internal List<RecipeDef>.Enumerator $locvarD;
+			internal Tool <dupeTool>__18;
 
-			internal RecipeDef <r>__18;
+			internal List<Tool>.Enumerator $locvarD;
 
-			internal Tool <dupeTool>__19;
+			internal Tool <t>__19;
 
-			internal List<Tool>.Enumerator $locvarE;
+			internal IEnumerator<string> $locvarE;
 
-			internal Tool <t>__20;
-
-			internal IEnumerator<string> $locvarF;
-
-			internal string <e>__21;
+			internal string <e>__20;
 
 			internal ThingDef $this;
 
@@ -1873,19 +1794,19 @@ namespace Verse
 
 			internal int $PC;
 
-			private ThingDef.<ConfigErrors>c__Iterator0.<ConfigErrors>c__AnonStorey2 $locvar10;
+			private ThingDef.<ConfigErrors>c__Iterator0.<ConfigErrors>c__AnonStorey2 $locvarF;
 
 			private static Predicate<CompProperties> <>f__am$cache0;
 
 			private static Predicate<CompProperties> <>f__am$cache1;
 
-			private ThingDef.<ConfigErrors>c__Iterator0.<ConfigErrors>c__AnonStorey4 $locvar11;
+			private ThingDef.<ConfigErrors>c__Iterator0.<ConfigErrors>c__AnonStorey4 $locvar10;
 
 			private static Predicate<CompProperties> <>f__am$cache2;
 
 			private static Predicate<StatModifier> <>f__am$cache3;
 
-			private ThingDef.<ConfigErrors>c__Iterator0.<ConfigErrors>c__AnonStorey5 $locvar12;
+			private ThingDef.<ConfigErrors>c__Iterator0.<ConfigErrors>c__AnonStorey5 $locvar11;
 
 			[DebuggerHidden]
 			public <ConfigErrors>c__Iterator0()
@@ -1897,6 +1818,7 @@ namespace Verse
 				uint num = (uint)this.$PC;
 				this.$PC = -1;
 				bool flag = false;
+				int i;
 				switch (num)
 				{
 				case 0u:
@@ -1906,9 +1828,9 @@ namespace Verse
 				case 1u:
 					break;
 				case 2u:
-					goto IL_1A8;
+					goto IL_1A0;
 				case 3u:
-					goto IL_1DE;
+					goto IL_1D4;
 				case 4u:
 					Block_8:
 					try
@@ -1938,18 +1860,15 @@ namespace Verse
 							}
 						}
 					}
-					goto IL_302;
+					goto IL_2F0;
 				case 5u:
 					Block_10:
 					try
 					{
 						switch (num)
 						{
-						case 5u:
-							IL_3D3:
-							break;
 						}
-						if (enumerator4.MoveNext())
+						while (enumerator4.MoveNext())
 						{
 							StatModifier statBase = enumerator4.Current;
 							if ((from st in this.statBases
@@ -1964,7 +1883,6 @@ namespace Verse
 								flag = true;
 								return true;
 							}
-							goto IL_3D3;
 						}
 					}
 					finally
@@ -1974,9 +1892,9 @@ namespace Verse
 							((IDisposable)enumerator4).Dispose();
 						}
 					}
-					goto IL_400;
+					goto IL_3E9;
 				case 6u:
-					IL_463:
+					IL_44C:
 					if (char.IsNumber(this.defName[this.defName.Length - 1]))
 					{
 						this.$current = "ends with a numerical digit, which is not allowed on ThingDefs.";
@@ -1986,70 +1904,49 @@ namespace Verse
 						}
 						return true;
 					}
-					goto IL_4AE;
+					goto IL_497;
 				case 7u:
-					goto IL_4AE;
+					goto IL_497;
 				case 8u:
-					goto IL_4DD;
+					goto IL_4C6;
 				case 9u:
-					goto IL_532;
+					goto IL_51B;
 				case 10u:
-					goto IL_583;
+					goto IL_56C;
 				case 11u:
-					goto IL_5AE;
+					goto IL_595;
 				case 12u:
-					goto IL_6B5;
+					IL_697:
+					if (base.Fillage == FillCategory.Full && this.category != ThingCategory.Building)
+					{
+						this.$current = "gives full cover but is not a building.";
+						if (!this.$disposing)
+						{
+							this.$PC = 13;
+						}
+						return true;
+					}
+					goto IL_6D9;
 				case 13u:
-					IL_6F7:
-					if (this.comps.Any((CompProperties c) => c.compClass == typeof(CompPowerTrader)) && this.drawerType == DrawerType.MapMeshOnly)
-					{
-						this.$current = "has PowerTrader comp but does not draw real time. It won't draw a needs-power overlay.";
-						if (!this.$disposing)
-						{
-							this.$PC = 14;
-						}
-						return true;
-					}
-					goto IL_75A;
+					goto IL_6D9;
 				case 14u:
-					goto IL_75A;
+					goto IL_73C;
 				case 15u:
-					goto IL_79B;
+					goto IL_77C;
 				case 16u:
-					goto IL_7ED;
+					goto IL_7CE;
 				case 17u:
-					IL_83D:
-					if (!this.destroyOnDrop)
-					{
-						goto IL_8C4;
-					}
-					if (!this.menuHidden)
-					{
-						this.$current = "destroyOnDrop but not menuHidden.";
-						if (!this.$disposing)
-						{
-							this.$PC = 18;
-						}
-						return true;
-					}
-					goto IL_87E;
+					goto IL_81D;
 				case 18u:
-					goto IL_87E;
+					goto IL_85D;
 				case 19u:
-					goto IL_8C3;
+					goto IL_8A2;
 				case 20u:
-					IL_905:
-					if (this.damageMultipliers != null)
-					{
-						enumerator6 = this.damageMultipliers.GetEnumerator();
-						num = 4294967293u;
-						goto Block_55;
-					}
-					goto IL_A06;
+					goto IL_8E3;
 				case 21u:
-					goto IL_930;
+					goto IL_90C;
 				case 22u:
-					IL_A47:
+					IL_A1F:
 					if (base.MadeFromStuff && this.constructEffect != null)
 					{
 						this.$current = "madeFromStuff but has a defined constructEffect (which will always be overridden by stuff's construct animation).";
@@ -2059,49 +1956,39 @@ namespace Verse
 						}
 						return true;
 					}
-					goto IL_A87;
+					goto IL_A5F;
 				case 23u:
-					goto IL_A87;
+					goto IL_A5F;
 				case 24u:
-					goto IL_ACC;
+					goto IL_AA4;
 				case 25u:
-					goto IL_B22;
+					goto IL_AFA;
 				case 26u:
-					goto IL_B6D;
+					goto IL_B45;
 				case 27u:
-					goto IL_BD0;
+					goto IL_BA8;
 				case 28u:
-					goto IL_C10;
+					goto IL_BE8;
 				case 29u:
-					goto IL_C6A;
+					goto IL_C42;
 				case 30u:
-					goto IL_CAF;
+					goto IL_C87;
 				case 31u:
-					goto IL_D05;
+					goto IL_CDD;
 				case 32u:
-					goto IL_D9C;
+					goto IL_D74;
 				case 33u:
-					goto IL_DE7;
+					goto IL_DBF;
 				case 34u:
-					goto IL_E3D;
+					goto IL_E15;
 				case 35u:
-					goto IL_E98;
+					goto IL_E6F;
 				case 36u:
-					IL_ED9:
-					if (this.deepCommonality > 0f != this.deepLumpSizeRange.TrueMax > 0)
-					{
-						this.$current = "if deepCommonality or deepLumpSizeRange is set, the other also must be set";
-						if (!this.$disposing)
-						{
-							this.$PC = 37;
-						}
-						return true;
-					}
-					goto IL_F23;
+					goto IL_EAF;
 				case 37u:
-					goto IL_F23;
+					goto IL_EF9;
 				case 38u:
-					goto IL_F69;
+					goto IL_F3F;
 				case 39u:
 					Block_115:
 					try
@@ -2132,9 +2019,11 @@ namespace Verse
 						}
 					}
 					i++;
-					goto IL_1053;
+					goto IL_1023;
 				case 40u:
-					goto IL_1184;
+					IL_114F:
+					i++;
+					goto IL_1167;
 				case 41u:
 					Block_122:
 					try
@@ -2164,7 +2053,7 @@ namespace Verse
 							}
 						}
 					}
-					goto IL_126D;
+					goto IL_1231;
 				case 42u:
 					Block_124:
 					try
@@ -2194,7 +2083,7 @@ namespace Verse
 							}
 						}
 					}
-					goto IL_131C;
+					goto IL_12DB;
 				case 43u:
 					Block_126:
 					try
@@ -2225,7 +2114,7 @@ namespace Verse
 						}
 					}
 					j++;
-					goto IL_13F1;
+					goto IL_13AA;
 				case 44u:
 					Block_128:
 					try
@@ -2255,7 +2144,7 @@ namespace Verse
 							}
 						}
 					}
-					goto IL_14B6;
+					goto IL_1469;
 				case 45u:
 					Block_130:
 					try
@@ -2285,7 +2174,7 @@ namespace Verse
 							}
 						}
 					}
-					goto IL_155F;
+					goto IL_150D;
 				case 46u:
 					Block_132:
 					try
@@ -2315,54 +2204,14 @@ namespace Verse
 							}
 						}
 					}
-					goto IL_1608;
+					goto IL_15B1;
 				case 47u:
-					Block_135:
-					try
-					{
-						switch (num)
-						{
-						case 47u:
-							IL_1705:
-							break;
-						}
-						if (enumerator14.MoveNext())
-						{
-							r = enumerator14.Current;
-							if (r.requireBed != this.race.FleshType.requiresBedForSurgery)
-							{
-								this.$current = string.Format("surgery bed requirement mismatch; flesh-type {0} is {1}, recipe {2} is {3}", new object[]
-								{
-									this.race.FleshType,
-									this.race.FleshType.requiresBedForSurgery,
-									r,
-									r.requireBed
-								});
-								if (!this.$disposing)
-								{
-									this.$PC = 47;
-								}
-								flag = true;
-								return true;
-							}
-							goto IL_1705;
-						}
-					}
-					finally
-					{
-						if (!flag)
-						{
-							((IDisposable)enumerator14).Dispose();
-						}
-					}
-					goto IL_1732;
-				case 48u:
-					IL_17A5:
-					enumerator15 = this.tools.GetEnumerator();
+					IL_1623:
+					enumerator14 = this.tools.GetEnumerator();
 					num = 4294967293u;
-					goto Block_139;
-				case 49u:
-					goto IL_17BF;
+					goto Block_136;
+				case 48u:
+					goto IL_163C;
 				default:
 					return false;
 				}
@@ -2402,16 +2251,16 @@ namespace Verse
 					}
 					return true;
 				}
-				IL_1A8:
+				IL_1A0:
 				if (this.graphicData == null)
 				{
-					goto IL_255;
+					goto IL_248;
 				}
 				enumerator2 = this.graphicData.ConfigErrors(this).GetEnumerator();
 				num = 4294967293u;
 				try
 				{
-					IL_1DE:
+					IL_1D4:
 					switch (num)
 					{
 					}
@@ -2437,21 +2286,21 @@ namespace Verse
 						}
 					}
 				}
-				IL_255:
+				IL_248:
 				if (this.projectile != null)
 				{
 					enumerator3 = this.projectile.ConfigErrors(this).GetEnumerator();
 					num = 4294967293u;
 					goto Block_8;
 				}
-				IL_302:
+				IL_2F0:
 				if (this.statBases != null)
 				{
 					enumerator4 = this.statBases.GetEnumerator();
 					num = 4294967293u;
 					goto Block_10;
 				}
-				IL_400:
+				IL_3E9:
 				if (!BeautyUtility.BeautyRelevant(this.category) && this.StatBaseDefined(StatDefOf.Beauty))
 				{
 					this.$current = "Beauty stat base is defined, but Things of category " + this.category + " cannot have beauty.";
@@ -2461,8 +2310,8 @@ namespace Verse
 					}
 					return true;
 				}
-				goto IL_463;
-				IL_4AE:
+				goto IL_44C;
+				IL_497:
 				if (this.thingClass == null)
 				{
 					this.$current = "has null thingClass.";
@@ -2472,7 +2321,7 @@ namespace Verse
 					}
 					return true;
 				}
-				IL_4DD:
+				IL_4C6:
 				if (this.comps.Count > 0 && !typeof(ThingWithComps).IsAssignableFrom(this.thingClass))
 				{
 					this.$current = "has components but it's thingClass is not a ThingWithComps";
@@ -2482,7 +2331,7 @@ namespace Verse
 					}
 					return true;
 				}
-				IL_532:
+				IL_51B:
 				if (base.ConnectToPower && this.drawerType == DrawerType.RealtimeOnly && base.IsFrame)
 				{
 					this.$current = "connects to power but does not add to map mesh. Will not create wire meshes.";
@@ -2492,23 +2341,20 @@ namespace Verse
 					}
 					return true;
 				}
-				IL_583:
+				IL_56C:
 				if (this.costList == null)
 				{
-					goto IL_646;
+					goto IL_62A;
 				}
 				enumerator5 = this.costList.GetEnumerator();
 				num = 4294967293u;
 				try
 				{
-					IL_5AE:
+					IL_595:
 					switch (num)
 					{
-					case 11u:
-						IL_619:
-						break;
 					}
-					if (enumerator5.MoveNext())
+					while (enumerator5.MoveNext())
 					{
 						cost = enumerator5.Current;
 						if (cost.count == 0)
@@ -2521,7 +2367,6 @@ namespace Verse
 							flag = true;
 							return true;
 						}
-						goto IL_619;
 					}
 				}
 				finally
@@ -2531,35 +2376,36 @@ namespace Verse
 						((IDisposable)enumerator5).Dispose();
 					}
 				}
-				IL_646:
-				if (this.thingCategories != null)
+				IL_62A:
+				if (this.thingCategories == null)
 				{
-					doubleCat = this.thingCategories.FirstOrDefault((ThingCategoryDef cat) => this.thingCategories.Count((ThingCategoryDef c) => c == cat) > 1);
-					if (doubleCat != null)
-					{
-						this.$current = "has duplicate thingCategory " + doubleCat + ".";
-						if (!this.$disposing)
-						{
-							this.$PC = 12;
-						}
-						return true;
-					}
+					goto IL_697;
 				}
-				IL_6B5:
-				if (base.Fillage == FillCategory.Full && this.category != ThingCategory.Building)
+				doubleCat = this.thingCategories.FirstOrDefault((ThingCategoryDef cat) => this.thingCategories.Count((ThingCategoryDef c) => c == cat) > 1);
+				if (doubleCat != null)
 				{
-					this.$current = "gives full cover but is not a building.";
+					this.$current = "has duplicate thingCategory " + doubleCat + ".";
 					if (!this.$disposing)
 					{
-						this.$PC = 13;
+						this.$PC = 12;
 					}
 					return true;
 				}
-				goto IL_6F7;
-				IL_75A:
+				goto IL_697;
+				IL_6D9:
+				if (this.comps.Any((CompProperties c) => c.compClass == typeof(CompPowerTrader)) && this.drawerType == DrawerType.MapMeshOnly)
+				{
+					this.$current = "has PowerTrader comp but does not draw real time. It won't draw a needs-power overlay.";
+					if (!this.$disposing)
+					{
+						this.$PC = 14;
+					}
+					return true;
+				}
+				IL_73C:
 				if (this.equipmentType == EquipmentType.None)
 				{
-					goto IL_7EE;
+					goto IL_7CE;
 				}
 				if (this.techLevel == TechLevel.Undefined)
 				{
@@ -2570,7 +2416,7 @@ namespace Verse
 					}
 					return true;
 				}
-				IL_79B:
+				IL_77C:
 				if (!this.comps.Any((CompProperties c) => c.compClass == typeof(CompEquippable)))
 				{
 					this.$current = "is equipment but has no CompEquippable";
@@ -2580,8 +2426,7 @@ namespace Verse
 					}
 					return true;
 				}
-				IL_7ED:
-				IL_7EE:
+				IL_7CE:
 				if (this.thingClass == typeof(Bullet) && this.projectile.damageDef == null)
 				{
 					this.$current = " is a bullet but has no damageDef.";
@@ -2591,8 +2436,21 @@ namespace Verse
 					}
 					return true;
 				}
-				goto IL_83D;
-				IL_87E:
+				IL_81D:
+				if (!this.destroyOnDrop)
+				{
+					goto IL_8A2;
+				}
+				if (!this.menuHidden)
+				{
+					this.$current = "destroyOnDrop but not menuHidden.";
+					if (!this.$disposing)
+					{
+						this.$PC = 18;
+					}
+					return true;
+				}
+				IL_85D:
 				if (this.tradeability != Tradeability.None)
 				{
 					this.$current = "destroyOnDrop but tradeability is " + this.tradeability;
@@ -2602,8 +2460,7 @@ namespace Verse
 					}
 					return true;
 				}
-				IL_8C3:
-				IL_8C4:
+				IL_8A2:
 				if (this.stackLimit > 1 && !this.drawGUIOverlay)
 				{
 					this.$current = "has stackLimit > 1 but also has drawGUIOverlay = false.";
@@ -2613,11 +2470,16 @@ namespace Verse
 					}
 					return true;
 				}
-				goto IL_905;
-				Block_55:
+				IL_8E3:
+				if (this.damageMultipliers == null)
+				{
+					goto IL_9DE;
+				}
+				enumerator6 = this.damageMultipliers.GetEnumerator();
+				num = 4294967293u;
 				try
 				{
-					IL_930:
+					IL_90C:
 					switch (num)
 					{
 					case 21u:
@@ -2649,7 +2511,7 @@ namespace Verse
 						((IDisposable)enumerator6).Dispose();
 					}
 				}
-				IL_A06:
+				IL_9DE:
 				if (base.Fillage == FillCategory.Full && !this.IsEdifice())
 				{
 					this.$current = "fillPercent is 1.00 but is not edifice";
@@ -2659,8 +2521,8 @@ namespace Verse
 					}
 					return true;
 				}
-				goto IL_A47;
-				IL_A87:
+				goto IL_A1F;
+				IL_A5F:
 				if (base.MadeFromStuff && this.stuffCategories.NullOrEmpty<StuffCategoryDef>())
 				{
 					this.$current = "madeFromStuff but has no stuffCategories.";
@@ -2670,7 +2532,7 @@ namespace Verse
 					}
 					return true;
 				}
-				IL_ACC:
+				IL_AA4:
 				if (this.costList.NullOrEmpty<ThingDefCountClass>() && this.costStuffCount <= 0 && this.recipeMaker != null)
 				{
 					this.$current = "has a recipeMaker but no costList or costStuffCount.";
@@ -2680,7 +2542,7 @@ namespace Verse
 					}
 					return true;
 				}
-				IL_B22:
+				IL_AFA:
 				if (this.GetStatValueAbstract(StatDefOf.DeteriorationRate, null) > 1E-05f && !base.CanEverDeteriorate)
 				{
 					this.$current = "has >0 DeteriorationRate but can't deteriorate.";
@@ -2690,7 +2552,7 @@ namespace Verse
 					}
 					return true;
 				}
-				IL_B6D:
+				IL_B45:
 				if (this.drawerType == DrawerType.MapMeshOnly)
 				{
 					if (this.comps.Any((CompProperties c) => c.compClass == typeof(CompForbiddable)))
@@ -2703,7 +2565,7 @@ namespace Verse
 						return true;
 					}
 				}
-				IL_BD0:
+				IL_BA8:
 				if (this.smeltProducts != null && this.smeltable)
 				{
 					this.$current = "has smeltProducts but has smeltable=false";
@@ -2713,7 +2575,7 @@ namespace Verse
 					}
 					return true;
 				}
-				IL_C10:
+				IL_BE8:
 				if (this.equipmentType != EquipmentType.None && this.verbs.NullOrEmpty<VerbProperties>() && this.tools.NullOrEmpty<Tool>())
 				{
 					this.$current = "is equipment but has no verbs or tools";
@@ -2723,7 +2585,7 @@ namespace Verse
 					}
 					return true;
 				}
-				IL_C6A:
+				IL_C42:
 				if (base.Minifiable && this.thingCategories.NullOrEmpty<ThingCategoryDef>())
 				{
 					this.$current = "is minifiable but not in any thing category";
@@ -2733,7 +2595,7 @@ namespace Verse
 					}
 					return true;
 				}
-				IL_CAF:
+				IL_C87:
 				if (this.category == ThingCategory.Building && !base.Minifiable && !this.thingCategories.NullOrEmpty<ThingCategoryDef>())
 				{
 					this.$current = "is not minifiable yet has thing categories (could be confusing in thing filters because it can't be moved/stored anyway)";
@@ -2743,14 +2605,14 @@ namespace Verse
 					}
 					return true;
 				}
-				IL_D05:
+				IL_CDD:
 				if (this != ThingDefOf.MinifiedThing && (base.EverHaulable || base.Minifiable))
 				{
 					if (!this.statBases.NullOrEmpty<StatModifier>())
 					{
 						if (this.statBases.Any((StatModifier s) => s.stat == StatDefOf.Mass))
 						{
-							goto IL_D9C;
+							goto IL_D74;
 						}
 					}
 					this.$current = "is haulable, but does not have an authored mass value";
@@ -2760,7 +2622,7 @@ namespace Verse
 					}
 					return true;
 				}
-				IL_D9C:
+				IL_D74:
 				if (this.ingestible == null && this.GetStatValueAbstract(StatDefOf.Nutrition, null) != 0f)
 				{
 					this.$current = "has nutrition but ingestible properties are null";
@@ -2770,7 +2632,7 @@ namespace Verse
 					}
 					return true;
 				}
-				IL_DE7:
+				IL_DBF:
 				if (base.BaseFlammability != 0f && !this.useHitPoints && this.category != ThingCategory.Pawn)
 				{
 					this.$current = "flammable but has no hitpoints (will burn indefinitely)";
@@ -2780,20 +2642,17 @@ namespace Verse
 					}
 					return true;
 				}
-				IL_E3D:
-				if (this.graphicData != null && this.graphicData.shadowData != null)
+				IL_E15:
+				if (this.graphicData != null && this.graphicData.shadowData != null && this.staticSunShadowHeight > 0f)
 				{
-					if (this.staticSunShadowHeight > 0f)
+					this.$current = "graphicData defines a shadowInfo but staticSunShadowHeight > 0";
+					if (!this.$disposing)
 					{
-						this.$current = "graphicData defines a shadowInfo but staticSunShadowHeight > 0";
-						if (!this.$disposing)
-						{
-							this.$PC = 35;
-						}
-						return true;
+						this.$PC = 35;
 					}
+					return true;
 				}
-				IL_E98:
+				IL_E6F:
 				if (this.saveCompressible && base.Claimable)
 				{
 					this.$current = "claimable item is compressible; faction will be unset after load";
@@ -2803,8 +2662,17 @@ namespace Verse
 					}
 					return true;
 				}
-				goto IL_ED9;
-				IL_F23:
+				IL_EAF:
+				if (this.deepCommonality > 0f != this.deepLumpSizeRange.TrueMax > 0)
+				{
+					this.$current = "if deepCommonality or deepLumpSizeRange is set, the other also must be set";
+					if (!this.$disposing)
+					{
+						this.$PC = 37;
+					}
+					return true;
+				}
+				IL_EF9:
 				if (this.deepCommonality > 0f && this.deepCountPerPortion <= 0)
 				{
 					this.$current = "deepCommonality > 0 but deepCountPerPortion is not set";
@@ -2814,37 +2682,34 @@ namespace Verse
 					}
 					return true;
 				}
-				IL_F69:
+				IL_F3F:
 				if (this.verbs == null)
 				{
-					goto IL_106F;
+					goto IL_103E;
 				}
 				i = 0;
-				IL_1053:
+				IL_1023:
 				if (i < this.verbs.Count)
 				{
 					enumerator7 = this.verbs[i].ConfigErrors(this).GetEnumerator();
 					num = 4294967293u;
 					goto Block_115;
 				}
-				IL_106F:
-				if (this.race != null && this.tools != null)
+				IL_103E:
+				if (this.race == null || this.tools == null)
 				{
-					int i = 0;
-					goto IL_119D;
+					goto IL_1187;
 				}
-				goto IL_11BE;
-				IL_1184:
-				<ConfigErrors>c__AnonStorey3.i++;
-				IL_119D:
-				if (<ConfigErrors>c__AnonStorey3.i < this.tools.Count)
+				i = 0;
+				IL_1167:
+				if (i < this.tools.Count)
 				{
-					if (this.tools[<ConfigErrors>c__AnonStorey3.i].linkedBodyPartsGroup != null && !this.race.body.AllParts.Any((BodyPartRecord part) => part.groups.Contains(<ConfigErrors>c__AnonStorey3.<>f__ref$0.$this.tools[<ConfigErrors>c__AnonStorey3.i].linkedBodyPartsGroup)))
+					if (this.tools[i].linkedBodyPartsGroup != null && !this.race.body.AllParts.Any((BodyPartRecord part) => part.groups.Contains(this.tools[i].linkedBodyPartsGroup)))
 					{
 						this.$current = string.Concat(new object[]
 						{
 							"has tool with linkedBodyPartsGroup ",
-							this.tools[<ConfigErrors>c__AnonStorey3.i].linkedBodyPartsGroup,
+							this.tools[i].linkedBodyPartsGroup,
 							" but body ",
 							this.race.body,
 							" has no parts with that group."
@@ -2855,67 +2720,60 @@ namespace Verse
 						}
 						return true;
 					}
-					goto IL_1184;
+					goto IL_114F;
 				}
-				IL_11BE:
+				IL_1187:
 				if (this.building != null)
 				{
 					enumerator8 = this.building.ConfigErrors(this).GetEnumerator();
 					num = 4294967293u;
 					goto Block_122;
 				}
-				IL_126D:
+				IL_1231:
 				if (this.apparel != null)
 				{
 					enumerator9 = this.apparel.ConfigErrors(this).GetEnumerator();
 					num = 4294967293u;
 					goto Block_124;
 				}
-				IL_131C:
+				IL_12DB:
 				if (this.comps == null)
 				{
-					goto IL_140D;
+					goto IL_13C5;
 				}
 				j = 0;
-				IL_13F1:
+				IL_13AA:
 				if (j < this.comps.Count)
 				{
 					enumerator10 = this.comps[j].ConfigErrors(this).GetEnumerator();
 					num = 4294967293u;
 					goto Block_126;
 				}
-				IL_140D:
+				IL_13C5:
 				if (this.race != null)
 				{
 					enumerator11 = this.race.ConfigErrors().GetEnumerator();
 					num = 4294967293u;
 					goto Block_128;
 				}
-				IL_14B6:
+				IL_1469:
 				if (this.ingestible != null)
 				{
 					enumerator12 = this.ingestible.ConfigErrors().GetEnumerator();
 					num = 4294967293u;
 					goto Block_130;
 				}
-				IL_155F:
+				IL_150D:
 				if (this.plant != null)
 				{
 					enumerator13 = this.plant.ConfigErrors().GetEnumerator();
 					num = 4294967293u;
 					goto Block_132;
 				}
-				IL_1608:
-				if (this.recipes != null && this.race != null)
-				{
-					enumerator14 = this.recipes.GetEnumerator();
-					num = 4294967293u;
-					goto Block_135;
-				}
-				IL_1732:
+				IL_15B1:
 				if (this.tools == null)
 				{
-					goto IL_18A2;
+					goto IL_1719;
 				}
 				dupeTool = this.tools.SelectMany((Tool lhs) => from rhs in this.tools
 				where lhs != rhs && lhs.id == rhs.id
@@ -2925,31 +2783,31 @@ namespace Verse
 					this.$current = string.Format("duplicate thingdef tool id {0}", dupeTool.id);
 					if (!this.$disposing)
 					{
-						this.$PC = 48;
+						this.$PC = 47;
 					}
 					return true;
 				}
-				goto IL_17A5;
-				Block_139:
+				goto IL_1623;
+				Block_136:
 				try
 				{
-					IL_17BF:
+					IL_163C:
 					switch (num)
 					{
-					case 49u:
-						Block_224:
+					case 48u:
+						Block_215:
 						try
 						{
 							switch (num)
 							{
 							}
-							if (enumerator16.MoveNext())
+							if (enumerator15.MoveNext())
 							{
-								e4 = enumerator16.Current;
+								e4 = enumerator15.Current;
 								this.$current = e4;
 								if (!this.$disposing)
 								{
-									this.$PC = 49;
+									this.$PC = 48;
 								}
 								flag = true;
 								return true;
@@ -2959,30 +2817,30 @@ namespace Verse
 						{
 							if (!flag)
 							{
-								if (enumerator16 != null)
+								if (enumerator15 != null)
 								{
-									enumerator16.Dispose();
+									enumerator15.Dispose();
 								}
 							}
 						}
 						break;
 					}
-					if (enumerator15.MoveNext())
+					if (enumerator14.MoveNext())
 					{
-						t = enumerator15.Current;
-						enumerator16 = t.ConfigErrors().GetEnumerator();
+						t = enumerator14.Current;
+						enumerator15 = t.ConfigErrors().GetEnumerator();
 						num = 4294967293u;
-						goto Block_224;
+						goto Block_215;
 					}
 				}
 				finally
 				{
 					if (!flag)
 					{
-						((IDisposable)enumerator15).Dispose();
+						((IDisposable)enumerator14).Dispose();
 					}
 				}
-				IL_18A2:
+				IL_1719:
 				this.$PC = -1;
 				return false;
 			}
@@ -3160,16 +3018,7 @@ namespace Verse
 						}
 					}
 					break;
-				case 47u:
-					try
-					{
-					}
-					finally
-					{
-						((IDisposable)enumerator14).Dispose();
-					}
-					break;
-				case 49u:
+				case 48u:
 					try
 					{
 						try
@@ -3177,15 +3026,15 @@ namespace Verse
 						}
 						finally
 						{
-							if (enumerator16 != null)
+							if (enumerator15 != null)
 							{
-								enumerator16.Dispose();
+								enumerator15.Dispose();
 							}
 						}
 					}
 					finally
 					{
-						((IDisposable)enumerator15).Dispose();
+						((IDisposable)enumerator14).Dispose();
 					}
 					break;
 				}
@@ -3444,52 +3293,22 @@ namespace Verse
 				case 1u:
 					break;
 				case 2u:
-					this.$current = new StatDrawEntry(StatCategoryDefOf.Apparel, "Layer".Translate(), this.apparel.GetLayersString(), 95, "");
+					this.$current = new StatDrawEntry(StatCategoryDefOf.Apparel, "Layer".Translate(), this.apparel.GetLayersString(), 95, string.Empty);
 					if (!this.$disposing)
 					{
 						this.$PC = 3;
 					}
 					return true;
 				case 3u:
-					goto IL_1D7;
+					goto IL_1D1;
 				case 4u:
-					IL_240:
-					if (this.fillPercent > 0f && this.fillPercent < 1f && (this.category == ThingCategory.Item || this.category == ThingCategory.Building || this.category == ThingCategory.Plant))
-					{
-						StatDrawEntry sde = new StatDrawEntry(StatCategoryDefOf.Basics, "CoverEffectiveness".Translate(), this.BaseBlockChance().ToStringPercent(), 0, "");
-						sde.overrideReportText = "CoverEffectivenessExplanation".Translate();
-						this.$current = sde;
-						if (!this.$disposing)
-						{
-							this.$PC = 5;
-						}
-						return true;
-					}
-					goto IL_304;
+					goto IL_23A;
 				case 5u:
-					goto IL_304;
+					goto IL_2FC;
 				case 6u:
-					IL_370:
-					if (this.verbs.NullOrEmpty<VerbProperties>())
-					{
-						goto IL_89D;
-					}
-					verb = this.verbs.First((VerbProperties x) => x.isPrimary);
-					verbStatCategory = ((this.category != ThingCategory.Pawn) ? (verbStatCategory = StatCategoryDefOf.Weapon) : (verbStatCategory = StatCategoryDefOf.PawnCombat));
-					warmup = verb.warmupTime;
-					if (warmup > 0f)
-					{
-						warmupLabel = ((this.category != ThingCategory.Pawn) ? "WarmupTime".Translate() : "MeleeWarmupTime".Translate());
-						this.$current = new StatDrawEntry(verbStatCategory, warmupLabel, warmup.ToString("0.##") + " s", 40, "");
-						if (!this.$disposing)
-						{
-							this.$PC = 7;
-						}
-						return true;
-					}
-					goto IL_490;
+					goto IL_368;
 				case 7u:
-					goto IL_490;
+					goto IL_485;
 				case 8u:
 					if (verb.defaultProjectile.projectile.damageDef.armorCategory != null)
 					{
@@ -3507,18 +3326,18 @@ namespace Verse
 						}
 						return true;
 					}
-					goto IL_5FD;
+					goto IL_5EF;
 				case 9u:
-					goto IL_5FD;
+					goto IL_5EF;
 				case 10u:
-					this.$current = new StatDrawEntry(verbStatCategory, "BurstShotFireRate".Translate(), burstShotFireRate.ToString("0.##") + " rpm", 19, "");
+					this.$current = new StatDrawEntry(verbStatCategory, "BurstShotFireRate".Translate(), burstShotFireRate.ToString("0.##") + " rpm", 19, string.Empty);
 					if (!this.$disposing)
 					{
 						this.$PC = 11;
 					}
 					return true;
 				case 11u:
-					goto IL_6F4;
+					goto IL_6E2;
 				case 12u:
 					if (verb.defaultProjectile != null && verb.defaultProjectile.projectile != null && verb.defaultProjectile.projectile.stoppingPower != 0f)
 					{
@@ -3533,48 +3352,20 @@ namespace Verse
 						}
 						return true;
 					}
-					goto IL_7E5;
+					goto IL_7D3;
 				case 13u:
-					goto IL_7E5;
+					goto IL_7D3;
 				case 14u:
-					this.$current = new StatDrawEntry(verbStatCategory, "DirectHitChance".Translate(), (1f / (float)GenRadial.NumCellsInRadius(verb.forcedMissRadius)).ToStringPercent(), 29, "");
+					this.$current = new StatDrawEntry(verbStatCategory, "DirectHitChance".Translate(), (1f / (float)GenRadial.NumCellsInRadius(verb.forcedMissRadius)).ToStringPercent(), 29, string.Empty);
 					if (!this.$disposing)
 					{
 						this.$PC = 15;
 					}
 					return true;
 				case 15u:
-					goto IL_89C;
+					goto IL_887;
 				case 16u:
-					Block_40:
-					try
-					{
-						switch (num)
-						{
-						}
-						if (enumerator2.MoveNext())
-						{
-							s = enumerator2.Current;
-							this.$current = s;
-							if (!this.$disposing)
-							{
-								this.$PC = 16;
-							}
-							flag = true;
-							return true;
-						}
-					}
-					finally
-					{
-						if (!flag)
-						{
-							if (enumerator2 != null)
-							{
-								enumerator2.Dispose();
-							}
-						}
-					}
-					goto IL_946;
+					goto IL_8B5;
 				case 17u:
 					Block_42:
 					try
@@ -3604,7 +3395,7 @@ namespace Verse
 							}
 						}
 					}
-					goto IL_9EF;
+					goto IL_9CF;
 				case 18u:
 					Block_44:
 					try
@@ -3634,7 +3425,7 @@ namespace Verse
 							}
 						}
 					}
-					goto IL_A9E;
+					goto IL_A79;
 				case 19u:
 					Block_46:
 					try
@@ -3664,7 +3455,7 @@ namespace Verse
 							}
 						}
 					}
-					goto IL_B4D;
+					goto IL_B23;
 				case 20u:
 				case 21u:
 				case 22u:
@@ -3680,12 +3471,9 @@ namespace Verse
 						switch (num)
 						{
 						case 20u:
-							IL_C61:
-							enumerator7 = <SpecialDisplayStats>c__AnonStorey.diff.SpecialDisplayStats(StatRequest.ForEmpty()).GetEnumerator();
-							num = 4294967293u;
-							break;
+							goto IL_C33;
 						case 21u:
-							break;
+							goto IL_C56;
 						case 22u:
 							if (verb2.defaultProjectile.projectile.damageDef.armorCategory != null)
 							{
@@ -3702,9 +3490,9 @@ namespace Verse
 								flag = true;
 								return true;
 							}
-							goto IL_E64;
+							goto IL_E2D;
 						case 23u:
-							goto IL_E64;
+							goto IL_E2D;
 						case 24u:
 							if (verb2.meleeDamageDef.armorCategory != null)
 							{
@@ -3725,9 +3513,9 @@ namespace Verse
 								flag = true;
 								return true;
 							}
-							goto IL_F63;
+							goto IL_F27;
 						case 25u:
-							goto IL_F63;
+							goto IL_F27;
 						case 26u:
 							if (ThingUtility.PrimaryMeleeWeaponDamageType(vg.tools).armorCategory != null)
 							{
@@ -3748,16 +3536,37 @@ namespace Verse
 								flag = true;
 								return true;
 							}
-							goto IL_108B;
+							goto IL_104A;
 						case 27u:
-							goto IL_108B;
-						case 28u:
-							goto IL_1132;
-						default:
-							goto IL_1133;
+							goto IL_104A;
 						}
+						IL_10EE:
+						while (enumerator6.MoveNext())
+						{
+							def = enumerator6.Current;
+							HediffDef diff = def.addsHediff;
+							if (diff != null)
+							{
+								if (diff.addedPartProps != null)
+								{
+									this.$current = new StatDrawEntry(StatCategoryDefOf.Basics, "BodyPartEfficiency".Translate(), diff.addedPartProps.partEfficiency.ToStringByStyle(ToStringStyle.PercentZero, ToStringNumberSense.Absolute), 0, string.Empty);
+									if (!this.$disposing)
+									{
+										this.$PC = 20;
+									}
+									flag = true;
+									return true;
+								}
+								goto IL_C33;
+							}
+						}
+						goto IL_111E;
+						IL_C33:
+						enumerator7 = <SpecialDisplayStats>c__AnonStorey.diff.SpecialDisplayStats(StatRequest.ForEmpty()).GetEnumerator();
+						num = 4294967293u;
 						try
 						{
+							IL_C56:
 							switch (num)
 							{
 							}
@@ -3792,7 +3601,7 @@ namespace Verse
 								if (verb2.IsMeleeAttack)
 								{
 									meleeDamage = verb2.meleeDamageBaseAmount;
-									this.$current = new StatDrawEntry(StatCategoryDefOf.Weapon, "Damage".Translate(), meleeDamage.ToString(), 0, "");
+									this.$current = new StatDrawEntry(StatCategoryDefOf.Weapon, "Damage".Translate(), meleeDamage.ToString(), 0, string.Empty);
 									if (!this.$disposing)
 									{
 										this.$PC = 24;
@@ -3803,7 +3612,7 @@ namespace Verse
 								if (verb2.defaultProjectile != null)
 								{
 									projDamage = verb2.defaultProjectile.projectile.GetDamageAmount(null, null);
-									this.$current = new StatDrawEntry(StatCategoryDefOf.Basics, "Damage".Translate(), projDamage.ToString(), 0, "");
+									this.$current = new StatDrawEntry(StatCategoryDefOf.Basics, "Damage".Translate(), projDamage.ToString(), 0, string.Empty);
 									if (!this.$disposing)
 									{
 										this.$PC = 22;
@@ -3815,7 +3624,7 @@ namespace Verse
 							else if (!vg.tools.NullOrEmpty<Tool>())
 							{
 								tool = vg.tools[0];
-								this.$current = new StatDrawEntry(StatCategoryDefOf.Weapon, "Damage".Translate(), tool.power.ToString(), 0, "");
+								this.$current = new StatDrawEntry(StatCategoryDefOf.Weapon, "Damage".Translate(), tool.power.ToString(), 0, string.Empty);
 								if (!this.$disposing)
 								{
 									this.$PC = 26;
@@ -3824,13 +3633,13 @@ namespace Verse
 								return true;
 							}
 						}
-						IL_E64:
-						IL_F63:
-						IL_108B:
+						IL_E2D:
+						IL_F27:
+						IL_104A:
 						thought = DefDatabase<ThoughtDef>.AllDefs.FirstOrDefault((ThoughtDef x) => x.hediff == <SpecialDisplayStats>c__AnonStorey.diff);
 						if (thought != null && thought.stages != null && thought.stages.Any<ThoughtStage>())
 						{
-							this.$current = new StatDrawEntry(StatCategoryDefOf.Basics, "MoodChange".Translate(), thought.stages.First<ThoughtStage>().baseMoodEffect.ToStringByStyle(ToStringStyle.Integer, ToStringNumberSense.Offset), 0, "");
+							this.$current = new StatDrawEntry(StatCategoryDefOf.Basics, "MoodChange".Translate(), thought.stages.First<ThoughtStage>().baseMoodEffect.ToStringByStyle(ToStringStyle.Integer, ToStringNumberSense.Offset), 0, string.Empty);
 							if (!this.$disposing)
 							{
 								this.$PC = 28;
@@ -3838,28 +3647,7 @@ namespace Verse
 							flag = true;
 							return true;
 						}
-						IL_1132:
-						IL_1133:
-						if (enumerator6.MoveNext())
-						{
-							def = enumerator6.Current;
-							HediffDef diff = def.addsHediff;
-							if (diff == null)
-							{
-								goto IL_1132;
-							}
-							if (diff.addedPartProps != null)
-							{
-								this.$current = new StatDrawEntry(StatCategoryDefOf.Basics, "BodyPartEfficiency".Translate(), diff.addedPartProps.partEfficiency.ToStringByStyle(ToStringStyle.PercentZero, ToStringNumberSense.Absolute), 0, "");
-								if (!this.$disposing)
-								{
-									this.$PC = 20;
-								}
-								flag = true;
-								return true;
-							}
-							goto IL_C61;
-						}
+						goto IL_10EE;
 					}
 					finally
 					{
@@ -3871,7 +3659,7 @@ namespace Verse
 							}
 						}
 					}
-					goto IL_1164;
+					goto IL_111E;
 				case 29u:
 					Block_49:
 					try
@@ -3902,7 +3690,7 @@ namespace Verse
 						}
 					}
 					i++;
-					goto IL_1222;
+					goto IL_11D7;
 				default:
 					return false;
 				}
@@ -3936,25 +3724,36 @@ namespace Verse
 				if (this.apparel != null)
 				{
 					coveredParts = this.apparel.GetCoveredOuterPartsString(BodyDefOf.Human);
-					this.$current = new StatDrawEntry(StatCategoryDefOf.Apparel, "Covers".Translate(), coveredParts, 100, "");
+					this.$current = new StatDrawEntry(StatCategoryDefOf.Apparel, "Covers".Translate(), coveredParts, 100, string.Empty);
 					if (!this.$disposing)
 					{
 						this.$PC = 2;
 					}
 					return true;
 				}
-				IL_1D7:
+				IL_1D1:
 				if (base.IsMedicine && base.MedicineTendXpGainFactor != 1f)
 				{
-					this.$current = new StatDrawEntry(StatCategoryDefOf.Basics, "MedicineXpGainFactor".Translate(), base.MedicineTendXpGainFactor.ToStringPercent(), 0, "");
+					this.$current = new StatDrawEntry(StatCategoryDefOf.Basics, "MedicineXpGainFactor".Translate(), base.MedicineTendXpGainFactor.ToStringPercent(), 0, string.Empty);
 					if (!this.$disposing)
 					{
 						this.$PC = 4;
 					}
 					return true;
 				}
-				goto IL_240;
-				IL_304:
+				IL_23A:
+				if (this.fillPercent > 0f && this.fillPercent < 1f && (this.category == ThingCategory.Item || this.category == ThingCategory.Building || this.category == ThingCategory.Plant))
+				{
+					StatDrawEntry sde = new StatDrawEntry(StatCategoryDefOf.Basics, "CoverEffectiveness".Translate(), this.BaseBlockChance().ToStringPercent(), 0, string.Empty);
+					sde.overrideReportText = "CoverEffectivenessExplanation".Translate();
+					this.$current = sde;
+					if (!this.$disposing)
+					{
+						this.$PC = 5;
+					}
+					return true;
+				}
+				IL_2FC:
 				if (this.constructionSkillPrerequisite > 0)
 				{
 					StatCategoryDef category = StatCategoryDefOf.Basics;
@@ -3968,8 +3767,25 @@ namespace Verse
 					}
 					return true;
 				}
-				goto IL_370;
-				IL_490:
+				IL_368:
+				if (this.verbs.NullOrEmpty<VerbProperties>())
+				{
+					goto IL_887;
+				}
+				verb = this.verbs.First((VerbProperties x) => x.isPrimary);
+				verbStatCategory = ((this.category != ThingCategory.Pawn) ? (verbStatCategory = StatCategoryDefOf.Weapon) : (verbStatCategory = StatCategoryDefOf.PawnCombat));
+				warmup = verb.warmupTime;
+				if (warmup > 0f)
+				{
+					warmupLabel = ((this.category != ThingCategory.Pawn) ? "WarmupTime".Translate() : "MeleeWarmupTime".Translate());
+					this.$current = new StatDrawEntry(verbStatCategory, warmupLabel, warmup.ToString("0.##") + " s", 40, string.Empty);
+					if (!this.$disposing)
+					{
+						this.$PC = 7;
+					}
+					return true;
+				}
+				IL_485:
 				if (verb.defaultProjectile != null)
 				{
 					damageAmountExplanation = new StringBuilder();
@@ -3981,71 +3797,97 @@ namespace Verse
 					}
 					return true;
 				}
-				IL_5FD:
+				IL_5EF:
 				if (!verb.LaunchesProjectile)
 				{
-					goto IL_7E6;
+					goto IL_7D3;
 				}
 				burstShotCount = verb.burstShotCount;
 				burstShotFireRate = 60f / verb.ticksBetweenBurstShots.TicksToSeconds();
 				range = verb.range;
 				if (burstShotCount > 1)
 				{
-					this.$current = new StatDrawEntry(verbStatCategory, "BurstShotCount".Translate(), burstShotCount.ToString(), 20, "");
+					this.$current = new StatDrawEntry(verbStatCategory, "BurstShotCount".Translate(), burstShotCount.ToString(), 20, string.Empty);
 					if (!this.$disposing)
 					{
 						this.$PC = 10;
 					}
 					return true;
 				}
-				IL_6F4:
-				this.$current = new StatDrawEntry(verbStatCategory, "Range".Translate(), range.ToString("F0"), 10, "");
+				IL_6E2:
+				this.$current = new StatDrawEntry(verbStatCategory, "Range".Translate(), range.ToString("F0"), 10, string.Empty);
 				if (!this.$disposing)
 				{
 					this.$PC = 12;
 				}
 				return true;
-				IL_7E5:
-				IL_7E6:
+				IL_7D3:
 				if (verb.forcedMissRadius > 0f)
 				{
-					this.$current = new StatDrawEntry(verbStatCategory, "MissRadius".Translate(), verb.forcedMissRadius.ToString("0.#"), 30, "");
+					this.$current = new StatDrawEntry(verbStatCategory, "MissRadius".Translate(), verb.forcedMissRadius.ToString("0.#"), 30, string.Empty);
 					if (!this.$disposing)
 					{
 						this.$PC = 14;
 					}
 					return true;
 				}
-				IL_89C:
-				IL_89D:
-				if (this.plant != null)
+				IL_887:
+				if (this.plant == null)
 				{
-					enumerator2 = this.plant.SpecialDisplayStats().GetEnumerator();
-					num = 4294967293u;
-					goto Block_40;
+					goto IL_92B;
 				}
-				IL_946:
+				enumerator2 = this.plant.SpecialDisplayStats().GetEnumerator();
+				num = 4294967293u;
+				try
+				{
+					IL_8B5:
+					switch (num)
+					{
+					}
+					if (enumerator2.MoveNext())
+					{
+						s = enumerator2.Current;
+						this.$current = s;
+						if (!this.$disposing)
+						{
+							this.$PC = 16;
+						}
+						flag = true;
+						return true;
+					}
+				}
+				finally
+				{
+					if (!flag)
+					{
+						if (enumerator2 != null)
+						{
+							enumerator2.Dispose();
+						}
+					}
+				}
+				IL_92B:
 				if (this.ingestible != null)
 				{
 					enumerator3 = this.ingestible.SpecialDisplayStats().GetEnumerator();
 					num = 4294967293u;
 					goto Block_42;
 				}
-				IL_9EF:
+				IL_9CF:
 				if (this.race != null)
 				{
 					enumerator4 = this.race.SpecialDisplayStats(this).GetEnumerator();
 					num = 4294967293u;
 					goto Block_44;
 				}
-				IL_A9E:
+				IL_A79:
 				if (this.building != null)
 				{
 					enumerator5 = this.building.SpecialDisplayStats(this).GetEnumerator();
 					num = 4294967293u;
 					goto Block_46;
 				}
-				IL_B4D:
+				IL_B23:
 				if (this.isTechHediff)
 				{
 					enumerator6 = (from x in DefDatabase<RecipeDef>.AllDefs
@@ -4054,9 +3896,9 @@ namespace Verse
 					num = 4294967293u;
 					goto Block_48;
 				}
-				IL_1164:
+				IL_111E:
 				i = 0;
-				IL_1222:
+				IL_11D7:
 				if (i < this.comps.Count)
 				{
 					enumerator8 = this.comps[i].SpecialDisplayStats().GetEnumerator();

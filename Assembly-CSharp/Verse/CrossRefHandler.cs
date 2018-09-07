@@ -26,15 +26,17 @@ namespace Verse
 					" for cross ref resolve, but current mode is ",
 					Scribe.mode
 				}), false);
+				return;
 			}
-			else if (s != null)
+			if (s == null)
 			{
-				if (DebugViewSettings.logMapLoad)
-				{
-					LogSimple.Message("RegisterForCrossRefResolve " + ((s == null) ? "null" : s.GetType().ToString()));
-				}
-				this.crossReferencingExposables.Add(s);
+				return;
 			}
+			if (DebugViewSettings.logMapLoad)
+			{
+				LogSimple.Message("RegisterForCrossRefResolve " + ((s == null) ? "null" : s.GetType().ToString()));
+			}
+			this.crossReferencingExposables.Add(s);
 		}
 
 		public void ResolveAllCrossReferences()

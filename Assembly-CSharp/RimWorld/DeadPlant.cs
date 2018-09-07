@@ -55,7 +55,7 @@ namespace RimWorld
 
 		public override string GetInspectString()
 		{
-			return "";
+			return string.Empty;
 		}
 
 		public override void CropBlighted()

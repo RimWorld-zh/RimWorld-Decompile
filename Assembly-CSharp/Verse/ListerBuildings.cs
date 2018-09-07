@@ -23,21 +23,22 @@ namespace Verse
 
 		public void Add(Building b)
 		{
-			if (b.def.building == null || !b.def.building.isNaturalRock)
+			if (b.def.building != null && b.def.building.isNaturalRock)
 			{
-				if (b.Faction == Faction.OfPlayer)
+				return;
+			}
+			if (b.Faction == Faction.OfPlayer)
+			{
+				this.allBuildingsColonist.Add(b);
+				if (b is IAttackTarget)
 				{
-					this.allBuildingsColonist.Add(b);
-					if (b is IAttackTarget)
-					{
-						this.allBuildingsColonistCombatTargets.Add(b);
-					}
+					this.allBuildingsColonistCombatTargets.Add(b);
 				}
-				CompProperties_Power compProperties = b.def.GetCompProperties<CompProperties_Power>();
-				if (compProperties != null && compProperties.shortCircuitInRain)
-				{
-					this.allBuildingsColonistElecFire.Add(b);
-				}
+			}
+			CompProperties_Power compProperties = b.def.GetCompProperties<CompProperties_Power>();
+			if (compProperties != null && compProperties.shortCircuitInRain)
+			{
+				this.allBuildingsColonistElecFire.Add(b);
 			}
 		}
 
@@ -162,7 +163,7 @@ namespace Verse
 					i = 0;
 					break;
 				case 1u:
-					IL_85:
+					IL_83:
 					i++;
 					break;
 				default:
@@ -183,7 +184,7 @@ namespace Verse
 						}
 						return true;
 					}
-					goto IL_85;
+					goto IL_83;
 				}
 				return false;
 			}
@@ -269,7 +270,7 @@ namespace Verse
 					i = 0;
 					break;
 				case 1u:
-					IL_85:
+					IL_83:
 					i++;
 					break;
 				default:
@@ -291,7 +292,7 @@ namespace Verse
 						}
 						return true;
 					}
-					goto IL_85;
+					goto IL_83;
 				}
 				return false;
 			}

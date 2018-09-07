@@ -24,20 +24,15 @@ namespace RimWorld
 		{
 			Predicate<Thing> validator = (Thing t) => t.def.hasInteractionCell && t.def.HasComp(typeof(CompMannable)) && pawn.CanReserve(t, 1, -1, null, false) && JobDriver_ManTurret.FindAmmoForTurret(pawn, (Building_TurretGun)t) != null;
 			Thing thing = GenClosest.ClosestThingReachable(this.GetRoot(pawn), pawn.Map, ThingRequest.ForGroup(ThingRequestGroup.BuildingArtificial), PathEndMode.InteractionCell, TraverseParms.For(pawn, Danger.Deadly, TraverseMode.ByPawn, false), this.maxDistFromPoint, validator, null, 0, -1, false, RegionType.Set_Passable, false);
-			Job result;
 			if (thing != null)
 			{
-				result = new Job(JobDefOf.ManTurret, thing)
+				return new Job(JobDefOf.ManTurret, thing)
 				{
 					expiryInterval = 2000,
 					checkOverrideOnExpire = true
 				};
 			}
-			else
-			{
-				result = null;
-			}
-			return result;
+			return null;
 		}
 
 		protected abstract IntVec3 GetRoot(Pawn pawn);

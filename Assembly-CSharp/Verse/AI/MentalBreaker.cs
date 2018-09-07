@@ -15,21 +15,25 @@ namespace Verse.AI
 	{
 		private Pawn pawn;
 
-		private int ticksBelowExtreme = 0;
+		private int ticksUntilCanDoMentalBreak;
 
-		private int ticksBelowMajor = 0;
+		private int ticksBelowExtreme;
 
-		private int ticksBelowMinor = 0;
+		private int ticksBelowMajor;
+
+		private int ticksBelowMinor;
 
 		private const int CheckInterval = 150;
 
-		private const float ExtremeBreakMTBDays = 0.7f;
+		private const float ExtremeBreakMTBDays = 0.6f;
 
-		private const float MajorBreakMTBDays = 3f;
+		private const float MajorBreakMTBDays = 1f;
 
-		private const float MinorBreakMTBDays = 10f;
+		private const float MinorBreakMTBDays = 5f;
 
-		private const int MinTicksBelowToBreak = 3000;
+		private const int MinTicksBelowToBreak = 2000;
+
+		private const int MinTicksSinceRecoveryToBreak = 15000;
 
 		private const float MajorBreakMoodSpan = 0.15f;
 
@@ -113,20 +117,15 @@ namespace Verse.AI
 			}
 		}
 
-		private float CurMood
+		public float CurMood
 		{
 			get
 			{
-				float result;
 				if (this.pawn.needs.mood == null)
 				{
-					result = 0.5f;
+					return 0.5f;
 				}
-				else
-				{
-					result = this.pawn.needs.mood.CurLevel;
-				}
-				return result;
+				return this.pawn.needs.mood.CurLevel;
 			}
 		}
 
@@ -159,24 +158,19 @@ namespace Verse.AI
 		{
 			get
 			{
-				MentalBreakIntensity result;
-				if (this.ticksBelowExtreme >= 3000)
+				if (this.ticksBelowExtreme >= 2000)
 				{
-					result = MentalBreakIntensity.Extreme;
+					return MentalBreakIntensity.Extreme;
 				}
-				else if (this.ticksBelowMajor >= 3000)
+				if (this.ticksBelowMajor >= 2000)
 				{
-					result = MentalBreakIntensity.Major;
+					return MentalBreakIntensity.Major;
 				}
-				else if (this.ticksBelowMinor >= 3000)
+				if (this.ticksBelowMinor >= 2000)
 				{
-					result = MentalBreakIntensity.Minor;
+					return MentalBreakIntensity.Minor;
 				}
-				else
-				{
-					result = MentalBreakIntensity.None;
-				}
-				return result;
+				return MentalBreakIntensity.None;
 			}
 		}
 
@@ -189,6 +183,7 @@ namespace Verse.AI
 
 		public void ExposeData()
 		{
+			Scribe_Values.Look<int>(ref this.ticksUntilCanDoMentalBreak, "ticksUntilCanDoMentalBreak", 0, false);
 			Scribe_Values.Look<int>(ref this.ticksBelowExtreme, "ticksBelowExtreme", 0, false);
 			Scribe_Values.Look<int>(ref this.ticksBelowMajor, "ticksBelowMajor", 0, false);
 			Scribe_Values.Look<int>(ref this.ticksBelowMinor, "ticksBelowMinor", 0, false);
@@ -196,61 +191,52 @@ namespace Verse.AI
 
 		public void MentalBreakerTick()
 		{
+			if (this.ticksUntilCanDoMentalBreak > 0 && this.pawn.Awake())
+			{
+				this.ticksUntilCanDoMentalBreak--;
+			}
 			if (this.CanDoRandomMentalBreaks && this.pawn.MentalStateDef == null && this.pawn.IsHashIntervalTick(150))
 			{
-				if (DebugSettings.enableRandomMentalStates)
+				if (!DebugSettings.enableRandomMentalStates)
 				{
-					if (this.CurMood < this.BreakThresholdExtreme)
+					return;
+				}
+				if (this.CurMood < this.BreakThresholdExtreme)
+				{
+					this.ticksBelowExtreme += 150;
+				}
+				else
+				{
+					this.ticksBelowExtreme = 0;
+				}
+				if (this.CurMood < this.BreakThresholdMajor)
+				{
+					this.ticksBelowMajor += 150;
+				}
+				else
+				{
+					this.ticksBelowMajor = 0;
+				}
+				if (this.CurMood < this.BreakThresholdMinor)
+				{
+					this.ticksBelowMinor += 150;
+				}
+				else
+				{
+					this.ticksBelowMinor = 0;
+				}
+				if (this.TestMoodMentalBreak() && this.TryDoRandomMoodCausedMentalBreak())
+				{
+					return;
+				}
+				if (this.pawn.story != null)
+				{
+					List<Trait> allTraits = this.pawn.story.traits.allTraits;
+					for (int i = 0; i < allTraits.Count; i++)
 					{
-						this.ticksBelowExtreme += 150;
-					}
-					else
-					{
-						this.ticksBelowExtreme = 0;
-					}
-					if (this.CurMood < this.BreakThresholdMajor)
-					{
-						this.ticksBelowMajor += 150;
-					}
-					else
-					{
-						this.ticksBelowMajor = 0;
-					}
-					if (this.CurMood < this.BreakThresholdMinor)
-					{
-						this.ticksBelowMinor += 150;
-					}
-					else
-					{
-						this.ticksBelowMinor = 0;
-					}
-					if (this.TestMoodMentalBreak())
-					{
-						if (this.TryDoRandomMoodCausedMentalBreak())
+						if (allTraits[i].CurrentData.MentalStateGiver.CheckGive(this.pawn, 150))
 						{
 							return;
-						}
-					}
-					if (this.pawn.story != null)
-					{
-						List<Trait> allTraits = this.pawn.story.traits.allTraits;
-						for (int i = 0; i < allTraits.Count; i++)
-						{
-							TraitDegreeData currentData = allTraits[i].CurrentData;
-							if (currentData.randomMentalState != null)
-							{
-								float mtb = currentData.randomMentalStateMtbDaysMoodCurve.Evaluate(this.CurMood);
-								if (Rand.MTBEventOccurs(mtb, 60000f, 150f))
-								{
-									if (currentData.randomMentalState.Worker.StateCanOccur(this.pawn))
-									{
-										if (this.pawn.mindState.mentalStateHandler.TryStartMentalState(currentData.randomMentalState, null, false, false, null, false))
-										{
-											break;
-										}
-									}
-								}
-							}
 						}
 					}
 				}
@@ -259,44 +245,38 @@ namespace Verse.AI
 
 		private bool TestMoodMentalBreak()
 		{
-			bool result;
-			if (this.ticksBelowExtreme > 3000)
+			if (this.ticksUntilCanDoMentalBreak > 0)
 			{
-				result = Rand.MTBEventOccurs(0.7f, 60000f, 150f);
+				return false;
 			}
-			else if (this.ticksBelowMajor > 3000)
+			if (this.ticksBelowExtreme > 2000)
 			{
-				result = Rand.MTBEventOccurs(3f, 60000f, 150f);
+				return Rand.MTBEventOccurs(0.6f, 60000f, 150f);
 			}
-			else
+			if (this.ticksBelowMajor > 2000)
 			{
-				result = (this.ticksBelowMinor > 3000 && Rand.MTBEventOccurs(10f, 60000f, 150f));
+				return Rand.MTBEventOccurs(1f, 60000f, 150f);
 			}
-			return result;
+			return this.ticksBelowMinor > 2000 && Rand.MTBEventOccurs(5f, 60000f, 150f);
 		}
 
 		public bool TryDoRandomMoodCausedMentalBreak()
 		{
-			bool result;
-			MentalBreakDef mentalBreakDef;
 			if (!this.CanDoRandomMentalBreaks || this.pawn.Downed || !this.pawn.Awake() || this.pawn.InMentalState)
 			{
-				result = false;
+				return false;
 			}
-			else if (this.pawn.Faction != Faction.OfPlayer && this.CurrentDesiredMoodBreakIntensity != MentalBreakIntensity.Extreme)
+			if (this.pawn.Faction != Faction.OfPlayer && this.CurrentDesiredMoodBreakIntensity != MentalBreakIntensity.Extreme)
 			{
-				result = false;
+				return false;
 			}
-			else if (!this.CurrentPossibleMoodBreaks.TryRandomElementByWeight((MentalBreakDef d) => d.Worker.CommonalityFor(this.pawn), out mentalBreakDef))
+			MentalBreakDef mentalBreakDef;
+			if (!this.CurrentPossibleMoodBreaks.TryRandomElementByWeight((MentalBreakDef d) => d.Worker.CommonalityFor(this.pawn), out mentalBreakDef))
 			{
-				result = false;
+				return false;
 			}
-			else
-			{
-				Thought reason = this.RandomFinalStraw();
-				result = mentalBreakDef.Worker.TryStart(this.pawn, reason, true);
-			}
-			return result;
+			Thought reason = this.RandomFinalStraw();
+			return mentalBreakDef.Worker.TryStart(this.pawn, reason, true);
 		}
 
 		private Thought RandomFinalStraw()
@@ -322,58 +302,51 @@ namespace Verse.AI
 
 		public void Notify_RecoveredFromMentalState()
 		{
-			this.Reset();
+			this.ticksUntilCanDoMentalBreak = 15000;
 		}
 
 		public float MentalBreakThresholdFor(MentalBreakIntensity intensity)
 		{
-			float result;
-			if (intensity != MentalBreakIntensity.Extreme)
+			if (intensity == MentalBreakIntensity.Extreme)
 			{
-				if (intensity != MentalBreakIntensity.Major)
-				{
-					if (intensity != MentalBreakIntensity.Minor)
-					{
-						throw new NotImplementedException();
-					}
-					result = this.BreakThresholdMinor;
-				}
-				else
-				{
-					result = this.BreakThresholdMajor;
-				}
+				return this.BreakThresholdExtreme;
 			}
-			else
+			if (intensity == MentalBreakIntensity.Major)
 			{
-				result = this.BreakThresholdExtreme;
+				return this.BreakThresholdMajor;
 			}
-			return result;
+			if (intensity != MentalBreakIntensity.Minor)
+			{
+				throw new NotImplementedException();
+			}
+			return this.BreakThresholdMinor;
 		}
 
 		internal string DebugString()
 		{
 			StringBuilder stringBuilder = new StringBuilder();
 			stringBuilder.AppendLine(this.pawn.ToString());
+			stringBuilder.AppendLine("   ticksUntilCanDoMentalBreak=" + this.ticksUntilCanDoMentalBreak);
 			stringBuilder.AppendLine(string.Concat(new object[]
 			{
 				"   ticksBelowExtreme=",
 				this.ticksBelowExtreme,
 				"/",
-				3000
+				2000
 			}));
 			stringBuilder.AppendLine(string.Concat(new object[]
 			{
 				"   ticksBelowSerious=",
 				this.ticksBelowMajor,
 				"/",
-				3000
+				2000
 			}));
 			stringBuilder.AppendLine(string.Concat(new object[]
 			{
 				"   ticksBelowMinor=",
 				this.ticksBelowMinor,
 				"/",
-				3000
+				2000
 			}));
 			stringBuilder.AppendLine();
 			stringBuilder.AppendLine("Current desired mood break intensity: " + this.CurrentDesiredMoodBreakIntensity.ToString());

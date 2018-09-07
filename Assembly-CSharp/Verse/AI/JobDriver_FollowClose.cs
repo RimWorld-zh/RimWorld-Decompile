@@ -34,7 +34,7 @@ namespace Verse.AI
 			}
 		}
 
-		public override bool TryMakePreToilReservations()
+		public override bool TryMakePreToilReservations(bool errorOnFailed)
 		{
 			return true;
 		}
@@ -91,27 +91,24 @@ namespace Verse.AI
 							if (JobDriver_FollowClose.NearDestinationOrNotMoving(this.pawn, followee, followRadius))
 							{
 								base.EndJobWith(JobCondition.Succeeded);
+								return;
 							}
-							else
+							IntVec3 lastPassableCellInPath = followee.pather.LastPassableCellInPath;
+							if (!this.pawn.pather.Moving || this.pawn.pather.Destination.HasThing || !this.pawn.pather.Destination.Cell.InHorDistOf(lastPassableCellInPath, followRadius))
 							{
-								IntVec3 lastPassableCellInPath = followee.pather.LastPassableCellInPath;
-								if (!this.pawn.pather.Moving || this.pawn.pather.Destination.HasThing || !this.pawn.pather.Destination.Cell.InHorDistOf(lastPassableCellInPath, followRadius))
+								IntVec3 intVec = CellFinder.RandomClosewalkCellNear(lastPassableCellInPath, base.Map, Mathf.FloorToInt(followRadius), null);
+								if (intVec == this.pawn.Position)
 								{
-									IntVec3 intVec = CellFinder.RandomClosewalkCellNear(lastPassableCellInPath, base.Map, Mathf.FloorToInt(followRadius), null);
-									if (intVec == this.pawn.Position)
-									{
-										base.EndJobWith(JobCondition.Succeeded);
-									}
-									else if (intVec.IsValid && this.pawn.CanReach(intVec, PathEndMode.OnCell, Danger.Deadly, false, TraverseMode.ByPawn))
-									{
-										this.pawn.pather.StartPath(intVec, PathEndMode.OnCell);
-										this.locomotionUrgencySameAs = followee;
-									}
-									else
-									{
-										base.EndJobWith(JobCondition.Incompletable);
-									}
+									base.EndJobWith(JobCondition.Succeeded);
+									return;
 								}
+								if (!intVec.IsValid || !this.pawn.CanReach(intVec, PathEndMode.OnCell, Danger.Deadly, false, TraverseMode.ByPawn))
+								{
+									base.EndJobWith(JobCondition.Incompletable);
+									return;
+								}
+								this.pawn.pather.StartPath(intVec, PathEndMode.OnCell);
+								this.locomotionUrgencySameAs = followee;
 							}
 						}
 					}
@@ -128,7 +125,6 @@ namespace Verse.AI
 
 		public static bool FarEnoughAndPossibleToStartJob(Pawn follower, Pawn followee, float radius)
 		{
-			bool result;
 			if (radius <= 0f)
 			{
 				string text = "Checking follow job with radius <= 0. pawn=" + follower.ToStringSafe<Pawn>();
@@ -137,18 +133,14 @@ namespace Verse.AI
 					text = text + " duty=" + follower.mindState.duty.def;
 				}
 				Log.ErrorOnce(text, follower.thingIDNumber ^ 843254009, false);
-				result = false;
+				return false;
 			}
-			else if (!follower.CanReach(followee, PathEndMode.OnCell, Danger.Deadly, false, TraverseMode.ByPawn))
+			if (!follower.CanReach(followee, PathEndMode.OnCell, Danger.Deadly, false, TraverseMode.ByPawn))
 			{
-				result = false;
+				return false;
 			}
-			else
-			{
-				float radius2 = radius * 1.2f;
-				result = (!JobDriver_FollowClose.NearFollowee(follower, followee, radius2) || (!JobDriver_FollowClose.NearDestinationOrNotMoving(follower, followee, radius2) && follower.CanReach(followee.pather.LastPassableCellInPath, PathEndMode.OnCell, Danger.Deadly, false, TraverseMode.ByPawn)));
-			}
-			return result;
+			float radius2 = radius * 1.2f;
+			return !JobDriver_FollowClose.NearFollowee(follower, followee, radius2) || (!JobDriver_FollowClose.NearDestinationOrNotMoving(follower, followee, radius2) && follower.CanReach(followee.pather.LastPassableCellInPath, PathEndMode.OnCell, Danger.Deadly, false, TraverseMode.ByPawn));
 		}
 
 		private static bool NearFollowee(Pawn follower, Pawn followee, float radius)
@@ -158,17 +150,12 @@ namespace Verse.AI
 
 		private static bool NearDestinationOrNotMoving(Pawn follower, Pawn followee, float radius)
 		{
-			bool result;
 			if (!followee.pather.Moving)
 			{
-				result = true;
+				return true;
 			}
-			else
-			{
-				IntVec3 lastPassableCellInPath = followee.pather.LastPassableCellInPath;
-				result = (!lastPassableCellInPath.IsValid || follower.Position.AdjacentTo8WayOrInside(lastPassableCellInPath) || follower.Position.InHorDistOf(lastPassableCellInPath, radius));
-			}
-			return result;
+			IntVec3 lastPassableCellInPath = followee.pather.LastPassableCellInPath;
+			return !lastPassableCellInPath.IsValid || follower.Position.AdjacentTo8WayOrInside(lastPassableCellInPath) || follower.Position.InHorDistOf(lastPassableCellInPath, radius);
 		}
 
 		[CompilerGenerated]
@@ -236,27 +223,24 @@ namespace Verse.AI
 								if (JobDriver_FollowClose.NearDestinationOrNotMoving(this.pawn, followee, followRadius))
 								{
 									base.EndJobWith(JobCondition.Succeeded);
+									return;
 								}
-								else
+								IntVec3 lastPassableCellInPath = followee.pather.LastPassableCellInPath;
+								if (!this.pawn.pather.Moving || this.pawn.pather.Destination.HasThing || !this.pawn.pather.Destination.Cell.InHorDistOf(lastPassableCellInPath, followRadius))
 								{
-									IntVec3 lastPassableCellInPath = followee.pather.LastPassableCellInPath;
-									if (!this.pawn.pather.Moving || this.pawn.pather.Destination.HasThing || !this.pawn.pather.Destination.Cell.InHorDistOf(lastPassableCellInPath, followRadius))
+									IntVec3 intVec = CellFinder.RandomClosewalkCellNear(lastPassableCellInPath, base.Map, Mathf.FloorToInt(followRadius), null);
+									if (intVec == this.pawn.Position)
 									{
-										IntVec3 intVec = CellFinder.RandomClosewalkCellNear(lastPassableCellInPath, base.Map, Mathf.FloorToInt(followRadius), null);
-										if (intVec == this.pawn.Position)
-										{
-											base.EndJobWith(JobCondition.Succeeded);
-										}
-										else if (intVec.IsValid && this.pawn.CanReach(intVec, PathEndMode.OnCell, Danger.Deadly, false, TraverseMode.ByPawn))
-										{
-											this.pawn.pather.StartPath(intVec, PathEndMode.OnCell);
-											this.locomotionUrgencySameAs = followee;
-										}
-										else
-										{
-											base.EndJobWith(JobCondition.Incompletable);
-										}
+										base.EndJobWith(JobCondition.Succeeded);
+										return;
 									}
+									if (!intVec.IsValid || !this.pawn.CanReach(intVec, PathEndMode.OnCell, Danger.Deadly, false, TraverseMode.ByPawn))
+									{
+										base.EndJobWith(JobCondition.Incompletable);
+										return;
+									}
+									this.pawn.pather.StartPath(intVec, PathEndMode.OnCell);
+									this.locomotionUrgencySameAs = followee;
 								}
 							}
 						}
@@ -362,27 +346,24 @@ namespace Verse.AI
 						if (JobDriver_FollowClose.NearDestinationOrNotMoving(this.pawn, followee, followRadius))
 						{
 							base.EndJobWith(JobCondition.Succeeded);
+							return;
 						}
-						else
+						IntVec3 lastPassableCellInPath = followee.pather.LastPassableCellInPath;
+						if (!this.pawn.pather.Moving || this.pawn.pather.Destination.HasThing || !this.pawn.pather.Destination.Cell.InHorDistOf(lastPassableCellInPath, followRadius))
 						{
-							IntVec3 lastPassableCellInPath = followee.pather.LastPassableCellInPath;
-							if (!this.pawn.pather.Moving || this.pawn.pather.Destination.HasThing || !this.pawn.pather.Destination.Cell.InHorDistOf(lastPassableCellInPath, followRadius))
+							IntVec3 intVec = CellFinder.RandomClosewalkCellNear(lastPassableCellInPath, base.Map, Mathf.FloorToInt(followRadius), null);
+							if (intVec == this.pawn.Position)
 							{
-								IntVec3 intVec = CellFinder.RandomClosewalkCellNear(lastPassableCellInPath, base.Map, Mathf.FloorToInt(followRadius), null);
-								if (intVec == this.pawn.Position)
-								{
-									base.EndJobWith(JobCondition.Succeeded);
-								}
-								else if (intVec.IsValid && this.pawn.CanReach(intVec, PathEndMode.OnCell, Danger.Deadly, false, TraverseMode.ByPawn))
-								{
-									this.pawn.pather.StartPath(intVec, PathEndMode.OnCell);
-									this.locomotionUrgencySameAs = followee;
-								}
-								else
-								{
-									base.EndJobWith(JobCondition.Incompletable);
-								}
+								base.EndJobWith(JobCondition.Succeeded);
+								return;
 							}
+							if (!intVec.IsValid || !this.pawn.CanReach(intVec, PathEndMode.OnCell, Danger.Deadly, false, TraverseMode.ByPawn))
+							{
+								base.EndJobWith(JobCondition.Incompletable);
+								return;
+							}
+							this.pawn.pather.StartPath(intVec, PathEndMode.OnCell);
+							this.locomotionUrgencySameAs = followee;
 						}
 					}
 				}

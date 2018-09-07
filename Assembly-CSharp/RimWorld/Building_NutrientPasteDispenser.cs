@@ -56,16 +56,11 @@ namespace RimWorld
 		{
 			get
 			{
-				Color result;
 				if (!this.IsSociallyProper(null, false, false))
 				{
-					result = Building_Bed.SheetColorForPrisoner;
+					return Building_Bed.SheetColorForPrisoner;
 				}
-				else
-				{
-					result = base.DrawColor;
-				}
-				return result;
+				return base.DrawColor;
 			}
 		}
 
@@ -91,44 +86,39 @@ namespace RimWorld
 
 		public virtual Thing TryDispenseFood()
 		{
-			Thing result;
 			if (!this.CanDispenseNow)
 			{
-				result = null;
-			}
-			else
-			{
-				float num = this.def.building.nutritionCostPerDispense - 0.0001f;
-				List<ThingDef> list = new List<ThingDef>();
-				for (;;)
-				{
-					Thing thing = this.FindFeedInAnyHopper();
-					if (thing == null)
-					{
-						break;
-					}
-					int num2 = Mathf.Min(thing.stackCount, Mathf.CeilToInt(num / thing.GetStatValue(StatDefOf.Nutrition, true)));
-					num -= (float)num2 * thing.GetStatValue(StatDefOf.Nutrition, true);
-					list.Add(thing.def);
-					thing.SplitOff(num2);
-					if (num <= 0f)
-					{
-						goto Block_3;
-					}
-				}
-				Log.Error("Did not find enough food in hoppers while trying to dispense.", false);
 				return null;
-				Block_3:
-				this.def.building.soundDispense.PlayOneShot(new TargetInfo(base.Position, base.Map, false));
-				Thing thing2 = ThingMaker.MakeThing(ThingDefOf.MealNutrientPaste, null);
-				CompIngredients compIngredients = thing2.TryGetComp<CompIngredients>();
-				for (int i = 0; i < list.Count; i++)
-				{
-					compIngredients.RegisterIngredient(list[i]);
-				}
-				result = thing2;
 			}
-			return result;
+			float num = this.def.building.nutritionCostPerDispense - 0.0001f;
+			List<ThingDef> list = new List<ThingDef>();
+			for (;;)
+			{
+				Thing thing = this.FindFeedInAnyHopper();
+				if (thing == null)
+				{
+					break;
+				}
+				int num2 = Mathf.Min(thing.stackCount, Mathf.CeilToInt(num / thing.GetStatValue(StatDefOf.Nutrition, true)));
+				num -= (float)num2 * thing.GetStatValue(StatDefOf.Nutrition, true);
+				list.Add(thing.def);
+				thing.SplitOff(num2);
+				if (num <= 0f)
+				{
+					goto Block_3;
+				}
+			}
+			Log.Error("Did not find enough food in hoppers while trying to dispense.", false);
+			return null;
+			Block_3:
+			this.def.building.soundDispense.PlayOneShot(new TargetInfo(base.Position, base.Map, false));
+			Thing thing2 = ThingMaker.MakeThing(ThingDefOf.MealNutrientPaste, null);
+			CompIngredients compIngredients = thing2.TryGetComp<CompIngredients>();
+			for (int i = 0; i < list.Count; i++)
+			{
+				compIngredients.RegisterIngredient(list[i]);
+			}
+			return thing2;
 		}
 
 		public virtual Thing FindFeedInAnyHopper()

@@ -20,56 +20,54 @@ namespace Verse
 
 		public void DevToolStarterOnGUI()
 		{
-			if (Prefs.DevMode)
+			if (!Prefs.DevMode)
 			{
-				Vector2 vector = new Vector2((float)UI.screenWidth * 0.5f, 3f);
-				int num = 6;
-				if (Current.ProgramState == ProgramState.Playing)
-				{
-					num += 2;
-				}
-				float num2 = 25f;
-				if (Current.ProgramState == ProgramState.Playing && DebugSettings.godMode)
-				{
-					num2 += 15f;
-				}
-				Find.WindowStack.ImmediateWindow(1593759361, new Rect(vector.x, vector.y, (float)num * 28f - 4f + 1f, num2).Rounded(), WindowLayer.GameUI, delegate
-				{
-					this.DrawButtons();
-				}, false, false, 0f);
-				if (KeyBindingDefOf.Dev_ToggleDebugLog.KeyDownEvent)
-				{
-					this.ToggleLogWindow();
-					Event.current.Use();
-				}
-				if (KeyBindingDefOf.Dev_ToggleDebugActionsMenu.KeyDownEvent)
-				{
-					this.ToggleDebugActionsMenu();
-					Event.current.Use();
-				}
-				if (KeyBindingDefOf.Dev_ToggleDebugLogMenu.KeyDownEvent)
-				{
-					this.ToggleDebugLogMenu();
-					Event.current.Use();
-				}
-				if (KeyBindingDefOf.Dev_ToggleDebugSettingsMenu.KeyDownEvent)
-				{
-					this.ToggleDebugSettingsMenu();
-					Event.current.Use();
-				}
-				if (KeyBindingDefOf.Dev_ToggleDebugInspector.KeyDownEvent)
-				{
-					this.ToggleDebugInspector();
-					Event.current.Use();
-				}
-				if (Current.ProgramState == ProgramState.Playing)
-				{
-					if (KeyBindingDefOf.Dev_ToggleGodMode.KeyDownEvent)
-					{
-						this.ToggleGodMode();
-						Event.current.Use();
-					}
-				}
+				return;
+			}
+			Vector2 vector = new Vector2((float)UI.screenWidth * 0.5f, 3f);
+			int num = 6;
+			if (Current.ProgramState == ProgramState.Playing)
+			{
+				num += 2;
+			}
+			float num2 = 25f;
+			if (Current.ProgramState == ProgramState.Playing && DebugSettings.godMode)
+			{
+				num2 += 15f;
+			}
+			Find.WindowStack.ImmediateWindow(1593759361, new Rect(vector.x, vector.y, (float)num * 28f - 4f + 1f, num2).Rounded(), WindowLayer.GameUI, delegate
+			{
+				this.DrawButtons();
+			}, false, false, 0f);
+			if (KeyBindingDefOf.Dev_ToggleDebugLog.KeyDownEvent)
+			{
+				this.ToggleLogWindow();
+				Event.current.Use();
+			}
+			if (KeyBindingDefOf.Dev_ToggleDebugActionsMenu.KeyDownEvent)
+			{
+				this.ToggleDebugActionsMenu();
+				Event.current.Use();
+			}
+			if (KeyBindingDefOf.Dev_ToggleDebugLogMenu.KeyDownEvent)
+			{
+				this.ToggleDebugLogMenu();
+				Event.current.Use();
+			}
+			if (KeyBindingDefOf.Dev_ToggleDebugSettingsMenu.KeyDownEvent)
+			{
+				this.ToggleDebugSettingsMenu();
+				Event.current.Use();
+			}
+			if (KeyBindingDefOf.Dev_ToggleDebugInspector.KeyDownEvent)
+			{
+				this.ToggleDebugInspector();
+				Event.current.Use();
+			}
+			if (Current.ProgramState == ProgramState.Playing && KeyBindingDefOf.Dev_ToggleGodMode.KeyDownEvent)
+			{
+				this.ToggleGodMode();
+				Event.current.Use();
 			}
 		}
 

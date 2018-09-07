@@ -27,12 +27,9 @@ namespace RimWorld
 
 		private void TryGiveName(Pawn initiator, Pawn recipient)
 		{
-			if (initiator.Name == null || initiator.Name.Numerical)
+			if ((initiator.Name == null || initiator.Name.Numerical) && Rand.Value < initiator.RaceProps.nameOnNuzzleChance)
 			{
-				if (Rand.Value < initiator.RaceProps.nameOnNuzzleChance)
-				{
-					PawnUtility.GiveNameBecauseOfNuzzle(recipient, initiator);
-				}
+				PawnUtility.GiveNameBecauseOfNuzzle(recipient, initiator);
 			}
 		}
 	}

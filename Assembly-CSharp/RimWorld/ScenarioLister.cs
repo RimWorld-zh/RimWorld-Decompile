@@ -161,9 +161,9 @@ namespace RimWorld
 				case 1u:
 					break;
 				case 2u:
-					goto IL_D4;
+					goto IL_CF;
 				case 3u:
-					goto IL_15E;
+					goto IL_156;
 				default:
 					return false;
 				}
@@ -198,7 +198,7 @@ namespace RimWorld
 				num = 4294967293u;
 				try
 				{
-					IL_D4:
+					IL_CF:
 					switch (num)
 					{
 					}
@@ -228,7 +228,7 @@ namespace RimWorld
 				num = 4294967293u;
 				try
 				{
-					IL_15E:
+					IL_156:
 					switch (num)
 					{
 					}
@@ -402,15 +402,15 @@ namespace RimWorld
 							num = 4294967293u;
 							goto Block_7;
 						}
-						goto IL_208;
+						goto IL_1F8;
 					}
 					break;
 				case 1u:
 					break;
 				case 2u:
-					goto IL_F4;
+					goto IL_EC;
 				case 3u:
-					goto IL_191;
+					goto IL_184;
 				default:
 					return false;
 				}
@@ -441,11 +441,11 @@ namespace RimWorld
 						}
 					}
 				}
-				goto IL_208;
+				goto IL_1F8;
 				Block_5:
 				try
 				{
-					IL_F4:
+					IL_EC:
 					switch (num)
 					{
 					}
@@ -471,11 +471,11 @@ namespace RimWorld
 						}
 					}
 				}
-				goto IL_208;
+				goto IL_1F8;
 				Block_7:
 				try
 				{
-					IL_191:
+					IL_184:
 					switch (num)
 					{
 					}
@@ -501,7 +501,7 @@ namespace RimWorld
 						}
 					}
 				}
-				IL_208:
+				IL_1F8:
 				this.$PC = -1;
 				return false;
 			}

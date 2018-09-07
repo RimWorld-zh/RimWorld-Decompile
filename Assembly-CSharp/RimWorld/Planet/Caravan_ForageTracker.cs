@@ -81,19 +81,20 @@ namespace RimWorld.Planet
 		private void Forage()
 		{
 			ThingDef foragedFood = this.caravan.Biome.foragedFood;
-			if (foragedFood != null)
+			if (foragedFood == null)
 			{
-				float foragedFoodCountPerInterval = ForagedFoodPerDayCalculator.GetForagedFoodCountPerInterval(this.caravan, null);
-				int i = GenMath.RoundRandom(foragedFoodCountPerInterval);
-				int b = Mathf.FloorToInt((this.caravan.MassCapacity - this.caravan.MassUsage) / foragedFood.GetStatValueAbstract(StatDefOf.Mass, null));
-				i = Mathf.Min(i, b);
-				while (i > 0)
-				{
-					Thing thing = ThingMaker.MakeThing(foragedFood, null);
-					thing.stackCount = Mathf.Min(i, foragedFood.stackLimit);
-					i -= thing.stackCount;
-					CaravanInventoryUtility.GiveThing(this.caravan, thing);
-				}
+				return;
+			}
+			float foragedFoodCountPerInterval = ForagedFoodPerDayCalculator.GetForagedFoodCountPerInterval(this.caravan, null);
+			int i = GenMath.RoundRandom(foragedFoodCountPerInterval);
+			int b = Mathf.FloorToInt((this.caravan.MassCapacity - this.caravan.MassUsage) / foragedFood.GetStatValueAbstract(StatDefOf.Mass, null));
+			i = Mathf.Min(i, b);
+			while (i > 0)
+			{
+				Thing thing = ThingMaker.MakeThing(foragedFood, null);
+				thing.stackCount = Mathf.Min(i, foragedFood.stackLimit);
+				i -= thing.stackCount;
+				CaravanInventoryUtility.GiveThing(this.caravan, thing);
 			}
 		}
 

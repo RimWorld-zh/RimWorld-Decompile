@@ -4,7 +4,7 @@ namespace Verse
 {
 	public class ManeuverDef : Def
 	{
-		public ToolCapacityDef requiredCapacity = null;
+		public ToolCapacityDef requiredCapacity;
 
 		public VerbProperties verb;
 

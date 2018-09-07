@@ -3,7 +3,6 @@ using System.Runtime.CompilerServices;
 using RimWorld;
 using RimWorld.Planet;
 using UnityEngine;
-using UnityEngine.Profiling;
 using Verse.Steam;
 
 namespace Verse
@@ -21,23 +20,18 @@ namespace Verse
 		{
 			get
 			{
-				bool result;
 				if (LongEventHandler.AnyEventNowOrWaiting)
 				{
-					result = false;
+					return false;
 				}
-				else
+				for (int i = 0; i < Find.WindowStack.Count; i++)
 				{
-					for (int i = 0; i < Find.WindowStack.Count; i++)
+					if (this.windows[i].layer == WindowLayer.Dialog && !Find.WindowStack[i].IsDebug)
 					{
-						if (this.windows[i].layer == WindowLayer.Dialog && !Find.WindowStack[i].IsDebug)
-						{
-							return false;
-						}
+						return false;
 					}
-					result = true;
 				}
-				return result;
+				return true;
 			}
 		}
 
@@ -71,18 +65,10 @@ namespace Verse
 			{
 				Find.Tutor.TutorOnGUI();
 			}
-			Profiler.BeginSample("ReorderableWidgetOnGUI_BeforeWindowStack()");
 			ReorderableWidget.ReorderableWidgetOnGUI_BeforeWindowStack();
-			Profiler.EndSample();
-			Profiler.BeginSample("WindowStackOnGUI()");
 			this.windows.WindowStackOnGUI();
-			Profiler.EndSample();
-			Profiler.BeginSample("ReorderableWidgetOnGUI_AfterWindowStack()");
 			ReorderableWidget.ReorderableWidgetOnGUI_AfterWindowStack();
-			Profiler.EndSample();
-			Profiler.BeginSample("WidgetsOnGUI()");
 			Widgets.WidgetsOnGUI();
-			Profiler.EndSample();
 			if (Find.World != null)
 			{
 				Find.World.UI.HandleLowPriorityInput();

@@ -68,7 +68,7 @@ internal sealed class <>__AnonType0<<Parent>__T, <Tool>__T>
 		}
 		else
 		{
-			text = "";
+			text = string.Empty;
 		}
 		array[num] = text;
 		array[3] = ", Tool = ";
@@ -81,7 +81,7 @@ internal sealed class <>__AnonType0<<Parent>__T, <Tool>__T>
 		}
 		else
 		{
-			text2 = "";
+			text2 = string.Empty;
 		}
 		array[num2] = text2;
 		array[5] = " }";

@@ -135,19 +135,14 @@ namespace RimWorld.Planet
 
 		private static bool CloseToEachOther(Caravan c1, Caravan c2)
 		{
-			bool result;
 			if (c1.Tile == c2.Tile)
 			{
-				result = true;
+				return true;
 			}
-			else
-			{
-				Vector3 drawPos = c1.DrawPos;
-				Vector3 drawPos2 = c2.DrawPos;
-				float num = Find.WorldGrid.averageTileSize * 0.5f;
-				result = ((drawPos - drawPos2).sqrMagnitude < num * num);
-			}
-			return result;
+			Vector3 drawPos = c1.DrawPos;
+			Vector3 drawPos2 = c2.DrawPos;
+			float num = Find.WorldGrid.averageTileSize * 0.5f;
+			return (drawPos - drawPos2).sqrMagnitude < num * num;
 		}
 
 		private static void MergeCaravans(List<Caravan> caravans)

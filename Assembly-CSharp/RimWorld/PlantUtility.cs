@@ -17,28 +17,20 @@ namespace RimWorld
 		public static bool GrowthSeasonNow(IntVec3 c, Map map, bool forSowing = false)
 		{
 			Room roomOrAdjacent = c.GetRoomOrAdjacent(map, RegionType.Set_All);
-			bool result;
 			if (roomOrAdjacent == null)
 			{
-				result = false;
+				return false;
 			}
-			else if (roomOrAdjacent.UsesOutdoorTemperature)
-			{
-				if (forSowing)
-				{
-					result = map.weatherManager.growthSeasonMemory.GrowthSeasonOutdoorsNowForSowing;
-				}
-				else
-				{
-					result = map.weatherManager.growthSeasonMemory.GrowthSeasonOutdoorsNow;
-				}
-			}
-			else
+			if (!roomOrAdjacent.UsesOutdoorTemperature)
 			{
 				float temperature = c.GetTemperature(map);
-				result = (temperature > 0f && temperature < 58f);
+				return temperature > 0f && temperature < 58f;
 			}
-			return result;
+			if (forSowing)
+			{
+				return map.weatherManager.growthSeasonMemory.GrowthSeasonOutdoorsNowForSowing;
+			}
+			return map.weatherManager.growthSeasonMemory.GrowthSeasonOutdoorsNow;
 		}
 
 		public static bool SnowAllowsPlanting(IntVec3 c, Map map)
@@ -52,51 +44,43 @@ namespace RimWorld
 			{
 				Log.Error("Checking CanGrowAt with " + plantDef + " which is not a plant.", false);
 			}
-			bool result;
 			if (!c.InBounds(map))
 			{
-				result = false;
+				return false;
 			}
-			else if (map.fertilityGrid.FertilityAt(c) < plantDef.plant.fertilityMin)
+			if (map.fertilityGrid.FertilityAt(c) < plantDef.plant.fertilityMin)
 			{
-				result = false;
+				return false;
 			}
-			else
+			List<Thing> list = map.thingGrid.ThingsListAt(c);
+			for (int i = 0; i < list.Count; i++)
 			{
-				List<Thing> list = map.thingGrid.ThingsListAt(c);
-				for (int i = 0; i < list.Count; i++)
+				Thing thing = list[i];
+				if (thing.def.BlockPlanting)
 				{
-					Thing thing = list[i];
-					if (thing.def.BlockPlanting)
+					return false;
+				}
+				if (plantDef.passability == Traversability.Impassable && (thing.def.category == ThingCategory.Pawn || thing.def.category == ThingCategory.Item || thing.def.category == ThingCategory.Building || thing.def.category == ThingCategory.Plant))
+				{
+					return false;
+				}
+			}
+			if (plantDef.passability == Traversability.Impassable)
+			{
+				for (int j = 0; j < 4; j++)
+				{
+					IntVec3 c2 = c + GenAdj.CardinalDirections[j];
+					if (c2.InBounds(map))
 					{
-						return false;
-					}
-					if (plantDef.passability == Traversability.Impassable)
-					{
-						if (thing.def.category == ThingCategory.Pawn || thing.def.category == ThingCategory.Item || thing.def.category == ThingCategory.Building || thing.def.category == ThingCategory.Plant)
+						Building edifice = c2.GetEdifice(map);
+						if (edifice != null && edifice.def.IsDoor)
 						{
 							return false;
 						}
 					}
 				}
-				if (plantDef.passability == Traversability.Impassable)
-				{
-					for (int j = 0; j < 4; j++)
-					{
-						IntVec3 c2 = c + GenAdj.CardinalDirections[j];
-						if (c2.InBounds(map))
-						{
-							Building edifice = c2.GetEdifice(map);
-							if (edifice != null && edifice.def.IsDoor)
-							{
-								return false;
-							}
-						}
-					}
-				}
-				result = true;
 			}
-			return result;
+			return true;
 		}
 
 		public static void LogPlantProportions()
@@ -183,17 +167,12 @@ namespace RimWorld
 
 		public static bool CanSowOnGrower(ThingDef plantDef, object obj)
 		{
-			bool result;
 			if (obj is Zone)
 			{
-				result = plantDef.plant.sowTags.Contains("Ground");
+				return plantDef.plant.sowTags.Contains("Ground");
 			}
-			else
-			{
-				Thing thing = obj as Thing;
-				result = (thing != null && thing.def.building != null && plantDef.plant.sowTags.Contains(thing.def.building.sowTag));
-			}
-			return result;
+			Thing thing = obj as Thing;
+			return thing != null && thing.def.building != null && plantDef.plant.sowTags.Contains(thing.def.building.sowTag);
 		}
 
 		public static Thing AdjacentSowBlocker(ThingDef plantDef, IntVec3 c, Map map)
@@ -291,11 +270,8 @@ namespace RimWorld
 				{
 					switch (num)
 					{
-					case 1u:
-						IL_E1:
-						break;
 					}
-					if (enumerator.MoveNext())
+					while (enumerator.MoveNext())
 					{
 						ThingDef plantDef = enumerator.Current;
 						if (sel.TrueForAll((IPlantToGrowSettable x) => PlantUtility.CanSowOnGrower(plantDef, x)))
@@ -308,7 +284,6 @@ namespace RimWorld
 							flag = true;
 							return true;
 						}
-						goto IL_E1;
 					}
 				}
 				finally

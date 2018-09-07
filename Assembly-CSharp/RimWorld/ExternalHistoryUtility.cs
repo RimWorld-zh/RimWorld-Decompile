@@ -82,32 +82,27 @@ namespace RimWorld
 
 		public static bool IsValidGameplayID(string ID)
 		{
-			bool result;
 			if (ID.NullOrEmpty() || ID.Length != ExternalHistoryUtility.gameplayIDLength)
 			{
-				result = false;
+				return false;
 			}
-			else
+			for (int i = 0; i < ID.Length; i++)
 			{
-				for (int i = 0; i < ID.Length; i++)
+				bool flag = false;
+				for (int j = 0; j < ExternalHistoryUtility.gameplayIDAvailableChars.Length; j++)
 				{
-					bool flag = false;
-					for (int j = 0; j < ExternalHistoryUtility.gameplayIDAvailableChars.Length; j++)
+					if (ID[i] == ExternalHistoryUtility.gameplayIDAvailableChars[j])
 					{
-						if (ID[i] == ExternalHistoryUtility.gameplayIDAvailableChars[j])
-						{
-							flag = true;
-							break;
-						}
-					}
-					if (!flag)
-					{
-						return false;
+						flag = true;
+						break;
 					}
 				}
-				result = true;
+				if (!flag)
+				{
+					return false;
+				}
 			}
-			return result;
+			return true;
 		}
 
 		public static string GetCurrentUploadDate()

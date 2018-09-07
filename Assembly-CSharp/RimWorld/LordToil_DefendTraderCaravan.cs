@@ -38,8 +38,7 @@ namespace RimWorld
 			if (pawn != null)
 			{
 				pawn.mindState.duty = new PawnDuty(DutyDefOf.Defend, data.defendPoint, data.defendRadius);
-				int i = 0;
-				while (i < this.lord.ownedPawns.Count)
+				for (int i = 0; i < this.lord.ownedPawns.Count; i++)
 				{
 					Pawn pawn2 = this.lord.ownedPawns[i];
 					switch (pawn2.GetTraderCaravanRole())
@@ -56,11 +55,8 @@ namespace RimWorld
 						pawn2.mindState.duty.locomotion = LocomotionUrgency.Walk;
 						break;
 					}
-					IL_127:
-					i++;
-					continue;
-					goto IL_127;
 				}
+				return;
 			}
 		}
 	}

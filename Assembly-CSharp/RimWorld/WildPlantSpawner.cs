@@ -229,57 +229,43 @@ namespace RimWorld
 
 		public bool CheckSpawnWildPlantAt(IntVec3 c, float plantDensity, float wholeMapNumDesiredPlants, bool setRandomGrowth = false)
 		{
-			bool result;
 			if (plantDensity <= 0f || c.GetPlant(this.map) != null || c.GetCover(this.map) != null || c.GetEdifice(this.map) != null || this.map.fertilityGrid.FertilityAt(c) <= 0f || !PlantUtility.SnowAllowsPlanting(c, this.map))
 			{
-				result = false;
+				return false;
 			}
-			else
+			bool cavePlants = this.GoodRoofForCavePlant(c);
+			if (this.SaturatedAt(c, plantDensity, cavePlants, wholeMapNumDesiredPlants))
 			{
-				bool cavePlants = this.GoodRoofForCavePlant(c);
-				if (this.SaturatedAt(c, plantDensity, cavePlants, wholeMapNumDesiredPlants))
+				return false;
+			}
+			this.CalculatePlantsWhichCanGrowAt(c, WildPlantSpawner.tmpPossiblePlants, cavePlants, plantDensity);
+			if (!WildPlantSpawner.tmpPossiblePlants.Any<ThingDef>())
+			{
+				return false;
+			}
+			this.CalculateDistancesToNearbyClusters(c);
+			WildPlantSpawner.tmpPossiblePlantsWithWeight.Clear();
+			for (int i = 0; i < WildPlantSpawner.tmpPossiblePlants.Count; i++)
+			{
+				float value = this.PlantChoiceWeight(WildPlantSpawner.tmpPossiblePlants[i], c, WildPlantSpawner.distanceSqToNearbyClusters, wholeMapNumDesiredPlants, plantDensity);
+				WildPlantSpawner.tmpPossiblePlantsWithWeight.Add(new KeyValuePair<ThingDef, float>(WildPlantSpawner.tmpPossiblePlants[i], value));
+			}
+			KeyValuePair<ThingDef, float> keyValuePair;
+			if (!WildPlantSpawner.tmpPossiblePlantsWithWeight.TryRandomElementByWeight((KeyValuePair<ThingDef, float> x) => x.Value, out keyValuePair))
+			{
+				return false;
+			}
+			Plant plant = (Plant)ThingMaker.MakeThing(keyValuePair.Key, null);
+			if (setRandomGrowth)
+			{
+				plant.Growth = Rand.Range(0.07f, 1f);
+				if (plant.def.plant.LimitedLifespan)
 				{
-					result = false;
-				}
-				else
-				{
-					this.CalculatePlantsWhichCanGrowAt(c, WildPlantSpawner.tmpPossiblePlants, cavePlants, plantDensity);
-					if (!WildPlantSpawner.tmpPossiblePlants.Any<ThingDef>())
-					{
-						result = false;
-					}
-					else
-					{
-						this.CalculateDistancesToNearbyClusters(c);
-						WildPlantSpawner.tmpPossiblePlantsWithWeight.Clear();
-						for (int i = 0; i < WildPlantSpawner.tmpPossiblePlants.Count; i++)
-						{
-							float value = this.PlantChoiceWeight(WildPlantSpawner.tmpPossiblePlants[i], c, WildPlantSpawner.distanceSqToNearbyClusters, wholeMapNumDesiredPlants, plantDensity);
-							WildPlantSpawner.tmpPossiblePlantsWithWeight.Add(new KeyValuePair<ThingDef, float>(WildPlantSpawner.tmpPossiblePlants[i], value));
-						}
-						KeyValuePair<ThingDef, float> keyValuePair;
-						if (!WildPlantSpawner.tmpPossiblePlantsWithWeight.TryRandomElementByWeight((KeyValuePair<ThingDef, float> x) => x.Value, out keyValuePair))
-						{
-							result = false;
-						}
-						else
-						{
-							Plant plant = (Plant)ThingMaker.MakeThing(keyValuePair.Key, null);
-							if (setRandomGrowth)
-							{
-								plant.Growth = Rand.Range(0.07f, 1f);
-								if (plant.def.plant.LimitedLifespan)
-								{
-									plant.Age = Rand.Range(0, Mathf.Max(plant.def.plant.LifespanTicks - 50, 0));
-								}
-							}
-							GenSpawn.Spawn(plant, c, this.map, WipeMode.Vanish);
-							result = true;
-						}
-					}
+					plant.Age = Rand.Range(0, Mathf.Max(plant.def.plant.LifespanTicks - 50, 0));
 				}
 			}
-			return result;
+			GenSpawn.Spawn(plant, c, this.map, WipeMode.Vanish);
+			return true;
 		}
 
 		private float PlantChoiceWeight(ThingDef plantDef, IntVec3 c, Dictionary<ThingDef, float> distanceSqToNearbyClusters, float wholeMapNumDesiredPlants, float plantDensity)
@@ -287,54 +273,49 @@ namespace RimWorld
 			float commonalityOfPlant = this.GetCommonalityOfPlant(plantDef);
 			float commonalityPctOfPlant = this.GetCommonalityPctOfPlant(plantDef);
 			float num = commonalityOfPlant;
-			float result;
 			if (num <= 0f)
 			{
-				result = num;
+				return num;
 			}
-			else
+			float num2 = 0.5f;
+			if ((float)this.map.listerThings.ThingsInGroup(ThingRequestGroup.Plant).Count > wholeMapNumDesiredPlants / 2f && !plantDef.plant.cavePlant)
 			{
-				float num2 = 0.5f;
-				if ((float)this.map.listerThings.ThingsInGroup(ThingRequestGroup.Plant).Count > wholeMapNumDesiredPlants / 2f && !plantDef.plant.cavePlant)
-				{
-					num2 = (float)this.map.listerThings.ThingsOfDef(plantDef).Count / (float)this.map.listerThings.ThingsInGroup(ThingRequestGroup.Plant).Count / commonalityPctOfPlant;
-					num *= WildPlantSpawner.GlobalPctSelectionWeightBias.Evaluate(num2);
-				}
-				if (plantDef.plant.GrowsInClusters && num2 < 1.1f)
-				{
-					float num3 = (!plantDef.plant.cavePlant) ? this.map.Biome.PlantCommonalitiesSum : this.CavePlantsCommonalitiesSum;
-					float x = commonalityOfPlant * plantDef.plant.wildClusterWeight / (num3 - commonalityOfPlant + commonalityOfPlant * plantDef.plant.wildClusterWeight);
-					float num4 = 1f / (3.14159274f * (float)plantDef.plant.wildClusterRadius * (float)plantDef.plant.wildClusterRadius);
-					num4 = GenMath.LerpDoubleClamped(commonalityPctOfPlant, 1f, 1f, num4, x);
-					float f;
-					if (distanceSqToNearbyClusters.TryGetValue(plantDef, out f))
-					{
-						float x2 = Mathf.Sqrt(f);
-						num *= GenMath.LerpDoubleClamped((float)plantDef.plant.wildClusterRadius * 0.9f, (float)plantDef.plant.wildClusterRadius * 1.1f, plantDef.plant.wildClusterWeight, num4, x2);
-					}
-					else
-					{
-						num *= num4;
-					}
-				}
-				if (plantDef.plant.wildEqualLocalDistribution)
-				{
-					float f2 = wholeMapNumDesiredPlants * commonalityPctOfPlant;
-					float num5 = (float)Mathf.Max(this.map.Size.x, this.map.Size.z) / Mathf.Sqrt(f2);
-					float num6 = num5 * 2f;
-					if (plantDef.plant.GrowsInClusters)
-					{
-						num6 = Mathf.Max(num6, (float)plantDef.plant.wildClusterRadius * 1.6f);
-					}
-					num6 = Mathf.Max(num6, 7f);
-					if (num6 <= 25f)
-					{
-						num *= this.LocalPlantProportionsWeightFactor(c, commonalityPctOfPlant, plantDensity, num6, plantDef);
-					}
-				}
-				result = num;
+				num2 = (float)this.map.listerThings.ThingsOfDef(plantDef).Count / (float)this.map.listerThings.ThingsInGroup(ThingRequestGroup.Plant).Count / commonalityPctOfPlant;
+				num *= WildPlantSpawner.GlobalPctSelectionWeightBias.Evaluate(num2);
 			}
-			return result;
+			if (plantDef.plant.GrowsInClusters && num2 < 1.1f)
+			{
+				float num3 = (!plantDef.plant.cavePlant) ? this.map.Biome.PlantCommonalitiesSum : this.CavePlantsCommonalitiesSum;
+				float x = commonalityOfPlant * plantDef.plant.wildClusterWeight / (num3 - commonalityOfPlant + commonalityOfPlant * plantDef.plant.wildClusterWeight);
+				float num4 = 1f / (3.14159274f * (float)plantDef.plant.wildClusterRadius * (float)plantDef.plant.wildClusterRadius);
+				num4 = GenMath.LerpDoubleClamped(commonalityPctOfPlant, 1f, 1f, num4, x);
+				float f;
+				if (distanceSqToNearbyClusters.TryGetValue(plantDef, out f))
+				{
+					float x2 = Mathf.Sqrt(f);
+					num *= GenMath.LerpDoubleClamped((float)plantDef.plant.wildClusterRadius * 0.9f, (float)plantDef.plant.wildClusterRadius * 1.1f, plantDef.plant.wildClusterWeight, num4, x2);
+				}
+				else
+				{
+					num *= num4;
+				}
+			}
+			if (plantDef.plant.wildEqualLocalDistribution)
+			{
+				float f2 = wholeMapNumDesiredPlants * commonalityPctOfPlant;
+				float num5 = (float)Mathf.Max(this.map.Size.x, this.map.Size.z) / Mathf.Sqrt(f2);
+				float num6 = num5 * 2f;
+				if (plantDef.plant.GrowsInClusters)
+				{
+					num6 = Mathf.Max(num6, (float)plantDef.plant.wildClusterRadius * 1.6f);
+				}
+				num6 = Mathf.Max(num6, 7f);
+				if (num6 <= 25f)
+				{
+					num *= this.LocalPlantProportionsWeightFactor(c, commonalityPctOfPlant, plantDensity, num6, plantDef);
+				}
+			}
+			return num;
 		}
 
 		private float LocalPlantProportionsWeightFactor(IntVec3 c, float commonalityPct, float plantDensity, float radiusToScan, ThingDef plantDef)
@@ -350,21 +331,16 @@ namespace RimWorld
 				return false;
 			}, 999999, RegionType.Set_Passable);
 			float num = numDesiredPlantsLocally * commonalityPct;
-			float result;
 			if (num < 2f)
 			{
-				result = 1f;
+				return 1f;
 			}
-			else if ((float)numPlants <= numDesiredPlantsLocally * 0.5f)
+			if ((float)numPlants <= numDesiredPlantsLocally * 0.5f)
 			{
-				result = 1f;
+				return 1f;
 			}
-			else
-			{
-				float t = (float)numPlantsThisDef / (float)numPlants / commonalityPct;
-				result = Mathf.Lerp(7f, 1f, t);
-			}
-			return result;
+			float t = (float)numPlantsThisDef / (float)numPlants / commonalityPct;
+			return Mathf.Lerp(7f, 1f, t);
 		}
 
 		private void CalculatePlantsWhichCanGrowAt(IntVec3 c, List<ThingDef> outPlants, bool cavePlants, float plantDensity)
@@ -397,12 +373,12 @@ namespace RimWorld
 							}
 							if (!this.EnoughLowerOrderPlantsNearby(c, plantDensity, num, thingDef))
 							{
-								goto IL_109;
+								goto IL_FF;
 							}
 						}
 						outPlants.Add(thingDef);
 					}
-					IL_109:;
+					IL_FF:;
 				}
 			}
 		}
@@ -439,24 +415,19 @@ namespace RimWorld
 		{
 			int num = GenRadial.NumCellsInRadius(20f);
 			float num2 = wholeMapNumDesiredPlants * ((float)num / (float)this.map.Area);
-			bool result;
 			if (num2 <= 4f || !this.map.Biome.wildPlantsCareAboutLocalFertility)
 			{
-				result = ((float)this.map.listerThings.ThingsInGroup(ThingRequestGroup.Plant).Count >= wholeMapNumDesiredPlants);
+				return (float)this.map.listerThings.ThingsInGroup(ThingRequestGroup.Plant).Count >= wholeMapNumDesiredPlants;
 			}
-			else
+			float numDesiredPlantsLocally = 0f;
+			int numPlants = 0;
+			RegionTraverser.BreadthFirstTraverse(c, this.map, (Region from, Region to) => c.InHorDistOf(to.extentsClose.ClosestCellTo(c), 20f), delegate(Region reg)
 			{
-				float numDesiredPlantsLocally = 0f;
-				int numPlants = 0;
-				RegionTraverser.BreadthFirstTraverse(c, this.map, (Region from, Region to) => c.InHorDistOf(to.extentsClose.ClosestCellTo(c), 20f), delegate(Region reg)
-				{
-					numDesiredPlantsLocally += this.GetDesiredPlantsCountIn(reg, c, plantDensity);
-					numPlants += reg.ListerThings.ThingsInGroup(ThingRequestGroup.Plant).Count;
-					return false;
-				}, 999999, RegionType.Set_Passable);
-				result = ((float)numPlants >= numDesiredPlantsLocally);
-			}
-			return result;
+				numDesiredPlantsLocally += this.GetDesiredPlantsCountIn(reg, c, plantDensity);
+				numPlants += reg.ListerThings.ThingsInGroup(ThingRequestGroup.Plant).Count;
+				return false;
+			}, 999999, RegionType.Set_Passable);
+			return (float)numPlants >= numDesiredPlantsLocally;
 		}
 
 		private void CalculateDistancesToNearbyClusters(IntVec3 c)

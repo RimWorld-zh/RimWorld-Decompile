@@ -13,7 +13,7 @@ namespace Verse
 {
 	public class Building : ThingWithComps
 	{
-		private Sustainer sustainerAmbient = null;
+		private Sustainer sustainerAmbient;
 
 		public bool canChangeTerrainOnDestroyed = true;
 
@@ -80,12 +80,9 @@ namespace Verse
 					}
 				}
 			}
-			if (base.Faction == Faction.OfPlayer)
+			if (base.Faction == Faction.OfPlayer && this.def.building != null && this.def.building.spawnedConceptLearnOpportunity != null)
 			{
-				if (this.def.building != null && this.def.building.spawnedConceptLearnOpportunity != null)
-				{
-					LessonAutoActivator.TeachOpportunity(this.def.building.spawnedConceptLearnOpportunity, OpportunityType.GoodToKnow);
-				}
+				LessonAutoActivator.TeachOpportunity(this.def.building.spawnedConceptLearnOpportunity, OpportunityType.GoodToKnow);
 			}
 			AutoHomeAreaMaker.Notify_BuildingSpawned(this);
 			if (this.def.building != null && !this.def.building.soundAmbient.NullOrUndefined())
@@ -184,15 +181,16 @@ namespace Verse
 
 		public override void Destroy(DestroyMode mode = DestroyMode.Vanish)
 		{
+			bool spawned = base.Spawned;
 			Map map = base.Map;
 			SmoothableWallUtility.Notify_BuildingDestroying(this, mode);
 			base.Destroy(mode);
 			InstallBlueprintUtility.CancelBlueprintsFor(this);
-			if (mode == DestroyMode.Deconstruct)
+			if (mode == DestroyMode.Deconstruct && spawned)
 			{
 				SoundDefOf.Building_Deconstructed.PlayOneShot(new TargetInfo(base.Position, map, false));
 			}
-			if (Find.PlaySettings.autoRebuild && mode == DestroyMode.KillFinalize && base.Faction == Faction.OfPlayer && this.def != null && this.def.blueprintDef != null && this.def.IsResearchFinished)
+			if (Find.PlaySettings.autoRebuild && mode == DestroyMode.KillFinalize && base.Faction == Faction.OfPlayer && spawned && this.def.blueprintDef != null && this.def.IsResearchFinished && map.areaManager.Home[base.Position] && GenConstruct.CanPlaceBlueprintAt(this.def, base.Position, base.Rotation, map, false, null).Accepted)
 			{
 				GenConstruct.PlaceBlueprintForBuild(this.def, base.Position, map, base.Rotation, Faction.OfPlayer, base.Stuff);
 			}
@@ -267,7 +265,7 @@ namespace Verse
 
 		public override IEnumerable<Gizmo> GetGizmos()
 		{
-			foreach (Gizmo c in this.<GetGizmos>__BaseCallProxy0())
+			foreach (Gizmo c in base.GetGizmos())
 			{
 				yield return c;
 			}
@@ -292,37 +290,29 @@ namespace Verse
 
 		public virtual bool ClaimableBy(Faction by)
 		{
-			bool result;
 			if (!this.def.Claimable)
 			{
-				result = false;
+				return false;
 			}
-			else
+			if (base.Faction != null)
 			{
-				if (base.Faction != null)
+				if (base.Faction == by)
 				{
-					if (base.Faction == by)
+					return false;
+				}
+				if (by == Faction.OfPlayer && base.Spawned)
+				{
+					List<Pawn> list = base.Map.mapPawns.SpawnedPawnsInFaction(base.Faction);
+					for (int i = 0; i < list.Count; i++)
 					{
-						return false;
-					}
-					if (by == Faction.OfPlayer)
-					{
-						if (base.Spawned)
+						if (list[i].RaceProps.Humanlike && GenHostility.IsActiveThreatToPlayer(list[i]))
 						{
-							List<Pawn> list = base.Map.mapPawns.SpawnedPawnsInFaction(base.Faction);
-							for (int i = 0; i < list.Count; i++)
-							{
-								if (list[i].RaceProps.Humanlike && GenHostility.IsActiveThreatToPlayer(list[i]))
-								{
-									return false;
-								}
-							}
+							return false;
 						}
 					}
 				}
-				result = true;
 			}
-			return result;
+			return true;
 		}
 
 		public virtual bool DeconstructibleBy(Faction faction)
@@ -394,11 +384,11 @@ namespace Verse
 				case 1u:
 					break;
 				case 2u:
-					goto IL_114;
+					goto IL_110;
 				case 3u:
-					goto IL_160;
+					goto IL_15C;
 				case 4u:
-					goto IL_195;
+					goto IL_18F;
 				default:
 					return false;
 				}
@@ -438,7 +428,7 @@ namespace Verse
 					}
 					return true;
 				}
-				IL_114:
+				IL_110:
 				buildCopy = BuildCopyCommandUtility.BuildCopyCommand(this.def, base.Stuff);
 				if (buildCopy != null)
 				{
@@ -449,16 +439,16 @@ namespace Verse
 					}
 					return true;
 				}
-				IL_160:
+				IL_15C:
 				if (base.Faction != Faction.OfPlayer)
 				{
-					goto IL_20C;
+					goto IL_203;
 				}
 				enumerator2 = BuildFacilityCommandUtility.BuildFacilityCommands(this.def).GetEnumerator();
 				num = 4294967293u;
 				try
 				{
-					IL_195:
+					IL_18F:
 					switch (num)
 					{
 					}
@@ -484,7 +474,7 @@ namespace Verse
 						}
 					}
 				}
-				IL_20C:
+				IL_203:
 				this.$PC = -1;
 				return false;
 			}

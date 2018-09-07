@@ -17,53 +17,49 @@ namespace RimWorld.BaseGen
 
 		public override bool CanResolve(ResolveParams rp)
 		{
-			bool result;
 			if (!base.CanResolve(rp))
 			{
-				result = false;
+				return false;
 			}
-			else if (BaseGen.globalSettings.basePart_buildingsResolved < BaseGen.globalSettings.minBuildings)
+			if (BaseGen.globalSettings.basePart_buildingsResolved < BaseGen.globalSettings.minBuildings)
 			{
-				result = false;
+				return false;
 			}
-			else if (BaseGen.globalSettings.basePart_emptyNodesResolved < BaseGen.globalSettings.minEmptyNodes)
+			if (BaseGen.globalSettings.basePart_emptyNodesResolved < BaseGen.globalSettings.minEmptyNodes)
 			{
-				result = false;
+				return false;
 			}
-			else if (BaseGen.globalSettings.basePart_powerPlantsCoverage + (float)rp.rect.Area / (float)BaseGen.globalSettings.mainRect.Area >= 0.09f)
+			if (BaseGen.globalSettings.basePart_powerPlantsCoverage + (float)rp.rect.Area / (float)BaseGen.globalSettings.mainRect.Area >= 0.09f)
 			{
-				result = false;
+				return false;
 			}
-			else if (rp.faction != null && rp.faction.def.techLevel < TechLevel.Industrial)
+			if (rp.faction != null && rp.faction.def.techLevel < TechLevel.Industrial)
 			{
-				result = false;
+				return false;
 			}
-			else if (rp.rect.Width > 13 || rp.rect.Height > 13)
+			if (rp.rect.Width > 13 || rp.rect.Height > 13)
 			{
-				result = false;
+				return false;
 			}
-			else
-			{
-				this.CalculateAvailablePowerPlants(rp.rect);
-				result = SymbolResolver_BasePart_Outdoors_Leaf_PowerPlant.availablePowerPlants.Any<ThingDef>();
-			}
-			return result;
+			this.CalculateAvailablePowerPlants(rp.rect);
+			return SymbolResolver_BasePart_Outdoors_Leaf_PowerPlant.availablePowerPlants.Any<ThingDef>();
 		}
 
 		public override void Resolve(ResolveParams rp)
 		{
 			this.CalculateAvailablePowerPlants(rp.rect);
-			if (SymbolResolver_BasePart_Outdoors_Leaf_PowerPlant.availablePowerPlants.Any<ThingDef>())
+			if (!SymbolResolver_BasePart_Outdoors_Leaf_PowerPlant.availablePowerPlants.Any<ThingDef>())
 			{
-				BaseGen.symbolStack.Push("refuel", rp);
-				ThingDef thingDef = SymbolResolver_BasePart_Outdoors_Leaf_PowerPlant.availablePowerPlants.RandomElement<ThingDef>();
-				ResolveParams resolveParams = rp;
-				resolveParams.singleThingDef = thingDef;
-				int? fillWithThingsPadding = rp.fillWithThingsPadding;
-				resolveParams.fillWithThingsPadding = new int?((fillWithThingsPadding == null) ? Mathf.Max(5 - thingDef.size.x, 1) : fillWithThingsPadding.Value);
-				BaseGen.symbolStack.Push("fillWithThings", resolveParams);
-				BaseGen.globalSettings.basePart_powerPlantsCoverage += (float)rp.rect.Area / (float)BaseGen.globalSettings.mainRect.Area;
+				return;
 			}
+			BaseGen.symbolStack.Push("refuel", rp);
+			ThingDef thingDef = SymbolResolver_BasePart_Outdoors_Leaf_PowerPlant.availablePowerPlants.RandomElement<ThingDef>();
+			ResolveParams resolveParams = rp;
+			resolveParams.singleThingDef = thingDef;
+			int? fillWithThingsPadding = rp.fillWithThingsPadding;
+			resolveParams.fillWithThingsPadding = new int?((fillWithThingsPadding == null) ? Mathf.Max(5 - thingDef.size.x, 1) : fillWithThingsPadding.Value);
+			BaseGen.symbolStack.Push("fillWithThings", resolveParams);
+			BaseGen.globalSettings.basePart_powerPlantsCoverage += (float)rp.rect.Area / (float)BaseGen.globalSettings.mainRect.Area;
 		}
 
 		private void CalculateAvailablePowerPlants(CellRect rect)

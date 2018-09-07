@@ -52,8 +52,7 @@ namespace RimWorld.Planet
 					{
 						used.Add(item);
 					}
-					int j = 0;
-					while (j < list[i].Count - 1)
+					for (int j = 0; j < list[i].Count - 1; j++)
 					{
 						float num = Find.WorldGrid.ApproxDistanceInTiles(list[i][j], list[i][j + 1]) * this.maximumSegmentCurviness;
 						float costCutoff = num * 12000f;
@@ -78,10 +77,6 @@ namespace RimWorld.Planet
 								}
 							}
 						}
-						IL_267:
-						j++;
-						continue;
-						goto IL_267;
 					}
 				}
 			}

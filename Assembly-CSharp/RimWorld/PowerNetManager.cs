@@ -40,22 +40,20 @@ namespace RimWorld
 
 		public void Notfiy_TransmitterTransmitsPowerNowChanged(CompPower transmitter)
 		{
-			if (transmitter.parent.Spawned)
+			if (!transmitter.parent.Spawned)
 			{
-				this.delayedActions.Add(new PowerNetManager.DelayedAction(PowerNetManager.DelayedActionType.DeregisterTransmitter, transmitter));
-				this.delayedActions.Add(new PowerNetManager.DelayedAction(PowerNetManager.DelayedActionType.RegisterTransmitter, transmitter));
-				this.NotifyDrawersForWireUpdate(transmitter.parent.Position);
+				return;
 			}
+			this.delayedActions.Add(new PowerNetManager.DelayedAction(PowerNetManager.DelayedActionType.DeregisterTransmitter, transmitter));
+			this.delayedActions.Add(new PowerNetManager.DelayedAction(PowerNetManager.DelayedActionType.RegisterTransmitter, transmitter));
+			this.NotifyDrawersForWireUpdate(transmitter.parent.Position);
 		}
 
 		public void Notify_ConnectorWantsConnect(CompPower wantingCon)
 		{
-			if (Scribe.mode == LoadSaveMode.Inactive)
+			if (Scribe.mode == LoadSaveMode.Inactive && !this.HasRegisterConnectorDuplicate(wantingCon))
 			{
-				if (!this.HasRegisterConnectorDuplicate(wantingCon))
-				{
-					this.delayedActions.Add(new PowerNetManager.DelayedAction(PowerNetManager.DelayedActionType.RegisterConnector, wantingCon));
-				}
+				this.delayedActions.Add(new PowerNetManager.DelayedAction(PowerNetManager.DelayedActionType.RegisterConnector, wantingCon));
 			}
 			this.NotifyDrawersForWireUpdate(wantingCon.parent.Position);
 		}
@@ -174,41 +172,35 @@ namespace RimWorld
 			{
 				if (this.delayedActions[i].compPower == compPower)
 				{
-					bool result;
 					if (this.delayedActions[i].type == PowerNetManager.DelayedActionType.DeregisterConnector)
 					{
-						result = false;
+						return false;
 					}
-					else
+					if (this.delayedActions[i].type == PowerNetManager.DelayedActionType.RegisterConnector)
 					{
-						if (this.delayedActions[i].type != PowerNetManager.DelayedActionType.RegisterConnector)
-						{
-							goto IL_78;
-						}
-						result = true;
+						return true;
 					}
-					return result;
 				}
-				IL_78:;
 			}
 			return false;
 		}
 
 		private void TryCreateNetAt(IntVec3 cell)
 		{
-			if (cell.InBounds(this.map))
+			if (!cell.InBounds(this.map))
 			{
-				if (this.map.powerNetGrid.TransmittedPowerNetAt(cell) == null)
+				return;
+			}
+			if (this.map.powerNetGrid.TransmittedPowerNetAt(cell) == null)
+			{
+				Building transmitter = cell.GetTransmitter(this.map);
+				if (transmitter != null && transmitter.TransmitsPowerNow)
 				{
-					Building transmitter = cell.GetTransmitter(this.map);
-					if (transmitter != null && transmitter.TransmitsPowerNow)
+					PowerNet powerNet = PowerNetMaker.NewPowerNetStartingFrom(transmitter);
+					this.RegisterPowerNet(powerNet);
+					for (int i = 0; i < powerNet.transmitters.Count; i++)
 					{
-						PowerNet powerNet = PowerNetMaker.NewPowerNetStartingFrom(transmitter);
-						this.RegisterPowerNet(powerNet);
-						for (int i = 0; i < powerNet.transmitters.Count; i++)
-						{
-							PowerConnectionMaker.ConnectAllConnectorsToTransmitter(powerNet.transmitters[i]);
-						}
+						PowerConnectionMaker.ConnectAllConnectorsToTransmitter(powerNet.transmitters[i]);
 					}
 				}
 			}
@@ -216,35 +208,38 @@ namespace RimWorld
 
 		private void TryDestroyNetAt(IntVec3 cell)
 		{
-			if (cell.InBounds(this.map))
+			if (!cell.InBounds(this.map))
 			{
-				PowerNet powerNet = this.map.powerNetGrid.TransmittedPowerNetAt(cell);
-				if (powerNet != null)
-				{
-					this.DeletePowerNet(powerNet);
-				}
+				return;
+			}
+			PowerNet powerNet = this.map.powerNetGrid.TransmittedPowerNetAt(cell);
+			if (powerNet != null)
+			{
+				this.DeletePowerNet(powerNet);
 			}
 		}
 
 		private void DrawDebugPowerNets()
 		{
-			if (Current.ProgramState == ProgramState.Playing)
+			if (Current.ProgramState != ProgramState.Playing)
 			{
-				if (Find.CurrentMap == this.map)
+				return;
+			}
+			if (Find.CurrentMap != this.map)
+			{
+				return;
+			}
+			int num = 0;
+			foreach (PowerNet powerNet in this.allNets)
+			{
+				foreach (CompPower compPower in powerNet.transmitters.Concat(powerNet.connectors))
 				{
-					int num = 0;
-					foreach (PowerNet powerNet in this.allNets)
+					foreach (IntVec3 c in GenAdj.CellsOccupiedBy(compPower.parent))
 					{
-						foreach (CompPower compPower in powerNet.transmitters.Concat(powerNet.connectors))
-						{
-							foreach (IntVec3 c in GenAdj.CellsOccupiedBy(compPower.parent))
-							{
-								CellRenderer.RenderCell(c, (float)num * 0.44f);
-							}
-						}
-						num++;
+						CellRenderer.RenderCell(c, (float)num * 0.44f);
 					}
 				}
+				num++;
 			}
 		}
 

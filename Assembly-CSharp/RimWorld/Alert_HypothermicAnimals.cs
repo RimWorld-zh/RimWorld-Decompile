@@ -50,16 +50,11 @@ namespace RimWorld
 
 		public override AlertReport GetReport()
 		{
-			AlertReport result;
 			if (!Prefs.DevMode)
 			{
-				result = false;
+				return false;
 			}
-			else
-			{
-				result = AlertReport.CulpritsAre(this.HypothermicAnimals);
-			}
-			return result;
+			return AlertReport.CulpritsAre(this.HypothermicAnimals);
 		}
 
 		[CompilerGenerated]

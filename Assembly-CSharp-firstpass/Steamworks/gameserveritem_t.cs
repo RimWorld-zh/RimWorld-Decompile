@@ -88,16 +88,11 @@ namespace Steamworks
 
 		public string GetServerName()
 		{
-			string result;
 			if (this.m_szServerName[0] == 0)
 			{
-				result = this.m_NetAdr.GetConnectionAddressString();
+				return this.m_NetAdr.GetConnectionAddressString();
 			}
-			else
-			{
-				result = Encoding.UTF8.GetString(this.m_szServerName, 0, Array.IndexOf<byte>(this.m_szServerName, 0));
-			}
-			return result;
+			return Encoding.UTF8.GetString(this.m_szServerName, 0, Array.IndexOf<byte>(this.m_szServerName, 0));
 		}
 
 		public void SetServerName(string name)

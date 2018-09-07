@@ -15,55 +15,47 @@ namespace Verse
 		{
 			deflectedByMetalArmor = false;
 			diminishedByMetalArmor = false;
-			float result;
 			if (damageDef.armorCategory == null)
 			{
-				result = amount;
+				return amount;
 			}
-			else
+			StatDef armorRatingStat = damageDef.armorCategory.armorRatingStat;
+			if (pawn.apparel != null)
 			{
-				StatDef armorRatingStat = damageDef.armorCategory.armorRatingStat;
-				if (pawn.apparel != null)
+				List<Apparel> wornApparel = pawn.apparel.WornApparel;
+				for (int i = wornApparel.Count - 1; i >= 0; i--)
 				{
-					List<Apparel> wornApparel = pawn.apparel.WornApparel;
-					for (int i = wornApparel.Count - 1; i >= 0; i--)
+					Apparel apparel = wornApparel[i];
+					if (apparel.def.apparel.CoversBodyPart(part))
 					{
-						Apparel apparel = wornApparel[i];
-						if (apparel.def.apparel.CoversBodyPart(part))
+						float num = amount;
+						bool flag;
+						ArmorUtility.ApplyArmor(ref amount, armorPenetration, apparel.GetStatValue(armorRatingStat, true), apparel, ref damageDef, pawn, out flag);
+						if (amount < 0.001f)
 						{
-							float num = amount;
-							bool flag;
-							ArmorUtility.ApplyArmor(ref amount, armorPenetration, apparel.GetStatValue(armorRatingStat, true), apparel, ref damageDef, pawn, out flag);
-							if (amount < 0.001f)
-							{
-								deflectedByMetalArmor = flag;
-								return 0f;
-							}
-							if (amount < num && flag)
-							{
-								diminishedByMetalArmor = true;
-							}
+							deflectedByMetalArmor = flag;
+							return 0f;
+						}
+						if (amount < num && flag)
+						{
+							diminishedByMetalArmor = true;
 						}
 					}
 				}
-				float num2 = amount;
-				bool flag2;
-				ArmorUtility.ApplyArmor(ref amount, armorPenetration, pawn.GetStatValue(armorRatingStat, true), null, ref damageDef, pawn, out flag2);
-				if (amount < 0.001f)
-				{
-					deflectedByMetalArmor = flag2;
-					result = 0f;
-				}
-				else
-				{
-					if (amount < num2 && flag2)
-					{
-						diminishedByMetalArmor = true;
-					}
-					result = amount;
-				}
 			}
-			return result;
+			float num2 = amount;
+			bool flag2;
+			ArmorUtility.ApplyArmor(ref amount, armorPenetration, pawn.GetStatValue(armorRatingStat, true), null, ref damageDef, pawn, out flag2);
+			if (amount < 0.001f)
+			{
+				deflectedByMetalArmor = flag2;
+				return 0f;
+			}
+			if (amount < num2 && flag2)
+			{
+				diminishedByMetalArmor = true;
+			}
+			return amount;
 		}
 
 		private static void ApplyArmor(ref float damAmount, float armorPenetration, float armorRating, Thing armorThing, ref DamageDef damageDef, Pawn pawn, out bool metalArmor)

@@ -11,20 +11,15 @@ namespace RimWorld
 
 		public override float GetScore(Tile tile, int tileID)
 		{
-			float result;
 			if (tile.WaterCovered)
 			{
-				result = -100f;
+				return -100f;
 			}
-			else if (tile.rainfall >= 600f)
+			if (tile.rainfall >= 600f)
 			{
-				result = 0f;
+				return 0f;
 			}
-			else
-			{
-				result = tile.temperature + 0.0001f;
-			}
-			return result;
+			return tile.temperature + 0.0001f;
 		}
 	}
 }

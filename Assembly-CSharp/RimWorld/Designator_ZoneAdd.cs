@@ -52,7 +52,7 @@ namespace RimWorld
 		{
 			if (this.useMouseIcon)
 			{
-				string text = "";
+				string text = string.Empty;
 				if (!Input.GetKey(KeyCode.Mouse0))
 				{
 					Zone selectedZone = Find.Selector.SelectedZone;
@@ -78,39 +78,31 @@ namespace RimWorld
 
 		public override AcceptanceReport CanDesignateCell(IntVec3 c)
 		{
-			AcceptanceReport result;
 			if (!c.InBounds(base.Map))
 			{
-				result = false;
+				return false;
 			}
-			else if (c.Fogged(base.Map))
+			if (c.Fogged(base.Map))
 			{
-				result = false;
+				return false;
 			}
-			else if (c.InNoZoneEdgeArea(base.Map))
+			if (c.InNoZoneEdgeArea(base.Map))
 			{
-				result = "TooCloseToMapEdge".Translate();
+				return "TooCloseToMapEdge".Translate();
 			}
-			else
+			Zone zone = base.Map.zoneManager.ZoneAt(c);
+			if (zone != null && zone.GetType() != this.zoneTypeToPlace)
 			{
-				Zone zone = base.Map.zoneManager.ZoneAt(c);
-				if (zone != null && zone.GetType() != this.zoneTypeToPlace)
+				return false;
+			}
+			foreach (Thing thing in base.Map.thingGrid.ThingsAt(c))
+			{
+				if (!thing.def.CanOverlapZones)
 				{
-					result = false;
-				}
-				else
-				{
-					foreach (Thing thing in base.Map.thingGrid.ThingsAt(c))
-					{
-						if (!thing.def.CanOverlapZones)
-						{
-							return false;
-						}
-					}
-					result = true;
+					return false;
 				}
 			}
-			return result;
+			return true;
 		}
 
 		public override void DesignateMultiCell(IEnumerable<IntVec3> cells)
@@ -150,60 +142,62 @@ namespace RimWorld
 				this.SelectedZone = zone2;
 			}
 			list.RemoveAll((IntVec3 c) => base.Map.zoneManager.ZoneAt(c) != null);
-			if (list.Count != 0)
+			if (list.Count == 0)
 			{
-				if (!TutorSystem.TutorialMode || TutorSystem.AllowAction(new EventPack(base.TutorTagDesignate, list)))
+				return;
+			}
+			if (TutorSystem.TutorialMode && !TutorSystem.AllowAction(new EventPack(base.TutorTagDesignate, list)))
+			{
+				return;
+			}
+			if (this.SelectedZone == null)
+			{
+				this.SelectedZone = this.MakeNewZone();
+				base.Map.zoneManager.RegisterZone(this.SelectedZone);
+				this.SelectedZone.AddCell(list[0]);
+				list.RemoveAt(0);
+			}
+			bool somethingSucceeded;
+			for (;;)
+			{
+				somethingSucceeded = true;
+				int count = list.Count;
+				for (int i = list.Count - 1; i >= 0; i--)
 				{
-					if (this.SelectedZone == null)
+					bool flag = false;
+					for (int j = 0; j < 4; j++)
 					{
-						this.SelectedZone = this.MakeNewZone();
-						base.Map.zoneManager.RegisterZone(this.SelectedZone);
-						this.SelectedZone.AddCell(list[0]);
-						list.RemoveAt(0);
-					}
-					bool somethingSucceeded;
-					for (;;)
-					{
-						somethingSucceeded = true;
-						int count = list.Count;
-						for (int i = list.Count - 1; i >= 0; i--)
+						IntVec3 c2 = list[i] + GenAdj.CardinalDirections[j];
+						if (c2.InBounds(base.Map))
 						{
-							bool flag = false;
-							for (int j = 0; j < 4; j++)
+							if (base.Map.zoneManager.ZoneAt(c2) == this.SelectedZone)
 							{
-								IntVec3 c2 = list[i] + GenAdj.CardinalDirections[j];
-								if (c2.InBounds(base.Map))
-								{
-									if (base.Map.zoneManager.ZoneAt(c2) == this.SelectedZone)
-									{
-										flag = true;
-										break;
-									}
-								}
-							}
-							if (flag)
-							{
-								this.SelectedZone.AddCell(list[i]);
-								list.RemoveAt(i);
+								flag = true;
+								break;
 							}
 						}
-						if (list.Count == 0)
-						{
-							break;
-						}
-						if (list.Count == count)
-						{
-							this.SelectedZone = this.MakeNewZone();
-							base.Map.zoneManager.RegisterZone(this.SelectedZone);
-							this.SelectedZone.AddCell(list[0]);
-							list.RemoveAt(0);
-						}
 					}
-					this.SelectedZone.CheckContiguous();
-					base.Finalize(somethingSucceeded);
-					TutorSystem.Notify_Event(new EventPack(base.TutorTagDesignate, list));
+					if (flag)
+					{
+						this.SelectedZone.AddCell(list[i]);
+						list.RemoveAt(i);
+					}
+				}
+				if (list.Count == 0)
+				{
+					break;
+				}
+				if (list.Count == count)
+				{
+					this.SelectedZone = this.MakeNewZone();
+					base.Map.zoneManager.RegisterZone(this.SelectedZone);
+					this.SelectedZone.AddCell(list[0]);
+					list.RemoveAt(0);
 				}
 			}
+			this.SelectedZone.CheckContiguous();
+			base.Finalize(somethingSucceeded);
+			TutorSystem.Notify_Event(new EventPack(base.TutorTagDesignate, list));
 		}
 
 		[CompilerGenerated]

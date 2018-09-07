@@ -20,56 +20,46 @@ namespace RimWorld
 
 		public static bool EnjoyableOutsideNow(Map map, StringBuilder outFailReason = null)
 		{
-			bool result;
-			GameConditionDef gameConditionDef;
 			if (map.weatherManager.RainRate >= 0.25f)
 			{
 				if (outFailReason != null)
 				{
 					outFailReason.Append(map.weatherManager.curWeather.label);
 				}
-				result = false;
+				return false;
 			}
-			else if (!map.gameConditionManager.AllowEnjoyableOutsideNow(map, out gameConditionDef))
+			GameConditionDef gameConditionDef;
+			if (!map.gameConditionManager.AllowEnjoyableOutsideNow(map, out gameConditionDef))
 			{
 				if (outFailReason != null)
 				{
 					outFailReason.Append(gameConditionDef.label);
 				}
-				result = false;
+				return false;
 			}
-			else
-			{
-				result = true;
-			}
-			return result;
+			return true;
 		}
 
 		public static bool EnjoyableOutsideNow(Pawn pawn, StringBuilder outFailReason = null)
 		{
 			Map mapHeld = pawn.MapHeld;
-			bool result;
 			if (mapHeld == null)
 			{
-				result = true;
+				return true;
 			}
-			else if (!JoyUtility.EnjoyableOutsideNow(mapHeld, outFailReason))
+			if (!JoyUtility.EnjoyableOutsideNow(mapHeld, outFailReason))
 			{
-				result = false;
+				return false;
 			}
-			else if (!pawn.ComfortableTemperatureRange().Includes(mapHeld.mapTemperature.OutdoorTemp))
+			if (!pawn.ComfortableTemperatureRange().Includes(mapHeld.mapTemperature.OutdoorTemp))
 			{
 				if (outFailReason != null)
 				{
 					outFailReason.Append("NotEnjoyableOutsideTemperature".Translate());
 				}
-				result = false;
+				return false;
 			}
-			else
-			{
-				result = true;
-			}
-			return result;
+			return true;
 		}
 
 		public static void JoyTickCheckEnd(Pawn pawn, JoyTickFullJoyAction fullJoyAction = JoyTickFullJoyAction.EndJob, float extraJoyGainFactor = 1f, Building joySource = null)
@@ -78,36 +68,34 @@ namespace RimWorld
 			if (curJob.def.joyKind == null)
 			{
 				Log.Warning("This method can only be called for jobs with joyKind.", false);
+				return;
 			}
-			else
+			if (joySource != null)
 			{
-				if (joySource != null)
+				if (joySource.def.building.joyKind != null && pawn.CurJob.def.joyKind != joySource.def.building.joyKind)
 				{
-					if (joySource.def.building.joyKind != null && pawn.CurJob.def.joyKind != joySource.def.building.joyKind)
-					{
-						Log.ErrorOnce("Joy source joyKind and jobDef.joyKind are not the same. building=" + joySource.ToStringSafe<Building>() + ", jobDef=" + pawn.CurJob.def.ToStringSafe<JobDef>(), joySource.thingIDNumber ^ 876598732, false);
-					}
-					extraJoyGainFactor *= joySource.GetStatValue(StatDefOf.JoyGainFactor, true);
+					Log.ErrorOnce("Joy source joyKind and jobDef.joyKind are not the same. building=" + joySource.ToStringSafe<Building>() + ", jobDef=" + pawn.CurJob.def.ToStringSafe<JobDef>(), joySource.thingIDNumber ^ 876598732, false);
 				}
-				pawn.needs.joy.GainJoy(extraJoyGainFactor * curJob.def.joyGainRate * 0.36f / 2500f, curJob.def.joyKind);
-				if (curJob.def.joySkill != null)
+				extraJoyGainFactor *= joySource.GetStatValue(StatDefOf.JoyGainFactor, true);
+			}
+			pawn.needs.joy.GainJoy(extraJoyGainFactor * curJob.def.joyGainRate * 0.36f / 2500f, curJob.def.joyKind);
+			if (curJob.def.joySkill != null)
+			{
+				pawn.skills.GetSkill(curJob.def.joySkill).Learn(curJob.def.joyXpPerTick, false);
+			}
+			if (!curJob.ignoreJoyTimeAssignment && !pawn.GetTimeAssignment().allowJoy)
+			{
+				pawn.jobs.curDriver.EndJobWith(JobCondition.InterruptForced);
+			}
+			if (pawn.needs.joy.CurLevel > 0.9999f)
+			{
+				if (fullJoyAction == JoyTickFullJoyAction.EndJob)
 				{
-					pawn.skills.GetSkill(curJob.def.joySkill).Learn(curJob.def.joyXpPerTick, false);
+					pawn.jobs.curDriver.EndJobWith(JobCondition.Succeeded);
 				}
-				if (!curJob.ignoreJoyTimeAssignment && !pawn.GetTimeAssignment().allowJoy)
+				else if (fullJoyAction == JoyTickFullJoyAction.GoToNextToil)
 				{
-					pawn.jobs.curDriver.EndJobWith(JobCondition.InterruptForced);
-				}
-				if (pawn.needs.joy.CurLevel > 0.9999f)
-				{
-					if (fullJoyAction == JoyTickFullJoyAction.EndJob)
-					{
-						pawn.jobs.curDriver.EndJobWith(JobCondition.Succeeded);
-					}
-					else if (fullJoyAction == JoyTickFullJoyAction.GoToNextToil)
-					{
-						pawn.jobs.curDriver.ReadyForNextToil();
-					}
+					pawn.jobs.curDriver.ReadyForNextToil();
 				}
 			}
 		}
@@ -221,55 +209,51 @@ namespace RimWorld
 
 		private static void CheckAppendJoyKind(StringBuilder sb, Thing t, JoyKindDef kind, Map map)
 		{
-			if (!JoyUtility.listedJoyKinds.Contains(kind))
+			if (JoyUtility.listedJoyKinds.Contains(kind))
 			{
-				if (t == null)
-				{
-					sb.AppendLine("   " + kind.LabelCap);
-				}
-				else
-				{
-					if (t.def.category == ThingCategory.Item && t.Position.Fogged(map))
-					{
-						return;
-					}
-					sb.AppendLine(string.Concat(new string[]
-					{
-						"   ",
-						kind.LabelCap,
-						" (",
-						t.def.label,
-						")"
-					}));
-				}
-				JoyUtility.listedJoyKinds.Add(kind);
+				return;
 			}
+			if (t == null)
+			{
+				sb.AppendLine("   " + kind.LabelCap);
+			}
+			else
+			{
+				if (t.def.category == ThingCategory.Item && t.Position.Fogged(map))
+				{
+					return;
+				}
+				sb.AppendLine(string.Concat(new string[]
+				{
+					"   ",
+					kind.LabelCap,
+					" (",
+					t.def.label,
+					")"
+				}));
+			}
+			JoyUtility.listedJoyKinds.Add(kind);
 		}
 
 		public static string JoyKindsNotOnMapString(Map map)
 		{
 			List<JoyKindDef> allDefsListForReading = DefDatabase<JoyKindDef>.AllDefsListForReading;
 			List<JoyKindDef> list = JoyUtility.JoyKindsOnMapTempList(map);
-			string result;
 			if (allDefsListForReading.Count == list.Count)
 			{
-				result = "(" + "None".Translate() + ")";
+				return "(" + "None".Translate() + ")";
 			}
-			else
+			string text = string.Empty;
+			for (int i = 0; i < allDefsListForReading.Count; i++)
 			{
-				string text = "";
-				for (int i = 0; i < allDefsListForReading.Count; i++)
+				JoyKindDef joyKindDef = allDefsListForReading[i];
+				if (!list.Contains(joyKindDef))
 				{
-					JoyKindDef joyKindDef = allDefsListForReading[i];
-					if (!list.Contains(joyKindDef))
-					{
-						text = text + "   " + joyKindDef.LabelCap + "\n";
-					}
+					text = text + "   " + joyKindDef.LabelCap + "\n";
 				}
-				list.Clear();
-				result = text.TrimEndNewlines();
 			}
-			return result;
+			list.Clear();
+			return text.TrimEndNewlines();
 		}
 
 		// Note: this type is marked as 'beforefieldinit'.

@@ -20,24 +20,16 @@ namespace RimWorld
 
 		public static Hediff_Addiction FindAddictionHediff(Pawn pawn, Thing drug)
 		{
-			Hediff_Addiction result;
 			if (!drug.def.IsDrug)
 			{
-				result = null;
+				return null;
 			}
-			else
+			CompDrug compDrug = drug.TryGetComp<CompDrug>();
+			if (!compDrug.Props.Addictive)
 			{
-				CompDrug compDrug = drug.TryGetComp<CompDrug>();
-				if (!compDrug.Props.Addictive)
-				{
-					result = null;
-				}
-				else
-				{
-					result = AddictionUtility.FindAddictionHediff(pawn, compDrug.Props.chemical);
-				}
+				return null;
 			}
-			return result;
+			return AddictionUtility.FindAddictionHediff(pawn, compDrug.Props.chemical);
 		}
 
 		public static Hediff_Addiction FindAddictionHediff(Pawn pawn, ChemicalDef chemical)
@@ -47,16 +39,11 @@ namespace RimWorld
 
 		public static Hediff FindToleranceHediff(Pawn pawn, ChemicalDef chemical)
 		{
-			Hediff result;
 			if (chemical.toleranceHediff == null)
 			{
-				result = null;
+				return null;
 			}
-			else
-			{
-				result = pawn.health.hediffSet.hediffs.Find((Hediff x) => x.def == chemical.toleranceHediff);
-			}
-			return result;
+			return pawn.health.hediffSet.hediffs.Find((Hediff x) => x.def == chemical.toleranceHediff);
 		}
 
 		public static void ModifyChemicalEffectForToleranceAndBodySize(Pawn pawn, ChemicalDef chemicalDef, ref float effect)
@@ -74,16 +61,19 @@ namespace RimWorld
 
 		public static void CheckDrugAddictionTeachOpportunity(Pawn pawn)
 		{
-			if (pawn.RaceProps.IsFlesh && pawn.Spawned)
+			if (!pawn.RaceProps.IsFlesh || !pawn.Spawned)
 			{
-				if (pawn.Faction == Faction.OfPlayer || pawn.HostFaction == Faction.OfPlayer)
-				{
-					if (AddictionUtility.AddictedToAnything(pawn))
-					{
-						LessonAutoActivator.TeachOpportunity(ConceptDefOf.DrugAddiction, pawn, OpportunityType.Important);
-					}
-				}
+				return;
 			}
+			if (pawn.Faction != Faction.OfPlayer && pawn.HostFaction != Faction.OfPlayer)
+			{
+				return;
+			}
+			if (!AddictionUtility.AddictedToAnything(pawn))
+			{
+				return;
+			}
+			LessonAutoActivator.TeachOpportunity(ConceptDefOf.DrugAddiction, pawn, OpportunityType.Important);
 		}
 
 		public static bool AddictedToAnything(Pawn pawn)
@@ -101,41 +91,36 @@ namespace RimWorld
 
 		public static bool CanBingeOnNow(Pawn pawn, ChemicalDef chemical, DrugCategory drugCategory)
 		{
-			bool result;
 			if (!chemical.canBinge)
 			{
-				result = false;
+				return false;
 			}
-			else if (!pawn.Spawned)
+			if (!pawn.Spawned)
 			{
-				result = false;
+				return false;
 			}
-			else
+			List<Thing> list = pawn.Map.listerThings.ThingsInGroup(ThingRequestGroup.Drug);
+			for (int i = 0; i < list.Count; i++)
 			{
-				List<Thing> list = pawn.Map.listerThings.ThingsInGroup(ThingRequestGroup.Drug);
-				for (int i = 0; i < list.Count; i++)
+				if (!list[i].Position.Fogged(list[i].Map))
 				{
-					if (!list[i].Position.Fogged(list[i].Map))
+					if (drugCategory == DrugCategory.Any || list[i].def.ingestible.drugCategory == drugCategory)
 					{
-						if (drugCategory == DrugCategory.Any || list[i].def.ingestible.drugCategory == drugCategory)
+						CompDrug compDrug = list[i].TryGetComp<CompDrug>();
+						if (compDrug.Props.chemical == chemical)
 						{
-							CompDrug compDrug = list[i].TryGetComp<CompDrug>();
-							if (compDrug.Props.chemical == chemical)
+							if (list[i].Position.Roofed(list[i].Map) || list[i].Position.InHorDistOf(pawn.Position, 45f))
 							{
-								if (list[i].Position.Roofed(list[i].Map) || list[i].Position.InHorDistOf(pawn.Position, 45f))
+								if (pawn.CanReach(list[i], PathEndMode.ClosestTouch, Danger.Deadly, false, TraverseMode.ByPawn))
 								{
-									if (pawn.CanReach(list[i], PathEndMode.ClosestTouch, Danger.Deadly, false, TraverseMode.ByPawn))
-									{
-										return true;
-									}
+									return true;
 								}
 							}
 						}
 					}
 				}
-				result = false;
 			}
-			return result;
+			return false;
 		}
 
 		[CompilerGenerated]

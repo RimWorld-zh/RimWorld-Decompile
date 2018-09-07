@@ -13,7 +13,7 @@ namespace RimWorld
 	{
 		private float workLeft = -1000f;
 
-		protected bool clearSnow = false;
+		protected bool clearSnow;
 
 		protected JobDriver_AffectFloor()
 		{
@@ -31,13 +31,13 @@ namespace RimWorld
 			}
 		}
 
-		public override bool TryMakePreToilReservations()
+		public override bool TryMakePreToilReservations(bool errorOnFailed)
 		{
 			Pawn pawn = this.pawn;
 			LocalTargetInfo targetA = this.job.targetA;
 			Job job = this.job;
 			ReservationLayerDef floor = ReservationLayerDefOf.Floor;
-			return pawn.Reserve(targetA, job, 1, -1, floor);
+			return pawn.Reserve(targetA, job, 1, -1, floor, errorOnFailed);
 		}
 
 		protected override IEnumerable<Toil> MakeNewToils()
@@ -55,7 +55,7 @@ namespace RimWorld
 				this.workLeft -= num;
 				if (doWork.actor.skills != null)
 				{
-					doWork.actor.skills.Learn(SkillDefOf.Construction, 0.11f, false);
+					doWork.actor.skills.Learn(SkillDefOf.Construction, 0.1f, false);
 				}
 				if (this.clearSnow)
 				{
@@ -70,6 +70,7 @@ namespace RimWorld
 						designation.Delete();
 					}
 					this.ReadyForNextToil();
+					return;
 				}
 			};
 			doWork.FailOnCannotTouch(TargetIndex.A, PathEndMode.Touch);
@@ -134,7 +135,7 @@ namespace RimWorld
 						<MakeNewToils>c__AnonStorey.<>f__ref$0.$this.workLeft -= num2;
 						if (<MakeNewToils>c__AnonStorey.doWork.actor.skills != null)
 						{
-							<MakeNewToils>c__AnonStorey.doWork.actor.skills.Learn(SkillDefOf.Construction, 0.11f, false);
+							<MakeNewToils>c__AnonStorey.doWork.actor.skills.Learn(SkillDefOf.Construction, 0.1f, false);
 						}
 						if (<MakeNewToils>c__AnonStorey.<>f__ref$0.$this.clearSnow)
 						{
@@ -149,6 +150,7 @@ namespace RimWorld
 								designation.Delete();
 							}
 							<MakeNewToils>c__AnonStorey.<>f__ref$0.$this.ReadyForNextToil();
+							return;
 						}
 					};
 					<MakeNewToils>c__AnonStorey.doWork.FailOnCannotTouch(TargetIndex.A, PathEndMode.Touch);
@@ -248,7 +250,7 @@ namespace RimWorld
 					this.<>f__ref$0.$this.workLeft -= num;
 					if (this.doWork.actor.skills != null)
 					{
-						this.doWork.actor.skills.Learn(SkillDefOf.Construction, 0.11f, false);
+						this.doWork.actor.skills.Learn(SkillDefOf.Construction, 0.1f, false);
 					}
 					if (this.<>f__ref$0.$this.clearSnow)
 					{
@@ -263,6 +265,7 @@ namespace RimWorld
 							designation.Delete();
 						}
 						this.<>f__ref$0.$this.ReadyForNextToil();
+						return;
 					}
 				}
 

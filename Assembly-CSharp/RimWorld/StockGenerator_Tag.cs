@@ -12,11 +12,11 @@ namespace RimWorld
 	public class StockGenerator_Tag : StockGenerator
 	{
 		[NoTranslate]
-		private string tradeTag = null;
+		private string tradeTag;
 
 		private IntRange thingDefCountRange = IntRange.one;
 
-		private List<ThingDef> excludedThingDefs = null;
+		private List<ThingDef> excludedThingDefs;
 
 		public StockGenerator_Tag()
 		{

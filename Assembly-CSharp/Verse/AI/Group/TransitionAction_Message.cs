@@ -56,15 +56,16 @@ namespace Verse.AI.Group
 
 		public override void DoAction(Transition trans)
 		{
-			if (this.repeatAvoiderTag.NullOrEmpty() || MessagesRepeatAvoider.MessageShowAllowed(this.repeatAvoiderTag, this.repeatAvoiderSeconds))
+			if (!this.repeatAvoiderTag.NullOrEmpty() && !MessagesRepeatAvoider.MessageShowAllowed(this.repeatAvoiderTag, this.repeatAvoiderSeconds))
 			{
-				TargetInfo target = (this.lookTargetGetter == null) ? this.lookTarget : this.lookTargetGetter();
-				if (!target.IsValid)
-				{
-					target = trans.target.lord.ownedPawns.FirstOrDefault<Pawn>();
-				}
-				Messages.Message(this.message, target, this.type, true);
+				return;
 			}
+			TargetInfo target = (this.lookTargetGetter == null) ? this.lookTarget : this.lookTargetGetter();
+			if (!target.IsValid)
+			{
+				target = trans.target.lord.ownedPawns.FirstOrDefault<Pawn>();
+			}
+			Messages.Message(this.message, target, this.type, true);
 		}
 	}
 }

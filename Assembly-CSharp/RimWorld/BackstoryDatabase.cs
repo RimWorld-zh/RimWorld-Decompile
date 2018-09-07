@@ -13,6 +13,8 @@ namespace RimWorld
 
 		private static Dictionary<Pair<BackstorySlot, string>, List<Backstory>> shuffleableBackstoryList = new Dictionary<Pair<BackstorySlot, string>, List<Backstory>>();
 
+		private static HashSet<Backstory> tmpUniqueBackstories = new HashSet<Backstory>();
+
 		private static Regex regex = new Regex("^[^0-9]*");
 
 		public static void Clear()
@@ -56,12 +58,10 @@ namespace RimWorld
 						BackstoryDatabase.allBackstories[bs.identifier].title
 					}), false);
 				}
+				return;
 			}
-			else
-			{
-				BackstoryDatabase.allBackstories.Add(bs.identifier, bs);
-				BackstoryDatabase.shuffleableBackstoryList.Clear();
-			}
+			BackstoryDatabase.allBackstories.Add(bs.identifier, bs);
+			BackstoryDatabase.shuffleableBackstoryList.Clear();
 		}
 
 		public static bool TryGetWithIdentifier(string identifier, out Backstory bs, bool closestMatchWarning = true)
@@ -72,30 +72,25 @@ namespace RimWorld
 
 		public static string GetIdentifierClosestMatch(string identifier, bool closestMatchWarning = true)
 		{
-			string result;
 			if (BackstoryDatabase.allBackstories.ContainsKey(identifier))
 			{
-				result = identifier;
+				return identifier;
 			}
-			else
+			string b = BackstoryDatabase.StripNumericSuffix(identifier);
+			foreach (KeyValuePair<string, Backstory> keyValuePair in BackstoryDatabase.allBackstories)
 			{
-				string b = BackstoryDatabase.StripNumericSuffix(identifier);
-				foreach (KeyValuePair<string, Backstory> keyValuePair in BackstoryDatabase.allBackstories)
+				Backstory value = keyValuePair.Value;
+				if (BackstoryDatabase.StripNumericSuffix(value.identifier) == b)
 				{
-					Backstory value = keyValuePair.Value;
-					if (BackstoryDatabase.StripNumericSuffix(value.identifier) == b)
+					if (closestMatchWarning)
 					{
-						if (closestMatchWarning)
-						{
-							Log.Warning("Couldn't find exact match for backstory " + identifier + ", using closest match " + value.identifier, false);
-						}
-						return value.identifier;
+						Log.Warning("Couldn't find exact match for backstory " + identifier + ", using closest match " + value.identifier, false);
 					}
+					return value.identifier;
 				}
-				Log.Warning("Couldn't find exact match for backstory " + identifier + ", or any close match.", false);
-				result = identifier;
 			}
-			return result;
+			Log.Warning("Couldn't find exact match for backstory " + identifier + ", or any close match.", false);
+			return identifier;
 		}
 
 		public static Backstory RandomBackstory(BackstorySlot slot)
@@ -115,6 +110,34 @@ namespace RimWorld
 				select bs).ToList<Backstory>();
 			}
 			return BackstoryDatabase.shuffleableBackstoryList[key];
+		}
+
+		public static void ShuffleableBackstoryList(BackstorySlot slot, List<string> tags, List<Backstory> outBackstories)
+		{
+			outBackstories.Clear();
+			if (tags.Count == 0)
+			{
+				return;
+			}
+			if (tags.Count == 1)
+			{
+				outBackstories.AddRange(BackstoryDatabase.ShuffleableBackstoryList(slot, tags[0]));
+				return;
+			}
+			BackstoryDatabase.tmpUniqueBackstories.Clear();
+			for (int i = 0; i < tags.Count; i++)
+			{
+				List<Backstory> list = BackstoryDatabase.ShuffleableBackstoryList(slot, tags[i]);
+				for (int j = 0; j < list.Count; j++)
+				{
+					BackstoryDatabase.tmpUniqueBackstories.Add(list[j]);
+				}
+			}
+			foreach (Backstory item in BackstoryDatabase.tmpUniqueBackstories)
+			{
+				outBackstories.Add(item);
+			}
+			BackstoryDatabase.tmpUniqueBackstories.Clear();
 		}
 
 		public static string StripNumericSuffix(string key)

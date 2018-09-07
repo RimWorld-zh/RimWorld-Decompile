@@ -12,16 +12,11 @@ namespace RimWorld
 		protected override ThoughtState CurrentStateInternal(Pawn p)
 		{
 			ExpectationDef expectationDef = ExpectationsUtility.CurrentExpectationFor(p);
-			ThoughtState result;
 			if (expectationDef == null)
 			{
-				result = ThoughtState.Inactive;
+				return ThoughtState.Inactive;
 			}
-			else
-			{
-				result = ThoughtState.ActiveAtStage(expectationDef.thoughtStage);
-			}
-			return result;
+			return ThoughtState.ActiveAtStage(expectationDef.thoughtStage);
 		}
 	}
 }

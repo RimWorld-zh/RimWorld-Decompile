@@ -9,36 +9,31 @@ namespace RimWorld
 	{
 		public static bool AcceptableGameConditionsToStartCeremony(Map map)
 		{
-			bool result;
 			if (!MarriageCeremonyUtility.AcceptableGameConditionsToContinueCeremony(map))
 			{
-				result = false;
+				return false;
 			}
-			else if (GenLocalDate.HourInteger(map) < 5 || GenLocalDate.HourInteger(map) > 16)
+			if (GenLocalDate.HourInteger(map) < 5 || GenLocalDate.HourInteger(map) > 16)
 			{
-				result = false;
+				return false;
 			}
-			else if (GatheringsUtility.AnyLordJobPreventsNewGatherings(map))
+			if (GatheringsUtility.AnyLordJobPreventsNewGatherings(map))
 			{
-				result = false;
+				return false;
 			}
-			else if (map.dangerWatcher.DangerRating != StoryDanger.None)
+			if (map.dangerWatcher.DangerRating != StoryDanger.None)
 			{
-				result = false;
+				return false;
 			}
-			else
+			int num = 0;
+			foreach (Pawn pawn in map.mapPawns.FreeColonistsSpawned)
 			{
-				int num = 0;
-				foreach (Pawn pawn in map.mapPawns.FreeColonistsSpawned)
+				if (pawn.Drafted)
 				{
-					if (pawn.Drafted)
-					{
-						num++;
-					}
+					num++;
 				}
-				result = ((float)num / (float)map.mapPawns.FreeColonistsSpawnedCount < 0.5f);
 			}
-			return result;
+			return (float)num / (float)map.mapPawns.FreeColonistsSpawnedCount < 0.5f;
 		}
 
 		public static bool AcceptableGameConditionsToContinueCeremony(Map map)
@@ -53,21 +48,16 @@ namespace RimWorld
 
 		public static bool FianceCanContinueCeremony(Pawn pawn)
 		{
-			bool result;
 			if (pawn.health.hediffSet.BleedRateTotal > 0.3f)
 			{
-				result = false;
+				return false;
 			}
-			else if (pawn.IsPrisoner)
+			if (pawn.IsPrisoner)
 			{
-				result = false;
+				return false;
 			}
-			else
-			{
-				Hediff firstHediffOfDef = pawn.health.hediffSet.GetFirstHediffOfDef(HediffDefOf.BloodLoss, false);
-				result = ((firstHediffOfDef == null || firstHediffOfDef.Severity <= 0.2f) && (pawn.Spawned && !pawn.Downed) && !pawn.InAggroMentalState);
-			}
-			return result;
+			Hediff firstHediffOfDef = pawn.health.hediffSet.GetFirstHediffOfDef(HediffDefOf.BloodLoss, false);
+			return (firstHediffOfDef == null || firstHediffOfDef.Severity <= 0.2f) && (pawn.Spawned && !pawn.Downed) && !pawn.InMentalState;
 		}
 
 		public static bool ShouldGuestKeepAttendingCeremony(Pawn p)
@@ -102,25 +92,20 @@ namespace RimWorld
 
 		private static bool IsCurrentlyMarryingSomeone(Pawn p)
 		{
-			bool result;
 			if (!p.Spawned)
 			{
-				result = false;
+				return false;
 			}
-			else
+			List<Lord> lords = p.Map.lordManager.lords;
+			for (int i = 0; i < lords.Count; i++)
 			{
-				List<Lord> lords = p.Map.lordManager.lords;
-				for (int i = 0; i < lords.Count; i++)
+				LordJob_Joinable_MarriageCeremony lordJob_Joinable_MarriageCeremony = lords[i].LordJob as LordJob_Joinable_MarriageCeremony;
+				if (lordJob_Joinable_MarriageCeremony != null && (lordJob_Joinable_MarriageCeremony.firstPawn == p || lordJob_Joinable_MarriageCeremony.secondPawn == p))
 				{
-					LordJob_Joinable_MarriageCeremony lordJob_Joinable_MarriageCeremony = lords[i].LordJob as LordJob_Joinable_MarriageCeremony;
-					if (lordJob_Joinable_MarriageCeremony != null && (lordJob_Joinable_MarriageCeremony.firstPawn == p || lordJob_Joinable_MarriageCeremony.secondPawn == p))
-					{
-						return true;
-					}
+					return true;
 				}
-				result = false;
 			}
-			return result;
+			return false;
 		}
 	}
 }

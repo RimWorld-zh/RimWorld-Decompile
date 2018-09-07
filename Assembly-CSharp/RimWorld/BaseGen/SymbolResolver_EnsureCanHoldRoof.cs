@@ -93,75 +93,59 @@ namespace RimWorld.BaseGen
 
 		private bool TrySpawnPillar(Faction faction, ThingDef wallStuff)
 		{
-			bool result;
 			if (!SymbolResolver_EnsureCanHoldRoof.roofsAboutToCollapse.Any<IntVec3>())
 			{
-				result = false;
+				return false;
 			}
-			else
+			Map map = BaseGen.globalSettings.map;
+			IntVec3 bestCell = IntVec3.Invalid;
+			float bestScore = 0f;
+			FloodFiller floodFiller = map.floodFiller;
+			IntVec3 invalid = IntVec3.Invalid;
+			Predicate<IntVec3> passCheck = (IntVec3 x) => SymbolResolver_EnsureCanHoldRoof.roofsAboutToCollapse.Contains(x);
+			Action<IntVec3> processor = delegate(IntVec3 x)
 			{
-				Map map = BaseGen.globalSettings.map;
-				IntVec3 bestCell = IntVec3.Invalid;
-				float bestScore = 0f;
-				FloodFiller floodFiller = map.floodFiller;
-				IntVec3 invalid = IntVec3.Invalid;
-				Predicate<IntVec3> passCheck = (IntVec3 x) => SymbolResolver_EnsureCanHoldRoof.roofsAboutToCollapse.Contains(x);
-				Action<IntVec3> processor = delegate(IntVec3 x)
+				float pillarSpawnScore = this.GetPillarSpawnScore(x);
+				if (pillarSpawnScore > 0f && (!bestCell.IsValid || pillarSpawnScore >= bestScore))
 				{
-					float pillarSpawnScore = this.GetPillarSpawnScore(x);
-					if (pillarSpawnScore > 0f && (!bestCell.IsValid || pillarSpawnScore >= bestScore))
-					{
-						bestCell = x;
-						bestScore = pillarSpawnScore;
-					}
-				};
-				List<IntVec3> extraRoots = SymbolResolver_EnsureCanHoldRoof.edgeRoofs;
-				floodFiller.FloodFill(invalid, passCheck, processor, int.MaxValue, false, extraRoots);
-				if (bestCell.IsValid)
-				{
-					Thing thing = ThingMaker.MakeThing(ThingDefOf.Wall, wallStuff);
-					thing.SetFaction(faction, null);
-					GenSpawn.Spawn(thing, bestCell, map, WipeMode.Vanish);
-					result = true;
+					bestCell = x;
+					bestScore = pillarSpawnScore;
 				}
-				else
-				{
-					result = false;
-				}
+			};
+			List<IntVec3> extraRoots = SymbolResolver_EnsureCanHoldRoof.edgeRoofs;
+			floodFiller.FloodFill(invalid, passCheck, processor, int.MaxValue, false, extraRoots);
+			if (bestCell.IsValid)
+			{
+				Thing thing = ThingMaker.MakeThing(ThingDefOf.Wall, wallStuff);
+				thing.SetFaction(faction, null);
+				GenSpawn.Spawn(thing, bestCell, map, WipeMode.Vanish);
+				return true;
 			}
-			return result;
+			return false;
 		}
 
 		private float GetPillarSpawnScore(IntVec3 c)
 		{
 			Map map = BaseGen.globalSettings.map;
-			float result;
 			if (c.Impassable(map) || c.GetFirstBuilding(map) != null || c.GetFirstItem(map) != null || c.GetFirstPawn(map) != null)
 			{
-				result = 0f;
+				return 0f;
 			}
-			else
+			bool flag = true;
+			for (int i = 0; i < 8; i++)
 			{
-				bool flag = true;
-				for (int i = 0; i < 8; i++)
+				IntVec3 c2 = c + GenAdj.AdjacentCells[i];
+				if (!c2.InBounds(map) || !c2.Walkable(map))
 				{
-					IntVec3 c2 = c + GenAdj.AdjacentCells[i];
-					if (!c2.InBounds(map) || !c2.Walkable(map))
-					{
-						flag = false;
-						break;
-					}
-				}
-				if (flag)
-				{
-					result = 2f;
-				}
-				else
-				{
-					result = 1f;
+					flag = false;
+					break;
 				}
 			}
-			return result;
+			if (flag)
+			{
+				return 2f;
+			}
+			return 1f;
 		}
 
 		// Note: this type is marked as 'beforefieldinit'.

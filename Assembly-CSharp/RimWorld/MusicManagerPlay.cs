@@ -13,7 +13,7 @@ namespace RimWorld
 	{
 		private AudioSource audioSource;
 
-		private MusicManagerPlay.MusicManagerState state = MusicManagerPlay.MusicManagerState.Normal;
+		private MusicManagerPlay.MusicManagerState state;
 
 		private float fadeoutFactor = 1f;
 
@@ -23,13 +23,13 @@ namespace RimWorld
 
 		private Queue<SongDef> recentSongs = new Queue<SongDef>();
 
-		public bool disabled = false;
+		public bool disabled;
 
-		private SongDef forcedNextSong = null;
+		private SongDef forcedNextSong;
 
-		private bool songWasForced = false;
+		private bool songWasForced;
 
-		private bool ignorePrefsVolumeThisSong = false;
+		private bool ignorePrefsVolumeThisSong;
 
 		public float subtleAmbienceSoundVolumeMultiplier = 1f;
 
@@ -80,16 +80,11 @@ namespace RimWorld
 			get
 			{
 				float num = (!this.ignorePrefsVolumeThisSong) ? Prefs.VolumeMusic : 1f;
-				float result;
 				if (this.lastStartedSong == null)
 				{
-					result = num;
+					return num;
 				}
-				else
-				{
-					result = this.lastStartedSong.volume * num * this.fadeoutFactor;
-				}
-				return result;
+				return this.lastStartedSong.volume * num * this.fadeoutFactor;
 			}
 		}
 
@@ -132,58 +127,56 @@ namespace RimWorld
 				this.audioSource.priority = 0;
 			}
 			this.UpdateSubtleAmbienceSoundVolumeMultiplier();
-			if (!this.disabled)
+			if (this.disabled)
 			{
-				if (this.songWasForced)
+				return;
+			}
+			if (this.songWasForced)
+			{
+				this.state = MusicManagerPlay.MusicManagerState.Normal;
+				this.fadeoutFactor = 1f;
+			}
+			if (this.audioSource.isPlaying && !this.songWasForced && ((this.DangerMusicMode && !this.lastStartedSong.tense) || (!this.DangerMusicMode && this.lastStartedSong.tense)))
+			{
+				this.state = MusicManagerPlay.MusicManagerState.Fadeout;
+			}
+			this.audioSource.volume = this.CurSanitizedVolume;
+			if (this.audioSource.isPlaying)
+			{
+				if (this.state == MusicManagerPlay.MusicManagerState.Fadeout)
 				{
-					this.state = MusicManagerPlay.MusicManagerState.Normal;
-					this.fadeoutFactor = 1f;
-				}
-				if (this.audioSource.isPlaying && !this.songWasForced)
-				{
-					if ((this.DangerMusicMode && !this.lastStartedSong.tense) || (!this.DangerMusicMode && this.lastStartedSong.tense))
+					this.fadeoutFactor -= Time.deltaTime / 10f;
+					if (this.fadeoutFactor <= 0f)
 					{
-						this.state = MusicManagerPlay.MusicManagerState.Fadeout;
-					}
-				}
-				this.audioSource.volume = this.CurSanitizedVolume;
-				if (this.audioSource.isPlaying)
-				{
-					if (this.state == MusicManagerPlay.MusicManagerState.Fadeout)
-					{
-						this.fadeoutFactor -= Time.deltaTime / 10f;
-						if (this.fadeoutFactor <= 0f)
-						{
-							this.audioSource.Stop();
-							this.state = MusicManagerPlay.MusicManagerState.Normal;
-							this.fadeoutFactor = 1f;
-						}
+						this.audioSource.Stop();
+						this.state = MusicManagerPlay.MusicManagerState.Normal;
+						this.fadeoutFactor = 1f;
 					}
 				}
-				else
+			}
+			else
+			{
+				if (this.DangerMusicMode && this.nextSongStartTime > this.CurTime + MusicManagerPlay.SongIntervalTension.max)
 				{
-					if (this.DangerMusicMode && this.nextSongStartTime > this.CurTime + MusicManagerPlay.SongIntervalTension.max)
+					this.nextSongStartTime = this.CurTime + MusicManagerPlay.SongIntervalTension.RandomInRange;
+				}
+				if (this.nextSongStartTime < this.CurTime - 5f)
+				{
+					float randomInRange;
+					if (this.DangerMusicMode)
 					{
-						this.nextSongStartTime = this.CurTime + MusicManagerPlay.SongIntervalTension.RandomInRange;
+						randomInRange = MusicManagerPlay.SongIntervalTension.RandomInRange;
 					}
-					if (this.nextSongStartTime < this.CurTime - 5f)
+					else
 					{
-						float randomInRange;
-						if (this.DangerMusicMode)
-						{
-							randomInRange = MusicManagerPlay.SongIntervalTension.RandomInRange;
-						}
-						else
-						{
-							randomInRange = MusicManagerPlay.SongIntervalRelax.RandomInRange;
-						}
-						this.nextSongStartTime = this.CurTime + randomInRange;
+						randomInRange = MusicManagerPlay.SongIntervalRelax.RandomInRange;
 					}
-					if (this.CurTime >= this.nextSongStartTime)
-					{
-						this.ignorePrefsVolumeThisSong = false;
-						this.StartNewSong();
-					}
+					this.nextSongStartTime = this.CurTime + randomInRange;
+				}
+				if (this.CurTime >= this.nextSongStartTime)
+				{
+					this.ignorePrefsVolumeThisSong = false;
+					this.StartNewSong();
 				}
 			}
 		}
@@ -221,98 +214,79 @@ namespace RimWorld
 		private SongDef ChooseNextSong()
 		{
 			this.songWasForced = false;
-			SongDef result;
 			if (this.forcedNextSong != null)
 			{
-				SongDef songDef = this.forcedNextSong;
+				SongDef result = this.forcedNextSong;
 				this.forcedNextSong = null;
 				this.songWasForced = true;
-				result = songDef;
+				return result;
 			}
-			else
+			IEnumerable<SongDef> source = from song in DefDatabase<SongDef>.AllDefs
+			where this.AppropriateNow(song)
+			select song;
+			while (this.recentSongs.Count > 7)
 			{
-				IEnumerable<SongDef> source = from song in DefDatabase<SongDef>.AllDefs
-				where this.AppropriateNow(song)
-				select song;
-				while (this.recentSongs.Count > 7)
-				{
-					this.recentSongs.Dequeue();
-				}
-				while (!source.Any<SongDef>() && this.recentSongs.Count > 0)
-				{
-					this.recentSongs.Dequeue();
-				}
-				if (!source.Any<SongDef>())
-				{
-					Log.Error("Could not get any appropriate song. Getting random and logging song selection data.", false);
-					this.SongSelectionData();
-					result = DefDatabase<SongDef>.GetRandom();
-				}
-				else
-				{
-					result = source.RandomElementByWeight((SongDef s) => s.commonality);
-				}
+				this.recentSongs.Dequeue();
 			}
-			return result;
+			while (!source.Any<SongDef>() && this.recentSongs.Count > 0)
+			{
+				this.recentSongs.Dequeue();
+			}
+			if (!source.Any<SongDef>())
+			{
+				Log.Error("Could not get any appropriate song. Getting random and logging song selection data.", false);
+				this.SongSelectionData();
+				return DefDatabase<SongDef>.GetRandom();
+			}
+			return source.RandomElementByWeight((SongDef s) => s.commonality);
 		}
 
 		private bool AppropriateNow(SongDef song)
 		{
-			bool result;
 			if (!song.playOnMap)
 			{
-				result = false;
+				return false;
 			}
-			else
+			if (this.DangerMusicMode)
 			{
-				if (this.DangerMusicMode)
-				{
-					if (!song.tense)
-					{
-						return false;
-					}
-				}
-				else if (song.tense)
+				if (!song.tense)
 				{
 					return false;
 				}
-				Map map = Find.AnyPlayerHomeMap ?? Find.CurrentMap;
-				if (!song.allowedSeasons.NullOrEmpty<Season>())
+			}
+			else if (song.tense)
+			{
+				return false;
+			}
+			Map map = Find.AnyPlayerHomeMap ?? Find.CurrentMap;
+			if (!song.allowedSeasons.NullOrEmpty<Season>())
+			{
+				if (map == null)
 				{
-					if (map == null)
-					{
-						return false;
-					}
-					if (!song.allowedSeasons.Contains(GenLocalDate.Season(map)))
-					{
-						return false;
-					}
+					return false;
 				}
-				if (this.recentSongs.Contains(song))
+				if (!song.allowedSeasons.Contains(GenLocalDate.Season(map)))
 				{
-					result = false;
-				}
-				else if (song.allowedTimeOfDay != TimeOfDay.Any)
-				{
-					if (map == null)
-					{
-						result = true;
-					}
-					else if (song.allowedTimeOfDay == TimeOfDay.Night)
-					{
-						result = (GenLocalDate.DayPercent(map) < 0.2f || GenLocalDate.DayPercent(map) > 0.7f);
-					}
-					else
-					{
-						result = (GenLocalDate.DayPercent(map) > 0.2f && GenLocalDate.DayPercent(map) < 0.7f);
-					}
-				}
-				else
-				{
-					result = true;
+					return false;
 				}
 			}
-			return result;
+			if (this.recentSongs.Contains(song))
+			{
+				return false;
+			}
+			if (song.allowedTimeOfDay == TimeOfDay.Any)
+			{
+				return true;
+			}
+			if (map == null)
+			{
+				return true;
+			}
+			if (song.allowedTimeOfDay == TimeOfDay.Night)
+			{
+				return GenLocalDate.DayPercent(map) < 0.2f || GenLocalDate.DayPercent(map) > 0.7f;
+			}
+			return GenLocalDate.DayPercent(map) > 0.2f && GenLocalDate.DayPercent(map) < 0.7f;
 		}
 
 		public string DebugString()

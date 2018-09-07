@@ -16,48 +16,56 @@ namespace RimWorld
 
 		public static string GenerateName(RulePackDef rootPack, Predicate<string> validator = null, bool appendNumberIfNameUsed = false, string rootKeyword = null, string testPawnNameSymbol = null)
 		{
-			GrammarRequest request = default(GrammarRequest);
-			request.Includes.Add(rootPack);
+			GrammarRequest grammarRequest = default(GrammarRequest);
+			grammarRequest.Includes.Add(rootPack);
 			if (testPawnNameSymbol != null)
 			{
-				request.Rules.Add(new Rule_String("ANYPAWN_nameDef", testPawnNameSymbol));
-				request.Rules.Add(new Rule_String("ANYPAWN_nameIndef", testPawnNameSymbol));
+				grammarRequest.Rules.Add(new Rule_String("ANYPAWN_nameDef", testPawnNameSymbol));
+				grammarRequest.Rules.Add(new Rule_String("ANYPAWN_nameIndef", testPawnNameSymbol));
 			}
-			rootKeyword = ((rootKeyword == null) ? rootPack.RulesPlusIncludes[0].keyword : rootKeyword);
-			string result;
+			string text = (rootKeyword == null) ? rootPack.FirstRuleKeyword : rootKeyword;
+			string text2 = (rootKeyword == null) ? rootPack.FirstUntranslatedRuleKeyword : rootKeyword;
 			if (appendNumberIfNameUsed)
 			{
+				string text3;
+				GrammarRequest request;
+				string text4;
 				for (int i = 0; i < 100; i++)
 				{
 					for (int j = 0; j < 5; j++)
 					{
-						string text = GenText.ToTitleCaseSmart(GrammarResolver.Resolve(rootKeyword, request, null, false));
+						text3 = text;
+						request = grammarRequest;
+						text4 = text2;
+						string text5 = GenText.ToTitleCaseSmart(GrammarResolver.Resolve(text3, request, null, false, text4));
 						if (i != 0)
 						{
-							text = text + " " + (i + 1);
+							text5 = text5 + " " + (i + 1);
 						}
-						if (validator == null || validator(text))
+						if (validator == null || validator(text5))
 						{
-							return text;
+							return text5;
 						}
 					}
 				}
-				result = GenText.ToTitleCaseSmart(GrammarResolver.Resolve(rootKeyword, request, null, false));
+				text4 = text;
+				request = grammarRequest;
+				text3 = text2;
+				return GenText.ToTitleCaseSmart(GrammarResolver.Resolve(text4, request, null, false, text3));
 			}
-			else
+			for (int k = 0; k < 150; k++)
 			{
-				for (int k = 0; k < 150; k++)
+				string text3 = text;
+				GrammarRequest request = grammarRequest;
+				string text4 = text2;
+				string text6 = GenText.ToTitleCaseSmart(GrammarResolver.Resolve(text3, request, null, false, text4));
+				if (validator == null || validator(text6))
 				{
-					string text2 = GenText.ToTitleCaseSmart(GrammarResolver.Resolve(rootKeyword, request, null, false));
-					if (validator == null || validator(text2))
-					{
-						return text2;
-					}
+					return text6;
 				}
-				Log.Error("Could not get new name (rule pack: " + rootPack + ")", false);
-				result = "Errorname";
 			}
-			return result;
+			Log.Error("Could not get new name (rule pack: " + rootPack + ")", false);
+			return "Errorname";
 		}
 
 		[CompilerGenerated]

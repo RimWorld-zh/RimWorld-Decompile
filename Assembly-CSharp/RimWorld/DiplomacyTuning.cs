@@ -43,7 +43,7 @@ namespace RimWorld
 
 		public const int Goodwill_AttackedSettlement = -50;
 
-		public const int Goodwill_MilitaryAidRequested = -20;
+		public const int Goodwill_MilitaryAidRequested = -25;
 
 		public const int Goodwill_TraderRequested = -15;
 
@@ -67,15 +67,27 @@ namespace RimWorld
 			}
 		};
 
-		public const float Goodwill_BaseGiftSilverForOneGoodwill = 25f;
+		public const float Goodwill_BaseGiftSilverForOneGoodwill = 40f;
+
+		public static readonly SimpleCurve GiftGoodwillFactorRelationsCurve = new SimpleCurve
+		{
+			{
+				new CurvePoint(0f, 1f),
+				true
+			},
+			{
+				new CurvePoint(75f, 0.25f),
+				true
+			}
+		};
 
 		public const float Goodwill_GiftPrisonerOfTheirFactionValueFactor = 2f;
 
-		public const float Goodwill_TradedMarketValueforOneGoodwill = 400f;
+		public const float Goodwill_TradedMarketValueforOneGoodwill = 600f;
 
-		public const int Goodwill_DestroyedMutualEnemyBase = 15;
+		public const int Goodwill_DestroyedMutualEnemyBase = 20;
 
-		public const int Goodwill_MemberExitedMapHealthy = 15;
+		public const int Goodwill_MemberExitedMapHealthy = 12;
 
 		public const int Goodwill_MemberExitedMapHealthy_LeaderBonus = 40;
 
@@ -83,9 +95,9 @@ namespace RimWorld
 
 		public const int Goodwill_MaxTimesTendedTo = 10;
 
-		public const int Goodwill_QuestBanditCampCompleted = 10;
+		public const int Goodwill_QuestBanditCampCompleted = 18;
 
-		public const int Goodwill_QuestTradeRequestCompleted = 5;
+		public const int Goodwill_QuestTradeRequestCompleted = 12;
 
 		public static readonly IntRange Goodwill_PeaceTalksDisasterRange = new IntRange(-50, -40);
 
@@ -95,17 +107,51 @@ namespace RimWorld
 
 		public static readonly IntRange Goodwill_PeaceTalksTriumphRange = new IntRange(100, 110);
 
-		public static readonly SimpleCurve GiftGoodwillFactorRelationsCurve = new SimpleCurve
+		public const float VisitorGiftChanceBase = 0.25f;
+
+		public static readonly SimpleCurve VisitorGiftChanceFactorFromPlayerWealthCurve = new SimpleCurve
 		{
 			{
-				new CurvePoint(30f, 1f),
+				new CurvePoint(30000f, 1f),
 				true
 			},
 			{
-				new CurvePoint(100f, 0.25f),
+				new CurvePoint(80000f, 0.1f),
+				true
+			},
+			{
+				new CurvePoint(300000f, 0f),
 				true
 			}
 		};
+
+		public static readonly SimpleCurve VisitorGiftChanceFactorFromGoodwillCurve = new SimpleCurve
+		{
+			{
+				new CurvePoint(-30f, 0f),
+				true
+			},
+			{
+				new CurvePoint(0f, 1f),
+				true
+			}
+		};
+
+		public static readonly FloatRange VisitorGiftTotalMarketValueRangeBase = new FloatRange(100f, 500f);
+
+		public static readonly SimpleCurve VisitorGiftTotalMarketValueFactorFromPlayerWealthCurve = new SimpleCurve
+		{
+			{
+				new CurvePoint(10000f, 0.25f),
+				true
+			},
+			{
+				new CurvePoint(100000f, 1f),
+				true
+			}
+		};
+
+		public static readonly FloatRange RequestedMilitaryAidPointsRange = new FloatRange(800f, 1000f);
 
 		// Note: this type is marked as 'beforefieldinit'.
 		static DiplomacyTuning()

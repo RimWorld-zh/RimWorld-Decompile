@@ -23,20 +23,15 @@ namespace Verse.Noise
 		{
 			double value = this.modules[0].GetValue(x, y, z);
 			double num = (value - (double)this.from) / (double)(this.to - this.from);
-			double result;
 			if (num < 0.0)
 			{
-				result = 0.0;
+				return 0.0;
 			}
-			else if (num > 1.0)
+			if (num > 1.0)
 			{
-				result = 1.0;
+				return 1.0;
 			}
-			else
-			{
-				result = num;
-			}
-			return result;
+			return num;
 		}
 	}
 }

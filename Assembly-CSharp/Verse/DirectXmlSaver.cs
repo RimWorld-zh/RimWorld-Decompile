@@ -29,18 +29,18 @@ namespace Verse
 			}
 			catch (Exception ex)
 			{
+				Log.Error(string.Concat(new object[]
+				{
+					"Exception saving data object ",
+					obj.ToStringSafe<object>(),
+					": ",
+					ex
+				}), false);
 				GenUI.ErrorDialog("ProblemSavingFile".Translate(new object[]
 				{
 					filePath,
 					ex.ToString()
 				}));
-				Log.Error(string.Concat(new object[]
-				{
-					"Exception saving data object ",
-					obj,
-					": ",
-					ex
-				}), false);
 			}
 		}
 
@@ -51,122 +51,106 @@ namespace Verse
 
 		public static XElement XElementFromObject(object obj, Type expectedType, string nodeName, FieldInfo owningField = null, bool saveDefsAsRefs = false)
 		{
-			if (owningField != null)
+			DefaultValueAttribute defaultValueAttribute;
+			if (owningField != null && owningField.TryGetAttribute(out defaultValueAttribute) && defaultValueAttribute.ObjIsDefault(obj))
 			{
-				DefaultValueAttribute defaultValueAttribute;
-				if (owningField.TryGetAttribute(out defaultValueAttribute))
-				{
-					if (defaultValueAttribute.ObjIsDefault(obj))
-					{
-						return null;
-					}
-				}
+				return null;
 			}
-			XElement result;
 			if (obj == null)
 			{
 				XElement xelement = new XElement(nodeName);
 				xelement.SetAttributeValue("IsNull", "True");
-				result = xelement;
+				return xelement;
+			}
+			Type type = obj.GetType();
+			XElement xelement2 = new XElement(nodeName);
+			if (DirectXmlSaver.IsSimpleTextType(type))
+			{
+				xelement2.Add(new XText(obj.ToString()));
+			}
+			else if (saveDefsAsRefs && typeof(Def).IsAssignableFrom(type))
+			{
+				string defName = ((Def)obj).defName;
+				xelement2.Add(new XText(defName));
+			}
+			else if (type.IsGenericType && type.GetGenericTypeDefinition() == typeof(List<>))
+			{
+				Type expectedType2 = type.GetGenericArguments()[0];
+				int num = (int)type.GetProperty("Count").GetValue(obj, null);
+				for (int i = 0; i < num; i++)
+				{
+					object[] index = new object[]
+					{
+						i
+					};
+					object value = type.GetProperty("Item").GetValue(obj, index);
+					XNode content = DirectXmlSaver.XElementFromObject(value, expectedType2, "li", null, true);
+					xelement2.Add(content);
+				}
+			}
+			else if (type.IsGenericType && type.GetGenericTypeDefinition() == typeof(Dictionary<, >))
+			{
+				Type expectedType3 = type.GetGenericArguments()[0];
+				Type expectedType4 = type.GetGenericArguments()[1];
+				IEnumerator enumerator = (obj as IEnumerable).GetEnumerator();
+				try
+				{
+					while (enumerator.MoveNext())
+					{
+						object obj2 = enumerator.Current;
+						object value2 = obj2.GetType().GetProperty("Key").GetValue(obj2, null);
+						object value3 = obj2.GetType().GetProperty("Value").GetValue(obj2, null);
+						XElement xelement3 = new XElement("li");
+						xelement3.Add(DirectXmlSaver.XElementFromObject(value2, expectedType3, "key", null, true));
+						xelement3.Add(DirectXmlSaver.XElementFromObject(value3, expectedType4, "value", null, true));
+						xelement2.Add(xelement3);
+					}
+				}
+				finally
+				{
+					IDisposable disposable;
+					if ((disposable = (enumerator as IDisposable)) != null)
+					{
+						disposable.Dispose();
+					}
+				}
 			}
 			else
 			{
-				Type type = obj.GetType();
-				XElement xelement2 = new XElement(nodeName);
-				if (DirectXmlSaver.IsSimpleTextType(type))
+				if (type != expectedType)
 				{
-					xelement2.Add(new XText(obj.ToString()));
+					XAttribute content2 = new XAttribute("Class", GenTypes.GetTypeNameWithoutIgnoredNamespaces(obj.GetType()));
+					xelement2.Add(content2);
 				}
-				else if (saveDefsAsRefs && typeof(Def).IsAssignableFrom(type))
+				foreach (FieldInfo fi in from f in type.GetFields(BindingFlags.Instance | BindingFlags.Public | BindingFlags.NonPublic)
+				orderby f.MetadataToken
+				select f)
 				{
-					string defName = ((Def)obj).defName;
-					xelement2.Add(new XText(defName));
-				}
-				else if (type.IsGenericType && type.GetGenericTypeDefinition() == typeof(List<>))
-				{
-					Type expectedType2 = type.GetGenericArguments()[0];
-					int num = (int)type.GetProperty("Count").GetValue(obj, null);
-					for (int i = 0; i < num; i++)
-					{
-						object[] index = new object[]
-						{
-							i
-						};
-						object value = type.GetProperty("Item").GetValue(obj, index);
-						XNode content = DirectXmlSaver.XElementFromObject(value, expectedType2, "li", null, true);
-						xelement2.Add(content);
-					}
-				}
-				else if (type.IsGenericType && type.GetGenericTypeDefinition() == typeof(Dictionary<, >))
-				{
-					Type expectedType3 = type.GetGenericArguments()[0];
-					Type expectedType4 = type.GetGenericArguments()[1];
-					IEnumerator enumerator = (obj as IEnumerable).GetEnumerator();
 					try
 					{
-						while (enumerator.MoveNext())
+						XElement xelement4 = DirectXmlSaver.XElementFromField(fi, obj);
+						if (xelement4 != null)
 						{
-							object obj2 = enumerator.Current;
-							object value2 = obj2.GetType().GetProperty("Key").GetValue(obj2, null);
-							object value3 = obj2.GetType().GetProperty("Value").GetValue(obj2, null);
-							XElement xelement3 = new XElement("li");
-							xelement3.Add(DirectXmlSaver.XElementFromObject(value2, expectedType3, "key", null, true));
-							xelement3.Add(DirectXmlSaver.XElementFromObject(value3, expectedType4, "value", null, true));
-							xelement2.Add(xelement3);
+							xelement2.Add(xelement4);
 						}
 					}
-					finally
+					catch
 					{
-						IDisposable disposable;
-						if ((disposable = (enumerator as IDisposable)) != null)
-						{
-							disposable.Dispose();
-						}
+						throw;
 					}
 				}
-				else
-				{
-					if (type != expectedType)
-					{
-						XAttribute content2 = new XAttribute("Class", GenTypes.GetTypeNameWithoutIgnoredNamespaces(obj.GetType()));
-						xelement2.Add(content2);
-					}
-					foreach (FieldInfo fi in from f in type.GetFields(BindingFlags.Instance | BindingFlags.Public | BindingFlags.NonPublic)
-					orderby f.MetadataToken
-					select f)
-					{
-						try
-						{
-							XElement xelement4 = DirectXmlSaver.XElementFromField(fi, obj);
-							if (xelement4 != null)
-							{
-								xelement2.Add(xelement4);
-							}
-						}
-						catch
-						{
-							throw;
-						}
-					}
-				}
-				result = xelement2;
 			}
-			return result;
+			return xelement2;
 		}
 
 		private static XElement XElementFromField(FieldInfo fi, object owningObj)
 		{
-			XElement result;
 			if (Attribute.IsDefined(fi, typeof(UnsavedAttribute)))
 			{
-				result = null;
+				return null;
 			}
-			else
-			{
-				object value = fi.GetValue(owningObj);
-				result = DirectXmlSaver.XElementFromObject(value, fi.FieldType, fi.Name, fi, false);
-			}
-			return result;
+			object value = fi.GetValue(owningObj);
+			return DirectXmlSaver.XElementFromObject(value, fi.FieldType, fi.Name, fi, false);
 		}
 
 		[CompilerGenerated]

@@ -9,7 +9,7 @@ namespace RimWorld
 
 		public const string ScheduledOffSignal = "ScheduledOff";
 
-		private bool intAllowed = false;
+		private bool intAllowed;
 
 		public CompSchedule()
 		{
@@ -31,11 +31,12 @@ namespace RimWorld
 			}
 			set
 			{
-				if (this.intAllowed != value)
+				if (this.intAllowed == value)
 				{
-					this.intAllowed = value;
-					this.parent.BroadcastCompSignal((!this.intAllowed) ? "ScheduledOff" : "ScheduledOn");
+					return;
 				}
+				this.intAllowed = value;
+				this.parent.BroadcastCompSignal((!this.intAllowed) ? "ScheduledOff" : "ScheduledOn");
 			}
 		}
 
@@ -66,16 +67,11 @@ namespace RimWorld
 
 		public override string CompInspectStringExtra()
 		{
-			string result;
 			if (!this.Allowed)
 			{
-				result = this.Props.offMessage;
+				return this.Props.offMessage;
 			}
-			else
-			{
-				result = null;
-			}
-			return result;
+			return null;
 		}
 	}
 }

@@ -38,7 +38,7 @@ namespace RimWorld
 			HealthUtility.DamageUntilDowned(pawn, false);
 			HealthUtility.DamageLegsUntilIncapableOfMoving(pawn, false);
 			GenSpawn.Spawn(pawn, loc, map, WipeMode.Vanish);
-			pawn.mindState.willJoinColonyIfRescued = true;
+			pawn.mindState.WillJoinColonyIfRescued = true;
 			MapGenerator.rootsToUnfog.Add(loc);
 		}
 	}

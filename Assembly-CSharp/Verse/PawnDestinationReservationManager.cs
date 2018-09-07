@@ -35,82 +35,68 @@ namespace Verse
 
 		public void Reserve(Pawn p, Job job, IntVec3 loc)
 		{
-			if (p.Faction != null)
+			if (p.Faction == null)
 			{
-				this.ObsoleteAllClaimedBy(p);
-				this.reservedDestinations[p.Faction].list.Add(new PawnDestinationReservationManager.PawnDestinationReservation
-				{
-					target = loc,
-					claimant = p,
-					job = job
-				});
+				return;
 			}
+			this.ObsoleteAllClaimedBy(p);
+			this.reservedDestinations[p.Faction].list.Add(new PawnDestinationReservationManager.PawnDestinationReservation
+			{
+				target = loc,
+				claimant = p,
+				job = job
+			});
 		}
 
 		public IntVec3 MostRecentReservationFor(Pawn p)
 		{
-			IntVec3 invalid;
 			if (p.Faction == null)
 			{
-				invalid = IntVec3.Invalid;
+				return IntVec3.Invalid;
 			}
-			else
+			List<PawnDestinationReservationManager.PawnDestinationReservation> list = this.reservedDestinations[p.Faction].list;
+			for (int i = 0; i < list.Count; i++)
 			{
-				List<PawnDestinationReservationManager.PawnDestinationReservation> list = this.reservedDestinations[p.Faction].list;
-				for (int i = 0; i < list.Count; i++)
+				if (list[i].claimant == p && !list[i].obsolete)
 				{
-					if (list[i].claimant == p && !list[i].obsolete)
-					{
-						return list[i].target;
-					}
+					return list[i].target;
 				}
-				invalid = IntVec3.Invalid;
 			}
-			return invalid;
+			return IntVec3.Invalid;
 		}
 
 		public IntVec3 FirstObsoleteReservationFor(Pawn p)
 		{
-			IntVec3 invalid;
 			if (p.Faction == null)
 			{
-				invalid = IntVec3.Invalid;
+				return IntVec3.Invalid;
 			}
-			else
+			List<PawnDestinationReservationManager.PawnDestinationReservation> list = this.reservedDestinations[p.Faction].list;
+			for (int i = 0; i < list.Count; i++)
 			{
-				List<PawnDestinationReservationManager.PawnDestinationReservation> list = this.reservedDestinations[p.Faction].list;
-				for (int i = 0; i < list.Count; i++)
+				if (list[i].claimant == p && list[i].obsolete)
 				{
-					if (list[i].claimant == p && list[i].obsolete)
-					{
-						return list[i].target;
-					}
+					return list[i].target;
 				}
-				invalid = IntVec3.Invalid;
 			}
-			return invalid;
+			return IntVec3.Invalid;
 		}
 
 		public Job FirstObsoleteReservationJobFor(Pawn p)
 		{
-			Job result;
 			if (p.Faction == null)
 			{
-				result = null;
+				return null;
 			}
-			else
+			List<PawnDestinationReservationManager.PawnDestinationReservation> list = this.reservedDestinations[p.Faction].list;
+			for (int i = 0; i < list.Count; i++)
 			{
-				List<PawnDestinationReservationManager.PawnDestinationReservation> list = this.reservedDestinations[p.Faction].list;
-				for (int i = 0; i < list.Count; i++)
+				if (list[i].claimant == p && list[i].obsolete)
 				{
-					if (list[i].claimant == p && list[i].obsolete)
-					{
-						return list[i].job;
-					}
+					return list[i].job;
 				}
-				result = null;
 			}
-			return result;
+			return null;
 		}
 
 		public bool IsReserved(IntVec3 loc)
@@ -131,106 +117,99 @@ namespace Verse
 
 		public bool CanReserve(IntVec3 c, Pawn searcher, bool draftedOnly = false)
 		{
-			bool result;
 			if (searcher.Faction == null)
 			{
-				result = true;
+				return true;
 			}
-			else
+			List<PawnDestinationReservationManager.PawnDestinationReservation> list = this.reservedDestinations[searcher.Faction].list;
+			for (int i = 0; i < list.Count; i++)
 			{
-				List<PawnDestinationReservationManager.PawnDestinationReservation> list = this.reservedDestinations[searcher.Faction].list;
-				for (int i = 0; i < list.Count; i++)
+				if (list[i].target == c && list[i].claimant != searcher && (!draftedOnly || list[i].claimant.Drafted))
 				{
-					if (list[i].target == c && list[i].claimant != searcher && (!draftedOnly || list[i].claimant.Drafted))
-					{
-						return false;
-					}
+					return false;
 				}
-				result = true;
 			}
-			return result;
+			return true;
 		}
 
 		public Pawn FirstReserverOf(IntVec3 c, Faction faction)
 		{
-			Pawn result;
 			if (faction == null)
 			{
-				result = null;
+				return null;
 			}
-			else
+			List<PawnDestinationReservationManager.PawnDestinationReservation> list = this.reservedDestinations[faction].list;
+			for (int i = 0; i < list.Count; i++)
 			{
-				List<PawnDestinationReservationManager.PawnDestinationReservation> list = this.reservedDestinations[faction].list;
-				for (int i = 0; i < list.Count; i++)
+				if (list[i].target == c)
 				{
-					if (list[i].target == c)
-					{
-						return list[i].claimant;
-					}
+					return list[i].claimant;
 				}
-				result = null;
 			}
-			return result;
+			return null;
 		}
 
 		public void ReleaseAllObsoleteClaimedBy(Pawn p)
 		{
-			if (p.Faction != null)
+			if (p.Faction == null)
 			{
-				List<PawnDestinationReservationManager.PawnDestinationReservation> list = this.reservedDestinations[p.Faction].list;
-				int i = 0;
-				while (i < list.Count)
+				return;
+			}
+			List<PawnDestinationReservationManager.PawnDestinationReservation> list = this.reservedDestinations[p.Faction].list;
+			int i = 0;
+			while (i < list.Count)
+			{
+				if (list[i].claimant == p && list[i].obsolete)
 				{
-					if (list[i].claimant == p && list[i].obsolete)
-					{
-						list[i] = list[list.Count - 1];
-						list.RemoveLast<PawnDestinationReservationManager.PawnDestinationReservation>();
-					}
-					else
-					{
-						i++;
-					}
+					list[i] = list[list.Count - 1];
+					list.RemoveLast<PawnDestinationReservationManager.PawnDestinationReservation>();
+				}
+				else
+				{
+					i++;
 				}
 			}
 		}
 
 		public void ReleaseAllClaimedBy(Pawn p)
 		{
-			if (p.Faction != null)
+			if (p.Faction == null)
 			{
-				List<PawnDestinationReservationManager.PawnDestinationReservation> list = this.reservedDestinations[p.Faction].list;
-				int i = 0;
-				while (i < list.Count)
+				return;
+			}
+			List<PawnDestinationReservationManager.PawnDestinationReservation> list = this.reservedDestinations[p.Faction].list;
+			int i = 0;
+			while (i < list.Count)
+			{
+				if (list[i].claimant == p)
 				{
-					if (list[i].claimant == p)
-					{
-						list[i] = list[list.Count - 1];
-						list.RemoveLast<PawnDestinationReservationManager.PawnDestinationReservation>();
-					}
-					else
-					{
-						i++;
-					}
+					list[i] = list[list.Count - 1];
+					list.RemoveLast<PawnDestinationReservationManager.PawnDestinationReservation>();
+				}
+				else
+				{
+					i++;
 				}
 			}
 		}
 
 		public void ReleaseClaimedBy(Pawn p, Job job)
 		{
-			if (p.Faction != null)
+			if (p.Faction == null)
 			{
-				List<PawnDestinationReservationManager.PawnDestinationReservation> list = this.reservedDestinations[p.Faction].list;
-				for (int i = 0; i < list.Count; i++)
+				return;
+			}
+			List<PawnDestinationReservationManager.PawnDestinationReservation> list = this.reservedDestinations[p.Faction].list;
+			for (int i = 0; i < list.Count; i++)
+			{
+				if (list[i].claimant == p && list[i].job == job)
 				{
-					if (list[i].claimant == p && list[i].job == job)
+					list[i].job = null;
+					if (list[i].obsolete)
 					{
-						list[i].job = null;
-						if (list[i].obsolete)
-						{
-							list[i] = list[list.Count - 1];
-							list.RemoveLast<PawnDestinationReservationManager.PawnDestinationReservation>();
-							i--;
-						}
+						list[i] = list[list.Count - 1];
+						list.RemoveLast<PawnDestinationReservationManager.PawnDestinationReservation>();
+						i--;
 					}
 				}
 			}
@@ -238,20 +217,21 @@ namespace Verse
 
 		public void ObsoleteAllClaimedBy(Pawn p)
 		{
-			if (p.Faction != null)
+			if (p.Faction == null)
 			{
-				List<PawnDestinationReservationManager.PawnDestinationReservation> list = this.reservedDestinations[p.Faction].list;
-				for (int i = 0; i < list.Count; i++)
+				return;
+			}
+			List<PawnDestinationReservationManager.PawnDestinationReservation> list = this.reservedDestinations[p.Faction].list;
+			for (int i = 0; i < list.Count; i++)
+			{
+				if (list[i].claimant == p)
 				{
-					if (list[i].claimant == p)
+					list[i].obsolete = true;
+					if (list[i].job == null)
 					{
-						list[i].obsolete = true;
-						if (list[i].job == null)
-						{
-							list[i] = list[list.Count - 1];
-							list.RemoveLast<PawnDestinationReservationManager.PawnDestinationReservation>();
-							i--;
-						}
+						list[i] = list[list.Count - 1];
+						list.RemoveLast<PawnDestinationReservationManager.PawnDestinationReservation>();
+						i--;
 					}
 				}
 			}

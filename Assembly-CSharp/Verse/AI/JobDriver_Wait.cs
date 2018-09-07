@@ -18,26 +18,18 @@ namespace Verse.AI
 
 		public override string GetReport()
 		{
-			string result;
-			if (this.job.def == JobDefOf.Wait_Combat)
+			if (this.job.def != JobDefOf.Wait_Combat)
 			{
-				if (this.pawn.RaceProps.Humanlike && this.pawn.story.WorkTagIsDisabled(WorkTags.Violent))
-				{
-					result = "ReportStanding".Translate();
-				}
-				else
-				{
-					result = base.GetReport();
-				}
+				return base.GetReport();
 			}
-			else
+			if (this.pawn.RaceProps.Humanlike && this.pawn.story.WorkTagIsDisabled(WorkTags.Violent))
 			{
-				result = base.GetReport();
+				return "ReportStanding".Translate();
 			}
-			return result;
+			return base.GetReport();
 		}
 
-		public override bool TryMakePreToilReservations()
+		public override bool TryMakePreToilReservations(bool errorOnFailed)
 		{
 			return true;
 		}
@@ -57,8 +49,9 @@ namespace Verse.AI
 				{
 					Log.Error(this.pawn + " in eternal WaitCombat without being drafted.", false);
 					base.ReadyForNextToil();
+					return;
 				}
-				else if ((Find.TickManager.TicksGame + this.pawn.thingIDNumber) % 4 == 0)
+				if ((Find.TickManager.TicksGame + this.pawn.thingIDNumber) % 4 == 0)
 				{
 					this.CheckForAutoAttack();
 				}
@@ -83,67 +76,70 @@ namespace Verse.AI
 
 		private void CheckForAutoAttack()
 		{
-			if (!this.pawn.Downed)
+			if (this.pawn.Downed)
 			{
-				if (!this.pawn.stances.FullBodyBusy)
+				return;
+			}
+			if (this.pawn.stances.FullBodyBusy)
+			{
+				return;
+			}
+			this.collideWithPawns = false;
+			bool flag = this.pawn.story == null || !this.pawn.story.WorkTagIsDisabled(WorkTags.Violent);
+			bool flag2 = this.pawn.RaceProps.ToolUser && this.pawn.Faction == Faction.OfPlayer && !this.pawn.story.WorkTagIsDisabled(WorkTags.Firefighting);
+			if (flag || flag2)
+			{
+				Fire fire = null;
+				for (int i = 0; i < 9; i++)
 				{
-					this.collideWithPawns = false;
-					bool flag = this.pawn.story == null || !this.pawn.story.WorkTagIsDisabled(WorkTags.Violent);
-					bool flag2 = this.pawn.RaceProps.ToolUser && this.pawn.Faction == Faction.OfPlayer && !this.pawn.story.WorkTagIsDisabled(WorkTags.Firefighting);
-					if (flag || flag2)
+					IntVec3 c = this.pawn.Position + GenAdj.AdjacentCellsAndInside[i];
+					if (c.InBounds(this.pawn.Map))
 					{
-						Fire fire = null;
-						for (int i = 0; i < 9; i++)
+						List<Thing> thingList = c.GetThingList(base.Map);
+						for (int j = 0; j < thingList.Count; j++)
 						{
-							IntVec3 c = this.pawn.Position + GenAdj.AdjacentCellsAndInside[i];
-							if (c.InBounds(this.pawn.Map))
+							if (flag)
 							{
-								List<Thing> thingList = c.GetThingList(base.Map);
-								for (int j = 0; j < thingList.Count; j++)
+								Pawn pawn = thingList[j] as Pawn;
+								if (pawn != null && !pawn.Downed && this.pawn.HostileTo(pawn))
 								{
-									if (flag)
-									{
-										Pawn pawn = thingList[j] as Pawn;
-										if (pawn != null && !pawn.Downed && this.pawn.HostileTo(pawn))
-										{
-											this.pawn.meleeVerbs.TryMeleeAttack(pawn, null, false);
-											this.collideWithPawns = true;
-											return;
-										}
-									}
-									if (flag2)
-									{
-										Fire fire2 = thingList[j] as Fire;
-										if (fire2 != null && (fire == null || fire2.fireSize < fire.fireSize || i == 8) && (fire2.parent == null || fire2.parent != this.pawn))
-										{
-											fire = fire2;
-										}
-									}
-								}
-							}
-						}
-						if (fire != null && (!this.pawn.InMentalState || this.pawn.MentalState.def.allowBeatfire))
-						{
-							this.pawn.natives.TryBeatFire(fire);
-						}
-						else if (flag && this.pawn.Faction != null && this.job.def == JobDefOf.Wait_Combat && (this.pawn.drafter == null || this.pawn.drafter.FireAtWill))
-						{
-							bool allowManualCastWeapons = !this.pawn.IsColonist;
-							Verb verb = this.pawn.TryGetAttackVerb(null, allowManualCastWeapons);
-							if (verb != null && !verb.verbProps.IsMeleeAttack)
-							{
-								TargetScanFlags targetScanFlags = TargetScanFlags.NeedLOSToPawns | TargetScanFlags.NeedLOSToNonPawns | TargetScanFlags.NeedThreat;
-								if (verb.IsIncendiary())
-								{
-									targetScanFlags |= TargetScanFlags.NeedNonBurning;
-								}
-								Thing thing = (Thing)AttackTargetFinder.BestShootTargetFromCurrentPosition(this.pawn, null, verb.verbProps.range, verb.verbProps.minRange, targetScanFlags);
-								if (thing != null)
-								{
-									this.pawn.TryStartAttack(thing);
+									this.pawn.meleeVerbs.TryMeleeAttack(pawn, null, false);
 									this.collideWithPawns = true;
+									return;
 								}
 							}
+							if (flag2)
+							{
+								Fire fire2 = thingList[j] as Fire;
+								if (fire2 != null && (fire == null || fire2.fireSize < fire.fireSize || i == 8) && (fire2.parent == null || fire2.parent != this.pawn))
+								{
+									fire = fire2;
+								}
+							}
+						}
+					}
+				}
+				if (fire != null && (!this.pawn.InMentalState || this.pawn.MentalState.def.allowBeatfire))
+				{
+					this.pawn.natives.TryBeatFire(fire);
+					return;
+				}
+				if (flag && this.pawn.Faction != null && this.job.def == JobDefOf.Wait_Combat && (this.pawn.drafter == null || this.pawn.drafter.FireAtWill))
+				{
+					Verb currentEffectiveVerb = this.pawn.CurrentEffectiveVerb;
+					if (currentEffectiveVerb != null && !currentEffectiveVerb.verbProps.IsMeleeAttack)
+					{
+						TargetScanFlags targetScanFlags = TargetScanFlags.NeedLOSToPawns | TargetScanFlags.NeedLOSToNonPawns | TargetScanFlags.NeedThreat;
+						if (currentEffectiveVerb.IsIncendiary())
+						{
+							targetScanFlags |= TargetScanFlags.NeedNonBurning;
+						}
+						Thing thing = (Thing)AttackTargetFinder.BestShootTargetFromCurrentPosition(this.pawn, targetScanFlags, null, 0f, 9999f);
+						if (thing != null)
+						{
+							this.pawn.TryStartAttack(thing);
+							this.collideWithPawns = true;
+							return;
 						}
 					}
 				}
@@ -188,8 +184,9 @@ namespace Verse.AI
 						{
 							Log.Error(this.pawn + " in eternal WaitCombat without being drafted.", false);
 							base.ReadyForNextToil();
+							return;
 						}
-						else if ((Find.TickManager.TicksGame + this.pawn.thingIDNumber) % 4 == 0)
+						if ((Find.TickManager.TicksGame + this.pawn.thingIDNumber) % 4 == 0)
 						{
 							base.CheckForAutoAttack();
 						}
@@ -271,8 +268,9 @@ namespace Verse.AI
 				{
 					Log.Error(this.pawn + " in eternal WaitCombat without being drafted.", false);
 					base.ReadyForNextToil();
+					return;
 				}
-				else if ((Find.TickManager.TicksGame + this.pawn.thingIDNumber) % 4 == 0)
+				if ((Find.TickManager.TicksGame + this.pawn.thingIDNumber) % 4 == 0)
 				{
 					base.CheckForAutoAttack();
 				}

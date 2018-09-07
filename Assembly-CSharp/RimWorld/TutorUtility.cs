@@ -17,22 +17,15 @@ namespace RimWorld
 				Thing thing = thingList[i];
 				if (!(thing.Position != c))
 				{
-					bool result;
 					if (thing.def == buildingDef)
 					{
-						result = true;
+						return true;
 					}
-					else
+					if (thing.def.entityDefToBuild == buildingDef)
 					{
-						if (thing.def.entityDefToBuild != buildingDef)
-						{
-							goto IL_5B;
-						}
-						result = true;
+						return true;
 					}
-					return result;
 				}
-				IL_5B:;
 			}
 			return false;
 		}
@@ -73,28 +66,20 @@ namespace RimWorld
 		private static bool ContainsBlockingThing(IntVec3 cell, Map map, bool noItems)
 		{
 			List<Thing> thingList = cell.GetThingList(map);
-			int i = 0;
-			while (i < thingList.Count)
+			for (int i = 0; i < thingList.Count; i++)
 			{
-				bool result;
 				if (thingList[i].def.category == ThingCategory.Building)
 				{
-					result = true;
+					return true;
 				}
-				else if (thingList[i] is Blueprint)
+				if (thingList[i] is Blueprint)
 				{
-					result = true;
+					return true;
 				}
-				else
+				if (noItems && thingList[i].def.category == ThingCategory.Item)
 				{
-					if (!noItems || thingList[i].def.category != ThingCategory.Item)
-					{
-						i++;
-						continue;
-					}
-					result = true;
+					return true;
 				}
-				return result;
 			}
 			return false;
 		}
@@ -154,43 +139,33 @@ namespace RimWorld
 
 		public static bool EventCellsMatchExactly(EventPack ep, List<IntVec3> targetCells)
 		{
-			bool result;
 			if (ep.Cell.IsValid)
 			{
-				result = (targetCells.Count == 1 && ep.Cell == targetCells[0]);
+				return targetCells.Count == 1 && ep.Cell == targetCells[0];
 			}
-			else if (ep.Cells == null)
+			if (ep.Cells == null)
 			{
-				result = false;
+				return false;
 			}
-			else
+			int num = 0;
+			foreach (IntVec3 item in ep.Cells)
 			{
-				int num = 0;
-				foreach (IntVec3 item in ep.Cells)
+				if (!targetCells.Contains(item))
 				{
-					if (!targetCells.Contains(item))
-					{
-						return false;
-					}
-					num++;
+					return false;
 				}
-				result = (num == targetCells.Count);
+				num++;
 			}
-			return result;
+			return num == targetCells.Count;
 		}
 
 		public static bool EventCellsAreWithin(EventPack ep, List<IntVec3> targetCells)
 		{
-			bool result;
 			if (ep.Cell.IsValid)
 			{
-				result = targetCells.Contains(ep.Cell);
+				return targetCells.Contains(ep.Cell);
 			}
-			else
-			{
-				result = (ep.Cells != null && !ep.Cells.Any((IntVec3 c) => !targetCells.Contains(c)));
-			}
-			return result;
+			return ep.Cells != null && !ep.Cells.Any((IntVec3 c) => !targetCells.Contains(c));
 		}
 
 		[CompilerGenerated]

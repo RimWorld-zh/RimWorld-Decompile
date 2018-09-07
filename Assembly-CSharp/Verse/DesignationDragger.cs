@@ -8,11 +8,11 @@ namespace Verse
 	[StaticConstructorOnStartup]
 	public class DesignationDragger
 	{
-		private bool dragging = false;
+		private bool dragging;
 
 		private IntVec3 startDragCell;
 
-		private int lastFrameDragCellsDrawn = 0;
+		private int lastFrameDragCellsDrawn;
 
 		private Sustainer sustainer;
 
@@ -20,7 +20,7 @@ namespace Verse
 
 		private List<IntVec3> dragCells = new List<IntVec3>();
 
-		private string failureReasonInt = null;
+		private string failureReasonInt;
 
 		private int lastUpdateFrame = -1;
 
@@ -148,87 +148,88 @@ namespace Verse
 
 		private void UpdateDragCellsIfNeeded()
 		{
-			if (Time.frameCount != this.lastUpdateFrame)
+			if (Time.frameCount == this.lastUpdateFrame)
 			{
-				this.lastUpdateFrame = Time.frameCount;
-				this.dragCells.Clear();
-				this.failureReasonInt = null;
-				IntVec3 intVec = this.startDragCell;
-				IntVec3 intVec2 = UI.MouseCell();
-				if (this.SelDes.DraggableDimensions == 1)
+				return;
+			}
+			this.lastUpdateFrame = Time.frameCount;
+			this.dragCells.Clear();
+			this.failureReasonInt = null;
+			IntVec3 intVec = this.startDragCell;
+			IntVec3 intVec2 = UI.MouseCell();
+			if (this.SelDes.DraggableDimensions == 1)
+			{
+				bool flag = true;
+				if (Mathf.Abs(intVec.x - intVec2.x) < Mathf.Abs(intVec.z - intVec2.z))
 				{
-					bool flag = true;
-					if (Mathf.Abs(intVec.x - intVec2.x) < Mathf.Abs(intVec.z - intVec2.z))
+					flag = false;
+				}
+				if (flag)
+				{
+					int z = intVec.z;
+					if (intVec.x > intVec2.x)
 					{
-						flag = false;
+						IntVec3 intVec3 = intVec;
+						intVec = intVec2;
+						intVec2 = intVec3;
 					}
-					if (flag)
+					for (int i = intVec.x; i <= intVec2.x; i++)
 					{
-						int z = intVec.z;
-						if (intVec.x > intVec2.x)
-						{
-							IntVec3 intVec3 = intVec;
-							intVec = intVec2;
-							intVec2 = intVec3;
-						}
-						for (int i = intVec.x; i <= intVec2.x; i++)
-						{
-							this.TryAddDragCell(new IntVec3(i, intVec.y, z));
-						}
-					}
-					else
-					{
-						int x = intVec.x;
-						if (intVec.z > intVec2.z)
-						{
-							IntVec3 intVec4 = intVec;
-							intVec = intVec2;
-							intVec2 = intVec4;
-						}
-						for (int j = intVec.z; j <= intVec2.z; j++)
-						{
-							this.TryAddDragCell(new IntVec3(x, intVec.y, j));
-						}
+						this.TryAddDragCell(new IntVec3(i, intVec.y, z));
 					}
 				}
-				if (this.SelDes.DraggableDimensions == 2)
+				else
 				{
-					IntVec3 intVec5 = intVec;
-					IntVec3 intVec6 = intVec2;
-					if (intVec6.x > intVec5.x + 50)
+					int x = intVec.x;
+					if (intVec.z > intVec2.z)
 					{
-						intVec6.x = intVec5.x + 50;
+						IntVec3 intVec4 = intVec;
+						intVec = intVec2;
+						intVec2 = intVec4;
 					}
-					if (intVec6.z > intVec5.z + 50)
+					for (int j = intVec.z; j <= intVec2.z; j++)
 					{
-						intVec6.z = intVec5.z + 50;
+						this.TryAddDragCell(new IntVec3(x, intVec.y, j));
 					}
-					if (intVec6.x < intVec5.x)
+				}
+			}
+			if (this.SelDes.DraggableDimensions == 2)
+			{
+				IntVec3 intVec5 = intVec;
+				IntVec3 intVec6 = intVec2;
+				if (intVec6.x > intVec5.x + 50)
+				{
+					intVec6.x = intVec5.x + 50;
+				}
+				if (intVec6.z > intVec5.z + 50)
+				{
+					intVec6.z = intVec5.z + 50;
+				}
+				if (intVec6.x < intVec5.x)
+				{
+					if (intVec6.x < intVec5.x - 50)
 					{
-						if (intVec6.x < intVec5.x - 50)
-						{
-							intVec6.x = intVec5.x - 50;
-						}
-						int x2 = intVec5.x;
-						intVec5 = new IntVec3(intVec6.x, intVec5.y, intVec5.z);
-						intVec6 = new IntVec3(x2, intVec6.y, intVec6.z);
+						intVec6.x = intVec5.x - 50;
 					}
-					if (intVec6.z < intVec5.z)
+					int x2 = intVec5.x;
+					intVec5 = new IntVec3(intVec6.x, intVec5.y, intVec5.z);
+					intVec6 = new IntVec3(x2, intVec6.y, intVec6.z);
+				}
+				if (intVec6.z < intVec5.z)
+				{
+					if (intVec6.z < intVec5.z - 50)
 					{
-						if (intVec6.z < intVec5.z - 50)
-						{
-							intVec6.z = intVec5.z - 50;
-						}
-						int z2 = intVec5.z;
-						intVec5 = new IntVec3(intVec5.x, intVec5.y, intVec6.z);
-						intVec6 = new IntVec3(intVec6.x, intVec6.y, z2);
+						intVec6.z = intVec5.z - 50;
 					}
-					for (int k = intVec5.x; k <= intVec6.x; k++)
+					int z2 = intVec5.z;
+					intVec5 = new IntVec3(intVec5.x, intVec5.y, intVec6.z);
+					intVec6 = new IntVec3(intVec6.x, intVec6.y, z2);
+				}
+				for (int k = intVec5.x; k <= intVec6.x; k++)
+				{
+					for (int l = intVec5.z; l <= intVec6.z; l++)
 					{
-						for (int l = intVec5.z; l <= intVec6.z; l++)
-						{
-							this.TryAddDragCell(new IntVec3(k, intVec5.y, l));
-						}
+						this.TryAddDragCell(new IntVec3(k, intVec5.y, l));
 					}
 				}
 			}

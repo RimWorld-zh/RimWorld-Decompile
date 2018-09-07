@@ -12,11 +12,11 @@ namespace RimWorld
 
 		public PrisonerInteractionModeDef interactionMode = PrisonerInteractionModeDefOf.NoInteraction;
 
-		private Faction hostFactionInt = null;
+		private Faction hostFactionInt;
 
-		public bool isPrisonerInt = false;
+		public bool isPrisonerInt;
 
-		private bool releasedInt = false;
+		private bool releasedInt;
 
 		private int ticksWhenAllowedToEscapeAgain;
 
@@ -26,13 +26,59 @@ namespace RimWorld
 
 		public bool everParticipatedInPrisonBreak;
 
+		public float resistance = -1f;
+
 		public bool getRescuedThoughtOnUndownedBecauseOfPlayer;
 
 		private const int DefaultWaitInsteadOfEscapingTicks = 25000;
 
-		public int MinInteractionInterval = 7500;
+		public const int MinInteractionInterval = 10000;
+
+		public const int MaxInteractionsPerDay = 2;
 
 		private const int CheckInitiatePrisonBreakIntervalTicks = 2500;
+
+		private static readonly SimpleCurve StartingResistancePerRecruitDifficultyCurve = new SimpleCurve
+		{
+			{
+				new CurvePoint(0.1f, 0f),
+				true
+			},
+			{
+				new CurvePoint(0.5f, 15f),
+				true
+			},
+			{
+				new CurvePoint(0.9f, 25f),
+				true
+			},
+			{
+				new CurvePoint(1f, 50f),
+				true
+			}
+		};
+
+		private static readonly SimpleCurve StartingResistanceFactorFromPopulationIntentCurve = new SimpleCurve
+		{
+			{
+				new CurvePoint(-1f, 2f),
+				true
+			},
+			{
+				new CurvePoint(0f, 1.5f),
+				true
+			},
+			{
+				new CurvePoint(1f, 1f),
+				true
+			},
+			{
+				new CurvePoint(2f, 0.8f),
+				true
+			}
+		};
+
+		private static readonly FloatRange StartingResistanceRandomFactorRange = new FloatRange(0.8f, 1.2f);
 
 		public Pawn_GuestTracker()
 		{
@@ -55,17 +101,12 @@ namespace RimWorld
 		{
 			get
 			{
-				bool result;
 				if (this.HostFaction == null)
 				{
 					Log.Error("GetsFood without host faction.", false);
-					result = true;
+					return true;
 				}
-				else
-				{
-					result = this.getsFoodInt;
-				}
-				return result;
+				return this.getsFoodInt;
 			}
 			set
 			{
@@ -93,7 +134,7 @@ namespace RimWorld
 		{
 			get
 			{
-				return this.pawn.mindState.lastAssignedInteractTime < Find.TickManager.TicksGame - this.MinInteractionInterval;
+				return this.pawn.mindState.lastAssignedInteractTime < Find.TickManager.TicksGame - 10000 && this.pawn.mindState.interactionsToday < 2;
 			}
 		}
 
@@ -105,14 +146,12 @@ namespace RimWorld
 			}
 			set
 			{
-				if (value != this.releasedInt)
+				if (value == this.releasedInt)
 				{
-					this.releasedInt = value;
-					if (this.pawn.Spawned)
-					{
-						this.pawn.Map.reachability.ClearCache();
-					}
+					return;
 				}
+				this.releasedInt = value;
+				ReachabilityUtility.ClearCacheFor(this.pawn);
 			}
 		}
 
@@ -120,35 +159,30 @@ namespace RimWorld
 		{
 			get
 			{
-				bool result;
 				if (this.Released)
 				{
-					result = false;
+					return false;
 				}
-				else if (this.pawn.HostFaction == null)
+				if (this.pawn.HostFaction == null)
 				{
-					result = false;
+					return false;
 				}
-				else if (this.pawn.InMentalState)
+				if (this.pawn.InMentalState)
 				{
-					result = false;
+					return false;
 				}
-				else
+				if (this.pawn.Spawned)
 				{
-					if (this.pawn.Spawned)
+					if (this.pawn.jobs.curJob != null && this.pawn.jobs.curJob.exitMapOnArrival)
 					{
-						if (this.pawn.jobs.curJob != null && this.pawn.jobs.curJob.exitMapOnArrival)
-						{
-							return false;
-						}
-						if (PrisonBreakUtility.IsPrisonBreaking(this.pawn))
-						{
-							return false;
-						}
+						return false;
 					}
-					result = true;
+					if (PrisonBreakUtility.IsPrisonBreaking(this.pawn))
+					{
+						return false;
+					}
 				}
-				return result;
+				return true;
 			}
 		}
 
@@ -156,17 +190,20 @@ namespace RimWorld
 		{
 			get
 			{
-				bool result;
 				if (!this.IsPrisoner)
 				{
-					result = false;
+					return false;
 				}
-				else
-				{
-					Map mapHeld = this.pawn.MapHeld;
-					result = (mapHeld != null && mapHeld.mapPawns.FreeColonistsSpawnedCount != 0 && Find.TickManager.TicksGame < this.ticksWhenAllowedToEscapeAgain);
-				}
-				return result;
+				Map mapHeld = this.pawn.MapHeld;
+				return mapHeld != null && mapHeld.mapPawns.FreeColonistsSpawnedCount != 0 && Find.TickManager.TicksGame < this.ticksWhenAllowedToEscapeAgain;
+			}
+		}
+
+		public float Resistance
+		{
+			get
+			{
+				return this.resistance;
 			}
 		}
 
@@ -194,6 +231,7 @@ namespace RimWorld
 			Scribe_Values.Look<int>(ref this.lastPrisonBreakTicks, "lastPrisonBreakTicks", 0, false);
 			Scribe_Values.Look<bool>(ref this.everParticipatedInPrisonBreak, "everParticipatedInPrisonBreak", false, false);
 			Scribe_Values.Look<bool>(ref this.getRescuedThoughtOnUndownedBecauseOfPlayer, "getRescuedThoughtOnUndownedBecauseOfPlayer", false, false);
+			Scribe_Values.Look<float>(ref this.resistance, "resistance", -1f, false);
 		}
 
 		public void SetGuestStatus(Faction newHost, bool prisoner = false)
@@ -202,69 +240,78 @@ namespace RimWorld
 			{
 				this.Released = false;
 			}
-			if (newHost != this.HostFaction || prisoner != this.IsPrisoner)
+			if (newHost == this.HostFaction && prisoner == this.IsPrisoner)
 			{
-				if (!prisoner && this.pawn.Faction.HostileTo(newHost))
+				return;
+			}
+			if (!prisoner && this.pawn.Faction.HostileTo(newHost))
+			{
+				Log.Error(string.Concat(new object[]
 				{
-					Log.Error(string.Concat(new object[]
-					{
-						"Tried to make ",
-						this.pawn,
-						" a guest of ",
-						newHost,
-						" but their faction ",
-						this.pawn.Faction,
-						" is hostile to ",
-						newHost
-					}), false);
-				}
-				else if (newHost != null && newHost == this.pawn.Faction && !prisoner)
+					"Tried to make ",
+					this.pawn,
+					" a guest of ",
+					newHost,
+					" but their faction ",
+					this.pawn.Faction,
+					" is hostile to ",
+					newHost
+				}), false);
+				return;
+			}
+			if (newHost != null && newHost == this.pawn.Faction && !prisoner)
+			{
+				Log.Error(string.Concat(new object[]
 				{
-					Log.Error(string.Concat(new object[]
-					{
-						"Tried to make ",
-						this.pawn,
-						" a guest of their own faction ",
-						this.pawn.Faction
-					}), false);
-				}
-				else
+					"Tried to make ",
+					this.pawn,
+					" a guest of their own faction ",
+					this.pawn.Faction
+				}), false);
+				return;
+			}
+			bool flag = prisoner && (!this.IsPrisoner || this.HostFaction != newHost);
+			this.isPrisonerInt = prisoner;
+			this.hostFactionInt = newHost;
+			this.pawn.ClearMind(false);
+			if (flag)
+			{
+				this.pawn.DropAndForbidEverything(false);
+				Lord lord = this.pawn.GetLord();
+				if (lord != null)
 				{
-					bool flag = prisoner && (!this.IsPrisoner || this.HostFaction != newHost);
-					this.isPrisonerInt = prisoner;
-					this.hostFactionInt = newHost;
-					this.pawn.ClearMind(false);
-					if (flag)
-					{
-						this.pawn.DropAndForbidEverything(false);
-						Lord lord = this.pawn.GetLord();
-						if (lord != null)
-						{
-							lord.Notify_PawnLost(this.pawn, PawnLostCondition.MadePrisoner);
-						}
-						if (this.pawn.Drafted)
-						{
-							this.pawn.drafter.Drafted = false;
-						}
-					}
-					PawnComponentsUtility.AddAndRemoveDynamicComponents(this.pawn, false);
-					this.pawn.health.surgeryBills.Clear();
-					if (this.pawn.ownership != null)
-					{
-						this.pawn.ownership.Notify_ChangedGuestStatus();
-					}
-					ReachabilityUtility.ClearCache();
-					if (this.pawn.Spawned)
-					{
-						this.pawn.Map.mapPawns.UpdateRegistryForPawn(this.pawn);
-						this.pawn.Map.attackTargetsCache.UpdateTarget(this.pawn);
-					}
-					AddictionUtility.CheckDrugAddictionTeachOpportunity(this.pawn);
-					if (prisoner && this.pawn.playerSettings != null)
-					{
-						this.pawn.playerSettings.Notify_MadePrisoner();
-					}
+					lord.Notify_PawnLost(this.pawn, PawnLostCondition.MadePrisoner, null);
 				}
+				if (newHost == Faction.OfPlayer)
+				{
+					Find.StoryWatcher.watcherPopAdaptation.Notify_PawnEvent(this.pawn, PopAdaptationEvent.GainedPrisoner);
+				}
+				if (this.pawn.Drafted)
+				{
+					this.pawn.drafter.Drafted = false;
+				}
+				float x = this.pawn.RecruitDifficulty(Faction.OfPlayer);
+				this.resistance = Pawn_GuestTracker.StartingResistancePerRecruitDifficultyCurve.Evaluate(x);
+				this.resistance *= Pawn_GuestTracker.StartingResistanceFactorFromPopulationIntentCurve.Evaluate(StorytellerUtilityPopulation.PopulationIntent);
+				this.resistance *= Pawn_GuestTracker.StartingResistanceRandomFactorRange.RandomInRange;
+				this.resistance = (float)GenMath.RoundRandom(this.resistance);
+			}
+			PawnComponentsUtility.AddAndRemoveDynamicComponents(this.pawn, false);
+			this.pawn.health.surgeryBills.Clear();
+			if (this.pawn.ownership != null)
+			{
+				this.pawn.ownership.Notify_ChangedGuestStatus();
+			}
+			ReachabilityUtility.ClearCacheFor(this.pawn);
+			if (this.pawn.Spawned)
+			{
+				this.pawn.Map.mapPawns.UpdateRegistryForPawn(this.pawn);
+				this.pawn.Map.attackTargetsCache.UpdateTarget(this.pawn);
+			}
+			AddictionUtility.CheckDrugAddictionTeachOpportunity(this.pawn);
+			if (prisoner && this.pawn.playerSettings != null)
+			{
+				this.pawn.playerSettings.Notify_MadePrisoner();
 			}
 		}
 
@@ -293,16 +340,17 @@ namespace RimWorld
 
 		public void WaitInsteadOfEscapingFor(int ticks)
 		{
-			if (this.IsPrisoner)
+			if (!this.IsPrisoner)
 			{
-				this.ticksWhenAllowedToEscapeAgain = Find.TickManager.TicksGame + ticks;
-				this.spotToWaitInsteadOfEscaping = IntVec3.Invalid;
+				return;
 			}
+			this.ticksWhenAllowedToEscapeAgain = Find.TickManager.TicksGame + ticks;
+			this.spotToWaitInsteadOfEscaping = IntVec3.Invalid;
 		}
 
 		internal void Notify_PawnUndowned()
 		{
-			if (this.pawn.RaceProps.Humanlike && this.HostFaction == Faction.OfPlayer && !this.IsPrisoner && this.pawn.SpawnedOrAnyParentSpawned)
+			if (this.pawn.RaceProps.Humanlike && (this.HostFaction == Faction.OfPlayer || (this.pawn.IsWildMan() && this.pawn.InBed() && this.pawn.CurrentBed().Faction == Faction.OfPlayer)) && !this.IsPrisoner && this.pawn.SpawnedOrAnyParentSpawned)
 			{
 				if (this.getRescuedThoughtOnUndownedBecauseOfPlayer && this.pawn.needs != null && this.pawn.needs.mood != null)
 				{
@@ -331,6 +379,11 @@ namespace RimWorld
 				}
 			}
 			this.getRescuedThoughtOnUndownedBecauseOfPlayer = false;
+		}
+
+		// Note: this type is marked as 'beforefieldinit'.
+		static Pawn_GuestTracker()
+		{
 		}
 	}
 }

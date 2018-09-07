@@ -189,7 +189,7 @@ namespace RimWorld.Planet
 					i = 0;
 					break;
 				case 1u:
-					IL_98:
+					IL_96:
 					i++;
 					break;
 				default:
@@ -211,7 +211,7 @@ namespace RimWorld.Planet
 						}
 						return true;
 					}
-					goto IL_98;
+					goto IL_96;
 				}
 				return false;
 			}

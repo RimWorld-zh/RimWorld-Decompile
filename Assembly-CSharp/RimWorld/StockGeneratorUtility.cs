@@ -44,33 +44,28 @@ namespace RimWorld
 
 		public static Thing TryMakeForStockSingle(ThingDef thingDef, int stackCount)
 		{
-			Thing result;
 			if (stackCount <= 0)
 			{
-				result = null;
+				return null;
 			}
-			else if (!thingDef.tradeability.TraderCanSell())
+			if (!thingDef.tradeability.TraderCanSell())
 			{
 				Log.Error("Tried to make non-trader-sellable thing for trader stock: " + thingDef, false);
-				result = null;
+				return null;
 			}
-			else
+			ThingDef stuff = null;
+			if (thingDef.MadeFromStuff)
 			{
-				ThingDef stuff = null;
-				if (thingDef.MadeFromStuff)
+				if (!(from x in GenStuff.AllowedStuffsFor(thingDef, TechLevel.Undefined)
+				where !PawnWeaponGenerator.IsDerpWeapon(thingDef, x)
+				select x).TryRandomElementByWeight((ThingDef x) => x.stuffProps.commonality, out stuff))
 				{
-					if (!(from x in GenStuff.AllowedStuffsFor(thingDef, TechLevel.Undefined)
-					where !PawnWeaponGenerator.IsDerpWeapon(thingDef, x)
-					select x).TryRandomElementByWeight((ThingDef x) => x.stuffProps.commonality, out stuff))
-					{
-						stuff = GenStuff.RandomStuffByCommonalityFor(thingDef, TechLevel.Undefined);
-					}
+					stuff = GenStuff.RandomStuffByCommonalityFor(thingDef, TechLevel.Undefined);
 				}
-				Thing thing = ThingMaker.MakeThing(thingDef, stuff);
-				thing.stackCount = stackCount;
-				result = thing;
 			}
-			return result;
+			Thing thing = ThingMaker.MakeThing(thingDef, stuff);
+			thing.stackCount = stackCount;
+			return thing;
 		}
 
 		[CompilerGenerated]
@@ -126,15 +121,15 @@ namespace RimWorld
 							}
 							return true;
 						}
-						goto IL_EA;
+						goto IL_E4;
 					}
 					break;
 				case 1u:
-					IL_81:
+					IL_7E:
 					i++;
 					break;
 				case 2u:
-					goto IL_EA;
+					goto IL_E4;
 				default:
 					return false;
 				}
@@ -150,9 +145,9 @@ namespace RimWorld
 						}
 						return true;
 					}
-					goto IL_81;
+					goto IL_7E;
 				}
-				IL_EA:
+				IL_E4:
 				this.$PC = -1;
 				return false;
 			}

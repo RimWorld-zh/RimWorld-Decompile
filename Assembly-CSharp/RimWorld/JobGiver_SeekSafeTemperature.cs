@@ -13,68 +13,47 @@ namespace RimWorld
 
 		protected override Job TryGiveJob(Pawn pawn)
 		{
-			Job result;
 			if (!pawn.health.hediffSet.HasTemperatureInjury(TemperatureInjuryStage.Serious))
 			{
-				result = null;
+				return null;
 			}
-			else
+			FloatRange tempRange = pawn.ComfortableTemperatureRange();
+			if (tempRange.Includes(pawn.AmbientTemperature))
 			{
-				FloatRange tempRange = pawn.ComfortableTemperatureRange();
-				if (tempRange.Includes(pawn.AmbientTemperature))
-				{
-					result = new Job(JobDefOf.Wait_SafeTemperature, 500, true);
-				}
-				else
-				{
-					Region region = JobGiver_SeekSafeTemperature.ClosestRegionWithinTemperatureRange(pawn.Position, pawn.Map, tempRange, TraverseParms.For(pawn, Danger.Deadly, TraverseMode.ByPawn, false), RegionType.Set_Passable);
-					if (region != null)
-					{
-						result = new Job(JobDefOf.GotoSafeTemperature, region.RandomCell);
-					}
-					else
-					{
-						result = null;
-					}
-				}
+				return new Job(JobDefOf.Wait_SafeTemperature, 500, true);
 			}
-			return result;
+			Region region = JobGiver_SeekSafeTemperature.ClosestRegionWithinTemperatureRange(pawn.Position, pawn.Map, tempRange, TraverseParms.For(pawn, Danger.Deadly, TraverseMode.ByPawn, false), RegionType.Set_Passable);
+			if (region != null)
+			{
+				return new Job(JobDefOf.GotoSafeTemperature, region.RandomCell);
+			}
+			return null;
 		}
 
 		private static Region ClosestRegionWithinTemperatureRange(IntVec3 root, Map map, FloatRange tempRange, TraverseParms traverseParms, RegionType traversableRegionTypes = RegionType.Set_Passable)
 		{
 			Region region = root.GetRegion(map, traversableRegionTypes);
-			Region result;
 			if (region == null)
 			{
-				result = null;
+				return null;
 			}
-			else
+			RegionEntryPredicate entryCondition = (Region from, Region r) => r.Allows(traverseParms, false);
+			Region foundReg = null;
+			RegionProcessor regionProcessor = delegate(Region r)
 			{
-				RegionEntryPredicate entryCondition = (Region from, Region r) => r.Allows(traverseParms, false);
-				Region foundReg = null;
-				RegionProcessor regionProcessor = delegate(Region r)
+				if (r.IsDoorway)
 				{
-					bool result2;
-					if (r.portal != null)
-					{
-						result2 = false;
-					}
-					else if (tempRange.Includes(r.Room.Temperature))
-					{
-						foundReg = r;
-						result2 = true;
-					}
-					else
-					{
-						result2 = false;
-					}
-					return result2;
-				};
-				RegionTraverser.BreadthFirstTraverse(region, entryCondition, regionProcessor, 9999, traversableRegionTypes);
-				result = foundReg;
-			}
-			return result;
+					return false;
+				}
+				if (tempRange.Includes(r.Room.Temperature))
+				{
+					foundReg = r;
+					return true;
+				}
+				return false;
+			};
+			RegionTraverser.BreadthFirstTraverse(region, entryCondition, regionProcessor, 9999, traversableRegionTypes);
+			return foundReg;
 		}
 
 		[CompilerGenerated]
@@ -97,21 +76,16 @@ namespace RimWorld
 
 			internal bool <>m__1(Region r)
 			{
-				bool result;
-				if (r.portal != null)
+				if (r.IsDoorway)
 				{
-					result = false;
+					return false;
 				}
-				else if (this.tempRange.Includes(r.Room.Temperature))
+				if (this.tempRange.Includes(r.Room.Temperature))
 				{
 					this.foundReg = r;
-					result = true;
+					return true;
 				}
-				else
-				{
-					result = false;
-				}
-				return result;
+				return false;
 			}
 		}
 	}

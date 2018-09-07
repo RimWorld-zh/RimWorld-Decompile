@@ -64,17 +64,12 @@ namespace Verse
 		{
 			get
 			{
-				IntVec3 zero;
 				if (!MapGenerator.playerStartSpotInt.IsValid)
 				{
 					Log.Error("Accessing player start spot before setting it.", false);
-					zero = IntVec3.Zero;
+					return IntVec3.Zero;
 				}
-				else
-				{
-					zero = MapGenerator.playerStartSpotInt;
-				}
-				return zero;
+				return MapGenerator.playerStartSpotInt;
 			}
 			set
 			{
@@ -195,33 +190,23 @@ namespace Verse
 		public static T GetVar<T>(string name)
 		{
 			object obj;
-			T result;
 			if (MapGenerator.data.TryGetValue(name, out obj))
 			{
-				result = (T)((object)obj);
+				return (T)((object)obj);
 			}
-			else
-			{
-				result = default(T);
-			}
-			return result;
+			return default(T);
 		}
 
 		public static bool TryGetVar<T>(string name, out T var)
 		{
 			object obj;
-			bool result;
 			if (MapGenerator.data.TryGetValue(name, out obj))
 			{
 				var = (T)((object)obj);
-				result = true;
+				return true;
 			}
-			else
-			{
-				var = default(T);
-				result = false;
-			}
-			return result;
+			var = default(T);
+			return false;
 		}
 
 		public static void SetVar<T>(string name, T var)
@@ -232,18 +217,13 @@ namespace Verse
 		public static MapGenFloatGrid FloatGridNamed(string name)
 		{
 			MapGenFloatGrid var = MapGenerator.GetVar<MapGenFloatGrid>(name);
-			MapGenFloatGrid result;
 			if (var != null)
 			{
-				result = var;
+				return var;
 			}
-			else
-			{
-				MapGenFloatGrid mapGenFloatGrid = new MapGenFloatGrid(MapGenerator.mapBeingGenerated);
-				MapGenerator.SetVar<MapGenFloatGrid>(name, mapGenFloatGrid);
-				result = mapGenFloatGrid;
-			}
-			return result;
+			MapGenFloatGrid mapGenFloatGrid = new MapGenFloatGrid(MapGenerator.mapBeingGenerated);
+			MapGenerator.SetVar<MapGenFloatGrid>(name, mapGenFloatGrid);
+			return mapGenFloatGrid;
 		}
 
 		private static int GetSeedPart(List<GenStepWithParams> genSteps, int index)

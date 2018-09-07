@@ -43,28 +43,23 @@ namespace RimWorld
 
 		public static Thing FindBestMedicine(Pawn healer, Pawn patient)
 		{
-			Thing result;
 			if (patient.playerSettings == null || patient.playerSettings.medCare <= MedicalCareCategory.NoMeds)
 			{
-				result = null;
+				return null;
 			}
-			else if (Medicine.GetMedicineCountToFullyHeal(patient) <= 0)
+			if (Medicine.GetMedicineCountToFullyHeal(patient) <= 0)
 			{
-				result = null;
+				return null;
 			}
-			else
-			{
-				Predicate<Thing> predicate = (Thing m) => !m.IsForbidden(healer) && patient.playerSettings.medCare.AllowsMedicine(m.def) && healer.CanReserve(m, 10, 1, null, false);
-				Func<Thing, float> priorityGetter = (Thing t) => t.def.GetStatValueAbstract(StatDefOf.MedicalPotency, null);
-				IntVec3 position = patient.Position;
-				Map map = patient.Map;
-				List<Thing> searchSet = patient.Map.listerThings.ThingsInGroup(ThingRequestGroup.Medicine);
-				PathEndMode peMode = PathEndMode.ClosestTouch;
-				TraverseParms traverseParams = TraverseParms.For(healer, Danger.Deadly, TraverseMode.ByPawn, false);
-				Predicate<Thing> validator = predicate;
-				result = GenClosest.ClosestThing_Global_Reachable(position, map, searchSet, peMode, traverseParams, 9999f, validator, priorityGetter);
-			}
-			return result;
+			Predicate<Thing> predicate = (Thing m) => !m.IsForbidden(healer) && patient.playerSettings.medCare.AllowsMedicine(m.def) && healer.CanReserve(m, 10, 1, null, false);
+			Func<Thing, float> priorityGetter = (Thing t) => t.def.GetStatValueAbstract(StatDefOf.MedicalPotency, null);
+			IntVec3 position = patient.Position;
+			Map map = patient.Map;
+			List<Thing> searchSet = patient.Map.listerThings.ThingsInGroup(ThingRequestGroup.Medicine);
+			PathEndMode peMode = PathEndMode.ClosestTouch;
+			TraverseParms traverseParams = TraverseParms.For(healer, Danger.Deadly, TraverseMode.ByPawn, false);
+			Predicate<Thing> validator = predicate;
+			return GenClosest.ClosestThing_Global_Reachable(position, map, searchSet, peMode, traverseParams, 9999f, validator, priorityGetter);
 		}
 
 		[CompilerGenerated]

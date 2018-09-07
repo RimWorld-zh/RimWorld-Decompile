@@ -36,30 +36,22 @@ namespace Steamworks
 
 		public static string PtrToStringUTF8(IntPtr nativeUtf8)
 		{
-			string result;
 			if (nativeUtf8 == IntPtr.Zero)
 			{
-				result = string.Empty;
+				return string.Empty;
 			}
-			else
+			int num = 0;
+			while (Marshal.ReadByte(nativeUtf8, num) != 0)
 			{
-				int num = 0;
-				while (Marshal.ReadByte(nativeUtf8, num) != 0)
-				{
-					num++;
-				}
-				if (num == 0)
-				{
-					result = string.Empty;
-				}
-				else
-				{
-					byte[] array = new byte[num];
-					Marshal.Copy(nativeUtf8, array, 0, array.Length);
-					result = Encoding.UTF8.GetString(array);
-				}
+				num++;
 			}
-			return result;
+			if (num == 0)
+			{
+				return string.Empty;
+			}
+			byte[] array = new byte[num];
+			Marshal.Copy(nativeUtf8, array, 0, array.Length);
+			return Encoding.UTF8.GetString(array);
 		}
 
 		public class UTF8StringHandle : SafeHandleZeroOrMinusOneIsInvalid
@@ -69,15 +61,13 @@ namespace Steamworks
 				if (str == null)
 				{
 					base.SetHandle(IntPtr.Zero);
+					return;
 				}
-				else
-				{
-					byte[] array = new byte[Encoding.UTF8.GetByteCount(str) + 1];
-					Encoding.UTF8.GetBytes(str, 0, str.Length, array, 0);
-					IntPtr intPtr = Marshal.AllocHGlobal(array.Length);
-					Marshal.Copy(array, 0, intPtr, array.Length);
-					base.SetHandle(intPtr);
-				}
+				byte[] array = new byte[Encoding.UTF8.GetByteCount(str) + 1];
+				Encoding.UTF8.GetBytes(str, 0, str.Length, array, 0);
+				IntPtr intPtr = Marshal.AllocHGlobal(array.Length);
+				Marshal.Copy(array, 0, intPtr, array.Length);
+				base.SetHandle(intPtr);
 			}
 
 			protected override bool ReleaseHandle()
@@ -103,27 +93,25 @@ namespace Steamworks
 				if (strings == null)
 				{
 					this.m_pSteamParamStringArray = IntPtr.Zero;
+					return;
 				}
-				else
+				this.m_Strings = new IntPtr[strings.Count];
+				for (int i = 0; i < strings.Count; i++)
 				{
-					this.m_Strings = new IntPtr[strings.Count];
-					for (int i = 0; i < strings.Count; i++)
-					{
-						byte[] array = new byte[Encoding.UTF8.GetByteCount(strings[i]) + 1];
-						Encoding.UTF8.GetBytes(strings[i], 0, strings[i].Length, array, 0);
-						this.m_Strings[i] = Marshal.AllocHGlobal(array.Length);
-						Marshal.Copy(array, 0, this.m_Strings[i], array.Length);
-					}
-					this.m_ptrStrings = Marshal.AllocHGlobal(Marshal.SizeOf(typeof(IntPtr)) * this.m_Strings.Length);
-					SteamParamStringArray_t steamParamStringArray_t = new SteamParamStringArray_t
-					{
-						m_ppStrings = this.m_ptrStrings,
-						m_nNumStrings = this.m_Strings.Length
-					};
-					Marshal.Copy(this.m_Strings, 0, steamParamStringArray_t.m_ppStrings, this.m_Strings.Length);
-					this.m_pSteamParamStringArray = Marshal.AllocHGlobal(Marshal.SizeOf(typeof(SteamParamStringArray_t)));
-					Marshal.StructureToPtr(steamParamStringArray_t, this.m_pSteamParamStringArray, false);
+					byte[] array = new byte[Encoding.UTF8.GetByteCount(strings[i]) + 1];
+					Encoding.UTF8.GetBytes(strings[i], 0, strings[i].Length, array, 0);
+					this.m_Strings[i] = Marshal.AllocHGlobal(array.Length);
+					Marshal.Copy(array, 0, this.m_Strings[i], array.Length);
 				}
+				this.m_ptrStrings = Marshal.AllocHGlobal(Marshal.SizeOf(typeof(IntPtr)) * this.m_Strings.Length);
+				SteamParamStringArray_t steamParamStringArray_t = new SteamParamStringArray_t
+				{
+					m_ppStrings = this.m_ptrStrings,
+					m_nNumStrings = this.m_Strings.Length
+				};
+				Marshal.Copy(this.m_Strings, 0, steamParamStringArray_t.m_ppStrings, this.m_Strings.Length);
+				this.m_pSteamParamStringArray = Marshal.AllocHGlobal(Marshal.SizeOf(typeof(SteamParamStringArray_t)));
+				Marshal.StructureToPtr(steamParamStringArray_t, this.m_pSteamParamStringArray, false);
 			}
 
 			protected override void Finalize()

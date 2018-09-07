@@ -34,7 +34,7 @@ namespace Verse
 		{
 			get
 			{
-				return new AcceptanceReport("")
+				return new AcceptanceReport(string.Empty)
 				{
 					acceptedInt = true
 				};
@@ -45,7 +45,7 @@ namespace Verse
 		{
 			get
 			{
-				return new AcceptanceReport("")
+				return new AcceptanceReport(string.Empty)
 				{
 					acceptedInt = false
 				};
@@ -54,16 +54,11 @@ namespace Verse
 
 		public static implicit operator AcceptanceReport(bool value)
 		{
-			AcceptanceReport result;
 			if (value)
 			{
-				result = AcceptanceReport.WasAccepted;
+				return AcceptanceReport.WasAccepted;
 			}
-			else
-			{
-				result = AcceptanceReport.WasRejected;
-			}
-			return result;
+			return AcceptanceReport.WasRejected;
 		}
 
 		public static implicit operator AcceptanceReport(string value)

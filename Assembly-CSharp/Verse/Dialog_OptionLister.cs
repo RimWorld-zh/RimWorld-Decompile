@@ -7,9 +7,9 @@ namespace Verse
 	{
 		protected Vector2 scrollPosition;
 
-		protected string filter = "";
+		protected string filter = string.Empty;
 
-		protected float totalOptionsHeight = 0f;
+		protected float totalOptionsHeight;
 
 		protected Listing_Standard listing;
 

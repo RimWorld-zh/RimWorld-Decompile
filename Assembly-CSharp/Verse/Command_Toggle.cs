@@ -6,7 +6,7 @@ namespace Verse
 {
 	public class Command_Toggle : Command
 	{
-		public Func<bool> isActive = null;
+		public Func<bool> isActive;
 
 		public Action toggleAction;
 
@@ -22,16 +22,11 @@ namespace Verse
 		{
 			get
 			{
-				SoundDef result;
 				if (this.isActive())
 				{
-					result = this.turnOffSound;
+					return this.turnOffSound;
 				}
-				else
-				{
-					result = this.turnOnSound;
-				}
-				return result;
+				return this.turnOnSound;
 			}
 		}
 

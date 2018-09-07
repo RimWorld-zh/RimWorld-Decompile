@@ -71,21 +71,16 @@ namespace RimWorld
 		public override bool InheritInteractionsFrom(Gizmo other)
 		{
 			Command_LoadToTransporter command_LoadToTransporter = (Command_LoadToTransporter)other;
-			bool result;
 			if (command_LoadToTransporter.transComp.parent.def != this.transComp.parent.def)
 			{
-				result = false;
+				return false;
 			}
-			else
+			if (this.transporters == null)
 			{
-				if (this.transporters == null)
-				{
-					this.transporters = new List<CompTransporter>();
-				}
-				this.transporters.Add(command_LoadToTransporter.transComp);
-				result = false;
+				this.transporters = new List<CompTransporter>();
 			}
-			return result;
+			this.transporters.Add(command_LoadToTransporter.transComp);
+			return false;
 		}
 
 		// Note: this type is marked as 'beforefieldinit'.

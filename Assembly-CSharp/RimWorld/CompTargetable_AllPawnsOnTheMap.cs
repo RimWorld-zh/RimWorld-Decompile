@@ -102,11 +102,8 @@ namespace RimWorld
 				{
 					switch (num)
 					{
-					case 1u:
-						IL_D8:
-						break;
 					}
-					if (enumerator.MoveNext())
+					while (enumerator.MoveNext())
 					{
 						p = enumerator.Current;
 						if (tp.CanTarget(p))
@@ -119,7 +116,6 @@ namespace RimWorld
 							flag = true;
 							return true;
 						}
-						goto IL_D8;
 					}
 				}
 				finally

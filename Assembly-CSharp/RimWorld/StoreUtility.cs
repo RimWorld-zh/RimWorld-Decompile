@@ -11,16 +11,11 @@ namespace RimWorld
 	{
 		public static IHaulDestination CurrentHaulDestinationOf(Thing t)
 		{
-			IHaulDestination result;
 			if (t.Spawned)
 			{
-				result = t.Map.haulDestinationManager.SlotGroupParentAt(t.Position);
+				return t.Map.haulDestinationManager.SlotGroupParentAt(t.Position);
 			}
-			else
-			{
-				result = (t.ParentHolder as IHaulDestination);
-			}
-			return result;
+			return t.ParentHolder as IHaulDestination;
 		}
 
 		public static StoragePriority CurrentStoragePriorityOf(Thing t)
@@ -35,16 +30,11 @@ namespace RimWorld
 
 		public static StoragePriority StoragePriorityAtFor(IHaulDestination at, Thing t)
 		{
-			StoragePriority result;
 			if (at == null || !at.Accepts(t))
 			{
-				result = StoragePriority.Unstored;
+				return StoragePriority.Unstored;
 			}
-			else
-			{
-				result = at.GetStoreSettings().Priority;
-			}
-			return result;
+			return at.GetStoreSettings().Priority;
 		}
 
 		public static bool IsInAnyStorage(this Thing t)
@@ -73,52 +63,36 @@ namespace RimWorld
 
 		public static SlotGroup GetSlotGroup(this Thing thing)
 		{
-			SlotGroup result;
 			if (!thing.Spawned)
 			{
-				result = null;
+				return null;
 			}
-			else
-			{
-				result = thing.Position.GetSlotGroup(thing.Map);
-			}
-			return result;
+			return thing.Position.GetSlotGroup(thing.Map);
 		}
 
 		public static SlotGroup GetSlotGroup(this IntVec3 c, Map map)
 		{
-			SlotGroup result;
 			if (map.haulDestinationManager == null)
 			{
-				result = null;
+				return null;
 			}
-			else
-			{
-				result = map.haulDestinationManager.SlotGroupAt(c);
-			}
-			return result;
+			return map.haulDestinationManager.SlotGroupAt(c);
 		}
 
 		public static bool IsValidStorageFor(this IntVec3 c, Map map, Thing storable)
 		{
-			bool result;
 			if (!StoreUtility.NoStorageBlockersIn(c, map, storable))
 			{
-				result = false;
+				return false;
 			}
-			else
-			{
-				SlotGroup slotGroup = c.GetSlotGroup(map);
-				result = (slotGroup != null && slotGroup.parent.Accepts(storable));
-			}
-			return result;
+			SlotGroup slotGroup = c.GetSlotGroup(map);
+			return slotGroup != null && slotGroup.parent.Accepts(storable);
 		}
 
 		private static bool NoStorageBlockersIn(IntVec3 c, Map map, Thing thing)
 		{
 			List<Thing> list = map.thingGrid.ThingsListAt(c);
-			int i = 0;
-			while (i < list.Count)
+			for (int i = 0; i < list.Count; i++)
 			{
 				Thing thing2 = list[i];
 				if (thing2.def.EverStorable(false))
@@ -132,21 +106,14 @@ namespace RimWorld
 						return false;
 					}
 				}
-				bool result;
 				if (thing2.def.entityDefToBuild != null && thing2.def.entityDefToBuild.passability != Traversability.Standable)
 				{
-					result = false;
+					return false;
 				}
-				else
+				if (thing2.def.surfaceType == SurfaceType.None && thing2.def.passability != Traversability.Standable)
 				{
-					if (thing2.def.surfaceType != SurfaceType.None || thing2.def.passability == Traversability.Standable)
-					{
-						i++;
-						continue;
-					}
-					result = false;
+					return false;
 				}
-				return result;
 			}
 			return true;
 		}
@@ -164,65 +131,52 @@ namespace RimWorld
 			{
 				haulDestination2 = null;
 			}
-			bool result;
 			if (storagePriority == StoragePriority.Unstored && haulDestination2 == null)
 			{
 				foundCell = IntVec3.Invalid;
 				haulDestination = null;
-				result = false;
+				return false;
 			}
-			else if (haulDestination2 != null && (storagePriority == StoragePriority.Unstored || haulDestination2.GetStoreSettings().Priority > storagePriority))
+			if (haulDestination2 != null && (storagePriority == StoragePriority.Unstored || haulDestination2.GetStoreSettings().Priority > storagePriority))
 			{
 				foundCell = IntVec3.Invalid;
 				haulDestination = haulDestination2;
-				result = true;
+				return true;
 			}
-			else
-			{
-				foundCell = invalid;
-				haulDestination = invalid.GetSlotGroup(map).parent;
-				result = true;
-			}
-			return result;
+			foundCell = invalid;
+			haulDestination = invalid.GetSlotGroup(map).parent;
+			return true;
 		}
 
 		public static bool TryFindBestBetterStoreCellFor(Thing t, Pawn carrier, Map map, StoragePriority currentPriority, Faction faction, out IntVec3 foundCell, bool needAccurateResult = true)
 		{
 			List<SlotGroup> allGroupsListInPriorityOrder = map.haulDestinationManager.AllGroupsListInPriorityOrder;
-			bool result;
 			if (allGroupsListInPriorityOrder.Count == 0)
 			{
 				foundCell = IntVec3.Invalid;
-				result = false;
+				return false;
 			}
-			else
+			StoragePriority storagePriority = currentPriority;
+			float num = 2.14748365E+09f;
+			IntVec3 invalid = IntVec3.Invalid;
+			int count = allGroupsListInPriorityOrder.Count;
+			for (int i = 0; i < count; i++)
 			{
-				StoragePriority storagePriority = currentPriority;
-				float num = 2.14748365E+09f;
-				IntVec3 invalid = IntVec3.Invalid;
-				int count = allGroupsListInPriorityOrder.Count;
-				for (int i = 0; i < count; i++)
+				SlotGroup slotGroup = allGroupsListInPriorityOrder[i];
+				StoragePriority priority = slotGroup.Settings.Priority;
+				if (priority < storagePriority || priority <= currentPriority)
 				{
-					SlotGroup slotGroup = allGroupsListInPriorityOrder[i];
-					StoragePriority priority = slotGroup.Settings.Priority;
-					if (priority < storagePriority || priority <= currentPriority)
-					{
-						break;
-					}
-					StoreUtility.TryFindBestBetterStoreCellForWorker(t, carrier, map, faction, slotGroup, needAccurateResult, ref invalid, ref num, ref storagePriority);
+					break;
 				}
-				if (!invalid.IsValid)
-				{
-					foundCell = IntVec3.Invalid;
-					result = false;
-				}
-				else
-				{
-					foundCell = invalid;
-					result = true;
-				}
+				StoreUtility.TryFindBestBetterStoreCellForWorker(t, carrier, map, faction, slotGroup, needAccurateResult, ref invalid, ref num, ref storagePriority);
 			}
-			return result;
+			if (!invalid.IsValid)
+			{
+				foundCell = IntVec3.Invalid;
+				return false;
+			}
+			foundCell = invalid;
+			return true;
 		}
 
 		public static bool TryFindBestBetterStoreCellForIn(Thing t, Pawn carrier, Map map, StoragePriority currentPriority, Faction faction, SlotGroup slotGroup, out IntVec3 foundCell, bool needAccurateResult = true)
@@ -235,35 +189,36 @@ namespace RimWorld
 
 		private static void TryFindBestBetterStoreCellForWorker(Thing t, Pawn carrier, Map map, Faction faction, SlotGroup slotGroup, bool needAccurateResult, ref IntVec3 closestSlot, ref float closestDistSquared, ref StoragePriority foundPriority)
 		{
-			if (slotGroup.parent.Accepts(t))
+			if (!slotGroup.parent.Accepts(t))
 			{
-				IntVec3 a = (!t.SpawnedOrAnyParentSpawned) ? carrier.PositionHeld : t.PositionHeld;
-				List<IntVec3> cellsList = slotGroup.CellsList;
-				int count = cellsList.Count;
-				int num;
-				if (needAccurateResult)
+				return;
+			}
+			IntVec3 a = (!t.SpawnedOrAnyParentSpawned) ? carrier.PositionHeld : t.PositionHeld;
+			List<IntVec3> cellsList = slotGroup.CellsList;
+			int count = cellsList.Count;
+			int num;
+			if (needAccurateResult)
+			{
+				num = Mathf.FloorToInt((float)count * Rand.Range(0.005f, 0.018f));
+			}
+			else
+			{
+				num = 0;
+			}
+			for (int i = 0; i < count; i++)
+			{
+				IntVec3 intVec = cellsList[i];
+				float num2 = (float)(a - intVec).LengthHorizontalSquared;
+				if (num2 <= closestDistSquared)
 				{
-					num = Mathf.FloorToInt((float)count * Rand.Range(0.005f, 0.018f));
-				}
-				else
-				{
-					num = 0;
-				}
-				for (int i = 0; i < count; i++)
-				{
-					IntVec3 intVec = cellsList[i];
-					float num2 = (float)(a - intVec).LengthHorizontalSquared;
-					if (num2 <= closestDistSquared)
+					if (StoreUtility.IsGoodStoreCell(intVec, map, t, carrier, faction))
 					{
-						if (StoreUtility.IsGoodStoreCell(intVec, map, t, carrier, faction))
+						closestSlot = intVec;
+						closestDistSquared = num2;
+						foundPriority = slotGroup.Settings.Priority;
+						if (i >= num)
 						{
-							closestSlot = intVec;
-							closestDistSquared = num2;
-							foundPriority = slotGroup.Settings.Priority;
-							if (i >= num)
-							{
-								break;
-							}
+							break;
 						}
 					}
 				}
@@ -300,12 +255,12 @@ namespace RimWorld
 									{
 										if (thing.IsForbidden(carrier))
 										{
-											goto IL_204;
+											goto IL_1F3;
 										}
 									}
 									else if (faction != null && thing.IsForbidden(faction))
 									{
-										goto IL_204;
+										goto IL_1F3;
 									}
 								}
 								if (thing != null)
@@ -314,12 +269,12 @@ namespace RimWorld
 									{
 										if (!carrier.CanReserveNew(thing))
 										{
-											goto IL_204;
+											goto IL_1F3;
 										}
 									}
 									else if (faction != null && map.reservationManager.IsReservedByAnyoneOf(thing, faction))
 									{
-										goto IL_204;
+										goto IL_1F3;
 									}
 								}
 								if (carrier != null)
@@ -328,12 +283,12 @@ namespace RimWorld
 									{
 										if (!carrier.Map.reachability.CanReach(intVec, thing, PathEndMode.ClosestTouch, TraverseParms.For(carrier, Danger.Deadly, TraverseMode.ByPawn, false)))
 										{
-											goto IL_204;
+											goto IL_1F3;
 										}
 									}
 									else if (!carrier.Map.reachability.CanReach(intVec, allHaulDestinationsListInPriorityOrder[i].Position, PathEndMode.ClosestTouch, TraverseParms.For(carrier, Danger.Deadly, TraverseMode.ByPawn, false)))
 									{
-										goto IL_204;
+										goto IL_1F3;
 									}
 								}
 								num = num2;
@@ -343,85 +298,69 @@ namespace RimWorld
 						}
 					}
 				}
-				IL_204:;
+				IL_1F3:;
 			}
 			return haulDestination != null;
 		}
 
 		public static bool IsGoodStoreCell(IntVec3 c, Map map, Thing t, Pawn carrier, Faction faction)
 		{
-			bool result;
 			if (carrier != null && c.IsForbidden(carrier))
 			{
-				result = false;
+				return false;
 			}
-			else if (!StoreUtility.NoStorageBlockersIn(c, map, t))
+			if (!StoreUtility.NoStorageBlockersIn(c, map, t))
 			{
-				result = false;
+				return false;
 			}
-			else
+			if (carrier != null)
 			{
-				if (carrier != null)
-				{
-					if (!carrier.CanReserveNew(c))
-					{
-						return false;
-					}
-				}
-				else if (faction != null && map.reservationManager.IsReservedByAnyoneOf(c, faction))
+				if (!carrier.CanReserveNew(c))
 				{
 					return false;
 				}
-				if (c.ContainsStaticFire(map))
+			}
+			else if (faction != null && map.reservationManager.IsReservedByAnyoneOf(c, faction))
+			{
+				return false;
+			}
+			if (c.ContainsStaticFire(map))
+			{
+				return false;
+			}
+			List<Thing> thingList = c.GetThingList(map);
+			for (int i = 0; i < thingList.Count; i++)
+			{
+				if (thingList[i] is IConstructible && GenConstruct.BlocksConstruction(thingList[i], t))
 				{
-					result = false;
-				}
-				else
-				{
-					List<Thing> thingList = c.GetThingList(map);
-					for (int i = 0; i < thingList.Count; i++)
-					{
-						if (thingList[i] is IConstructible && GenConstruct.BlocksConstruction(thingList[i], t))
-						{
-							return false;
-						}
-					}
-					result = (carrier == null || carrier.Map.reachability.CanReach((!t.SpawnedOrAnyParentSpawned) ? carrier.PositionHeld : t.PositionHeld, c, PathEndMode.ClosestTouch, TraverseParms.For(carrier, Danger.Deadly, TraverseMode.ByPawn, false)));
+					return false;
 				}
 			}
-			return result;
+			return carrier == null || carrier.Map.reachability.CanReach((!t.SpawnedOrAnyParentSpawned) ? carrier.PositionHeld : t.PositionHeld, c, PathEndMode.ClosestTouch, TraverseParms.For(carrier, Danger.Deadly, TraverseMode.ByPawn, false));
 		}
 
 		public static bool TryFindStoreCellNearColonyDesperate(Thing item, Pawn carrier, out IntVec3 storeCell)
 		{
-			bool result;
 			if (StoreUtility.TryFindBestBetterStoreCellFor(item, carrier, carrier.Map, StoragePriority.Unstored, carrier.Faction, out storeCell, true))
 			{
-				result = true;
+				return true;
 			}
-			else
+			for (int i = -4; i < 20; i++)
 			{
-				for (int i = -4; i < 20; i++)
+				int num = (i >= 0) ? i : Rand.RangeInclusive(0, 4);
+				IntVec3 intVec = carrier.Position + GenRadial.RadialPattern[num];
+				if (intVec.InBounds(carrier.Map) && carrier.Map.areaManager.Home[intVec] && carrier.CanReach(intVec, PathEndMode.ClosestTouch, Danger.Deadly, false, TraverseMode.ByPawn) && intVec.GetSlotGroup(carrier.Map) == null && StoreUtility.IsGoodStoreCell(intVec, carrier.Map, item, carrier, carrier.Faction))
 				{
-					int num = (i >= 0) ? i : Rand.RangeInclusive(0, 4);
-					IntVec3 intVec = carrier.Position + GenRadial.RadialPattern[num];
-					if (intVec.InBounds(carrier.Map) && carrier.Map.areaManager.Home[intVec] && carrier.CanReach(intVec, PathEndMode.ClosestTouch, Danger.Deadly, false, TraverseMode.ByPawn) && intVec.GetSlotGroup(carrier.Map) == null && StoreUtility.IsGoodStoreCell(intVec, carrier.Map, item, carrier, carrier.Faction))
-					{
-						storeCell = intVec;
-						return true;
-					}
-				}
-				if (RCellFinder.TryFindRandomSpotJustOutsideColony(carrier.Position, carrier.Map, carrier, out storeCell, (IntVec3 x) => x.GetSlotGroup(carrier.Map) == null && StoreUtility.IsGoodStoreCell(x, carrier.Map, item, carrier, carrier.Faction)))
-				{
-					result = true;
-				}
-				else
-				{
-					storeCell = IntVec3.Invalid;
-					result = false;
+					storeCell = intVec;
+					return true;
 				}
 			}
-			return result;
+			if (RCellFinder.TryFindRandomSpotJustOutsideColony(carrier.Position, carrier.Map, carrier, out storeCell, (IntVec3 x) => x.GetSlotGroup(carrier.Map) == null && StoreUtility.IsGoodStoreCell(x, carrier.Map, item, carrier, carrier.Faction)))
+			{
+				return true;
+			}
+			storeCell = IntVec3.Invalid;
+			return false;
 		}
 
 		[CompilerGenerated]

@@ -22,30 +22,25 @@ namespace RimWorld
 
 		protected override bool CanScatterAt(IntVec3 c, Map map)
 		{
-			bool result;
 			if (!base.CanScatterAt(c, map))
 			{
-				result = false;
+				return false;
 			}
-			else if (!c.Standable(map))
+			if (!c.Standable(map))
 			{
-				result = false;
+				return false;
 			}
-			else if (c.Roofed(map))
+			if (c.Roofed(map))
 			{
-				result = false;
+				return false;
 			}
-			else if (!map.reachability.CanReachMapEdge(c, TraverseParms.For(TraverseMode.PassDoors, Danger.Deadly, false)))
+			if (!map.reachability.CanReachMapEdge(c, TraverseParms.For(TraverseMode.PassDoors, Danger.Deadly, false)))
 			{
-				result = false;
+				return false;
 			}
-			else
-			{
-				int min = GenStep_Settlement.SettlementSizeRange.min;
-				CellRect cellRect = new CellRect(c.x - min / 2, c.z - min / 2, min, min);
-				result = cellRect.FullyContainedWithin(new CellRect(0, 0, map.Size.x, map.Size.z));
-			}
-			return result;
+			int min = GenStep_Settlement.SettlementSizeRange.min;
+			CellRect cellRect = new CellRect(c.x - min / 2, c.z - min / 2, min, min);
+			return cellRect.FullyContainedWithin(new CellRect(0, 0, map.Size.x, map.Size.z));
 		}
 
 		protected override void ScatterAt(IntVec3 c, Map map, int stackCount = 1)

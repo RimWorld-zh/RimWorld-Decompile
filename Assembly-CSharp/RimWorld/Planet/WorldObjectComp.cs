@@ -64,7 +64,7 @@ namespace RimWorld.Planet
 			yield break;
 		}
 
-		public virtual IEnumerable<IncidentTargetTypeDef> AcceptedTypes()
+		public virtual IEnumerable<IncidentTargetTagDef> IncidentTargetTags()
 		{
 			yield break;
 		}
@@ -393,16 +393,16 @@ namespace RimWorld.Planet
 		}
 
 		[CompilerGenerated]
-		private sealed class <AcceptedTypes>c__Iterator4 : IEnumerable, IEnumerable<IncidentTargetTypeDef>, IEnumerator, IDisposable, IEnumerator<IncidentTargetTypeDef>
+		private sealed class <IncidentTargetTags>c__Iterator4 : IEnumerable, IEnumerable<IncidentTargetTagDef>, IEnumerator, IDisposable, IEnumerator<IncidentTargetTagDef>
 		{
-			internal IncidentTargetTypeDef $current;
+			internal IncidentTargetTagDef $current;
 
 			internal bool $disposing;
 
 			internal int $PC;
 
 			[DebuggerHidden]
-			public <AcceptedTypes>c__Iterator4()
+			public <IncidentTargetTags>c__Iterator4()
 			{
 			}
 
@@ -416,7 +416,7 @@ namespace RimWorld.Planet
 				return false;
 			}
 
-			IncidentTargetTypeDef IEnumerator<IncidentTargetTypeDef>.Current
+			IncidentTargetTagDef IEnumerator<IncidentTargetTagDef>.Current
 			{
 				[DebuggerHidden]
 				get
@@ -448,17 +448,17 @@ namespace RimWorld.Planet
 			[DebuggerHidden]
 			IEnumerator IEnumerable.GetEnumerator()
 			{
-				return this.System.Collections.Generic.IEnumerable<RimWorld.IncidentTargetTypeDef>.GetEnumerator();
+				return this.System.Collections.Generic.IEnumerable<RimWorld.IncidentTargetTagDef>.GetEnumerator();
 			}
 
 			[DebuggerHidden]
-			IEnumerator<IncidentTargetTypeDef> IEnumerable<IncidentTargetTypeDef>.GetEnumerator()
+			IEnumerator<IncidentTargetTagDef> IEnumerable<IncidentTargetTagDef>.GetEnumerator()
 			{
 				if (Interlocked.CompareExchange(ref this.$PC, 0, -2) == -2)
 				{
 					return this;
 				}
-				return new WorldObjectComp.<AcceptedTypes>c__Iterator4();
+				return new WorldObjectComp.<IncidentTargetTags>c__Iterator4();
 			}
 		}
 	}

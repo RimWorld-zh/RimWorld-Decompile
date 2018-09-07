@@ -54,25 +54,26 @@ namespace RimWorld
 			}
 		}
 
-		public override bool TryMakePreToilReservations()
+		public override bool TryMakePreToilReservations(bool errorOnFailed)
 		{
-			bool result;
-			if (!this.pawn.Reserve(this.job.GetTarget(TargetIndex.B), this.job, 1, -1, null))
+			Pawn pawn = this.pawn;
+			LocalTargetInfo target = this.job.GetTarget(TargetIndex.B);
+			Job job = this.job;
+			if (!pawn.Reserve(target, job, 1, -1, null, errorOnFailed))
 			{
-				result = false;
+				return false;
 			}
-			else
+			if (this.HasDrink)
 			{
-				if (this.HasDrink)
+				pawn = this.pawn;
+				target = this.job.GetTarget(TargetIndex.C);
+				job = this.job;
+				if (!pawn.Reserve(target, job, 1, -1, null, errorOnFailed))
 				{
-					if (!this.pawn.Reserve(this.job.GetTarget(TargetIndex.C), this.job, 1, -1, null))
-					{
-						return false;
-					}
+					return false;
 				}
-				result = true;
 			}
-			return result;
+			return true;
 		}
 
 		protected override IEnumerable<Toil> MakeNewToils()
@@ -202,9 +203,9 @@ namespace RimWorld
 						}
 						return true;
 					}
-					goto IL_1D9;
+					goto IL_1D6;
 				case 5u:
-					goto IL_1D9;
+					goto IL_1D6;
 				default:
 					return false;
 				}
@@ -214,7 +215,7 @@ namespace RimWorld
 					this.$PC = 3;
 				}
 				return true;
-				IL_1D9:
+				IL_1D6:
 				this.$PC = -1;
 				return false;
 			}

@@ -25,34 +25,26 @@ namespace RimWorld
 		protected override Job TryGiveJob(Pawn pawn)
 		{
 			Pawn followee = this.GetFollowee(pawn);
-			Job result;
 			if (followee == null)
 			{
 				Log.Error(base.GetType() + " has null followee. pawn=" + pawn.ToStringSafe<Pawn>(), false);
-				result = null;
+				return null;
 			}
-			else if (!followee.Spawned || !pawn.CanReach(followee, PathEndMode.OnCell, Danger.Deadly, false, TraverseMode.ByPawn))
+			if (!followee.Spawned || !pawn.CanReach(followee, PathEndMode.OnCell, Danger.Deadly, false, TraverseMode.ByPawn))
 			{
-				result = null;
+				return null;
 			}
-			else
+			float radius = this.GetRadius(pawn);
+			if (!JobDriver_FollowClose.FarEnoughAndPossibleToStartJob(pawn, followee, radius))
 			{
-				float radius = this.GetRadius(pawn);
-				if (!JobDriver_FollowClose.FarEnoughAndPossibleToStartJob(pawn, followee, radius))
-				{
-					result = null;
-				}
-				else
-				{
-					result = new Job(JobDefOf.FollowClose, followee)
-					{
-						expiryInterval = this.FollowJobExpireInterval,
-						checkOverrideOnExpire = true,
-						followRadius = radius
-					};
-				}
+				return null;
 			}
-			return result;
+			return new Job(JobDefOf.FollowClose, followee)
+			{
+				expiryInterval = this.FollowJobExpireInterval,
+				checkOverrideOnExpire = true,
+				followRadius = radius
+			};
 		}
 	}
 }

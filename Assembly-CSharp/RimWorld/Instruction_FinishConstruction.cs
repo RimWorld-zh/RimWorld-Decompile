@@ -25,16 +25,11 @@ namespace RimWorld
 				{
 					this.initialBlueprintsCount = this.ConstructionNeeders().Count<Thing>();
 				}
-				float result;
 				if (this.initialBlueprintsCount == 0)
 				{
-					result = 1f;
+					return 1f;
 				}
-				else
-				{
-					result = 1f - (float)this.ConstructionNeeders().Count<Thing>() / (float)this.initialBlueprintsCount;
-				}
-				return result;
+				return 1f - (float)this.ConstructionNeeders().Count<Thing>() / (float)this.initialBlueprintsCount;
 			}
 		}
 

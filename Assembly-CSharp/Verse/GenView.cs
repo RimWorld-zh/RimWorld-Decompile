@@ -16,22 +16,17 @@ namespace Verse
 
 		public static bool ShouldSpawnMotesAt(this IntVec3 loc, Map map)
 		{
-			bool result;
 			if (map != Find.CurrentMap)
 			{
-				result = false;
+				return false;
 			}
-			else if (!loc.InBounds(map))
+			if (!loc.InBounds(map))
 			{
-				result = false;
+				return false;
 			}
-			else
-			{
-				GenView.viewRect = Find.CameraDriver.CurrentViewRect;
-				GenView.viewRect = GenView.viewRect.ExpandedBy(5);
-				result = GenView.viewRect.Contains(loc);
-			}
-			return result;
+			GenView.viewRect = Find.CameraDriver.CurrentViewRect;
+			GenView.viewRect = GenView.viewRect.ExpandedBy(5);
+			return GenView.viewRect.Contains(loc);
 		}
 
 		public static Vector3 RandomPositionOnOrNearScreen()

@@ -13,8 +13,6 @@ namespace RimWorld
 
 		public int joyKindsNeeded;
 
-		public PsychicDroneLevel psychicDroneLevel = PsychicDroneLevel.BadMedium;
-
 		public ExpectationDef()
 		{
 		}

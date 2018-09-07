@@ -14,7 +14,6 @@ namespace Verse.AI.Group
 
 		public override bool ActivateOn(Lord lord, TriggerSignal signal)
 		{
-			bool result;
 			if (signal.type == TriggerSignalType.Tick)
 			{
 				for (int i = 0; i < lord.ownedPawns.Count; i++)
@@ -28,13 +27,9 @@ namespace Verse.AI.Group
 						}
 					}
 				}
-				result = true;
+				return true;
 			}
-			else
-			{
-				result = false;
-			}
-			return result;
+			return false;
 		}
 	}
 }

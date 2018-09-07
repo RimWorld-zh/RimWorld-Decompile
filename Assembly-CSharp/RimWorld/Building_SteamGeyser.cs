@@ -8,9 +8,9 @@ namespace RimWorld
 	{
 		private IntermittentSteamSprayer steamSprayer;
 
-		public Building harvester = null;
+		public Building harvester;
 
-		private Sustainer spraySustainer = null;
+		private Sustainer spraySustainer;
 
 		private int spraySustainerStartTick = -999;
 
@@ -48,14 +48,11 @@ namespace RimWorld
 			{
 				this.steamSprayer.SteamSprayerTick();
 			}
-			if (this.spraySustainer != null)
+			if (this.spraySustainer != null && Find.TickManager.TicksGame > this.spraySustainerStartTick + 1000)
 			{
-				if (Find.TickManager.TicksGame > this.spraySustainerStartTick + 1000)
-				{
-					Log.Message("Geyser spray sustainer still playing after 1000 ticks. Force-ending.", false);
-					this.spraySustainer.End();
-					this.spraySustainer = null;
-				}
+				Log.Message("Geyser spray sustainer still playing after 1000 ticks. Force-ending.", false);
+				this.spraySustainer.End();
+				this.spraySustainer = null;
 			}
 		}
 	}

@@ -15,7 +15,7 @@ namespace RimWorld
 
 		public int maxNumToIngestAtOnce = 20;
 
-		public List<IngestionOutcomeDoer> outcomeDoers = null;
+		public List<IngestionOutcomeDoer> outcomeDoers;
 
 		public int baseIngestTicks = 500;
 
@@ -23,48 +23,48 @@ namespace RimWorld
 
 		public bool useEatingSpeedStat = true;
 
-		public ThoughtDef tasteThought = null;
+		public ThoughtDef tasteThought;
 
-		public ThoughtDef specialThoughtDirect = null;
+		public ThoughtDef specialThoughtDirect;
 
-		public ThoughtDef specialThoughtAsIngredient = null;
+		public ThoughtDef specialThoughtAsIngredient;
 
-		public EffecterDef ingestEffect = null;
+		public EffecterDef ingestEffect;
 
-		public EffecterDef ingestEffectEat = null;
+		public EffecterDef ingestEffectEat;
 
-		public SoundDef ingestSound = null;
-
-		[MustTranslate]
-		public string ingestCommandString = null;
+		public SoundDef ingestSound;
 
 		[MustTranslate]
-		public string ingestReportString = null;
+		public string ingestCommandString;
 
 		[MustTranslate]
-		public string ingestReportStringEat = null;
+		public string ingestReportString;
 
-		public HoldOffsetSet ingestHoldOffsetStanding = null;
+		[MustTranslate]
+		public string ingestReportStringEat;
+
+		public HoldOffsetSet ingestHoldOffsetStanding;
 
 		public bool ingestHoldUsesTable = true;
 
-		public FoodTypeFlags foodType = FoodTypeFlags.None;
+		public FoodTypeFlags foodType;
 
-		public float joy = 0f;
+		public float joy;
 
-		public JoyKindDef joyKind = null;
+		public JoyKindDef joyKind;
 
 		public ThingDef sourceDef;
 
-		public FoodPreferability preferability = FoodPreferability.Undefined;
+		public FoodPreferability preferability;
 
-		public bool nurseable = false;
+		public bool nurseable;
 
-		public float optimalityOffsetHumanlikes = 0f;
+		public float optimalityOffsetHumanlikes;
 
-		public float optimalityOffsetFeedingAnimals = 0f;
+		public float optimalityOffsetFeedingAnimals;
 
-		public DrugCategory drugCategory = DrugCategory.None;
+		public DrugCategory drugCategory;
 
 		[Unsaved]
 		private float cachedNutrition = -1f;
@@ -148,7 +148,7 @@ namespace RimWorld
 		{
 			if (this.joy > 0f)
 			{
-				yield return new StatDrawEntry(StatCategoryDefOf.Basics, "Joy".Translate(), this.joy.ToStringPercent("F2") + " (" + this.JoyKind.label + ")", 0, "");
+				yield return new StatDrawEntry(StatCategoryDefOf.Basics, "Joy".Translate(), this.joy.ToStringPercent("F2") + " (" + this.JoyKind.label + ")", 0, string.Empty);
 			}
 			if (this.outcomeDoers != null)
 			{
@@ -199,15 +199,15 @@ namespace RimWorld
 				case 1u:
 					break;
 				case 2u:
-					goto IL_94;
+					goto IL_93;
 				case 3u:
-					goto IL_116;
+					goto IL_115;
 				case 4u:
-					goto IL_185;
+					goto IL_184;
 				case 5u:
-					goto IL_1C9;
+					goto IL_1C8;
 				case 6u:
-					goto IL_21D;
+					goto IL_21C;
 				default:
 					return false;
 				}
@@ -220,7 +220,7 @@ namespace RimWorld
 					}
 					return true;
 				}
-				IL_94:
+				IL_93:
 				if (this.parent.GetStatValueAbstract(StatDefOf.Nutrition, null) == 0f && this.preferability != FoodPreferability.NeverForNutrition)
 				{
 					this.$current = string.Concat(new object[]
@@ -236,7 +236,7 @@ namespace RimWorld
 					}
 					return true;
 				}
-				IL_116:
+				IL_115:
 				if (!this.parent.IsCorpse && this.preferability > FoodPreferability.DesperateOnlyForHumanlikes && !this.parent.socialPropernessMatters && this.parent.EverHaulable)
 				{
 					this.$current = "ingestible preferability > DesperateOnlyForHumanlikes but socialPropernessMatters=false. This will cause bugs wherein wardens will look in prison cells for food to give to prisoners and so will repeatedly pick up and drop food inside the cell.";
@@ -246,7 +246,7 @@ namespace RimWorld
 					}
 					return true;
 				}
-				IL_185:
+				IL_184:
 				if (this.joy > 0f && this.joyKind == null)
 				{
 					this.$current = "joy > 0 with no joy kind";
@@ -256,7 +256,7 @@ namespace RimWorld
 					}
 					return true;
 				}
-				IL_1C9:
+				IL_1C8:
 				if (this.joy == 0f && this.joyKind != null)
 				{
 					this.$current = "joy is 0 but joyKind is " + this.joyKind;
@@ -266,7 +266,7 @@ namespace RimWorld
 					}
 					return true;
 				}
-				IL_21D:
+				IL_21C:
 				this.$PC = -1;
 				return false;
 			}
@@ -353,7 +353,7 @@ namespace RimWorld
 				case 0u:
 					if (this.joy > 0f)
 					{
-						this.$current = new StatDrawEntry(StatCategoryDefOf.Basics, "Joy".Translate(), this.joy.ToStringPercent("F2") + " (" + base.JoyKind.label + ")", 0, "");
+						this.$current = new StatDrawEntry(StatCategoryDefOf.Basics, "Joy".Translate(), this.joy.ToStringPercent("F2") + " (" + base.JoyKind.label + ")", 0, string.Empty);
 						if (!this.$disposing)
 						{
 							this.$PC = 1;
@@ -393,23 +393,23 @@ namespace RimWorld
 						}
 					}
 					i++;
-					goto IL_17D;
+					goto IL_176;
 				default:
 					return false;
 				}
 				if (this.outcomeDoers == null)
 				{
-					goto IL_199;
+					goto IL_191;
 				}
 				i = 0;
-				IL_17D:
+				IL_176:
 				if (i < this.outcomeDoers.Count)
 				{
 					enumerator = this.outcomeDoers[i].SpecialDisplayStats(this.parent).GetEnumerator();
 					num = 4294967293u;
 					goto Block_5;
 				}
-				IL_199:
+				IL_191:
 				this.$PC = -1;
 				return false;
 			}

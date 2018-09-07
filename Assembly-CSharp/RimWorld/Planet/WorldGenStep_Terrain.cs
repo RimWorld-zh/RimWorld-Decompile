@@ -400,24 +400,19 @@ namespace RimWorld.Planet
 
 		private static float FertilityFactorFromTemperature(float temp)
 		{
-			float result;
 			if (temp < -15f)
 			{
-				result = 0f;
+				return 0f;
 			}
-			else if (temp < 30f)
+			if (temp < 30f)
 			{
-				result = Mathf.InverseLerp(-15f, 30f, temp);
+				return Mathf.InverseLerp(-15f, 30f, temp);
 			}
-			else if (temp < 50f)
+			if (temp < 50f)
 			{
-				result = Mathf.InverseLerp(50f, 30f, temp);
+				return Mathf.InverseLerp(50f, 30f, temp);
 			}
-			else
-			{
-				result = 0f;
-			}
-			return result;
+			return 0f;
 		}
 
 		private static float BaseTemperatureAtLatitude(float lat)
@@ -428,17 +423,12 @@ namespace RimWorld.Planet
 
 		private static float TemperatureReductionAtElevation(float elev)
 		{
-			float result;
 			if (elev < 250f)
 			{
-				result = 0f;
+				return 0f;
 			}
-			else
-			{
-				float t = (elev - 250f) / 4750f;
-				result = Mathf.Lerp(0f, 40f, t);
-			}
-			return result;
+			float t = (elev - 250f) / 4750f;
+			return Mathf.Lerp(0f, 40f, t);
 		}
 
 		// Note: this type is marked as 'beforefieldinit'.

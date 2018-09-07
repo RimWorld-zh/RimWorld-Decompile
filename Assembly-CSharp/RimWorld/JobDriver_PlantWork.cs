@@ -13,9 +13,9 @@ namespace RimWorld
 {
 	public abstract class JobDriver_PlantWork : JobDriver
 	{
-		private float workDone = 0f;
+		private float workDone;
 
-		protected float xpPerTick = 0f;
+		protected float xpPerTick;
 
 		protected const TargetIndex PlantInd = TargetIndex.A;
 
@@ -39,12 +39,15 @@ namespace RimWorld
 			}
 		}
 
-		public override bool TryMakePreToilReservations()
+		public override bool TryMakePreToilReservations(bool errorOnFailed)
 		{
 			LocalTargetInfo target = this.job.GetTarget(TargetIndex.A);
 			if (target.IsValid)
 			{
-				if (!this.pawn.Reserve(target, this.job, 1, -1, null))
+				Pawn pawn = this.pawn;
+				LocalTargetInfo target2 = target;
+				Job job = this.job;
+				if (!pawn.Reserve(target2, job, 1, -1, null, errorOnFailed))
 				{
 					return false;
 				}
@@ -109,6 +112,7 @@ namespace RimWorld
 					plant.PlantCollected();
 					this.workDone = 0f;
 					this.ReadyForNextToil();
+					return;
 				}
 			};
 			cut.FailOnDespawnedNullOrForbidden(TargetIndex.A);
@@ -264,6 +268,7 @@ namespace RimWorld
 							plant.PlantCollected();
 							<MakeNewToils>c__AnonStorey.<>f__ref$0.$this.workDone = 0f;
 							<MakeNewToils>c__AnonStorey.<>f__ref$0.$this.ReadyForNextToil();
+							return;
 						}
 					};
 					<MakeNewToils>c__AnonStorey.cut.FailOnDespawnedNullOrForbidden(TargetIndex.A);
@@ -421,6 +426,7 @@ namespace RimWorld
 						plant.PlantCollected();
 						this.<>f__ref$0.$this.workDone = 0f;
 						this.<>f__ref$0.$this.ReadyForNextToil();
+						return;
 					}
 				}
 

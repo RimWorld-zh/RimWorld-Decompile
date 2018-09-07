@@ -19,7 +19,7 @@ namespace Verse
 
 		private int vanishAfterTimestamp = -1;
 
-		private BillStack operationsBillStack = null;
+		private BillStack operationsBillStack;
 
 		public bool everBuriedInSarcophagus;
 
@@ -35,16 +35,11 @@ namespace Verse
 		{
 			get
 			{
-				Pawn result;
 				if (this.innerContainer.Count > 0)
 				{
-					result = this.innerContainer[0];
+					return this.innerContainer[0];
 				}
-				else
-				{
-					result = null;
-				}
-				return result;
+				return null;
 			}
 			set
 			{
@@ -80,20 +75,15 @@ namespace Verse
 		{
 			get
 			{
-				string result;
 				if (this.Bugged)
 				{
 					Log.ErrorOnce("Corpse.Label while Bugged", 57361644, false);
-					result = "";
+					return string.Empty;
 				}
-				else
+				return "DeadLabel".Translate(new object[]
 				{
-					result = "DeadLabel".Translate(new object[]
-					{
-						this.InnerPawn.Label
-					});
-				}
-				return result;
+					this.InnerPawn.Label
+				});
 			}
 		}
 
@@ -101,17 +91,12 @@ namespace Verse
 		{
 			get
 			{
-				bool result;
 				if (this.Bugged)
 				{
 					Log.Error("IngestibleNow on Corpse while Bugged.", false);
-					result = false;
+					return false;
 				}
-				else
-				{
-					result = (base.IngestibleNow && this.InnerPawn.RaceProps.IsFlesh && this.GetRotStage() == RotStage.Fresh);
-				}
-				return result;
+				return base.IngestibleNow && this.InnerPawn.RaceProps.IsFlesh && this.GetRotStage() == RotStage.Fresh;
 			}
 		}
 
@@ -204,13 +189,11 @@ namespace Verse
 			if (this.Bugged)
 			{
 				Log.Error(this + " spawned in bugged state.", false);
+				return;
 			}
-			else
-			{
-				base.SpawnSetup(map, respawningAfterLoad);
-				this.InnerPawn.Rotation = Rot4.South;
-				this.NotifyColonistBar();
-			}
+			base.SpawnSetup(map, respawningAfterLoad);
+			this.InnerPawn.Rotation = Rot4.South;
+			this.NotifyColonistBar();
 		}
 
 		public override void DeSpawn(DestroyMode mode = DestroyMode.Vanish)
@@ -258,25 +241,24 @@ namespace Verse
 		public override void TickRare()
 		{
 			base.TickRare();
-			if (!base.Destroyed)
+			if (base.Destroyed)
 			{
-				if (this.Bugged)
-				{
-					Log.Error(this + " has null innerPawn. Destroying.", false);
-					this.Destroy(DestroyMode.Vanish);
-				}
-				else
-				{
-					this.InnerPawn.TickRare();
-					if (this.vanishAfterTimestamp < 0 || this.GetRotStage() != RotStage.Dessicated)
-					{
-						this.vanishAfterTimestamp = this.Age + 6000000;
-					}
-					if (this.ShouldVanish)
-					{
-						this.Destroy(DestroyMode.Vanish);
-					}
-				}
+				return;
+			}
+			if (this.Bugged)
+			{
+				Log.Error(this + " has null innerPawn. Destroying.", false);
+				this.Destroy(DestroyMode.Vanish);
+				return;
+			}
+			this.InnerPawn.TickRare();
+			if (this.vanishAfterTimestamp < 0 || this.GetRotStage() != RotStage.Dessicated)
+			{
+				this.vanishAfterTimestamp = this.Age + 6000000;
+			}
+			if (this.ShouldVanish)
+			{
+				this.Destroy(DestroyMode.Vanish);
 			}
 		}
 
@@ -374,12 +356,11 @@ namespace Verse
 
 		public Thought_Memory GiveObservedThought()
 		{
-			Thought_Memory result;
 			if (!this.InnerPawn.RaceProps.Humanlike)
 			{
-				result = null;
+				return null;
 			}
-			else if (this.StoringThing() == null)
+			if (this.StoringThing() == null)
 			{
 				Thought_MemoryObservation thought_MemoryObservation;
 				if (this.IsNotFresh())
@@ -391,13 +372,9 @@ namespace Verse
 					thought_MemoryObservation = (Thought_MemoryObservation)ThoughtMaker.MakeThought(ThoughtDefOf.ObservedLayingCorpse);
 				}
 				thought_MemoryObservation.Target = this;
-				result = thought_MemoryObservation;
+				return thought_MemoryObservation;
 			}
-			else
-			{
-				result = null;
-			}
-			return result;
+			return null;
 		}
 
 		public override string GetInspectString()
@@ -422,7 +399,7 @@ namespace Verse
 
 		public override IEnumerable<StatDrawEntry> SpecialDisplayStats()
 		{
-			foreach (StatDrawEntry s in this.<SpecialDisplayStats>__BaseCallProxy0())
+			foreach (StatDrawEntry s in base.SpecialDisplayStats())
 			{
 				yield return s;
 			}
@@ -444,19 +421,14 @@ namespace Verse
 
 		private BodyPartRecord GetBestBodyPartToEat(Pawn ingester, float nutritionWanted)
 		{
-			IEnumerable<BodyPartRecord> source = from x in this.InnerPawn.health.hediffSet.GetNotMissingParts(BodyPartHeight.Undefined, BodyPartDepth.Undefined, null)
+			IEnumerable<BodyPartRecord> source = from x in this.InnerPawn.health.hediffSet.GetNotMissingParts(BodyPartHeight.Undefined, BodyPartDepth.Undefined, null, null)
 			where x.depth == BodyPartDepth.Outside && FoodUtility.GetBodyPartNutrition(this, x) > 0.001f
 			select x;
-			BodyPartRecord result;
 			if (!source.Any<BodyPartRecord>())
 			{
-				result = null;
+				return null;
 			}
-			else
-			{
-				result = source.MinBy((BodyPartRecord x) => Mathf.Abs(FoodUtility.GetBodyPartNutrition(this, x) - nutritionWanted));
-			}
-			return result;
+			return source.MinBy((BodyPartRecord x) => Mathf.Abs(FoodUtility.GetBodyPartNutrition(this, x) - nutritionWanted));
 		}
 
 		private void NotifyColonistBar()
@@ -764,7 +736,7 @@ namespace Verse
 					}
 					return true;
 				case 3u:
-					goto IL_194;
+					goto IL_18E;
 				default:
 					return false;
 				}
@@ -805,7 +777,7 @@ namespace Verse
 					}
 					return true;
 				}
-				IL_194:
+				IL_18E:
 				this.$PC = -1;
 				return false;
 			}

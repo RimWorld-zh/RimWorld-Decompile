@@ -34,37 +34,32 @@ namespace RimWorld
 
 		public override string Summary(Scenario scen)
 		{
-			string result;
 			if (this.allowedAgeRange.min > 15)
 			{
 				if (this.allowedAgeRange.max < 10000)
 				{
-					result = "ScenPart_StartingPawnAgeRange".Translate(new object[]
+					return "ScenPart_StartingPawnAgeRange".Translate(new object[]
 					{
 						this.allowedAgeRange.min,
 						this.allowedAgeRange.max
 					});
 				}
-				else
+				return "ScenPart_StartingPawnAgeMin".Translate(new object[]
 				{
-					result = "ScenPart_StartingPawnAgeMin".Translate(new object[]
-					{
-						this.allowedAgeRange.min
-					});
-				}
+					this.allowedAgeRange.min
+				});
 			}
 			else
 			{
-				if (this.allowedAgeRange.max >= 10000)
+				if (this.allowedAgeRange.max < 10000)
 				{
-					throw new Exception();
+					return "ScenPart_StartingPawnAgeMax".Translate(new object[]
+					{
+						this.allowedAgeRange.max
+					});
 				}
-				result = "ScenPart_StartingPawnAgeMax".Translate(new object[]
-				{
-					this.allowedAgeRange.max
-				});
+				throw new Exception();
 			}
-			return result;
 		}
 
 		public override bool AllowPlayerStartingPawn(Pawn pawn, bool tryingToRedress, PawnGenerationRequest req)

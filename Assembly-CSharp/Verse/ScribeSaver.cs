@@ -69,38 +69,36 @@ namespace Verse
 			if (Scribe.mode != LoadSaveMode.Saving)
 			{
 				Log.Error("Called FinalizeSaving() but current mode is " + Scribe.mode, false);
+				return;
 			}
-			else
+			try
 			{
-				try
+				if (this.writer != null)
 				{
-					if (this.writer != null)
-					{
-						this.ExitNode();
-						this.writer.WriteEndDocument();
-						this.writer.Flush();
-						this.writer.Close();
-						this.writer = null;
-					}
-					if (this.saveStream != null)
-					{
-						this.saveStream.Flush();
-						this.saveStream.Close();
-						this.saveStream = null;
-					}
-					Scribe.mode = LoadSaveMode.Inactive;
-					this.savingForDebug = false;
-					this.loadIDsErrorsChecker.CheckForErrorsAndClear();
-					this.curPath = null;
-					this.savedNodes.Clear();
-					this.nextListElementTemporaryId = 0;
+					this.ExitNode();
+					this.writer.WriteEndDocument();
+					this.writer.Flush();
+					this.writer.Close();
+					this.writer = null;
 				}
-				catch (Exception arg)
+				if (this.saveStream != null)
 				{
-					Log.Error("Exception in FinalizeLoading(): " + arg, false);
-					this.ForceStop();
-					throw;
+					this.saveStream.Flush();
+					this.saveStream.Close();
+					this.saveStream = null;
 				}
+				Scribe.mode = LoadSaveMode.Inactive;
+				this.savingForDebug = false;
+				this.loadIDsErrorsChecker.CheckForErrorsAndClear();
+				this.curPath = null;
+				this.savedNodes.Clear();
+				this.nextListElementTemporaryId = 0;
+			}
+			catch (Exception arg)
+			{
+				Log.Error("Exception in FinalizeLoading(): " + arg, false);
+				this.ForceStop();
+				throw;
 			}
 		}
 
@@ -109,26 +107,24 @@ namespace Verse
 			if (this.writer == null)
 			{
 				Log.Error("Called WriteElemenet(), but writer is null.", false);
+				return;
 			}
-			else
+			if (UnityData.isDebugBuild && elementName != "li")
 			{
-				if (UnityData.isDebugBuild && elementName != "li")
+				string text = this.curPath + "/" + elementName;
+				if (!this.savedNodes.Add(text))
 				{
-					string text = this.curPath + "/" + elementName;
-					if (!this.savedNodes.Add(text))
+					Log.Warning(string.Concat(new string[]
 					{
-						Log.Warning(string.Concat(new string[]
-						{
-							"Trying to save 2 XML nodes with the same name \"",
-							elementName,
-							"\" path=\"",
-							text,
-							"\""
-						}), false);
-					}
+						"Trying to save 2 XML nodes with the same name \"",
+						elementName,
+						"\" path=\"",
+						text,
+						"\""
+					}), false);
 				}
-				this.writer.WriteElementString(elementName, value);
 			}
+			this.writer.WriteElementString(elementName, value);
 		}
 
 		public void WriteAttribute(string attributeName, string value)
@@ -136,91 +132,82 @@ namespace Verse
 			if (this.writer == null)
 			{
 				Log.Error("Called WriteAttribute(), but writer is null.", false);
+				return;
 			}
-			else
-			{
-				this.writer.WriteAttributeString(attributeName, value);
-			}
+			this.writer.WriteAttributeString(attributeName, value);
 		}
 
 		public string DebugOutputFor(IExposable saveable)
 		{
-			string result;
 			if (Scribe.mode != LoadSaveMode.Inactive)
 			{
 				Log.Error("DebugOutput needs current mode to be Inactive", false);
-				result = "";
+				return string.Empty;
 			}
-			else
+			string result;
+			try
 			{
-				try
+				using (StringWriter stringWriter = new StringWriter())
 				{
-					using (StringWriter stringWriter = new StringWriter())
+					XmlWriterSettings xmlWriterSettings = new XmlWriterSettings();
+					xmlWriterSettings.Indent = true;
+					xmlWriterSettings.IndentChars = "  ";
+					xmlWriterSettings.OmitXmlDeclaration = true;
+					try
 					{
-						XmlWriterSettings xmlWriterSettings = new XmlWriterSettings();
-						xmlWriterSettings.Indent = true;
-						xmlWriterSettings.IndentChars = "  ";
-						xmlWriterSettings.OmitXmlDeclaration = true;
-						try
+						using (this.writer = XmlWriter.Create(stringWriter, xmlWriterSettings))
 						{
-							using (this.writer = XmlWriter.Create(stringWriter, xmlWriterSettings))
-							{
-								Scribe.mode = LoadSaveMode.Saving;
-								this.savingForDebug = true;
-								Scribe_Deep.Look<IExposable>(ref saveable, "saveable", new object[0]);
-								result = stringWriter.ToString();
-							}
-						}
-						finally
-						{
-							this.ForceStop();
+							Scribe.mode = LoadSaveMode.Saving;
+							this.savingForDebug = true;
+							Scribe_Deep.Look<IExposable>(ref saveable, "saveable", new object[0]);
+							result = stringWriter.ToString();
 						}
 					}
+					finally
+					{
+						this.ForceStop();
+					}
 				}
-				catch (Exception arg)
-				{
-					Log.Error("Exception while getting debug output: " + arg, false);
-					this.ForceStop();
-					result = "";
-				}
+			}
+			catch (Exception arg)
+			{
+				Log.Error("Exception while getting debug output: " + arg, false);
+				this.ForceStop();
+				result = string.Empty;
 			}
 			return result;
 		}
 
 		public bool EnterNode(string nodeName)
 		{
-			bool result;
 			if (this.writer == null)
 			{
-				result = false;
+				return false;
 			}
-			else
+			this.writer.WriteStartElement(nodeName);
+			if (UnityData.isDebugBuild)
 			{
-				this.writer.WriteStartElement(nodeName);
-				if (UnityData.isDebugBuild)
+				this.curPath = this.curPath + "/" + nodeName;
+				if (nodeName == "li" || nodeName == "thing")
 				{
-					this.curPath = this.curPath + "/" + nodeName;
-					if (nodeName == "li" || nodeName == "thing")
-					{
-						this.curPath = this.curPath + "_" + this.nextListElementTemporaryId;
-						this.nextListElementTemporaryId++;
-					}
+					this.curPath = this.curPath + "_" + this.nextListElementTemporaryId;
+					this.nextListElementTemporaryId++;
 				}
-				result = true;
 			}
-			return result;
+			return true;
 		}
 
 		public void ExitNode()
 		{
-			if (this.writer != null)
+			if (this.writer == null)
 			{
-				this.writer.WriteEndElement();
-				if (UnityData.isDebugBuild && this.curPath != null)
-				{
-					int num = this.curPath.LastIndexOf('/');
-					this.curPath = ((num <= 0) ? null : this.curPath.Substring(0, num));
-				}
+				return;
+			}
+			this.writer.WriteEndElement();
+			if (UnityData.isDebugBuild && this.curPath != null)
+			{
+				int num = this.curPath.LastIndexOf('/');
+				this.curPath = ((num <= 0) ? null : this.curPath.Substring(0, num));
 			}
 		}
 

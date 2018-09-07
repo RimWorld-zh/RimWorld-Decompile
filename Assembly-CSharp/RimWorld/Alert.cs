@@ -11,7 +11,7 @@ namespace RimWorld
 	[StaticConstructorOnStartup]
 	public abstract class Alert
 	{
-		protected AlertPriority defaultPriority = AlertPriority.Medium;
+		protected AlertPriority defaultPriority;
 
 		protected string defaultLabel;
 
@@ -21,7 +21,7 @@ namespace RimWorld
 
 		private int jumpToTargetCycleIndex;
 
-		private AlertBounce alertBounce = null;
+		private AlertBounce alertBounce;
 
 		public const float Width = 154f;
 
@@ -157,38 +157,39 @@ namespace RimWorld
 		public void DrawInfoPane()
 		{
 			Alert.<DrawInfoPane>c__AnonStorey0 <DrawInfoPane>c__AnonStorey = new Alert.<DrawInfoPane>c__AnonStorey0();
-			if (Event.current.type == EventType.Repaint)
+			if (Event.current.type != EventType.Repaint)
+			{
+				return;
+			}
+			Text.Font = GameFont.Small;
+			Text.Anchor = TextAnchor.UpperLeft;
+			<DrawInfoPane>c__AnonStorey.expString = this.GetExplanation();
+			if (this.GetReport().AnyCulpritValid)
+			{
+				<DrawInfoPane>c__AnonStorey.expString = <DrawInfoPane>c__AnonStorey.expString + "\n\n(" + "ClickToJumpToProblem".Translate() + ")";
+			}
+			float num = Text.CalcHeight(<DrawInfoPane>c__AnonStorey.expString, 310f);
+			num += 20f;
+			<DrawInfoPane>c__AnonStorey.infoRect = new Rect((float)UI.screenWidth - 154f - 330f - 8f, Mathf.Max(Mathf.Min(Event.current.mousePosition.y, (float)UI.screenHeight - num), 0f), 330f, num);
+			if (<DrawInfoPane>c__AnonStorey.infoRect.yMax > (float)UI.screenHeight)
+			{
+				Alert.<DrawInfoPane>c__AnonStorey0 <DrawInfoPane>c__AnonStorey2 = <DrawInfoPane>c__AnonStorey;
+				<DrawInfoPane>c__AnonStorey2.infoRect.y = <DrawInfoPane>c__AnonStorey2.infoRect.y - ((float)UI.screenHeight - <DrawInfoPane>c__AnonStorey.infoRect.yMax);
+			}
+			if (<DrawInfoPane>c__AnonStorey.infoRect.y < 0f)
+			{
+				<DrawInfoPane>c__AnonStorey.infoRect.y = 0f;
+			}
+			Find.WindowStack.ImmediateWindow(138956, <DrawInfoPane>c__AnonStorey.infoRect, WindowLayer.GameUI, delegate
 			{
 				Text.Font = GameFont.Small;
-				Text.Anchor = TextAnchor.UpperLeft;
-				<DrawInfoPane>c__AnonStorey.expString = this.GetExplanation();
-				if (this.GetReport().AnyCulpritValid)
-				{
-					<DrawInfoPane>c__AnonStorey.expString = <DrawInfoPane>c__AnonStorey.expString + "\n\n(" + "ClickToJumpToProblem".Translate() + ")";
-				}
-				float num = Text.CalcHeight(<DrawInfoPane>c__AnonStorey.expString, 310f);
-				num += 20f;
-				<DrawInfoPane>c__AnonStorey.infoRect = new Rect((float)UI.screenWidth - 154f - 330f - 8f, Mathf.Max(Mathf.Min(Event.current.mousePosition.y, (float)UI.screenHeight - num), 0f), 330f, num);
-				if (<DrawInfoPane>c__AnonStorey.infoRect.yMax > (float)UI.screenHeight)
-				{
-					Alert.<DrawInfoPane>c__AnonStorey0 <DrawInfoPane>c__AnonStorey2 = <DrawInfoPane>c__AnonStorey;
-					<DrawInfoPane>c__AnonStorey2.infoRect.y = <DrawInfoPane>c__AnonStorey2.infoRect.y - ((float)UI.screenHeight - <DrawInfoPane>c__AnonStorey.infoRect.yMax);
-				}
-				if (<DrawInfoPane>c__AnonStorey.infoRect.y < 0f)
-				{
-					<DrawInfoPane>c__AnonStorey.infoRect.y = 0f;
-				}
-				Find.WindowStack.ImmediateWindow(138956, <DrawInfoPane>c__AnonStorey.infoRect, WindowLayer.GameUI, delegate
-				{
-					Text.Font = GameFont.Small;
-					Rect rect = <DrawInfoPane>c__AnonStorey.infoRect.AtZero();
-					Widgets.DrawWindowBackground(rect);
-					Rect position = rect.ContractedBy(10f);
-					GUI.BeginGroup(position);
-					Widgets.Label(new Rect(0f, 0f, position.width, position.height), <DrawInfoPane>c__AnonStorey.expString);
-					GUI.EndGroup();
-				}, false, false, 1f);
-			}
+				Rect rect = <DrawInfoPane>c__AnonStorey.infoRect.AtZero();
+				Widgets.DrawWindowBackground(rect);
+				Rect position = rect.ContractedBy(10f);
+				GUI.BeginGroup(position);
+				Widgets.Label(new Rect(0f, 0f, position.width, position.height), <DrawInfoPane>c__AnonStorey.expString);
+				GUI.EndGroup();
+			}, false, false, 1f);
 		}
 
 		// Note: this type is marked as 'beforefieldinit'.

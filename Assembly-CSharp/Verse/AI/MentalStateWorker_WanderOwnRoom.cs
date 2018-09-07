@@ -11,17 +11,12 @@ namespace Verse.AI
 
 		public override bool StateCanOccur(Pawn pawn)
 		{
-			bool result;
 			if (!base.StateCanOccur(pawn))
 			{
-				result = false;
+				return false;
 			}
-			else
-			{
-				Building_Bed ownedBed = pawn.ownership.OwnedBed;
-				result = (ownedBed != null && ownedBed.GetRoom(RegionType.Set_Passable) != null && !ownedBed.GetRoom(RegionType.Set_Passable).PsychologicallyOutdoors);
-			}
-			return result;
+			Building_Bed ownedBed = pawn.ownership.OwnedBed;
+			return ownedBed != null && ownedBed.GetRoom(RegionType.Set_Passable) != null && !ownedBed.GetRoom(RegionType.Set_Passable).PsychologicallyOutdoors;
 		}
 	}
 }

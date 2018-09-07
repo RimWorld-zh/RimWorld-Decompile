@@ -28,16 +28,11 @@ namespace RimWorld
 		public override string ExplanationPart(StatRequest req)
 		{
 			float num;
-			string result;
 			if (this.TryGetValue(req, out num) && num != 0f)
 			{
-				result = "StatsReport_AddedBodyPartsMass".Translate() + ": " + num.ToStringMassOffset();
+				return "StatsReport_AddedBodyPartsMass".Translate() + ": " + num.ToStringMassOffset();
 			}
-			else
-			{
-				result = null;
-			}
-			return result;
+			return null;
 		}
 
 		private bool TryGetValue(StatRequest req, out float value)

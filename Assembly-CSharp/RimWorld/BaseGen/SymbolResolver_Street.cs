@@ -120,17 +120,12 @@ namespace RimWorld.BaseGen
 		private bool CausesStreet(IntVec3 c, TerrainDef floorDef)
 		{
 			Map map = BaseGen.globalSettings.map;
-			bool result;
 			if (!c.InBounds(map))
 			{
-				result = false;
+				return false;
 			}
-			else
-			{
-				Building edifice = c.GetEdifice(map);
-				result = ((edifice != null && edifice.def == ThingDefOf.Wall) || c.GetDoor(map) != null || c.GetTerrain(map) == floorDef);
-			}
-			return result;
+			Building edifice = c.GetEdifice(map);
+			return (edifice != null && edifice.def == ThingDefOf.Wall) || c.GetDoor(map) != null || c.GetTerrain(map) == floorDef;
 		}
 
 		// Note: this type is marked as 'beforefieldinit'.

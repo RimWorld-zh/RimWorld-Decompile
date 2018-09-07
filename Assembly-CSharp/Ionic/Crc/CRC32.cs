@@ -226,42 +226,43 @@ namespace Ionic.Crc
 		{
 			uint[] array = new uint[32];
 			uint[] array2 = new uint[32];
-			if (length != 0)
+			if (length == 0)
 			{
-				uint num = ~this._register;
-				array2[0] = this.dwPolynomial;
-				uint num2 = 1u;
-				for (int i = 1; i < 32; i++)
-				{
-					array2[i] = num2;
-					num2 <<= 1;
-				}
-				this.gf2_matrix_square(array, array2);
-				this.gf2_matrix_square(array2, array);
-				uint num3 = (uint)length;
-				do
-				{
-					this.gf2_matrix_square(array, array2);
-					if ((num3 & 1u) == 1u)
-					{
-						num = this.gf2_matrix_times(array, num);
-					}
-					num3 >>= 1;
-					if (num3 == 0u)
-					{
-						break;
-					}
-					this.gf2_matrix_square(array2, array);
-					if ((num3 & 1u) == 1u)
-					{
-						num = this.gf2_matrix_times(array2, num);
-					}
-					num3 >>= 1;
-				}
-				while (num3 != 0u);
-				num ^= (uint)crc;
-				this._register = ~num;
+				return;
 			}
+			uint num = ~this._register;
+			array2[0] = this.dwPolynomial;
+			uint num2 = 1u;
+			for (int i = 1; i < 32; i++)
+			{
+				array2[i] = num2;
+				num2 <<= 1;
+			}
+			this.gf2_matrix_square(array, array2);
+			this.gf2_matrix_square(array2, array);
+			uint num3 = (uint)length;
+			do
+			{
+				this.gf2_matrix_square(array, array2);
+				if ((num3 & 1u) == 1u)
+				{
+					num = this.gf2_matrix_times(array, num);
+				}
+				num3 >>= 1;
+				if (num3 == 0u)
+				{
+					break;
+				}
+				this.gf2_matrix_square(array2, array);
+				if ((num3 & 1u) == 1u)
+				{
+					num = this.gf2_matrix_times(array2, num);
+				}
+				num3 >>= 1;
+			}
+			while (num3 != 0u);
+			num ^= (uint)crc;
+			this._register = ~num;
 		}
 
 		public void Reset()

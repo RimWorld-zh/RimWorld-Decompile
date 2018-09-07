@@ -22,16 +22,11 @@ namespace Verse.Noise
 		public override double GetValue(double x, double y, double z)
 		{
 			double value = this.modules[0].GetValue(x, y, z);
-			double result;
 			if (value >= (double)this.from && value <= (double)this.to)
 			{
-				result = 1.0;
+				return 1.0;
 			}
-			else
-			{
-				result = 0.0;
-			}
-			return result;
+			return 0.0;
 		}
 	}
 }

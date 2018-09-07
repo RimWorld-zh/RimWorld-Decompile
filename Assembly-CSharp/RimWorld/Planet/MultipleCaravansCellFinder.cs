@@ -47,14 +47,11 @@ namespace RimWorld.Planet
 			}
 			IntVec3 localFirst = first;
 			float tryMinDistBetweenSpots = (float)Mathf.Max(map.Size.x, map.Size.z) * 0.6f;
-			if (!CellFinder.TryFindRandomEdgeCellWith((IntVec3 x) => x.Standable(map) && !x.Fogged(map) && !x.InHorDistOf(localFirst, tryMinDistBetweenSpots), map, CellFinder.EdgeRoadChance_Neutral, out second))
+			if (!CellFinder.TryFindRandomEdgeCellWith((IntVec3 x) => x.Standable(map) && !x.Fogged(map) && !x.InHorDistOf(localFirst, tryMinDistBetweenSpots), map, CellFinder.EdgeRoadChance_Neutral, out second) && !CellFinder.TryFindRandomEdgeCellWith((IntVec3 x) => x.Standable(map) && !x.Fogged(map), map, 0.5f, out second))
 			{
-				if (!CellFinder.TryFindRandomEdgeCellWith((IntVec3 x) => x.Standable(map) && !x.Fogged(map), map, 0.5f, out second))
-				{
-					Log.Error("Could not find any valid starting cell for a caravan.", false);
-					second = CellFinder.RandomCell(map);
-					return;
-				}
+				Log.Error("Could not find any valid starting cell for a caravan.", false);
+				second = CellFinder.RandomCell(map);
+				return;
 			}
 			first = CellFinder.RandomClosewalkCellNear(first, map, 7, null);
 			second = CellFinder.RandomClosewalkCellNear(second, map, 7, null);

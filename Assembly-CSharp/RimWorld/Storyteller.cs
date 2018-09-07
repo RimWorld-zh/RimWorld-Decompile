@@ -22,8 +22,6 @@ namespace RimWorld
 
 		public IncidentQueue incidentQueue = new IncidentQueue();
 
-		public StoryIntender_Population intenderPopulation;
-
 		public static readonly Vector2 PortraitSizeTiny = new Vector2(116f, 124f);
 
 		public static readonly Vector2 PortraitSizeLarge = new Vector2(580f, 620f);
@@ -50,7 +48,6 @@ namespace RimWorld
 		{
 			this.def = def;
 			this.difficulty = difficulty;
-			this.intenderPopulation = new StoryIntender_Population(this);
 			this.InitializeStorytellerComps();
 		}
 
@@ -98,10 +95,6 @@ namespace RimWorld
 			Scribe_Defs.Look<StorytellerDef>(ref this.def, "def");
 			Scribe_Defs.Look<DifficultyDef>(ref this.difficulty, "difficulty");
 			Scribe_Deep.Look<IncidentQueue>(ref this.incidentQueue, "incidentQueue", new object[0]);
-			Scribe_Deep.Look<StoryIntender_Population>(ref this.intenderPopulation, "intenderPopulation", new object[]
-			{
-				this
-			});
 			if (this.difficulty == null)
 			{
 				Log.Error("Loaded storyteller without difficulty", false);
@@ -118,25 +111,23 @@ namespace RimWorld
 			this.incidentQueue.IncidentQueueTick();
 			if (Find.TickManager.TicksGame % 1000 == 0)
 			{
-				if (DebugSettings.enableStoryteller)
+				if (!DebugSettings.enableStoryteller)
 				{
-					foreach (FiringIncident fi in this.MakeIncidentsForInterval())
-					{
-						this.TryFire(fi);
-					}
+					return;
+				}
+				foreach (FiringIncident fi in this.MakeIncidentsForInterval())
+				{
+					this.TryFire(fi);
 				}
 			}
 		}
 
 		public bool TryFire(FiringIncident fi)
 		{
-			if (fi.def.Worker.CanFireNow(fi.parms, false))
+			if (fi.def.Worker.CanFireNow(fi.parms, false) && fi.def.Worker.TryExecute(fi.parms))
 			{
-				if (fi.def.Worker.TryExecute(fi.parms))
-				{
-					fi.parms.target.StoryState.Notify_IncidentFired(fi);
-					return true;
-				}
+				fi.parms.target.StoryState.Notify_IncidentFired(fi);
+				return true;
 			}
 			return false;
 		}
@@ -163,7 +154,21 @@ namespace RimWorld
 			for (int i = 0; i < targets.Count; i++)
 			{
 				IIncidentTarget targ = targets[i];
-				if (comp.props.allowedTargetTypes == null || comp.props.allowedTargetTypes.Count == 0 || targ.AcceptedTypes().Any((IncidentTargetTypeDef x) => comp.props.allowedTargetTypes.Contains(x)))
+				bool flag = false;
+				bool flag2 = comp.props.allowedTargetTags.NullOrEmpty<IncidentTargetTagDef>();
+				foreach (IncidentTargetTagDef item in targ.IncidentTargetTags())
+				{
+					if (!comp.props.disallowedTargetTags.NullOrEmpty<IncidentTargetTagDef>() && comp.props.disallowedTargetTags.Contains(item))
+					{
+						flag = true;
+						break;
+					}
+					if (!flag2 && comp.props.allowedTargetTags.Contains(item))
+					{
+						flag2 = true;
+					}
+				}
+				if (!flag && flag2)
 				{
 					foreach (FiringIncident fi in comp.MakeIntervalIncidents(targ))
 					{
@@ -175,6 +180,16 @@ namespace RimWorld
 				}
 			}
 			yield break;
+		}
+
+		public void Notify_PawnEvent(Pawn pawn, AdaptationEvent ev, DamageInfo? dinfo = null)
+		{
+			Find.StoryWatcher.watcherAdaptation.Notify_PawnEvent(pawn, ev, dinfo);
+			for (int i = 0; i < this.storytellerComps.Count; i++)
+			{
+				StorytellerComp storytellerComp = this.storytellerComps[i];
+				storytellerComp.Notify_PawnEvent(pawn, ev, dinfo);
+			}
 		}
 
 		public void Notify_DefChanged()
@@ -189,14 +204,16 @@ namespace RimWorld
 				StringBuilder stringBuilder = new StringBuilder();
 				stringBuilder.AppendLine("Storyteller : " + this.def.label);
 				stringBuilder.AppendLine("------------- Global threats data ---------------");
-				stringBuilder.AppendLine("   NumRaidsEnemy: " + Find.StoryWatcher.statsRecord.numRaidsEnemy);
-				stringBuilder.AppendLine("   Adapt-Days: " + Find.StoryWatcher.watcherAdaptation.AdaptDays.ToString("F1"));
-				stringBuilder.AppendLine("   Adapt-PointsFactor: " + Find.StoryWatcher.watcherAdaptation.TotalThreatPointsFactor.ToString("F2"));
-				stringBuilder.AppendLine("   AllyAssistanceMTBMultiplier (ally): " + StorytellerUtility.AllyIncidentMTBMultiplier(false).ToString());
-				stringBuilder.AppendLine("   AllyAssistanceMTBMultiplier (non-hostile): " + StorytellerUtility.AllyIncidentMTBMultiplier(true).ToString());
+				stringBuilder.AppendLine("   Adaptation days: " + Find.StoryWatcher.watcherAdaptation.AdaptDays.ToString("F1"));
+				stringBuilder.AppendLine("   Adapt points factor: " + Find.StoryWatcher.watcherAdaptation.TotalThreatPointsFactor.ToString("F2"));
+				stringBuilder.AppendLine("   Time points factor: " + Find.Storyteller.def.pointsFactorFromDaysPassed.Evaluate((float)GenDate.DaysPassed).ToString("F2"));
+				stringBuilder.AppendLine("   Num raids enemy: " + Find.StoryWatcher.statsRecord.numRaidsEnemy);
+				stringBuilder.AppendLine("   Ally incident fraction (neutral or ally): " + StorytellerUtility.AllyIncidentFraction(false).ToString("F2"));
+				stringBuilder.AppendLine("   Ally incident fraction (ally only): " + StorytellerUtility.AllyIncidentFraction(true).ToString("F2"));
 				stringBuilder.AppendLine();
 				stringBuilder.AppendLine("-------------- Global population data --------------");
-				stringBuilder.AppendLine(this.intenderPopulation.DebugReadout);
+				stringBuilder.AppendLine(StorytellerUtilityPopulation.DebugReadout().TrimEndNewlines());
+				stringBuilder.AppendLine("   Greatest population: " + Find.StoryWatcher.statsRecord.greatestPopulation);
 				stringBuilder.AppendLine("------------- All incident targets --------------");
 				for (int i = 0; i < this.AllIncidentTargets.Count; i++)
 				{
@@ -209,9 +226,25 @@ namespace RimWorld
 				}
 				if (incidentTarget != null)
 				{
+					Map map = incidentTarget as Map;
 					stringBuilder.AppendLine();
 					stringBuilder.AppendLine("---------- Selected: " + incidentTarget + " --------");
 					stringBuilder.AppendLine("   Wealth: " + incidentTarget.PlayerWealthForStoryteller.ToString("F0"));
+					if (map != null)
+					{
+						stringBuilder.AppendLine(string.Concat(new string[]
+						{
+							"   (Items: ",
+							map.wealthWatcher.WealthItems.ToString("F0"),
+							" Buildings: ",
+							map.wealthWatcher.WealthBuildings.ToString("F0"),
+							" (Floors: ",
+							map.wealthWatcher.WealthFloorsOnly.ToString("F0"),
+							") Pawns: ",
+							map.wealthWatcher.WealthPawns.ToString("F0"),
+							")"
+						}));
+					}
 					stringBuilder.AppendLine("   IncidentPointsRandomFactorRange: " + incidentTarget.IncidentPointsRandomFactorRange);
 					stringBuilder.AppendLine("   Pawns-Humanlikes: " + (from p in incidentTarget.PlayerPawnsForStoryteller
 					where p.def.race.Humanlike
@@ -219,13 +252,11 @@ namespace RimWorld
 					stringBuilder.AppendLine("   Pawns-Animals: " + (from p in incidentTarget.PlayerPawnsForStoryteller
 					where p.def.race.Animal
 					select p).Count<Pawn>());
-					Map map = incidentTarget as Map;
 					if (map != null)
 					{
 						stringBuilder.AppendLine("   StoryDanger: " + map.dangerWatcher.DangerRating);
 						stringBuilder.AppendLine("   FireDanger: " + map.fireWatcher.FireDanger.ToString("F2"));
-						stringBuilder.AppendLine("   DaysSinceSeriousDamage: " + map.damageWatcher.DaysSinceSeriousDamage.ToString("F1"));
-						stringBuilder.AppendLine("   LastThreatBigQueueTick: " + map.storyState.LastThreatBigTick.ToStringTicksToPeriod());
+						stringBuilder.AppendLine("   LastThreatBigTick days ago: " + (Find.TickManager.TicksGame - map.storyState.LastThreatBigTick).ToStringTicksToDays("F1"));
 					}
 					stringBuilder.AppendLine("   Current points (ignoring early raid factors): " + StorytellerUtility.DefaultThreatPointsNow(incidentTarget).ToString("F0"));
 					stringBuilder.AppendLine("   Current points for specific IncidentMakers:");
@@ -413,7 +444,7 @@ namespace RimWorld
 
 			internal IIncidentTarget <targ>__2;
 
-			internal IEnumerator<FiringIncident> $locvar0;
+			internal IEnumerator<FiringIncident> $locvar1;
 
 			internal FiringIncident <fi>__3;
 
@@ -422,8 +453,6 @@ namespace RimWorld
 			internal bool $disposing;
 
 			internal int $PC;
-
-			private Storyteller.<MakeIncidentsForInterval>c__Iterator1.<MakeIncidentsForInterval>c__AnonStorey2 $locvar1;
 
 			[DebuggerHidden]
 			public <MakeIncidentsForInterval>c__Iterator1()
@@ -443,7 +472,7 @@ namespace RimWorld
 						return false;
 					}
 					i = 0;
-					goto IL_1ED;
+					goto IL_21D;
 				case 1u:
 					Block_5:
 					try
@@ -451,9 +480,9 @@ namespace RimWorld
 						switch (num)
 						{
 						}
-						while (enumerator.MoveNext())
+						while (enumerator2.MoveNext())
 						{
-							fi = enumerator.Current;
+							fi = enumerator2.Current;
 							if (Find.Storyteller.difficulty.allowBigThreats || (fi.def.category != IncidentCategoryDefOf.ThreatBig && fi.def.category != IncidentCategoryDefOf.RaidBeacon))
 							{
 								this.$current = fi;
@@ -470,9 +499,9 @@ namespace RimWorld
 					{
 						if (!flag)
 						{
-							if (enumerator != null)
+							if (enumerator2 != null)
 							{
-								enumerator.Dispose();
+								enumerator2.Dispose();
 							}
 						}
 					}
@@ -480,9 +509,9 @@ namespace RimWorld
 				default:
 					return false;
 				}
-				IL_1DE:
+				IL_20F:
 				i++;
-				IL_1ED:
+				IL_21D:
 				if (i >= targets.Count)
 				{
 					this.$PC = -1;
@@ -490,13 +519,27 @@ namespace RimWorld
 				else
 				{
 					targ = targets[i];
-					if (<MakeIncidentsForInterval>c__AnonStorey.comp.props.allowedTargetTypes == null || <MakeIncidentsForInterval>c__AnonStorey.comp.props.allowedTargetTypes.Count == 0 || targ.AcceptedTypes().Any((IncidentTargetTypeDef x) => <MakeIncidentsForInterval>c__AnonStorey.comp.props.allowedTargetTypes.Contains(x)))
+					bool flag2 = false;
+					bool flag3 = comp.props.allowedTargetTags.NullOrEmpty<IncidentTargetTagDef>();
+					foreach (IncidentTargetTagDef item in targ.IncidentTargetTags())
 					{
-						enumerator = <MakeIncidentsForInterval>c__AnonStorey.comp.MakeIntervalIncidents(targ).GetEnumerator();
-						num = 4294967293u;
-						goto Block_5;
+						if (!comp.props.disallowedTargetTags.NullOrEmpty<IncidentTargetTagDef>() && comp.props.disallowedTargetTags.Contains(item))
+						{
+							flag2 = true;
+							break;
+						}
+						if (!flag3 && comp.props.allowedTargetTags.Contains(item))
+						{
+							flag3 = true;
+						}
 					}
-					goto IL_1DE;
+					if (flag2 || !flag3)
+					{
+						goto IL_20F;
+					}
+					enumerator2 = comp.MakeIntervalIncidents(targ).GetEnumerator();
+					num = 4294967293u;
+					goto Block_5;
 				}
 				return false;
 			}
@@ -533,9 +576,9 @@ namespace RimWorld
 					}
 					finally
 					{
-						if (enumerator != null)
+						if (enumerator2 != null)
 						{
-							enumerator.Dispose();
+							enumerator2.Dispose();
 						}
 					}
 					break;
@@ -565,22 +608,6 @@ namespace RimWorld
 				<MakeIncidentsForInterval>c__Iterator.comp = comp;
 				<MakeIncidentsForInterval>c__Iterator.targets = targets;
 				return <MakeIncidentsForInterval>c__Iterator;
-			}
-
-			private sealed class <MakeIncidentsForInterval>c__AnonStorey2
-			{
-				internal StorytellerComp comp;
-
-				internal Storyteller.<MakeIncidentsForInterval>c__Iterator1 <>f__ref$1;
-
-				public <MakeIncidentsForInterval>c__AnonStorey2()
-				{
-				}
-
-				internal bool <>m__0(IncidentTargetTypeDef x)
-				{
-					return this.comp.props.allowedTargetTypes.Contains(x);
-				}
 			}
 		}
 	}

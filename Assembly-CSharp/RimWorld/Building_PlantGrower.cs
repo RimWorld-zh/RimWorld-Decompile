@@ -55,7 +55,7 @@ namespace RimWorld
 
 		public override IEnumerable<Gizmo> GetGizmos()
 		{
-			foreach (Gizmo g in this.<GetGizmos>__BaseCallProxy0())
+			foreach (Gizmo g in base.GetGizmos())
 			{
 				yield return g;
 			}
@@ -178,15 +178,15 @@ namespace RimWorld
 						return false;
 					}
 					cri = this.OccupiedRect().GetIterator();
-					goto IL_101;
+					goto IL_FC;
 				case 1u:
-					IL_D0:
+					IL_CD:
 					i++;
 					break;
 				default:
 					return false;
 				}
-				IL_DF:
+				IL_DB:
 				if (i >= thingList.Count)
 				{
 					cri.MoveNext();
@@ -203,14 +203,14 @@ namespace RimWorld
 						}
 						return true;
 					}
-					goto IL_D0;
+					goto IL_CD;
 				}
-				IL_101:
+				IL_FC:
 				if (!cri.Done())
 				{
 					thingList = base.Map.thingGrid.ThingsListAt(cri.Current);
 					i = 0;
-					goto IL_DF;
+					goto IL_DB;
 				}
 				this.$PC = -1;
 				return false;

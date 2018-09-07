@@ -2,7 +2,6 @@
 using System.Collections.Generic;
 using RimWorld;
 using UnityEngine;
-using UnityEngine.Profiling;
 using Verse.AI.Group;
 
 namespace Verse.AI
@@ -11,19 +10,19 @@ namespace Verse.AI
 	{
 		protected Pawn pawn;
 
-		public Job curJob = null;
+		public Job curJob;
 
-		public JobDriver curDriver = null;
+		public JobDriver curDriver;
 
 		public JobQueue jobQueue = new JobQueue();
 
-		public PawnPosture posture = PawnPosture.Standing;
+		public PawnPosture posture;
 
 		public bool startingNewJob;
 
-		private int jobsGivenThisTick = 0;
+		private int jobsGivenThisTick;
 
-		private string jobsGivenThisTickTextual = "";
+		private string jobsGivenThisTickTextual = string.Empty;
 
 		private int lastJobGivenAtFrame = -1;
 
@@ -31,7 +30,7 @@ namespace Verse.AI
 
 		private List<string> jobsGivenRecentTicksTextual = new List<string>(10);
 
-		public bool debugLog = false;
+		public bool debugLog;
 
 		private const int RecentJobQueueMaxLength = 10;
 
@@ -68,20 +67,17 @@ namespace Verse.AI
 					this.curDriver.job = this.curJob;
 				}
 			}
-			else if (Scribe.mode == LoadSaveMode.PostLoadInit)
+			else if (Scribe.mode == LoadSaveMode.PostLoadInit && this.curDriver == null && this.curJob != null)
 			{
-				if (this.curDriver == null && this.curJob != null)
-				{
-					Log.Warning(string.Format("Cleaning up invalid job state on {0}", this.pawn), false);
-					this.EndCurrentJob(JobCondition.Errored, true);
-				}
+				Log.Warning(string.Format("Cleaning up invalid job state on {0}", this.pawn), false);
+				this.EndCurrentJob(JobCondition.Errored, true);
 			}
 		}
 
 		public virtual void JobTrackerTick()
 		{
 			this.jobsGivenThisTick = 0;
-			this.jobsGivenThisTickTextual = "";
+			this.jobsGivenThisTickTextual = string.Empty;
 			if (this.pawn.IsHashIntervalTick(30))
 			{
 				ThinkResult thinkResult = this.DetermineNextConstantThinkTreeJob();
@@ -132,7 +128,6 @@ namespace Verse.AI
 
 		private void FinalizeTick()
 		{
-			Profiler.BeginSample("FinalizeTick");
 			this.jobsGivenRecentTicks.Add(this.jobsGivenThisTick);
 			this.jobsGivenRecentTicksTextual.Add(this.jobsGivenThisTickTextual);
 			while (this.jobsGivenRecentTicks.Count > 10)
@@ -164,7 +159,6 @@ namespace Verse.AI
 					}), null, null);
 				}
 			}
-			Profiler.EndSample();
 		}
 
 		public void StartJob(Job newJob, JobCondition lastJobEndCondition = JobCondition.None, ThinkNode jobGiver = null, bool resumeCurJobAfterwards = false, bool cancelBusyStances = true, ThinkTreeDef thinkTree = null, JobTag? tag = null, bool fromQueue = false)
@@ -182,7 +176,7 @@ namespace Verse.AI
 				{
 					string text = this.jobsGivenThisTickTextual;
 					this.jobsGivenThisTick = 0;
-					this.jobsGivenThisTickTextual = "";
+					this.jobsGivenThisTickTextual = string.Empty;
 					this.startingNewJob = false;
 					this.pawn.ClearReservationsForJob(newJob);
 					JobUtility.TryStartErrorRecoverJob(this.pawn, string.Concat(new string[]
@@ -263,7 +257,7 @@ namespace Verse.AI
 						this.pawn.mindState.lastJobGiver = jobGiver;
 						this.pawn.mindState.lastJobGiverThinkTree = thinkTree;
 						this.curDriver = this.curJob.MakeDriver(this.pawn);
-						if (this.curDriver.TryMakePreToilReservations())
+						if (this.curDriver.TryMakePreToilReservations(!fromQueue))
 						{
 							Job job = this.TryOpportunisticJob(newJob);
 							if (job != null)
@@ -303,7 +297,7 @@ namespace Verse.AI
 			}
 		}
 
-		public void EndJob(Job job, JobCondition condition)
+		public void EndCurrentOrQueuedJob(Job job, JobCondition condition)
 		{
 			if (this.debugLog)
 			{
@@ -355,8 +349,9 @@ namespace Verse.AI
 				if (condition == JobCondition.ErroredPather || condition == JobCondition.Errored)
 				{
 					this.StartJob(new Job(JobDefOf.Wait, 250, false), JobCondition.None, null, false, true, null, null, false);
+					return;
 				}
-				else if (condition == JobCondition.Succeeded && job != null && job.def != JobDefOf.Wait_MaintainPosture && !this.pawn.pather.Moving)
+				if (condition == JobCondition.Succeeded && job != null && job.def != JobDefOf.Wait_MaintainPosture && !this.pawn.pather.Moving)
 				{
 					this.StartJob(new Job(JobDefOf.Wait_MaintainPosture, 1, false), JobCondition.None, null, false, false, null, null, false);
 				}
@@ -379,29 +374,30 @@ namespace Verse.AI
 					condition
 				}));
 			}
-			if (this.curJob != null)
+			if (this.curJob == null)
 			{
-				if (releaseReservations)
-				{
-					this.pawn.ClearReservationsForJob(this.curJob);
-				}
-				if (this.curDriver != null)
-				{
-					this.curDriver.ended = true;
-					this.curDriver.Cleanup(condition);
-				}
-				this.curDriver = null;
-				this.curJob = null;
-				this.pawn.VerifyReservations();
-				if (cancelBusyStancesSoft)
-				{
-					this.pawn.stances.CancelBusyStanceSoft();
-				}
-				if (!this.pawn.Destroyed && this.pawn.carryTracker != null && this.pawn.carryTracker.CarriedThing != null)
-				{
-					Thing thing;
-					this.pawn.carryTracker.TryDropCarriedThing(this.pawn.Position, ThingPlaceMode.Near, out thing, null);
-				}
+				return;
+			}
+			if (releaseReservations)
+			{
+				this.pawn.ClearReservationsForJob(this.curJob);
+			}
+			if (this.curDriver != null)
+			{
+				this.curDriver.ended = true;
+				this.curDriver.Cleanup(condition);
+			}
+			this.curDriver = null;
+			this.curJob = null;
+			this.pawn.VerifyReservations();
+			if (cancelBusyStancesSoft)
+			{
+				this.pawn.stances.CancelBusyStanceSoft();
+			}
+			if (!this.pawn.Destroyed && this.pawn.carryTracker != null && this.pawn.carryTracker.CarriedThing != null)
+			{
+				Thing thing;
+				this.pawn.carryTracker.TryDropCarriedThing(this.pawn.Position, ThingPlaceMode.Near, out thing, null);
 			}
 		}
 
@@ -447,134 +443,123 @@ namespace Verse.AI
 			if (this.pawn.thinker == null)
 			{
 				Log.ErrorOnce(this.pawn + " did TryFindAndStartJob but had no thinker.", 8573261, false);
+				return;
 			}
-			else
+			if (this.curJob != null)
 			{
-				if (this.curJob != null)
-				{
-					Log.Warning(this.pawn + " doing TryFindAndStartJob while still having job " + this.curJob, false);
-				}
+				Log.Warning(this.pawn + " doing TryFindAndStartJob while still having job " + this.curJob, false);
+			}
+			if (this.debugLog)
+			{
+				this.DebugLogEvent("TryFindAndStartJob");
+			}
+			if (!this.CanDoAnyJob())
+			{
 				if (this.debugLog)
 				{
-					this.DebugLogEvent("TryFindAndStartJob");
+					this.DebugLogEvent("   CanDoAnyJob is false. Clearing queue and returning");
 				}
-				if (!this.CanDoAnyJob())
-				{
-					if (this.debugLog)
-					{
-						this.DebugLogEvent("   CanDoAnyJob is false. Clearing queue and returning");
-					}
-					this.ClearQueuedJobs();
-				}
-				else
-				{
-					ThinkTreeDef thinkTreeDef;
-					ThinkResult result = this.DetermineNextJob(out thinkTreeDef);
-					if (result.IsValid)
-					{
-						this.CheckLeaveJoinableLordBecauseJobIssued(result);
-						Job job = result.Job;
-						ThinkNode sourceNode = result.SourceNode;
-						ThinkTreeDef thinkTree = thinkTreeDef;
-						this.StartJob(job, JobCondition.None, sourceNode, false, false, thinkTree, result.Tag, result.FromQueue);
-					}
-				}
+				this.ClearQueuedJobs();
+				return;
+			}
+			ThinkTreeDef thinkTreeDef;
+			ThinkResult result = this.DetermineNextJob(out thinkTreeDef);
+			if (result.IsValid)
+			{
+				this.CheckLeaveJoinableLordBecauseJobIssued(result);
+				Job job = result.Job;
+				ThinkNode sourceNode = result.SourceNode;
+				ThinkTreeDef thinkTree = thinkTreeDef;
+				this.StartJob(job, JobCondition.None, sourceNode, false, false, thinkTree, result.Tag, result.FromQueue);
 			}
 		}
 
 		public Job TryOpportunisticJob(Job job)
 		{
-			Job result;
 			if (this.pawn.def.race.intelligence < Intelligence.Humanlike)
 			{
-				result = null;
+				return null;
 			}
-			else if (this.pawn.Faction != Faction.OfPlayer)
+			if (this.pawn.Faction != Faction.OfPlayer)
 			{
-				result = null;
+				return null;
 			}
-			else if (this.pawn.Drafted)
+			if (this.pawn.Drafted)
 			{
-				result = null;
+				return null;
 			}
-			else if (job.playerForced)
+			if (job.playerForced)
 			{
-				result = null;
+				return null;
 			}
-			else if (this.pawn.RaceProps.intelligence < Intelligence.Humanlike)
+			if (this.pawn.RaceProps.intelligence < Intelligence.Humanlike)
 			{
-				result = null;
+				return null;
 			}
-			else if (!job.def.allowOpportunisticPrefix)
+			if (!job.def.allowOpportunisticPrefix)
 			{
-				result = null;
+				return null;
 			}
-			else if (this.pawn.story.WorkTagIsDisabled(WorkTags.ManualDumb | WorkTags.Hauling))
+			if (this.pawn.story.WorkTagIsDisabled(WorkTags.ManualDumb | WorkTags.Hauling))
 			{
-				result = null;
+				return null;
 			}
-			else if (this.pawn.InMentalState)
+			if (this.pawn.InMentalState || this.pawn.IsBurning())
 			{
-				result = null;
+				return null;
 			}
-			else
+			IntVec3 cell = job.targetA.Cell;
+			if (!cell.IsValid || cell.IsForbidden(this.pawn))
 			{
-				IntVec3 cell = job.targetA.Cell;
-				if (!cell.IsValid)
+				return null;
+			}
+			float num = this.pawn.Position.DistanceTo(cell);
+			if (num < 3f)
+			{
+				return null;
+			}
+			List<Thing> list = this.pawn.Map.listerHaulables.ThingsPotentiallyNeedingHauling();
+			for (int i = 0; i < list.Count; i++)
+			{
+				Thing thing = list[i];
+				float num2 = this.pawn.Position.DistanceTo(thing.Position);
+				if (num2 <= 30f)
 				{
-					result = null;
-				}
-				else
-				{
-					float num = this.pawn.Position.DistanceTo(cell);
-					if (num < AITuning.OpportunisticJobMinDistPawnToDest)
+					if (num2 <= num * 0.5f)
 					{
-						result = null;
-					}
-					else
-					{
-						List<Thing> list = this.pawn.Map.listerHaulables.ThingsPotentiallyNeedingHauling();
-						for (int i = 0; i < list.Count; i++)
+						if (num2 + thing.Position.DistanceTo(cell) <= num * 1.7f)
 						{
-							Thing thing = list[i];
 							if (this.pawn.Map.reservationManager.FirstRespectedReserver(thing, this.pawn) == null)
 							{
-								float num2 = this.pawn.Position.DistanceTo(thing.Position);
-								if (num2 <= AITuning.OpportunisticJobMaxDistPawnToItem)
+								if (!thing.IsForbidden(this.pawn))
 								{
-									if (num2 <= num * AITuning.OpportunisticJobMaxPickupDistanceFactor)
+									if (HaulAIUtility.PawnCanAutomaticallyHaulFast(this.pawn, thing, false))
 									{
-										if (num2 + thing.Position.DistanceTo(cell) <= num * AITuning.OpportunisticJobMaxRatioOppHaulDistanceToDestDistance)
+										StoragePriority currentPriority = StoreUtility.CurrentStoragePriorityOf(thing);
+										IntVec3 invalid = IntVec3.Invalid;
+										if (StoreUtility.TryFindBestBetterStoreCellFor(thing, this.pawn, this.pawn.Map, currentPriority, this.pawn.Faction, out invalid, true))
 										{
-											if (HaulAIUtility.PawnCanAutomaticallyHaulFast(this.pawn, thing, false))
+											float num3 = invalid.DistanceTo(cell);
+											if (num3 <= 50f)
 											{
-												StoragePriority currentPriority = StoreUtility.CurrentStoragePriorityOf(thing);
-												IntVec3 invalid = IntVec3.Invalid;
-												if (StoreUtility.TryFindBestBetterStoreCellFor(thing, this.pawn, this.pawn.Map, currentPriority, this.pawn.Faction, out invalid, true))
+												if (num3 <= num * 0.6f)
 												{
-													float num3 = invalid.DistanceTo(cell);
-													if (num3 <= AITuning.OpportunisticJobMaxDistDestToDropoff)
+													if (num2 + thing.Position.DistanceTo(invalid) + num3 <= num * 1.7f)
 													{
-														if (num3 <= num * AITuning.OpportunisticJobMaxDistDestToDropoffFactor)
+														if (num2 + num3 <= num)
 														{
-															if (num2 + thing.Position.DistanceTo(invalid) + num3 <= num * AITuning.OpportunisticJobMaxRatioOppHaulDistanceToDestDistance)
+															if (this.pawn.Position.WithinRegions(thing.Position, this.pawn.Map, 25, TraverseParms.For(this.pawn, Danger.Deadly, TraverseMode.ByPawn, false), RegionType.Set_Passable))
 															{
-																if (num2 + num3 <= num)
+																if (invalid.WithinRegions(cell, this.pawn.Map, 25, TraverseParms.For(this.pawn, Danger.Deadly, TraverseMode.ByPawn, false), RegionType.Set_Passable))
 																{
-																	if (this.pawn.Position.WithinRegions(thing.Position, this.pawn.Map, AITuning.OpportunisticJobMaxPickupRegions, TraverseParms.For(this.pawn, Danger.Deadly, TraverseMode.ByPawn, false), RegionType.Set_Passable))
+																	if (DebugViewSettings.drawOpportunisticJobs)
 																	{
-																		if (invalid.WithinRegions(cell, this.pawn.Map, AITuning.OpportunisticJobMaxDropoffRegions, TraverseParms.For(this.pawn, Danger.Deadly, TraverseMode.ByPawn, false), RegionType.Set_Passable))
-																		{
-																			if (DebugViewSettings.drawOpportunisticJobs)
-																			{
-																				Log.Message("Opportunistic job spawned", false);
-																				this.pawn.Map.debugDrawer.FlashLine(this.pawn.Position, thing.Position, 600, SimpleColor.Red);
-																				this.pawn.Map.debugDrawer.FlashLine(thing.Position, invalid, 600, SimpleColor.Green);
-																				this.pawn.Map.debugDrawer.FlashLine(invalid, cell, 600, SimpleColor.Blue);
-																			}
-																			return HaulAIUtility.HaulToCellStorageJob(this.pawn, thing, invalid, false);
-																		}
+																		Log.Message("Opportunistic job spawned", false);
+																		this.pawn.Map.debugDrawer.FlashLine(this.pawn.Position, thing.Position, 600, SimpleColor.Red);
+																		this.pawn.Map.debugDrawer.FlashLine(thing.Position, invalid, 600, SimpleColor.Green);
+																		this.pawn.Map.debugDrawer.FlashLine(invalid, cell, 600, SimpleColor.Blue);
 																	}
+																	return HaulAIUtility.HaulToCellStorageJob(this.pawn, thing, invalid, false);
 																}
 															}
 														}
@@ -586,100 +571,86 @@ namespace Verse.AI
 								}
 							}
 						}
-						result = null;
 					}
 				}
 			}
-			return result;
+			return null;
 		}
 
 		private ThinkResult DetermineNextJob(out ThinkTreeDef thinkTree)
 		{
-			ThinkResult thinkResult = this.DetermineNextConstantThinkTreeJob();
-			ThinkResult result;
-			if (thinkResult.Job != null)
+			ThinkResult result = this.DetermineNextConstantThinkTreeJob();
+			if (result.Job != null)
 			{
 				thinkTree = this.pawn.thinker.ConstantThinkTree;
-				result = thinkResult;
+				return result;
 			}
-			else
+			ThinkResult result2 = ThinkResult.NoJob;
+			try
 			{
-				ThinkResult thinkResult2 = ThinkResult.NoJob;
-				try
-				{
-					Profiler.BeginSample("Determine next job (main)");
-					thinkResult2 = this.pawn.thinker.MainThinkNodeRoot.TryIssueJobPackage(this.pawn, default(JobIssueParams));
-				}
-				catch (Exception exception)
-				{
-					JobUtility.TryStartErrorRecoverJob(this.pawn, this.pawn.ToStringSafe<Pawn>() + " threw exception while determining job (main)", exception, null);
-					thinkTree = null;
-					return ThinkResult.NoJob;
-				}
-				finally
-				{
-					Profiler.EndSample();
-				}
-				thinkTree = this.pawn.thinker.MainThinkTree;
-				result = thinkResult2;
+				result2 = this.pawn.thinker.MainThinkNodeRoot.TryIssueJobPackage(this.pawn, default(JobIssueParams));
 			}
-			return result;
+			catch (Exception exception)
+			{
+				JobUtility.TryStartErrorRecoverJob(this.pawn, this.pawn.ToStringSafe<Pawn>() + " threw exception while determining job (main)", exception, null);
+				thinkTree = null;
+				return ThinkResult.NoJob;
+			}
+			finally
+			{
+			}
+			thinkTree = this.pawn.thinker.MainThinkTree;
+			return result2;
 		}
 
 		private ThinkResult DetermineNextConstantThinkTreeJob()
 		{
-			ThinkResult noJob;
 			if (this.pawn.thinker.ConstantThinkTree == null)
 			{
-				noJob = ThinkResult.NoJob;
+				return ThinkResult.NoJob;
 			}
-			else
+			try
 			{
-				try
-				{
-					Profiler.BeginSample("Determine next job (constant)");
-					return this.pawn.thinker.ConstantThinkNodeRoot.TryIssueJobPackage(this.pawn, default(JobIssueParams));
-				}
-				catch (Exception exception)
-				{
-					JobUtility.TryStartErrorRecoverJob(this.pawn, this.pawn.ToStringSafe<Pawn>() + " threw exception while determining job (constant)", exception, null);
-				}
-				finally
-				{
-					Profiler.EndSample();
-				}
-				noJob = ThinkResult.NoJob;
+				return this.pawn.thinker.ConstantThinkNodeRoot.TryIssueJobPackage(this.pawn, default(JobIssueParams));
 			}
-			return noJob;
+			catch (Exception exception)
+			{
+				JobUtility.TryStartErrorRecoverJob(this.pawn, this.pawn.ToStringSafe<Pawn>() + " threw exception while determining job (constant)", exception, null);
+			}
+			finally
+			{
+			}
+			return ThinkResult.NoJob;
 		}
 
 		private void CheckLeaveJoinableLordBecauseJobIssued(ThinkResult result)
 		{
-			if (result.IsValid && result.SourceNode != null)
+			if (!result.IsValid || result.SourceNode == null)
 			{
-				Lord lord = this.pawn.GetLord();
-				if (lord != null && lord.LordJob is LordJob_VoluntarilyJoinable)
+				return;
+			}
+			Lord lord = this.pawn.GetLord();
+			if (lord == null || !(lord.LordJob is LordJob_VoluntarilyJoinable))
+			{
+				return;
+			}
+			bool flag = false;
+			ThinkNode thinkNode = result.SourceNode;
+			while (!thinkNode.leaveJoinableLordIfIssuesJob)
+			{
+				thinkNode = thinkNode.parent;
+				if (thinkNode == null)
 				{
-					bool flag = false;
-					ThinkNode thinkNode = result.SourceNode;
-					while (!thinkNode.leaveJoinableLordIfIssuesJob)
+					IL_6F:
+					if (flag)
 					{
-						thinkNode = thinkNode.parent;
-						if (thinkNode == null)
-						{
-							IL_7C:
-							if (flag)
-							{
-								lord.Notify_PawnLost(this.pawn, PawnLostCondition.LeftVoluntarily);
-								return;
-							}
-							return;
-						}
+						lord.Notify_PawnLost(this.pawn, PawnLostCondition.LeftVoluntarily, null);
 					}
-					flag = true;
-					goto IL_7C;
+					return;
 				}
 			}
+			flag = true;
+			goto IL_6F;
 		}
 
 		private bool CanDoAnyJob()
@@ -699,7 +670,6 @@ namespace Verse.AI
 
 		public bool TryTakeOrderedJobPrioritizedWork(Job job, WorkGiver giver, IntVec3 cell)
 		{
-			bool result;
 			if (this.TryTakeOrderedJob(job, giver.def.tagToGive))
 			{
 				this.pawn.mindState.lastGivenWorkType = giver.def.workType;
@@ -707,13 +677,9 @@ namespace Verse.AI
 				{
 					this.pawn.mindState.priorityWork.Set(cell, giver.def.workType);
 				}
-				result = true;
+				return true;
 			}
-			else
-			{
-				result = false;
-			}
-			return result;
+			return false;
 		}
 
 		public bool TryTakeOrderedJob(Job job, JobTag tag = JobTag.Misc)
@@ -723,106 +689,90 @@ namespace Verse.AI
 				this.DebugLogEvent("TryTakeOrderedJob " + job);
 			}
 			job.playerForced = true;
-			bool result;
 			if (this.curJob != null && this.curJob.JobIsSameAs(job))
 			{
-				result = true;
+				return true;
+			}
+			bool flag = this.pawn.jobs.IsCurrentJobPlayerInterruptible();
+			bool flag2 = this.pawn.mindState.IsIdle || this.pawn.CurJob == null || this.pawn.CurJob.def.isIdle;
+			bool isDownEvent = KeyBindingDefOf.QueueOrder.IsDownEvent;
+			if (isDownEvent)
+			{
+				PlayerKnowledgeDatabase.KnowledgeDemonstrated(ConceptDefOf.QueueOrders, KnowledgeAmount.NoteTaught);
+			}
+			if (flag && (!isDownEvent || flag2))
+			{
+				this.pawn.stances.CancelBusyStanceSoft();
+				if (this.debugLog)
+				{
+					this.DebugLogEvent("    Queueing job");
+				}
+				this.ClearQueuedJobs();
+				if (job.TryMakePreToilReservations(this.pawn, true))
+				{
+					this.jobQueue.EnqueueFirst(job, new JobTag?(tag));
+					if (this.curJob != null)
+					{
+						this.curDriver.EndJobWith(JobCondition.InterruptForced);
+					}
+					else
+					{
+						this.CheckForJobOverride();
+					}
+					return true;
+				}
+				Log.Warning("TryMakePreToilReservations() returned false right after TryTakeOrderedJob(). This should have been checked before. job=" + job.ToStringSafe<Job>(), false);
+				this.pawn.ClearReservationsForJob(job);
+				return false;
+			}
+			else if (isDownEvent)
+			{
+				if (job.TryMakePreToilReservations(this.pawn, true))
+				{
+					this.jobQueue.EnqueueLast(job, new JobTag?(tag));
+					return true;
+				}
+				Log.Warning("TryMakePreToilReservations() returned false right after TryTakeOrderedJob(). This should have been checked before. job=" + job.ToStringSafe<Job>(), false);
+				this.pawn.ClearReservationsForJob(job);
+				return false;
 			}
 			else
 			{
-				bool flag = this.pawn.jobs.IsCurrentJobPlayerInterruptible();
-				bool flag2 = this.pawn.mindState.IsIdle || this.pawn.CurJob == null || this.pawn.CurJob.def.isIdle;
-				bool isDownEvent = KeyBindingDefOf.QueueOrder.IsDownEvent;
-				if (isDownEvent)
+				this.ClearQueuedJobs();
+				if (job.TryMakePreToilReservations(this.pawn, true))
 				{
-					PlayerKnowledgeDatabase.KnowledgeDemonstrated(ConceptDefOf.QueueOrders, KnowledgeAmount.NoteTaught);
+					this.jobQueue.EnqueueLast(job, new JobTag?(tag));
+					return true;
 				}
-				if (flag && (!isDownEvent || flag2))
-				{
-					this.pawn.stances.CancelBusyStanceSoft();
-					if (this.debugLog)
-					{
-						this.DebugLogEvent("    Queueing job");
-					}
-					this.ClearQueuedJobs();
-					if (job.TryMakePreToilReservations(this.pawn))
-					{
-						this.jobQueue.EnqueueFirst(job, new JobTag?(tag));
-						if (this.curJob != null)
-						{
-							this.curDriver.EndJobWith(JobCondition.InterruptForced);
-						}
-						else
-						{
-							this.CheckForJobOverride();
-						}
-						result = true;
-					}
-					else
-					{
-						Log.Warning("TryMakePreToilReservations() returned false right after TryTakeOrderedJob(). This should have been checked before. job=" + job.ToStringSafe<Job>(), false);
-						this.pawn.ClearReservationsForJob(job);
-						result = false;
-					}
-				}
-				else if (isDownEvent)
-				{
-					if (job.TryMakePreToilReservations(this.pawn))
-					{
-						this.jobQueue.EnqueueLast(job, new JobTag?(tag));
-						result = true;
-					}
-					else
-					{
-						Log.Warning("TryMakePreToilReservations() returned false right after TryTakeOrderedJob(). This should have been checked before. job=" + job.ToStringSafe<Job>(), false);
-						this.pawn.ClearReservationsForJob(job);
-						result = false;
-					}
-				}
-				else
-				{
-					this.ClearQueuedJobs();
-					if (job.TryMakePreToilReservations(this.pawn))
-					{
-						this.jobQueue.EnqueueLast(job, new JobTag?(tag));
-						result = true;
-					}
-					else
-					{
-						Log.Warning("TryMakePreToilReservations() returned false right after TryTakeOrderedJob(). This should have been checked before. job=" + job.ToStringSafe<Job>(), false);
-						this.pawn.ClearReservationsForJob(job);
-						result = false;
-					}
-				}
+				Log.Warning("TryMakePreToilReservations() returned false right after TryTakeOrderedJob(). This should have been checked before. job=" + job.ToStringSafe<Job>(), false);
+				this.pawn.ClearReservationsForJob(job);
+				return false;
 			}
-			return result;
 		}
 
 		public void Notify_TuckedIntoBed(Building_Bed bed)
 		{
 			this.pawn.Position = RestUtility.GetBedSleepingSlotPosFor(this.pawn, bed);
-			this.pawn.Notify_Teleported(false);
+			this.pawn.Notify_Teleported(false, true);
 			this.pawn.stances.CancelBusyStanceHard();
 			this.StartJob(new Job(JobDefOf.LayDown, bed), JobCondition.InterruptForced, null, false, true, null, new JobTag?(JobTag.TuckedIntoBed), false);
 		}
 
 		public void Notify_DamageTaken(DamageInfo dinfo)
 		{
-			if (this.curJob != null)
+			if (this.curJob == null)
 			{
-				Job job = this.curJob;
-				this.curDriver.Notify_DamageTaken(dinfo);
-				if (this.curJob == job)
+				return;
+			}
+			Job job = this.curJob;
+			this.curDriver.Notify_DamageTaken(dinfo);
+			if (this.curJob == job && dinfo.Def.ExternalViolenceFor(this.pawn) && dinfo.Def.canInterruptJobs && !this.curJob.playerForced && Find.TickManager.TicksGame >= this.lastDamageCheckTick + 180)
+			{
+				Thing instigator = dinfo.Instigator;
+				if (this.curJob.def.checkOverrideOnDamage == CheckJobOverrideOnDamageMode.Always || (this.curJob.def.checkOverrideOnDamage == CheckJobOverrideOnDamageMode.OnlyIfInstigatorNotJobTarget && !this.curJob.AnyTargetIs(instigator)))
 				{
-					if (dinfo.Def.externalViolence && dinfo.Def.canInterruptJobs && !this.curJob.playerForced && Find.TickManager.TicksGame >= this.lastDamageCheckTick + 180)
-					{
-						Thing instigator = dinfo.Instigator;
-						if (this.curJob.def.checkOverrideOnDamage == CheckJobOverrideOnDamageMode.Always || (this.curJob.def.checkOverrideOnDamage == CheckJobOverrideOnDamageMode.OnlyIfInstigatorNotJobTarget && !this.curJob.AnyTargetIs(instigator)))
-						{
-							this.lastDamageCheckTick = Find.TickManager.TicksGame;
-							this.CheckForJobOverride();
-						}
-					}
+					this.lastDamageCheckTick = Find.TickManager.TicksGame;
+					this.CheckForJobOverride();
 				}
 			}
 		}
@@ -843,27 +793,33 @@ namespace Verse.AI
 			{
 				a = this.pawn.pather.Destination.CenterVector3;
 			}
-			else if (this.curJob != null && this.curJob.targetA.IsValid && (!this.curJob.targetA.HasThing || this.curJob.targetA.Thing.Spawned))
+			else if (this.curJob != null && this.curJob.targetA.IsValid && (!this.curJob.targetA.HasThing || (this.curJob.targetA.Thing.Spawned && this.curJob.targetA.Thing.Map == this.pawn.Map)))
 			{
 				GenDraw.DrawLineBetween(a, this.curJob.targetA.CenterVector3, AltitudeLayer.Item.AltitudeFor());
 				a = this.curJob.targetA.CenterVector3;
 			}
 			for (int i = 0; i < this.jobQueue.Count; i++)
 			{
-				Vector3 centerVector = this.jobQueue[i].job.targetA.CenterVector3;
-				if (centerVector != Vector3.zero)
+				if (this.jobQueue[i].job.targetA.IsValid)
 				{
-					GenDraw.DrawLineBetween(a, centerVector, AltitudeLayer.Item.AltitudeFor());
-					a = centerVector;
+					if (!this.jobQueue[i].job.targetA.HasThing || (this.jobQueue[i].job.targetA.Thing.Spawned && this.jobQueue[i].job.targetA.Thing.Map == this.pawn.Map))
+					{
+						Vector3 centerVector = this.jobQueue[i].job.targetA.CenterVector3;
+						GenDraw.DrawLineBetween(a, centerVector, AltitudeLayer.Item.AltitudeFor());
+						a = centerVector;
+					}
 				}
 				else
 				{
 					List<LocalTargetInfo> targetQueueA = this.jobQueue[i].job.targetQueueA;
-					if (!targetQueueA.NullOrEmpty<LocalTargetInfo>())
+					for (int j = 0; j < targetQueueA.Count; j++)
 					{
-						Vector3 centerVector2 = targetQueueA[0].CenterVector3;
-						GenDraw.DrawLineBetween(a, centerVector2, AltitudeLayer.Item.AltitudeFor());
-						a = centerVector2;
+						if (!targetQueueA[j].HasThing || (targetQueueA[j].Thing.Spawned && targetQueueA[j].Thing.Map == this.pawn.Map))
+						{
+							Vector3 centerVector2 = targetQueueA[j].CenterVector3;
+							GenDraw.DrawLineBetween(a, centerVector2, AltitudeLayer.Item.AltitudeFor());
+							a = centerVector2;
+						}
 					}
 				}
 			}

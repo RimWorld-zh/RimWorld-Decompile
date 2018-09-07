@@ -12,7 +12,7 @@ namespace RimWorld.Planet
 		private const int TendIntervalTicks = 1250;
 
 		[CompilerGenerated]
-		private static Func<Pawn, float> <>f__am$cache0;
+		private static Func<Pawn, float> <>f__mg$cache0;
 
 		public static void CheckTend(Caravan caravan)
 		{
@@ -32,33 +32,40 @@ namespace RimWorld.Planet
 		public static void TryTendToAnyPawn(Caravan caravan)
 		{
 			CaravanTendUtility.FindPawnsNeedingTend(caravan, CaravanTendUtility.tmpPawnsNeedingTreatment);
-			if (CaravanTendUtility.tmpPawnsNeedingTreatment.Any<Pawn>())
+			if (!CaravanTendUtility.tmpPawnsNeedingTreatment.Any<Pawn>())
 			{
-				CaravanTendUtility.tmpPawnsNeedingTreatment.SortByDescending((Pawn x) => CaravanTendUtility.GetTendPriority(x));
-				Pawn patient = null;
-				Pawn pawn = null;
-				for (int i = 0; i < CaravanTendUtility.tmpPawnsNeedingTreatment.Count; i++)
-				{
-					patient = CaravanTendUtility.tmpPawnsNeedingTreatment[i];
-					pawn = CaravanTendUtility.FindBestDoctorFor(caravan, patient);
-					if (pawn != null)
-					{
-						break;
-					}
-				}
+				return;
+			}
+			List<Pawn> list = CaravanTendUtility.tmpPawnsNeedingTreatment;
+			if (CaravanTendUtility.<>f__mg$cache0 == null)
+			{
+				CaravanTendUtility.<>f__mg$cache0 = new Func<Pawn, float>(CaravanTendUtility.GetTendPriority);
+			}
+			list.SortByDescending(CaravanTendUtility.<>f__mg$cache0);
+			Pawn patient = null;
+			Pawn pawn = null;
+			for (int i = 0; i < CaravanTendUtility.tmpPawnsNeedingTreatment.Count; i++)
+			{
+				patient = CaravanTendUtility.tmpPawnsNeedingTreatment[i];
+				pawn = CaravanTendUtility.FindBestDoctorFor(caravan, patient);
 				if (pawn != null)
 				{
-					Medicine medicine = null;
-					Pawn pawn2 = null;
-					CaravanInventoryUtility.TryGetBestMedicine(caravan, patient, out medicine, out pawn2);
-					TendUtility.DoTend(pawn, patient, medicine);
-					if (medicine != null && medicine.Destroyed && pawn2 != null)
-					{
-						pawn2.inventory.innerContainer.Remove(medicine);
-					}
-					CaravanTendUtility.tmpPawnsNeedingTreatment.Clear();
+					break;
 				}
 			}
+			if (pawn == null)
+			{
+				return;
+			}
+			Medicine medicine = null;
+			Pawn pawn2 = null;
+			CaravanInventoryUtility.TryGetBestMedicine(caravan, patient, out medicine, out pawn2);
+			TendUtility.DoTend(pawn, patient, medicine);
+			if (medicine != null && medicine.Destroyed && pawn2 != null)
+			{
+				pawn2.inventory.innerContainer.Remove(medicine);
+			}
+			CaravanTendUtility.tmpPawnsNeedingTreatment.Clear();
 		}
 
 		private static void FindPawnsNeedingTend(Caravan caravan, List<Pawn> outPawnsNeedingTend)
@@ -107,68 +114,56 @@ namespace RimWorld.Planet
 		private static float GetTendPriority(Pawn patient)
 		{
 			int num = HealthUtility.TicksUntilDeathDueToBloodLoss(patient);
-			float result;
 			if (num < 15000)
 			{
 				if (patient.RaceProps.Humanlike)
 				{
-					result = GenMath.LerpDouble(0f, 15000f, 5f, 4f, (float)num);
+					return GenMath.LerpDouble(0f, 15000f, 5f, 4f, (float)num);
 				}
-				else
-				{
-					result = GenMath.LerpDouble(0f, 15000f, 4f, 3f, (float)num);
-				}
+				return GenMath.LerpDouble(0f, 15000f, 4f, 3f, (float)num);
 			}
 			else
 			{
-				for (int i = 0; i < patient.health.hediffSet.hediffs.Count; i++)
+				int i = 0;
+				while (i < patient.health.hediffSet.hediffs.Count)
 				{
 					Hediff hediff = patient.health.hediffSet.hediffs[i];
 					HediffStage curStage = hediff.CurStage;
-					if ((curStage != null && curStage.lifeThreatening) || hediff.def.lethalSeverity >= 0f)
+					if (((curStage != null && curStage.lifeThreatening) || hediff.def.lethalSeverity >= 0f) && hediff.TendableNow(false))
 					{
-						if (hediff.TendableNow(false))
+						if (patient.RaceProps.Humanlike)
 						{
-							if (patient.RaceProps.Humanlike)
-							{
-								return 2.5f;
-							}
-							return 2f;
+							return 2.5f;
 						}
+						return 2f;
+					}
+					else
+					{
+						i++;
 					}
 				}
 				if (patient.health.hediffSet.BleedRateTotal >= 0.0001f)
 				{
 					if (patient.RaceProps.Humanlike)
 					{
-						result = 1.5f;
+						return 1.5f;
 					}
-					else
-					{
-						result = 1f;
-					}
-				}
-				else if (patient.RaceProps.Humanlike)
-				{
-					result = 0.5f;
+					return 1f;
 				}
 				else
 				{
-					result = 0f;
+					if (patient.RaceProps.Humanlike)
+					{
+						return 0.5f;
+					}
+					return 0f;
 				}
 			}
-			return result;
 		}
 
 		// Note: this type is marked as 'beforefieldinit'.
 		static CaravanTendUtility()
 		{
-		}
-
-		[CompilerGenerated]
-		private static float <TryTendToAnyPawn>m__0(Pawn x)
-		{
-			return CaravanTendUtility.GetTendPriority(x);
 		}
 	}
 }

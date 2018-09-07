@@ -154,20 +154,15 @@ namespace RimWorld.Planet
 		{
 			get
 			{
-				IEnumerable<InspectTabBase> result;
 				if (this.NumSelectedObjects == 1)
 				{
-					result = Find.WorldSelector.SingleSelectedObject.GetInspectTabs();
+					return Find.WorldSelector.SingleSelectedObject.GetInspectTabs();
 				}
-				else if (this.NumSelectedObjects == 0 && this.SelectedTile >= 0)
+				if (this.NumSelectedObjects == 0 && this.SelectedTile >= 0)
 				{
-					result = WorldInspectPane.TileTabs;
+					return WorldInspectPane.TileTabs;
 				}
-				else
-				{
-					result = Enumerable.Empty<InspectTabBase>();
-				}
-				return result;
+				return Enumerable.Empty<InspectTabBase>();
 			}
 		}
 
@@ -229,34 +224,30 @@ namespace RimWorld.Planet
 
 		public string GetLabel(Rect rect)
 		{
-			string result;
 			if (this.NumSelectedObjects > 0)
 			{
-				result = WorldInspectPaneUtility.AdjustedLabelFor(this.Selected, rect);
+				return WorldInspectPaneUtility.AdjustedLabelFor(this.Selected, rect);
 			}
-			else if (this.SelectedTile >= 0)
+			if (this.SelectedTile >= 0)
 			{
-				result = Find.WorldGrid[this.SelectedTile].biome.LabelCap;
+				return Find.WorldGrid[this.SelectedTile].biome.LabelCap;
 			}
-			else
-			{
-				result = "error";
-			}
-			return result;
+			return "error";
 		}
 
 		public void SelectNextInCell()
 		{
-			if (this.AnythingSelected)
+			if (!this.AnythingSelected)
 			{
-				if (this.NumSelectedObjects > 0)
-				{
-					Find.WorldSelector.SelectFirstOrNextAt(this.Selected[0].Tile);
-				}
-				else
-				{
-					Find.WorldSelector.SelectFirstOrNextAt(this.SelectedTile);
-				}
+				return;
+			}
+			if (this.NumSelectedObjects > 0)
+			{
+				Find.WorldSelector.SelectFirstOrNextAt(this.Selected[0].Tile);
+			}
+			else
+			{
+				Find.WorldSelector.SelectFirstOrNextAt(this.SelectedTile);
 			}
 		}
 

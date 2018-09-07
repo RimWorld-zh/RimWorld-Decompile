@@ -88,16 +88,11 @@ namespace RimWorld
 
 		public override string ToString()
 		{
-			string result;
 			if (this.parent != null)
 			{
-				result = this.parent.ToString();
+				return this.parent.ToString();
 			}
-			else
-			{
-				result = "NullParent";
-			}
-			return result;
+			return "NullParent";
 		}
 
 		[CompilerGenerated]
@@ -136,15 +131,15 @@ namespace RimWorld
 					cellsList = base.CellsList;
 					map = base.Map;
 					i = 0;
-					goto IL_105;
+					goto IL_100;
 				case 1u:
-					IL_D1:
+					IL_CE:
 					j++;
 					break;
 				default:
 					return false;
 				}
-				IL_E0:
+				IL_DC:
 				if (j >= thingList.Count)
 				{
 					i++;
@@ -160,14 +155,14 @@ namespace RimWorld
 						}
 						return true;
 					}
-					goto IL_D1;
+					goto IL_CE;
 				}
-				IL_105:
+				IL_100:
 				if (i < cellsList.Count)
 				{
 					thingList = map.thingGrid.ThingsListAt(cellsList[i]);
 					j = 0;
-					goto IL_E0;
+					goto IL_DC;
 				}
 				this.$PC = -1;
 				return false;

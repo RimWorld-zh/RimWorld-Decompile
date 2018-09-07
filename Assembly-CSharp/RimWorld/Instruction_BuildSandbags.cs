@@ -88,16 +88,11 @@ namespace RimWorld
 
 		public override AcceptanceReport AllowAction(EventPack ep)
 		{
-			AcceptanceReport result;
 			if (ep.Tag == "Designate-Sandbags")
 			{
-				result = TutorUtility.EventCellsAreWithin(ep, this.sandbagCells);
+				return TutorUtility.EventCellsAreWithin(ep, this.sandbagCells);
 			}
-			else
-			{
-				result = base.AllowAction(ep);
-			}
-			return result;
+			return base.AllowAction(ep);
 		}
 
 		[CompilerGenerated]

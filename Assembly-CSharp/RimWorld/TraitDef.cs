@@ -59,7 +59,7 @@ namespace RimWorld
 
 		public override IEnumerable<string> ConfigErrors()
 		{
-			foreach (string err in this.<ConfigErrors>__BaseCallProxy0())
+			foreach (string err in base.ConfigErrors())
 			{
 				yield return err;
 			}
@@ -101,16 +101,11 @@ namespace RimWorld
 
 		public float GetGenderSpecificCommonality(Gender gender)
 		{
-			float result;
 			if (gender == Gender.Female && this.commonalityFemale >= 0f)
 			{
-				result = this.commonalityFemale;
+				return this.commonalityFemale;
 			}
-			else
-			{
-				result = this.commonality;
-			}
-			return result;
+			return this.commonality;
 		}
 
 		[DebuggerHidden]
@@ -158,13 +153,13 @@ namespace RimWorld
 				case 1u:
 					break;
 				case 2u:
-					goto IL_11E;
+					goto IL_11A;
 				case 3u:
-					goto IL_162;
+					goto IL_15E;
 				case 4u:
-					IL_20C:
+					IL_207:
 					i++;
-					goto IL_21B;
+					goto IL_215;
 				default:
 					return false;
 				}
@@ -204,7 +199,7 @@ namespace RimWorld
 					}
 					return true;
 				}
-				IL_11E:
+				IL_11A:
 				if (!this.degreeDatas.Any<TraitDegreeData>())
 				{
 					this.$current = this.defName + " has no degree datas.";
@@ -214,9 +209,9 @@ namespace RimWorld
 					}
 					return true;
 				}
-				IL_162:
+				IL_15E:
 				i = 0;
-				IL_21B:
+				IL_215:
 				if (i >= this.degreeDatas.Count)
 				{
 					this.$PC = -1;
@@ -235,7 +230,7 @@ namespace RimWorld
 						}
 						return true;
 					}
-					goto IL_20C;
+					goto IL_207;
 				}
 				return false;
 			}

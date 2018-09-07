@@ -18,11 +18,11 @@ namespace UnityStandardAssets.ImageEffects
 
 		public float midGrey = 0.2f;
 
-		public bool dx11Grain = false;
+		public bool dx11Grain;
 
-		public float softness = 0f;
+		public float softness;
 
-		public bool monochrome = false;
+		public bool monochrome;
 
 		public Vector3 intensities = new Vector3(1f, 1f, 1f);
 
@@ -36,11 +36,11 @@ namespace UnityStandardAssets.ImageEffects
 
 		public Shader noiseShader;
 
-		private Material noiseMaterial = null;
+		private Material noiseMaterial;
 
 		public Shader dx11NoiseShader;
 
-		private Material dx11NoiseMaterial = null;
+		private Material dx11NoiseMaterial;
 
 		private static float TILE_AMOUNT = 64f;
 
@@ -72,54 +72,52 @@ namespace UnityStandardAssets.ImageEffects
 				{
 					Debug.LogWarning("Noise & Grain effect failing as noise texture is not assigned. please assign.", base.transform);
 				}
+				return;
 			}
-			else
+			this.softness = Mathf.Clamp(this.softness, 0f, 0.99f);
+			if (this.dx11Grain && this.supportDX11)
 			{
-				this.softness = Mathf.Clamp(this.softness, 0f, 0.99f);
-				if (this.dx11Grain && this.supportDX11)
+				this.dx11NoiseMaterial.SetFloat("_DX11NoiseTime", (float)Time.frameCount);
+				this.dx11NoiseMaterial.SetTexture("_NoiseTex", this.noiseTexture);
+				this.dx11NoiseMaterial.SetVector("_NoisePerChannel", (!this.monochrome) ? this.intensities : Vector3.one);
+				this.dx11NoiseMaterial.SetVector("_MidGrey", new Vector3(this.midGrey, 1f / (1f - this.midGrey), -1f / this.midGrey));
+				this.dx11NoiseMaterial.SetVector("_NoiseAmount", new Vector3(this.generalIntensity, this.blackIntensity, this.whiteIntensity) * this.intensityMultiplier);
+				if (this.softness > Mathf.Epsilon)
 				{
-					this.dx11NoiseMaterial.SetFloat("_DX11NoiseTime", (float)Time.frameCount);
-					this.dx11NoiseMaterial.SetTexture("_NoiseTex", this.noiseTexture);
-					this.dx11NoiseMaterial.SetVector("_NoisePerChannel", (!this.monochrome) ? this.intensities : Vector3.one);
-					this.dx11NoiseMaterial.SetVector("_MidGrey", new Vector3(this.midGrey, 1f / (1f - this.midGrey), -1f / this.midGrey));
-					this.dx11NoiseMaterial.SetVector("_NoiseAmount", new Vector3(this.generalIntensity, this.blackIntensity, this.whiteIntensity) * this.intensityMultiplier);
-					if (this.softness > Mathf.Epsilon)
-					{
-						RenderTexture temporary = RenderTexture.GetTemporary((int)((float)source.width * (1f - this.softness)), (int)((float)source.height * (1f - this.softness)));
-						NoiseAndGrain.DrawNoiseQuadGrid(source, temporary, this.dx11NoiseMaterial, this.noiseTexture, (!this.monochrome) ? 2 : 3);
-						this.dx11NoiseMaterial.SetTexture("_NoiseTex", temporary);
-						Graphics.Blit(source, destination, this.dx11NoiseMaterial, 4);
-						RenderTexture.ReleaseTemporary(temporary);
-					}
-					else
-					{
-						NoiseAndGrain.DrawNoiseQuadGrid(source, destination, this.dx11NoiseMaterial, this.noiseTexture, (!this.monochrome) ? 0 : 1);
-					}
+					RenderTexture temporary = RenderTexture.GetTemporary((int)((float)source.width * (1f - this.softness)), (int)((float)source.height * (1f - this.softness)));
+					NoiseAndGrain.DrawNoiseQuadGrid(source, temporary, this.dx11NoiseMaterial, this.noiseTexture, (!this.monochrome) ? 2 : 3);
+					this.dx11NoiseMaterial.SetTexture("_NoiseTex", temporary);
+					Graphics.Blit(source, destination, this.dx11NoiseMaterial, 4);
+					RenderTexture.ReleaseTemporary(temporary);
 				}
 				else
 				{
-					if (this.noiseTexture)
-					{
-						this.noiseTexture.wrapMode = TextureWrapMode.Repeat;
-						this.noiseTexture.filterMode = this.filterMode;
-					}
-					this.noiseMaterial.SetTexture("_NoiseTex", this.noiseTexture);
-					this.noiseMaterial.SetVector("_NoisePerChannel", (!this.monochrome) ? this.intensities : Vector3.one);
-					this.noiseMaterial.SetVector("_NoiseTilingPerChannel", (!this.monochrome) ? this.tiling : (Vector3.one * this.monochromeTiling));
-					this.noiseMaterial.SetVector("_MidGrey", new Vector3(this.midGrey, 1f / (1f - this.midGrey), -1f / this.midGrey));
-					this.noiseMaterial.SetVector("_NoiseAmount", new Vector3(this.generalIntensity, this.blackIntensity, this.whiteIntensity) * this.intensityMultiplier);
-					if (this.softness > Mathf.Epsilon)
-					{
-						RenderTexture temporary2 = RenderTexture.GetTemporary((int)((float)source.width * (1f - this.softness)), (int)((float)source.height * (1f - this.softness)));
-						NoiseAndGrain.DrawNoiseQuadGrid(source, temporary2, this.noiseMaterial, this.noiseTexture, 2);
-						this.noiseMaterial.SetTexture("_NoiseTex", temporary2);
-						Graphics.Blit(source, destination, this.noiseMaterial, 1);
-						RenderTexture.ReleaseTemporary(temporary2);
-					}
-					else
-					{
-						NoiseAndGrain.DrawNoiseQuadGrid(source, destination, this.noiseMaterial, this.noiseTexture, 0);
-					}
+					NoiseAndGrain.DrawNoiseQuadGrid(source, destination, this.dx11NoiseMaterial, this.noiseTexture, (!this.monochrome) ? 0 : 1);
+				}
+			}
+			else
+			{
+				if (this.noiseTexture)
+				{
+					this.noiseTexture.wrapMode = TextureWrapMode.Repeat;
+					this.noiseTexture.filterMode = this.filterMode;
+				}
+				this.noiseMaterial.SetTexture("_NoiseTex", this.noiseTexture);
+				this.noiseMaterial.SetVector("_NoisePerChannel", (!this.monochrome) ? this.intensities : Vector3.one);
+				this.noiseMaterial.SetVector("_NoiseTilingPerChannel", (!this.monochrome) ? this.tiling : (Vector3.one * this.monochromeTiling));
+				this.noiseMaterial.SetVector("_MidGrey", new Vector3(this.midGrey, 1f / (1f - this.midGrey), -1f / this.midGrey));
+				this.noiseMaterial.SetVector("_NoiseAmount", new Vector3(this.generalIntensity, this.blackIntensity, this.whiteIntensity) * this.intensityMultiplier);
+				if (this.softness > Mathf.Epsilon)
+				{
+					RenderTexture temporary2 = RenderTexture.GetTemporary((int)((float)source.width * (1f - this.softness)), (int)((float)source.height * (1f - this.softness)));
+					NoiseAndGrain.DrawNoiseQuadGrid(source, temporary2, this.noiseMaterial, this.noiseTexture, 2);
+					this.noiseMaterial.SetTexture("_NoiseTex", temporary2);
+					Graphics.Blit(source, destination, this.noiseMaterial, 1);
+					RenderTexture.ReleaseTemporary(temporary2);
+				}
+				else
+				{
+					NoiseAndGrain.DrawNoiseQuadGrid(source, destination, this.noiseMaterial, this.noiseTexture, 0);
 				}
 			}
 		}

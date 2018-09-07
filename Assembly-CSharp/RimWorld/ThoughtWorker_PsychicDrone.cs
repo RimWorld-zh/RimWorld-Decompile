@@ -23,46 +23,33 @@ namespace RimWorld
 			{
 				psychicDroneLevel = activeCondition.level;
 			}
-			ThoughtState result;
 			switch (psychicDroneLevel)
 			{
 			case PsychicDroneLevel.None:
-				result = false;
-				break;
+				return false;
 			case PsychicDroneLevel.GoodMedium:
-				result = ThoughtState.ActiveAtStage(0);
-				break;
+				return ThoughtState.ActiveAtStage(0);
 			case PsychicDroneLevel.BadLow:
-				result = ThoughtState.ActiveAtStage(1);
-				break;
+				return ThoughtState.ActiveAtStage(1);
 			case PsychicDroneLevel.BadMedium:
-				result = ThoughtState.ActiveAtStage(2);
-				break;
+				return ThoughtState.ActiveAtStage(2);
 			case PsychicDroneLevel.BadHigh:
-				result = ThoughtState.ActiveAtStage(3);
-				break;
+				return ThoughtState.ActiveAtStage(3);
 			case PsychicDroneLevel.BadExtreme:
-				result = ThoughtState.ActiveAtStage(4);
-				break;
+				return ThoughtState.ActiveAtStage(4);
 			default:
 				throw new NotImplementedException();
 			}
-			return result;
 		}
 
 		private static CompPsychicDrone PsychicDroneEmanator(Map map)
 		{
 			List<Thing> list = map.listerThings.ThingsInGroup(ThingRequestGroup.PsychicDroneEmanator);
-			CompPsychicDrone result;
 			if (!list.Any<Thing>())
 			{
-				result = null;
+				return null;
 			}
-			else
-			{
-				result = list[0].TryGetComp<CompPsychicDrone>();
-			}
-			return result;
+			return list[0].TryGetComp<CompPsychicDrone>();
 		}
 	}
 }

@@ -45,16 +45,11 @@ namespace RimWorld
 		{
 			return DefDatabase<ResearchProjectDef>.AllDefs.Where(delegate(ResearchProjectDef d)
 			{
-				bool result;
 				if (d.tags == null || Find.Scenario.playerFaction.factionDef.startingResearchTags == null)
 				{
-					result = true;
+					return true;
 				}
-				else
-				{
-					result = !d.tags.Any((ResearchProjectTagDef tag) => Find.Scenario.playerFaction.factionDef.startingResearchTags.Contains(tag));
-				}
-				return result;
+				return !d.tags.Any((ResearchProjectTagDef tag) => Find.Scenario.playerFaction.factionDef.startingResearchTags.Contains(tag));
 			});
 		}
 
@@ -74,7 +69,7 @@ namespace RimWorld
 
 		public override void PostGameStart()
 		{
-			Find.ResearchManager.InstantFinish(this.project, false);
+			Find.ResearchManager.FinishProject(this.project, false, null);
 		}
 
 		[CompilerGenerated]
@@ -95,16 +90,11 @@ namespace RimWorld
 		[CompilerGenerated]
 		private static bool <NonRedundantResearchProjects>m__2(ResearchProjectDef d)
 		{
-			bool result;
 			if (d.tags == null || Find.Scenario.playerFaction.factionDef.startingResearchTags == null)
 			{
-				result = true;
+				return true;
 			}
-			else
-			{
-				result = !d.tags.Any((ResearchProjectTagDef tag) => Find.Scenario.playerFaction.factionDef.startingResearchTags.Contains(tag));
-			}
-			return result;
+			return !d.tags.Any((ResearchProjectTagDef tag) => Find.Scenario.playerFaction.factionDef.startingResearchTags.Contains(tag));
 		}
 
 		[CompilerGenerated]

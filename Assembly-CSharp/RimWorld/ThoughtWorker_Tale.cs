@@ -11,24 +11,19 @@ namespace RimWorld
 
 		protected override ThoughtState CurrentSocialStateInternal(Pawn p, Pawn other)
 		{
-			ThoughtState result;
 			if (!other.RaceProps.Humanlike)
 			{
-				result = false;
+				return false;
 			}
-			else if (!RelationsUtility.PawnsKnowEachOther(p, other))
+			if (!RelationsUtility.PawnsKnowEachOther(p, other))
 			{
-				result = false;
+				return false;
 			}
-			else if (Find.TaleManager.GetLatestTale(this.def.taleDef, other) == null)
+			if (Find.TaleManager.GetLatestTale(this.def.taleDef, other) == null)
 			{
-				result = false;
+				return false;
 			}
-			else
-			{
-				result = true;
-			}
-			return result;
+			return true;
 		}
 	}
 }

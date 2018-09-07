@@ -16,7 +16,7 @@ namespace RimWorld
 
 		protected override IEnumerable<Toil> MakeNewToils()
 		{
-			foreach (Toil toil in this.<MakeNewToils>__BaseCallProxy0())
+			foreach (Toil toil in base.MakeNewToils())
 			{
 				yield return toil;
 			}

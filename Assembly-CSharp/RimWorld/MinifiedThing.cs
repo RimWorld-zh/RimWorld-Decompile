@@ -31,43 +31,39 @@ namespace RimWorld
 		{
 			get
 			{
-				Thing result;
 				if (this.innerContainer.Count == 0)
 				{
-					result = null;
+					return null;
 				}
-				else
-				{
-					result = this.innerContainer[0];
-				}
-				return result;
+				return this.innerContainer[0];
 			}
 			set
 			{
-				if (value != this.InnerThing)
+				if (value == this.InnerThing)
 				{
-					if (value == null)
+					return;
+				}
+				if (value == null)
+				{
+					this.innerContainer.Clear();
+				}
+				else
+				{
+					if (this.innerContainer.Count != 0)
 					{
-						this.innerContainer.Clear();
-					}
-					else
-					{
-						if (this.innerContainer.Count != 0)
+						Log.Warning(string.Concat(new string[]
 						{
-							Log.Warning(string.Concat(new string[]
-							{
-								"Assigned 2 things to the same MinifiedThing ",
-								this.ToStringSafe<MinifiedThing>(),
-								" (first=",
-								this.innerContainer[0].ToStringSafe<Thing>(),
-								" second=",
-								value.ToStringSafe<Thing>(),
-								")"
-							}), false);
-							this.innerContainer.ClearAndDestroyContents(DestroyMode.Vanish);
-						}
-						this.innerContainer.TryAdd(value, true);
+							"Assigned 2 things to the same MinifiedThing ",
+							this.ToStringSafe<MinifiedThing>(),
+							" (first=",
+							this.innerContainer[0].ToStringSafe<Thing>(),
+							" second=",
+							value.ToStringSafe<Thing>(),
+							")"
+						}), false);
+						this.innerContainer.ClearAndDestroyContents(DestroyMode.Vanish);
 					}
+					this.innerContainer.TryAdd(value, true);
 				}
 			}
 		}
@@ -120,14 +116,12 @@ namespace RimWorld
 			{
 				Log.Error("MinifiedThing with null InnerThing. Destroying.", false);
 				this.Destroy(DestroyMode.Vanish);
+				return;
 			}
-			else
+			base.Tick();
+			if (this.InnerThing is Building_Battery)
 			{
-				base.Tick();
-				if (this.InnerThing is Building_Battery)
-				{
-					this.innerContainer.ThingOwnerTick(true);
-				}
+				this.innerContainer.ThingOwnerTick(true);
 			}
 		}
 
@@ -225,7 +219,7 @@ namespace RimWorld
 
 		public override IEnumerable<Gizmo> GetGizmos()
 		{
-			foreach (Gizmo c in this.<GetGizmos>__BaseCallProxy0())
+			foreach (Gizmo c in base.GetGizmos())
 			{
 				yield return c;
 			}
@@ -248,16 +242,11 @@ namespace RimWorld
 		private Vector2 GetMinifiedDrawSize(Vector2 drawSize, float maxSideLength)
 		{
 			float num = maxSideLength / Mathf.Max(drawSize.x, drawSize.y);
-			Vector2 result;
 			if (num >= 1f)
 			{
-				result = drawSize;
+				return drawSize;
 			}
-			else
-			{
-				result = drawSize * num;
-			}
-			return result;
+			return drawSize * num;
 		}
 
 		[DebuggerHidden]

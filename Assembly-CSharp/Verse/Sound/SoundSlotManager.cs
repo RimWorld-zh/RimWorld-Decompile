@@ -10,39 +10,28 @@ namespace Verse.Sound
 
 		public static bool CanPlayNow(string slotName)
 		{
-			bool result;
-			if (slotName == "")
+			if (slotName == string.Empty)
 			{
-				result = true;
+				return true;
 			}
-			else
-			{
-				float num = 0f;
-				if (SoundSlotManager.allowedPlayTimes.TryGetValue(slotName, out num))
-				{
-					if (Time.realtimeSinceStartup < SoundSlotManager.allowedPlayTimes[slotName])
-					{
-						return false;
-					}
-				}
-				result = true;
-			}
-			return result;
+			float num = 0f;
+			return !SoundSlotManager.allowedPlayTimes.TryGetValue(slotName, out num) || Time.realtimeSinceStartup >= SoundSlotManager.allowedPlayTimes[slotName];
 		}
 
 		public static void Notify_Played(string slot, float duration)
 		{
-			if (!(slot == ""))
+			if (slot == string.Empty)
 			{
-				float a;
-				if (SoundSlotManager.allowedPlayTimes.TryGetValue(slot, out a))
-				{
-					SoundSlotManager.allowedPlayTimes[slot] = Mathf.Max(a, Time.realtimeSinceStartup + duration);
-				}
-				else
-				{
-					SoundSlotManager.allowedPlayTimes[slot] = Time.realtimeSinceStartup + duration;
-				}
+				return;
+			}
+			float a;
+			if (SoundSlotManager.allowedPlayTimes.TryGetValue(slot, out a))
+			{
+				SoundSlotManager.allowedPlayTimes[slot] = Mathf.Max(a, Time.realtimeSinceStartup + duration);
+			}
+			else
+			{
+				SoundSlotManager.allowedPlayTimes[slot] = Time.realtimeSinceStartup + duration;
 			}
 		}
 

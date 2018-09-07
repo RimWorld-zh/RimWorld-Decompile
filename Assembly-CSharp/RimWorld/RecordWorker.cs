@@ -14,31 +14,23 @@ namespace RimWorld
 
 		public virtual bool ShouldMeasureTimeNow(Pawn pawn)
 		{
-			bool result;
 			if (this.def.measuredTimeJobs == null)
 			{
-				result = false;
+				return false;
 			}
-			else
+			Job curJob = pawn.CurJob;
+			if (curJob == null)
 			{
-				Job curJob = pawn.CurJob;
-				if (curJob == null)
+				return false;
+			}
+			for (int i = 0; i < this.def.measuredTimeJobs.Count; i++)
+			{
+				if (curJob.def == this.def.measuredTimeJobs[i])
 				{
-					result = false;
-				}
-				else
-				{
-					for (int i = 0; i < this.def.measuredTimeJobs.Count; i++)
-					{
-						if (curJob.def == this.def.measuredTimeJobs[i])
-						{
-							return true;
-						}
-					}
-					result = false;
+					return true;
 				}
 			}
-			return result;
+			return false;
 		}
 	}
 }

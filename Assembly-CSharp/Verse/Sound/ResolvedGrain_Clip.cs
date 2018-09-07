@@ -20,31 +20,21 @@ namespace Verse.Sound
 
 		public override bool Equals(object obj)
 		{
-			bool result;
 			if (obj == null)
 			{
-				result = false;
+				return false;
 			}
-			else
-			{
-				ResolvedGrain_Clip resolvedGrain_Clip = obj as ResolvedGrain_Clip;
-				result = (resolvedGrain_Clip != null && resolvedGrain_Clip.clip == this.clip);
-			}
-			return result;
+			ResolvedGrain_Clip resolvedGrain_Clip = obj as ResolvedGrain_Clip;
+			return resolvedGrain_Clip != null && resolvedGrain_Clip.clip == this.clip;
 		}
 
 		public override int GetHashCode()
 		{
-			int result;
 			if (this.clip == null)
 			{
-				result = 0;
+				return 0;
 			}
-			else
-			{
-				result = this.clip.GetHashCode();
-			}
-			return result;
+			return this.clip.GetHashCode();
 		}
 	}
 }

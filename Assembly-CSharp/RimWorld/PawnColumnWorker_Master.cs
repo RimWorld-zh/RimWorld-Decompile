@@ -30,27 +30,23 @@ namespace RimWorld
 
 		public override void DoCell(Rect rect, Pawn pawn, PawnTable table)
 		{
-			if (this.CanAssignMaster(pawn))
+			if (!this.CanAssignMaster(pawn))
 			{
-				Rect rect2 = rect.ContractedBy(2f);
-				TrainableUtility.MasterSelectButton(rect2, pawn, true);
+				return;
 			}
+			Rect rect2 = rect.ContractedBy(2f);
+			TrainableUtility.MasterSelectButton(rect2, pawn, true);
 		}
 
 		public override int Compare(Pawn a, Pawn b)
 		{
 			int valueToCompare = this.GetValueToCompare1(a);
 			int valueToCompare2 = this.GetValueToCompare1(b);
-			int result;
 			if (valueToCompare != valueToCompare2)
 			{
-				result = valueToCompare.CompareTo(valueToCompare2);
+				return valueToCompare.CompareTo(valueToCompare2);
 			}
-			else
-			{
-				result = this.GetValueToCompare2(a).CompareTo(this.GetValueToCompare2(b));
-			}
-			return result;
+			return this.GetValueToCompare2(a).CompareTo(this.GetValueToCompare2(b));
 		}
 
 		private bool CanAssignMaster(Pawn pawn)
@@ -60,34 +56,24 @@ namespace RimWorld
 
 		private int GetValueToCompare1(Pawn pawn)
 		{
-			int result;
 			if (!this.CanAssignMaster(pawn))
 			{
-				result = 0;
+				return 0;
 			}
-			else if (pawn.playerSettings.Master == null)
+			if (pawn.playerSettings.Master == null)
 			{
-				result = 1;
+				return 1;
 			}
-			else
-			{
-				result = 2;
-			}
-			return result;
+			return 2;
 		}
 
 		private string GetValueToCompare2(Pawn pawn)
 		{
-			string result;
 			if (pawn.playerSettings != null && pawn.playerSettings.Master != null)
 			{
-				result = pawn.playerSettings.Master.Label;
+				return pawn.playerSettings.Master.Label;
 			}
-			else
-			{
-				result = "";
-			}
-			return result;
+			return string.Empty;
 		}
 	}
 }

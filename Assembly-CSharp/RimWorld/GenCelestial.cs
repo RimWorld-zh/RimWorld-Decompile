@@ -19,18 +19,13 @@ namespace RimWorld
 		{
 			get
 			{
-				int result;
 				if (Current.ProgramState != ProgramState.Entry)
 				{
-					result = GenTicks.TicksAbs;
+					return GenTicks.TicksAbs;
 				}
-				else
-				{
-					int startingTile = Find.GameInitData.startingTile;
-					float longitude = (startingTile < 0) ? 0f : Find.WorldGrid.LongLatOf(startingTile).x;
-					result = Mathf.RoundToInt(2500f * (12f - GenDate.TimeZoneFloatAt(longitude)));
-				}
-				return result;
+				int startingTile = Find.GameInitData.startingTile;
+				float longitude = (startingTile < 0) ? 0f : Find.WorldGrid.LongLatOf(startingTile).x;
+				return Mathf.RoundToInt(2500f * (12f - GenDate.TimeZoneFloatAt(longitude)));
 			}
 		}
 

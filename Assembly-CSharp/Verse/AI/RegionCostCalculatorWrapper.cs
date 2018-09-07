@@ -28,8 +28,6 @@ namespace Verse.AI
 
 		private int cachedSecondBestLinkCost;
 
-		private int cachedRegionCellPathCost;
-
 		private bool cachedRegionIsDestination;
 
 		private Region[] regionGrid;
@@ -50,7 +48,6 @@ namespace Verse.AI
 			this.cachedSecondBestLink = null;
 			this.cachedBestLinkCost = 0;
 			this.cachedSecondBestLinkCost = 0;
-			this.cachedRegionCellPathCost = 0;
 			this.cachedRegionIsDestination = false;
 			this.regionGrid = this.map.regionGrid.DirectGrid;
 			this.destRegions.Clear();
@@ -101,35 +98,28 @@ namespace Verse.AI
 					return this.OctileDistanceToEnd(cell);
 				}
 				this.cachedBestLinkCost = this.regionCostCalculator.GetRegionBestDistances(region, out this.cachedBestLink, out this.cachedSecondBestLink, out this.cachedSecondBestLinkCost);
-				this.cachedRegionCellPathCost = this.regionCostCalculator.RegionMedianPathCost(region);
 				this.cachedRegion = region;
 			}
 			else if (this.cachedRegionIsDestination)
 			{
 				return this.OctileDistanceToEnd(cell);
 			}
-			int result;
 			if (this.cachedBestLink != null)
 			{
-				int num = this.regionCostCalculator.RegionLinkDistance(cell, this.cachedBestLink, this.cachedRegionCellPathCost);
+				int num = this.regionCostCalculator.RegionLinkDistance(cell, this.cachedBestLink, 1);
 				int num3;
 				if (this.cachedSecondBestLink != null)
 				{
-					int num2 = this.regionCostCalculator.RegionLinkDistance(cell, this.cachedSecondBestLink, this.cachedRegionCellPathCost);
+					int num2 = this.regionCostCalculator.RegionLinkDistance(cell, this.cachedSecondBestLink, 1);
 					num3 = Mathf.Min(this.cachedSecondBestLinkCost + num2, this.cachedBestLinkCost + num);
 				}
 				else
 				{
 					num3 = this.cachedBestLinkCost + num;
 				}
-				num3 += this.OctileDistanceToEndEps(cell);
-				result = num3;
+				return num3 + this.OctileDistanceToEndEps(cell);
 			}
-			else
-			{
-				result = 10000;
-			}
-			return result;
+			return 10000;
 		}
 
 		private int OctileDistanceToEnd(IntVec3 cell)

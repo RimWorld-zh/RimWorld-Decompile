@@ -33,7 +33,7 @@ namespace RimWorld
 
 		public override IEnumerable<Gizmo> GetGizmos()
 		{
-			foreach (Gizmo g in this.<GetGizmos>__BaseCallProxy0())
+			foreach (Gizmo g in base.GetGizmos())
 			{
 				yield return g;
 			}
@@ -62,35 +62,27 @@ namespace RimWorld
 		public static List<IntVec3> TradeableCellsAround(IntVec3 pos, Map map)
 		{
 			Building_OrbitalTradeBeacon.tradeableCells.Clear();
-			List<IntVec3> result;
 			if (!pos.InBounds(map))
 			{
-				result = Building_OrbitalTradeBeacon.tradeableCells;
+				return Building_OrbitalTradeBeacon.tradeableCells;
 			}
-			else
+			Region region = pos.GetRegion(map, RegionType.Set_Passable);
+			if (region == null)
 			{
-				Region region = pos.GetRegion(map, RegionType.Set_Passable);
-				if (region == null)
-				{
-					result = Building_OrbitalTradeBeacon.tradeableCells;
-				}
-				else
-				{
-					RegionTraverser.BreadthFirstTraverse(region, (Region from, Region r) => r.portal == null, delegate(Region r)
-					{
-						foreach (IntVec3 item in r.Cells)
-						{
-							if (item.InHorDistOf(pos, 7.9f))
-							{
-								Building_OrbitalTradeBeacon.tradeableCells.Add(item);
-							}
-						}
-						return false;
-					}, 13, RegionType.Set_Passable);
-					result = Building_OrbitalTradeBeacon.tradeableCells;
-				}
+				return Building_OrbitalTradeBeacon.tradeableCells;
 			}
-			return result;
+			RegionTraverser.BreadthFirstTraverse(region, (Region from, Region r) => r.door == null, delegate(Region r)
+			{
+				foreach (IntVec3 item in r.Cells)
+				{
+					if (item.InHorDistOf(pos, 7.9f))
+					{
+						Building_OrbitalTradeBeacon.tradeableCells.Add(item);
+					}
+				}
+				return false;
+			}, 13, RegionType.Set_Passable);
+			return Building_OrbitalTradeBeacon.tradeableCells;
 		}
 
 		public static IEnumerable<Building_OrbitalTradeBeacon> AllPowered(Map map)
@@ -121,7 +113,7 @@ namespace RimWorld
 		[CompilerGenerated]
 		private static bool <TradeableCellsAround>m__0(Region from, Region r)
 		{
-			return r.portal == null;
+			return r.door == null;
 		}
 
 		[CompilerGenerated]
@@ -160,7 +152,7 @@ namespace RimWorld
 				case 1u:
 					break;
 				case 2u:
-					goto IL_15B;
+					goto IL_155;
 				default:
 					return false;
 				}
@@ -193,7 +185,7 @@ namespace RimWorld
 				}
 				if (DesignatorUtility.FindAllowedDesignator<Designator_ZoneAddStockpile_Resources>() == null)
 				{
-					goto IL_15B;
+					goto IL_155;
 				}
 				Command_Action mz = new Command_Action();
 				mz.action = new Action(base.MakeMatchingStockpile);
@@ -207,7 +199,7 @@ namespace RimWorld
 					this.$PC = 2;
 				}
 				return true;
-				IL_15B:
+				IL_155:
 				this.$PC = -1;
 				return false;
 			}

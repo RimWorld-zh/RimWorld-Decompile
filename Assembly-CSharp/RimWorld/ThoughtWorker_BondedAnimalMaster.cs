@@ -6,12 +6,35 @@ namespace RimWorld
 {
 	public class ThoughtWorker_BondedAnimalMaster : ThoughtWorker
 	{
+		private static List<string> tmpAnimals = new List<string>();
+
 		public ThoughtWorker_BondedAnimalMaster()
 		{
 		}
 
 		protected override ThoughtState CurrentStateInternal(Pawn p)
 		{
+			ThoughtWorker_BondedAnimalMaster.tmpAnimals.Clear();
+			this.GetAnimals(p, ThoughtWorker_BondedAnimalMaster.tmpAnimals);
+			if (!ThoughtWorker_BondedAnimalMaster.tmpAnimals.Any<string>())
+			{
+				return false;
+			}
+			if (ThoughtWorker_BondedAnimalMaster.tmpAnimals.Count == 1)
+			{
+				return ThoughtState.ActiveAtStage(0, ThoughtWorker_BondedAnimalMaster.tmpAnimals[0]);
+			}
+			return ThoughtState.ActiveAtStage(1, ThoughtWorker_BondedAnimalMaster.tmpAnimals.ToCommaList(true));
+		}
+
+		protected virtual bool AnimalMasterCheck(Pawn p, Pawn animal)
+		{
+			return animal.playerSettings.RespectedMaster == p;
+		}
+
+		public void GetAnimals(Pawn p, List<string> outAnimals)
+		{
+			outAnimals.Clear();
 			List<DirectPawnRelation> directRelations = p.relations.DirectRelations;
 			for (int i = 0; i < directRelations.Count; i++)
 			{
@@ -19,15 +42,21 @@ namespace RimWorld
 				Pawn otherPawn = directPawnRelation.otherPawn;
 				if (directPawnRelation.def == PawnRelationDefOf.Bond && !otherPawn.Dead && otherPawn.Spawned && otherPawn.Faction == Faction.OfPlayer && otherPawn.training.HasLearned(TrainableDefOf.Obedience) && p.skills.GetSkill(SkillDefOf.Animals).Level >= TrainableUtility.MinimumHandlingSkill(otherPawn) && this.AnimalMasterCheck(p, otherPawn))
 				{
-					return ThoughtState.ActiveWithReason(otherPawn.LabelShort);
+					outAnimals.Add(otherPawn.LabelShort);
 				}
 			}
-			return false;
 		}
 
-		protected virtual bool AnimalMasterCheck(Pawn p, Pawn animal)
+		public int GetAnimalsCount(Pawn p)
 		{
-			return animal.playerSettings.RespectedMaster == p;
+			ThoughtWorker_BondedAnimalMaster.tmpAnimals.Clear();
+			this.GetAnimals(p, ThoughtWorker_BondedAnimalMaster.tmpAnimals);
+			return ThoughtWorker_BondedAnimalMaster.tmpAnimals.Count;
+		}
+
+		// Note: this type is marked as 'beforefieldinit'.
+		static ThoughtWorker_BondedAnimalMaster()
+		{
 		}
 	}
 }

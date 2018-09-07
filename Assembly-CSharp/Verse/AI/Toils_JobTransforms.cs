@@ -21,22 +21,21 @@ namespace Verse.AI
 				Pawn actor = toil.actor;
 				Job curJob = actor.jobs.curJob;
 				List<LocalTargetInfo> targetQueue = curJob.GetTargetQueue(ind);
-				if (!targetQueue.NullOrEmpty<LocalTargetInfo>())
+				if (targetQueue.NullOrEmpty<LocalTargetInfo>())
 				{
-					if (failIfCountFromQueueTooBig && !curJob.countQueue.NullOrEmpty<int>() && targetQueue[0].HasThing && curJob.countQueue[0] > targetQueue[0].Thing.stackCount)
-					{
-						actor.jobs.curDriver.EndJobWith(JobCondition.Incompletable);
-					}
-					else
-					{
-						curJob.SetTarget(ind, targetQueue[0]);
-						targetQueue.RemoveAt(0);
-						if (!curJob.countQueue.NullOrEmpty<int>())
-						{
-							curJob.count = curJob.countQueue[0];
-							curJob.countQueue.RemoveAt(0);
-						}
-					}
+					return;
+				}
+				if (failIfCountFromQueueTooBig && !curJob.countQueue.NullOrEmpty<int>() && targetQueue[0].HasThing && curJob.countQueue[0] > targetQueue[0].Thing.stackCount)
+				{
+					actor.jobs.curDriver.EndJobWith(JobCondition.Incompletable);
+					return;
+				}
+				curJob.SetTarget(ind, targetQueue[0]);
+				targetQueue.RemoveAt(0);
+				if (!curJob.countQueue.NullOrEmpty<int>())
+				{
+					curJob.count = curJob.countQueue[0];
+					curJob.countQueue.RemoveAt(0);
 				}
 			};
 			return toil;
@@ -50,10 +49,11 @@ namespace Verse.AI
 				Pawn actor = toil.actor;
 				Job curJob = actor.jobs.curJob;
 				List<LocalTargetInfo> targetQueue = curJob.GetTargetQueue(ind);
-				if (!targetQueue.NullOrEmpty<LocalTargetInfo>())
+				if (targetQueue.NullOrEmpty<LocalTargetInfo>())
 				{
-					targetQueue.Clear();
+					return;
 				}
+				targetQueue.Clear();
 			};
 			return toil;
 		}
@@ -199,22 +199,21 @@ namespace Verse.AI
 				Pawn actor = this.toil.actor;
 				Job curJob = actor.jobs.curJob;
 				List<LocalTargetInfo> targetQueue = curJob.GetTargetQueue(this.ind);
-				if (!targetQueue.NullOrEmpty<LocalTargetInfo>())
+				if (targetQueue.NullOrEmpty<LocalTargetInfo>())
 				{
-					if (this.failIfCountFromQueueTooBig && !curJob.countQueue.NullOrEmpty<int>() && targetQueue[0].HasThing && curJob.countQueue[0] > targetQueue[0].Thing.stackCount)
-					{
-						actor.jobs.curDriver.EndJobWith(JobCondition.Incompletable);
-					}
-					else
-					{
-						curJob.SetTarget(this.ind, targetQueue[0]);
-						targetQueue.RemoveAt(0);
-						if (!curJob.countQueue.NullOrEmpty<int>())
-						{
-							curJob.count = curJob.countQueue[0];
-							curJob.countQueue.RemoveAt(0);
-						}
-					}
+					return;
+				}
+				if (this.failIfCountFromQueueTooBig && !curJob.countQueue.NullOrEmpty<int>() && targetQueue[0].HasThing && curJob.countQueue[0] > targetQueue[0].Thing.stackCount)
+				{
+					actor.jobs.curDriver.EndJobWith(JobCondition.Incompletable);
+					return;
+				}
+				curJob.SetTarget(this.ind, targetQueue[0]);
+				targetQueue.RemoveAt(0);
+				if (!curJob.countQueue.NullOrEmpty<int>())
+				{
+					curJob.count = curJob.countQueue[0];
+					curJob.countQueue.RemoveAt(0);
 				}
 			}
 		}
@@ -235,10 +234,11 @@ namespace Verse.AI
 				Pawn actor = this.toil.actor;
 				Job curJob = actor.jobs.curJob;
 				List<LocalTargetInfo> targetQueue = curJob.GetTargetQueue(this.ind);
-				if (!targetQueue.NullOrEmpty<LocalTargetInfo>())
+				if (targetQueue.NullOrEmpty<LocalTargetInfo>())
 				{
-					targetQueue.Clear();
+					return;
 				}
+				targetQueue.Clear();
 			}
 		}
 
@@ -334,14 +334,16 @@ namespace Verse.AI
 					case 1u:
 						break;
 					case 2u:
-						goto IL_230;
+						IL_225:
+						i++;
+						goto IL_233;
 					default:
 					{
 						IntVec3 interactCell = destination.Position;
 						billGiver = (destination as IBillGiver);
 						if (billGiver == null)
 						{
-							goto IL_163;
+							goto IL_15B;
 						}
 						interactCell = ((Thing)billGiver).InteractionCell;
 						enumerator = (from c in billGiver.IngredientStackCells
@@ -379,23 +381,20 @@ namespace Verse.AI
 							}
 						}
 					}
-					IL_163:
+					IL_15B:
 					i = 0;
-					goto IL_23E;
-					IL_230:
-					i++;
-					IL_23E:
+					IL_233:
 					if (i < 200)
 					{
 						c2 = <IngredientPlaceCellsInOrder>c__AnonStorey.interactCell + GenRadial.RadialPattern[i];
 						if (Toils_JobTransforms.yieldedIngPlaceCells.Contains(c2))
 						{
-							goto IL_230;
+							goto IL_225;
 						}
 						ed = c2.GetEdifice(destination.Map);
 						if (ed != null && ed.def.passability == Traversability.Impassable && ed.def.surfaceType == SurfaceType.None)
 						{
-							goto IL_230;
+							goto IL_225;
 						}
 						this.$current = c2;
 						if (!this.$disposing)

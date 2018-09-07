@@ -43,20 +43,15 @@ namespace RimWorld.Planet
 		public override FloatMenuAcceptanceReport StillValid(Caravan caravan, int destinationTile)
 		{
 			FloatMenuAcceptanceReport floatMenuAcceptanceReport = base.StillValid(caravan, destinationTile);
-			FloatMenuAcceptanceReport result;
 			if (!floatMenuAcceptanceReport)
 			{
-				result = floatMenuAcceptanceReport;
+				return floatMenuAcceptanceReport;
 			}
-			else if (this.target != null && this.target.Tile != destinationTile)
+			if (this.target != null && this.target.Tile != destinationTile)
 			{
-				result = false;
+				return false;
 			}
-			else
-			{
-				result = CaravanArrivalAction_VisitEscapeShip.CanVisit(caravan, this.target);
-			}
-			return result;
+			return CaravanArrivalAction_VisitEscapeShip.CanVisit(caravan, this.target);
 		}
 
 		public override void Arrived(Caravan caravan)
@@ -89,32 +84,27 @@ namespace RimWorld.Planet
 			}
 			Map orGenerateMap = GetOrGenerateMapUtility.GetOrGenerateMap(this.target.Tile, null);
 			CaravanEnterMapUtility.Enter(caravan, orGenerateMap, CaravanEnterMode.Edge, CaravanDropInventoryMode.UnloadIndividually, false, null);
-			Find.TickManager.CurTimeSpeed = TimeSpeed.Paused;
 			if (flag)
 			{
+				Find.TickManager.Notify_GeneratedPotentiallyHostileMap();
 				Find.LetterStack.ReceiveLetter("EscapeShipFoundLabel".Translate(), "EscapeShipFound".Translate(), LetterDefOf.PositiveEvent, new GlobalTargetInfo(this.target.Map.Center, this.target.Map, false), null, null);
 			}
 		}
 
 		public static FloatMenuAcceptanceReport CanVisit(Caravan caravan, MapParent escapeShip)
 		{
-			FloatMenuAcceptanceReport result;
 			if (escapeShip == null || !escapeShip.Spawned || escapeShip.GetComponent<EscapeShipComp>() == null)
 			{
-				result = false;
+				return false;
 			}
-			else if (escapeShip.EnterCooldownBlocksEntering())
+			if (escapeShip.EnterCooldownBlocksEntering())
 			{
-				result = FloatMenuAcceptanceReport.WithFailMessage("MessageEnterCooldownBlocksEntering".Translate(new object[]
+				return FloatMenuAcceptanceReport.WithFailMessage("MessageEnterCooldownBlocksEntering".Translate(new object[]
 				{
 					escapeShip.EnterCooldownDaysLeft().ToString("0.#")
 				}));
 			}
-			else
-			{
-				result = true;
-			}
-			return result;
+			return true;
 		}
 
 		public static IEnumerable<FloatMenuOption> GetFloatMenuOptions(Caravan caravan, MapParent escapeShip)

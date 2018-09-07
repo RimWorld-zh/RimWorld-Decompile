@@ -19,9 +19,12 @@ namespace RimWorld
 		{
 		}
 
-		public override bool TryMakePreToilReservations()
+		public override bool TryMakePreToilReservations(bool errorOnFailed)
 		{
-			return this.pawn.Reserve(this.job.targetA, this.job, 1, -1, null);
+			Pawn pawn = this.pawn;
+			LocalTargetInfo targetA = this.job.targetA;
+			Job job = this.job;
+			return pawn.Reserve(targetA, job, 1, -1, null, errorOnFailed);
 		}
 
 		protected override IEnumerable<Toil> MakeNewToils()
@@ -41,11 +44,9 @@ namespace RimWorld
 					thing.SetFaction(this.pawn.Faction, null);
 					GenSpawn.Spawn(thing, this.TargetLocA, this.Map, WipeMode.Vanish);
 					this.ReadyForNextToil();
+					return;
 				}
-				else
-				{
-					JoyUtility.JoyTickCheckEnd(this.pawn, JoyTickFullJoyAction.EndJob, 1f, null);
-				}
+				JoyUtility.JoyTickCheckEnd(this.pawn, JoyTickFullJoyAction.EndJob, 1f, null);
 			};
 			doWork.defaultCompleteMode = ToilCompleteMode.Never;
 			doWork.FailOn(() => !JoyUtility.EnjoyableOutsideNow(this.pawn, null));
@@ -106,11 +107,9 @@ namespace RimWorld
 							thing.SetFaction(<MakeNewToils>c__AnonStorey.<>f__ref$0.$this.pawn.Faction, null);
 							GenSpawn.Spawn(thing, <MakeNewToils>c__AnonStorey.<>f__ref$0.$this.TargetLocA, <MakeNewToils>c__AnonStorey.<>f__ref$0.$this.Map, WipeMode.Vanish);
 							<MakeNewToils>c__AnonStorey.<>f__ref$0.$this.ReadyForNextToil();
+							return;
 						}
-						else
-						{
-							JoyUtility.JoyTickCheckEnd(<MakeNewToils>c__AnonStorey.<>f__ref$0.$this.pawn, JoyTickFullJoyAction.EndJob, 1f, null);
-						}
+						JoyUtility.JoyTickCheckEnd(<MakeNewToils>c__AnonStorey.<>f__ref$0.$this.pawn, JoyTickFullJoyAction.EndJob, 1f, null);
 					};
 					<MakeNewToils>c__AnonStorey.doWork.defaultCompleteMode = ToilCompleteMode.Never;
 					<MakeNewToils>c__AnonStorey.doWork.FailOn(() => !JoyUtility.EnjoyableOutsideNow(<MakeNewToils>c__AnonStorey.<>f__ref$0.$this.pawn, null));
@@ -201,11 +200,9 @@ namespace RimWorld
 						thing.SetFaction(this.<>f__ref$0.$this.pawn.Faction, null);
 						GenSpawn.Spawn(thing, this.<>f__ref$0.$this.TargetLocA, this.<>f__ref$0.$this.Map, WipeMode.Vanish);
 						this.<>f__ref$0.$this.ReadyForNextToil();
+						return;
 					}
-					else
-					{
-						JoyUtility.JoyTickCheckEnd(this.<>f__ref$0.$this.pawn, JoyTickFullJoyAction.EndJob, 1f, null);
-					}
+					JoyUtility.JoyTickCheckEnd(this.<>f__ref$0.$this.pawn, JoyTickFullJoyAction.EndJob, 1f, null);
 				}
 
 				internal bool <>m__2()

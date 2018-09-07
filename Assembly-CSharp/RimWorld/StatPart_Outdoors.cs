@@ -42,16 +42,11 @@ namespace RimWorld
 
 		private float OutdoorsFactor(StatRequest req)
 		{
-			float result;
 			if (this.ConsideredOutdoors(req))
 			{
-				result = this.factorOutdoors;
+				return this.factorOutdoors;
 			}
-			else
-			{
-				result = this.factorIndoors;
-			}
-			return result;
+			return this.factorIndoors;
 		}
 
 		private bool ConsideredOutdoors(StatRequest req)

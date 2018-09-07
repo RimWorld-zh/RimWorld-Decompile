@@ -64,27 +64,21 @@ namespace RimWorld
 		{
 			if (Event.current.type == EventType.MouseDown)
 			{
-				if (Event.current.button == 0)
+				if (Event.current.button == 0 && this.IsTargeting)
 				{
-					if (this.IsTargeting)
+					GlobalTargetInfo arg = this.CurrentTargetUnderMouse();
+					if (this.action(arg))
 					{
-						GlobalTargetInfo arg = this.CurrentTargetUnderMouse();
-						if (this.action(arg))
-						{
-							SoundDefOf.Tick_High.PlayOneShotOnCamera(null);
-							this.StopTargeting();
-						}
-						Event.current.Use();
-					}
-				}
-				if (Event.current.button == 1)
-				{
-					if (this.IsTargeting)
-					{
-						SoundDefOf.CancelMode.PlayOneShotOnCamera(null);
+						SoundDefOf.Tick_High.PlayOneShotOnCamera(null);
 						this.StopTargeting();
-						Event.current.Use();
 					}
+					Event.current.Use();
+				}
+				if (Event.current.button == 1 && this.IsTargeting)
+				{
+					SoundDefOf.CancelMode.PlayOneShotOnCamera(null);
+					this.StopTargeting();
+					Event.current.Use();
 				}
 			}
 			if (KeyBindingDefOf.Cancel.KeyDownEvent && this.IsTargeting)
@@ -149,54 +143,38 @@ namespace RimWorld
 
 		public bool IsTargetedNow(WorldObject o, List<WorldObject> worldObjectsUnderMouse = null)
 		{
-			bool result;
 			if (!this.IsTargeting)
 			{
-				result = false;
+				return false;
 			}
-			else
+			if (worldObjectsUnderMouse == null)
 			{
-				if (worldObjectsUnderMouse == null)
-				{
-					worldObjectsUnderMouse = GenWorldUI.WorldObjectsUnderMouse(UI.MousePositionOnUI);
-				}
-				result = (worldObjectsUnderMouse.Any<WorldObject>() && o == worldObjectsUnderMouse[0]);
+				worldObjectsUnderMouse = GenWorldUI.WorldObjectsUnderMouse(UI.MousePositionOnUI);
 			}
-			return result;
+			return worldObjectsUnderMouse.Any<WorldObject>() && o == worldObjectsUnderMouse[0];
 		}
 
 		private GlobalTargetInfo CurrentTargetUnderMouse()
 		{
-			GlobalTargetInfo result;
 			if (!this.IsTargeting)
 			{
-				result = GlobalTargetInfo.Invalid;
+				return GlobalTargetInfo.Invalid;
 			}
-			else
+			List<WorldObject> list = GenWorldUI.WorldObjectsUnderMouse(UI.MousePositionOnUI);
+			if (list.Any<WorldObject>())
 			{
-				List<WorldObject> list = GenWorldUI.WorldObjectsUnderMouse(UI.MousePositionOnUI);
-				if (list.Any<WorldObject>())
-				{
-					result = list[0];
-				}
-				else if (this.canTargetTiles)
-				{
-					int num = GenWorld.MouseTile(false);
-					if (num >= 0)
-					{
-						result = new GlobalTargetInfo(num);
-					}
-					else
-					{
-						result = GlobalTargetInfo.Invalid;
-					}
-				}
-				else
-				{
-					result = GlobalTargetInfo.Invalid;
-				}
+				return list[0];
 			}
-			return result;
+			if (!this.canTargetTiles)
+			{
+				return GlobalTargetInfo.Invalid;
+			}
+			int num = GenWorld.MouseTile(false);
+			if (num >= 0)
+			{
+				return new GlobalTargetInfo(num);
+			}
+			return GlobalTargetInfo.Invalid;
 		}
 	}
 }

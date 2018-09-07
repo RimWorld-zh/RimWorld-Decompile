@@ -15,6 +15,18 @@ namespace RimWorld
 		public static List<QualityCategory> AllQualityCategories = new List<QualityCategory>();
 
 		[CompilerGenerated]
+		private static Func<QualityCategory> <>f__mg$cache0;
+
+		[CompilerGenerated]
+		private static Func<QualityCategory> <>f__mg$cache1;
+
+		[CompilerGenerated]
+		private static Func<QualityCategory> <>f__mg$cache2;
+
+		[CompilerGenerated]
+		private static Func<QualityCategory> <>f__mg$cache3;
+
+		[CompilerGenerated]
 		private static Func<QualityCategory, string> <>f__am$cache0;
 
 		[CompilerGenerated]
@@ -31,18 +43,6 @@ namespace RimWorld
 
 		[CompilerGenerated]
 		private static Func<PawnKindDef, float> <>f__am$cache5;
-
-		[CompilerGenerated]
-		private static Func<QualityCategory> <>f__am$cache6;
-
-		[CompilerGenerated]
-		private static Func<QualityCategory> <>f__am$cache7;
-
-		[CompilerGenerated]
-		private static Func<QualityCategory> <>f__am$cache8;
-
-		[CompilerGenerated]
-		private static Func<QualityCategory> <>f__am$cache9;
 
 		static QualityUtility()
 		{
@@ -70,82 +70,59 @@ namespace RimWorld
 		{
 			MinifiedThing minifiedThing = t as MinifiedThing;
 			CompQuality compQuality = (minifiedThing == null) ? t.TryGetComp<CompQuality>() : minifiedThing.InnerThing.TryGetComp<CompQuality>();
-			bool result;
 			if (compQuality == null)
 			{
 				qc = QualityCategory.Normal;
-				result = false;
+				return false;
 			}
-			else
-			{
-				qc = compQuality.Quality;
-				result = true;
-			}
-			return result;
+			qc = compQuality.Quality;
+			return true;
 		}
 
 		public static string GetLabel(this QualityCategory cat)
 		{
-			string result;
 			switch (cat)
 			{
 			case QualityCategory.Awful:
-				result = "QualityCategory_Awful".Translate();
-				break;
+				return "QualityCategory_Awful".Translate();
 			case QualityCategory.Poor:
-				result = "QualityCategory_Poor".Translate();
-				break;
+				return "QualityCategory_Poor".Translate();
 			case QualityCategory.Normal:
-				result = "QualityCategory_Normal".Translate();
-				break;
+				return "QualityCategory_Normal".Translate();
 			case QualityCategory.Good:
-				result = "QualityCategory_Good".Translate();
-				break;
+				return "QualityCategory_Good".Translate();
 			case QualityCategory.Excellent:
-				result = "QualityCategory_Excellent".Translate();
-				break;
+				return "QualityCategory_Excellent".Translate();
 			case QualityCategory.Masterwork:
-				result = "QualityCategory_Masterwork".Translate();
-				break;
+				return "QualityCategory_Masterwork".Translate();
 			case QualityCategory.Legendary:
-				result = "QualityCategory_Legendary".Translate();
-				break;
+				return "QualityCategory_Legendary".Translate();
 			default:
 				throw new ArgumentException();
 			}
-			return result;
 		}
 
 		public static string GetLabelShort(this QualityCategory cat)
 		{
-			string result;
 			switch (cat)
 			{
 			case QualityCategory.Awful:
-				result = "QualityCategoryShort_Awful".Translate();
-				break;
+				return "QualityCategoryShort_Awful".Translate();
 			case QualityCategory.Poor:
-				result = "QualityCategoryShort_Poor".Translate();
-				break;
+				return "QualityCategoryShort_Poor".Translate();
 			case QualityCategory.Normal:
-				result = "QualityCategoryShort_Normal".Translate();
-				break;
+				return "QualityCategoryShort_Normal".Translate();
 			case QualityCategory.Good:
-				result = "QualityCategoryShort_Good".Translate();
-				break;
+				return "QualityCategoryShort_Good".Translate();
 			case QualityCategory.Excellent:
-				result = "QualityCategoryShort_Excellent".Translate();
-				break;
+				return "QualityCategoryShort_Excellent".Translate();
 			case QualityCategory.Masterwork:
-				result = "QualityCategoryShort_Masterwork".Translate();
-				break;
+				return "QualityCategoryShort_Masterwork".Translate();
 			case QualityCategory.Legendary:
-				result = "QualityCategoryShort_Legendary".Translate();
-				break;
+				return "QualityCategoryShort_Legendary".Translate();
 			default:
 				throw new ArgumentException();
 			}
-			return result;
 		}
 
 		public static bool FollowQualityThingFilter(this ThingDef def)
@@ -155,22 +132,17 @@ namespace RimWorld
 
 		public static QualityCategory GenerateQuality(QualityGenerator qualityGenerator)
 		{
-			QualityCategory result;
 			switch (qualityGenerator)
 			{
 			case QualityGenerator.BaseGen:
-				result = QualityUtility.GenerateQualityBaseGen();
-				break;
+				return QualityUtility.GenerateQualityBaseGen();
 			case QualityGenerator.Reward:
-				result = QualityUtility.GenerateQualityReward();
-				break;
+				return QualityUtility.GenerateQualityReward();
 			case QualityGenerator.Gift:
-				result = QualityUtility.GenerateQualityGift();
-				break;
+				return QualityUtility.GenerateQualityGift();
 			default:
 				throw new NotImplementedException(qualityGenerator.ToString());
 			}
-			return result;
 		}
 
 		public static QualityCategory GenerateQualityRandomEqualChance()
@@ -190,65 +162,50 @@ namespace RimWorld
 
 		public static QualityCategory GenerateQualityTraderItem()
 		{
-			QualityCategory result;
 			if (Rand.Value < 0.25f)
 			{
-				result = QualityCategory.Normal;
+				return QualityCategory.Normal;
 			}
-			else
+			QualityCategory qualityCategory = QualityUtility.GenerateFromGaussian(1.18f, QualityCategory.Masterwork, QualityCategory.Normal, QualityCategory.Poor);
+			if (qualityCategory == QualityCategory.Poor && Rand.Value < 0.6f)
 			{
-				QualityCategory qualityCategory = QualityUtility.GenerateFromGaussian(1.18f, QualityCategory.Masterwork, QualityCategory.Normal, QualityCategory.Poor);
-				if (qualityCategory == QualityCategory.Poor && Rand.Value < 0.6f)
-				{
-					qualityCategory = QualityUtility.GenerateFromGaussian(1.18f, QualityCategory.Masterwork, QualityCategory.Normal, QualityCategory.Poor);
-				}
-				result = qualityCategory;
+				qualityCategory = QualityUtility.GenerateFromGaussian(1.18f, QualityCategory.Masterwork, QualityCategory.Normal, QualityCategory.Poor);
 			}
-			return result;
+			return qualityCategory;
 		}
 
 		public static QualityCategory GenerateQualityBaseGen()
 		{
-			QualityCategory result;
 			if (Rand.Value < 0.3f)
 			{
-				result = QualityCategory.Normal;
+				return QualityCategory.Normal;
 			}
-			else
-			{
-				result = QualityUtility.GenerateFromGaussian(1f, QualityCategory.Excellent, QualityCategory.Normal, QualityCategory.Awful);
-			}
-			return result;
+			return QualityUtility.GenerateFromGaussian(1f, QualityCategory.Excellent, QualityCategory.Normal, QualityCategory.Awful);
 		}
 
 		public static QualityCategory GenerateQualityGeneratingPawn(PawnKindDef pawnKind)
 		{
-			QualityCategory result;
 			if (pawnKind.forceNormalGearQuality)
 			{
-				result = QualityCategory.Normal;
+				return QualityCategory.Normal;
+			}
+			int itemQuality = (int)pawnKind.itemQuality;
+			float value = Rand.Value;
+			int num;
+			if (value < 0.1f)
+			{
+				num = itemQuality - 1;
+			}
+			else if (value < 0.2f)
+			{
+				num = itemQuality + 1;
 			}
 			else
 			{
-				int itemQuality = (int)pawnKind.itemQuality;
-				float value = Rand.Value;
-				int num;
-				if (value < 0.1f)
-				{
-					num = itemQuality - 1;
-				}
-				else if (value < 0.2f)
-				{
-					num = itemQuality + 1;
-				}
-				else
-				{
-					num = itemQuality;
-				}
-				num = Mathf.Clamp(num, 0, 4);
-				result = (QualityCategory)num;
+				num = itemQuality;
 			}
-			return result;
+			num = Mathf.Clamp(num, 0, 4);
+			return (QualityCategory)num;
 		}
 
 		public static QualityCategory GenerateQualityCreatedByPawn(int relevantSkillLevel, bool inspired)
@@ -368,28 +325,30 @@ namespace RimWorld
 
 		public static void SendCraftNotification(Thing thing, Pawn worker)
 		{
-			if (worker != null)
+			if (worker == null)
 			{
-				CompQuality compQuality = thing.TryGetComp<CompQuality>();
-				if (compQuality != null)
+				return;
+			}
+			CompQuality compQuality = thing.TryGetComp<CompQuality>();
+			if (compQuality == null)
+			{
+				return;
+			}
+			if (compQuality.Quality == QualityCategory.Masterwork)
+			{
+				Messages.Message("MessageCraftedMasterwork".Translate(new object[]
 				{
-					if (compQuality.Quality == QualityCategory.Masterwork)
-					{
-						Messages.Message("MessageCraftedMasterwork".Translate(new object[]
-						{
-							worker.LabelShort,
-							thing.LabelShort
-						}), thing, MessageTypeDefOf.PositiveEvent, true);
-					}
-					else if (compQuality.Quality == QualityCategory.Legendary)
-					{
-						Find.LetterStack.ReceiveLetter("LetterCraftedLegendaryLabel".Translate(), "LetterCraftedLegendaryMessage".Translate(new object[]
-						{
-							worker.LabelShort,
-							thing.LabelShort
-						}), LetterDefOf.PositiveEvent, thing, null, null);
-					}
-				}
+					worker.LabelShort,
+					thing.LabelShort
+				}), thing, MessageTypeDefOf.PositiveEvent, true);
+			}
+			else if (compQuality.Quality == QualityCategory.Legendary)
+			{
+				Find.LetterStack.ReceiveLetter("LetterCraftedLegendaryLabel".Translate(), "LetterCraftedLegendaryMessage".Translate(new object[]
+				{
+					worker.LabelShort,
+					thing.LabelShort
+				}), LetterDefOf.PositiveEvent, thing, null, null);
 			}
 		}
 
@@ -398,10 +357,38 @@ namespace RimWorld
 		{
 			List<TableDataGetter<QualityCategory>> list = new List<TableDataGetter<QualityCategory>>();
 			list.Add(new TableDataGetter<QualityCategory>("quality", (QualityCategory q) => q.ToString()));
-			list.Add(new TableDataGetter<QualityCategory>("Rewards\n(quests,\netc...? )", (QualityCategory q) => QualityUtility.DebugQualitiesStringSingle(q, () => QualityUtility.GenerateQualityReward())));
-			list.Add(new TableDataGetter<QualityCategory>("Trader\nitems", (QualityCategory q) => QualityUtility.DebugQualitiesStringSingle(q, () => QualityUtility.GenerateQualityTraderItem())));
-			list.Add(new TableDataGetter<QualityCategory>("Map generation\nitems and\nbuildings\n(e.g. NPC bases)", (QualityCategory q) => QualityUtility.DebugQualitiesStringSingle(q, () => QualityUtility.GenerateQualityBaseGen())));
-			list.Add(new TableDataGetter<QualityCategory>("Gifts", (QualityCategory q) => QualityUtility.DebugQualitiesStringSingle(q, () => QualityUtility.GenerateQualityGift())));
+			list.Add(new TableDataGetter<QualityCategory>("Rewards\n(quests,\netc...? )", delegate(QualityCategory q)
+			{
+				if (QualityUtility.<>f__mg$cache0 == null)
+				{
+					QualityUtility.<>f__mg$cache0 = new Func<QualityCategory>(QualityUtility.GenerateQualityReward);
+				}
+				return QualityUtility.DebugQualitiesStringSingle(q, QualityUtility.<>f__mg$cache0);
+			}));
+			list.Add(new TableDataGetter<QualityCategory>("Trader\nitems", delegate(QualityCategory q)
+			{
+				if (QualityUtility.<>f__mg$cache1 == null)
+				{
+					QualityUtility.<>f__mg$cache1 = new Func<QualityCategory>(QualityUtility.GenerateQualityTraderItem);
+				}
+				return QualityUtility.DebugQualitiesStringSingle(q, QualityUtility.<>f__mg$cache1);
+			}));
+			list.Add(new TableDataGetter<QualityCategory>("Map generation\nitems and\nbuildings\n(e.g. NPC bases)", delegate(QualityCategory q)
+			{
+				if (QualityUtility.<>f__mg$cache2 == null)
+				{
+					QualityUtility.<>f__mg$cache2 = new Func<QualityCategory>(QualityUtility.GenerateQualityBaseGen);
+				}
+				return QualityUtility.DebugQualitiesStringSingle(q, QualityUtility.<>f__mg$cache2);
+			}));
+			list.Add(new TableDataGetter<QualityCategory>("Gifts", delegate(QualityCategory q)
+			{
+				if (QualityUtility.<>f__mg$cache3 == null)
+				{
+					QualityUtility.<>f__mg$cache3 = new Func<QualityCategory>(QualityUtility.GenerateQualityGift);
+				}
+				return QualityUtility.DebugQualitiesStringSingle(q, QualityUtility.<>f__mg$cache3);
+			}));
 			for (int i = 0; i <= 20; i++)
 			{
 				int localLevel = i;
@@ -472,55 +459,47 @@ namespace RimWorld
 		[CompilerGenerated]
 		private static string <QualityGenerationData>m__1(QualityCategory q)
 		{
-			return QualityUtility.DebugQualitiesStringSingle(q, () => QualityUtility.GenerateQualityReward());
+			if (QualityUtility.<>f__mg$cache0 == null)
+			{
+				QualityUtility.<>f__mg$cache0 = new Func<QualityCategory>(QualityUtility.GenerateQualityReward);
+			}
+			return QualityUtility.DebugQualitiesStringSingle(q, QualityUtility.<>f__mg$cache0);
 		}
 
 		[CompilerGenerated]
 		private static string <QualityGenerationData>m__2(QualityCategory q)
 		{
-			return QualityUtility.DebugQualitiesStringSingle(q, () => QualityUtility.GenerateQualityTraderItem());
+			if (QualityUtility.<>f__mg$cache1 == null)
+			{
+				QualityUtility.<>f__mg$cache1 = new Func<QualityCategory>(QualityUtility.GenerateQualityTraderItem);
+			}
+			return QualityUtility.DebugQualitiesStringSingle(q, QualityUtility.<>f__mg$cache1);
 		}
 
 		[CompilerGenerated]
 		private static string <QualityGenerationData>m__3(QualityCategory q)
 		{
-			return QualityUtility.DebugQualitiesStringSingle(q, () => QualityUtility.GenerateQualityBaseGen());
+			if (QualityUtility.<>f__mg$cache2 == null)
+			{
+				QualityUtility.<>f__mg$cache2 = new Func<QualityCategory>(QualityUtility.GenerateQualityBaseGen);
+			}
+			return QualityUtility.DebugQualitiesStringSingle(q, QualityUtility.<>f__mg$cache2);
 		}
 
 		[CompilerGenerated]
 		private static string <QualityGenerationData>m__4(QualityCategory q)
 		{
-			return QualityUtility.DebugQualitiesStringSingle(q, () => QualityUtility.GenerateQualityGift());
+			if (QualityUtility.<>f__mg$cache3 == null)
+			{
+				QualityUtility.<>f__mg$cache3 = new Func<QualityCategory>(QualityUtility.GenerateQualityGift);
+			}
+			return QualityUtility.DebugQualitiesStringSingle(q, QualityUtility.<>f__mg$cache3);
 		}
 
 		[CompilerGenerated]
 		private static float <QualityGenerationData>m__5(PawnKindDef k)
 		{
 			return k.combatPower;
-		}
-
-		[CompilerGenerated]
-		private static QualityCategory <QualityGenerationData>m__6()
-		{
-			return QualityUtility.GenerateQualityReward();
-		}
-
-		[CompilerGenerated]
-		private static QualityCategory <QualityGenerationData>m__7()
-		{
-			return QualityUtility.GenerateQualityTraderItem();
-		}
-
-		[CompilerGenerated]
-		private static QualityCategory <QualityGenerationData>m__8()
-		{
-			return QualityUtility.GenerateQualityBaseGen();
-		}
-
-		[CompilerGenerated]
-		private static QualityCategory <QualityGenerationData>m__9()
-		{
-			return QualityUtility.GenerateQualityGift();
 		}
 
 		[CompilerGenerated]

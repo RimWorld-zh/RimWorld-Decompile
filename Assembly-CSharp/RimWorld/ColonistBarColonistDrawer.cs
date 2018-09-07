@@ -248,67 +248,68 @@ namespace RimWorld
 
 		private void DrawIcons(Rect rect, Pawn colonist)
 		{
-			if (!colonist.Dead)
+			if (colonist.Dead)
 			{
-				float num = 20f * this.ColonistBar.Scale;
-				Vector2 vector = new Vector2(rect.x + 1f, rect.yMax - num - 1f);
-				bool flag = false;
-				if (colonist.CurJob != null)
+				return;
+			}
+			float num = 20f * this.ColonistBar.Scale;
+			Vector2 vector = new Vector2(rect.x + 1f, rect.yMax - num - 1f);
+			bool flag = false;
+			if (colonist.CurJob != null)
+			{
+				JobDef def = colonist.CurJob.def;
+				if (def == JobDefOf.AttackMelee || def == JobDefOf.AttackStatic)
 				{
-					JobDef def = colonist.CurJob.def;
-					if (def == JobDefOf.AttackMelee || def == JobDefOf.AttackStatic)
+					flag = true;
+				}
+				else if (def == JobDefOf.Wait_Combat)
+				{
+					Stance_Busy stance_Busy = colonist.stances.curStance as Stance_Busy;
+					if (stance_Busy != null && stance_Busy.focusTarg.IsValid)
 					{
 						flag = true;
 					}
-					else if (def == JobDefOf.Wait_Combat)
-					{
-						Stance_Busy stance_Busy = colonist.stances.curStance as Stance_Busy;
-						if (stance_Busy != null && stance_Busy.focusTarg.IsValid)
-						{
-							flag = true;
-						}
-					}
 				}
-				if (colonist.IsFormingCaravan())
-				{
-					this.DrawIcon(ColonistBarColonistDrawer.Icon_FormingCaravan, ref vector, "ActivityIconFormingCaravan".Translate());
-				}
-				if (colonist.InAggroMentalState)
-				{
-					this.DrawIcon(ColonistBarColonistDrawer.Icon_MentalStateAggro, ref vector, colonist.MentalStateDef.LabelCap);
-				}
-				else if (colonist.InMentalState)
-				{
-					this.DrawIcon(ColonistBarColonistDrawer.Icon_MentalStateNonAggro, ref vector, colonist.MentalStateDef.LabelCap);
-				}
-				else if (colonist.InBed() && colonist.CurrentBed().Medical)
-				{
-					this.DrawIcon(ColonistBarColonistDrawer.Icon_MedicalRest, ref vector, "ActivityIconMedicalRest".Translate());
-				}
-				else if (colonist.CurJob != null && colonist.jobs.curDriver.asleep)
-				{
-					this.DrawIcon(ColonistBarColonistDrawer.Icon_Sleeping, ref vector, "ActivityIconSleeping".Translate());
-				}
-				else if (colonist.CurJob != null && colonist.CurJob.def == JobDefOf.FleeAndCower)
-				{
-					this.DrawIcon(ColonistBarColonistDrawer.Icon_Fleeing, ref vector, "ActivityIconFleeing".Translate());
-				}
-				else if (flag)
-				{
-					this.DrawIcon(ColonistBarColonistDrawer.Icon_Attacking, ref vector, "ActivityIconAttacking".Translate());
-				}
-				else if (colonist.mindState.IsIdle && GenDate.DaysPassed >= 1)
-				{
-					this.DrawIcon(ColonistBarColonistDrawer.Icon_Idle, ref vector, "ActivityIconIdle".Translate());
-				}
-				if (colonist.IsBurning() && vector.x + num <= rect.xMax)
-				{
-					this.DrawIcon(ColonistBarColonistDrawer.Icon_Burning, ref vector, "ActivityIconBurning".Translate());
-				}
-				if (colonist.Inspired && vector.x + num <= rect.xMax)
-				{
-					this.DrawIcon(ColonistBarColonistDrawer.Icon_Inspired, ref vector, colonist.InspirationDef.LabelCap);
-				}
+			}
+			if (colonist.IsFormingCaravan())
+			{
+				this.DrawIcon(ColonistBarColonistDrawer.Icon_FormingCaravan, ref vector, "ActivityIconFormingCaravan".Translate());
+			}
+			if (colonist.InAggroMentalState)
+			{
+				this.DrawIcon(ColonistBarColonistDrawer.Icon_MentalStateAggro, ref vector, colonist.MentalStateDef.LabelCap);
+			}
+			else if (colonist.InMentalState)
+			{
+				this.DrawIcon(ColonistBarColonistDrawer.Icon_MentalStateNonAggro, ref vector, colonist.MentalStateDef.LabelCap);
+			}
+			else if (colonist.InBed() && colonist.CurrentBed().Medical)
+			{
+				this.DrawIcon(ColonistBarColonistDrawer.Icon_MedicalRest, ref vector, "ActivityIconMedicalRest".Translate());
+			}
+			else if (colonist.CurJob != null && colonist.jobs.curDriver.asleep)
+			{
+				this.DrawIcon(ColonistBarColonistDrawer.Icon_Sleeping, ref vector, "ActivityIconSleeping".Translate());
+			}
+			else if (colonist.CurJob != null && colonist.CurJob.def == JobDefOf.FleeAndCower)
+			{
+				this.DrawIcon(ColonistBarColonistDrawer.Icon_Fleeing, ref vector, "ActivityIconFleeing".Translate());
+			}
+			else if (flag)
+			{
+				this.DrawIcon(ColonistBarColonistDrawer.Icon_Attacking, ref vector, "ActivityIconAttacking".Translate());
+			}
+			else if (colonist.mindState.IsIdle && GenDate.DaysPassed >= 1)
+			{
+				this.DrawIcon(ColonistBarColonistDrawer.Icon_Idle, ref vector, "ActivityIconIdle".Translate());
+			}
+			if (colonist.IsBurning() && vector.x + num <= rect.xMax)
+			{
+				this.DrawIcon(ColonistBarColonistDrawer.Icon_Burning, ref vector, "ActivityIconBurning".Translate());
+			}
+			if (colonist.Inspired && vector.x + num <= rect.xMax)
+			{
+				this.DrawIcon(ColonistBarColonistDrawer.Icon_Inspired, ref vector, colonist.InspirationDef.LabelCap);
 			}
 		}
 

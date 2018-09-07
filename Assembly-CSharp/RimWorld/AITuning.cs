@@ -1,5 +1,4 @@
 ﻿using System;
-using Verse;
 
 namespace RimWorld
 {
@@ -7,33 +6,26 @@ namespace RimWorld
 	{
 		public const int ConstantThinkTreeJobCheckIntervalTicks = 30;
 
-		[TweakValue("AI", 0f, 10f)]
-		public static float OpportunisticJobMinDistPawnToDest = 3f;
+		public const float MinMalnutritionSeverityForHumanoidsToEatCorpses = 0.4f;
 
-		[TweakValue("AI", 5f, 50f)]
-		public static float OpportunisticJobMaxDistPawnToItem = 30f;
+		public const float RescuedPawnJoinChance_OutsideDangerous = 1f;
 
-		[TweakValue("AI", 0f, 2f)]
-		public static float OpportunisticJobMaxPickupDistanceFactor = 0.5f;
+		public const float RescuedPawnJoinChance_OutsideSafe = 0.5f;
 
-		[TweakValue("AI", 1f, 3f)]
-		public static float OpportunisticJobMaxRatioOppHaulDistanceToDestDistance = 1.5f;
+		public const float OpportunisticJobMinDistPawnToDest = 3f;
 
-		[TweakValue("AI", 5f, 50f)]
-		public static float OpportunisticJobMaxDistDestToDropoff = 40f;
+		public const float OpportunisticJobMaxDistPawnToItem = 30f;
 
-		[TweakValue("AI", 0f, 2f)]
-		public static float OpportunisticJobMaxDistDestToDropoffFactor = 0.5f;
+		public const float OpportunisticJobMaxPickupDistanceFactor = 0.5f;
 
-		[TweakValue("AI", 1f, 50f)]
-		public static int OpportunisticJobMaxPickupRegions = 25;
+		public const float OpportunisticJobMaxRatioOppHaulDistanceToDestDistance = 1.7f;
 
-		[TweakValue("AI", 1f, 50f)]
-		public static int OpportunisticJobMaxDropoffRegions = 25;
+		public const float OpportunisticJobMaxDistDestToDropoff = 50f;
 
-		// Note: this type is marked as 'beforefieldinit'.
-		static AITuning()
-		{
-		}
+		public const float OpportunisticJobMaxDistDestToDropoffFactor = 0.6f;
+
+		public const int OpportunisticJobMaxPickupRegions = 25;
+
+		public const int OpportunisticJobMaxDropoffRegions = 25;
 	}
 }

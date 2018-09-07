@@ -12,189 +12,168 @@ namespace RimWorld
 
 		public static void Transfer(List<Thing> things, int count, Action<Thing, IThingHolder> transferred)
 		{
-			if (count > 0)
+			if (count <= 0)
 			{
-				TransferableUtility.tmpThings.Clear();
-				TransferableUtility.tmpThings.AddRange(things);
-				int num = count;
-				for (int i = 0; i < TransferableUtility.tmpThings.Count; i++)
+				return;
+			}
+			TransferableUtility.tmpThings.Clear();
+			TransferableUtility.tmpThings.AddRange(things);
+			int num = count;
+			for (int i = 0; i < TransferableUtility.tmpThings.Count; i++)
+			{
+				Thing thing = TransferableUtility.tmpThings[i];
+				int num2 = Mathf.Min(num, thing.stackCount);
+				if (num2 > 0)
 				{
-					Thing thing = TransferableUtility.tmpThings[i];
-					int num2 = Mathf.Min(num, thing.stackCount);
-					if (num2 > 0)
+					IThingHolder parentHolder = thing.ParentHolder;
+					Thing thing2 = thing.SplitOff(num2);
+					num -= num2;
+					if (thing2 == thing)
 					{
-						IThingHolder parentHolder = thing.ParentHolder;
-						Thing thing2 = thing.SplitOff(num2);
-						num -= num2;
-						if (thing2 == thing)
-						{
-							things.Remove(thing);
-						}
-						transferred(thing2, parentHolder);
-						if (num <= 0)
-						{
-							break;
-						}
+						things.Remove(thing);
+					}
+					transferred(thing2, parentHolder);
+					if (num <= 0)
+					{
+						break;
 					}
 				}
-				TransferableUtility.tmpThings.Clear();
-				if (num > 0)
-				{
-					Log.Error("Can't transfer things because there is nothing left.", false);
-				}
+			}
+			TransferableUtility.tmpThings.Clear();
+			if (num > 0)
+			{
+				Log.Error("Can't transfer things because there is nothing left.", false);
 			}
 		}
 
 		public static void TransferNoSplit(List<Thing> things, int count, Action<Thing, int> transfer, bool removeIfTakingEntireThing = true, bool errorIfNotEnoughThings = true)
 		{
-			if (count > 0)
+			if (count <= 0)
 			{
-				TransferableUtility.tmpThings.Clear();
-				TransferableUtility.tmpThings.AddRange(things);
-				int num = count;
-				for (int i = 0; i < TransferableUtility.tmpThings.Count; i++)
+				return;
+			}
+			TransferableUtility.tmpThings.Clear();
+			TransferableUtility.tmpThings.AddRange(things);
+			int num = count;
+			for (int i = 0; i < TransferableUtility.tmpThings.Count; i++)
+			{
+				Thing thing = TransferableUtility.tmpThings[i];
+				int num2 = Mathf.Min(num, thing.stackCount);
+				if (num2 > 0)
 				{
-					Thing thing = TransferableUtility.tmpThings[i];
-					int num2 = Mathf.Min(num, thing.stackCount);
-					if (num2 > 0)
+					num -= num2;
+					if (removeIfTakingEntireThing && num2 >= thing.stackCount)
 					{
-						num -= num2;
-						if (removeIfTakingEntireThing && num2 >= thing.stackCount)
-						{
-							things.Remove(thing);
-						}
-						transfer(thing, num2);
-						if (num <= 0)
-						{
-							break;
-						}
+						things.Remove(thing);
+					}
+					transfer(thing, num2);
+					if (num <= 0)
+					{
+						break;
 					}
 				}
-				TransferableUtility.tmpThings.Clear();
-				if (num > 0 && errorIfNotEnoughThings)
-				{
-					Log.Error("Can't transfer things because there is nothing left.", false);
-				}
+			}
+			TransferableUtility.tmpThings.Clear();
+			if (num > 0 && errorIfNotEnoughThings)
+			{
+				Log.Error("Can't transfer things because there is nothing left.", false);
 			}
 		}
 
 		public static bool TransferAsOne(Thing a, Thing b, TransferAsOneMode mode)
 		{
-			bool result;
 			if (a == b)
 			{
-				result = true;
+				return true;
 			}
-			else if (a.def != b.def)
+			if (a.def != b.def)
 			{
-				result = false;
+				return false;
+			}
+			a = a.GetInnerIfMinified();
+			b = b.GetInnerIfMinified();
+			if (a.def.tradeNeverStack || b.def.tradeNeverStack)
+			{
+				return false;
+			}
+			if (!TransferableUtility.CanStack(a) || !TransferableUtility.CanStack(b))
+			{
+				return false;
+			}
+			if (a.def != b.def || a.Stuff != b.Stuff)
+			{
+				return false;
+			}
+			if (mode == TransferAsOneMode.PodsOrCaravanPacking)
+			{
+				float num = -1f;
+				CompRottable compRottable = a.TryGetComp<CompRottable>();
+				if (compRottable != null)
+				{
+					num = compRottable.RotProgressPct;
+				}
+				float num2 = -1f;
+				CompRottable compRottable2 = b.TryGetComp<CompRottable>();
+				if (compRottable2 != null)
+				{
+					num2 = compRottable2.RotProgressPct;
+				}
+				if (Mathf.Abs(num - num2) > 0.1f)
+				{
+					return false;
+				}
+			}
+			if (a is Corpse && b is Corpse)
+			{
+				Pawn innerPawn = ((Corpse)a).InnerPawn;
+				Pawn innerPawn2 = ((Corpse)b).InnerPawn;
+				return innerPawn.def == innerPawn2.def && innerPawn.kindDef == innerPawn2.kindDef && !innerPawn.RaceProps.Humanlike && !innerPawn2.RaceProps.Humanlike && (innerPawn.Name == null || innerPawn.Name.Numerical) && (innerPawn2.Name == null || innerPawn2.Name.Numerical);
+			}
+			if (a.def.category == ThingCategory.Pawn)
+			{
+				if (b.def != a.def)
+				{
+					return false;
+				}
+				Pawn pawn = (Pawn)a;
+				Pawn pawn2 = (Pawn)b;
+				return pawn.kindDef == pawn2.kindDef && pawn.gender == pawn2.gender && pawn.ageTracker.CurLifeStageIndex == pawn2.ageTracker.CurLifeStageIndex && Mathf.Abs(pawn.ageTracker.AgeBiologicalYearsFloat - pawn2.ageTracker.AgeBiologicalYearsFloat) <= 1f;
 			}
 			else
 			{
-				a = a.GetInnerIfMinified();
-				b = b.GetInnerIfMinified();
-				if (a.def.tradeNeverStack || b.def.tradeNeverStack)
+				Apparel apparel = a as Apparel;
+				Apparel apparel2 = b as Apparel;
+				if (apparel != null && apparel2 != null && apparel.WornByCorpse != apparel2.WornByCorpse)
 				{
-					result = false;
+					return false;
 				}
-				else if (!TransferableUtility.CanStack(a) || !TransferableUtility.CanStack(b))
+				if (mode != TransferAsOneMode.InactiveTradeable && a.def.useHitPoints && Mathf.Abs(a.HitPoints - b.HitPoints) >= 10)
 				{
-					result = false;
+					return false;
 				}
-				else if (a.def != b.def || a.Stuff != b.Stuff)
+				QualityCategory qualityCategory;
+				QualityCategory qualityCategory2;
+				if (a.TryGetQuality(out qualityCategory) && b.TryGetQuality(out qualityCategory2) && qualityCategory != qualityCategory2)
 				{
-					result = false;
+					return false;
 				}
-				else
+				if (a.def.category == ThingCategory.Item)
 				{
-					if (mode == TransferAsOneMode.PodsOrCaravanPacking)
-					{
-						float num = -1f;
-						CompRottable compRottable = a.TryGetComp<CompRottable>();
-						if (compRottable != null)
-						{
-							num = compRottable.RotProgressPct;
-						}
-						float num2 = -1f;
-						CompRottable compRottable2 = b.TryGetComp<CompRottable>();
-						if (compRottable2 != null)
-						{
-							num2 = compRottable2.RotProgressPct;
-						}
-						if (Mathf.Abs(num - num2) > 0.1f)
-						{
-							return false;
-						}
-					}
-					if (a is Corpse && b is Corpse)
-					{
-						Pawn innerPawn = ((Corpse)a).InnerPawn;
-						Pawn innerPawn2 = ((Corpse)b).InnerPawn;
-						result = (innerPawn.def == innerPawn2.def && innerPawn.kindDef == innerPawn2.kindDef && !innerPawn.RaceProps.Humanlike && !innerPawn2.RaceProps.Humanlike && (innerPawn.Name == null || innerPawn.Name.Numerical) && (innerPawn2.Name == null || innerPawn2.Name.Numerical));
-					}
-					else if (a.def.category == ThingCategory.Pawn)
-					{
-						if (b.def != a.def)
-						{
-							result = false;
-						}
-						else
-						{
-							Pawn pawn = (Pawn)a;
-							Pawn pawn2 = (Pawn)b;
-							result = (pawn.kindDef == pawn2.kindDef && pawn.gender == pawn2.gender && pawn.ageTracker.CurLifeStageIndex == pawn2.ageTracker.CurLifeStageIndex && Mathf.Abs(pawn.ageTracker.AgeBiologicalYearsFloat - pawn2.ageTracker.AgeBiologicalYearsFloat) <= 1f);
-						}
-					}
-					else
-					{
-						Apparel apparel = a as Apparel;
-						Apparel apparel2 = b as Apparel;
-						if (apparel != null && apparel2 != null)
-						{
-							if (apparel.WornByCorpse != apparel2.WornByCorpse)
-							{
-								return false;
-							}
-						}
-						if (mode != TransferAsOneMode.InactiveTradeable && a.def.useHitPoints && Mathf.Abs(a.HitPoints - b.HitPoints) >= 10)
-						{
-							result = false;
-						}
-						else
-						{
-							QualityCategory qualityCategory;
-							QualityCategory qualityCategory2;
-							if (a.TryGetQuality(out qualityCategory) && b.TryGetQuality(out qualityCategory2))
-							{
-								if (qualityCategory != qualityCategory2)
-								{
-									return false;
-								}
-							}
-							if (a.def.category == ThingCategory.Item)
-							{
-								result = a.CanStackWith(b);
-							}
-							else if (a.def.category == ThingCategory.Building)
-							{
-								result = true;
-							}
-							else
-							{
-								Log.Error(string.Concat(new object[]
-								{
-									"Unknown TransferAsOne pair: ",
-									a,
-									", ",
-									b
-								}), false);
-								result = false;
-							}
-						}
-					}
+					return a.CanStackWith(b);
 				}
+				if (a.def.category == ThingCategory.Building)
+				{
+					return true;
+				}
+				Log.Error(string.Concat(new object[]
+				{
+					"Unknown TransferAsOne pair: ",
+					a,
+					", ",
+					b
+				}), false);
+				return false;
 			}
-			return result;
 		}
 
 		public static bool CanStack(Thing thing)
@@ -228,100 +207,85 @@ namespace RimWorld
 
 		public static T TransferableMatching<T>(Thing thing, List<T> transferables, TransferAsOneMode mode) where T : Transferable
 		{
-			T result;
 			if (thing == null || transferables == null)
 			{
-				result = (T)((object)null);
+				return (T)((object)null);
 			}
-			else
+			for (int i = 0; i < transferables.Count; i++)
 			{
-				for (int i = 0; i < transferables.Count; i++)
+				T result = transferables[i];
+				if (result.HasAnyThing)
 				{
-					T result2 = transferables[i];
-					if (result2.HasAnyThing)
+					if (TransferableUtility.TransferAsOne(thing, result.AnyThing, mode))
 					{
-						if (TransferableUtility.TransferAsOne(thing, result2.AnyThing, mode))
-						{
-							return result2;
-						}
+						return result;
 					}
 				}
-				result = (T)((object)null);
 			}
-			return result;
+			return (T)((object)null);
 		}
 
 		public static Tradeable TradeableMatching(Thing thing, List<Tradeable> tradeables)
 		{
-			Tradeable result;
 			if (thing == null || tradeables == null)
 			{
-				result = null;
+				return null;
 			}
-			else
+			for (int i = 0; i < tradeables.Count; i++)
 			{
-				for (int i = 0; i < tradeables.Count; i++)
+				Tradeable tradeable = tradeables[i];
+				if (tradeable.HasAnyThing)
 				{
-					Tradeable tradeable = tradeables[i];
-					if (tradeable.HasAnyThing)
+					TransferAsOneMode mode = (!tradeable.TraderWillTrade) ? TransferAsOneMode.InactiveTradeable : TransferAsOneMode.Normal;
+					if (TransferableUtility.TransferAsOne(thing, tradeable.AnyThing, mode))
 					{
-						TransferAsOneMode mode = (!tradeable.TraderWillTrade) ? TransferAsOneMode.InactiveTradeable : TransferAsOneMode.Normal;
-						if (TransferableUtility.TransferAsOne(thing, tradeable.AnyThing, mode))
-						{
-							return tradeable;
-						}
+						return tradeable;
 					}
 				}
-				result = null;
 			}
-			return result;
+			return null;
 		}
 
 		public static TransferableOneWay TransferableMatchingDesperate(Thing thing, List<TransferableOneWay> transferables, TransferAsOneMode mode)
 		{
-			TransferableOneWay result;
 			if (thing == null || transferables == null)
 			{
-				result = null;
+				return null;
 			}
-			else
+			for (int i = 0; i < transferables.Count; i++)
 			{
-				for (int i = 0; i < transferables.Count; i++)
+				TransferableOneWay transferableOneWay = transferables[i];
+				if (transferableOneWay.HasAnyThing)
 				{
-					TransferableOneWay transferableOneWay = transferables[i];
-					if (transferableOneWay.HasAnyThing)
+					if (transferableOneWay.things.Contains(thing))
 					{
-						if (transferableOneWay.things.Contains(thing))
-						{
-							return transferableOneWay;
-						}
+						return transferableOneWay;
 					}
 				}
-				for (int j = 0; j < transferables.Count; j++)
-				{
-					TransferableOneWay transferableOneWay2 = transferables[j];
-					if (transferableOneWay2.HasAnyThing)
-					{
-						if (TransferableUtility.TransferAsOne(thing, transferableOneWay2.AnyThing, mode))
-						{
-							return transferableOneWay2;
-						}
-					}
-				}
-				for (int k = 0; k < transferables.Count; k++)
-				{
-					TransferableOneWay transferableOneWay3 = transferables[k];
-					if (transferableOneWay3.HasAnyThing)
-					{
-						if (transferableOneWay3.ThingDef == thing.def)
-						{
-							return transferableOneWay3;
-						}
-					}
-				}
-				result = null;
 			}
-			return result;
+			for (int j = 0; j < transferables.Count; j++)
+			{
+				TransferableOneWay transferableOneWay2 = transferables[j];
+				if (transferableOneWay2.HasAnyThing)
+				{
+					if (TransferableUtility.TransferAsOne(thing, transferableOneWay2.AnyThing, mode))
+					{
+						return transferableOneWay2;
+					}
+				}
+			}
+			for (int k = 0; k < transferables.Count; k++)
+			{
+				TransferableOneWay transferableOneWay3 = transferables[k];
+				if (transferableOneWay3.HasAnyThing)
+				{
+					if (transferableOneWay3.ThingDef == thing.def)
+					{
+						return transferableOneWay3;
+					}
+				}
+			}
+			return null;
 		}
 
 		public static List<Pawn> GetPawnsFromTransferables(List<TransferableOneWay> transferables)

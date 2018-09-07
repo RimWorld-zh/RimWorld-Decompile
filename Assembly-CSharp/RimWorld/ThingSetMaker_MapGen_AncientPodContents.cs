@@ -134,12 +134,13 @@ namespace RimWorld
 
 		private void MakeIntoContainer(ThingOwner container, ThingDef def, int count)
 		{
-			if (count > 0)
+			if (count <= 0)
 			{
-				Thing thing = ThingMaker.MakeThing(def, null);
-				thing.stackCount = count;
-				container.TryAdd(thing, true);
+				return;
 			}
+			Thing thing = ThingMaker.MakeThing(def, null);
+			thing.stackCount = count;
+			container.TryAdd(thing, true);
 		}
 
 		protected override IEnumerable<ThingDef> AllGeneratableThingsDebugSub(ThingSetMakerParams parms)

@@ -31,13 +31,11 @@ namespace Verse
 			if (node.children == null)
 			{
 				Log.Error(node + " children is null.", false);
+				return;
 			}
-			else
+			for (int i = 0; i < node.children.Count; i++)
 			{
-				for (int i = 0; i < node.children.Count; i++)
-				{
-					this.Node((TreeNode_Editor)node.children[i], indentLevel, 64);
-				}
+				this.Node((TreeNode_Editor)node.children[i], indentLevel, 64);
 			}
 		}
 
@@ -74,32 +72,26 @@ namespace Verse
 
 		private void ControlButtonsRight(TreeNode_Editor node, WidgetRow widgetRow)
 		{
-			if (node.HasNewButton)
+			if (node.HasNewButton && widgetRow.ButtonIcon(TexButton.NewItem, null, null))
 			{
-				if (widgetRow.ButtonIcon(TexButton.NewItem, null, null))
+				Action<object> addAction = delegate(object o)
 				{
-					Action<object> addAction = delegate(object o)
-					{
-						node.owningField.SetValue(node.ParentObj, o);
-						((TreeNode_Editor)node.parentNode).RebuildChildNodes();
-					};
-					this.MakeCreateNewObjectMenu(node, node.owningField, node.owningField.FieldType, addAction);
-				}
+					node.owningField.SetValue(node.ParentObj, o);
+					((TreeNode_Editor)node.parentNode).RebuildChildNodes();
+				};
+				this.MakeCreateNewObjectMenu(node, node.owningField, node.owningField.FieldType, addAction);
 			}
-			if (node.nodeType == EditTreeNodeType.ListRoot)
+			if (node.nodeType == EditTreeNodeType.ListRoot && widgetRow.ButtonIcon(TexButton.Add, null, null))
 			{
-				if (widgetRow.ButtonIcon(TexButton.Add, null, null))
+				Type baseType = node.obj.GetType().GetGenericArguments()[0];
+				Action<object> addAction2 = delegate(object o)
 				{
-					Type baseType = node.obj.GetType().GetGenericArguments()[0];
-					Action<object> addAction2 = delegate(object o)
+					node.obj.GetType().GetMethod("Add").Invoke(node.obj, new object[]
 					{
-						node.obj.GetType().GetMethod("Add").Invoke(node.obj, new object[]
-						{
-							o
-						});
-					};
-					this.MakeCreateNewObjectMenu(node, node.owningField, baseType, addAction2);
-				}
+						o
+					});
+				};
+				this.MakeCreateNewObjectMenu(node, node.owningField, baseType, addAction2);
 			}
 			if (node.HasDeleteButton)
 			{
@@ -115,7 +107,7 @@ namespace Verse
 		private void ExtraInfoText(TreeNode_Editor node, WidgetRow widgetRow)
 		{
 			string extraInfoText = node.ExtraInfoText;
-			if (extraInfoText != "")
+			if (extraInfoText != string.Empty)
 			{
 				if (extraInfoText == "null")
 				{
@@ -132,7 +124,7 @@ namespace Verse
 
 		protected void NodeLabelLeft(TreeNode_Editor node, int indentLevel)
 		{
-			string tipText = "";
+			string tipText = string.Empty;
 			if (node.owningField != null)
 			{
 				DescriptionAttribute[] array = (DescriptionAttribute[])node.owningField.GetCustomAttributes(typeof(DescriptionAttribute), true);
@@ -141,7 +133,7 @@ namespace Verse
 					tipText = array[0].description;
 				}
 			}
-			base.LabelLeft(node.LabelText, tipText, indentLevel);
+			base.LabelLeft(node.LabelText, tipText, indentLevel, 0f);
 		}
 
 		protected void MakeCreateNewObjectMenu(TreeNode_Editor owningNode, FieldInfo owningField, Type baseType, Action<object> addAction)
@@ -157,7 +149,7 @@ namespace Verse
 					object obj;
 					if (creatingType == typeof(string))
 					{
-						obj = "";
+						obj = string.Empty;
 					}
 					else
 					{
@@ -189,7 +181,7 @@ namespace Verse
 				string text2 = text;
 				if (text2 == null)
 				{
-					text2 = "";
+					text2 = string.Empty;
 				}
 				string b = text2;
 				text2 = Widgets.TextField(rect, text2);
@@ -339,7 +331,7 @@ namespace Verse
 				object obj;
 				if (this.creatingType == typeof(string))
 				{
-					obj = "";
+					obj = string.Empty;
 				}
 				else
 				{

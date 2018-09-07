@@ -14,18 +14,20 @@ namespace RimWorld
 
 		public override void DoCell(Rect rect, Pawn pawn, PawnTable table)
 		{
-			if (pawn.training != null)
+			if (pawn.training == null)
 			{
-				bool flag;
-				AcceptanceReport canTrain = pawn.training.CanAssignToTrain(this.def.trainable, out flag);
-				if (flag && canTrain.Accepted)
-				{
-					int num = (int)((rect.width - 24f) / 2f);
-					int num2 = Mathf.Max(3, 0);
-					Rect rect2 = new Rect(rect.x + (float)num, rect.y + (float)num2, 24f, 24f);
-					TrainingCardUtility.DoTrainableCheckbox(rect2, pawn, this.def.trainable, canTrain, false, true);
-				}
+				return;
 			}
+			bool flag;
+			AcceptanceReport canTrain = pawn.training.CanAssignToTrain(this.def.trainable, out flag);
+			if (!flag || !canTrain.Accepted)
+			{
+				return;
+			}
+			int num = (int)((rect.width - 24f) / 2f);
+			int num2 = Mathf.Max(3, 0);
+			Rect rect2 = new Rect(rect.x + (float)num, rect.y + (float)num2, 24f, 24f);
+			TrainingCardUtility.DoTrainableCheckbox(rect2, pawn, this.def.trainable, canTrain, false, true);
 		}
 
 		public override int GetMinWidth(PawnTable table)
@@ -50,37 +52,29 @@ namespace RimWorld
 
 		private int GetValueToCompare(Pawn pawn)
 		{
-			int result;
 			if (pawn.training == null)
 			{
-				result = int.MinValue;
+				return int.MinValue;
 			}
-			else if (pawn.training.HasLearned(this.def.trainable))
+			if (pawn.training.HasLearned(this.def.trainable))
 			{
-				result = 4;
+				return 4;
 			}
-			else
+			bool flag;
+			AcceptanceReport acceptanceReport = pawn.training.CanAssignToTrain(this.def.trainable, out flag);
+			if (!flag)
 			{
-				bool flag;
-				AcceptanceReport acceptanceReport = pawn.training.CanAssignToTrain(this.def.trainable, out flag);
-				if (!flag)
-				{
-					result = 0;
-				}
-				else if (!acceptanceReport.Accepted)
-				{
-					result = 1;
-				}
-				else if (!pawn.training.GetWanted(this.def.trainable))
-				{
-					result = 2;
-				}
-				else
-				{
-					result = 3;
-				}
+				return 0;
 			}
-			return result;
+			if (!acceptanceReport.Accepted)
+			{
+				return 1;
+			}
+			if (!pawn.training.GetWanted(this.def.trainable))
+			{
+				return 2;
+			}
+			return 3;
 		}
 
 		protected override void HeaderClicked(Rect headerRect, PawnTable table)
@@ -105,12 +99,9 @@ namespace RimWorld
 									pawnsListForReading[i].training.SetWantedRecursive(this.def.trainable, true);
 								}
 							}
-							else if (Event.current.button == 1)
+							else if (Event.current.button == 1 && wanted)
 							{
-								if (wanted)
-								{
-									pawnsListForReading[i].training.SetWantedRecursive(this.def.trainable, false);
-								}
+								pawnsListForReading[i].training.SetWantedRecursive(this.def.trainable, false);
 							}
 						}
 					}

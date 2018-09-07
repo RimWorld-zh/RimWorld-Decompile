@@ -69,115 +69,94 @@ namespace RimWorld.Planet
 					}
 				}
 			}
-			bool result;
 			if (thing != null)
 			{
 				food = thing;
 				owner = CaravanInventoryUtility.GetOwnerOf(caravan, thing);
-				result = true;
+				return true;
 			}
-			else
-			{
-				food = null;
-				owner = null;
-				result = false;
-			}
-			return result;
+			food = null;
+			owner = null;
+			return false;
 		}
 
 		public static bool TryGetDrugToSatisfyChemicalNeed(Caravan caravan, Pawn forPawn, Need_Chemical chemical, out Thing drug, out Pawn owner)
 		{
 			Hediff_Addiction addictionHediff = chemical.AddictionHediff;
-			bool result;
 			if (addictionHediff == null)
 			{
 				drug = null;
 				owner = null;
-				result = false;
+				return false;
 			}
-			else
+			List<Thing> list = CaravanInventoryUtility.AllInventoryItems(caravan);
+			Thing thing = null;
+			for (int i = 0; i < list.Count; i++)
 			{
-				List<Thing> list = CaravanInventoryUtility.AllInventoryItems(caravan);
-				Thing thing = null;
-				for (int i = 0; i < list.Count; i++)
+				Thing thing2 = list[i];
+				if (thing2.IngestibleNow && thing2.def.IsDrug)
 				{
-					Thing thing2 = list[i];
-					if (thing2.IngestibleNow && thing2.def.IsDrug)
+					CompDrug compDrug = thing2.TryGetComp<CompDrug>();
+					if (compDrug != null && compDrug.Props.chemical != null)
 					{
-						CompDrug compDrug = thing2.TryGetComp<CompDrug>();
-						if (compDrug != null && compDrug.Props.chemical != null)
+						if (compDrug.Props.chemical.addictionHediff == addictionHediff.def)
 						{
-							if (compDrug.Props.chemical.addictionHediff == addictionHediff.def)
+							if (forPawn.drugs == null || forPawn.drugs.CurrentPolicy[thing2.def].allowedForAddiction || forPawn.story == null || forPawn.story.traits.DegreeOfTrait(TraitDefOf.DrugDesire) > 0)
 							{
-								if (forPawn.drugs == null || forPawn.drugs.CurrentPolicy[thing2.def].allowedForAddiction || forPawn.story == null || forPawn.story.traits.DegreeOfTrait(TraitDefOf.DrugDesire) > 0)
-								{
-									thing = thing2;
-									break;
-								}
+								thing = thing2;
+								break;
 							}
 						}
 					}
 				}
-				if (thing != null)
-				{
-					drug = thing;
-					owner = CaravanInventoryUtility.GetOwnerOf(caravan, thing);
-					result = true;
-				}
-				else
-				{
-					drug = null;
-					owner = null;
-					result = false;
-				}
 			}
-			return result;
+			if (thing != null)
+			{
+				drug = thing;
+				owner = CaravanInventoryUtility.GetOwnerOf(caravan, thing);
+				return true;
+			}
+			drug = null;
+			owner = null;
+			return false;
 		}
 
 		public static bool TryGetBestMedicine(Caravan caravan, Pawn patient, out Medicine medicine, out Pawn owner)
 		{
-			bool result;
 			if (patient.playerSettings == null || patient.playerSettings.medCare <= MedicalCareCategory.NoMeds)
 			{
 				medicine = null;
 				owner = null;
-				result = false;
+				return false;
 			}
-			else
+			List<Thing> list = CaravanInventoryUtility.AllInventoryItems(caravan);
+			Medicine medicine2 = null;
+			float num = 0f;
+			for (int i = 0; i < list.Count; i++)
 			{
-				List<Thing> list = CaravanInventoryUtility.AllInventoryItems(caravan);
-				Medicine medicine2 = null;
-				float num = 0f;
-				for (int i = 0; i < list.Count; i++)
+				Thing thing = list[i];
+				if (thing.def.IsMedicine)
 				{
-					Thing thing = list[i];
-					if (thing.def.IsMedicine)
+					if (patient.playerSettings.medCare.AllowsMedicine(thing.def))
 					{
-						if (patient.playerSettings.medCare.AllowsMedicine(thing.def))
+						float statValue = thing.GetStatValue(StatDefOf.MedicalPotency, true);
+						if (statValue > num || medicine2 == null)
 						{
-							float statValue = thing.GetStatValue(StatDefOf.MedicalPotency, true);
-							if (statValue > num || medicine2 == null)
-							{
-								num = statValue;
-								medicine2 = (Medicine)thing;
-							}
+							num = statValue;
+							medicine2 = (Medicine)thing;
 						}
 					}
 				}
-				if (medicine2 != null)
-				{
-					medicine = medicine2;
-					owner = CaravanInventoryUtility.GetOwnerOf(caravan, medicine2);
-					result = true;
-				}
-				else
-				{
-					medicine = null;
-					owner = null;
-					result = false;
-				}
 			}
-			return result;
+			if (medicine2 != null)
+			{
+				medicine = medicine2;
+				owner = CaravanInventoryUtility.GetOwnerOf(caravan, medicine2);
+				return true;
+			}
+			medicine = null;
+			owner = null;
+			return false;
 		}
 
 		public static bool TryGetThingOfDef(Caravan caravan, ThingDef thingDef, out Thing thing, out Pawn owner)
@@ -223,87 +202,83 @@ namespace RimWorld.Planet
 					item.stackCount,
 					")"
 				}), false);
+				return;
 			}
-			else
+			Pawn pawn = CaravanInventoryUtility.FindPawnToMoveInventoryTo(item, candidates, ignoreCandidates, itemOwner);
+			if (pawn == null)
 			{
-				Pawn pawn = CaravanInventoryUtility.FindPawnToMoveInventoryTo(item, candidates, ignoreCandidates, itemOwner);
-				if (pawn != null)
-				{
-					itemOwner.inventory.innerContainer.TryTransferToContainer(item, pawn.inventory.innerContainer, numToMove, true);
-				}
+				return;
 			}
+			itemOwner.inventory.innerContainer.TryTransferToContainer(item, pawn.inventory.innerContainer, numToMove, true);
 		}
 
 		public static Pawn FindPawnToMoveInventoryTo(Thing item, List<Pawn> candidates, List<Pawn> ignoreCandidates, Pawn currentItemOwner = null)
 		{
-			Pawn result;
-			Pawn pawn;
 			if (item is Pawn)
 			{
 				Log.Error("Called FindPawnToMoveInventoryTo but the item is a pawn.", false);
-				result = null;
+				return null;
 			}
-			else if ((from x in candidates
+			Pawn result;
+			if ((from x in candidates
 			where CaravanInventoryUtility.CanMoveInventoryTo(x) && (ignoreCandidates == null || !ignoreCandidates.Contains(x)) && x != currentItemOwner && !MassUtility.IsOverEncumbered(x)
-			select x).TryRandomElement(out pawn))
+			select x).TryRandomElement(out result))
 			{
-				result = pawn;
+				return result;
 			}
-			else if ((from x in candidates
+			if ((from x in candidates
 			where CaravanInventoryUtility.CanMoveInventoryTo(x) && (ignoreCandidates == null || !ignoreCandidates.Contains(x)) && x != currentItemOwner
-			select x).TryRandomElement(out pawn))
+			select x).TryRandomElement(out result))
 			{
-				result = pawn;
+				return result;
 			}
-			else if ((from x in candidates
+			if ((from x in candidates
 			where (ignoreCandidates == null || !ignoreCandidates.Contains(x)) && x != currentItemOwner
-			select x).TryRandomElement(out pawn))
+			select x).TryRandomElement(out result))
 			{
-				result = pawn;
+				return result;
 			}
-			else
-			{
-				result = null;
-			}
-			return result;
+			return null;
 		}
 
 		public static void MoveAllApparelToSomeonesInventory(Pawn moveFrom, List<Pawn> candidates)
 		{
-			if (moveFrom.apparel != null)
+			if (moveFrom.apparel == null)
 			{
-				CaravanInventoryUtility.tmpApparel.Clear();
-				CaravanInventoryUtility.tmpApparel.AddRange(moveFrom.apparel.WornApparel);
-				for (int i = 0; i < CaravanInventoryUtility.tmpApparel.Count; i++)
-				{
-					moveFrom.apparel.Remove(CaravanInventoryUtility.tmpApparel[i]);
-					Pawn pawn = CaravanInventoryUtility.FindPawnToMoveInventoryTo(CaravanInventoryUtility.tmpApparel[i], candidates, null, moveFrom);
-					if (pawn != null)
-					{
-						pawn.inventory.innerContainer.TryAdd(CaravanInventoryUtility.tmpApparel[i], true);
-					}
-				}
-				CaravanInventoryUtility.tmpApparel.Clear();
+				return;
 			}
+			CaravanInventoryUtility.tmpApparel.Clear();
+			CaravanInventoryUtility.tmpApparel.AddRange(moveFrom.apparel.WornApparel);
+			for (int i = 0; i < CaravanInventoryUtility.tmpApparel.Count; i++)
+			{
+				moveFrom.apparel.Remove(CaravanInventoryUtility.tmpApparel[i]);
+				Pawn pawn = CaravanInventoryUtility.FindPawnToMoveInventoryTo(CaravanInventoryUtility.tmpApparel[i], candidates, null, moveFrom);
+				if (pawn != null)
+				{
+					pawn.inventory.innerContainer.TryAdd(CaravanInventoryUtility.tmpApparel[i], true);
+				}
+			}
+			CaravanInventoryUtility.tmpApparel.Clear();
 		}
 
 		public static void MoveAllEquipmentToSomeonesInventory(Pawn moveFrom, List<Pawn> candidates)
 		{
-			if (moveFrom.equipment != null)
+			if (moveFrom.equipment == null)
 			{
-				CaravanInventoryUtility.tmpEquipment.Clear();
-				CaravanInventoryUtility.tmpEquipment.AddRange(moveFrom.equipment.AllEquipmentListForReading);
-				for (int i = 0; i < CaravanInventoryUtility.tmpEquipment.Count; i++)
-				{
-					moveFrom.equipment.Remove(CaravanInventoryUtility.tmpEquipment[i]);
-					Pawn pawn = CaravanInventoryUtility.FindPawnToMoveInventoryTo(CaravanInventoryUtility.tmpEquipment[i], candidates, null, moveFrom);
-					if (pawn != null)
-					{
-						pawn.inventory.innerContainer.TryAdd(CaravanInventoryUtility.tmpEquipment[i], true);
-					}
-				}
-				CaravanInventoryUtility.tmpEquipment.Clear();
+				return;
 			}
+			CaravanInventoryUtility.tmpEquipment.Clear();
+			CaravanInventoryUtility.tmpEquipment.AddRange(moveFrom.equipment.AllEquipmentListForReading);
+			for (int i = 0; i < CaravanInventoryUtility.tmpEquipment.Count; i++)
+			{
+				moveFrom.equipment.Remove(CaravanInventoryUtility.tmpEquipment[i]);
+				Pawn pawn = CaravanInventoryUtility.FindPawnToMoveInventoryTo(CaravanInventoryUtility.tmpEquipment[i], candidates, null, moveFrom);
+				if (pawn != null)
+				{
+					pawn.inventory.innerContainer.TryAdd(CaravanInventoryUtility.tmpEquipment[i], true);
+				}
+			}
+			CaravanInventoryUtility.tmpEquipment.Clear();
 		}
 
 		private static bool CanMoveInventoryTo(Pawn pawn)
@@ -337,20 +312,20 @@ namespace RimWorld.Planet
 					caravan,
 					")."
 				}), false);
+				return;
 			}
-			else
+			Pawn pawn = CaravanInventoryUtility.FindPawnToMoveInventoryTo(thing, caravan.PawnsListForReading, null, null);
+			if (pawn == null)
 			{
-				Pawn pawn = CaravanInventoryUtility.FindPawnToMoveInventoryTo(thing, caravan.PawnsListForReading, null, null);
-				if (pawn == null)
-				{
-					Log.Error(string.Format("Failed to give item {0} to caravan {1}; item was lost", thing, caravan), false);
-					thing.Destroy(DestroyMode.Vanish);
-				}
-				else if (!pawn.inventory.innerContainer.TryAdd(thing, true))
-				{
-					Log.Error(string.Format("Failed to give item {0} to caravan {1}; item was lost", thing, caravan), false);
-					thing.Destroy(DestroyMode.Vanish);
-				}
+				Log.Error(string.Format("Failed to give item {0} to caravan {1}; item was lost", thing, caravan), false);
+				thing.Destroy(DestroyMode.Vanish);
+				return;
+			}
+			if (!pawn.inventory.innerContainer.TryAdd(thing, true))
+			{
+				Log.Error(string.Format("Failed to give item {0} to caravan {1}; item was lost", thing, caravan), false);
+				thing.Destroy(DestroyMode.Vanish);
+				return;
 			}
 		}
 

@@ -248,30 +248,25 @@ namespace RimWorld
 
 		public static bool CanGenerateAnyNormalGroup(Faction faction, float points)
 		{
-			bool result;
 			if (faction.def.pawnGroupMakers == null)
 			{
-				result = false;
+				return false;
 			}
-			else
+			PawnGroupMakerParms pawnGroupMakerParms = new PawnGroupMakerParms();
+			pawnGroupMakerParms.faction = faction;
+			pawnGroupMakerParms.points = points;
+			for (int i = 0; i < faction.def.pawnGroupMakers.Count; i++)
 			{
-				PawnGroupMakerParms pawnGroupMakerParms = new PawnGroupMakerParms();
-				pawnGroupMakerParms.faction = faction;
-				pawnGroupMakerParms.points = points;
-				for (int i = 0; i < faction.def.pawnGroupMakers.Count; i++)
+				PawnGroupMaker pawnGroupMaker = faction.def.pawnGroupMakers[i];
+				if (pawnGroupMaker.kindDef == PawnGroupKindDefOf.Combat)
 				{
-					PawnGroupMaker pawnGroupMaker = faction.def.pawnGroupMakers[i];
-					if (pawnGroupMaker.kindDef == PawnGroupKindDefOf.Combat)
+					if (pawnGroupMaker.CanGenerateFrom(pawnGroupMakerParms))
 					{
-						if (pawnGroupMaker.CanGenerateFrom(pawnGroupMakerParms))
-						{
-							return true;
-						}
+						return true;
 					}
 				}
-				result = false;
 			}
-			return result;
+			return false;
 		}
 
 		[DebugOutput]
@@ -293,58 +288,59 @@ namespace RimWorld
 				}));
 				Action<float> action = delegate(float points)
 				{
-					if (points >= fac.def.MinPointsToGeneratePawnGroup(PawnGroupKindDefOf.Combat))
+					if (points < fac.def.MinPointsToGeneratePawnGroup(PawnGroupKindDefOf.Combat))
 					{
-						PawnGroupMakerParms pawnGroupMakerParms = new PawnGroupMakerParms();
-						pawnGroupMakerParms.groupKind = PawnGroupKindDefOf.Combat;
-						pawnGroupMakerParms.tile = Find.CurrentMap.Tile;
-						pawnGroupMakerParms.points = points;
-						pawnGroupMakerParms.faction = fac;
-						sb.AppendLine(string.Concat(new object[]
-						{
-							"Group with ",
-							pawnGroupMakerParms.points,
-							" points (max option cost: ",
-							PawnGroupMakerUtility.MaxPawnCost(fac, points, RaidStrategyDefOf.ImmediateAttack, PawnGroupKindDefOf.Combat),
-							")"
-						}));
-						float num2 = 0f;
-						foreach (Pawn pawn in PawnGroupMakerUtility.GeneratePawns(pawnGroupMakerParms, false).OrderBy((Pawn pa) => pa.kindDef.combatPower))
-						{
-							string text;
-							if (pawn.equipment.Primary != null)
-							{
-								text = pawn.equipment.Primary.Label;
-							}
-							else
-							{
-								text = "no-equipment";
-							}
-							Apparel apparel = pawn.apparel.FirstApparelOnBodyPartGroup(BodyPartGroupDefOf.Torso);
-							string text2;
-							if (apparel != null)
-							{
-								text2 = apparel.LabelCap;
-							}
-							else
-							{
-								text2 = "shirtless";
-							}
-							sb.AppendLine(string.Concat(new string[]
-							{
-								"  ",
-								pawn.kindDef.combatPower.ToString("F0").PadRight(6),
-								pawn.kindDef.defName,
-								", ",
-								text,
-								", ",
-								text2
-							}));
-							num2 += pawn.kindDef.combatPower;
-						}
-						sb.AppendLine("         totalCost " + num2);
-						sb.AppendLine();
+						return;
 					}
+					PawnGroupMakerParms pawnGroupMakerParms = new PawnGroupMakerParms();
+					pawnGroupMakerParms.groupKind = PawnGroupKindDefOf.Combat;
+					pawnGroupMakerParms.tile = Find.CurrentMap.Tile;
+					pawnGroupMakerParms.points = points;
+					pawnGroupMakerParms.faction = fac;
+					sb.AppendLine(string.Concat(new object[]
+					{
+						"Group with ",
+						pawnGroupMakerParms.points,
+						" points (max option cost: ",
+						PawnGroupMakerUtility.MaxPawnCost(fac, points, RaidStrategyDefOf.ImmediateAttack, PawnGroupKindDefOf.Combat),
+						")"
+					}));
+					float num2 = 0f;
+					foreach (Pawn pawn in PawnGroupMakerUtility.GeneratePawns(pawnGroupMakerParms, false).OrderBy((Pawn pa) => pa.kindDef.combatPower))
+					{
+						string text;
+						if (pawn.equipment.Primary != null)
+						{
+							text = pawn.equipment.Primary.Label;
+						}
+						else
+						{
+							text = "no-equipment";
+						}
+						Apparel apparel = pawn.apparel.FirstApparelOnBodyPartGroup(BodyPartGroupDefOf.Torso);
+						string text2;
+						if (apparel != null)
+						{
+							text2 = apparel.LabelCap;
+						}
+						else
+						{
+							text2 = "shirtless";
+						}
+						sb.AppendLine(string.Concat(new string[]
+						{
+							"  ",
+							pawn.kindDef.combatPower.ToString("F0").PadRight(6),
+							pawn.kindDef.defName,
+							", ",
+							text,
+							", ",
+							text2
+						}));
+						num2 += pawn.kindDef.combatPower;
+					}
+					sb.AppendLine("         totalCost " + num2);
+					sb.AppendLine();
 				};
 				foreach (float num in Dialog_DebugActionsMenu.PointsOptions(false))
 				{
@@ -409,60 +405,61 @@ namespace RimWorld
 			}));
 			Action<float> action = delegate(float points)
 			{
-				if (points >= fac.def.MinPointsToGeneratePawnGroup(PawnGroupKindDefOf.Combat))
+				if (points < fac.def.MinPointsToGeneratePawnGroup(PawnGroupKindDefOf.Combat))
 				{
-					PawnGroupMakerParms pawnGroupMakerParms = new PawnGroupMakerParms();
-					pawnGroupMakerParms.groupKind = PawnGroupKindDefOf.Combat;
-					pawnGroupMakerParms.tile = Find.CurrentMap.Tile;
-					pawnGroupMakerParms.points = points;
-					pawnGroupMakerParms.faction = fac;
-					sb.AppendLine(string.Concat(new object[]
-					{
-						"Group with ",
-						pawnGroupMakerParms.points,
-						" points (max option cost: ",
-						PawnGroupMakerUtility.MaxPawnCost(fac, points, RaidStrategyDefOf.ImmediateAttack, PawnGroupKindDefOf.Combat),
-						")"
-					}));
-					float num2 = 0f;
-					foreach (Pawn pawn in from pa in PawnGroupMakerUtility.GeneratePawns(pawnGroupMakerParms, false)
-					orderby pa.kindDef.combatPower
-					select pa)
-					{
-						string text;
-						if (pawn.equipment.Primary != null)
-						{
-							text = pawn.equipment.Primary.Label;
-						}
-						else
-						{
-							text = "no-equipment";
-						}
-						Apparel apparel = pawn.apparel.FirstApparelOnBodyPartGroup(BodyPartGroupDefOf.Torso);
-						string text2;
-						if (apparel != null)
-						{
-							text2 = apparel.LabelCap;
-						}
-						else
-						{
-							text2 = "shirtless";
-						}
-						sb.AppendLine(string.Concat(new string[]
-						{
-							"  ",
-							pawn.kindDef.combatPower.ToString("F0").PadRight(6),
-							pawn.kindDef.defName,
-							", ",
-							text,
-							", ",
-							text2
-						}));
-						num2 += pawn.kindDef.combatPower;
-					}
-					sb.AppendLine("         totalCost " + num2);
-					sb.AppendLine();
+					return;
 				}
+				PawnGroupMakerParms pawnGroupMakerParms = new PawnGroupMakerParms();
+				pawnGroupMakerParms.groupKind = PawnGroupKindDefOf.Combat;
+				pawnGroupMakerParms.tile = Find.CurrentMap.Tile;
+				pawnGroupMakerParms.points = points;
+				pawnGroupMakerParms.faction = fac;
+				sb.AppendLine(string.Concat(new object[]
+				{
+					"Group with ",
+					pawnGroupMakerParms.points,
+					" points (max option cost: ",
+					PawnGroupMakerUtility.MaxPawnCost(fac, points, RaidStrategyDefOf.ImmediateAttack, PawnGroupKindDefOf.Combat),
+					")"
+				}));
+				float num2 = 0f;
+				foreach (Pawn pawn in from pa in PawnGroupMakerUtility.GeneratePawns(pawnGroupMakerParms, false)
+				orderby pa.kindDef.combatPower
+				select pa)
+				{
+					string text;
+					if (pawn.equipment.Primary != null)
+					{
+						text = pawn.equipment.Primary.Label;
+					}
+					else
+					{
+						text = "no-equipment";
+					}
+					Apparel apparel = pawn.apparel.FirstApparelOnBodyPartGroup(BodyPartGroupDefOf.Torso);
+					string text2;
+					if (apparel != null)
+					{
+						text2 = apparel.LabelCap;
+					}
+					else
+					{
+						text2 = "shirtless";
+					}
+					sb.AppendLine(string.Concat(new string[]
+					{
+						"  ",
+						pawn.kindDef.combatPower.ToString("F0").PadRight(6),
+						pawn.kindDef.defName,
+						", ",
+						text,
+						", ",
+						text2
+					}));
+					num2 += pawn.kindDef.combatPower;
+				}
+				sb.AppendLine("         totalCost " + num2);
+				sb.AppendLine();
 			};
 			foreach (float num in Dialog_DebugActionsMenu.PointsOptions(false))
 			{
@@ -905,60 +902,61 @@ namespace RimWorld
 
 			internal void <>m__0(float points)
 			{
-				if (points >= this.fac.def.MinPointsToGeneratePawnGroup(PawnGroupKindDefOf.Combat))
+				if (points < this.fac.def.MinPointsToGeneratePawnGroup(PawnGroupKindDefOf.Combat))
 				{
-					PawnGroupMakerParms pawnGroupMakerParms = new PawnGroupMakerParms();
-					pawnGroupMakerParms.groupKind = PawnGroupKindDefOf.Combat;
-					pawnGroupMakerParms.tile = Find.CurrentMap.Tile;
-					pawnGroupMakerParms.points = points;
-					pawnGroupMakerParms.faction = this.fac;
-					this.sb.AppendLine(string.Concat(new object[]
-					{
-						"Group with ",
-						pawnGroupMakerParms.points,
-						" points (max option cost: ",
-						PawnGroupMakerUtility.MaxPawnCost(this.fac, points, RaidStrategyDefOf.ImmediateAttack, PawnGroupKindDefOf.Combat),
-						")"
-					}));
-					float num = 0f;
-					foreach (Pawn pawn in from pa in PawnGroupMakerUtility.GeneratePawns(pawnGroupMakerParms, false)
-					orderby pa.kindDef.combatPower
-					select pa)
-					{
-						string text;
-						if (pawn.equipment.Primary != null)
-						{
-							text = pawn.equipment.Primary.Label;
-						}
-						else
-						{
-							text = "no-equipment";
-						}
-						Apparel apparel = pawn.apparel.FirstApparelOnBodyPartGroup(BodyPartGroupDefOf.Torso);
-						string text2;
-						if (apparel != null)
-						{
-							text2 = apparel.LabelCap;
-						}
-						else
-						{
-							text2 = "shirtless";
-						}
-						this.sb.AppendLine(string.Concat(new string[]
-						{
-							"  ",
-							pawn.kindDef.combatPower.ToString("F0").PadRight(6),
-							pawn.kindDef.defName,
-							", ",
-							text,
-							", ",
-							text2
-						}));
-						num += pawn.kindDef.combatPower;
-					}
-					this.sb.AppendLine("         totalCost " + num);
-					this.sb.AppendLine();
+					return;
 				}
+				PawnGroupMakerParms pawnGroupMakerParms = new PawnGroupMakerParms();
+				pawnGroupMakerParms.groupKind = PawnGroupKindDefOf.Combat;
+				pawnGroupMakerParms.tile = Find.CurrentMap.Tile;
+				pawnGroupMakerParms.points = points;
+				pawnGroupMakerParms.faction = this.fac;
+				this.sb.AppendLine(string.Concat(new object[]
+				{
+					"Group with ",
+					pawnGroupMakerParms.points,
+					" points (max option cost: ",
+					PawnGroupMakerUtility.MaxPawnCost(this.fac, points, RaidStrategyDefOf.ImmediateAttack, PawnGroupKindDefOf.Combat),
+					")"
+				}));
+				float num = 0f;
+				foreach (Pawn pawn in from pa in PawnGroupMakerUtility.GeneratePawns(pawnGroupMakerParms, false)
+				orderby pa.kindDef.combatPower
+				select pa)
+				{
+					string text;
+					if (pawn.equipment.Primary != null)
+					{
+						text = pawn.equipment.Primary.Label;
+					}
+					else
+					{
+						text = "no-equipment";
+					}
+					Apparel apparel = pawn.apparel.FirstApparelOnBodyPartGroup(BodyPartGroupDefOf.Torso);
+					string text2;
+					if (apparel != null)
+					{
+						text2 = apparel.LabelCap;
+					}
+					else
+					{
+						text2 = "shirtless";
+					}
+					this.sb.AppendLine(string.Concat(new string[]
+					{
+						"  ",
+						pawn.kindDef.combatPower.ToString("F0").PadRight(6),
+						pawn.kindDef.defName,
+						", ",
+						text,
+						", ",
+						text2
+					}));
+					num += pawn.kindDef.combatPower;
+				}
+				this.sb.AppendLine("         totalCost " + num);
+				this.sb.AppendLine();
 			}
 
 			private static float <>m__1(Pawn pa)

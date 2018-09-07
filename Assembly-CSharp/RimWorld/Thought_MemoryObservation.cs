@@ -39,19 +39,14 @@ namespace RimWorld
 					thought_MemoryObservation = thought_MemoryObservation2;
 				}
 			}
-			bool result;
 			if (thought_MemoryObservation != null)
 			{
 				showBubble = (thought_MemoryObservation.age > thought_MemoryObservation.def.DurationTicks / 2);
 				thought_MemoryObservation.Renew();
-				result = true;
+				return true;
 			}
-			else
-			{
-				showBubble = true;
-				result = false;
-			}
-			return result;
+			showBubble = true;
+			return false;
 		}
 	}
 }

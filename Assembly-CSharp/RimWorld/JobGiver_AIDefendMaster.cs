@@ -18,16 +18,11 @@ namespace RimWorld
 
 		protected override float GetFlagRadius(Pawn pawn)
 		{
-			float result;
 			if (pawn.playerSettings.Master.playerSettings.animalsReleased && pawn.training.HasLearned(TrainableDefOf.Release))
 			{
-				result = 50f;
+				return 50f;
 			}
-			else
-			{
-				result = 5f;
-			}
-			return result;
+			return 5f;
 		}
 	}
 }

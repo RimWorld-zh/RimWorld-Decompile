@@ -1,5 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Linq;
+using System.Runtime.CompilerServices;
 using System.Text;
 using Verse;
 
@@ -8,31 +10,8 @@ namespace RimWorld
 	[HasDebugOutput]
 	public class VisitorGiftForPlayerUtility
 	{
-		private const float ExtraChanceFactor = 0.75f;
-
-		private static readonly SimpleCurve PlayerWealthChanceFactorCurve = new SimpleCurve
-		{
-			{
-				new CurvePoint(6000f, 1f),
-				true
-			},
-			{
-				new CurvePoint(80000f, 0.08f),
-				true
-			}
-		};
-
-		private static readonly SimpleCurve GoodwillChanceFactorCurve = new SimpleCurve
-		{
-			{
-				new CurvePoint(10f, 0f),
-				true
-			},
-			{
-				new CurvePoint(100f, 1f),
-				true
-			}
-		};
+		[CompilerGenerated]
+		private static Func<Thing, string> <>f__am$cache0;
 
 		public VisitorGiftForPlayerUtility()
 		{
@@ -40,40 +19,91 @@ namespace RimWorld
 
 		public static float ChanceToLeaveGift(Faction faction, Map map)
 		{
-			float result;
 			if (faction.IsPlayer)
 			{
-				result = 0f;
+				return 0f;
 			}
-			else
-			{
-				result = VisitorGiftForPlayerUtility.PlayerWealthChanceFactor(map) * VisitorGiftForPlayerUtility.FactionRelationsChanceFactor(faction) * 0.75f;
-			}
-			return result;
+			return 0.25f * VisitorGiftForPlayerUtility.PlayerWealthChanceFactor(map) * VisitorGiftForPlayerUtility.FactionRelationsChanceFactor(faction);
 		}
 
 		public static List<Thing> GenerateGifts(Faction faction, Map map)
 		{
-			return ThingSetMakerDefOf.VisitorGift.root.Generate();
+			ThingSetMakerParams parms = default(ThingSetMakerParams);
+			parms.totalMarketValueRange = new FloatRange?(DiplomacyTuning.VisitorGiftTotalMarketValueRangeBase * DiplomacyTuning.VisitorGiftTotalMarketValueFactorFromPlayerWealthCurve.Evaluate(map.wealthWatcher.WealthTotal));
+			return ThingSetMakerDefOf.VisitorGift.root.Generate(parms);
 		}
 
 		private static float PlayerWealthChanceFactor(Map map)
 		{
-			return VisitorGiftForPlayerUtility.PlayerWealthChanceFactorCurve.Evaluate(map.wealthWatcher.WealthTotal);
+			return DiplomacyTuning.VisitorGiftChanceFactorFromPlayerWealthCurve.Evaluate(map.wealthWatcher.WealthTotal);
 		}
 
 		private static float FactionRelationsChanceFactor(Faction faction)
 		{
-			float result;
 			if (faction.HostileTo(Faction.OfPlayer))
 			{
-				result = 0f;
+				return 0f;
 			}
-			else
+			return DiplomacyTuning.VisitorGiftChanceFactorFromGoodwillCurve.Evaluate((float)faction.PlayerGoodwill);
+		}
+
+		public static void GiveGift(List<Pawn> possibleGivers, Faction faction)
+		{
+			if (possibleGivers.NullOrEmpty<Pawn>())
 			{
-				result = VisitorGiftForPlayerUtility.GoodwillChanceFactorCurve.Evaluate((float)faction.PlayerGoodwill);
+				return;
 			}
-			return result;
+			Pawn pawn = null;
+			for (int i = 0; i < possibleGivers.Count; i++)
+			{
+				if (possibleGivers[i].RaceProps.Humanlike && possibleGivers[i].Faction == faction)
+				{
+					pawn = possibleGivers[i];
+					break;
+				}
+			}
+			if (pawn == null)
+			{
+				for (int j = 0; j < possibleGivers.Count; j++)
+				{
+					if (possibleGivers[j].Faction == faction)
+					{
+						pawn = possibleGivers[j];
+						break;
+					}
+				}
+			}
+			if (pawn == null)
+			{
+				pawn = possibleGivers[0];
+			}
+			List<Thing> list = VisitorGiftForPlayerUtility.GenerateGifts(faction, pawn.Map);
+			TargetInfo target = TargetInfo.Invalid;
+			for (int k = 0; k < list.Count; k++)
+			{
+				if (GenPlace.TryPlaceThing(list[k], pawn.Position, pawn.Map, ThingPlaceMode.Near, null, null))
+				{
+					target = list[k];
+				}
+				else
+				{
+					list[k].Destroy(DestroyMode.Vanish);
+				}
+			}
+			if (target.IsValid)
+			{
+				LetterStack letterStack = Find.LetterStack;
+				string label = "LetterLabelVisitorsGaveGift".Translate(new object[]
+				{
+					pawn.Faction.Name
+				});
+				string key = "LetterVisitorsGaveGift";
+				object[] array = new object[2];
+				array[0] = pawn.Faction.def.pawnsPlural;
+				array[1] = (from g in list
+				select g.LabelCap).ToLineList("   -");
+				letterStack.ReceiveLetter(label, key.Translate(array).AdjustedFor(pawn, "PAWN"), LetterDefOf.PositiveEvent, target, faction, null);
+			}
 		}
 
 		[DebugOutput]
@@ -129,57 +159,10 @@ namespace RimWorld
 			Log.Message(stringBuilder.ToString(), false);
 		}
 
-		public static void CheckGiveGift(List<Pawn> pawns, Faction faction)
+		[CompilerGenerated]
+		private static string <GiveGift>m__0(Thing g)
 		{
-			if (pawns.Any<Pawn>())
-			{
-				Pawn pawn = null;
-				for (int i = 0; i < pawns.Count; i++)
-				{
-					if (pawns[i].RaceProps.Humanlike && pawns[i].Faction == faction)
-					{
-						pawn = pawns[i];
-						break;
-					}
-				}
-				if (pawn == null)
-				{
-					for (int j = 0; j < pawns.Count; j++)
-					{
-						if (pawns[j].Faction == faction)
-						{
-							pawn = pawns[j];
-							break;
-						}
-					}
-				}
-				if (pawn == null)
-				{
-					pawn = pawns[0];
-				}
-				List<Thing> list = VisitorGiftForPlayerUtility.GenerateGifts(faction, pawn.Map);
-				TargetInfo target = TargetInfo.Invalid;
-				for (int k = 0; k < list.Count; k++)
-				{
-					if (GenPlace.TryPlaceThing(list[k], pawn.Position, pawn.Map, ThingPlaceMode.Near, null, null))
-					{
-						target = list[k];
-					}
-					else
-					{
-						list[k].Destroy(DestroyMode.Vanish);
-					}
-				}
-				if (target.IsValid)
-				{
-					Find.LetterStack.ReceiveLetter("LetterLabelVisitorsGaveGift".Translate(), "LetterVisitorsGaveGift".Translate(), LetterDefOf.PositiveEvent, target, faction, null);
-				}
-			}
-		}
-
-		// Note: this type is marked as 'beforefieldinit'.
-		static VisitorGiftForPlayerUtility()
-		{
+			return g.LabelCap;
 		}
 	}
 }

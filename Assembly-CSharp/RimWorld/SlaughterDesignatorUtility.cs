@@ -11,17 +11,18 @@ namespace RimWorld
 
 		public static void CheckWarnAboutBondedAnimal(Pawn designated)
 		{
-			if (designated.RaceProps.IsFlesh)
+			if (!designated.RaceProps.IsFlesh)
 			{
-				Pawn firstDirectRelationPawn = designated.relations.GetFirstDirectRelationPawn(PawnRelationDefOf.Bond, (Pawn x) => !x.Dead);
-				if (firstDirectRelationPawn != null)
+				return;
+			}
+			Pawn firstDirectRelationPawn = designated.relations.GetFirstDirectRelationPawn(PawnRelationDefOf.Bond, (Pawn x) => !x.Dead);
+			if (firstDirectRelationPawn != null)
+			{
+				Messages.Message("MessageSlaughteringBondedAnimal".Translate(new object[]
 				{
-					Messages.Message("MessageSlaughteringBondedAnimal".Translate(new object[]
-					{
-						designated.LabelShort,
-						firstDirectRelationPawn.LabelShort
-					}), designated, MessageTypeDefOf.CautionInput, false);
-				}
+					designated.LabelShort,
+					firstDirectRelationPawn.LabelShort
+				}), designated, MessageTypeDefOf.CautionInput, false);
 			}
 		}
 

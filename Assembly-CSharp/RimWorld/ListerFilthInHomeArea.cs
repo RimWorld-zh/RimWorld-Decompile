@@ -48,7 +48,7 @@ namespace RimWorld
 				if (this.filthInHomeArea[i] == f)
 				{
 					this.filthInHomeArea.RemoveAt(i);
-					break;
+					return;
 				}
 			}
 		}

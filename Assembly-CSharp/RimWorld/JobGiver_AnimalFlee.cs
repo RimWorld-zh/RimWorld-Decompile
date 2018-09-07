@@ -29,66 +29,61 @@ namespace RimWorld
 
 		protected override Job TryGiveJob(Pawn pawn)
 		{
-			Job result;
 			if (pawn.playerSettings != null && pawn.playerSettings.UsesConfigurableHostilityResponse)
 			{
-				result = null;
+				return null;
 			}
-			else if (ThinkNode_ConditionalShouldFollowMaster.ShouldFollowMaster(pawn))
+			if (ThinkNode_ConditionalShouldFollowMaster.ShouldFollowMaster(pawn))
 			{
-				result = null;
+				return null;
 			}
-			else
+			if (pawn.Faction == null)
 			{
-				if (pawn.Faction == null)
+				List<Thing> list = pawn.Map.listerThings.ThingsInGroup(ThingRequestGroup.AlwaysFlee);
+				for (int i = 0; i < list.Count; i++)
 				{
-					List<Thing> list = pawn.Map.listerThings.ThingsInGroup(ThingRequestGroup.AlwaysFlee);
-					for (int i = 0; i < list.Count; i++)
+					if (pawn.Position.InHorDistOf(list[i].Position, 18f))
 					{
-						if (pawn.Position.InHorDistOf(list[i].Position, 18f))
+						if (SelfDefenseUtility.ShouldFleeFrom(list[i], pawn, false, false))
 						{
-							if (SelfDefenseUtility.ShouldFleeFrom(list[i], pawn, false, false))
+							Job job = this.FleeJob(pawn, list[i]);
+							if (job != null)
 							{
-								Job job = this.FleeJob(pawn, list[i]);
-								if (job != null)
-								{
-									return job;
-								}
+								return job;
 							}
 						}
 					}
-					Job job2 = this.FleeLargeFireJob(pawn);
-					if (job2 != null)
-					{
-						return job2;
-					}
 				}
-				else if (pawn.GetLord() == null && (pawn.Faction != Faction.OfPlayer || !pawn.Map.IsPlayerHome))
+				Job job2 = this.FleeLargeFireJob(pawn);
+				if (job2 != null)
 				{
-					List<IAttackTarget> potentialTargetsFor = pawn.Map.attackTargetsCache.GetPotentialTargetsFor(pawn);
-					for (int j = 0; j < potentialTargetsFor.Count; j++)
+					return job2;
+				}
+			}
+			else if (pawn.GetLord() == null && (pawn.Faction != Faction.OfPlayer || !pawn.Map.IsPlayerHome))
+			{
+				List<IAttackTarget> potentialTargetsFor = pawn.Map.attackTargetsCache.GetPotentialTargetsFor(pawn);
+				for (int j = 0; j < potentialTargetsFor.Count; j++)
+				{
+					Thing thing = potentialTargetsFor[j].Thing;
+					if (pawn.Position.InHorDistOf(thing.Position, 18f))
 					{
-						Thing thing = potentialTargetsFor[j].Thing;
-						if (pawn.Position.InHorDistOf(thing.Position, 18f))
+						if (SelfDefenseUtility.ShouldFleeFrom(thing, pawn, false, true))
 						{
-							if (SelfDefenseUtility.ShouldFleeFrom(thing, pawn, false, true))
+							Pawn pawn2 = thing as Pawn;
+							if (pawn2 == null || !pawn2.AnimalOrWildMan() || pawn2.Faction != null)
 							{
-								Pawn pawn2 = thing as Pawn;
-								if (pawn2 == null || !pawn2.AnimalOrWildMan() || pawn2.Faction != null)
+								Job job3 = this.FleeJob(pawn, thing);
+								if (job3 != null)
 								{
-									Job job3 = this.FleeJob(pawn, thing);
-									if (job3 != null)
-									{
-										return job3;
-									}
+									return job3;
 								}
 							}
 						}
 					}
 				}
-				result = null;
 			}
-			return result;
+			return null;
 		}
 
 		private Job FleeJob(Pawn pawn, Thing danger)
@@ -105,61 +100,51 @@ namespace RimWorld
 				intVec = CellFinderLoose.GetFleeDest(pawn, JobGiver_AnimalFlee.tmpThings, 24f);
 				JobGiver_AnimalFlee.tmpThings.Clear();
 			}
-			Job result;
 			if (intVec != pawn.Position)
 			{
-				result = new Job(JobDefOf.Flee, intVec, danger);
+				return new Job(JobDefOf.Flee, intVec, danger);
 			}
-			else
-			{
-				result = null;
-			}
-			return result;
+			return null;
 		}
 
 		private Job FleeLargeFireJob(Pawn pawn)
 		{
 			List<Thing> list = pawn.Map.listerThings.ThingsInGroup(ThingRequestGroup.Fire);
-			Job result;
 			if (list.Count < 60)
 			{
-				result = null;
+				return null;
 			}
-			else
+			TraverseParms tp = TraverseParms.For(pawn, Danger.Deadly, TraverseMode.ByPawn, false);
+			Fire closestFire = null;
+			float closestDistSq = -1f;
+			int firesCount = 0;
+			RegionTraverser.BreadthFirstTraverse(pawn.Position, pawn.Map, (Region from, Region to) => to.Allows(tp, false), delegate(Region x)
 			{
-				TraverseParms tp = TraverseParms.For(pawn, Danger.Deadly, TraverseMode.ByPawn, false);
-				Fire closestFire = null;
-				float closestDistSq = -1f;
-				int firesCount = 0;
-				RegionTraverser.BreadthFirstTraverse(pawn.Position, pawn.Map, (Region from, Region to) => to.Allows(tp, false), delegate(Region x)
+				List<Thing> list2 = x.ListerThings.ThingsInGroup(ThingRequestGroup.Fire);
+				for (int i = 0; i < list2.Count; i++)
 				{
-					List<Thing> list2 = x.ListerThings.ThingsInGroup(ThingRequestGroup.Fire);
-					for (int i = 0; i < list2.Count; i++)
+					float num = (float)pawn.Position.DistanceToSquared(list2[i].Position);
+					if (num <= 400f)
 					{
-						float num = (float)pawn.Position.DistanceToSquared(list2[i].Position);
-						if (num <= 400f)
+						if (closestFire == null || num < closestDistSq)
 						{
-							if (closestFire == null || num < closestDistSq)
-							{
-								closestDistSq = num;
-								closestFire = (Fire)list2[i];
-							}
-							firesCount++;
+							closestDistSq = num;
+							closestFire = (Fire)list2[i];
 						}
-					}
-					return closestDistSq <= 100f && firesCount >= 60;
-				}, 18, RegionType.Set_Passable);
-				if (closestDistSq <= 100f && firesCount >= 60)
-				{
-					Job job = this.FleeJob(pawn, closestFire);
-					if (job != null)
-					{
-						return job;
+						firesCount++;
 					}
 				}
-				result = null;
+				return closestDistSq <= 100f && firesCount >= 60;
+			}, 18, RegionType.Set_Passable);
+			if (closestDistSq <= 100f && firesCount >= 60)
+			{
+				Job job = this.FleeJob(pawn, closestFire);
+				if (job != null)
+				{
+					return job;
+				}
 			}
-			return result;
+			return null;
 		}
 
 		// Note: this type is marked as 'beforefieldinit'.

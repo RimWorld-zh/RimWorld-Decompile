@@ -12,19 +12,19 @@ namespace RimWorld
 	{
 		public float priority = float.MaxValue;
 
-		public bool noteTeaches = false;
+		public bool noteTeaches;
 
-		public bool needsOpportunity = false;
+		public bool needsOpportunity;
 
 		public bool opportunityDecays = true;
 
 		public ProgramState gameMode = ProgramState.Playing;
 
 		[MustTranslate]
-		private string helpText = null;
+		private string helpText;
 
 		[NoTranslate]
-		public List<string> highlightTags = null;
+		public List<string> highlightTags;
 
 		private static List<string> tmpParseErrors = new List<string>();
 
@@ -59,7 +59,7 @@ namespace RimWorld
 
 		public override IEnumerable<string> ConfigErrors()
 		{
-			foreach (string str in this.<ConfigErrors>__BaseCallProxy0())
+			foreach (string str in base.ConfigErrors())
 			{
 				yield return str;
 			}
@@ -148,14 +148,14 @@ namespace RimWorld
 				case 1u:
 					break;
 				case 2u:
-					goto IL_F8;
+					goto IL_F4;
 				case 3u:
-					goto IL_12C;
+					goto IL_128;
 				case 4u:
-					goto IL_170;
+					goto IL_16C;
 				case 5u:
 					i++;
-					goto IL_1E1;
+					goto IL_1DB;
 				default:
 					return false;
 				}
@@ -195,7 +195,7 @@ namespace RimWorld
 					}
 					return true;
 				}
-				IL_F8:
+				IL_F4:
 				if (this.helpText.NullOrEmpty())
 				{
 					this.$current = "no help text";
@@ -205,7 +205,7 @@ namespace RimWorld
 					}
 					return true;
 				}
-				IL_12C:
+				IL_128:
 				if (base.TriggeredDirect && this.label.NullOrEmpty())
 				{
 					this.$current = "no label";
@@ -215,11 +215,11 @@ namespace RimWorld
 					}
 					return true;
 				}
-				IL_170:
+				IL_16C:
 				ConceptDef.tmpParseErrors.Clear();
 				this.helpText.AdjustedForKeys(ConceptDef.tmpParseErrors, false);
 				i = 0;
-				IL_1E1:
+				IL_1DB:
 				if (i < ConceptDef.tmpParseErrors.Count)
 				{
 					this.$current = "helpText error: " + ConceptDef.tmpParseErrors[i];

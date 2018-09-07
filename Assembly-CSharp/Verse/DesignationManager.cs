@@ -14,6 +14,12 @@ namespace Verse
 
 		public List<Designation> allDesignations = new List<Designation>();
 
+		[CompilerGenerated]
+		private static Predicate<Designation> <>f__am$cache0;
+
+		[CompilerGenerated]
+		private static Predicate<Designation> <>f__am$cache1;
+
 		public DesignationManager(Map map)
 		{
 			this.map = map;
@@ -24,6 +30,14 @@ namespace Verse
 			Scribe_Collections.Look<Designation>(ref this.allDesignations, "allDesignations", LookMode.Deep, new object[0]);
 			if (Scribe.mode == LoadSaveMode.LoadingVars)
 			{
+				if (this.allDesignations.RemoveAll((Designation x) => x == null) != 0)
+				{
+					Log.Warning("Some designations were null after loading.", false);
+				}
+				if (this.allDesignations.RemoveAll((Designation x) => x.def == null) != 0)
+				{
+					Log.Warning("Some designations had null def after loading.", false);
+				}
 				for (int i = 0; i < this.allDesignations.Count; i++)
 				{
 					this.allDesignations[i].designationManager = this;
@@ -70,25 +84,24 @@ namespace Verse
 			if (newDes.def.targetType == TargetType.Cell && this.DesignationAt(newDes.target.Cell, newDes.def) != null)
 			{
 				Log.Error("Tried to double-add designation at location " + newDes.target, false);
+				return;
 			}
-			else if (newDes.def.targetType == TargetType.Thing && this.DesignationOn(newDes.target.Thing, newDes.def) != null)
+			if (newDes.def.targetType == TargetType.Thing && this.DesignationOn(newDes.target.Thing, newDes.def) != null)
 			{
 				Log.Error("Tried to double-add designation on Thing " + newDes.target, false);
+				return;
 			}
-			else
+			if (newDes.def.targetType == TargetType.Thing)
 			{
-				if (newDes.def.targetType == TargetType.Thing)
-				{
-					newDes.target.Thing.SetForbidden(false, false);
-				}
-				this.allDesignations.Add(newDes);
-				newDes.designationManager = this;
-				newDes.Notify_Added();
-				Map map = (!newDes.target.HasThing) ? this.map : newDes.target.Thing.Map;
-				if (map != null)
-				{
-					MoteMaker.ThrowMetaPuffs(newDes.target.ToTargetInfo(map));
-				}
+				newDes.target.Thing.SetForbidden(false, false);
+			}
+			this.allDesignations.Add(newDes);
+			newDes.designationManager = this;
+			newDes.Notify_Added();
+			Map map = (!newDes.target.HasThing) ? this.map : newDes.target.Thing.Map;
+			if (map != null)
+			{
+				MoteMaker.ThrowMetaPuffs(newDes.target.ToTargetInfo(map));
 			}
 		}
 
@@ -107,48 +120,38 @@ namespace Verse
 
 		public Designation DesignationOn(Thing t, DesignationDef def)
 		{
-			Designation result;
 			if (def.targetType == TargetType.Cell)
 			{
 				Log.Error("Designations of type " + def.defName + " are indexed by location only and you are trying to get one on a Thing.", false);
-				result = null;
+				return null;
 			}
-			else
+			for (int i = 0; i < this.allDesignations.Count; i++)
 			{
-				for (int i = 0; i < this.allDesignations.Count; i++)
+				Designation designation = this.allDesignations[i];
+				if (designation.target.Thing == t && designation.def == def)
 				{
-					Designation designation = this.allDesignations[i];
-					if (designation.target.Thing == t && designation.def == def)
-					{
-						return designation;
-					}
+					return designation;
 				}
-				result = null;
 			}
-			return result;
+			return null;
 		}
 
 		public Designation DesignationAt(IntVec3 c, DesignationDef def)
 		{
-			Designation result;
 			if (def.targetType == TargetType.Thing)
 			{
 				Log.Error("Designations of type " + def.defName + " are indexed by Thing only and you are trying to get one on a location.", false);
-				result = null;
+				return null;
 			}
-			else
+			for (int i = 0; i < this.allDesignations.Count; i++)
 			{
-				for (int i = 0; i < this.allDesignations.Count; i++)
+				Designation designation = this.allDesignations[i];
+				if (designation.def == def && (!designation.target.HasThing || designation.target.Thing.Map == this.map) && designation.target.Cell == c)
 				{
-					Designation designation = this.allDesignations[i];
-					if (designation.def == def && (!designation.target.HasThing || designation.target.Thing.Map == this.map) && designation.target.Cell == c)
-					{
-						return designation;
-					}
+					return designation;
 				}
-				result = null;
 			}
-			return result;
+			return null;
 		}
 
 		public IEnumerable<Designation> AllDesignationsOn(Thing t)
@@ -264,14 +267,23 @@ namespace Verse
 			for (int i = this.allDesignations.Count - 1; i >= 0; i--)
 			{
 				Designation designation = this.allDesignations[i];
-				if (cellRect.Contains(designation.target.Cell))
+				if (cellRect.Contains(designation.target.Cell) && designation.def.removeIfBuildingDespawned)
 				{
-					if (designation.def.removeIfBuildingDespawned)
-					{
-						this.RemoveDesignation(designation);
-					}
+					this.RemoveDesignation(designation);
 				}
 			}
+		}
+
+		[CompilerGenerated]
+		private static bool <ExposeData>m__0(Designation x)
+		{
+			return x == null;
+		}
+
+		[CompilerGenerated]
+		private static bool <ExposeData>m__1(Designation x)
+		{
+			return x.def == null;
 		}
 
 		[CompilerGenerated]
@@ -307,7 +319,7 @@ namespace Verse
 					i = 0;
 					break;
 				case 1u:
-					IL_A0:
+					IL_9E:
 					i++;
 					break;
 				default:
@@ -328,7 +340,7 @@ namespace Verse
 						}
 						return true;
 					}
-					goto IL_A0;
+					goto IL_9E;
 				}
 				return false;
 			}
@@ -419,7 +431,7 @@ namespace Verse
 					i = 0;
 					break;
 				case 1u:
-					IL_DB:
+					IL_D9:
 					i++;
 					break;
 				default:
@@ -441,7 +453,7 @@ namespace Verse
 						}
 						return true;
 					}
-					goto IL_DB;
+					goto IL_D9;
 				}
 				return false;
 			}
@@ -532,7 +544,7 @@ namespace Verse
 					i = 0;
 					break;
 				case 1u:
-					IL_D1:
+					IL_CF:
 					i++;
 					break;
 				default:
@@ -554,7 +566,7 @@ namespace Verse
 						}
 						return true;
 					}
-					goto IL_D1;
+					goto IL_CF;
 				}
 				return false;
 			}

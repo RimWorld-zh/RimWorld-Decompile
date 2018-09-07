@@ -41,24 +41,19 @@ namespace RimWorld
 
 		public override AcceptanceReport CanDesignateCell(IntVec3 c)
 		{
-			AcceptanceReport result;
 			if (!c.InBounds(base.Map))
 			{
-				result = false;
+				return false;
 			}
-			else if (!DebugSettings.godMode && c.Fogged(base.Map))
+			if (!DebugSettings.godMode && c.Fogged(base.Map))
 			{
-				result = false;
+				return false;
 			}
-			else if (this.TopDeconstructibleInCell(c) == null)
+			if (this.TopDeconstructibleInCell(c) == null)
 			{
-				result = false;
+				return false;
 			}
-			else
-			{
-				result = true;
-			}
-			return result;
+			return true;
 		}
 
 		public override void DesignateSingleCell(IntVec3 loc)
@@ -96,32 +91,27 @@ namespace RimWorld
 		public override AcceptanceReport CanDesignateThing(Thing t)
 		{
 			Building building = t.GetInnerIfMinified() as Building;
-			AcceptanceReport result;
 			if (building == null)
 			{
-				result = false;
+				return false;
 			}
-			else if (building.def.category != ThingCategory.Building)
+			if (building.def.category != ThingCategory.Building)
 			{
-				result = false;
+				return false;
 			}
-			else if (!building.DeconstructibleBy(Faction.OfPlayer))
+			if (!building.DeconstructibleBy(Faction.OfPlayer))
 			{
-				result = false;
+				return false;
 			}
-			else if (base.Map.designationManager.DesignationOn(t, this.Designation) != null)
+			if (base.Map.designationManager.DesignationOn(t, this.Designation) != null)
 			{
-				result = false;
+				return false;
 			}
-			else if (base.Map.designationManager.DesignationOn(t, DesignationDefOf.Uninstall) != null)
+			if (base.Map.designationManager.DesignationOn(t, DesignationDefOf.Uninstall) != null)
 			{
-				result = false;
+				return false;
 			}
-			else
-			{
-				result = true;
-			}
-			return result;
+			return true;
 		}
 
 		public override void SelectedUpdate()

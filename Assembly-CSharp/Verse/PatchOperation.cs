@@ -9,7 +9,7 @@ namespace Verse
 
 		private bool neverSucceeded = true;
 
-		private PatchOperation.Success success = PatchOperation.Success.Normal;
+		private PatchOperation.Success success;
 
 		public PatchOperation()
 		{

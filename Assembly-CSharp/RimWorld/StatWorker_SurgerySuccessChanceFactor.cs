@@ -11,25 +11,17 @@ namespace RimWorld
 
 		public override bool ShouldShowFor(StatRequest req)
 		{
-			bool result;
 			if (!base.ShouldShowFor(req))
 			{
-				result = false;
+				return false;
 			}
-			else
+			BuildableDef def = req.Def;
+			if (!(def is ThingDef))
 			{
-				BuildableDef def = req.Def;
-				if (!(def is ThingDef))
-				{
-					result = false;
-				}
-				else
-				{
-					ThingDef thingDef = def as ThingDef;
-					result = typeof(Building_Bed).IsAssignableFrom(thingDef.thingClass);
-				}
+				return false;
 			}
-			return result;
+			ThingDef thingDef = def as ThingDef;
+			return typeof(Building_Bed).IsAssignableFrom(thingDef.thingClass);
 		}
 	}
 }

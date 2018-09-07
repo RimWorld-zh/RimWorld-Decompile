@@ -31,16 +31,11 @@ namespace Verse
 		{
 			get
 			{
-				Vector2 result;
 				if (Event.current != null)
 				{
-					result = UI.GUIToScreenPoint(Event.current.mousePosition);
+					return UI.GUIToScreenPoint(Event.current.mousePosition);
 				}
-				else
-				{
-					result = UI.MousePositionOnUIInverted;
-				}
-				return result;
+				return UI.MousePositionOnUIInverted;
 			}
 		}
 

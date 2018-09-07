@@ -26,7 +26,7 @@ namespace RimWorld
 
 		public override IEnumerable<Gizmo> GetGizmos()
 		{
-			foreach (Gizmo baseGizmo in this.<GetGizmos>__BaseCallProxy0())
+			foreach (Gizmo baseGizmo in base.GetGizmos())
 			{
 				yield return baseGizmo;
 			}
@@ -95,7 +95,7 @@ namespace RimWorld
 				case 1u:
 					break;
 				case 2u:
-					goto IL_15B;
+					goto IL_155;
 				default:
 					return false;
 				}
@@ -128,7 +128,7 @@ namespace RimWorld
 				}
 				if (DesignatorUtility.FindAllowedDesignator<Designator_ZoneAdd_Growing>() == null)
 				{
-					goto IL_15B;
+					goto IL_155;
 				}
 				Command_Action makeGrowZone = new Command_Action();
 				makeGrowZone.action = new Action(base.MakeMatchingGrowZone);
@@ -142,7 +142,7 @@ namespace RimWorld
 					this.$PC = 2;
 				}
 				return true;
-				IL_15B:
+				IL_155:
 				this.$PC = -1;
 				return false;
 			}

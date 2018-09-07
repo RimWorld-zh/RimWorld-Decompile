@@ -10,12 +10,15 @@ namespace Verse
 {
 	public class RulePackDef : Def
 	{
-		public List<RulePackDef> include = null;
+		public List<RulePackDef> include;
 
-		private RulePack rulePack = null;
+		private RulePack rulePack;
 
 		[Unsaved]
-		private List<Rule> cachedRules = null;
+		private List<Rule> cachedRules;
+
+		[Unsaved]
+		private List<Rule> cachedUntranslatedRules;
 
 		public RulePackDef()
 		{
@@ -44,6 +47,29 @@ namespace Verse
 			}
 		}
 
+		public List<Rule> UntranslatedRulesPlusIncludes
+		{
+			get
+			{
+				if (this.cachedUntranslatedRules == null)
+				{
+					this.cachedUntranslatedRules = new List<Rule>();
+					if (this.rulePack != null)
+					{
+						this.cachedUntranslatedRules.AddRange(this.rulePack.UntranslatedRules);
+					}
+					if (this.include != null)
+					{
+						for (int i = 0; i < this.include.Count; i++)
+						{
+							this.cachedUntranslatedRules.AddRange(this.include[i].UntranslatedRulesPlusIncludes);
+						}
+					}
+				}
+				return this.cachedUntranslatedRules;
+			}
+		}
+
 		public List<Rule> RulesImmediate
 		{
 			get
@@ -52,9 +78,35 @@ namespace Verse
 			}
 		}
 
+		public List<Rule> UntranslatedRulesImmediate
+		{
+			get
+			{
+				return (this.rulePack == null) ? null : this.rulePack.UntranslatedRules;
+			}
+		}
+
+		public string FirstRuleKeyword
+		{
+			get
+			{
+				List<Rule> rulesPlusIncludes = this.RulesPlusIncludes;
+				return (!rulesPlusIncludes.Any<Rule>()) ? "none" : rulesPlusIncludes[0].keyword;
+			}
+		}
+
+		public string FirstUntranslatedRuleKeyword
+		{
+			get
+			{
+				List<Rule> untranslatedRulesPlusIncludes = this.UntranslatedRulesPlusIncludes;
+				return (!untranslatedRulesPlusIncludes.Any<Rule>()) ? "none" : untranslatedRulesPlusIncludes[0].keyword;
+			}
+		}
+
 		public override IEnumerable<string> ConfigErrors()
 		{
-			foreach (string err in this.<ConfigErrors>__BaseCallProxy0())
+			foreach (string err in base.ConfigErrors())
 			{
 				yield return err;
 			}
@@ -119,9 +171,9 @@ namespace Verse
 				case 1u:
 					break;
 				case 2u:
-					IL_160:
+					IL_15A:
 					i++;
-					goto IL_16F;
+					goto IL_168;
 				default:
 					return false;
 				}
@@ -154,10 +206,10 @@ namespace Verse
 				}
 				if (this.include == null)
 				{
-					goto IL_18B;
+					goto IL_183;
 				}
 				i = 0;
-				IL_16F:
+				IL_168:
 				if (i < this.include.Count)
 				{
 					if (this.include[i].include != null && this.include[i].include.Contains(this))
@@ -169,9 +221,9 @@ namespace Verse
 						}
 						return true;
 					}
-					goto IL_160;
+					goto IL_15A;
 				}
-				IL_18B:
+				IL_183:
 				this.$PC = -1;
 				return false;
 			}

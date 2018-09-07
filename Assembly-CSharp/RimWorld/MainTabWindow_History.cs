@@ -12,7 +12,7 @@ namespace RimWorld
 	[StaticConstructorOnStartup]
 	public class MainTabWindow_History : MainTabWindow
 	{
-		private HistoryAutoRecorderGroup historyAutoRecorderGroup = null;
+		private HistoryAutoRecorderGroup historyAutoRecorderGroup;
 
 		private FloatRange graphSection;
 
@@ -149,7 +149,7 @@ namespace RimWorld
 				stringBuilder.AppendLine("ThisMapColonyWealthTotal".Translate() + ": " + Find.CurrentMap.wealthWatcher.WealthTotal.ToString("F0"));
 				stringBuilder.AppendLine("ThisMapColonyWealthItems".Translate() + ": " + Find.CurrentMap.wealthWatcher.WealthItems.ToString("F0"));
 				stringBuilder.AppendLine("ThisMapColonyWealthBuildings".Translate() + ": " + Find.CurrentMap.wealthWatcher.WealthBuildings.ToString("F0"));
-				stringBuilder.AppendLine("ThisMapColonyWealthTameAnimals".Translate() + ": " + Find.CurrentMap.wealthWatcher.WealthTameAnimals.ToString("F0"));
+				stringBuilder.AppendLine("ThisMapColonyWealthColonistsAndTameAnimals".Translate() + ": " + Find.CurrentMap.wealthWatcher.WealthPawns.ToString("F0"));
 			}
 			stringBuilder.AppendLine();
 			stringBuilder.AppendLine("NumThreatBigs".Translate() + ": " + Find.StoryWatcher.statsRecord.numThreatBigs);

@@ -27,69 +27,53 @@ namespace RimWorld
 
 		protected override Job TryGiveJob(Pawn pawn)
 		{
-			Job result;
 			if (pawn.mindState.nextMoveOrderIsWait)
 			{
 				Job job = new Job(JobDefOf.Wait_Wander);
 				job.expiryInterval = this.waitTicks.RandomInRange;
 				pawn.mindState.nextMoveOrderIsWait = false;
-				result = job;
+				return job;
 			}
-			else
+			if (Rand.Value < 0.75f)
 			{
-				if (Rand.Value < 0.75f)
-				{
-					Thing thing = this.TryFindRandomIgniteTarget(pawn);
-					if (thing != null)
-					{
-						pawn.mindState.nextMoveOrderIsWait = true;
-						return new Job(JobDefOf.Ignite, thing);
-					}
-				}
-				IntVec3 c = RCellFinder.RandomWanderDestFor(pawn, pawn.Position, 10f, null, Danger.Deadly);
-				if (c.IsValid)
+				Thing thing = this.TryFindRandomIgniteTarget(pawn);
+				if (thing != null)
 				{
 					pawn.mindState.nextMoveOrderIsWait = true;
-					result = new Job(JobDefOf.GotoWander, c);
-				}
-				else
-				{
-					result = null;
+					return new Job(JobDefOf.Ignite, thing);
 				}
 			}
-			return result;
+			IntVec3 c = RCellFinder.RandomWanderDestFor(pawn, pawn.Position, 10f, null, Danger.Deadly);
+			if (c.IsValid)
+			{
+				pawn.mindState.nextMoveOrderIsWait = true;
+				return new Job(JobDefOf.GotoWander, c);
+			}
+			return null;
 		}
 
 		private Thing TryFindRandomIgniteTarget(Pawn pawn)
 		{
 			Region region;
-			Thing result;
 			if (!CellFinder.TryFindClosestRegionWith(pawn.GetRegion(RegionType.Set_Passable), TraverseParms.For(pawn, Danger.Deadly, TraverseMode.ByPawn, false), (Region candidateRegion) => !candidateRegion.IsForbiddenEntirely(pawn), 100, out region, RegionType.Set_Passable))
 			{
-				result = null;
+				return null;
 			}
-			else
+			JobGiver_FireStartingSpree.potentialTargets.Clear();
+			List<Thing> allThings = region.ListerThings.AllThings;
+			for (int i = 0; i < allThings.Count; i++)
 			{
-				JobGiver_FireStartingSpree.potentialTargets.Clear();
-				List<Thing> allThings = region.ListerThings.AllThings;
-				for (int i = 0; i < allThings.Count; i++)
+				Thing thing = allThings[i];
+				if ((thing.def.category == ThingCategory.Building || thing.def.category == ThingCategory.Item || thing.def.category == ThingCategory.Plant) && thing.FlammableNow && !thing.IsBurning() && !thing.OccupiedRect().Contains(pawn.Position))
 				{
-					Thing thing = allThings[i];
-					if ((thing.def.category == ThingCategory.Building || thing.def.category == ThingCategory.Item || thing.def.category == ThingCategory.Plant) && thing.FlammableNow && !thing.IsBurning() && !thing.OccupiedRect().Contains(pawn.Position))
-					{
-						JobGiver_FireStartingSpree.potentialTargets.Add(thing);
-					}
-				}
-				if (JobGiver_FireStartingSpree.potentialTargets.NullOrEmpty<Thing>())
-				{
-					result = null;
-				}
-				else
-				{
-					result = JobGiver_FireStartingSpree.potentialTargets.RandomElement<Thing>();
+					JobGiver_FireStartingSpree.potentialTargets.Add(thing);
 				}
 			}
-			return result;
+			if (JobGiver_FireStartingSpree.potentialTargets.NullOrEmpty<Thing>())
+			{
+				return null;
+			}
+			return JobGiver_FireStartingSpree.potentialTargets.RandomElement<Thing>();
 		}
 
 		// Note: this type is marked as 'beforefieldinit'.

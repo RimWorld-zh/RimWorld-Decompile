@@ -39,37 +39,33 @@ namespace RimWorld
 
 		public override string GetReport()
 		{
-			string result;
 			if (this.job.GetTarget(TargetIndex.A).Thing is Building_NutrientPasteDispenser && this.Deliveree != null)
 			{
-				result = this.job.def.reportString.Replace("TargetA", ThingDefOf.MealNutrientPaste.label).Replace("TargetB", this.Deliveree.LabelShort);
+				return this.job.def.reportString.Replace("TargetA", ThingDefOf.MealNutrientPaste.label).Replace("TargetB", this.Deliveree.LabelShort);
 			}
-			else
-			{
-				result = base.GetReport();
-			}
-			return result;
+			return base.GetReport();
 		}
 
-		public override bool TryMakePreToilReservations()
+		public override bool TryMakePreToilReservations(bool errorOnFailed)
 		{
-			bool result;
-			if (!this.pawn.Reserve(this.Deliveree, this.job, 1, -1, null))
+			Pawn pawn = this.pawn;
+			LocalTargetInfo target = this.Deliveree;
+			Job job = this.job;
+			if (!pawn.Reserve(target, job, 1, -1, null, errorOnFailed))
 			{
-				result = false;
+				return false;
 			}
-			else
+			if (!(base.TargetThingA is Building_NutrientPasteDispenser) && (this.pawn.inventory == null || !this.pawn.inventory.Contains(base.TargetThingA)))
 			{
-				if (!(base.TargetThingA is Building_NutrientPasteDispenser) && (this.pawn.inventory == null || !this.pawn.inventory.Contains(base.TargetThingA)))
+				pawn = this.pawn;
+				target = this.Food;
+				job = this.job;
+				if (!pawn.Reserve(target, job, 1, -1, null, errorOnFailed))
 				{
-					if (!this.pawn.Reserve(this.Food, this.job, 1, -1, null))
-					{
-						return false;
-					}
+					return false;
 				}
-				result = true;
 			}
-			return result;
+			return true;
 		}
 
 		protected override IEnumerable<Toil> MakeNewToils()

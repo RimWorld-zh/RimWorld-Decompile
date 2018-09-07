@@ -20,17 +20,18 @@ namespace RimWorld
 
 		public override void DoCell(Rect rect, Pawn pawn, PawnTable table)
 		{
-			if (!pawn.Dead && pawn.workSettings != null && pawn.workSettings.EverWork)
+			if (pawn.Dead || pawn.workSettings == null || !pawn.workSettings.EverWork)
 			{
-				Text.Font = GameFont.Medium;
-				float x = rect.x + (rect.width - 25f) / 2f;
-				float y = rect.y + 2.5f;
-				bool incapable = this.IsIncapableOfWholeWorkType(pawn, this.def.workType);
-				WidgetsWork.DrawWorkBoxFor(x, y, pawn, this.def.workType, incapable);
-				Rect rect2 = new Rect(x, y, 25f, 25f);
-				TooltipHandler.TipRegion(rect2, () => WidgetsWork.TipForPawnWorker(pawn, this.def.workType, incapable), pawn.thingIDNumber ^ this.def.workType.GetHashCode());
-				Text.Font = GameFont.Small;
+				return;
 			}
+			Text.Font = GameFont.Medium;
+			float x = rect.x + (rect.width - 25f) / 2f;
+			float y = rect.y + 2.5f;
+			bool incapable = this.IsIncapableOfWholeWorkType(pawn, this.def.workType);
+			WidgetsWork.DrawWorkBoxFor(x, y, pawn, this.def.workType, incapable);
+			Rect rect2 = new Rect(x, y, 25f, 25f);
+			TooltipHandler.TipRegion(rect2, () => WidgetsWork.TipForPawnWorker(pawn, this.def.workType, incapable), pawn.thingIDNumber ^ this.def.workType.GetHashCode());
+			Text.Font = GameFont.Small;
 		}
 
 		public override void DoHeader(Rect rect, PawnTable table)
@@ -105,20 +106,15 @@ namespace RimWorld
 
 		private float GetValueToCompare(Pawn pawn)
 		{
-			float result;
 			if (pawn.workSettings == null || !pawn.workSettings.EverWork)
 			{
-				result = -2f;
+				return -2f;
 			}
-			else if (pawn.story != null && pawn.story.WorkTypeIsDisabled(this.def.workType))
+			if (pawn.story != null && pawn.story.WorkTypeIsDisabled(this.def.workType))
 			{
-				result = -1f;
+				return -1f;
 			}
-			else
-			{
-				result = pawn.skills.AverageOfRelevantSkillsFor(this.def.workType);
-			}
-			return result;
+			return pawn.skills.AverageOfRelevantSkillsFor(this.def.workType);
 		}
 
 		private Rect GetLabelRect(Rect headerRect)

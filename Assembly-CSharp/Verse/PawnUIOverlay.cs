@@ -23,36 +23,37 @@ namespace Verse
 
 		public void DrawPawnGUIOverlay()
 		{
-			if (this.pawn.Spawned && !this.pawn.Map.fogGrid.IsFogged(this.pawn.Position))
+			if (!this.pawn.Spawned || this.pawn.Map.fogGrid.IsFogged(this.pawn.Position))
 			{
-				if (!this.pawn.RaceProps.Humanlike)
+				return;
+			}
+			if (!this.pawn.RaceProps.Humanlike)
+			{
+				AnimalNameDisplayMode animalNameMode = Prefs.AnimalNameMode;
+				if (animalNameMode == AnimalNameDisplayMode.None)
 				{
-					AnimalNameDisplayMode animalNameMode = Prefs.AnimalNameMode;
-					if (animalNameMode == AnimalNameDisplayMode.None)
+					return;
+				}
+				if (animalNameMode != AnimalNameDisplayMode.TameAll)
+				{
+					if (animalNameMode == AnimalNameDisplayMode.TameNamed)
 					{
-						return;
-					}
-					if (animalNameMode != AnimalNameDisplayMode.TameAll)
-					{
-						if (animalNameMode == AnimalNameDisplayMode.TameNamed)
+						if (this.pawn.Name == null || this.pawn.Name.Numerical)
 						{
-							if (this.pawn.Name == null || this.pawn.Name.Numerical)
-							{
-								return;
-							}
+							return;
 						}
 					}
-					else if (this.pawn.Name == null)
-					{
-						return;
-					}
 				}
-				Vector2 pos = GenMapUI.LabelDrawPosFor(this.pawn, -0.6f);
-				GenMapUI.DrawPawnLabel(this.pawn, pos, 1f, 9999f, null, GameFont.Tiny, true, true);
-				if (this.pawn.CanTradeNow)
+				else if (this.pawn.Name == null)
 				{
-					this.pawn.Map.overlayDrawer.DrawOverlay(this.pawn, OverlayTypes.QuestionMark);
+					return;
 				}
+			}
+			Vector2 pos = GenMapUI.LabelDrawPosFor(this.pawn, -0.6f);
+			GenMapUI.DrawPawnLabel(this.pawn, pos, 1f, 9999f, null, GameFont.Tiny, true, true);
+			if (this.pawn.CanTradeNow)
+			{
+				this.pawn.Map.overlayDrawer.DrawOverlay(this.pawn, OverlayTypes.QuestionMark);
 			}
 		}
 	}

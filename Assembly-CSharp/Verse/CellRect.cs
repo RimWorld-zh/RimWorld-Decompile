@@ -56,16 +56,11 @@ namespace Verse
 		{
 			get
 			{
-				int result;
 				if (this.minX > this.maxX)
 				{
-					result = 0;
+					return 0;
 				}
-				else
-				{
-					result = this.maxX - this.minX + 1;
-				}
-				return result;
+				return this.maxX - this.minX + 1;
 			}
 			set
 			{
@@ -77,16 +72,11 @@ namespace Verse
 		{
 			get
 			{
-				int result;
 				if (this.minZ > this.maxZ)
 				{
-					result = 0;
+					return 0;
 				}
-				else
-				{
-					result = this.maxZ - this.minZ + 1;
-				}
-				return result;
+				return this.maxZ - this.minZ + 1;
 			}
 			set
 			{
@@ -240,20 +230,15 @@ namespace Verse
 		{
 			get
 			{
-				int result;
 				if (this.Area == 0)
 				{
-					result = 0;
+					return 0;
 				}
-				else if (this.Area == 1)
+				if (this.Area == 1)
 				{
-					result = 1;
+					return 1;
 				}
-				else
-				{
-					result = this.Width * 2 + (this.Height - 2) * 2;
-				}
-				return result;
+				return this.Width * 2 + (this.Height - 2) * 2;
 			}
 		}
 
@@ -339,16 +324,11 @@ namespace Verse
 
 		public static CellRect ViewRect(Map map)
 		{
-			CellRect result;
 			if (Current.ProgramState != ProgramState.Playing || Find.CurrentMap != map || WorldRendererUtility.WorldRenderedNow)
 			{
-				result = CellRect.Empty;
+				return CellRect.Empty;
 			}
-			else
-			{
-				result = Find.CameraDriver.CurrentViewRect;
-			}
-			return result;
+			return Find.CameraDriver.CurrentViewRect;
 		}
 
 		public static CellRect SingleCell(IntVec3 c)
@@ -446,98 +426,82 @@ namespace Verse
 
 		public float ClosestDistSquaredTo(IntVec3 c)
 		{
-			float result;
 			if (this.Contains(c))
 			{
-				result = 0f;
+				return 0f;
 			}
-			else if (c.x < this.minX)
+			if (c.x < this.minX)
 			{
 				if (c.z < this.minZ)
 				{
-					result = (float)(c - new IntVec3(this.minX, 0, this.minZ)).LengthHorizontalSquared;
+					return (float)(c - new IntVec3(this.minX, 0, this.minZ)).LengthHorizontalSquared;
 				}
-				else if (c.z > this.maxZ)
+				if (c.z > this.maxZ)
 				{
-					result = (float)(c - new IntVec3(this.minX, 0, this.maxZ)).LengthHorizontalSquared;
+					return (float)(c - new IntVec3(this.minX, 0, this.maxZ)).LengthHorizontalSquared;
 				}
-				else
-				{
-					result = (float)((this.minX - c.x) * (this.minX - c.x));
-				}
+				return (float)((this.minX - c.x) * (this.minX - c.x));
 			}
 			else if (c.x > this.maxX)
 			{
 				if (c.z < this.minZ)
 				{
-					result = (float)(c - new IntVec3(this.maxX, 0, this.minZ)).LengthHorizontalSquared;
+					return (float)(c - new IntVec3(this.maxX, 0, this.minZ)).LengthHorizontalSquared;
 				}
-				else if (c.z > this.maxZ)
+				if (c.z > this.maxZ)
 				{
-					result = (float)(c - new IntVec3(this.maxX, 0, this.maxZ)).LengthHorizontalSquared;
+					return (float)(c - new IntVec3(this.maxX, 0, this.maxZ)).LengthHorizontalSquared;
 				}
-				else
-				{
-					result = (float)((c.x - this.maxX) * (c.x - this.maxX));
-				}
-			}
-			else if (c.z < this.minZ)
-			{
-				result = (float)((this.minZ - c.z) * (this.minZ - c.z));
+				return (float)((c.x - this.maxX) * (c.x - this.maxX));
 			}
 			else
 			{
-				result = (float)((c.z - this.maxZ) * (c.z - this.maxZ));
+				if (c.z < this.minZ)
+				{
+					return (float)((this.minZ - c.z) * (this.minZ - c.z));
+				}
+				return (float)((c.z - this.maxZ) * (c.z - this.maxZ));
 			}
-			return result;
 		}
 
 		public IntVec3 ClosestCellTo(IntVec3 c)
 		{
-			IntVec3 result;
 			if (this.Contains(c))
 			{
-				result = c;
+				return c;
 			}
-			else if (c.x < this.minX)
+			if (c.x < this.minX)
 			{
 				if (c.z < this.minZ)
 				{
-					result = new IntVec3(this.minX, 0, this.minZ);
+					return new IntVec3(this.minX, 0, this.minZ);
 				}
-				else if (c.z > this.maxZ)
+				if (c.z > this.maxZ)
 				{
-					result = new IntVec3(this.minX, 0, this.maxZ);
+					return new IntVec3(this.minX, 0, this.maxZ);
 				}
-				else
-				{
-					result = new IntVec3(this.minX, 0, c.z);
-				}
+				return new IntVec3(this.minX, 0, c.z);
 			}
 			else if (c.x > this.maxX)
 			{
 				if (c.z < this.minZ)
 				{
-					result = new IntVec3(this.maxX, 0, this.minZ);
+					return new IntVec3(this.maxX, 0, this.minZ);
 				}
-				else if (c.z > this.maxZ)
+				if (c.z > this.maxZ)
 				{
-					result = new IntVec3(this.maxX, 0, this.maxZ);
+					return new IntVec3(this.maxX, 0, this.maxZ);
 				}
-				else
-				{
-					result = new IntVec3(this.maxX, 0, c.z);
-				}
-			}
-			else if (c.z < this.minZ)
-			{
-				result = new IntVec3(c.x, 0, this.minZ);
+				return new IntVec3(this.maxX, 0, c.z);
 			}
 			else
 			{
-				result = new IntVec3(c.x, 0, this.maxZ);
+				if (c.z < this.minZ)
+				{
+					return new IntVec3(c.x, 0, this.minZ);
+				}
+				return new IntVec3(c.x, 0, this.maxZ);
 			}
-			return result;
 		}
 
 		public IEnumerable<IntVec3> GetEdgeCells(Rot4 dir)
@@ -575,94 +539,68 @@ namespace Verse
 
 		public bool TryFindRandomInnerRectTouchingEdge(IntVec2 size, out CellRect rect, Predicate<CellRect> predicate = null)
 		{
-			bool result;
 			if (this.Width < size.x || this.Height < size.z)
 			{
 				rect = CellRect.Empty;
-				result = false;
+				return false;
 			}
-			else if (size.x <= 0 || size.z <= 0 || this.IsEmpty)
+			if (size.x <= 0 || size.z <= 0 || this.IsEmpty)
 			{
 				rect = CellRect.Empty;
-				result = false;
+				return false;
 			}
-			else
+			CellRect cellRect = this;
+			cellRect.maxX -= size.x - 1;
+			cellRect.maxZ -= size.z - 1;
+			IntVec3 intVec;
+			if (cellRect.EdgeCells.Where(delegate(IntVec3 x)
 			{
-				CellRect cellRect = this;
-				cellRect.maxX -= size.x - 1;
-				cellRect.maxZ -= size.z - 1;
-				IntVec3 intVec;
-				if (cellRect.EdgeCells.Where(delegate(IntVec3 x)
+				if (predicate == null)
 				{
-					bool result2;
-					if (predicate == null)
-					{
-						result2 = true;
-					}
-					else
-					{
-						CellRect obj = new CellRect(x.x, x.z, size.x, size.z);
-						result2 = predicate(obj);
-					}
-					return result2;
-				}).TryRandomElement(out intVec))
-				{
-					rect = new CellRect(intVec.x, intVec.z, size.x, size.z);
-					result = true;
+					return true;
 				}
-				else
-				{
-					rect = CellRect.Empty;
-					result = false;
-				}
+				CellRect obj = new CellRect(x.x, x.z, size.x, size.z);
+				return predicate(obj);
+			}).TryRandomElement(out intVec))
+			{
+				rect = new CellRect(intVec.x, intVec.z, size.x, size.z);
+				return true;
 			}
-			return result;
+			rect = CellRect.Empty;
+			return false;
 		}
 
 		public bool TryFindRandomInnerRect(IntVec2 size, out CellRect rect, Predicate<CellRect> predicate = null)
 		{
-			bool result;
 			if (this.Width < size.x || this.Height < size.z)
 			{
 				rect = CellRect.Empty;
-				result = false;
+				return false;
 			}
-			else if (size.x <= 0 || size.z <= 0 || this.IsEmpty)
+			if (size.x <= 0 || size.z <= 0 || this.IsEmpty)
 			{
 				rect = CellRect.Empty;
-				result = false;
+				return false;
 			}
-			else
+			CellRect cellRect = this;
+			cellRect.maxX -= size.x - 1;
+			cellRect.maxZ -= size.z - 1;
+			IntVec3 intVec;
+			if (cellRect.Cells.Where(delegate(IntVec3 x)
 			{
-				CellRect cellRect = this;
-				cellRect.maxX -= size.x - 1;
-				cellRect.maxZ -= size.z - 1;
-				IntVec3 intVec;
-				if (cellRect.Cells.Where(delegate(IntVec3 x)
+				if (predicate == null)
 				{
-					bool result2;
-					if (predicate == null)
-					{
-						result2 = true;
-					}
-					else
-					{
-						CellRect obj = new CellRect(x.x, x.z, size.x, size.z);
-						result2 = predicate(obj);
-					}
-					return result2;
-				}).TryRandomElement(out intVec))
-				{
-					rect = new CellRect(intVec.x, intVec.z, size.x, size.z);
-					result = true;
+					return true;
 				}
-				else
-				{
-					rect = CellRect.Empty;
-					result = false;
-				}
+				CellRect obj = new CellRect(x.x, x.z, size.x, size.z);
+				return predicate(obj);
+			}).TryRandomElement(out intVec))
+			{
+				rect = new CellRect(intVec.x, intVec.z, size.x, size.z);
+				return true;
 			}
-			return result;
+			rect = CellRect.Empty;
+			return false;
 		}
 
 		public CellRect ExpandedBy(int dist)
@@ -913,9 +851,9 @@ namespace Verse
 						}
 						return true;
 					}
-					goto IL_14F;
+					goto IL_14D;
 				case 4u:
-					goto IL_14F;
+					goto IL_14D;
 				default:
 					return false;
 				}
@@ -928,7 +866,7 @@ namespace Verse
 					}
 					return true;
 				}
-				IL_14F:
+				IL_14D:
 				this.$PC = -1;
 				return false;
 			}
@@ -1011,14 +949,14 @@ namespace Verse
 				{
 				case 0u:
 					z = this.minZ;
-					goto IL_B0;
+					goto IL_AB;
 				case 1u:
 					x++;
 					break;
 				default:
 					return false;
 				}
-				IL_8B:
+				IL_87:
 				if (x <= this.maxX)
 				{
 					this.$current = new IntVec3(x, 0, z);
@@ -1029,11 +967,11 @@ namespace Verse
 					return true;
 				}
 				z++;
-				IL_B0:
+				IL_AB:
 				if (z <= this.maxZ)
 				{
 					x = this.minX;
-					goto IL_8B;
+					goto IL_87;
 				}
 				this.$PC = -1;
 				return false;
@@ -1117,14 +1055,14 @@ namespace Verse
 				{
 				case 0u:
 					z = this.minZ;
-					goto IL_AF;
+					goto IL_AA;
 				case 1u:
 					x++;
 					break;
 				default:
 					return false;
 				}
-				IL_8A:
+				IL_86:
 				if (x <= this.maxX)
 				{
 					this.$current = new IntVec2(x, z);
@@ -1135,11 +1073,11 @@ namespace Verse
 					return true;
 				}
 				z++;
-				IL_AF:
+				IL_AA:
 				if (z <= this.maxZ)
 				{
 					x = this.minX;
-					goto IL_8A;
+					goto IL_86;
 				}
 				this.$PC = -1;
 				return false;
@@ -1234,13 +1172,13 @@ namespace Verse
 					break;
 				case 2u:
 					z++;
-					goto IL_119;
+					goto IL_114;
 				case 3u:
 					x--;
-					goto IL_18C;
+					goto IL_185;
 				case 4u:
 					z--;
-					goto IL_1FF;
+					goto IL_1F6;
 				default:
 					return false;
 				}
@@ -1255,7 +1193,7 @@ namespace Verse
 				}
 				x--;
 				z++;
-				IL_119:
+				IL_114:
 				if (z <= this.maxZ)
 				{
 					this.$current = new IntVec3(x, 0, z);
@@ -1267,7 +1205,7 @@ namespace Verse
 				}
 				z--;
 				x--;
-				IL_18C:
+				IL_185:
 				if (x >= this.minX)
 				{
 					this.$current = new IntVec3(x, 0, z);
@@ -1279,7 +1217,7 @@ namespace Verse
 				}
 				x++;
 				z--;
-				IL_1FF:
+				IL_1F6:
 				if (z > this.minZ)
 				{
 					this.$current = new IntVec3(x, 0, z);
@@ -1395,7 +1333,7 @@ namespace Verse
 					return true;
 				case 4u:
 					z++;
-					goto IL_171;
+					goto IL_16C;
 				default:
 					return false;
 				}
@@ -1409,7 +1347,7 @@ namespace Verse
 					return true;
 				}
 				z = this.minZ;
-				IL_171:
+				IL_16C:
 				if (z <= this.maxZ)
 				{
 					this.$current = new IntVec3(this.minX - 1, 0, z);
@@ -1515,19 +1453,19 @@ namespace Verse
 						if (dir == Rot4.South)
 						{
 							x2 = this.minX;
-							goto IL_124;
+							goto IL_11C;
 						}
 						if (dir == Rot4.West)
 						{
 							z = this.minZ;
-							goto IL_1AD;
+							goto IL_1A1;
 						}
 						if (dir == Rot4.East)
 						{
 							z2 = this.minZ;
-							goto IL_236;
+							goto IL_226;
 						}
-						goto IL_24D;
+						goto IL_23C;
 					}
 					break;
 				case 1u:
@@ -1535,19 +1473,19 @@ namespace Verse
 					break;
 				case 2u:
 					x2++;
-					goto IL_124;
+					goto IL_11C;
 				case 3u:
 					z++;
-					goto IL_1AD;
+					goto IL_1A1;
 				case 4u:
 					z2++;
-					goto IL_236;
+					goto IL_226;
 				default:
 					return false;
 				}
 				if (x > this.maxX)
 				{
-					goto IL_24D;
+					goto IL_23C;
 				}
 				this.$current = new IntVec3(x, 0, this.maxZ);
 				if (!this.$disposing)
@@ -1555,10 +1493,10 @@ namespace Verse
 					this.$PC = 1;
 				}
 				return true;
-				IL_124:
+				IL_11C:
 				if (x2 > this.maxX)
 				{
-					goto IL_24D;
+					goto IL_23C;
 				}
 				this.$current = new IntVec3(x2, 0, this.minZ);
 				if (!this.$disposing)
@@ -1566,10 +1504,10 @@ namespace Verse
 					this.$PC = 2;
 				}
 				return true;
-				IL_1AD:
+				IL_1A1:
 				if (z > this.maxZ)
 				{
-					goto IL_24D;
+					goto IL_23C;
 				}
 				this.$current = new IntVec3(this.minX, 0, z);
 				if (!this.$disposing)
@@ -1577,7 +1515,7 @@ namespace Verse
 					this.$PC = 3;
 				}
 				return true;
-				IL_236:
+				IL_226:
 				if (z2 <= this.maxZ)
 				{
 					this.$current = new IntVec3(this.maxX, 0, z2);
@@ -1587,7 +1525,7 @@ namespace Verse
 					}
 					return true;
 				}
-				IL_24D:
+				IL_23C:
 				this.$PC = -1;
 				return false;
 			}
@@ -1656,17 +1594,12 @@ namespace Verse
 
 			internal bool <>m__0(IntVec3 x)
 			{
-				bool result;
 				if (this.predicate == null)
 				{
-					result = true;
+					return true;
 				}
-				else
-				{
-					CellRect obj = new CellRect(x.x, x.z, this.size.x, this.size.z);
-					result = this.predicate(obj);
-				}
-				return result;
+				CellRect obj = new CellRect(x.x, x.z, this.size.x, this.size.z);
+				return this.predicate(obj);
 			}
 		}
 
@@ -1683,17 +1616,12 @@ namespace Verse
 
 			internal bool <>m__0(IntVec3 x)
 			{
-				bool result;
 				if (this.predicate == null)
 				{
-					result = true;
+					return true;
 				}
-				else
-				{
-					CellRect obj = new CellRect(x.x, x.z, this.size.x, this.size.z);
-					result = this.predicate(obj);
-				}
-				return result;
+				CellRect obj = new CellRect(x.x, x.z, this.size.x, this.size.z);
+				return this.predicate(obj);
 			}
 		}
 	}

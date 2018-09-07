@@ -11,7 +11,7 @@ namespace RimWorld
 {
 	public class Blueprint_Build : Blueprint
 	{
-		public ThingDef stuffToUse = null;
+		public ThingDef stuffToUse;
 
 		public Blueprint_Build()
 		{
@@ -22,20 +22,15 @@ namespace RimWorld
 			get
 			{
 				string label = base.Label;
-				string result;
 				if (this.stuffToUse != null)
 				{
-					result = "ThingMadeOfStuffLabel".Translate(new object[]
+					return "ThingMadeOfStuffLabel".Translate(new object[]
 					{
 						this.stuffToUse.LabelAsStuff,
 						label
 					});
 				}
-				else
-				{
-					result = label;
-				}
-				return result;
+				return label;
 			}
 		}
 
@@ -70,7 +65,7 @@ namespace RimWorld
 
 		public override IEnumerable<Gizmo> GetGizmos()
 		{
-			foreach (Gizmo c in this.<GetGizmos>__BaseCallProxy0())
+			foreach (Gizmo c in base.GetGizmos())
 			{
 				yield return c;
 			}
@@ -158,9 +153,9 @@ namespace RimWorld
 				case 1u:
 					break;
 				case 2u:
-					goto IL_10D;
+					goto IL_109;
 				case 3u:
-					goto IL_147;
+					goto IL_141;
 				default:
 					return false;
 				}
@@ -201,16 +196,16 @@ namespace RimWorld
 					}
 					return true;
 				}
-				IL_10D:
+				IL_109:
 				if (base.Faction != Faction.OfPlayer)
 				{
-					goto IL_1BE;
+					goto IL_1B5;
 				}
 				enumerator2 = BuildFacilityCommandUtility.BuildFacilityCommands(this.def.entityDefToBuild).GetEnumerator();
 				num = 4294967293u;
 				try
 				{
-					IL_147:
+					IL_141:
 					switch (num)
 					{
 					}
@@ -236,7 +231,7 @@ namespace RimWorld
 						}
 					}
 				}
-				IL_1BE:
+				IL_1B5:
 				this.$PC = -1;
 				return false;
 			}

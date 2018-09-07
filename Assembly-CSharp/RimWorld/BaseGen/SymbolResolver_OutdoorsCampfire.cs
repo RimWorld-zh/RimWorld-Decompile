@@ -19,12 +19,13 @@ namespace RimWorld.BaseGen
 		public override void Resolve(ResolveParams rp)
 		{
 			IntVec3 loc;
-			if (this.TryFindSpawnCell(rp.rect, out loc))
+			if (!this.TryFindSpawnCell(rp.rect, out loc))
 			{
-				Thing thing = ThingMaker.MakeThing(ThingDefOf.Campfire, null);
-				thing.SetFaction(rp.faction, null);
-				GenSpawn.Spawn(thing, loc, BaseGen.globalSettings.map, WipeMode.Vanish);
+				return;
 			}
+			Thing thing = ThingMaker.MakeThing(ThingDefOf.Campfire, null);
+			thing.SetFaction(rp.faction, null);
+			GenSpawn.Spawn(thing, loc, BaseGen.globalSettings.map, WipeMode.Vanish);
 		}
 
 		private bool TryFindSpawnCell(CellRect rect, out IntVec3 result)

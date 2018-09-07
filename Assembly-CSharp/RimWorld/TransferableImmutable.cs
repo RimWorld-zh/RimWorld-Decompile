@@ -71,7 +71,7 @@ namespace RimWorld
 		{
 			get
 			{
-				return (!this.HasAnyThing) ? "" : this.AnyThing.DescriptionDetailed;
+				return (!this.HasAnyThing) ? string.Empty : this.AnyThing.DescriptionDetailed;
 			}
 		}
 

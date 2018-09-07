@@ -9,11 +9,11 @@ namespace RimWorld.Planet
 	{
 		private List<int> nodes = new List<int>(128);
 
-		private float totalCostInt = 0f;
+		private float totalCostInt;
 
 		private int curNodeIndex;
 
-		public bool inUse = false;
+		public bool inUse;
 
 		public WorldPath()
 		{
@@ -85,12 +85,10 @@ namespace RimWorld.Planet
 			if (this == WorldPath.NotFound)
 			{
 				Log.Warning("Calling SetupFound with totalCost=" + totalCost + " on WorldPath.NotFound", false);
+				return;
 			}
-			else
-			{
-				this.totalCostInt = totalCost;
-				this.curNodeIndex = this.nodes.Count - 1;
-			}
+			this.totalCostInt = totalCost;
+			this.curNodeIndex = this.nodes.Count - 1;
 		}
 
 		public void Dispose()
@@ -130,62 +128,58 @@ namespace RimWorld.Planet
 
 		public override string ToString()
 		{
-			string result;
 			if (!this.Found)
 			{
-				result = "WorldPath(not found)";
+				return "WorldPath(not found)";
 			}
-			else if (!this.inUse)
+			if (!this.inUse)
 			{
-				result = "WorldPath(not in use)";
+				return "WorldPath(not in use)";
 			}
-			else
+			return string.Concat(new object[]
 			{
-				result = string.Concat(new object[]
+				"WorldPath(nodeCount= ",
+				this.nodes.Count,
+				(this.nodes.Count <= 0) ? string.Empty : string.Concat(new object[]
 				{
-					"WorldPath(nodeCount= ",
-					this.nodes.Count,
-					(this.nodes.Count <= 0) ? "" : string.Concat(new object[]
-					{
-						" first=",
-						this.FirstNode,
-						" last=",
-						this.LastNode
-					}),
-					" cost=",
-					this.totalCostInt,
-					" )"
-				});
-			}
-			return result;
+					" first=",
+					this.FirstNode,
+					" last=",
+					this.LastNode
+				}),
+				" cost=",
+				this.totalCostInt,
+				" )"
+			});
 		}
 
 		public void DrawPath(Caravan pathingCaravan)
 		{
-			if (this.Found)
+			if (!this.Found)
 			{
-				if (this.NodesLeftCount > 0)
+				return;
+			}
+			if (this.NodesLeftCount > 0)
+			{
+				WorldGrid worldGrid = Find.WorldGrid;
+				float d = 0.05f;
+				for (int i = 0; i < this.NodesLeftCount - 1; i++)
 				{
-					WorldGrid worldGrid = Find.WorldGrid;
-					float d = 0.05f;
-					for (int i = 0; i < this.NodesLeftCount - 1; i++)
+					Vector3 a = worldGrid.GetTileCenter(this.Peek(i));
+					Vector3 vector = worldGrid.GetTileCenter(this.Peek(i + 1));
+					a += a.normalized * d;
+					vector += vector.normalized * d;
+					GenDraw.DrawWorldLineBetween(a, vector);
+				}
+				if (pathingCaravan != null)
+				{
+					Vector3 a2 = pathingCaravan.DrawPos;
+					Vector3 vector2 = worldGrid.GetTileCenter(this.Peek(0));
+					a2 += a2.normalized * d;
+					vector2 += vector2.normalized * d;
+					if ((a2 - vector2).sqrMagnitude > 0.005f)
 					{
-						Vector3 a = worldGrid.GetTileCenter(this.Peek(i));
-						Vector3 vector = worldGrid.GetTileCenter(this.Peek(i + 1));
-						a += a.normalized * d;
-						vector += vector.normalized * d;
-						GenDraw.DrawWorldLineBetween(a, vector);
-					}
-					if (pathingCaravan != null)
-					{
-						Vector3 a2 = pathingCaravan.DrawPos;
-						Vector3 vector2 = worldGrid.GetTileCenter(this.Peek(0));
-						a2 += a2.normalized * d;
-						vector2 += vector2.normalized * d;
-						if ((a2 - vector2).sqrMagnitude > 0.005f)
-						{
-							GenDraw.DrawWorldLineBetween(a2, vector2);
-						}
+						GenDraw.DrawWorldLineBetween(a2, vector2);
 					}
 				}
 			}

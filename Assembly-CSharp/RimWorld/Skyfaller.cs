@@ -31,9 +31,6 @@ namespace RimWorld
 
 		private const int LeaveMapAfterTicks = 220;
 
-		[CompilerGenerated]
-		private static Action<Thing, int> <>f__am$cache0;
-
 		public Skyfaller()
 		{
 			this.innerContainer = new ThingOwner<Thing>(this);
@@ -44,16 +41,11 @@ namespace RimWorld
 			get
 			{
 				Thing thingForGraphic = this.GetThingForGraphic();
-				Graphic result;
 				if (thingForGraphic == this)
 				{
-					result = base.Graphic;
+					return base.Graphic;
 				}
-				else
-				{
-					result = thingForGraphic.Graphic.ExtractInnerGraphicFor(thingForGraphic).GetShadowlessGraphic();
-				}
-				return result;
+				return thingForGraphic.Graphic.ExtractInnerGraphicFor(thingForGraphic).GetShadowlessGraphic();
 			}
 		}
 
@@ -61,24 +53,18 @@ namespace RimWorld
 		{
 			get
 			{
-				Vector3 result;
 				switch (this.def.skyfaller.movementType)
 				{
 				case SkyfallerMovementType.Accelerate:
-					result = SkyfallerDrawPosUtility.DrawPos_Accelerate(base.DrawPos, this.ticksToImpact, this.angle, this.def.skyfaller.speed);
-					break;
+					return SkyfallerDrawPosUtility.DrawPos_Accelerate(base.DrawPos, this.ticksToImpact, this.angle, this.def.skyfaller.speed);
 				case SkyfallerMovementType.ConstantSpeed:
-					result = SkyfallerDrawPosUtility.DrawPos_ConstantSpeed(base.DrawPos, this.ticksToImpact, this.angle, this.def.skyfaller.speed);
-					break;
+					return SkyfallerDrawPosUtility.DrawPos_ConstantSpeed(base.DrawPos, this.ticksToImpact, this.angle, this.def.skyfaller.speed);
 				case SkyfallerMovementType.Decelerate:
-					result = SkyfallerDrawPosUtility.DrawPos_Decelerate(base.DrawPos, this.ticksToImpact, this.angle, this.def.skyfaller.speed);
-					break;
+					return SkyfallerDrawPosUtility.DrawPos_Decelerate(base.DrawPos, this.ticksToImpact, this.angle, this.def.skyfaller.speed);
 				default:
 					Log.ErrorOnce("SkyfallerMovementType not handled: " + this.def.skyfaller.movementType, this.thingIDNumber ^ 1948576711, false);
-					result = SkyfallerDrawPosUtility.DrawPos_Accelerate(base.DrawPos, this.ticksToImpact, this.angle, this.def.skyfaller.speed);
-					break;
+					return SkyfallerDrawPosUtility.DrawPos_Accelerate(base.DrawPos, this.ticksToImpact, this.angle, this.def.skyfaller.speed);
 				}
-				return result;
 			}
 		}
 
@@ -205,39 +191,35 @@ namespace RimWorld
 
 		protected virtual void HitRoof()
 		{
-			if (this.def.skyfaller.hitRoof)
+			if (!this.def.skyfaller.hitRoof)
 			{
-				CellRect cr = this.OccupiedRect();
-				if (cr.Cells.Any((IntVec3 x) => x.Roofed(this.Map)))
+				return;
+			}
+			CellRect cr = this.OccupiedRect();
+			if (cr.Cells.Any((IntVec3 x) => x.Roofed(this.Map)))
+			{
+				RoofDef roof = cr.Cells.First((IntVec3 x) => x.Roofed(this.Map)).GetRoof(base.Map);
+				if (!roof.soundPunchThrough.NullOrUndefined())
 				{
-					RoofDef roof = cr.Cells.First((IntVec3 x) => x.Roofed(this.Map)).GetRoof(base.Map);
-					if (!roof.soundPunchThrough.NullOrUndefined())
-					{
-						roof.soundPunchThrough.PlayOneShot(new TargetInfo(base.Position, base.Map, false));
-					}
-					RoofCollapserImmediate.DropRoofInCells(cr.ExpandedBy(1).ClipInsideMap(base.Map).Cells.Where(delegate(IntVec3 c)
-					{
-						bool result;
-						if (!c.InBounds(this.Map))
-						{
-							result = false;
-						}
-						else if (cr.Contains(c))
-						{
-							result = true;
-						}
-						else if (c.GetFirstPawn(this.Map) != null)
-						{
-							result = false;
-						}
-						else
-						{
-							Building edifice = c.GetEdifice(this.Map);
-							result = (edifice == null || !edifice.def.holdsRoof);
-						}
-						return result;
-					}), base.Map, null);
+					roof.soundPunchThrough.PlayOneShot(new TargetInfo(base.Position, base.Map, false));
 				}
+				RoofCollapserImmediate.DropRoofInCells(cr.ExpandedBy(1).ClipInsideMap(base.Map).Cells.Where(delegate(IntVec3 c)
+				{
+					if (!c.InBounds(this.Map))
+					{
+						return false;
+					}
+					if (cr.Contains(c))
+					{
+						return true;
+					}
+					if (c.GetFirstPawn(this.Map) != null)
+					{
+						return false;
+					}
+					Building edifice = c.GetEdifice(this.Map);
+					return edifice == null || !edifice.def.holdsRoof;
+				}), base.Map, null);
 			}
 		}
 
@@ -252,6 +234,10 @@ namespace RimWorld
 				GenPlace.TryPlaceThing(this.innerContainer[i], base.Position, base.Map, ThingPlaceMode.Near, delegate(Thing thing, int count)
 				{
 					PawnUtility.RecoverFromUnwalkablePositionOrKill(thing.Position, thing.Map);
+					if (thing.def.Fillage == FillCategory.Full && this.def.skyfaller.CausesExplosion && thing.Position.InHorDistOf(base.Position, this.def.skyfaller.explosionRadius))
+					{
+						base.Map.terrainGrid.Notify_TerrainDestroyed(thing.Position);
+					}
 				}, null);
 			}
 			this.innerContainer.ClearAndDestroyContents(DestroyMode.Vanish);
@@ -292,25 +278,21 @@ namespace RimWorld
 
 		private Thing GetThingForGraphic()
 		{
-			Thing result;
 			if (this.def.graphicData != null || !this.innerContainer.Any)
 			{
-				result = this;
+				return this;
 			}
-			else
-			{
-				result = this.innerContainer[0];
-			}
-			return result;
+			return this.innerContainer[0];
 		}
 
 		private void DrawDropSpotShadow()
 		{
 			Material shadowMaterial = this.ShadowMaterial;
-			if (!(shadowMaterial == null))
+			if (shadowMaterial == null)
 			{
-				Skyfaller.DrawDropSpotShadow(base.DrawPos, base.Rotation, shadowMaterial, this.def.skyfaller.shadowSize, this.ticksToImpact);
+				return;
 			}
+			Skyfaller.DrawDropSpotShadow(base.DrawPos, base.Rotation, shadowMaterial, this.def.skyfaller.shadowSize, this.ticksToImpact);
 		}
 
 		public static void DrawDropSpotShadow(Vector3 center, Rot4 rot, Material material, Vector2 shadowSize, int ticksToImpact)
@@ -341,9 +323,13 @@ namespace RimWorld
 		}
 
 		[CompilerGenerated]
-		private static void <Impact>m__0(Thing thing, int count)
+		private void <Impact>m__0(Thing thing, int count)
 		{
 			PawnUtility.RecoverFromUnwalkablePositionOrKill(thing.Position, thing.Map);
+			if (thing.def.Fillage == FillCategory.Full && this.def.skyfaller.CausesExplosion && thing.Position.InHorDistOf(base.Position, this.def.skyfaller.explosionRadius))
+			{
+				base.Map.terrainGrid.Notify_TerrainDestroyed(thing.Position);
+			}
 		}
 
 		[CompilerGenerated]
@@ -369,25 +355,20 @@ namespace RimWorld
 
 			internal bool <>m__2(IntVec3 c)
 			{
-				bool result;
 				if (!c.InBounds(this.$this.Map))
 				{
-					result = false;
+					return false;
 				}
-				else if (this.cr.Contains(c))
+				if (this.cr.Contains(c))
 				{
-					result = true;
+					return true;
 				}
-				else if (c.GetFirstPawn(this.$this.Map) != null)
+				if (c.GetFirstPawn(this.$this.Map) != null)
 				{
-					result = false;
+					return false;
 				}
-				else
-				{
-					Building edifice = c.GetEdifice(this.$this.Map);
-					result = (edifice == null || !edifice.def.holdsRoof);
-				}
-				return result;
+				Building edifice = c.GetEdifice(this.$this.Map);
+				return edifice == null || !edifice.def.holdsRoof;
 			}
 		}
 	}

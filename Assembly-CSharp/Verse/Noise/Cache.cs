@@ -1,19 +1,18 @@
 ﻿using System;
-using System.Diagnostics;
 
 namespace Verse.Noise
 {
 	public class Cache : ModuleBase
 	{
-		private double m_value = 0.0;
+		private double m_value;
 
-		private bool m_cached = false;
+		private bool m_cached;
 
-		private double m_x = 0.0;
+		private double m_x;
 
-		private double m_y = 0.0;
+		private double m_y;
 
-		private double m_z = 0.0;
+		private double m_z;
 
 		public Cache() : base(1)
 		{
@@ -39,7 +38,6 @@ namespace Verse.Noise
 
 		public override double GetValue(double x, double y, double z)
 		{
-			Debug.Assert(this.modules[0] != null);
 			if (!this.m_cached || this.m_x != x || this.m_y != y || this.m_z != z)
 			{
 				this.m_value = this.modules[0].GetValue(x, y, z);

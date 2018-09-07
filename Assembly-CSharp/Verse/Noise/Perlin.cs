@@ -15,7 +15,7 @@ namespace Verse.Noise
 
 		private double m_persistence = 0.5;
 
-		private int m_seed = 0;
+		private int m_seed;
 
 		public Perlin() : base(0)
 		{

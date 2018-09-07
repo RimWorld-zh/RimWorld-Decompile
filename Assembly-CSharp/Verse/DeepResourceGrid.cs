@@ -79,12 +79,13 @@ namespace Verse
 				num2 = 0;
 			}
 			int num3 = this.map.cellIndices.CellToIndex(c);
-			if (this.defGrid[num3] != num || this.countGrid[num3] != num2)
+			if (this.defGrid[num3] == num && this.countGrid[num3] == num2)
 			{
-				this.defGrid[num3] = num;
-				this.countGrid[num3] = num2;
-				this.drawer.SetDirty();
+				return;
 			}
+			this.defGrid[num3] = num;
+			this.countGrid[num3] = num2;
+			this.drawer.SetDirty();
 		}
 
 		public void DeepResourceGridUpdate()

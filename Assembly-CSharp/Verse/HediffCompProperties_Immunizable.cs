@@ -4,13 +4,13 @@ namespace Verse
 {
 	public class HediffCompProperties_Immunizable : HediffCompProperties
 	{
-		public float immunityPerDayNotSick = 0f;
+		public float immunityPerDayNotSick;
 
-		public float immunityPerDaySick = 0f;
+		public float immunityPerDaySick;
 
-		public float severityPerDayNotImmune = 0f;
+		public float severityPerDayNotImmune;
 
-		public float severityPerDayImmune = 0f;
+		public float severityPerDayImmune;
 
 		public FloatRange severityPerDayNotImmuneRandomFactor = new FloatRange(1f, 1f);
 

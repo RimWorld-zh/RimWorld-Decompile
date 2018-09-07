@@ -80,7 +80,7 @@ internal sealed class <>__AnonType1<<Race>__T, <Hits>__T, <DiedDueToDamageThresh
 		}
 		else
 		{
-			text = "";
+			text = string.Empty;
 		}
 		array[num] = text;
 		array[3] = ", Hits = ";
@@ -93,7 +93,7 @@ internal sealed class <>__AnonType1<<Race>__T, <Hits>__T, <DiedDueToDamageThresh
 		}
 		else
 		{
-			text2 = "";
+			text2 = string.Empty;
 		}
 		array[num2] = text2;
 		array[5] = ", DiedDueToDamageThreshold = ";
@@ -106,7 +106,7 @@ internal sealed class <>__AnonType1<<Race>__T, <Hits>__T, <DiedDueToDamageThresh
 		}
 		else
 		{
-			text3 = "";
+			text3 = string.Empty;
 		}
 		array[num3] = text3;
 		array[7] = " }";

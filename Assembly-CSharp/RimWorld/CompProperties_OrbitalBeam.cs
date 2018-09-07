@@ -24,7 +24,7 @@ namespace RimWorld
 
 		public override IEnumerable<string> ConfigErrors(ThingDef parentDef)
 		{
-			foreach (string err in this.<ConfigErrors>__BaseCallProxy0(parentDef))
+			foreach (string err in base.ConfigErrors(parentDef))
 			{
 				yield return err;
 			}
@@ -78,7 +78,7 @@ namespace RimWorld
 				case 1u:
 					break;
 				case 2u:
-					goto IL_FF;
+					goto IL_FB;
 				default:
 					return false;
 				}
@@ -111,7 +111,7 @@ namespace RimWorld
 				}
 				if (parentDef.drawerType == DrawerType.RealtimeOnly || parentDef.drawerType == DrawerType.MapMeshAndRealTime)
 				{
-					goto IL_FF;
+					goto IL_FB;
 				}
 				this.$current = "orbital beam requires realtime drawer";
 				if (!this.$disposing)
@@ -119,7 +119,7 @@ namespace RimWorld
 					this.$PC = 2;
 				}
 				return true;
-				IL_FF:
+				IL_FB:
 				this.$PC = -1;
 				return false;
 			}

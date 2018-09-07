@@ -82,7 +82,7 @@ namespace RimWorld
 				Widgets.Label(new Rect(0f, 0f, rect.width, rect.height), this.nameMessageKey.Translate(new object[]
 				{
 					this.suggestingPawn.LabelShort
-				}));
+				}).CapitalizeFirst());
 				if (this.nameGenerator != null && Widgets.ButtonText(new Rect(rect.width / 2f + 20f, 80f, rect.width / 2f - 20f, 35f), "Randomize".Translate(), true, false, true))
 				{
 					this.curName = this.nameGenerator();
@@ -96,7 +96,7 @@ namespace RimWorld
 				string text = this.nameMessageKey.Translate(new object[]
 				{
 					this.suggestingPawn.LabelShort
-				});
+				}).CapitalizeFirst();
 				Widgets.Label(new Rect(0f, num, rect.width, rect.height), text);
 				num += Text.CalcHeight(text, rect.width) + 10f;
 				if (this.nameGenerator != null && Widgets.ButtonText(new Rect(rect.width / 2f, num, rect.width / 2f - 20f, 35f), "Randomize".Translate(), true, false, true))

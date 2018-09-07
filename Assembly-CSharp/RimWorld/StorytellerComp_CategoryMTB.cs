@@ -29,13 +29,10 @@ namespace RimWorld
 			{
 				mtbNow *= this.Props.mtbDaysFactorByDaysPassedCurve.Evaluate(GenDate.DaysPassedFloat);
 			}
-			if (Rand.MTBEventOccurs(mtbNow, 60000f, 1000f))
+			IncidentDef selectedDef;
+			if (Rand.MTBEventOccurs(mtbNow, 60000f, 1000f) && base.UsableIncidentsInCategory(this.Props.category, target).TryRandomElementByWeight((IncidentDef incDef) => base.IncidentChanceFinal(incDef), out selectedDef))
 			{
-				IncidentDef selectedDef;
-				if (base.UsableIncidentsInCategory(this.Props.category, target).TryRandomElementByWeight((IncidentDef incDef) => base.IncidentChanceFinal(incDef), out selectedDef))
-				{
-					yield return new FiringIncident(selectedDef, this, this.GenerateParms(selectedDef.category, target));
-				}
+				yield return new FiringIncident(selectedDef, this, this.GenerateParms(selectedDef.category, target));
 			}
 			yield break;
 		}
@@ -79,17 +76,14 @@ namespace RimWorld
 					{
 						mtbNow *= base.Props.mtbDaysFactorByDaysPassedCurve.Evaluate(GenDate.DaysPassedFloat);
 					}
-					if (Rand.MTBEventOccurs(mtbNow, 60000f, 1000f))
+					if (Rand.MTBEventOccurs(mtbNow, 60000f, 1000f) && base.UsableIncidentsInCategory(base.Props.category, target).TryRandomElementByWeight((IncidentDef incDef) => base.IncidentChanceFinal(incDef), out selectedDef))
 					{
-						if (base.UsableIncidentsInCategory(base.Props.category, target).TryRandomElementByWeight((IncidentDef incDef) => base.IncidentChanceFinal(incDef), out selectedDef))
+						this.$current = new FiringIncident(selectedDef, this, this.GenerateParms(selectedDef.category, target));
+						if (!this.$disposing)
 						{
-							this.$current = new FiringIncident(selectedDef, this, this.GenerateParms(selectedDef.category, target));
-							if (!this.$disposing)
-							{
-								this.$PC = 1;
-							}
-							return true;
+							this.$PC = 1;
 						}
+						return true;
 					}
 					break;
 				case 1u:

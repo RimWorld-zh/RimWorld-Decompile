@@ -28,24 +28,16 @@ namespace Verse.Noise
 			double value = this.modules[0].GetValue(x, y, z);
 			float num2 = Mathf.Max(2.5f, this.viewAngle * 0.25f);
 			float num3 = Mathf.Max(0.8f, this.viewAngle * 0.1f);
-			double result;
 			if (num < this.viewAngle - num2)
 			{
-				result = value;
+				return value;
 			}
-			else
+			float num4 = GenMath.LerpDouble(this.viewAngle - num2, this.viewAngle - num3, 0f, 0.62f, num);
+			if (value > -0.11999999731779099)
 			{
-				float num4 = GenMath.LerpDouble(this.viewAngle - num2, this.viewAngle - num3, 0f, 0.62f, num);
-				if (value > -0.11999999731779099)
-				{
-					result = (value - -0.11999999731779099) * (double)(1f - num4 * 0.7f) - (double)(num4 * 0.3f) + -0.11999999731779099;
-				}
-				else
-				{
-					result = value - (double)(num4 * 0.3f);
-				}
+				return (value - -0.11999999731779099) * (double)(1f - num4 * 0.7f) - (double)(num4 * 0.3f) + -0.11999999731779099;
 			}
-			return result;
+			return value - (double)(num4 * 0.3f);
 		}
 	}
 }

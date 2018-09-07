@@ -10,15 +10,14 @@ namespace RimWorld
 	{
 		private static List<List<Thing>> tempList = new List<List<Thing>>();
 
-		public static void MakeDropPodAt(IntVec3 c, Map map, ActiveDropPodInfo info, bool explode = false)
+		public static void MakeDropPodAt(IntVec3 c, Map map, ActiveDropPodInfo info)
 		{
 			ActiveDropPod activeDropPod = (ActiveDropPod)ThingMaker.MakeThing(ThingDefOf.ActiveDropPod, null);
 			activeDropPod.Contents = info;
-			ThingDef skyfaller = (!explode) ? ThingDefOf.DropPodIncoming : ThingDefOf.ExplosiveDropPodIncoming;
-			SkyfallerMaker.SpawnSkyfaller(skyfaller, activeDropPod, c, map);
+			SkyfallerMaker.SpawnSkyfaller(ThingDefOf.DropPodIncoming, activeDropPod, c, map);
 		}
 
-		public static void DropThingsNear(IntVec3 dropCenter, Map map, IEnumerable<Thing> things, int openDelay = 110, bool canInstaDropDuringInit = false, bool leaveSlag = false, bool canRoofPunch = true, bool explode = false)
+		public static void DropThingsNear(IntVec3 dropCenter, Map map, IEnumerable<Thing> things, int openDelay = 110, bool canInstaDropDuringInit = false, bool leaveSlag = false, bool canRoofPunch = true)
 		{
 			DropPodUtility.tempList.Clear();
 			foreach (Thing item in things)
@@ -27,16 +26,16 @@ namespace RimWorld
 				list.Add(item);
 				DropPodUtility.tempList.Add(list);
 			}
-			DropPodUtility.DropThingGroupsNear(dropCenter, map, DropPodUtility.tempList, openDelay, canInstaDropDuringInit, leaveSlag, canRoofPunch, explode);
+			DropPodUtility.DropThingGroupsNear(dropCenter, map, DropPodUtility.tempList, openDelay, canInstaDropDuringInit, leaveSlag, canRoofPunch);
 			DropPodUtility.tempList.Clear();
 		}
 
-		public static void DropThingGroupsNear(IntVec3 dropCenter, Map map, List<List<Thing>> thingsGroups, int openDelay = 110, bool instaDrop = false, bool leaveSlag = false, bool canRoofPunch = true, bool explode = false)
+		public static void DropThingGroupsNear(IntVec3 dropCenter, Map map, List<List<Thing>> thingsGroups, int openDelay = 110, bool instaDrop = false, bool leaveSlag = false, bool canRoofPunch = true)
 		{
 			foreach (List<Thing> list in thingsGroups)
 			{
 				IntVec3 intVec;
-				if (!DropCellFinder.TryFindDropSpotNear(dropCenter, map, out intVec, true, canRoofPunch, explode))
+				if (!DropCellFinder.TryFindDropSpotNear(dropCenter, map, out intVec, true, canRoofPunch))
 				{
 					Log.Warning(string.Concat(new object[]
 					{
@@ -68,7 +67,7 @@ namespace RimWorld
 					}
 					activeDropPodInfo.openDelay = openDelay;
 					activeDropPodInfo.leaveSlag = leaveSlag;
-					DropPodUtility.MakeDropPodAt(intVec, map, activeDropPodInfo, explode);
+					DropPodUtility.MakeDropPodAt(intVec, map, activeDropPodInfo);
 				}
 			}
 		}

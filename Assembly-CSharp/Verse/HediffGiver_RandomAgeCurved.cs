@@ -6,9 +6,9 @@ namespace Verse
 {
 	public class HediffGiver_RandomAgeCurved : HediffGiver
 	{
-		public SimpleCurve ageFractionMtbDaysCurve = null;
+		public SimpleCurve ageFractionMtbDaysCurve;
 
-		public int minPlayerPopulation = 0;
+		public int minPlayerPopulation;
 
 		public HediffGiver_RandomAgeCurved()
 		{
@@ -19,12 +19,13 @@ namespace Verse
 			float x = (float)pawn.ageTracker.AgeBiologicalYears / pawn.RaceProps.lifeExpectancy;
 			if (Rand.MTBEventOccurs(this.ageFractionMtbDaysCurve.Evaluate(x), 60000f, 60f))
 			{
-				if (this.minPlayerPopulation <= 0 || pawn.Faction != Faction.OfPlayer || PawnsFinder.AllMapsCaravansAndTravelingTransportPods_Alive_FreeColonists_NoCryptosleep.Count<Pawn>() >= this.minPlayerPopulation)
+				if (this.minPlayerPopulation > 0 && pawn.Faction == Faction.OfPlayer && PawnsFinder.AllMapsCaravansAndTravelingTransportPods_Alive_FreeColonists_NoCryptosleep.Count<Pawn>() < this.minPlayerPopulation)
 				{
-					if (base.TryApply(pawn, null))
-					{
-						base.SendLetter(pawn, cause);
-					}
+					return;
+				}
+				if (base.TryApply(pawn, null))
+				{
+					base.SendLetter(pawn, cause);
 				}
 			}
 		}

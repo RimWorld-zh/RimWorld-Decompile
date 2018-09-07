@@ -62,26 +62,19 @@ namespace Steamworks
 
 		public bool IsValid()
 		{
-			bool result;
 			switch (this.Type())
 			{
 			case CGameID.EGameIDType.k_EGameIDTypeApp:
-				result = (this.AppID() != AppId_t.Invalid);
-				break;
+				return this.AppID() != AppId_t.Invalid;
 			case CGameID.EGameIDType.k_EGameIDTypeGameMod:
-				result = (this.AppID() != AppId_t.Invalid && (this.ModID() & 2147483648u) != 0u);
-				break;
+				return this.AppID() != AppId_t.Invalid && (this.ModID() & 2147483648u) != 0u;
 			case CGameID.EGameIDType.k_EGameIDTypeShortcut:
-				result = ((this.ModID() & 2147483648u) != 0u);
-				break;
+				return (this.ModID() & 2147483648u) != 0u;
 			case CGameID.EGameIDType.k_EGameIDTypeP2P:
-				result = (this.AppID() == AppId_t.Invalid && (this.ModID() & 2147483648u) != 0u);
-				break;
+				return this.AppID() == AppId_t.Invalid && (this.ModID() & 2147483648u) != 0u;
 			default:
-				result = false;
-				break;
+				return false;
 			}
-			return result;
 		}
 
 		public void Reset()

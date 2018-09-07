@@ -35,28 +35,23 @@ namespace Verse
 		public static Material FadedVersionOf(Material sourceMat, float alpha)
 		{
 			int num = FadedMaterialPool.IndexFromAlpha(alpha);
-			Material result;
 			if (num == 0)
 			{
-				result = BaseContent.ClearMat;
+				return BaseContent.ClearMat;
 			}
-			else if (num == 29)
+			if (num == 29)
 			{
-				result = sourceMat;
+				return sourceMat;
 			}
-			else
+			FadedMaterialPool.FadedMatRequest key = new FadedMaterialPool.FadedMatRequest(sourceMat, num);
+			Material material;
+			if (!FadedMaterialPool.cachedMats.TryGetValue(key, out material))
 			{
-				FadedMaterialPool.FadedMatRequest key = new FadedMaterialPool.FadedMatRequest(sourceMat, num);
-				Material material;
-				if (!FadedMaterialPool.cachedMats.TryGetValue(key, out material))
-				{
-					material = MaterialAllocator.Create(sourceMat);
-					material.color = new Color(1f, 1f, 1f, (float)FadedMaterialPool.IndexFromAlpha(alpha) / 30f);
-					FadedMaterialPool.cachedMats.Add(key, material);
-				}
-				result = material;
+				material = MaterialAllocator.Create(sourceMat);
+				material.color = new Color(1f, 1f, 1f, (float)FadedMaterialPool.IndexFromAlpha(alpha) / 30f);
+				FadedMaterialPool.cachedMats.Add(key, material);
 			}
-			return result;
+			return material;
 		}
 
 		private static int IndexFromAlpha(float alpha)

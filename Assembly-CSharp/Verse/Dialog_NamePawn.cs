@@ -24,7 +24,7 @@ namespace Verse
 				}
 				else
 				{
-					this.curTitle = "";
+					this.curTitle = string.Empty;
 				}
 			}
 			this.forcePause = true;
@@ -38,21 +38,16 @@ namespace Verse
 			get
 			{
 				NameTriple nameTriple = this.pawn.Name as NameTriple;
-				Name result;
 				if (nameTriple != null)
 				{
-					result = new NameTriple(nameTriple.First, this.curName, nameTriple.Last);
+					return new NameTriple(nameTriple.First, this.curName, nameTriple.Last);
 				}
-				else
+				NameSingle nameSingle = this.pawn.Name as NameSingle;
+				if (nameSingle != null)
 				{
-					NameSingle nameSingle = this.pawn.Name as NameSingle;
-					if (nameSingle == null)
-					{
-						throw new InvalidOperationException();
-					}
-					result = new NameSingle(this.curName, false);
+					return new NameSingle(this.curName, false);
 				}
-				return result;
+				throw new InvalidOperationException();
 			}
 		}
 
@@ -74,7 +69,7 @@ namespace Verse
 			}
 			Text.Font = GameFont.Medium;
 			string text = this.CurPawnName.ToString().Replace(" '' ", " ");
-			if (this.curTitle == "")
+			if (this.curTitle == string.Empty)
 			{
 				text = text + ", " + this.pawn.story.TitleDefaultCap;
 			}

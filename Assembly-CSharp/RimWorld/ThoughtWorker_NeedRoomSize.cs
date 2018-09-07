@@ -11,40 +11,28 @@ namespace RimWorld
 
 		protected override ThoughtState CurrentStateInternal(Pawn p)
 		{
-			ThoughtState result;
 			if (p.needs.roomsize == null)
 			{
-				result = ThoughtState.Inactive;
+				return ThoughtState.Inactive;
 			}
-			else
+			Room room = p.GetRoom(RegionType.Set_Passable);
+			if (room == null || room.PsychologicallyOutdoors)
 			{
-				Room room = p.GetRoom(RegionType.Set_Passable);
-				if (room == null || room.PsychologicallyOutdoors)
-				{
-					result = ThoughtState.Inactive;
-				}
-				else
-				{
-					switch (p.needs.roomsize.CurCategory)
-					{
-					case RoomSizeCategory.VeryCramped:
-						result = ThoughtState.ActiveAtStage(0);
-						break;
-					case RoomSizeCategory.Cramped:
-						result = ThoughtState.ActiveAtStage(1);
-						break;
-					case RoomSizeCategory.Normal:
-						result = ThoughtState.Inactive;
-						break;
-					case RoomSizeCategory.Spacious:
-						result = ThoughtState.ActiveAtStage(2);
-						break;
-					default:
-						throw new InvalidOperationException("Unknown RoomSizeCategory");
-					}
-				}
+				return ThoughtState.Inactive;
 			}
-			return result;
+			switch (p.needs.roomsize.CurCategory)
+			{
+			case RoomSizeCategory.VeryCramped:
+				return ThoughtState.ActiveAtStage(0);
+			case RoomSizeCategory.Cramped:
+				return ThoughtState.ActiveAtStage(1);
+			case RoomSizeCategory.Normal:
+				return ThoughtState.Inactive;
+			case RoomSizeCategory.Spacious:
+				return ThoughtState.ActiveAtStage(2);
+			default:
+				throw new InvalidOperationException("Unknown RoomSizeCategory");
+			}
 		}
 	}
 }

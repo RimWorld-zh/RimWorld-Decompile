@@ -12,16 +12,11 @@ namespace RimWorld
 
 		protected override Job TryGiveJob(Pawn pawn)
 		{
-			Job result;
 			if (!pawn.inventory.UnloadEverything)
 			{
-				result = null;
+				return null;
 			}
-			else
-			{
-				result = new Job(JobDefOf.UnloadYourInventory);
-			}
-			return result;
+			return new Job(JobDefOf.UnloadYourInventory);
 		}
 	}
 }

@@ -15,9 +15,26 @@ namespace RimWorld
 		{
 		}
 
-		public override bool TryMakePreToilReservations()
+		public override bool TryMakePreToilReservations(bool errorOnFailed)
 		{
-			return this.pawn.Reserve(this.job.targetA, this.job, this.job.def.joyMaxParticipants, 0, null) && this.pawn.Reserve(this.job.targetB, this.job, 1, -1, null);
+			Pawn pawn = this.pawn;
+			LocalTargetInfo target = this.job.targetA;
+			Job job = this.job;
+			int joyMaxParticipants = this.job.def.joyMaxParticipants;
+			int stackCount = 0;
+			bool result;
+			if (pawn.Reserve(target, job, joyMaxParticipants, stackCount, null, errorOnFailed))
+			{
+				pawn = this.pawn;
+				target = this.job.targetB;
+				job = this.job;
+				result = pawn.Reserve(target, job, 1, -1, null, errorOnFailed);
+			}
+			else
+			{
+				result = false;
+			}
+			return result;
 		}
 
 		protected override IEnumerable<Toil> MakeNewToils()

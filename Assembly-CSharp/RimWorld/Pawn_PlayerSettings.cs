@@ -2,7 +2,6 @@
 using System.Collections;
 using System.Collections.Generic;
 using System.Diagnostics;
-using System.Linq;
 using System.Runtime.CompilerServices;
 using System.Threading;
 using Verse;
@@ -15,23 +14,23 @@ namespace RimWorld
 	{
 		private Pawn pawn;
 
-		private Area areaAllowedInt = null;
+		private Area areaAllowedInt;
 
 		public int joinTick = -1;
 
-		private Pawn master = null;
+		private Pawn master;
 
-		public bool followDrafted = true;
+		public bool followDrafted;
 
-		public bool followFieldwork = true;
+		public bool followFieldwork;
 
-		public bool animalsReleased = false;
+		public bool animalsReleased;
 
 		public MedicalCareCategory medCare = MedicalCareCategory.NoMeds;
 
 		public HostilityResponseMode hostilityResponse = HostilityResponseMode.Flee;
 
-		public bool selfTend = false;
+		public bool selfTend;
 
 		public int displayOrder;
 
@@ -57,21 +56,20 @@ namespace RimWorld
 			}
 			set
 			{
-				if (this.master != value)
+				if (this.master == value)
 				{
-					if (value != null && !this.pawn.training.HasLearned(TrainableDefOf.Obedience))
-					{
-						Log.ErrorOnce("Attempted to set master for non-obedient pawn", 73908573, false);
-					}
-					else
-					{
-						bool flag = ThinkNode_ConditionalShouldFollowMaster.ShouldFollowMaster(this.pawn);
-						this.master = value;
-						if (this.pawn.Spawned && (flag || ThinkNode_ConditionalShouldFollowMaster.ShouldFollowMaster(this.pawn)))
-						{
-							this.pawn.jobs.EndCurrentJob(JobCondition.InterruptForced, true);
-						}
-					}
+					return;
+				}
+				if (value != null && !this.pawn.training.HasLearned(TrainableDefOf.Obedience))
+				{
+					Log.ErrorOnce("Attempted to set master for non-obedient pawn", 73908573, false);
+					return;
+				}
+				bool flag = ThinkNode_ConditionalShouldFollowMaster.ShouldFollowMaster(this.pawn);
+				this.master = value;
+				if (this.pawn.Spawned && (flag || ThinkNode_ConditionalShouldFollowMaster.ShouldFollowMaster(this.pawn)))
+				{
+					this.pawn.jobs.EndCurrentJob(JobCondition.InterruptForced, true);
 				}
 			}
 		}
@@ -80,16 +78,11 @@ namespace RimWorld
 		{
 			get
 			{
-				Area result;
 				if (this.areaAllowedInt != null && this.areaAllowedInt.Map != this.pawn.MapHeld)
 				{
-					result = null;
+					return null;
 				}
-				else
-				{
-					result = this.EffectiveAreaRestriction;
-				}
-				return result;
+				return this.EffectiveAreaRestriction;
 			}
 		}
 
@@ -97,16 +90,11 @@ namespace RimWorld
 		{
 			get
 			{
-				Area result;
 				if (!this.RespectsAllowedArea)
 				{
-					result = null;
+					return null;
 				}
-				else
-				{
-					result = this.areaAllowedInt;
-				}
-				return result;
+				return this.areaAllowedInt;
 			}
 		}
 
@@ -118,7 +106,15 @@ namespace RimWorld
 			}
 			set
 			{
+				if (this.areaAllowedInt == value)
+				{
+					return;
+				}
 				this.areaAllowedInt = value;
+				if (this.pawn.Spawned && value != null && value == this.EffectiveAreaRestrictionInPawnCurrentMap && value.TrueCount > 0 && !value[this.pawn.Position])
+				{
+					this.pawn.jobs.EndCurrentJob(JobCondition.InterruptForced, true);
+				}
 			}
 		}
 
@@ -172,31 +168,47 @@ namespace RimWorld
 		{
 			if (this.pawn.Drafted)
 			{
-				if (PawnUtility.SpawnedMasteredPawns(this.pawn).Any((Pawn p) => p.training.HasLearned(TrainableDefOf.Release)))
+				int count = 0;
+				bool anyCanRelease = false;
+				foreach (Pawn pawn in PawnUtility.SpawnedMasteredPawns(this.pawn))
 				{
-					yield return new Command_Toggle
+					if (pawn.training.HasLearned(TrainableDefOf.Release))
 					{
-						defaultLabel = "CommandReleaseAnimalsLabel".Translate(),
-						defaultDesc = "CommandReleaseAnimalsDesc".Translate(),
-						icon = TexCommand.ReleaseAnimals,
-						hotKey = KeyBindingDefOf.Misc7,
-						isActive = (() => this.animalsReleased),
-						toggleAction = delegate()
+						anyCanRelease = true;
+						if (ThinkNode_ConditionalShouldFollowMaster.ShouldFollowMaster(pawn))
 						{
-							this.animalsReleased = !this.animalsReleased;
-							if (this.animalsReleased)
+							count++;
+						}
+					}
+				}
+				if (anyCanRelease)
+				{
+					Command_Toggle c = new Command_Toggle();
+					c.defaultLabel = "CommandReleaseAnimalsLabel".Translate() + ((count == 0) ? string.Empty : (" (" + count + ")"));
+					c.defaultDesc = "CommandReleaseAnimalsDesc".Translate();
+					c.icon = TexCommand.ReleaseAnimals;
+					c.hotKey = KeyBindingDefOf.Misc7;
+					c.isActive = (() => this.animalsReleased);
+					c.toggleAction = delegate()
+					{
+						this.animalsReleased = !this.animalsReleased;
+						if (this.animalsReleased)
+						{
+							foreach (Pawn pawn2 in PawnUtility.SpawnedMasteredPawns(this.pawn))
 							{
-								foreach (Pawn pawn in PawnUtility.SpawnedMasteredPawns(this.pawn))
+								if (pawn2.caller != null)
 								{
-									if (pawn.caller != null)
-									{
-										pawn.caller.Notify_Released();
-									}
-									pawn.jobs.EndCurrentJob(JobCondition.InterruptForced, true);
+									pawn2.caller.Notify_Released();
 								}
+								pawn2.jobs.EndCurrentJob(JobCondition.InterruptForced, true);
 							}
 						}
 					};
+					if (count == 0)
+					{
+						c.Disable("CommandReleaseAnimalsFail_NoAnimals".Translate());
+					}
+					yield return c;
 				}
 			}
 			yield break;
@@ -205,6 +217,7 @@ namespace RimWorld
 		public void Notify_FactionChanged()
 		{
 			this.ResetMedicalCare();
+			this.areaAllowedInt = null;
 		}
 
 		public void Notify_MadePrisoner()
@@ -214,38 +227,39 @@ namespace RimWorld
 
 		public void ResetMedicalCare()
 		{
-			if (Scribe.mode != LoadSaveMode.LoadingVars)
+			if (Scribe.mode == LoadSaveMode.LoadingVars)
 			{
-				if (this.pawn.Faction == Faction.OfPlayer)
+				return;
+			}
+			if (this.pawn.Faction == Faction.OfPlayer)
+			{
+				if (!this.pawn.RaceProps.Animal)
 				{
-					if (!this.pawn.RaceProps.Animal)
+					if (!this.pawn.IsPrisoner)
 					{
-						if (!this.pawn.IsPrisoner)
-						{
-							this.medCare = Find.PlaySettings.defaultCareForColonyHumanlike;
-						}
-						else
-						{
-							this.medCare = Find.PlaySettings.defaultCareForColonyPrisoner;
-						}
+						this.medCare = Find.PlaySettings.defaultCareForColonyHumanlike;
 					}
 					else
 					{
-						this.medCare = Find.PlaySettings.defaultCareForColonyAnimal;
+						this.medCare = Find.PlaySettings.defaultCareForColonyPrisoner;
 					}
-				}
-				else if (this.pawn.Faction == null && this.pawn.RaceProps.Animal)
-				{
-					this.medCare = Find.PlaySettings.defaultCareForNeutralAnimal;
-				}
-				else if (this.pawn.Faction == null || !this.pawn.Faction.HostileTo(Faction.OfPlayer))
-				{
-					this.medCare = Find.PlaySettings.defaultCareForNeutralFaction;
 				}
 				else
 				{
-					this.medCare = Find.PlaySettings.defaultCareForHostileFaction;
+					this.medCare = Find.PlaySettings.defaultCareForColonyAnimal;
 				}
+			}
+			else if (this.pawn.Faction == null && this.pawn.RaceProps.Animal)
+			{
+				this.medCare = Find.PlaySettings.defaultCareForNeutralAnimal;
+			}
+			else if (this.pawn.Faction == null || !this.pawn.Faction.HostileTo(Faction.OfPlayer))
+			{
+				this.medCare = Find.PlaySettings.defaultCareForNeutralFaction;
+			}
+			else
+			{
+				this.medCare = Find.PlaySettings.defaultCareForHostileFaction;
 			}
 		}
 
@@ -260,7 +274,13 @@ namespace RimWorld
 		[CompilerGenerated]
 		private sealed class <GetGizmos>c__Iterator0 : IEnumerable, IEnumerable<Gizmo>, IEnumerator, IDisposable, IEnumerator<Gizmo>
 		{
-			internal Command_Toggle <c>__1;
+			internal int <count>__1;
+
+			internal bool <anyCanRelease>__1;
+
+			internal IEnumerator<Pawn> $locvar0;
+
+			internal Command_Toggle <c>__2;
 
 			internal Pawn_PlayerSettings $this;
 
@@ -269,8 +289,6 @@ namespace RimWorld
 			internal bool $disposing;
 
 			internal int $PC;
-
-			private static Func<Pawn, bool> <>f__am$cache0;
 
 			[DebuggerHidden]
 			public <GetGizmos>c__Iterator0()
@@ -286,10 +304,35 @@ namespace RimWorld
 				case 0u:
 					if (this.pawn.Drafted)
 					{
-						if (PawnUtility.SpawnedMasteredPawns(this.pawn).Any((Pawn p) => p.training.HasLearned(TrainableDefOf.Release)))
+						count = 0;
+						anyCanRelease = false;
+						enumerator = PawnUtility.SpawnedMasteredPawns(this.pawn).GetEnumerator();
+						try
 						{
-							Command_Toggle c = new Command_Toggle();
-							c.defaultLabel = "CommandReleaseAnimalsLabel".Translate();
+							while (enumerator.MoveNext())
+							{
+								Pawn pawn = enumerator.Current;
+								if (pawn.training.HasLearned(TrainableDefOf.Release))
+								{
+									anyCanRelease = true;
+									if (ThinkNode_ConditionalShouldFollowMaster.ShouldFollowMaster(pawn))
+									{
+										count++;
+									}
+								}
+							}
+						}
+						finally
+						{
+							if (enumerator != null)
+							{
+								enumerator.Dispose();
+							}
+						}
+						if (anyCanRelease)
+						{
+							c = new Command_Toggle();
+							c.defaultLabel = "CommandReleaseAnimalsLabel".Translate() + ((count == 0) ? string.Empty : (" (" + count + ")"));
 							c.defaultDesc = "CommandReleaseAnimalsDesc".Translate();
 							c.icon = TexCommand.ReleaseAnimals;
 							c.hotKey = KeyBindingDefOf.Misc7;
@@ -299,16 +342,20 @@ namespace RimWorld
 								this.animalsReleased = !this.animalsReleased;
 								if (this.animalsReleased)
 								{
-									foreach (Pawn pawn in PawnUtility.SpawnedMasteredPawns(this.pawn))
+									foreach (Pawn pawn2 in PawnUtility.SpawnedMasteredPawns(this.pawn))
 									{
-										if (pawn.caller != null)
+										if (pawn2.caller != null)
 										{
-											pawn.caller.Notify_Released();
+											pawn2.caller.Notify_Released();
 										}
-										pawn.jobs.EndCurrentJob(JobCondition.InterruptForced, true);
+										pawn2.jobs.EndCurrentJob(JobCondition.InterruptForced, true);
 									}
 								}
 							};
+							if (count == 0)
+							{
+								c.Disable("CommandReleaseAnimalsFail_NoAnimals".Translate());
+							}
 							this.$current = c;
 							if (!this.$disposing)
 							{
@@ -376,17 +423,12 @@ namespace RimWorld
 				return <GetGizmos>c__Iterator;
 			}
 
-			private static bool <>m__0(Pawn p)
-			{
-				return p.training.HasLearned(TrainableDefOf.Release);
-			}
-
-			internal bool <>m__1()
+			internal bool <>m__0()
 			{
 				return this.animalsReleased;
 			}
 
-			internal void <>m__2()
+			internal void <>m__1()
 			{
 				this.animalsReleased = !this.animalsReleased;
 				if (this.animalsReleased)

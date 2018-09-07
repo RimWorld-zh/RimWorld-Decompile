@@ -19,18 +19,13 @@ namespace RimWorld.BaseGen
 
 		public override bool CanResolve(ResolveParams rp)
 		{
-			bool result;
 			if (!base.CanResolve(rp))
 			{
-				result = false;
+				return false;
 			}
-			else
-			{
-				result = (from x in rp.rect.Cells
-				where x.Standable(BaseGen.globalSettings.map)
-				select x).Any<IntVec3>();
-			}
-			return result;
+			return (from x in rp.rect.Cells
+			where x.Standable(BaseGen.globalSettings.map)
+			select x).Any<IntVec3>();
 		}
 
 		public override void Resolve(ResolveParams rp)

@@ -15,16 +15,11 @@ namespace Verse
 		{
 			get
 			{
-				Vector3 result;
 				if (this.parent != null)
 				{
-					result = this.parent.DrawPos + Vector3.up * 0.046875f * 0.9f;
+					return this.parent.DrawPos + Vector3.up * 0.046875f * 0.9f;
 				}
-				else
-				{
-					result = base.DrawPos;
-				}
-				return result;
+				return base.DrawPos;
 			}
 		}
 
@@ -34,12 +29,9 @@ namespace Verse
 		{
 			base.ExposeData();
 			Scribe_References.Look<Thing>(ref this.parent, "parent", false);
-			if (Scribe.mode == LoadSaveMode.PostLoadInit)
+			if (Scribe.mode == LoadSaveMode.PostLoadInit && this.parent != null)
 			{
-				if (this.parent != null)
-				{
-					this.AttachTo(this.parent);
-				}
+				this.AttachTo(this.parent);
 			}
 		}
 
@@ -57,11 +49,9 @@ namespace Verse
 					parent,
 					": parent has no CompAttachBase."
 				}), false);
+				return;
 			}
-			else
-			{
-				compAttachBase.AddAttachment(this);
-			}
+			compAttachBase.AddAttachment(this);
 		}
 
 		public override void Destroy(DestroyMode mode = DestroyMode.Vanish)

@@ -9,22 +9,22 @@ namespace Verse
 
 		private float tendOverlapHours = 3f;
 
-		public bool tendAllAtOnce = false;
+		public bool tendAllAtOnce;
 
 		public int disappearsAtTotalTendQuality = -1;
 
-		public float severityPerDayTended = 0f;
+		public float severityPerDayTended;
 
 		public bool showTendQuality = true;
 
 		[LoadAlias("labelTreatedWell")]
-		public string labelTendedWell = null;
+		public string labelTendedWell;
 
 		[LoadAlias("labelTreatedWellInner")]
-		public string labelTendedWellInner = null;
+		public string labelTendedWellInner;
 
 		[LoadAlias("labelSolidTreatedWell")]
-		public string labelSolidTendedWell = null;
+		public string labelSolidTendedWell;
 
 		public HediffCompProperties_TendDuration()
 		{

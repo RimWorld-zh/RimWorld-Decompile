@@ -15,7 +15,7 @@ namespace RimWorld
 		{
 		}
 
-		public override bool TryMakePreToilReservations()
+		public override bool TryMakePreToilReservations(bool errorOnFailed)
 		{
 			return true;
 		}
@@ -45,39 +45,28 @@ namespace RimWorld
 
 		public override string GetReport()
 		{
-			string result;
 			if (base.Map.gameConditionManager.ConditionIsActive(GameConditionDefOf.Eclipse))
 			{
-				result = "WatchingEclipse".Translate();
+				return "WatchingEclipse".Translate();
 			}
-			else if (base.Map.gameConditionManager.ConditionIsActive(GameConditionDefOf.Aurora))
+			if (base.Map.gameConditionManager.ConditionIsActive(GameConditionDefOf.Aurora))
 			{
-				result = "WatchingAurora".Translate();
+				return "WatchingAurora".Translate();
 			}
-			else
+			float num = GenCelestial.CurCelestialSunGlow(base.Map);
+			if (num < 0.1f)
 			{
-				float num = GenCelestial.CurCelestialSunGlow(base.Map);
-				if (num < 0.1f)
-				{
-					result = "Stargazing".Translate();
-				}
-				else if (num < 0.65f)
-				{
-					if (GenLocalDate.DayPercent(this.pawn) < 0.5f)
-					{
-						result = "WatchingSunrise".Translate();
-					}
-					else
-					{
-						result = "WatchingSunset".Translate();
-					}
-				}
-				else
-				{
-					result = "CloudWatching".Translate();
-				}
+				return "Stargazing".Translate();
 			}
-			return result;
+			if (num >= 0.65f)
+			{
+				return "CloudWatching".Translate();
+			}
+			if (GenLocalDate.DayPercent(this.pawn) < 0.5f)
+			{
+				return "WatchingSunrise".Translate();
+			}
+			return "WatchingSunset".Translate();
 		}
 
 		[CompilerGenerated]

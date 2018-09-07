@@ -27,56 +27,61 @@ namespace RimWorld
 
 		public void Notify_BuildingSpawned(Building b)
 		{
-			if (b.Faction != null)
+			if (b.Faction == null)
 			{
-				this.UpdateBuilding(b);
+				return;
 			}
+			this.UpdateBuilding(b);
 		}
 
 		public void Notify_BuildingDeSpawned(Building b)
 		{
-			if (b.Faction != null)
+			if (b.Faction == null)
 			{
-				this.ListFor(b.Faction).Remove(b);
-				this.HashSetFor(b.Faction).Remove(b);
+				return;
 			}
+			this.ListFor(b.Faction).Remove(b);
+			this.HashSetFor(b.Faction).Remove(b);
 		}
 
 		public void Notify_BuildingTookDamage(Building b)
 		{
-			if (b.Faction != null)
+			if (b.Faction == null)
 			{
-				this.UpdateBuilding(b);
+				return;
 			}
+			this.UpdateBuilding(b);
 		}
 
 		public void Notify_BuildingRepaired(Building b)
 		{
-			if (b.Faction != null)
+			if (b.Faction == null)
 			{
-				this.UpdateBuilding(b);
+				return;
 			}
+			this.UpdateBuilding(b);
 		}
 
 		private void UpdateBuilding(Building b)
 		{
-			if (b.Faction != null && b.def.building.repairable)
+			if (b.Faction == null || !b.def.building.repairable)
 			{
-				List<Thing> list = this.ListFor(b.Faction);
-				HashSet<Thing> hashSet = this.HashSetFor(b.Faction);
-				if (b.HitPoints < b.MaxHitPoints)
+				return;
+			}
+			List<Thing> list = this.ListFor(b.Faction);
+			HashSet<Thing> hashSet = this.HashSetFor(b.Faction);
+			if (b.HitPoints < b.MaxHitPoints)
+			{
+				if (!list.Contains(b))
 				{
-					if (!list.Contains(b))
-					{
-						list.Add(b);
-					}
-					hashSet.Add(b);
+					list.Add(b);
 				}
-				else
-				{
-					list.Remove(b);
-					hashSet.Remove(b);
-				}
+				hashSet.Add(b);
+			}
+			else
+			{
+				list.Remove(b);
+				hashSet.Remove(b);
 			}
 		}
 

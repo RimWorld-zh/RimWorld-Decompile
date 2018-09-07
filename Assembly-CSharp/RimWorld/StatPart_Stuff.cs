@@ -44,16 +44,11 @@ namespace RimWorld
 
 		private float GetMultiplier(StatRequest req)
 		{
-			float result;
 			if (req.HasThing)
 			{
-				result = req.Thing.GetStatValue(this.multiplierStat, true);
+				return req.Thing.GetStatValue(this.multiplierStat, true);
 			}
-			else
-			{
-				result = req.Def.GetStatValueAbstract(this.multiplierStat, null);
-			}
-			return result;
+			return req.Def.GetStatValueAbstract(this.multiplierStat, null);
 		}
 	}
 }

@@ -33,7 +33,6 @@ namespace Verse.AI
 					}
 				}
 			}
-			ThinkResult result;
 			if (jobQueue.Count > 0 && jobQueue.Peek().job.CanBeginNow(pawn, this.inBedOnly))
 			{
 				QueuedJob queuedJob2 = jobQueue.Dequeue();
@@ -41,13 +40,9 @@ namespace Verse.AI
 				{
 					pawn.jobs.DebugLogEvent("   Returning queued job: " + queuedJob2.job);
 				}
-				result = new ThinkResult(queuedJob2.job, this, queuedJob2.tag, true);
+				return new ThinkResult(queuedJob2.job, this, queuedJob2.tag, true);
 			}
-			else
-			{
-				result = ThinkResult.NoJob;
-			}
-			return result;
+			return ThinkResult.NoJob;
 		}
 	}
 }

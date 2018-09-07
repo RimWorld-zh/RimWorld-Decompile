@@ -83,24 +83,18 @@ namespace Verse
 					Scribe.ExitNode();
 				}
 			}
-			if (logVersionConflictWarning)
+			if (logVersionConflictWarning && (mode == ScribeMetaHeaderUtility.ScribeHeaderMode.Map || !UnityData.isEditor) && !ScribeMetaHeaderUtility.VersionsMatch())
 			{
-				if (mode == ScribeMetaHeaderUtility.ScribeHeaderMode.Map || !UnityData.isEditor)
+				Log.Warning(string.Concat(new object[]
 				{
-					if (!ScribeMetaHeaderUtility.VersionsMatch())
-					{
-						Log.Warning(string.Concat(new object[]
-						{
-							"Loaded file (",
-							mode,
-							") is from version ",
-							ScribeMetaHeaderUtility.loadedGameVersion,
-							", we are running version ",
-							VersionControl.CurrentVersionStringWithRev,
-							"."
-						}), false);
-					}
-				}
+					"Loaded file (",
+					mode,
+					") is from version ",
+					ScribeMetaHeaderUtility.loadedGameVersion,
+					", we are running version ",
+					VersionControl.CurrentVersionStringWithRev,
+					"."
+				}), false);
 			}
 		}
 
@@ -166,7 +160,6 @@ namespace Verse
 					text2 = "ModsMismatchWarningTitle".Translate();
 				}
 			}
-			bool result;
 			if (text != null)
 			{
 				ScribeMetaHeaderUtility.<TryCreateDialogsForVersionMismatchWarnings>c__AnonStorey0 <TryCreateDialogsForVersionMismatchWarnings>c__AnonStorey = new ScribeMetaHeaderUtility.<TryCreateDialogsForVersionMismatchWarnings>c__AnonStorey0();
@@ -198,13 +191,9 @@ namespace Verse
 					};
 				}
 				Find.WindowStack.Add(<TryCreateDialogsForVersionMismatchWarnings>c__AnonStorey.dialog);
-				result = true;
+				return true;
 			}
-			else
-			{
-				result = false;
-			}
-			return result;
+			return false;
 		}
 
 		public static bool LoadedModsMatchesActiveMods(out string loadedModsSummary, out string runningModsSummary)
@@ -213,51 +202,41 @@ namespace Verse
 			runningModsSummary = null;
 			List<string> list = (from mod in LoadedModManager.RunningMods
 			select mod.Identifier).ToList<string>();
-			bool result;
 			if (ScribeMetaHeaderUtility.ModListsMatch(ScribeMetaHeaderUtility.loadedModIdsList, list))
 			{
-				result = true;
+				return true;
+			}
+			if (ScribeMetaHeaderUtility.loadedModNamesList == null)
+			{
+				loadedModsSummary = "None".Translate();
 			}
 			else
 			{
-				if (ScribeMetaHeaderUtility.loadedModNamesList == null)
-				{
-					loadedModsSummary = "None".Translate();
-				}
-				else
-				{
-					loadedModsSummary = ScribeMetaHeaderUtility.loadedModNamesList.ToCommaList(false);
-				}
-				runningModsSummary = (from id in list
-				select ModLister.GetModWithIdentifier(id).Name).ToCommaList(false);
-				result = false;
+				loadedModsSummary = ScribeMetaHeaderUtility.loadedModNamesList.ToCommaList(false);
 			}
-			return result;
+			runningModsSummary = (from id in list
+			select ModLister.GetModWithIdentifier(id).Name).ToCommaList(false);
+			return false;
 		}
 
 		private static bool ModListsMatch(List<string> a, List<string> b)
 		{
-			bool result;
 			if (a == null || b == null)
 			{
-				result = false;
+				return false;
 			}
-			else if (a.Count != b.Count)
+			if (a.Count != b.Count)
 			{
-				result = false;
+				return false;
 			}
-			else
+			for (int i = 0; i < a.Count; i++)
 			{
-				for (int i = 0; i < a.Count; i++)
+				if (a[i] != b[i])
 				{
-					if (a[i] != b[i])
-					{
-						return false;
-					}
+					return false;
 				}
-				result = true;
 			}
-			return result;
+			return true;
 		}
 
 		public static string GameVersionOf(FileInfo file)
@@ -272,12 +251,9 @@ namespace Verse
 				{
 					using (XmlTextReader xmlTextReader = new XmlTextReader(streamReader))
 					{
-						if (ScribeMetaHeaderUtility.ReadToMetaElement(xmlTextReader))
+						if (ScribeMetaHeaderUtility.ReadToMetaElement(xmlTextReader) && xmlTextReader.ReadToDescendant("gameVersion"))
 						{
-							if (xmlTextReader.ReadToDescendant("gameVersion"))
-							{
-								return VersionControl.VersionStringWithoutRev(xmlTextReader.ReadString());
-							}
+							return VersionControl.VersionStringWithoutRev(xmlTextReader.ReadString());
 						}
 					}
 				}

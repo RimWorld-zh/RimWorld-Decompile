@@ -18,7 +18,7 @@ namespace RimWorld.Planet
 
 		private TransferableOneWayWidget itemsTransfer;
 
-		private Dialog_SplitCaravan.Tab tab = Dialog_SplitCaravan.Tab.Pawns;
+		private Dialog_SplitCaravan.Tab tab;
 
 		private bool sourceMassUsageDirty = true;
 
@@ -195,8 +195,8 @@ namespace RimWorld.Planet
 					}
 					else
 					{
-						first = DaysWorthOfFoodCalculator.ApproxDaysWorthOfFoodLeftAfterTransfer(this.transferables, this.caravan.Tile, IgnorePawnsInventoryMode.Ignore, this.caravan.Faction, null, 0f, 3500);
-						second = DaysUntilRotCalculator.ApproxDaysUntilRotLeftAfterTransfer(this.transferables, this.caravan.Tile, IgnorePawnsInventoryMode.Ignore, null, 0f, 3500);
+						first = DaysWorthOfFoodCalculator.ApproxDaysWorthOfFoodLeftAfterTransfer(this.transferables, this.caravan.Tile, IgnorePawnsInventoryMode.Ignore, this.caravan.Faction, null, 0f, 3300);
+						second = DaysUntilRotCalculator.ApproxDaysUntilRotLeftAfterTransfer(this.transferables, this.caravan.Tile, IgnorePawnsInventoryMode.Ignore, null, 0f, 3300);
 					}
 					this.cachedSourceDaysWorthOfFood = new Pair<float, float>(first, second);
 				}
@@ -293,8 +293,8 @@ namespace RimWorld.Planet
 					}
 					else
 					{
-						first = DaysWorthOfFoodCalculator.ApproxDaysWorthOfFood(this.transferables, this.caravan.Tile, IgnorePawnsInventoryMode.Ignore, this.caravan.Faction, null, 0f, 3500);
-						second = DaysUntilRotCalculator.ApproxDaysUntilRot(this.transferables, this.caravan.Tile, IgnorePawnsInventoryMode.Ignore, null, 0f, 3500);
+						first = DaysWorthOfFoodCalculator.ApproxDaysWorthOfFood(this.transferables, this.caravan.Tile, IgnorePawnsInventoryMode.Ignore, this.caravan.Faction, null, 0f, 3300);
+						second = DaysUntilRotCalculator.ApproxDaysUntilRot(this.transferables, this.caravan.Tile, IgnorePawnsInventoryMode.Ignore, null, 0f, 3300);
 					}
 					this.cachedDestDaysWorthOfFood = new Pair<float, float>(first, second);
 				}
@@ -336,21 +336,16 @@ namespace RimWorld.Planet
 		{
 			get
 			{
-				int result;
 				if (!this.caravan.pather.Moving)
 				{
-					result = 0;
+					return 0;
 				}
-				else
+				if (this.ticksToArriveDirty)
 				{
-					if (this.ticksToArriveDirty)
-					{
-						this.ticksToArriveDirty = false;
-						this.cachedTicksToArrive = CaravanArrivalTimeEstimator.EstimatedTicksToArrive(this.caravan, false);
-					}
-					result = this.cachedTicksToArrive;
+					this.ticksToArriveDirty = false;
+					this.cachedTicksToArrive = CaravanArrivalTimeEstimator.EstimatedTicksToArrive(this.caravan, false);
 				}
-				return result;
+				return this.cachedTicksToArrive;
 			}
 		}
 
@@ -368,7 +363,7 @@ namespace RimWorld.Planet
 			Widgets.Label(rect, "SplitCaravan".Translate());
 			Text.Font = GameFont.Small;
 			Text.Anchor = TextAnchor.UpperLeft;
-			CaravanUIUtility.DrawCaravanInfo(new CaravanUIUtility.CaravanInfo(this.SourceMassUsage, this.SourceMassCapacity, this.cachedSourceMassCapacityExplanation, this.SourceTilesPerDay, this.cachedSourceTilesPerDayExplanation, this.SourceDaysWorthOfFood, this.SourceForagedFoodPerDay, this.cachedSourceForagedFoodPerDayExplanation, this.SourceVisibility, this.cachedSourceVisibilityExplanation), new CaravanUIUtility.CaravanInfo?(new CaravanUIUtility.CaravanInfo(this.DestMassUsage, this.DestMassCapacity, this.cachedDestMassCapacityExplanation, this.DestTilesPerDay, this.cachedDestTilesPerDayExplanation, this.DestDaysWorthOfFood, this.DestForagedFoodPerDay, this.cachedDestForagedFoodPerDayExplanation, this.DestVisibility, this.cachedDestVisibilityExplanation)), this.caravan.Tile, (!this.caravan.pather.Moving) ? null : new int?(this.TicksToArrive), -9999f, new Rect(12f, 35f, inRect.width - 24f, 40f), true, null, false);
+			CaravanUIUtility.DrawCaravanInfo(new CaravanUIUtility.CaravanInfo(this.SourceMassUsage, this.SourceMassCapacity, this.cachedSourceMassCapacityExplanation, this.SourceTilesPerDay, this.cachedSourceTilesPerDayExplanation, this.SourceDaysWorthOfFood, this.SourceForagedFoodPerDay, this.cachedSourceForagedFoodPerDayExplanation, this.SourceVisibility, this.cachedSourceVisibilityExplanation, -1f, -1f, null), new CaravanUIUtility.CaravanInfo?(new CaravanUIUtility.CaravanInfo(this.DestMassUsage, this.DestMassCapacity, this.cachedDestMassCapacityExplanation, this.DestTilesPerDay, this.cachedDestTilesPerDayExplanation, this.DestDaysWorthOfFood, this.DestForagedFoodPerDay, this.cachedDestForagedFoodPerDayExplanation, this.DestVisibility, this.cachedDestVisibilityExplanation, -1f, -1f, null)), this.caravan.Tile, (!this.caravan.pather.Moving) ? null : new int?(this.TicksToArrive), -9999f, new Rect(12f, 35f, inRect.width - 24f, 40f), true, null, false);
 			Dialog_SplitCaravan.tabsList.Clear();
 			Dialog_SplitCaravan.tabsList.Add(new TabRecord("PawnsTab".Translate(), delegate()
 			{
@@ -426,13 +421,10 @@ namespace RimWorld.Planet
 		private void DoBottomButtons(Rect rect)
 		{
 			Rect rect2 = new Rect(rect.width / 2f - this.BottomButtonSize.x / 2f, rect.height - 55f, this.BottomButtonSize.x, this.BottomButtonSize.y);
-			if (Widgets.ButtonText(rect2, "AcceptButton".Translate(), true, false, true))
+			if (Widgets.ButtonText(rect2, "AcceptButton".Translate(), true, false, true) && this.TrySplitCaravan())
 			{
-				if (this.TrySplitCaravan())
-				{
-					SoundDefOf.Tick_High.PlayOneShotOnCamera(null);
-					this.Close(false);
-				}
+				SoundDefOf.Tick_High.PlayOneShotOnCamera(null);
+				this.Close(false);
 			}
 			Rect rect3 = new Rect(rect2.x - 10f - this.BottomButtonSize.x, rect2.y, this.BottomButtonSize.x, this.BottomButtonSize.y);
 			if (Widgets.ButtonText(rect3, "ResetButton".Translate(), true, false, true))
@@ -459,61 +451,49 @@ namespace RimWorld.Planet
 		private bool TrySplitCaravan()
 		{
 			List<Pawn> pawnsFromTransferables = TransferableUtility.GetPawnsFromTransferables(this.transferables);
-			bool result;
 			if (!this.CheckForErrors(pawnsFromTransferables))
 			{
-				result = false;
+				return false;
 			}
-			else
+			for (int i = 0; i < pawnsFromTransferables.Count; i++)
 			{
-				for (int i = 0; i < pawnsFromTransferables.Count; i++)
-				{
-					CaravanInventoryUtility.MoveAllInventoryToSomeoneElse(pawnsFromTransferables[i], this.caravan.PawnsListForReading, pawnsFromTransferables);
-				}
-				for (int j = 0; j < pawnsFromTransferables.Count; j++)
-				{
-					this.caravan.RemovePawn(pawnsFromTransferables[j]);
-				}
-				Caravan newCaravan = CaravanMaker.MakeCaravan(pawnsFromTransferables, this.caravan.Faction, this.caravan.Tile, true);
-				this.transferables.RemoveAll((TransferableOneWay x) => x.AnyThing is Pawn);
-				for (int k = 0; k < this.transferables.Count; k++)
-				{
-					TransferableUtility.TransferNoSplit(this.transferables[k].things, this.transferables[k].CountToTransfer, delegate(Thing thing, int numToTake)
-					{
-						Pawn ownerOf = CaravanInventoryUtility.GetOwnerOf(this.caravan, thing);
-						if (ownerOf == null)
-						{
-							Log.Error("Error while splitting a caravan: Thing " + thing + " has no owner. Where did it come from then?", false);
-						}
-						else
-						{
-							CaravanInventoryUtility.MoveInventoryToSomeoneElse(ownerOf, thing, newCaravan.PawnsListForReading, null, numToTake);
-						}
-					}, true, true);
-				}
-				result = true;
+				CaravanInventoryUtility.MoveAllInventoryToSomeoneElse(pawnsFromTransferables[i], this.caravan.PawnsListForReading, pawnsFromTransferables);
 			}
-			return result;
+			for (int j = 0; j < pawnsFromTransferables.Count; j++)
+			{
+				this.caravan.RemovePawn(pawnsFromTransferables[j]);
+			}
+			Caravan newCaravan = CaravanMaker.MakeCaravan(pawnsFromTransferables, this.caravan.Faction, this.caravan.Tile, true);
+			this.transferables.RemoveAll((TransferableOneWay x) => x.AnyThing is Pawn);
+			for (int k = 0; k < this.transferables.Count; k++)
+			{
+				TransferableUtility.TransferNoSplit(this.transferables[k].things, this.transferables[k].CountToTransfer, delegate(Thing thing, int numToTake)
+				{
+					Pawn ownerOf = CaravanInventoryUtility.GetOwnerOf(this.caravan, thing);
+					if (ownerOf == null)
+					{
+						Log.Error("Error while splitting a caravan: Thing " + thing + " has no owner. Where did it come from then?", false);
+						return;
+					}
+					CaravanInventoryUtility.MoveInventoryToSomeoneElse(ownerOf, thing, newCaravan.PawnsListForReading, null, numToTake);
+				}, true, true);
+			}
+			return true;
 		}
 
 		private bool CheckForErrors(List<Pawn> pawns)
 		{
-			bool result;
 			if (!pawns.Any((Pawn x) => CaravanUtility.IsOwner(x, Faction.OfPlayer) && !x.Downed))
 			{
 				Messages.Message("CaravanMustHaveAtLeastOneColonist".Translate(), this.caravan, MessageTypeDefOf.RejectInput, false);
-				result = false;
+				return false;
 			}
-			else if (!this.AnyNonDownedColonistLeftInSourceCaravan(pawns))
+			if (!this.AnyNonDownedColonistLeftInSourceCaravan(pawns))
 			{
 				Messages.Message("SourceCaravanMustHaveAtLeastOneColonist".Translate(), this.caravan, MessageTypeDefOf.RejectInput, false);
-				result = false;
+				return false;
 			}
-			else
-			{
-				result = true;
-			}
-			return result;
+			return true;
 		}
 
 		private void AddPawnsToTransferables()
@@ -618,11 +598,9 @@ namespace RimWorld.Planet
 				if (ownerOf == null)
 				{
 					Log.Error("Error while splitting a caravan: Thing " + thing + " has no owner. Where did it come from then?", false);
+					return;
 				}
-				else
-				{
-					CaravanInventoryUtility.MoveInventoryToSomeoneElse(ownerOf, thing, this.newCaravan.PawnsListForReading, null, numToTake);
-				}
+				CaravanInventoryUtility.MoveInventoryToSomeoneElse(ownerOf, thing, this.newCaravan.PawnsListForReading, null, numToTake);
 			}
 		}
 

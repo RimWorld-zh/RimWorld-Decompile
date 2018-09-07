@@ -38,7 +38,7 @@ namespace Verse
 			object[] textObjects = Resources.LoadAll<TextAsset>(folderPath);
 			foreach (TextAsset textAsset in textObjects)
 			{
-				LoadableXmlAsset loadableXmlAsset = new LoadableXmlAsset(textAsset.name, "", textAsset.text);
+				LoadableXmlAsset loadableXmlAsset = new LoadableXmlAsset(textAsset.name, string.Empty, textAsset.text);
 				XmlInheritance.TryRegisterAllFrom(loadableXmlAsset, null);
 				assets.Add(loadableXmlAsset);
 			}
@@ -61,87 +61,73 @@ namespace Verse
 				Log.Error("Cannot call ItemFromXmlFile with resolveCrossRefs=true while loading is already in progress.", false);
 			}
 			FileInfo fileInfo = new FileInfo(filePath);
-			T result;
 			if (!fileInfo.Exists)
 			{
-				result = Activator.CreateInstance<T>();
+				return Activator.CreateInstance<T>();
 			}
-			else
+			T result;
+			try
 			{
-				try
+				XmlDocument xmlDocument = new XmlDocument();
+				xmlDocument.LoadXml(File.ReadAllText(fileInfo.FullName));
+				T t = DirectXmlToObject.ObjectFromXml<T>(xmlDocument.DocumentElement, false);
+				if (resolveCrossRefs)
 				{
-					XmlDocument xmlDocument = new XmlDocument();
-					xmlDocument.LoadXml(File.ReadAllText(fileInfo.FullName));
-					T t = DirectXmlToObject.ObjectFromXml<T>(xmlDocument.DocumentElement, false);
-					if (resolveCrossRefs)
-					{
-						DirectXmlCrossRefLoader.ResolveAllWantedCrossReferences(FailMode.LogErrors);
-					}
-					result = t;
+					DirectXmlCrossRefLoader.ResolveAllWantedCrossReferences(FailMode.LogErrors);
 				}
-				catch (Exception ex)
-				{
-					Log.Error("Exception loading file at " + filePath + ". Loading defaults instead. Exception was: " + ex.ToString(), false);
-					result = Activator.CreateInstance<T>();
-				}
+				result = t;
+			}
+			catch (Exception ex)
+			{
+				Log.Error("Exception loading file at " + filePath + ". Loading defaults instead. Exception was: " + ex.ToString(), false);
+				result = Activator.CreateInstance<T>();
 			}
 			return result;
 		}
 
 		public static Def DefFromNode(XmlNode node, LoadableXmlAsset loadingAsset)
 		{
-			Def result;
 			if (node.NodeType != XmlNodeType.Element)
 			{
-				result = null;
+				return null;
 			}
-			else
+			XmlAttribute xmlAttribute = node.Attributes["Abstract"];
+			if (xmlAttribute != null && xmlAttribute.Value.ToLower() == "true")
 			{
-				XmlAttribute xmlAttribute = node.Attributes["Abstract"];
-				if (xmlAttribute != null && xmlAttribute.Value.ToLower() == "true")
+				return null;
+			}
+			Type typeInAnyAssembly = GenTypes.GetTypeInAnyAssembly(node.Name);
+			if (typeInAnyAssembly == null)
+			{
+				return null;
+			}
+			if (!typeof(Def).IsAssignableFrom(typeInAnyAssembly))
+			{
+				return null;
+			}
+			MethodInfo method = typeof(DirectXmlToObject).GetMethod("ObjectFromXml");
+			MethodInfo methodInfo = method.MakeGenericMethod(new Type[]
+			{
+				typeInAnyAssembly
+			});
+			Def result = null;
+			try
+			{
+				result = (Def)methodInfo.Invoke(null, new object[]
 				{
-					result = null;
-				}
-				else
+					node,
+					true
+				});
+			}
+			catch (Exception ex)
+			{
+				Log.Error(string.Concat(new object[]
 				{
-					Type typeInAnyAssembly = GenTypes.GetTypeInAnyAssembly(node.Name);
-					if (typeInAnyAssembly == null)
-					{
-						result = null;
-					}
-					else if (!typeof(Def).IsAssignableFrom(typeInAnyAssembly))
-					{
-						result = null;
-					}
-					else
-					{
-						MethodInfo method = typeof(DirectXmlToObject).GetMethod("ObjectFromXml");
-						MethodInfo methodInfo = method.MakeGenericMethod(new Type[]
-						{
-							typeInAnyAssembly
-						});
-						Def def = null;
-						try
-						{
-							def = (Def)methodInfo.Invoke(null, new object[]
-							{
-								node,
-								true
-							});
-						}
-						catch (Exception ex)
-						{
-							Log.Error(string.Concat(new object[]
-							{
-								"Exception loading def from file ",
-								(loadingAsset == null) ? "(unknown)" : loadingAsset.name,
-								": ",
-								ex
-							}), false);
-						}
-						result = def;
-					}
-				}
+					"Exception loading def from file ",
+					(loadingAsset == null) ? "(unknown)" : loadingAsset.name,
+					": ",
+					ex
+				}), false);
 			}
 			return result;
 		}
@@ -370,7 +356,7 @@ namespace Verse
 					for (j = 0; j < array.Length; j++)
 					{
 						TextAsset textAsset = (TextAsset)array[j];
-						LoadableXmlAsset loadableXmlAsset = new LoadableXmlAsset(textAsset.name, "", textAsset.text);
+						LoadableXmlAsset loadableXmlAsset = new LoadableXmlAsset(textAsset.name, string.Empty, textAsset.text);
 						XmlInheritance.TryRegisterAllFrom(loadableXmlAsset, null);
 						assets.Add(loadableXmlAsset);
 					}

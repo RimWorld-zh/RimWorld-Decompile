@@ -13,13 +13,13 @@ namespace RimWorld
 	{
 		public float daysToRotStart = 2f;
 
-		public bool rotDestroys = false;
+		public bool rotDestroys;
 
 		public float rotDamagePerDay = 40f;
 
 		public float daysToDessicated = 999f;
 
-		public float dessicatedDamagePerDay = 0f;
+		public float dessicatedDamagePerDay;
 
 		public bool disableIfHatcher;
 
@@ -51,7 +51,7 @@ namespace RimWorld
 
 		public override IEnumerable<string> ConfigErrors(ThingDef parentDef)
 		{
-			foreach (string e in this.<ConfigErrors>__BaseCallProxy0(parentDef))
+			foreach (string e in base.ConfigErrors(parentDef))
 			{
 				yield return e;
 			}
@@ -113,7 +113,7 @@ namespace RimWorld
 				case 1u:
 					break;
 				case 2u:
-					goto IL_142;
+					goto IL_13E;
 				default:
 					return false;
 				}
@@ -146,7 +146,7 @@ namespace RimWorld
 				}
 				if (parentDef.tickerType == TickerType.Normal || parentDef.tickerType == TickerType.Rare)
 				{
-					goto IL_142;
+					goto IL_13E;
 				}
 				this.$current = string.Concat(new object[]
 				{
@@ -162,7 +162,7 @@ namespace RimWorld
 					this.$PC = 2;
 				}
 				return true;
-				IL_142:
+				IL_13E:
 				this.$PC = -1;
 				return false;
 			}

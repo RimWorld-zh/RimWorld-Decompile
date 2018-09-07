@@ -43,67 +43,65 @@ namespace RimWorld.BaseGen
 			if (BaseGen.working)
 			{
 				Log.Error("Cannot call Generate() while already generating. Nested calls are not allowed.", false);
+				return;
 			}
-			else
+			BaseGen.working = true;
+			try
 			{
-				BaseGen.working = true;
-				try
+				if (BaseGen.symbolStack.Empty)
 				{
-					if (BaseGen.symbolStack.Empty)
+					Log.Warning("Symbol stack is empty.", false);
+				}
+				else if (BaseGen.globalSettings.map == null)
+				{
+					Log.Error("Called BaseGen.Resolve() with null map.", false);
+				}
+				else
+				{
+					int num = BaseGen.symbolStack.Count - 1;
+					int num2 = 0;
+					while (!BaseGen.symbolStack.Empty)
 					{
-						Log.Warning("Symbol stack is empty.", false);
-					}
-					else if (BaseGen.globalSettings.map == null)
-					{
-						Log.Error("Called BaseGen.Resolve() with null map.", false);
-					}
-					else
-					{
-						int num = BaseGen.symbolStack.Count - 1;
-						int num2 = 0;
-						while (!BaseGen.symbolStack.Empty)
+						num2++;
+						if (num2 > 100000)
 						{
-							num2++;
-							if (num2 > 100000)
+							Log.Error("Error in BaseGen: Too many iterations. Infinite loop?", false);
+							break;
+						}
+						Pair<string, ResolveParams> toResolve = BaseGen.symbolStack.Pop();
+						if (BaseGen.symbolStack.Count == num)
+						{
+							BaseGen.globalSettings.mainRect = toResolve.Second.rect;
+							num--;
+						}
+						try
+						{
+							BaseGen.Resolve(toResolve);
+						}
+						catch (Exception ex)
+						{
+							Log.Error(string.Concat(new object[]
 							{
-								Log.Error("Error in BaseGen: Too many iterations. Infinite loop?", false);
-								break;
-							}
-							Pair<string, ResolveParams> toResolve = BaseGen.symbolStack.Pop();
-							if (BaseGen.symbolStack.Count == num)
-							{
-								BaseGen.globalSettings.mainRect = toResolve.Second.rect;
-								num--;
-							}
-							try
-							{
-								BaseGen.Resolve(toResolve);
-							}
-							catch (Exception ex)
-							{
-								Log.Error(string.Concat(new object[]
-								{
-									"Error while resolving symbol \"",
-									toResolve.First,
-									"\" with params=",
-									toResolve.Second,
-									"\n\nException: ",
-									ex
-								}), false);
-							}
+								"Error while resolving symbol \"",
+								toResolve.First,
+								"\" with params=",
+								toResolve.Second,
+								"\n\nException: ",
+								ex
+							}), false);
 						}
 					}
 				}
-				catch (Exception arg)
-				{
-					Log.Error("Error in BaseGen: " + arg, false);
-				}
-				finally
-				{
-					BaseGen.working = false;
-					BaseGen.symbolStack.Clear();
-					BaseGen.globalSettings.Clear();
-				}
+			}
+			catch (Exception arg)
+			{
+				Log.Error("Error in BaseGen: " + arg, false);
+			}
+			finally
+			{
+				BaseGen.working = false;
+				BaseGen.symbolStack.Clear();
+				BaseGen.globalSettings.Clear();
 			}
 		}
 
@@ -137,12 +135,10 @@ namespace RimWorld.BaseGen
 					"\" with any resolver that could resolve ",
 					second
 				}), false);
+				return;
 			}
-			else
-			{
-				SymbolResolver symbolResolver2 = BaseGen.tmpResolvers.RandomElementByWeight((SymbolResolver x) => x.selectionWeight);
-				symbolResolver2.Resolve(second);
-			}
+			SymbolResolver symbolResolver2 = BaseGen.tmpResolvers.RandomElementByWeight((SymbolResolver x) => x.selectionWeight);
+			symbolResolver2.Resolve(second);
 		}
 
 		// Note: this type is marked as 'beforefieldinit'.

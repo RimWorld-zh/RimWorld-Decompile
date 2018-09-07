@@ -4,7 +4,7 @@ namespace Verse
 {
 	public class StuffAppearanceDef : Def
 	{
-		public string pathPrefix = null;
+		public string pathPrefix;
 
 		public StuffAppearanceDef()
 		{

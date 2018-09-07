@@ -55,23 +55,21 @@ namespace RimWorld
 			}
 		}
 
-		public override bool TryMakePreToilReservations()
+		public override bool TryMakePreToilReservations(bool errorOnFailed)
 		{
-			return this.pawn.Reserve(this.Target, this.job, 1, -1, null);
+			Pawn pawn = this.pawn;
+			LocalTargetInfo target = this.Target;
+			Job job = this.job;
+			return pawn.Reserve(target, job, 1, -1, null, errorOnFailed);
 		}
 
 		public override string GetReport()
 		{
-			string result;
 			if (this.InGrave && this.Grave.def == ThingDefOf.Grave)
 			{
-				result = "ReportDiggingUpCorpse".Translate();
+				return "ReportDiggingUpCorpse".Translate();
 			}
-			else
-			{
-				result = base.GetReport();
-			}
-			return result;
+			return base.GetReport();
 		}
 
 		protected override IEnumerable<Toil> MakeNewToils()
@@ -161,18 +159,13 @@ namespace RimWorld
 					}
 				}
 			}
-			bool result;
 			if (!JobDriver_HaulCorpseToPublicPlace.tmpCells.Any<IntVec3>())
 			{
 				cell = IntVec3.Invalid;
-				result = false;
+				return false;
 			}
-			else
-			{
-				cell = JobDriver_HaulCorpseToPublicPlace.tmpCells.RandomElement<IntVec3>();
-				result = true;
-			}
-			return result;
+			cell = JobDriver_HaulCorpseToPublicPlace.tmpCells.RandomElement<IntVec3>();
+			return true;
 		}
 
 		// Note: this type is marked as 'beforefieldinit'.

@@ -93,30 +93,24 @@ namespace RimWorld
 				{
 					switch (num)
 					{
-					case 1u:
-						IL_DE:
-						break;
 					}
-					IL_DF:
-					if (enumerator.MoveNext())
+					while (enumerator.MoveNext())
 					{
 						p = enumerator.Current;
-						if (p.SafeTemperatureRange().Includes(p.AmbientTemperature))
+						if (!p.SafeTemperatureRange().Includes(p.AmbientTemperature))
 						{
-							goto IL_DF;
-						}
-						hypo = p.health.hediffSet.GetFirstHediffOfDef(HediffDefOf.Hypothermia, false);
-						if (hypo != null && hypo.CurStageIndex >= 3)
-						{
-							this.$current = p;
-							if (!this.$disposing)
+							hypo = p.health.hediffSet.GetFirstHediffOfDef(HediffDefOf.Hypothermia, false);
+							if (hypo != null && hypo.CurStageIndex >= 3)
 							{
-								this.$PC = 1;
+								this.$current = p;
+								if (!this.$disposing)
+								{
+									this.$PC = 1;
+								}
+								flag = true;
+								return true;
 							}
-							flag = true;
-							return true;
 						}
-						goto IL_DE;
 					}
 				}
 				finally

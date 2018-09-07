@@ -12,7 +12,7 @@ namespace RimWorld
 {
 	public class ScenPart_StartingAnimal : ScenPart
 	{
-		private PawnKindDef animalKind = null;
+		private PawnKindDef animalKind;
 
 		private int count = 1;
 
@@ -136,17 +136,12 @@ namespace RimWorld
 		public override bool TryMerge(ScenPart other)
 		{
 			ScenPart_StartingAnimal scenPart_StartingAnimal = other as ScenPart_StartingAnimal;
-			bool result;
 			if (scenPart_StartingAnimal != null && scenPart_StartingAnimal.animalKind == this.animalKind)
 			{
 				this.count += scenPart_StartingAnimal.count;
-				result = true;
+				return true;
 			}
-			else
-			{
-				result = false;
-			}
-			return result;
+			return false;
 		}
 
 		public override IEnumerable<Thing> PlayerStartingThings()

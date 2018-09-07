@@ -13,7 +13,7 @@ namespace RimWorld
 
 		public override bool CheckPreAbsorbDamage(DamageInfo dinfo)
 		{
-			if (!dinfo.Def.isExplosive && dinfo.Def.harmsHealth && dinfo.Def.externalViolence && dinfo.Weapon != null && dinfo.Weapon.IsRangedWeapon)
+			if (!dinfo.Def.isExplosive && dinfo.Def.harmsHealth && dinfo.Def.ExternalViolenceFor(this) && dinfo.Weapon != null && dinfo.Weapon.IsRangedWeapon)
 			{
 				IntVec3 position = base.Wearer.Position;
 				Map map = base.Wearer.Map;

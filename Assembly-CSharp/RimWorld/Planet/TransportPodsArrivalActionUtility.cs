@@ -104,8 +104,8 @@ namespace RimWorld.Planet
 			for (int i = 0; i < dropPods.Count; i++)
 			{
 				IntVec3 c;
-				DropCellFinder.TryFindDropSpotNear(near, map, out c, false, true, false);
-				DropPodUtility.MakeDropPodAt(c, map, dropPods[i], false);
+				DropCellFinder.TryFindDropSpotNear(near, map, out c, false, true);
+				DropPodUtility.MakeDropPodAt(c, map, dropPods[i]);
 			}
 		}
 

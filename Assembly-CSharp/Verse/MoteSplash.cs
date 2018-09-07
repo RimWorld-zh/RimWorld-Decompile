@@ -55,12 +55,13 @@ namespace Verse
 		protected override void TimeInterval(float deltaTime)
 		{
 			base.TimeInterval(deltaTime);
-			if (!base.Destroyed)
+			if (base.Destroyed)
 			{
-				float scale = base.AgeSecs * this.velocity;
-				base.Scale = scale;
-				this.exactPosition += base.Map.waterInfo.GetWaterMovement(this.exactPosition) * deltaTime;
+				return;
 			}
+			float scale = base.AgeSecs * this.velocity;
+			base.Scale = scale;
+			this.exactPosition += base.Map.waterInfo.GetWaterMovement(this.exactPosition) * deltaTime;
 		}
 
 		public float CalculatedIntensity()

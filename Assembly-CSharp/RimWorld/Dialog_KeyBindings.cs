@@ -13,7 +13,7 @@ namespace RimWorld
 
 		protected float contentHeight;
 
-		protected KeyPrefsData keyPrefsData = null;
+		protected KeyPrefsData keyPrefsData;
 
 		protected Vector2 WindowSize = new Vector2(900f, 760f);
 

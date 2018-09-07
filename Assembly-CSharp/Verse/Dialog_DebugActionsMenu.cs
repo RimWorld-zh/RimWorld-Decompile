@@ -19,9 +19,9 @@ namespace Verse
 {
 	public class Dialog_DebugActionsMenu : Dialog_DebugOptionLister
 	{
-		private static List<PawnKindDef> pawnKindsForDamageTypeBattleRoyale = null;
+		private static List<PawnKindDef> pawnKindsForDamageTypeBattleRoyale;
 
-		private static Map mapLeak = null;
+		private static Map mapLeak;
 
 		[CompilerGenerated]
 		private static Action <>f__am$cache0;
@@ -144,6 +144,9 @@ namespace Verse
 		private static Action <>f__am$cache27;
 
 		[CompilerGenerated]
+		private static Func<Pawn, bool> <>f__mg$cache0;
+
+		[CompilerGenerated]
 		private static Action <>f__am$cache28;
 
 		[CompilerGenerated]
@@ -261,16 +264,16 @@ namespace Verse
 		private static Action <>f__am$cache4E;
 
 		[CompilerGenerated]
-		private static Action<Pawn> <>f__am$cache4F;
+		private static Action <>f__am$cache4F;
 
 		[CompilerGenerated]
 		private static Action<Pawn> <>f__am$cache50;
 
 		[CompilerGenerated]
-		private static Action <>f__am$cache51;
+		private static Action<Pawn> <>f__am$cache51;
 
 		[CompilerGenerated]
-		private static Action<Pawn> <>f__am$cache52;
+		private static Action <>f__am$cache52;
 
 		[CompilerGenerated]
 		private static Action<Pawn> <>f__am$cache53;
@@ -279,13 +282,13 @@ namespace Verse
 		private static Action<Pawn> <>f__am$cache54;
 
 		[CompilerGenerated]
-		private static Action <>f__am$cache55;
+		private static Action<Pawn> <>f__am$cache55;
 
 		[CompilerGenerated]
-		private static Action<Pawn> <>f__am$cache56;
+		private static Action <>f__am$cache56;
 
 		[CompilerGenerated]
-		private static Action<Pawn> <>f__am$cache57;
+		private static Action <>f__am$cache57;
 
 		[CompilerGenerated]
 		private static Action<Pawn> <>f__am$cache58;
@@ -294,16 +297,16 @@ namespace Verse
 		private static Action<Pawn> <>f__am$cache59;
 
 		[CompilerGenerated]
-		private static Action <>f__am$cache5A;
+		private static Action<Pawn> <>f__am$cache5A;
 
 		[CompilerGenerated]
-		private static Action <>f__am$cache5B;
+		private static Action<Pawn> <>f__am$cache5B;
 
 		[CompilerGenerated]
-		private static Action<Pawn> <>f__am$cache5C;
+		private static Action <>f__am$cache5C;
 
 		[CompilerGenerated]
-		private static Action<Pawn> <>f__am$cache5D;
+		private static Action <>f__am$cache5D;
 
 		[CompilerGenerated]
 		private static Action<Pawn> <>f__am$cache5E;
@@ -330,13 +333,13 @@ namespace Verse
 		private static Action<Pawn> <>f__am$cache65;
 
 		[CompilerGenerated]
-		private static Action <>f__am$cache66;
+		private static Action<Pawn> <>f__am$cache66;
 
 		[CompilerGenerated]
 		private static Action<Pawn> <>f__am$cache67;
 
 		[CompilerGenerated]
-		private static Action<Pawn> <>f__am$cache68;
+		private static Action <>f__am$cache68;
 
 		[CompilerGenerated]
 		private static Action<Pawn> <>f__am$cache69;
@@ -345,13 +348,13 @@ namespace Verse
 		private static Action<Pawn> <>f__am$cache6A;
 
 		[CompilerGenerated]
-		private static Action <>f__am$cache6B;
+		private static Action<Pawn> <>f__am$cache6B;
 
 		[CompilerGenerated]
 		private static Action<Pawn> <>f__am$cache6C;
 
 		[CompilerGenerated]
-		private static Action<Pawn> <>f__am$cache6D;
+		private static Action <>f__am$cache6D;
 
 		[CompilerGenerated]
 		private static Action<Pawn> <>f__am$cache6E;
@@ -363,10 +366,10 @@ namespace Verse
 		private static Action<Pawn> <>f__am$cache70;
 
 		[CompilerGenerated]
-		private static Action <>f__am$cache71;
+		private static Action<Pawn> <>f__am$cache71;
 
 		[CompilerGenerated]
-		private static Action <>f__am$cache72;
+		private static Action<Pawn> <>f__am$cache72;
 
 		[CompilerGenerated]
 		private static Action <>f__am$cache73;
@@ -462,73 +465,73 @@ namespace Verse
 		private static Action <>f__am$cache91;
 
 		[CompilerGenerated]
-		private static Func<Thing, bool> <>f__am$cache92;
+		private static Action <>f__am$cache92;
 
 		[CompilerGenerated]
-		private static Func<PawnKindDef, bool> <>f__am$cache93;
+		private static Action <>f__am$cache93;
 
 		[CompilerGenerated]
-		private static Predicate<int> <>f__am$cache94;
+		private static Func<Thing, bool> <>f__am$cache94;
 
 		[CompilerGenerated]
-		private static Func<StorytellerComp, bool> <>f__am$cache95;
+		private static Func<PawnKindDef, bool> <>f__am$cache95;
 
 		[CompilerGenerated]
-		private static Func<SoundDef, bool> <>f__am$cache96;
+		private static Predicate<int> <>f__am$cache96;
 
 		[CompilerGenerated]
-		private static Func<LordToil, bool> <>f__am$cache97;
+		private static Func<StorytellerComp, bool> <>f__am$cache97;
 
 		[CompilerGenerated]
-		private static Action <>f__am$cache98;
+		private static Func<SoundDef, bool> <>f__am$cache98;
 
 		[CompilerGenerated]
-		private static Func<Faction, bool> <>f__am$cache99;
+		private static Func<LordToil, bool> <>f__am$cache99;
 
 		[CompilerGenerated]
-		private static Func<RuleDef, string> <>f__am$cache9A;
+		private static Action <>f__am$cache9A;
 
 		[CompilerGenerated]
-		private static Action<bool> <>f__am$cache9B;
+		private static Func<Faction, bool> <>f__am$cache9B;
 
 		[CompilerGenerated]
-		private static Func<BodyPartRecord, bool> <>f__am$cache9C;
+		private static Func<RuleDef, string> <>f__am$cache9C;
 
 		[CompilerGenerated]
-		private static Func<BodyPartRecord, bool> <>f__am$cache9D;
+		private static Action<bool> <>f__am$cache9D;
 
 		[CompilerGenerated]
-		private static Func<Hediff_Injury, bool> <>f__am$cache9E;
+		private static Func<BodyPartRecord, bool> <>f__am$cache9E;
 
 		[CompilerGenerated]
-		private static Func<HediffGiverSetDef, IEnumerable<HediffGiver>> <>f__am$cache9F;
+		private static Func<BodyPartRecord, bool> <>f__am$cache9F;
 
 		[CompilerGenerated]
-		private static Func<HediffStage, bool> <>f__am$cacheA0;
+		private static Func<Hediff_Injury, bool> <>f__am$cacheA0;
 
 		[CompilerGenerated]
-		private static Func<VerbEntry, string> <>f__am$cacheA1;
+		private static Func<HediffGiverSetDef, IEnumerable<HediffGiver>> <>f__am$cacheA1;
 
 		[CompilerGenerated]
-		private static Func<VerbEntry, string> <>f__am$cacheA2;
+		private static Func<HediffStage, bool> <>f__am$cacheA2;
 
 		[CompilerGenerated]
-		private static Func<MentalBreakDef, MentalBreakIntensity> <>f__am$cacheA3;
+		private static Func<VerbEntry, string> <>f__am$cacheA3;
 
 		[CompilerGenerated]
-		private static Func<Thing, bool> <>f__am$cacheA4;
+		private static Func<VerbEntry, string> <>f__am$cacheA4;
 
 		[CompilerGenerated]
-		private static Func<Pawn, bool> <>f__am$cacheA5;
+		private static Func<MentalBreakDef, MentalBreakIntensity> <>f__am$cacheA5;
 
 		[CompilerGenerated]
-		private static Func<PawnKindDef, string> <>f__am$cacheA6;
+		private static Func<Thing, bool> <>f__am$cacheA6;
 
 		[CompilerGenerated]
-		private static Func<ThingDef, bool> <>f__am$cacheA7;
+		private static Func<Pawn, bool> <>f__am$cacheA7;
 
 		[CompilerGenerated]
-		private static Func<ThingDef, string> <>f__am$cacheA8;
+		private static Func<PawnKindDef, string> <>f__am$cacheA8;
 
 		[CompilerGenerated]
 		private static Func<ThingDef, bool> <>f__am$cacheA9;
@@ -537,13 +540,13 @@ namespace Verse
 		private static Func<ThingDef, string> <>f__am$cacheAA;
 
 		[CompilerGenerated]
-		private static Action<Pawn> <>f__am$cacheAB;
+		private static Func<ThingDef, bool> <>f__am$cacheAB;
 
 		[CompilerGenerated]
-		private static Predicate<IntVec3> <>f__am$cacheAC;
+		private static Func<ThingDef, string> <>f__am$cacheAC;
 
 		[CompilerGenerated]
-		private static Predicate<IntVec3> <>f__am$cacheAD;
+		private static Action<Pawn> <>f__am$cacheAD;
 
 		[CompilerGenerated]
 		private static Predicate<IntVec3> <>f__am$cacheAE;
@@ -552,31 +555,37 @@ namespace Verse
 		private static Predicate<IntVec3> <>f__am$cacheAF;
 
 		[CompilerGenerated]
-		private static Func<PawnKindDef, string> <>f__am$cacheB0;
+		private static Predicate<IntVec3> <>f__am$cacheB0;
 
 		[CompilerGenerated]
-		private static Func<PawnKindDef, bool> <>f__am$cacheB1;
+		private static Predicate<IntVec3> <>f__am$cacheB1;
 
 		[CompilerGenerated]
-		private static Func<ToolCapacityDef, bool> <>f__am$cacheB2;
+		private static Func<PawnKindDef, string> <>f__am$cacheB2;
 
 		[CompilerGenerated]
-		private static Func<PawnKindDef, ToolCapacityDef, string> <>f__am$cacheB3;
+		private static Func<PawnKindDef, bool> <>f__am$cacheB3;
 
 		[CompilerGenerated]
-		private static Func<ThingDef, bool> <>f__am$cacheB4;
+		private static Func<ToolCapacityDef, bool> <>f__am$cacheB4;
 
 		[CompilerGenerated]
-		private static Func<PawnKindDef, bool> <>f__am$cacheB5;
+		private static Func<PawnKindDef, ToolCapacityDef, string> <>f__am$cacheB5;
 
 		[CompilerGenerated]
-		private static Func<Faction, bool> <>f__am$cacheB6;
+		private static Func<ThingDef, bool> <>f__am$cacheB6;
 
 		[CompilerGenerated]
-		private static Func<Thing, bool> <>f__am$cacheB7;
+		private static Func<PawnKindDef, bool> <>f__am$cacheB7;
 
 		[CompilerGenerated]
-		private static Func<Thing, bool> <>f__am$cacheB8;
+		private static Func<Faction, bool> <>f__am$cacheB8;
+
+		[CompilerGenerated]
+		private static Func<Thing, bool> <>f__am$cacheB9;
+
+		[CompilerGenerated]
+		private static Func<Thing, bool> <>f__am$cacheBA;
 
 		public Dialog_DebugActionsMenu()
 		{
@@ -677,35 +686,36 @@ namespace Verse
 			base.DebugToolMap("Transfer", delegate
 			{
 				List<Thing> toTransfer = Find.CurrentMap.thingGrid.ThingsAt(UI.MouseCell()).ToList<Thing>();
-				if (toTransfer.Any<Thing>())
+				if (!toTransfer.Any<Thing>())
 				{
-					List<DebugMenuOption> list = new List<DebugMenuOption>();
-					List<Map> maps = Find.Maps;
-					for (int i = 0; i < maps.Count; i++)
-					{
-						Map map = maps[i];
-						if (map != Find.CurrentMap)
-						{
-							list.Add(new DebugMenuOption(map.ToString(), DebugMenuOptionMode.Action, delegate()
-							{
-								for (int j = 0; j < toTransfer.Count; j++)
-								{
-									IntVec3 center;
-									if (CellFinder.TryFindRandomCellNear(map.Center, map, Mathf.Max(map.Size.x, map.Size.z), (IntVec3 x) => !x.Fogged(map) && x.Standable(map), out center, -1))
-									{
-										toTransfer[j].DeSpawn(DestroyMode.Vanish);
-										GenPlace.TryPlaceThing(toTransfer[j], center, map, ThingPlaceMode.Near, null, null);
-									}
-									else
-									{
-										Log.Error("Could not find spawn cell.", false);
-									}
-								}
-							}));
-						}
-					}
-					Find.WindowStack.Add(new Dialog_DebugOptionListLister(list));
+					return;
 				}
+				List<DebugMenuOption> list = new List<DebugMenuOption>();
+				List<Map> maps = Find.Maps;
+				for (int i = 0; i < maps.Count; i++)
+				{
+					Map map = maps[i];
+					if (map != Find.CurrentMap)
+					{
+						list.Add(new DebugMenuOption(map.ToString(), DebugMenuOptionMode.Action, delegate()
+						{
+							for (int j = 0; j < toTransfer.Count; j++)
+							{
+								IntVec3 center;
+								if (CellFinder.TryFindRandomCellNear(map.Center, map, Mathf.Max(map.Size.x, map.Size.z), (IntVec3 x) => !x.Fogged(map) && x.Standable(map), out center, -1))
+								{
+									toTransfer[j].DeSpawn(DestroyMode.Vanish);
+									GenPlace.TryPlaceThing(toTransfer[j], center, map, ThingPlaceMode.Near, null, null);
+								}
+								else
+								{
+									Log.Error("Could not find spawn cell.", false);
+								}
+							}
+						}));
+					}
+				}
+				Find.WindowStack.Add(new Dialog_DebugOptionListLister(list));
 			});
 			base.DebugAction("Change map", delegate
 			{
@@ -812,7 +822,7 @@ namespace Verse
 			});
 			base.DebugAction("Execute raid with specifics...", delegate
 			{
-				StorytellerComp storytellerComp = Find.Storyteller.storytellerComps.First((StorytellerComp x) => x is StorytellerComp_ThreatCycle || x is StorytellerComp_RandomMain);
+				StorytellerComp storytellerComp = Find.Storyteller.storytellerComps.First((StorytellerComp x) => x is StorytellerComp_OnOffCycle || x is StorytellerComp_RandomMain);
 				IncidentParms parms = storytellerComp.GenerateParms(IncidentCategoryDefOf.ThreatBig, Find.CurrentMap);
 				List<DebugMenuOption> list = new List<DebugMenuOption>();
 				foreach (Faction localFac2 in Find.FactionManager.AllFactions)
@@ -940,7 +950,14 @@ namespace Verse
 					SoundDef localSd = localSd2;
 					list.Add(new DebugMenuOption(localSd.defName, DebugMenuOptionMode.Action, delegate()
 					{
-						localSd.PlayOneShotOnCamera(null);
+						if (localSd.subSounds.Any((SubSoundDef sub) => sub.onCamera))
+						{
+							localSd.PlayOneShotOnCamera(null);
+						}
+						else
+						{
+							localSd.PlayOneShot(SoundInfo.InMap(new TargetInfo(Find.CameraDriver.MapPosition, Find.CurrentMap, false), MaintenanceType.None));
+						}
 					}));
 				}
 				Find.WindowStack.Add(new Dialog_DebugOptionListLister(list));
@@ -1083,6 +1100,51 @@ namespace Verse
 					leader.TakeDamage(new DamageInfo(DamageDefOf.Bullet, 30f, 999f, -1f, null, null, null, DamageInfo.SourceCategory.ThingOrUnknown, null));
 				}
 			});
+			base.DebugAction("Set faction relations", delegate
+			{
+				List<FloatMenuOption> list = new List<FloatMenuOption>();
+				foreach (Faction localFac2 in Find.FactionManager.AllFactionsVisibleInViewOrder)
+				{
+					Faction localFac = localFac2;
+					IEnumerator enumerator2 = Enum.GetValues(typeof(FactionRelationKind)).GetEnumerator();
+					try
+					{
+						while (enumerator2.MoveNext())
+						{
+							object obj = enumerator2.Current;
+							FactionRelationKind localRk2 = (FactionRelationKind)obj;
+							FactionRelationKind localRk = localRk2;
+							FloatMenuOption item = new FloatMenuOption(localFac + " - " + localRk, delegate()
+							{
+								localFac.TrySetRelationKind(Faction.OfPlayer, localRk, true, null, null);
+							}, MenuOptionPriority.Default, null, null, 0f, null, null);
+							list.Add(item);
+						}
+					}
+					finally
+					{
+						IDisposable disposable;
+						if ((disposable = (enumerator2 as IDisposable)) != null)
+						{
+							disposable.Dispose();
+						}
+					}
+				}
+				Find.WindowStack.Add(new FloatMenu(list));
+			});
+			base.DebugAction("Visitor gift", delegate
+			{
+				List<Pawn> list = new List<Pawn>();
+				foreach (Pawn pawn in Find.CurrentMap.mapPawns.AllPawnsSpawned)
+				{
+					if (pawn.Faction != null && !pawn.Faction.IsPlayer && !pawn.Faction.HostileTo(Faction.OfPlayer))
+					{
+						list.Add(pawn);
+						break;
+					}
+				}
+				VisitorGiftForPlayerUtility.GiveGift(list, list[0].Faction);
+			});
 			base.DebugAction("Refog map", delegate
 			{
 				FloodFillerFog.DebugRefogMap(Find.CurrentMap);
@@ -1117,6 +1179,14 @@ namespace Verse
 			{
 				Find.TickManager.DebugSetTicksGame(Find.TickManager.TicksGame + 900000);
 			});
+			base.DebugAction("StoryWatcher tick 1 day", delegate
+			{
+				for (int i = 0; i < 60000; i++)
+				{
+					Find.StoryWatcher.StoryWatcherTick();
+					Find.TickManager.DebugSetTicksGame(Find.TickManager.TicksGame + 1);
+				}
+			});
 		}
 
 		private void DoListingItems_MapTools()
@@ -1142,42 +1212,6 @@ namespace Verse
 				foreach (Thing thing in Find.CurrentMap.thingGrid.ThingsAt(UI.MouseCell()).ToList<Thing>())
 				{
 					thing.TakeDamage(new DamageInfo(DamageDefOf.Crush, 10f, 0f, -1f, null, null, null, DamageInfo.SourceCategory.ThingOrUnknown, null));
-				}
-			});
-			base.DebugToolMap("T: 10 damage until dead", delegate
-			{
-				foreach (Thing thing in Find.CurrentMap.thingGrid.ThingsAt(UI.MouseCell()).ToList<Thing>())
-				{
-					for (int i = 0; i < 1000; i++)
-					{
-						thing.TakeDamage(new DamageInfo(DamageDefOf.Crush, 10f, 0f, -1f, null, null, null, DamageInfo.SourceCategory.ThingOrUnknown, null));
-						if (thing.Destroyed)
-						{
-							string str = "Took " + (i + 1) + " hits";
-							Pawn pawn = thing as Pawn;
-							if (pawn != null)
-							{
-								if (pawn.health.ShouldBeDeadFromLethalDamageThreshold())
-								{
-									str = str + " (reached lethal damage threshold of " + pawn.health.LethalDamageThreshold.ToString("0.#") + ")";
-								}
-								else if (PawnCapacityUtility.CalculatePartEfficiency(pawn.health.hediffSet, pawn.RaceProps.body.corePart, false, null) <= 0.0001f)
-								{
-									str += " (core part hp reached 0)";
-								}
-								else
-								{
-									PawnCapacityDef pawnCapacityDef = pawn.health.ShouldBeDeadFromRequiredCapacity();
-									if (pawnCapacityDef != null)
-									{
-										str = str + " (incapable of " + pawnCapacityDef.defName + ")";
-									}
-								}
-							}
-							Log.Message(str + ".", false);
-							break;
-						}
-					}
 				}
 			});
 			base.DebugToolMap("T: 5000 damage", delegate
@@ -1440,28 +1474,6 @@ namespace Verse
 					iterator.MoveNext();
 				}
 			});
-			base.DebugToolMap("T: Toggle trap status", delegate
-			{
-				foreach (Thing thing in Find.CurrentMap.thingGrid.ThingsAt(UI.MouseCell()).ToList<Thing>())
-				{
-					Building_Trap building_Trap = thing as Building_Trap;
-					if (building_Trap != null)
-					{
-						if (building_Trap.Armed)
-						{
-							building_Trap.Spring(null);
-						}
-						else
-						{
-							Building_TrapRearmable building_TrapRearmable = building_Trap as Building_TrapRearmable;
-							if (building_TrapRearmable != null)
-							{
-								building_TrapRearmable.Rearm();
-							}
-						}
-					}
-				}
-			});
 			base.DebugToolMap("T: Test flood unfog", delegate
 			{
 				FloodFillerFog.DebugFloodUnfog(UI.MouseCell(), Find.CurrentMap);
@@ -1641,6 +1653,42 @@ namespace Verse
 			{
 				HealthUtility.DamageUntilDead(p);
 			});
+			base.DebugToolMap("T: 10 damage until dead", delegate
+			{
+				foreach (Thing thing in Find.CurrentMap.thingGrid.ThingsAt(UI.MouseCell()).ToList<Thing>())
+				{
+					for (int i = 0; i < 1000; i++)
+					{
+						thing.TakeDamage(new DamageInfo(DamageDefOf.Crush, 10f, 0f, -1f, null, null, null, DamageInfo.SourceCategory.ThingOrUnknown, null));
+						if (thing.Destroyed)
+						{
+							string str = "Took " + (i + 1) + " hits";
+							Pawn pawn = thing as Pawn;
+							if (pawn != null)
+							{
+								if (pawn.health.ShouldBeDeadFromLethalDamageThreshold())
+								{
+									str = str + " (reached lethal damage threshold of " + pawn.health.LethalDamageThreshold.ToString("0.#") + ")";
+								}
+								else if (PawnCapacityUtility.CalculatePartEfficiency(pawn.health.hediffSet, pawn.RaceProps.body.corePart, false, null) <= 0.0001f)
+								{
+									str += " (core part hp reached 0)";
+								}
+								else
+								{
+									PawnCapacityDef pawnCapacityDef = pawn.health.ShouldBeDeadFromRequiredCapacity();
+									if (pawnCapacityDef != null)
+									{
+										str = str + " (incapable of " + pawnCapacityDef.defName + ")";
+									}
+								}
+							}
+							Log.Message(str + ".", false);
+							break;
+						}
+					}
+				}
+			});
 			base.DebugToolMap("T: Damage held pawn to death", delegate
 			{
 				foreach (Thing thing in Find.CurrentMap.thingGrid.ThingsAt(UI.MouseCell()).ToList<Thing>())
@@ -1654,7 +1702,7 @@ namespace Verse
 			});
 			base.DebugToolMapForPawns("T: Surgery fail minor", delegate(Pawn p)
 			{
-				BodyPartRecord bodyPartRecord = (from x in p.health.hediffSet.GetNotMissingParts(BodyPartHeight.Undefined, BodyPartDepth.Undefined, null)
+				BodyPartRecord bodyPartRecord = (from x in p.health.hediffSet.GetNotMissingParts(BodyPartHeight.Undefined, BodyPartDepth.Undefined, null, null)
 				where !x.def.conceptual
 				select x).RandomElement<BodyPartRecord>();
 				Log.Message("part is " + bodyPartRecord, false);
@@ -1662,7 +1710,7 @@ namespace Verse
 			});
 			base.DebugToolMapForPawns("T: Surgery fail catastrophic", delegate(Pawn p)
 			{
-				BodyPartRecord bodyPartRecord = (from x in p.health.hediffSet.GetNotMissingParts(BodyPartHeight.Undefined, BodyPartDepth.Undefined, null)
+				BodyPartRecord bodyPartRecord = (from x in p.health.hediffSet.GetNotMissingParts(BodyPartHeight.Undefined, BodyPartDepth.Undefined, null, null)
 				where !x.def.conceptual
 				select x).RandomElement<BodyPartRecord>();
 				Log.Message("part is " + bodyPartRecord, false);
@@ -1744,119 +1792,134 @@ namespace Verse
 				Hediff_Pregnant.DoBirthSpawn(p, null);
 				this.DustPuffFrom(p);
 			});
+			base.DebugToolMapForPawns("T: Resistance -1", delegate(Pawn p)
+			{
+				if (p.guest != null && p.guest.resistance > 0f)
+				{
+					p.guest.resistance = Mathf.Max(0f, p.guest.resistance - 1f);
+					this.DustPuffFrom(p);
+				}
+			});
 			base.DebugToolMapForPawns("T: List melee verbs", delegate(Pawn p)
 			{
-				Log.Message(string.Format("Verb list (currently usable):\nNormal\n  {0}\nTerrain\n  {1}", GenText.ToTextList(from verb in p.meleeVerbs.GetUpdatedAvailableVerbsList(false)
-				select verb.ToString(), "\n  "), GenText.ToTextList(from verb in p.meleeVerbs.GetUpdatedAvailableVerbsList(true)
-				select verb.ToString(), "\n  ")), false);
+				Log.Message(string.Format("Verb list (currently usable):\nNormal\n  {0}\nTerrain\n  {1}", (from verb in p.meleeVerbs.GetUpdatedAvailableVerbsList(false)
+				select verb.ToString()).ToLineList("  "), (from verb in p.meleeVerbs.GetUpdatedAvailableVerbsList(true)
+				select verb.ToString()).ToLineList("  ")), false);
 			});
 			base.DebugToolMapForPawns("T: Add/remove pawn relation", delegate(Pawn p)
 			{
-				if (p.RaceProps.IsFlesh)
+				if (!p.RaceProps.IsFlesh)
 				{
-					Action<bool> act = delegate(bool add)
+					return;
+				}
+				Action<bool> act = delegate(bool add)
+				{
+					if (add)
 					{
-						if (add)
+						List<DebugMenuOption> list2 = new List<DebugMenuOption>();
+						foreach (PawnRelationDef pawnRelationDef in DefDatabase<PawnRelationDef>.AllDefs)
 						{
-							List<DebugMenuOption> list2 = new List<DebugMenuOption>();
-							foreach (PawnRelationDef pawnRelationDef in DefDatabase<PawnRelationDef>.AllDefs)
+							if (!pawnRelationDef.implied)
 							{
-								if (!pawnRelationDef.implied)
+								PawnRelationDef defLocal = pawnRelationDef;
+								list2.Add(new DebugMenuOption(defLocal.defName, DebugMenuOptionMode.Action, delegate()
 								{
-									PawnRelationDef defLocal = pawnRelationDef;
-									list2.Add(new DebugMenuOption(defLocal.defName, DebugMenuOptionMode.Action, delegate()
+									List<DebugMenuOption> list4 = new List<DebugMenuOption>();
+									IOrderedEnumerable<Pawn> source = from x in PawnsFinder.AllMapsWorldAndTemporary_Alive
+									where x.RaceProps.IsFlesh
+									orderby x.def == p.def descending
+									select x;
+									if (Dialog_DebugActionsMenu.<>f__mg$cache0 == null)
 									{
-										List<DebugMenuOption> list4 = new List<DebugMenuOption>();
-										IOrderedEnumerable<Pawn> orderedEnumerable = from x in PawnsFinder.AllMapsWorldAndTemporary_Alive
-										where x.RaceProps.IsFlesh
-										orderby x.def == p.def descending, x.IsWorldPawn()
-										select x;
-										foreach (Pawn pawn in orderedEnumerable)
+										Dialog_DebugActionsMenu.<>f__mg$cache0 = new Func<Pawn, bool>(WorldPawnsUtility.IsWorldPawn);
+									}
+									IOrderedEnumerable<Pawn> orderedEnumerable = source.ThenBy(Dialog_DebugActionsMenu.<>f__mg$cache0);
+									foreach (Pawn pawn in orderedEnumerable)
+									{
+										if (p != pawn)
 										{
-											if (p != pawn)
+											if (!defLocal.familyByBloodRelation || pawn.def == p.def)
 											{
-												if (!defLocal.familyByBloodRelation || pawn.def == p.def)
+												if (!p.relations.DirectRelationExists(defLocal, pawn))
 												{
-													if (!p.relations.DirectRelationExists(defLocal, pawn))
+													Pawn otherLocal = pawn;
+													list4.Add(new DebugMenuOption(otherLocal.LabelShort + " (" + otherLocal.KindLabel + ")", DebugMenuOptionMode.Action, delegate()
 													{
-														Pawn otherLocal = pawn;
-														list4.Add(new DebugMenuOption(otherLocal.LabelShort + " (" + otherLocal.KindLabel + ")", DebugMenuOptionMode.Action, delegate()
-														{
-															p.relations.AddDirectRelation(defLocal, otherLocal);
-														}));
-													}
+														p.relations.AddDirectRelation(defLocal, otherLocal);
+													}));
 												}
 											}
 										}
-										Find.WindowStack.Add(new Dialog_DebugOptionListLister(list4));
-									}));
-								}
-							}
-							Find.WindowStack.Add(new Dialog_DebugOptionListLister(list2));
-						}
-						else
-						{
-							List<DebugMenuOption> list3 = new List<DebugMenuOption>();
-							List<DirectPawnRelation> directRelations = p.relations.DirectRelations;
-							for (int i = 0; i < directRelations.Count; i++)
-							{
-								DirectPawnRelation rel = directRelations[i];
-								list3.Add(new DebugMenuOption(rel.def.defName + " - " + rel.otherPawn.LabelShort, DebugMenuOptionMode.Action, delegate()
-								{
-									p.relations.RemoveDirectRelation(rel);
+									}
+									Find.WindowStack.Add(new Dialog_DebugOptionListLister(list4));
 								}));
 							}
-							Find.WindowStack.Add(new Dialog_DebugOptionListLister(list3));
 						}
-					};
-					List<DebugMenuOption> list = new List<DebugMenuOption>();
-					list.Add(new DebugMenuOption("Add", DebugMenuOptionMode.Action, delegate()
+						Find.WindowStack.Add(new Dialog_DebugOptionListLister(list2));
+					}
+					else
 					{
-						act(true);
-					}));
-					list.Add(new DebugMenuOption("Remove", DebugMenuOptionMode.Action, delegate()
-					{
-						act(false);
-					}));
-					Find.WindowStack.Add(new Dialog_DebugOptionListLister(list));
-				}
+						List<DebugMenuOption> list3 = new List<DebugMenuOption>();
+						List<DirectPawnRelation> directRelations = p.relations.DirectRelations;
+						for (int i = 0; i < directRelations.Count; i++)
+						{
+							DirectPawnRelation rel = directRelations[i];
+							list3.Add(new DebugMenuOption(rel.def.defName + " - " + rel.otherPawn.LabelShort, DebugMenuOptionMode.Action, delegate()
+							{
+								p.relations.RemoveDirectRelation(rel);
+							}));
+						}
+						Find.WindowStack.Add(new Dialog_DebugOptionListLister(list3));
+					}
+				};
+				List<DebugMenuOption> list = new List<DebugMenuOption>();
+				list.Add(new DebugMenuOption("Add", DebugMenuOptionMode.Action, delegate()
+				{
+					act(true);
+				}));
+				list.Add(new DebugMenuOption("Remove", DebugMenuOptionMode.Action, delegate()
+				{
+					act(false);
+				}));
+				Find.WindowStack.Add(new Dialog_DebugOptionListLister(list));
 			});
 			base.DebugToolMapForPawns("T: Add opinion thoughts about", delegate(Pawn p)
 			{
-				if (p.RaceProps.Humanlike)
+				if (!p.RaceProps.Humanlike)
 				{
-					Action<bool> act = delegate(bool good)
+					return;
+				}
+				Action<bool> act = delegate(bool good)
+				{
+					foreach (Pawn pawn in from x in p.Map.mapPawns.AllPawnsSpawned
+					where x.RaceProps.Humanlike
+					select x)
 					{
-						foreach (Pawn pawn in from x in p.Map.mapPawns.AllPawnsSpawned
-						where x.RaceProps.Humanlike
-						select x)
+						if (p != pawn)
 						{
-							if (p != pawn)
+							IEnumerable<ThoughtDef> source = DefDatabase<ThoughtDef>.AllDefs.Where((ThoughtDef x) => typeof(Thought_MemorySocial).IsAssignableFrom(x.thoughtClass) && ((good && x.stages[0].baseOpinionOffset > 0f) || (!good && x.stages[0].baseOpinionOffset < 0f)));
+							if (source.Any<ThoughtDef>())
 							{
-								IEnumerable<ThoughtDef> source = DefDatabase<ThoughtDef>.AllDefs.Where((ThoughtDef x) => typeof(Thought_MemorySocial).IsAssignableFrom(x.thoughtClass) && ((good && x.stages[0].baseOpinionOffset > 0f) || (!good && x.stages[0].baseOpinionOffset < 0f)));
-								if (source.Any<ThoughtDef>())
+								int num = Rand.Range(2, 5);
+								for (int i = 0; i < num; i++)
 								{
-									int num = Rand.Range(2, 5);
-									for (int i = 0; i < num; i++)
-									{
-										ThoughtDef def = source.RandomElement<ThoughtDef>();
-										pawn.needs.mood.thoughts.memories.TryGainMemory(def, p);
-									}
+									ThoughtDef def = source.RandomElement<ThoughtDef>();
+									pawn.needs.mood.thoughts.memories.TryGainMemory(def, p);
 								}
 							}
 						}
-					};
-					List<DebugMenuOption> list = new List<DebugMenuOption>();
-					list.Add(new DebugMenuOption("Good", DebugMenuOptionMode.Action, delegate()
-					{
-						act(true);
-					}));
-					list.Add(new DebugMenuOption("Bad", DebugMenuOptionMode.Action, delegate()
-					{
-						act(false);
-					}));
-					Find.WindowStack.Add(new Dialog_DebugOptionListLister(list));
-				}
+					}
+				};
+				List<DebugMenuOption> list = new List<DebugMenuOption>();
+				list.Add(new DebugMenuOption("Good", DebugMenuOptionMode.Action, delegate()
+				{
+					act(true);
+				}));
+				list.Add(new DebugMenuOption("Bad", DebugMenuOptionMode.Action, delegate()
+				{
+					act(false);
+				}));
+				Find.WindowStack.Add(new Dialog_DebugOptionListLister(list));
 			});
 			base.DebugToolMapForPawns("T: Force vomit...", delegate(Pawn p)
 			{
@@ -1890,7 +1953,7 @@ namespace Verse
 				List<DebugMenuOption> list = new List<DebugMenuOption>();
 				foreach (SkillDef localDef in DefDatabase<SkillDef>.AllDefs)
 				{
-					Dialog_DebugActionsMenu.<DoListingItems_MapTools>c__AnonStorey22 <DoListingItems_MapTools>c__AnonStorey = new Dialog_DebugActionsMenu.<DoListingItems_MapTools>c__AnonStorey22();
+					Dialog_DebugActionsMenu.<DoListingItems_MapTools>c__AnonStorey24 <DoListingItems_MapTools>c__AnonStorey = new Dialog_DebugActionsMenu.<DoListingItems_MapTools>c__AnonStorey24();
 					<DoListingItems_MapTools>c__AnonStorey.$this = this;
 					<DoListingItems_MapTools>c__AnonStorey.localDef = localDef;
 					list.Add(new DebugMenuOption(<DoListingItems_MapTools>c__AnonStorey.localDef.defName, DebugMenuOptionMode.Action, delegate()
@@ -1904,13 +1967,14 @@ namespace Verse
 								Pawn pawn = (from t in Find.CurrentMap.thingGrid.ThingsAt(UI.MouseCell())
 								where t is Pawn
 								select t).Cast<Pawn>().FirstOrDefault<Pawn>();
-								if (pawn != null)
+								if (pawn == null)
 								{
-									SkillRecord skill = pawn.skills.GetSkill(<DoListingItems_MapTools>c__AnonStorey.localDef);
-									skill.Level = level;
-									skill.xpSinceLastLevel = skill.XpRequiredForLevelUp / 2f;
-									<DoListingItems_MapTools>c__AnonStorey.DustPuffFrom(pawn);
+									return;
 								}
+								SkillRecord skill = pawn.skills.GetSkill(<DoListingItems_MapTools>c__AnonStorey.localDef);
+								skill.Level = level;
+								skill.xpSinceLastLevel = skill.XpRequiredForLevelUp / 2f;
+								<DoListingItems_MapTools>c__AnonStorey.DustPuffFrom(pawn);
 							}));
 						}
 						Find.WindowStack.Add(new Dialog_DebugOptionListLister(list2));
@@ -2096,30 +2160,6 @@ namespace Verse
 					p.needs.mood.thoughts.memories.TryGainMemory(ThoughtDefOf.DebugBad, null);
 				}
 			});
-			base.DebugToolMapForPawns("T: Make faction hostile", delegate(Pawn p)
-			{
-				if (p.Faction != null)
-				{
-					p.Faction.TrySetRelationKind(Faction.OfPlayer, FactionRelationKind.Hostile, true, null, null);
-					this.DustPuffFrom(p);
-				}
-			});
-			base.DebugToolMapForPawns("T: Make faction neutral", delegate(Pawn p)
-			{
-				if (p.Faction != null)
-				{
-					p.Faction.TrySetRelationKind(Faction.OfPlayer, FactionRelationKind.Neutral, true, null, null);
-					this.DustPuffFrom(p);
-				}
-			});
-			base.DebugToolMapForPawns("T: Make faction allied", delegate(Pawn p)
-			{
-				if (p.Faction != null)
-				{
-					p.Faction.TrySetRelationKind(Faction.OfPlayer, FactionRelationKind.Ally, true, null, null);
-					this.DustPuffFrom(p);
-				}
-			});
 			base.DebugToolMap("T: Clear bound unfinished things", delegate
 			{
 				foreach (Building_WorkTable building_WorkTable in (from t in Find.CurrentMap.thingGrid.ThingsAt(UI.MouseCell())
@@ -2201,27 +2241,28 @@ namespace Verse
 			});
 			base.DebugToolMapForPawns("T: Try develop bond relation", delegate(Pawn p)
 			{
-				if (p.Faction != null)
+				if (p.Faction == null)
 				{
-					if (p.RaceProps.Humanlike)
+					return;
+				}
+				if (p.RaceProps.Humanlike)
+				{
+					IEnumerable<Pawn> source = from x in p.Map.mapPawns.AllPawnsSpawned
+					where x.RaceProps.Animal && x.Faction == p.Faction
+					select x;
+					if (source.Any<Pawn>())
 					{
-						IEnumerable<Pawn> source = from x in p.Map.mapPawns.AllPawnsSpawned
-						where x.RaceProps.Animal && x.Faction == p.Faction
-						select x;
-						if (source.Any<Pawn>())
-						{
-							RelationsUtility.TryDevelopBondRelation(p, source.RandomElement<Pawn>(), 999999f);
-						}
+						RelationsUtility.TryDevelopBondRelation(p, source.RandomElement<Pawn>(), 999999f);
 					}
-					else if (p.RaceProps.Animal)
+				}
+				else if (p.RaceProps.Animal)
+				{
+					IEnumerable<Pawn> source2 = from x in p.Map.mapPawns.AllPawnsSpawned
+					where x.RaceProps.Humanlike && x.Faction == p.Faction
+					select x;
+					if (source2.Any<Pawn>())
 					{
-						IEnumerable<Pawn> source2 = from x in p.Map.mapPawns.AllPawnsSpawned
-						where x.RaceProps.Humanlike && x.Faction == p.Faction
-						select x;
-						if (source2.Any<Pawn>())
-						{
-							RelationsUtility.TryDevelopBondRelation(source2.RandomElement<Pawn>(), p, 999999f);
-						}
+						RelationsUtility.TryDevelopBondRelation(source2.RandomElement<Pawn>(), p, 999999f);
 					}
 				}
 			});
@@ -2235,62 +2276,64 @@ namespace Verse
 			});
 			base.DebugToolMapForPawns("T: Start marriage ceremony", delegate(Pawn p)
 			{
-				if (p.RaceProps.Humanlike)
+				if (!p.RaceProps.Humanlike)
 				{
-					List<DebugMenuOption> list = new List<DebugMenuOption>();
-					foreach (Pawn pawn in from x in p.Map.mapPawns.AllPawnsSpawned
-					where x.RaceProps.Humanlike
-					select x)
-					{
-						if (p != pawn)
-						{
-							Pawn otherLocal = pawn;
-							list.Add(new DebugMenuOption(otherLocal.LabelShort + " (" + otherLocal.KindLabel + ")", DebugMenuOptionMode.Action, delegate()
-							{
-								if (!p.relations.DirectRelationExists(PawnRelationDefOf.Fiance, otherLocal))
-								{
-									p.relations.TryRemoveDirectRelation(PawnRelationDefOf.Lover, otherLocal);
-									p.relations.TryRemoveDirectRelation(PawnRelationDefOf.Spouse, otherLocal);
-									p.relations.AddDirectRelation(PawnRelationDefOf.Fiance, otherLocal);
-									Messages.Message("Dev: Auto added fiance relation.", p, MessageTypeDefOf.TaskCompletion, false);
-								}
-								if (!p.Map.lordsStarter.TryStartMarriageCeremony(p, otherLocal))
-								{
-									Messages.Message("Could not find any valid marriage site.", MessageTypeDefOf.RejectInput, false);
-								}
-							}));
-						}
-					}
-					Find.WindowStack.Add(new Dialog_DebugOptionListLister(list));
+					return;
 				}
+				List<DebugMenuOption> list = new List<DebugMenuOption>();
+				foreach (Pawn pawn in from x in p.Map.mapPawns.AllPawnsSpawned
+				where x.RaceProps.Humanlike
+				select x)
+				{
+					if (p != pawn)
+					{
+						Pawn otherLocal = pawn;
+						list.Add(new DebugMenuOption(otherLocal.LabelShort + " (" + otherLocal.KindLabel + ")", DebugMenuOptionMode.Action, delegate()
+						{
+							if (!p.relations.DirectRelationExists(PawnRelationDefOf.Fiance, otherLocal))
+							{
+								p.relations.TryRemoveDirectRelation(PawnRelationDefOf.Lover, otherLocal);
+								p.relations.TryRemoveDirectRelation(PawnRelationDefOf.Spouse, otherLocal);
+								p.relations.AddDirectRelation(PawnRelationDefOf.Fiance, otherLocal);
+								Messages.Message("Dev: Auto added fiance relation.", p, MessageTypeDefOf.TaskCompletion, false);
+							}
+							if (!p.Map.lordsStarter.TryStartMarriageCeremony(p, otherLocal))
+							{
+								Messages.Message("Could not find any valid marriage site.", MessageTypeDefOf.RejectInput, false);
+							}
+						}));
+					}
+				}
+				Find.WindowStack.Add(new Dialog_DebugOptionListLister(list));
 			});
 			base.DebugToolMapForPawns("T: Force interaction", delegate(Pawn p)
 			{
-				if (p.Faction != null)
+				if (p.Faction == null)
 				{
-					List<DebugMenuOption> list = new List<DebugMenuOption>();
-					foreach (Pawn pawn in p.Map.mapPawns.SpawnedPawnsInFaction(p.Faction))
-					{
-						if (pawn != p)
-						{
-							Pawn otherLocal = pawn;
-							list.Add(new DebugMenuOption(otherLocal.LabelShort + " (" + otherLocal.KindLabel + ")", DebugMenuOptionMode.Action, delegate()
-							{
-								List<DebugMenuOption> list2 = new List<DebugMenuOption>();
-								foreach (InteractionDef interactionLocal2 in DefDatabase<InteractionDef>.AllDefsListForReading)
-								{
-									InteractionDef interactionLocal = interactionLocal2;
-									list2.Add(new DebugMenuOption(interactionLocal.label, DebugMenuOptionMode.Action, delegate()
-									{
-										p.interactions.TryInteractWith(otherLocal, interactionLocal);
-									}));
-								}
-								Find.WindowStack.Add(new Dialog_DebugOptionListLister(list2));
-							}));
-						}
-					}
-					Find.WindowStack.Add(new Dialog_DebugOptionListLister(list));
+					return;
 				}
+				List<DebugMenuOption> list = new List<DebugMenuOption>();
+				foreach (Pawn pawn in p.Map.mapPawns.SpawnedPawnsInFaction(p.Faction))
+				{
+					if (pawn != p)
+					{
+						Pawn otherLocal = pawn;
+						list.Add(new DebugMenuOption(otherLocal.LabelShort + " (" + otherLocal.KindLabel + ")", DebugMenuOptionMode.Action, delegate()
+						{
+							List<DebugMenuOption> list2 = new List<DebugMenuOption>();
+							foreach (InteractionDef interactionLocal2 in DefDatabase<InteractionDef>.AllDefsListForReading)
+							{
+								InteractionDef interactionLocal = interactionLocal2;
+								list2.Add(new DebugMenuOption(interactionLocal.label, DebugMenuOptionMode.Action, delegate()
+								{
+									p.interactions.TryInteractWith(otherLocal, interactionLocal);
+								}));
+							}
+							Find.WindowStack.Add(new Dialog_DebugOptionListLister(list2));
+						}));
+					}
+				}
+				Find.WindowStack.Add(new Dialog_DebugOptionListLister(list));
 			});
 			base.DebugAction("T: Start party", delegate
 			{
@@ -2301,10 +2344,11 @@ namespace Verse
 			});
 			base.DebugToolMapForPawns("T: Start prison break", delegate(Pawn p)
 			{
-				if (p.IsPrisoner)
+				if (!p.IsPrisoner)
 				{
-					PrisonBreakUtility.StartPrisonBreak(p);
+					return;
 				}
+				PrisonBreakUtility.StartPrisonBreak(p);
 			});
 			base.DebugToolMapForPawns("T: Pass to world", delegate(Pawn p)
 			{
@@ -2571,42 +2615,43 @@ namespace Verse
 					ThingSetMakerDef localGenerator = allDefsListForReading[i];
 					list.Add(new DebugMenuOption(localGenerator.defName, DebugMenuOptionMode.Tool, delegate()
 					{
-						if (UI.MouseCell().InBounds(Find.CurrentMap))
+						if (!UI.MouseCell().InBounds(Find.CurrentMap))
 						{
-							StringBuilder stringBuilder = new StringBuilder();
-							string nonNullFieldsDebugInfo = Gen.GetNonNullFieldsDebugInfo(localGenerator.debugParams);
-							List<Thing> list2 = localGenerator.root.Generate(localGenerator.debugParams);
-							stringBuilder.Append(string.Concat(new object[]
-							{
-								localGenerator.defName,
-								" generated ",
-								list2.Count,
-								" things"
-							}));
-							if (!nonNullFieldsDebugInfo.NullOrEmpty())
-							{
-								stringBuilder.Append(" (used custom debug params: " + nonNullFieldsDebugInfo + ")");
-							}
-							stringBuilder.AppendLine(":");
-							float num = 0f;
-							float num2 = 0f;
-							for (int j = 0; j < list2.Count; j++)
-							{
-								stringBuilder.AppendLine("   - " + list2[j].LabelCap);
-								num += list2[j].MarketValue * (float)list2[j].stackCount;
-								if (!(list2[j] is Pawn))
-								{
-									num2 += list2[j].GetStatValue(StatDefOf.Mass, true) * (float)list2[j].stackCount;
-								}
-								if (!GenPlace.TryPlaceThing(list2[j], UI.MouseCell(), Find.CurrentMap, ThingPlaceMode.Near, null, null))
-								{
-									list2[j].Destroy(DestroyMode.Vanish);
-								}
-							}
-							stringBuilder.AppendLine("Total market value: " + num.ToString("0.##"));
-							stringBuilder.AppendLine("Total mass: " + num2.ToStringMass());
-							Log.Message(stringBuilder.ToString(), false);
+							return;
 						}
+						StringBuilder stringBuilder = new StringBuilder();
+						string nonNullFieldsDebugInfo = Gen.GetNonNullFieldsDebugInfo(localGenerator.debugParams);
+						List<Thing> list2 = localGenerator.root.Generate(localGenerator.debugParams);
+						stringBuilder.Append(string.Concat(new object[]
+						{
+							localGenerator.defName,
+							" generated ",
+							list2.Count,
+							" things"
+						}));
+						if (!nonNullFieldsDebugInfo.NullOrEmpty())
+						{
+							stringBuilder.Append(" (used custom debug params: " + nonNullFieldsDebugInfo + ")");
+						}
+						stringBuilder.AppendLine(":");
+						float num = 0f;
+						float num2 = 0f;
+						for (int j = 0; j < list2.Count; j++)
+						{
+							stringBuilder.AppendLine("   - " + list2[j].LabelCap);
+							num += list2[j].MarketValue * (float)list2[j].stackCount;
+							if (!(list2[j] is Pawn))
+							{
+								num2 += list2[j].GetStatValue(StatDefOf.Mass, true) * (float)list2[j].stackCount;
+							}
+							if (!GenPlace.TryPlaceThing(list2[j], UI.MouseCell(), Find.CurrentMap, ThingPlaceMode.Near, null, null))
+							{
+								list2[j].Destroy(DestroyMode.Vanish);
+							}
+						}
+						stringBuilder.AppendLine("Total market value: " + num.ToString("0.##"));
+						stringBuilder.AppendLine("Total mass: " + num2.ToStringMass());
+						Log.Message(stringBuilder.ToString(), false);
 					}));
 				}
 				Find.WindowStack.Add(new Dialog_DebugOptionListLister(list));
@@ -2654,7 +2699,7 @@ namespace Verse
 							" at ",
 							pawn.Position
 						}), false);
-						break;
+						return;
 					}
 				}
 			});
@@ -2675,7 +2720,7 @@ namespace Verse
 							" at ",
 							pawn.Position
 						}), false);
-						break;
+						return;
 					}
 				}
 			});
@@ -2687,7 +2732,7 @@ namespace Verse
 					Pawn pawn = PawnGenerator.GeneratePawn(random, FactionUtility.DefaultFactionFrom(random.defaultFactionType));
 					GenSpawn.Spawn(pawn, CellFinderLoose.RandomCellWith((IntVec3 c) => c.Standable(Find.CurrentMap), Find.CurrentMap, 1000), Find.CurrentMap, WipeMode.Vanish);
 					pawn.health.forceIncap = true;
-					BodyPartRecord part = pawn.health.hediffSet.GetNotMissingParts(BodyPartHeight.Undefined, BodyPartDepth.Undefined, null).RandomElement<BodyPartRecord>();
+					BodyPartRecord part = pawn.health.hediffSet.GetNotMissingParts(BodyPartHeight.Undefined, BodyPartDepth.Undefined, null, null).RandomElement<BodyPartRecord>();
 					HealthUtility.GiveInjuriesOperationFailureCatastrophic(pawn, part);
 					pawn.health.forceIncap = false;
 					if (pawn.Dead)
@@ -2800,7 +2845,7 @@ namespace Verse
 								array[1] = results.Average();
 								array[2] = GenMath.Stddev(results);
 								array[3] = (from res in results
-								select res.ToString()).ToLineList("");
+								select res.ToString()).ToLineList(null);
 								Log.Message(string.Format(format, array), false);
 							});
 						}));
@@ -2885,42 +2930,43 @@ namespace Verse
 			{
 				int num = GenWorld.MouseTile(false);
 				Tile tile = Find.WorldGrid[num];
-				if (!tile.biome.impassable)
+				if (tile.biome.impassable)
 				{
-					List<Pawn> list = new List<Pawn>();
-					int num2 = Rand.RangeInclusive(1, 10);
-					for (int i = 0; i < num2; i++)
+					return;
+				}
+				List<Pawn> list = new List<Pawn>();
+				int num2 = Rand.RangeInclusive(1, 10);
+				for (int i = 0; i < num2; i++)
+				{
+					Pawn pawn = PawnGenerator.GeneratePawn(Faction.OfPlayer.def.basicMemberKind, Faction.OfPlayer);
+					list.Add(pawn);
+					if (!pawn.story.WorkTagIsDisabled(WorkTags.Violent) && Rand.Value < 0.9f)
 					{
-						Pawn pawn = PawnGenerator.GeneratePawn(Faction.OfPlayer.def.basicMemberKind, Faction.OfPlayer);
-						list.Add(pawn);
-						if (!pawn.story.WorkTagIsDisabled(WorkTags.Violent) && Rand.Value < 0.9f)
-						{
-							ThingDef thingDef = (from def in DefDatabase<ThingDef>.AllDefs
-							where def.IsWeapon && def.PlayerAcquirable
-							select def).RandomElementWithFallback(null);
-							pawn.equipment.AddEquipment((ThingWithComps)ThingMaker.MakeThing(thingDef, GenStuff.RandomStuffFor(thingDef)));
-						}
+						ThingDef thingDef = (from def in DefDatabase<ThingDef>.AllDefs
+						where def.IsWeapon && def.PlayerAcquirable
+						select def).RandomElementWithFallback(null);
+						pawn.equipment.AddEquipment((ThingWithComps)ThingMaker.MakeThing(thingDef, GenStuff.RandomStuffFor(thingDef)));
 					}
-					int num3 = Rand.RangeInclusive(-4, 10);
-					for (int j = 0; j < num3; j++)
+				}
+				int num3 = Rand.RangeInclusive(-4, 10);
+				for (int j = 0; j < num3; j++)
+				{
+					PawnKindDef kindDef = (from d in DefDatabase<PawnKindDef>.AllDefs
+					where d.RaceProps.Animal && d.RaceProps.wildness < 1f
+					select d).RandomElement<PawnKindDef>();
+					Pawn item = PawnGenerator.GeneratePawn(kindDef, Faction.OfPlayer);
+					list.Add(item);
+				}
+				Caravan caravan = CaravanMaker.MakeCaravan(list, Faction.OfPlayer, num, true);
+				List<Thing> list2 = ThingSetMakerDefOf.DebugCaravanInventory.root.Generate();
+				for (int k = 0; k < list2.Count; k++)
+				{
+					Thing thing = list2[k];
+					if (thing.GetStatValue(StatDefOf.Mass, true) * (float)thing.stackCount > caravan.MassCapacity - caravan.MassUsage)
 					{
-						PawnKindDef kindDef = (from d in DefDatabase<PawnKindDef>.AllDefs
-						where d.RaceProps.Animal && d.RaceProps.wildness < 1f
-						select d).RandomElement<PawnKindDef>();
-						Pawn item = PawnGenerator.GeneratePawn(kindDef, Faction.OfPlayer);
-						list.Add(item);
+						break;
 					}
-					Caravan caravan = CaravanMaker.MakeCaravan(list, Faction.OfPlayer, num, true);
-					List<Thing> list2 = ThingSetMakerDefOf.DebugCaravanInventory.root.Generate();
-					for (int k = 0; k < list2.Count; k++)
-					{
-						Thing thing = list2[k];
-						if (thing.GetStatValue(StatDefOf.Mass, true) * (float)thing.stackCount > caravan.MassCapacity - caravan.MassUsage)
-						{
-							break;
-						}
-						CaravanInventoryUtility.GiveThing(caravan, thing);
-					}
+					CaravanInventoryUtility.GiveThing(caravan, thing);
 				}
 			});
 			base.DebugToolWorld("Spawn random faction base", delegate
@@ -2932,14 +2978,15 @@ namespace Verse
 				{
 					int num = GenWorld.MouseTile(false);
 					Tile tile = Find.WorldGrid[num];
-					if (!tile.biome.impassable)
+					if (tile.biome.impassable)
 					{
-						Settlement settlement = (Settlement)WorldObjectMaker.MakeWorldObject(WorldObjectDefOf.Settlement);
-						settlement.SetFaction(faction);
-						settlement.Tile = num;
-						settlement.Name = SettlementNameGenerator.GenerateSettlementName(settlement, null);
-						Find.WorldObjects.Add(settlement);
+						return;
 					}
+					Settlement settlement = (Settlement)WorldObjectMaker.MakeWorldObject(WorldObjectDefOf.Settlement);
+					settlement.SetFaction(faction);
+					settlement.Tile = num;
+					settlement.Name = SettlementNameGenerator.GenerateSettlementName(settlement, null);
+					Find.WorldObjects.Add(settlement);
 				}
 			});
 			base.DebugToolWorld("Spawn site", delegate
@@ -3127,7 +3174,7 @@ namespace Verse
 					{
 						if (localDef.pointsScaleable)
 						{
-							StorytellerComp storytellerComp = Find.Storyteller.storytellerComps.First((StorytellerComp x) => x is StorytellerComp_ThreatCycle || x is StorytellerComp_RandomMain);
+							StorytellerComp storytellerComp = Find.Storyteller.storytellerComps.First((StorytellerComp x) => x is StorytellerComp_OnOffCycle || x is StorytellerComp_RandomMain);
 							parms = storytellerComp.GenerateParms(localDef.category, parms.target);
 						}
 						localDef.Worker.TryExecute(parms);
@@ -3175,28 +3222,23 @@ namespace Verse
 
 		private string GetIncidentTargetLabel(IIncidentTarget target)
 		{
-			string result;
 			if (target == null)
 			{
-				result = "null target";
+				return "null target";
 			}
-			else if (target is Map)
+			if (target is Map)
 			{
-				result = "Map";
+				return "Map";
 			}
-			else if (target is World)
+			if (target is World)
 			{
-				result = "World";
+				return "World";
 			}
-			else if (target is Caravan)
+			if (target is Caravan)
 			{
-				result = ((Caravan)target).LabelCap;
+				return ((Caravan)target).LabelCap;
 			}
-			else
-			{
-				result = target.ToString();
-			}
-			return result;
+			return target.ToString();
 		}
 
 		private void DebugGiveResource(ThingDef resDef, int count)
@@ -3397,35 +3439,36 @@ namespace Verse
 		private static void <DoListingItems_AllModePlayActions>m__6()
 		{
 			List<Thing> toTransfer = Find.CurrentMap.thingGrid.ThingsAt(UI.MouseCell()).ToList<Thing>();
-			if (toTransfer.Any<Thing>())
+			if (!toTransfer.Any<Thing>())
 			{
-				List<DebugMenuOption> list = new List<DebugMenuOption>();
-				List<Map> maps = Find.Maps;
-				for (int i = 0; i < maps.Count; i++)
-				{
-					Map map = maps[i];
-					if (map != Find.CurrentMap)
-					{
-						list.Add(new DebugMenuOption(map.ToString(), DebugMenuOptionMode.Action, delegate()
-						{
-							for (int j = 0; j < toTransfer.Count; j++)
-							{
-								IntVec3 center;
-								if (CellFinder.TryFindRandomCellNear(map.Center, map, Mathf.Max(map.Size.x, map.Size.z), (IntVec3 x) => !x.Fogged(map) && x.Standable(map), out center, -1))
-								{
-									toTransfer[j].DeSpawn(DestroyMode.Vanish);
-									GenPlace.TryPlaceThing(toTransfer[j], center, map, ThingPlaceMode.Near, null, null);
-								}
-								else
-								{
-									Log.Error("Could not find spawn cell.", false);
-								}
-							}
-						}));
-					}
-				}
-				Find.WindowStack.Add(new Dialog_DebugOptionListLister(list));
+				return;
 			}
+			List<DebugMenuOption> list = new List<DebugMenuOption>();
+			List<Map> maps = Find.Maps;
+			for (int i = 0; i < maps.Count; i++)
+			{
+				Map map = maps[i];
+				if (map != Find.CurrentMap)
+				{
+					list.Add(new DebugMenuOption(map.ToString(), DebugMenuOptionMode.Action, delegate()
+					{
+						for (int j = 0; j < toTransfer.Count; j++)
+						{
+							IntVec3 center;
+							if (CellFinder.TryFindRandomCellNear(map.Center, map, Mathf.Max(map.Size.x, map.Size.z), (IntVec3 x) => !x.Fogged(map) && x.Standable(map), out center, -1))
+							{
+								toTransfer[j].DeSpawn(DestroyMode.Vanish);
+								GenPlace.TryPlaceThing(toTransfer[j], center, map, ThingPlaceMode.Near, null, null);
+							}
+							else
+							{
+								Log.Error("Could not find spawn cell.", false);
+							}
+						}
+					}));
+				}
+			}
+			Find.WindowStack.Add(new Dialog_DebugOptionListLister(list));
 		}
 
 		[CompilerGenerated]
@@ -3534,7 +3577,7 @@ namespace Verse
 		[CompilerGenerated]
 		private void <DoListingItems_MapActions>m__D()
 		{
-			StorytellerComp storytellerComp = Find.Storyteller.storytellerComps.First((StorytellerComp x) => x is StorytellerComp_ThreatCycle || x is StorytellerComp_RandomMain);
+			StorytellerComp storytellerComp = Find.Storyteller.storytellerComps.First((StorytellerComp x) => x is StorytellerComp_OnOffCycle || x is StorytellerComp_RandomMain);
 			IncidentParms parms = storytellerComp.GenerateParms(IncidentCategoryDefOf.ThreatBig, Find.CurrentMap);
 			List<DebugMenuOption> list = new List<DebugMenuOption>();
 			foreach (Faction localFac2 in Find.FactionManager.AllFactions)
@@ -3674,7 +3717,14 @@ namespace Verse
 				SoundDef localSd = localSd2;
 				list.Add(new DebugMenuOption(localSd.defName, DebugMenuOptionMode.Action, delegate()
 				{
-					localSd.PlayOneShotOnCamera(null);
+					if (localSd.subSounds.Any((SubSoundDef sub) => sub.onCamera))
+					{
+						localSd.PlayOneShotOnCamera(null);
+					}
+					else
+					{
+						localSd.PlayOneShot(SoundInfo.InMap(new TargetInfo(Find.CameraDriver.MapPosition, Find.CurrentMap, false), MaintenanceType.None));
+					}
 				}));
 			}
 			Find.WindowStack.Add(new Dialog_DebugOptionListLister(list));
@@ -3846,11 +3896,60 @@ namespace Verse
 		[CompilerGenerated]
 		private static void <DoListingItems_MapActions>m__23()
 		{
-			FloodFillerFog.DebugRefogMap(Find.CurrentMap);
+			List<FloatMenuOption> list = new List<FloatMenuOption>();
+			foreach (Faction localFac2 in Find.FactionManager.AllFactionsVisibleInViewOrder)
+			{
+				Faction localFac = localFac2;
+				IEnumerator enumerator2 = Enum.GetValues(typeof(FactionRelationKind)).GetEnumerator();
+				try
+				{
+					while (enumerator2.MoveNext())
+					{
+						object obj = enumerator2.Current;
+						FactionRelationKind localRk2 = (FactionRelationKind)obj;
+						FactionRelationKind localRk = localRk2;
+						FloatMenuOption item = new FloatMenuOption(localFac + " - " + localRk, delegate()
+						{
+							localFac.TrySetRelationKind(Faction.OfPlayer, localRk, true, null, null);
+						}, MenuOptionPriority.Default, null, null, 0f, null, null);
+						list.Add(item);
+					}
+				}
+				finally
+				{
+					IDisposable disposable;
+					if ((disposable = (enumerator2 as IDisposable)) != null)
+					{
+						disposable.Dispose();
+					}
+				}
+			}
+			Find.WindowStack.Add(new FloatMenu(list));
 		}
 
 		[CompilerGenerated]
 		private static void <DoListingItems_MapActions>m__24()
+		{
+			List<Pawn> list = new List<Pawn>();
+			foreach (Pawn pawn in Find.CurrentMap.mapPawns.AllPawnsSpawned)
+			{
+				if (pawn.Faction != null && !pawn.Faction.IsPlayer && !pawn.Faction.HostileTo(Faction.OfPlayer))
+				{
+					list.Add(pawn);
+					break;
+				}
+			}
+			VisitorGiftForPlayerUtility.GiveGift(list, list[0].Faction);
+		}
+
+		[CompilerGenerated]
+		private static void <DoListingItems_MapActions>m__25()
+		{
+			FloodFillerFog.DebugRefogMap(Find.CurrentMap);
+		}
+
+		[CompilerGenerated]
+		private static void <DoListingItems_MapActions>m__26()
 		{
 			List<DebugMenuOption> list = new List<DebugMenuOption>();
 			foreach (Type localGenStep2 in typeof(GenStep).AllSubclassesNonAbstract())
@@ -3866,53 +3965,36 @@ namespace Verse
 		}
 
 		[CompilerGenerated]
-		private static void <DoListingItems_MapActions>m__25()
+		private static void <DoListingItems_MapActions>m__27()
 		{
 			Find.TickManager.DebugSetTicksGame(Find.TickManager.TicksGame + 2500);
 		}
 
 		[CompilerGenerated]
-		private static void <DoListingItems_MapActions>m__26()
+		private static void <DoListingItems_MapActions>m__28()
 		{
 			Find.TickManager.DebugSetTicksGame(Find.TickManager.TicksGame + 15000);
 		}
 
 		[CompilerGenerated]
-		private static void <DoListingItems_MapActions>m__27()
+		private static void <DoListingItems_MapActions>m__29()
 		{
 			Find.TickManager.DebugSetTicksGame(Find.TickManager.TicksGame + 60000);
 		}
 
 		[CompilerGenerated]
-		private static void <DoListingItems_MapActions>m__28()
+		private static void <DoListingItems_MapActions>m__2A()
 		{
 			Find.TickManager.DebugSetTicksGame(Find.TickManager.TicksGame + 900000);
 		}
 
 		[CompilerGenerated]
-		private static void <DoListingItems_MapTools>m__29()
+		private static void <DoListingItems_MapActions>m__2B()
 		{
-			foreach (Thing thing in Find.CurrentMap.thingGrid.ThingsAt(UI.MouseCell()).ToList<Thing>())
+			for (int i = 0; i < 60000; i++)
 			{
-				thing.Destroy(DestroyMode.Vanish);
-			}
-		}
-
-		[CompilerGenerated]
-		private static void <DoListingItems_MapTools>m__2A()
-		{
-			foreach (Thing thing in Find.CurrentMap.thingGrid.ThingsAt(UI.MouseCell()).ToList<Thing>())
-			{
-				thing.Kill(null, null);
-			}
-		}
-
-		[CompilerGenerated]
-		private static void <DoListingItems_MapTools>m__2B()
-		{
-			foreach (Thing thing in Find.CurrentMap.thingGrid.ThingsAt(UI.MouseCell()).ToList<Thing>())
-			{
-				thing.TakeDamage(new DamageInfo(DamageDefOf.Crush, 10f, 0f, -1f, null, null, null, DamageInfo.SourceCategory.ThingOrUnknown, null));
+				Find.StoryWatcher.StoryWatcherTick();
+				Find.TickManager.DebugSetTicksGame(Find.TickManager.TicksGame + 1);
 			}
 		}
 
@@ -3921,36 +4003,7 @@ namespace Verse
 		{
 			foreach (Thing thing in Find.CurrentMap.thingGrid.ThingsAt(UI.MouseCell()).ToList<Thing>())
 			{
-				for (int i = 0; i < 1000; i++)
-				{
-					thing.TakeDamage(new DamageInfo(DamageDefOf.Crush, 10f, 0f, -1f, null, null, null, DamageInfo.SourceCategory.ThingOrUnknown, null));
-					if (thing.Destroyed)
-					{
-						string str = "Took " + (i + 1) + " hits";
-						Pawn pawn = thing as Pawn;
-						if (pawn != null)
-						{
-							if (pawn.health.ShouldBeDeadFromLethalDamageThreshold())
-							{
-								str = str + " (reached lethal damage threshold of " + pawn.health.LethalDamageThreshold.ToString("0.#") + ")";
-							}
-							else if (PawnCapacityUtility.CalculatePartEfficiency(pawn.health.hediffSet, pawn.RaceProps.body.corePart, false, null) <= 0.0001f)
-							{
-								str += " (core part hp reached 0)";
-							}
-							else
-							{
-								PawnCapacityDef pawnCapacityDef = pawn.health.ShouldBeDeadFromRequiredCapacity();
-								if (pawnCapacityDef != null)
-								{
-									str = str + " (incapable of " + pawnCapacityDef.defName + ")";
-								}
-							}
-						}
-						Log.Message(str + ".", false);
-						break;
-					}
-				}
+				thing.Destroy(DestroyMode.Vanish);
 			}
 		}
 
@@ -3959,7 +4012,7 @@ namespace Verse
 		{
 			foreach (Thing thing in Find.CurrentMap.thingGrid.ThingsAt(UI.MouseCell()).ToList<Thing>())
 			{
-				thing.TakeDamage(new DamageInfo(DamageDefOf.Crush, 5000f, 0f, -1f, null, null, null, DamageInfo.SourceCategory.ThingOrUnknown, null));
+				thing.Kill(null, null);
 			}
 		}
 
@@ -3968,19 +4021,37 @@ namespace Verse
 		{
 			foreach (Thing thing in Find.CurrentMap.thingGrid.ThingsAt(UI.MouseCell()).ToList<Thing>())
 			{
-				thing.TakeDamage(new DamageInfo(DamageDefOf.Flame, 5000f, 0f, -1f, null, null, null, DamageInfo.SourceCategory.ThingOrUnknown, null));
+				thing.TakeDamage(new DamageInfo(DamageDefOf.Crush, 10f, 0f, -1f, null, null, null, DamageInfo.SourceCategory.ThingOrUnknown, null));
 			}
 		}
 
 		[CompilerGenerated]
 		private static void <DoListingItems_MapTools>m__2F()
 		{
+			foreach (Thing thing in Find.CurrentMap.thingGrid.ThingsAt(UI.MouseCell()).ToList<Thing>())
+			{
+				thing.TakeDamage(new DamageInfo(DamageDefOf.Crush, 5000f, 0f, -1f, null, null, null, DamageInfo.SourceCategory.ThingOrUnknown, null));
+			}
+		}
+
+		[CompilerGenerated]
+		private static void <DoListingItems_MapTools>m__30()
+		{
+			foreach (Thing thing in Find.CurrentMap.thingGrid.ThingsAt(UI.MouseCell()).ToList<Thing>())
+			{
+				thing.TakeDamage(new DamageInfo(DamageDefOf.Flame, 5000f, 0f, -1f, null, null, null, DamageInfo.SourceCategory.ThingOrUnknown, null));
+			}
+		}
+
+		[CompilerGenerated]
+		private static void <DoListingItems_MapTools>m__31()
+		{
 			CellRect r = CellRect.CenteredOn(UI.MouseCell(), 10);
 			GenDebug.ClearArea(r, Find.CurrentMap);
 		}
 
 		[CompilerGenerated]
-		private static void <DoListingItems_MapTools>m__30()
+		private static void <DoListingItems_MapTools>m__32()
 		{
 			CellRect cellRect = CellRect.CenteredOn(UI.MouseCell(), 10);
 			cellRect.ClipInsideMap(Find.CurrentMap);
@@ -3991,7 +4062,7 @@ namespace Verse
 		}
 
 		[CompilerGenerated]
-		private static void <DoListingItems_MapTools>m__31()
+		private static void <DoListingItems_MapTools>m__33()
 		{
 			CellRect cellRect = CellRect.CenteredOn(UI.MouseCell(), 10);
 			cellRect.ClipInsideMap(Find.CurrentMap);
@@ -4009,31 +4080,31 @@ namespace Verse
 		}
 
 		[CompilerGenerated]
-		private static void <DoListingItems_MapTools>m__32()
+		private static void <DoListingItems_MapTools>m__34()
 		{
 			GenExplosion.DoExplosion(UI.MouseCell(), Find.CurrentMap, 3.9f, DamageDefOf.Bomb, null, -1, -1f, null, null, null, null, null, 0f, 1, false, null, 0f, 1, 0f, false);
 		}
 
 		[CompilerGenerated]
-		private static void <DoListingItems_MapTools>m__33()
+		private static void <DoListingItems_MapTools>m__35()
 		{
 			GenExplosion.DoExplosion(UI.MouseCell(), Find.CurrentMap, 3.9f, DamageDefOf.Flame, null, -1, -1f, null, null, null, null, null, 0f, 1, false, null, 0f, 1, 0f, false);
 		}
 
 		[CompilerGenerated]
-		private static void <DoListingItems_MapTools>m__34()
+		private static void <DoListingItems_MapTools>m__36()
 		{
 			GenExplosion.DoExplosion(UI.MouseCell(), Find.CurrentMap, 3.9f, DamageDefOf.Stun, null, -1, -1f, null, null, null, null, null, 0f, 1, false, null, 0f, 1, 0f, false);
 		}
 
 		[CompilerGenerated]
-		private static void <DoListingItems_MapTools>m__35()
+		private static void <DoListingItems_MapTools>m__37()
 		{
 			GenExplosion.DoExplosion(UI.MouseCell(), Find.CurrentMap, 3.9f, DamageDefOf.EMP, null, -1, -1f, null, null, null, null, null, 0f, 1, false, null, 0f, 1, 0f, false);
 		}
 
 		[CompilerGenerated]
-		private static void <DoListingItems_MapTools>m__36()
+		private static void <DoListingItems_MapTools>m__38()
 		{
 			IntVec3 center = UI.MouseCell();
 			Map currentMap = Find.CurrentMap;
@@ -4045,7 +4116,7 @@ namespace Verse
 		}
 
 		[CompilerGenerated]
-		private static void <DoListingItems_MapTools>m__37()
+		private static void <DoListingItems_MapTools>m__39()
 		{
 			IntVec3 center = UI.MouseCell();
 			Map currentMap = Find.CurrentMap;
@@ -4057,25 +4128,25 @@ namespace Verse
 		}
 
 		[CompilerGenerated]
-		private static void <DoListingItems_MapTools>m__38()
+		private static void <DoListingItems_MapTools>m__3A()
 		{
 			Find.CurrentMap.weatherManager.eventHandler.AddEvent(new WeatherEvent_LightningStrike(Find.CurrentMap, UI.MouseCell()));
 		}
 
 		[CompilerGenerated]
-		private static void <DoListingItems_MapTools>m__39()
+		private static void <DoListingItems_MapTools>m__3B()
 		{
 			SnowUtility.AddSnowRadial(UI.MouseCell(), Find.CurrentMap, 5f, 1f);
 		}
 
 		[CompilerGenerated]
-		private static void <DoListingItems_MapTools>m__3A()
+		private static void <DoListingItems_MapTools>m__3C()
 		{
 			SnowUtility.AddSnowRadial(UI.MouseCell(), Find.CurrentMap, 5f, -1f);
 		}
 
 		[CompilerGenerated]
-		private static void <DoListingItems_MapTools>m__3B()
+		private static void <DoListingItems_MapTools>m__3D()
 		{
 			foreach (IntVec3 c in Find.CurrentMap.AllCells)
 			{
@@ -4084,25 +4155,25 @@ namespace Verse
 		}
 
 		[CompilerGenerated]
-		private static void <DoListingItems_MapTools>m__3C()
+		private static void <DoListingItems_MapTools>m__3E()
 		{
 			GenTemperature.PushHeat(UI.MouseCell(), Find.CurrentMap, 10f);
 		}
 
 		[CompilerGenerated]
-		private static void <DoListingItems_MapTools>m__3D()
+		private static void <DoListingItems_MapTools>m__3F()
 		{
 			GenTemperature.PushHeat(UI.MouseCell(), Find.CurrentMap, 10000f);
 		}
 
 		[CompilerGenerated]
-		private static void <DoListingItems_MapTools>m__3E()
+		private static void <DoListingItems_MapTools>m__40()
 		{
 			GenTemperature.PushHeat(UI.MouseCell(), Find.CurrentMap, -1000f);
 		}
 
 		[CompilerGenerated]
-		private static void <DoListingItems_MapTools>m__3F()
+		private static void <DoListingItems_MapTools>m__41()
 		{
 			foreach (Thing thing in Find.CurrentMap.thingGrid.ThingsAt(UI.MouseCell()))
 			{
@@ -4115,7 +4186,7 @@ namespace Verse
 		}
 
 		[CompilerGenerated]
-		private static void <DoListingItems_MapTools>m__40()
+		private static void <DoListingItems_MapTools>m__42()
 		{
 			IntVec3 intVec = UI.MouseCell();
 			Plant plant = intVec.GetPlant(Find.CurrentMap);
@@ -4140,7 +4211,7 @@ namespace Verse
 		}
 
 		[CompilerGenerated]
-		private static void <DoListingItems_MapTools>m__41()
+		private static void <DoListingItems_MapTools>m__43()
 		{
 			IntVec3 intVec = UI.MouseCell();
 			Plant plant = intVec.GetPlant(Find.CurrentMap);
@@ -4154,13 +4225,13 @@ namespace Verse
 		}
 
 		[CompilerGenerated]
-		private static void <DoListingItems_MapTools>m__42()
+		private static void <DoListingItems_MapTools>m__44()
 		{
 			Find.CurrentMap.mapDrawer.SectionAt(UI.MouseCell()).RegenerateAllLayers();
 		}
 
 		[CompilerGenerated]
-		private static void <DoListingItems_MapTools>m__43()
+		private static void <DoListingItems_MapTools>m__45()
 		{
 			foreach (Thing thing in Find.CurrentMap.thingGrid.ThingsAt(UI.MouseCell()))
 			{
@@ -4173,7 +4244,7 @@ namespace Verse
 		}
 
 		[CompilerGenerated]
-		private static void <DoListingItems_MapTools>m__44()
+		private static void <DoListingItems_MapTools>m__46()
 		{
 			foreach (Thing thing in Find.CurrentMap.thingGrid.ThingsAt(UI.MouseCell()))
 			{
@@ -4186,7 +4257,7 @@ namespace Verse
 		}
 
 		[CompilerGenerated]
-		private static void <DoListingItems_MapTools>m__45()
+		private static void <DoListingItems_MapTools>m__47()
 		{
 			foreach (Thing thing in Find.CurrentMap.thingGrid.ThingsAt(UI.MouseCell()))
 			{
@@ -4199,7 +4270,7 @@ namespace Verse
 		}
 
 		[CompilerGenerated]
-		private static void <DoListingItems_MapTools>m__46()
+		private static void <DoListingItems_MapTools>m__48()
 		{
 			foreach (Thing thing in Find.CurrentMap.thingGrid.ThingsAt(UI.MouseCell()))
 			{
@@ -4212,13 +4283,13 @@ namespace Verse
 		}
 
 		[CompilerGenerated]
-		private static void <DoListingItems_MapTools>m__47()
+		private static void <DoListingItems_MapTools>m__49()
 		{
 			Find.WindowStack.Add(new Dialog_DebugOptionListLister(DebugTools_MapGen.Options_Scatterers()));
 		}
 
 		[CompilerGenerated]
-		private static void <DoListingItems_MapTools>m__48()
+		private static void <DoListingItems_MapTools>m__4A()
 		{
 			List<DebugMenuOption> list = new List<DebugMenuOption>();
 			foreach (string text in (from x in DefDatabase<RuleDef>.AllDefs
@@ -4249,7 +4320,7 @@ namespace Verse
 		}
 
 		[CompilerGenerated]
-		private static void <DoListingItems_MapTools>m__49()
+		private static void <DoListingItems_MapTools>m__4B()
 		{
 			CellRect.CellRectIterator iterator = CellRect.CenteredOn(UI.MouseCell(), 1).GetIterator();
 			while (!iterator.Done())
@@ -4260,7 +4331,7 @@ namespace Verse
 		}
 
 		[CompilerGenerated]
-		private static void <DoListingItems_MapTools>m__4A()
+		private static void <DoListingItems_MapTools>m__4C()
 		{
 			CellRect.CellRectIterator iterator = CellRect.CenteredOn(UI.MouseCell(), 1).GetIterator();
 			while (!iterator.Done())
@@ -4271,50 +4342,26 @@ namespace Verse
 		}
 
 		[CompilerGenerated]
-		private static void <DoListingItems_MapTools>m__4B()
-		{
-			foreach (Thing thing in Find.CurrentMap.thingGrid.ThingsAt(UI.MouseCell()).ToList<Thing>())
-			{
-				Building_Trap building_Trap = thing as Building_Trap;
-				if (building_Trap != null)
-				{
-					if (building_Trap.Armed)
-					{
-						building_Trap.Spring(null);
-					}
-					else
-					{
-						Building_TrapRearmable building_TrapRearmable = building_Trap as Building_TrapRearmable;
-						if (building_TrapRearmable != null)
-						{
-							building_TrapRearmable.Rearm();
-						}
-					}
-				}
-			}
-		}
-
-		[CompilerGenerated]
-		private static void <DoListingItems_MapTools>m__4C()
+		private static void <DoListingItems_MapTools>m__4D()
 		{
 			FloodFillerFog.DebugFloodUnfog(UI.MouseCell(), Find.CurrentMap);
 		}
 
 		[CompilerGenerated]
-		private static void <DoListingItems_MapTools>m__4D()
+		private static void <DoListingItems_MapTools>m__4E()
 		{
 			IntVec3 c = CellFinder.RandomClosewalkCellNear(UI.MouseCell(), Find.CurrentMap, 30, null);
 			Find.CurrentMap.debugDrawer.FlashCell(c, 0f, null, 50);
 		}
 
 		[CompilerGenerated]
-		private static void <DoListingItems_MapTools>m__4E()
+		private static void <DoListingItems_MapTools>m__4F()
 		{
 			WalkPathFinder.DebugFlashWalkPath(UI.MouseCell(), 8);
 		}
 
 		[CompilerGenerated]
-		private static void <DoListingItems_MapTools>m__4F()
+		private static void <DoListingItems_MapTools>m__50()
 		{
 			Pawn pawn = Find.CurrentMap.mapPawns.FreeColonists.First<Pawn>();
 			IntVec3 c;
@@ -4324,7 +4371,7 @@ namespace Verse
 		}
 
 		[CompilerGenerated]
-		private static void <DoListingItems_MapTools>m__50()
+		private static void <DoListingItems_MapTools>m__51()
 		{
 			Pawn pawn = Find.Selector.SingleSelectedThing as Pawn;
 			IntVec3 c;
@@ -4343,7 +4390,7 @@ namespace Verse
 		}
 
 		[CompilerGenerated]
-		private static void <DoListingItems_MapTools>m__51()
+		private static void <DoListingItems_MapTools>m__52()
 		{
 			Action<bool> act = delegate(bool bestSideOnly)
 			{
@@ -4380,7 +4427,7 @@ namespace Verse
 		}
 
 		[CompilerGenerated]
-		private static void <DoListingItems_MapTools>m__52()
+		private static void <DoListingItems_MapTools>m__53()
 		{
 			List<DebugMenuOption> list = new List<DebugMenuOption>();
 			TraverseMode[] array = (TraverseMode[])Enum.GetValues(typeof(TraverseMode));
@@ -4437,7 +4484,7 @@ namespace Verse
 		}
 
 		[CompilerGenerated]
-		private static void <DoListingItems_MapTools>m__53(Pawn p)
+		private static void <DoListingItems_MapTools>m__54(Pawn p)
 		{
 			IntVec3 intVec;
 			if (CellFinder.TryFindRandomPawnExitCell(p, out intVec))
@@ -4452,7 +4499,7 @@ namespace Verse
 		}
 
 		[CompilerGenerated]
-		private static void <DoListingItems_MapTools>m__54(Pawn p)
+		private static void <DoListingItems_MapTools>m__55(Pawn p)
 		{
 			IntVec3 intVec;
 			if (RCellFinder.TryFindRandomSpotJustOutsideColony(p, out intVec))
@@ -4467,7 +4514,7 @@ namespace Verse
 		}
 
 		[CompilerGenerated]
-		private static void <DoListingItems_MapTools>m__55()
+		private static void <DoListingItems_MapTools>m__56()
 		{
 			foreach (Thing thing in UI.MouseCell().GetThingList(Find.CurrentMap).ToList<Thing>())
 			{
@@ -4480,25 +4527,63 @@ namespace Verse
 		}
 
 		[CompilerGenerated]
-		private static void <DoListingItems_MapTools>m__56(Pawn p)
+		private static void <DoListingItems_MapTools>m__57(Pawn p)
 		{
 			HealthUtility.DamageUntilDowned(p, true);
 		}
 
 		[CompilerGenerated]
-		private static void <DoListingItems_MapTools>m__57(Pawn p)
+		private static void <DoListingItems_MapTools>m__58(Pawn p)
 		{
 			HealthUtility.DamageLegsUntilIncapableOfMoving(p, true);
 		}
 
 		[CompilerGenerated]
-		private static void <DoListingItems_MapTools>m__58(Pawn p)
+		private static void <DoListingItems_MapTools>m__59(Pawn p)
 		{
 			HealthUtility.DamageUntilDead(p);
 		}
 
 		[CompilerGenerated]
-		private static void <DoListingItems_MapTools>m__59()
+		private static void <DoListingItems_MapTools>m__5A()
+		{
+			foreach (Thing thing in Find.CurrentMap.thingGrid.ThingsAt(UI.MouseCell()).ToList<Thing>())
+			{
+				for (int i = 0; i < 1000; i++)
+				{
+					thing.TakeDamage(new DamageInfo(DamageDefOf.Crush, 10f, 0f, -1f, null, null, null, DamageInfo.SourceCategory.ThingOrUnknown, null));
+					if (thing.Destroyed)
+					{
+						string str = "Took " + (i + 1) + " hits";
+						Pawn pawn = thing as Pawn;
+						if (pawn != null)
+						{
+							if (pawn.health.ShouldBeDeadFromLethalDamageThreshold())
+							{
+								str = str + " (reached lethal damage threshold of " + pawn.health.LethalDamageThreshold.ToString("0.#") + ")";
+							}
+							else if (PawnCapacityUtility.CalculatePartEfficiency(pawn.health.hediffSet, pawn.RaceProps.body.corePart, false, null) <= 0.0001f)
+							{
+								str += " (core part hp reached 0)";
+							}
+							else
+							{
+								PawnCapacityDef pawnCapacityDef = pawn.health.ShouldBeDeadFromRequiredCapacity();
+								if (pawnCapacityDef != null)
+								{
+									str = str + " (incapable of " + pawnCapacityDef.defName + ")";
+								}
+							}
+						}
+						Log.Message(str + ".", false);
+						break;
+					}
+				}
+			}
+		}
+
+		[CompilerGenerated]
+		private static void <DoListingItems_MapTools>m__5B()
 		{
 			foreach (Thing thing in Find.CurrentMap.thingGrid.ThingsAt(UI.MouseCell()).ToList<Thing>())
 			{
@@ -4511,9 +4596,9 @@ namespace Verse
 		}
 
 		[CompilerGenerated]
-		private static void <DoListingItems_MapTools>m__5A(Pawn p)
+		private static void <DoListingItems_MapTools>m__5C(Pawn p)
 		{
-			BodyPartRecord bodyPartRecord = (from x in p.health.hediffSet.GetNotMissingParts(BodyPartHeight.Undefined, BodyPartDepth.Undefined, null)
+			BodyPartRecord bodyPartRecord = (from x in p.health.hediffSet.GetNotMissingParts(BodyPartHeight.Undefined, BodyPartDepth.Undefined, null, null)
 			where !x.def.conceptual
 			select x).RandomElement<BodyPartRecord>();
 			Log.Message("part is " + bodyPartRecord, false);
@@ -4521,9 +4606,9 @@ namespace Verse
 		}
 
 		[CompilerGenerated]
-		private static void <DoListingItems_MapTools>m__5B(Pawn p)
+		private static void <DoListingItems_MapTools>m__5D(Pawn p)
 		{
-			BodyPartRecord bodyPartRecord = (from x in p.health.hediffSet.GetNotMissingParts(BodyPartHeight.Undefined, BodyPartDepth.Undefined, null)
+			BodyPartRecord bodyPartRecord = (from x in p.health.hediffSet.GetNotMissingParts(BodyPartHeight.Undefined, BodyPartDepth.Undefined, null, null)
 			where !x.def.conceptual
 			select x).RandomElement<BodyPartRecord>();
 			Log.Message("part is " + bodyPartRecord, false);
@@ -4531,37 +4616,37 @@ namespace Verse
 		}
 
 		[CompilerGenerated]
-		private static void <DoListingItems_MapTools>m__5C(Pawn p)
+		private static void <DoListingItems_MapTools>m__5E(Pawn p)
 		{
 			HealthUtility.GiveInjuriesOperationFailureRidiculous(p);
 		}
 
 		[CompilerGenerated]
-		private static void <DoListingItems_MapTools>m__5D(Pawn p)
+		private static void <DoListingItems_MapTools>m__5F(Pawn p)
 		{
 			Find.WindowStack.Add(new Dialog_DebugOptionListLister(DebugTools_Health.Options_RestorePart(p)));
 		}
 
 		[CompilerGenerated]
-		private static void <DoListingItems_MapTools>m__5E()
+		private static void <DoListingItems_MapTools>m__60()
 		{
 			Find.WindowStack.Add(new Dialog_DebugOptionListLister(DebugTools_Health.Options_ApplyDamage()));
 		}
 
 		[CompilerGenerated]
-		private static void <DoListingItems_MapTools>m__5F()
+		private static void <DoListingItems_MapTools>m__61()
 		{
 			Find.WindowStack.Add(new Dialog_DebugOptionListLister(DebugTools_Health.Options_AddHediff()));
 		}
 
 		[CompilerGenerated]
-		private static void <DoListingItems_MapTools>m__60(Pawn p)
+		private static void <DoListingItems_MapTools>m__62(Pawn p)
 		{
 			Find.WindowStack.Add(new Dialog_DebugOptionListLister(DebugTools_Health.Options_RemoveHediff(p)));
 		}
 
 		[CompilerGenerated]
-		private static void <DoListingItems_MapTools>m__61(Pawn p)
+		private static void <DoListingItems_MapTools>m__63(Pawn p)
 		{
 			Hediff_Injury hediff_Injury;
 			if ((from x in p.health.hediffSet.GetHediffs<Hediff_Injury>()
@@ -4573,7 +4658,7 @@ namespace Verse
 		}
 
 		[CompilerGenerated]
-		private void <DoListingItems_MapTools>m__62(Pawn p)
+		private void <DoListingItems_MapTools>m__64(Pawn p)
 		{
 			List<FloatMenuOption> list = new List<FloatMenuOption>();
 			if (p.RaceProps.hediffGiverSets != null)
@@ -4595,7 +4680,7 @@ namespace Verse
 		}
 
 		[CompilerGenerated]
-		private static void <DoListingItems_MapTools>m__63(Pawn p)
+		private static void <DoListingItems_MapTools>m__65(Pawn p)
 		{
 			foreach (Hediff hediff in p.health.hediffSet.hediffs)
 			{
@@ -4607,7 +4692,7 @@ namespace Verse
 		}
 
 		[CompilerGenerated]
-		private static void <DoListingItems_MapTools>m__64(Pawn p)
+		private static void <DoListingItems_MapTools>m__66(Pawn p)
 		{
 			foreach (Hediff hediff in p.health.hediffSet.hediffs)
 			{
@@ -4620,158 +4705,175 @@ namespace Verse
 		}
 
 		[CompilerGenerated]
-		private void <DoListingItems_MapTools>m__65(Pawn p)
+		private void <DoListingItems_MapTools>m__67(Pawn p)
 		{
 			Hediff_Pregnant.DoBirthSpawn(p, null);
 			this.DustPuffFrom(p);
 		}
 
 		[CompilerGenerated]
-		private static void <DoListingItems_MapTools>m__66(Pawn p)
+		private void <DoListingItems_MapTools>m__68(Pawn p)
 		{
-			Log.Message(string.Format("Verb list (currently usable):\nNormal\n  {0}\nTerrain\n  {1}", GenText.ToTextList(from verb in p.meleeVerbs.GetUpdatedAvailableVerbsList(false)
-			select verb.ToString(), "\n  "), GenText.ToTextList(from verb in p.meleeVerbs.GetUpdatedAvailableVerbsList(true)
-			select verb.ToString(), "\n  ")), false);
-		}
-
-		[CompilerGenerated]
-		private static void <DoListingItems_MapTools>m__67(Pawn p)
-		{
-			if (p.RaceProps.IsFlesh)
+			if (p.guest != null && p.guest.resistance > 0f)
 			{
-				Action<bool> act = delegate(bool add)
-				{
-					if (add)
-					{
-						List<DebugMenuOption> list2 = new List<DebugMenuOption>();
-						foreach (PawnRelationDef pawnRelationDef in DefDatabase<PawnRelationDef>.AllDefs)
-						{
-							if (!pawnRelationDef.implied)
-							{
-								PawnRelationDef defLocal = pawnRelationDef;
-								list2.Add(new DebugMenuOption(defLocal.defName, DebugMenuOptionMode.Action, delegate()
-								{
-									List<DebugMenuOption> list4 = new List<DebugMenuOption>();
-									IOrderedEnumerable<Pawn> orderedEnumerable = from x in PawnsFinder.AllMapsWorldAndTemporary_Alive
-									where x.RaceProps.IsFlesh
-									orderby x.def == p.def descending, x.IsWorldPawn()
-									select x;
-									foreach (Pawn pawn in orderedEnumerable)
-									{
-										if (p != pawn)
-										{
-											if (!defLocal.familyByBloodRelation || pawn.def == p.def)
-											{
-												if (!p.relations.DirectRelationExists(defLocal, pawn))
-												{
-													Pawn otherLocal = pawn;
-													list4.Add(new DebugMenuOption(otherLocal.LabelShort + " (" + otherLocal.KindLabel + ")", DebugMenuOptionMode.Action, delegate()
-													{
-														p.relations.AddDirectRelation(defLocal, otherLocal);
-													}));
-												}
-											}
-										}
-									}
-									Find.WindowStack.Add(new Dialog_DebugOptionListLister(list4));
-								}));
-							}
-						}
-						Find.WindowStack.Add(new Dialog_DebugOptionListLister(list2));
-					}
-					else
-					{
-						List<DebugMenuOption> list3 = new List<DebugMenuOption>();
-						List<DirectPawnRelation> directRelations = p.relations.DirectRelations;
-						for (int i = 0; i < directRelations.Count; i++)
-						{
-							DirectPawnRelation rel = directRelations[i];
-							list3.Add(new DebugMenuOption(rel.def.defName + " - " + rel.otherPawn.LabelShort, DebugMenuOptionMode.Action, delegate()
-							{
-								p.relations.RemoveDirectRelation(rel);
-							}));
-						}
-						Find.WindowStack.Add(new Dialog_DebugOptionListLister(list3));
-					}
-				};
-				List<DebugMenuOption> list = new List<DebugMenuOption>();
-				list.Add(new DebugMenuOption("Add", DebugMenuOptionMode.Action, delegate()
-				{
-					act(true);
-				}));
-				list.Add(new DebugMenuOption("Remove", DebugMenuOptionMode.Action, delegate()
-				{
-					act(false);
-				}));
-				Find.WindowStack.Add(new Dialog_DebugOptionListLister(list));
-			}
-		}
-
-		[CompilerGenerated]
-		private static void <DoListingItems_MapTools>m__68(Pawn p)
-		{
-			if (p.RaceProps.Humanlike)
-			{
-				Action<bool> act = delegate(bool good)
-				{
-					foreach (Pawn pawn in from x in p.Map.mapPawns.AllPawnsSpawned
-					where x.RaceProps.Humanlike
-					select x)
-					{
-						if (p != pawn)
-						{
-							IEnumerable<ThoughtDef> source = DefDatabase<ThoughtDef>.AllDefs.Where((ThoughtDef x) => typeof(Thought_MemorySocial).IsAssignableFrom(x.thoughtClass) && ((good && x.stages[0].baseOpinionOffset > 0f) || (!good && x.stages[0].baseOpinionOffset < 0f)));
-							if (source.Any<ThoughtDef>())
-							{
-								int num = Rand.Range(2, 5);
-								for (int i = 0; i < num; i++)
-								{
-									ThoughtDef def = source.RandomElement<ThoughtDef>();
-									pawn.needs.mood.thoughts.memories.TryGainMemory(def, p);
-								}
-							}
-						}
-					}
-				};
-				List<DebugMenuOption> list = new List<DebugMenuOption>();
-				list.Add(new DebugMenuOption("Good", DebugMenuOptionMode.Action, delegate()
-				{
-					act(true);
-				}));
-				list.Add(new DebugMenuOption("Bad", DebugMenuOptionMode.Action, delegate()
-				{
-					act(false);
-				}));
-				Find.WindowStack.Add(new Dialog_DebugOptionListLister(list));
+				p.guest.resistance = Mathf.Max(0f, p.guest.resistance - 1f);
+				this.DustPuffFrom(p);
 			}
 		}
 
 		[CompilerGenerated]
 		private static void <DoListingItems_MapTools>m__69(Pawn p)
 		{
+			Log.Message(string.Format("Verb list (currently usable):\nNormal\n  {0}\nTerrain\n  {1}", (from verb in p.meleeVerbs.GetUpdatedAvailableVerbsList(false)
+			select verb.ToString()).ToLineList("  "), (from verb in p.meleeVerbs.GetUpdatedAvailableVerbsList(true)
+			select verb.ToString()).ToLineList("  ")), false);
+		}
+
+		[CompilerGenerated]
+		private static void <DoListingItems_MapTools>m__6A(Pawn p)
+		{
+			if (!p.RaceProps.IsFlesh)
+			{
+				return;
+			}
+			Action<bool> act = delegate(bool add)
+			{
+				if (add)
+				{
+					List<DebugMenuOption> list2 = new List<DebugMenuOption>();
+					foreach (PawnRelationDef pawnRelationDef in DefDatabase<PawnRelationDef>.AllDefs)
+					{
+						if (!pawnRelationDef.implied)
+						{
+							PawnRelationDef defLocal = pawnRelationDef;
+							list2.Add(new DebugMenuOption(defLocal.defName, DebugMenuOptionMode.Action, delegate()
+							{
+								List<DebugMenuOption> list4 = new List<DebugMenuOption>();
+								IOrderedEnumerable<Pawn> source = from x in PawnsFinder.AllMapsWorldAndTemporary_Alive
+								where x.RaceProps.IsFlesh
+								orderby x.def == p.def descending
+								select x;
+								if (Dialog_DebugActionsMenu.<>f__mg$cache0 == null)
+								{
+									Dialog_DebugActionsMenu.<>f__mg$cache0 = new Func<Pawn, bool>(WorldPawnsUtility.IsWorldPawn);
+								}
+								IOrderedEnumerable<Pawn> orderedEnumerable = source.ThenBy(Dialog_DebugActionsMenu.<>f__mg$cache0);
+								foreach (Pawn pawn in orderedEnumerable)
+								{
+									if (p != pawn)
+									{
+										if (!defLocal.familyByBloodRelation || pawn.def == p.def)
+										{
+											if (!p.relations.DirectRelationExists(defLocal, pawn))
+											{
+												Pawn otherLocal = pawn;
+												list4.Add(new DebugMenuOption(otherLocal.LabelShort + " (" + otherLocal.KindLabel + ")", DebugMenuOptionMode.Action, delegate()
+												{
+													p.relations.AddDirectRelation(defLocal, otherLocal);
+												}));
+											}
+										}
+									}
+								}
+								Find.WindowStack.Add(new Dialog_DebugOptionListLister(list4));
+							}));
+						}
+					}
+					Find.WindowStack.Add(new Dialog_DebugOptionListLister(list2));
+				}
+				else
+				{
+					List<DebugMenuOption> list3 = new List<DebugMenuOption>();
+					List<DirectPawnRelation> directRelations = p.relations.DirectRelations;
+					for (int i = 0; i < directRelations.Count; i++)
+					{
+						DirectPawnRelation rel = directRelations[i];
+						list3.Add(new DebugMenuOption(rel.def.defName + " - " + rel.otherPawn.LabelShort, DebugMenuOptionMode.Action, delegate()
+						{
+							p.relations.RemoveDirectRelation(rel);
+						}));
+					}
+					Find.WindowStack.Add(new Dialog_DebugOptionListLister(list3));
+				}
+			};
+			List<DebugMenuOption> list = new List<DebugMenuOption>();
+			list.Add(new DebugMenuOption("Add", DebugMenuOptionMode.Action, delegate()
+			{
+				act(true);
+			}));
+			list.Add(new DebugMenuOption("Remove", DebugMenuOptionMode.Action, delegate()
+			{
+				act(false);
+			}));
+			Find.WindowStack.Add(new Dialog_DebugOptionListLister(list));
+		}
+
+		[CompilerGenerated]
+		private static void <DoListingItems_MapTools>m__6B(Pawn p)
+		{
+			if (!p.RaceProps.Humanlike)
+			{
+				return;
+			}
+			Action<bool> act = delegate(bool good)
+			{
+				foreach (Pawn pawn in from x in p.Map.mapPawns.AllPawnsSpawned
+				where x.RaceProps.Humanlike
+				select x)
+				{
+					if (p != pawn)
+					{
+						IEnumerable<ThoughtDef> source = DefDatabase<ThoughtDef>.AllDefs.Where((ThoughtDef x) => typeof(Thought_MemorySocial).IsAssignableFrom(x.thoughtClass) && ((good && x.stages[0].baseOpinionOffset > 0f) || (!good && x.stages[0].baseOpinionOffset < 0f)));
+						if (source.Any<ThoughtDef>())
+						{
+							int num = Rand.Range(2, 5);
+							for (int i = 0; i < num; i++)
+							{
+								ThoughtDef def = source.RandomElement<ThoughtDef>();
+								pawn.needs.mood.thoughts.memories.TryGainMemory(def, p);
+							}
+						}
+					}
+				}
+			};
+			List<DebugMenuOption> list = new List<DebugMenuOption>();
+			list.Add(new DebugMenuOption("Good", DebugMenuOptionMode.Action, delegate()
+			{
+				act(true);
+			}));
+			list.Add(new DebugMenuOption("Bad", DebugMenuOptionMode.Action, delegate()
+			{
+				act(false);
+			}));
+			Find.WindowStack.Add(new Dialog_DebugOptionListLister(list));
+		}
+
+		[CompilerGenerated]
+		private static void <DoListingItems_MapTools>m__6C(Pawn p)
+		{
 			p.jobs.StartJob(new Job(JobDefOf.Vomit), JobCondition.InterruptForced, null, true, true, null, null, false);
 		}
 
 		[CompilerGenerated]
-		private void <DoListingItems_MapTools>m__6A()
+		private void <DoListingItems_MapTools>m__6D()
 		{
 			this.OffsetNeed(NeedDefOf.Food, -0.2f);
 		}
 
 		[CompilerGenerated]
-		private void <DoListingItems_MapTools>m__6B()
+		private void <DoListingItems_MapTools>m__6E()
 		{
 			this.OffsetNeed(NeedDefOf.Rest, -0.2f);
 		}
 
 		[CompilerGenerated]
-		private void <DoListingItems_MapTools>m__6C()
+		private void <DoListingItems_MapTools>m__6F()
 		{
 			this.OffsetNeed(NeedDefOf.Joy, -0.2f);
 		}
 
 		[CompilerGenerated]
-		private void <DoListingItems_MapTools>m__6D()
+		private void <DoListingItems_MapTools>m__70()
 		{
 			List<NeedDef> allDefsListForReading = DefDatabase<NeedDef>.AllDefsListForReading;
 			for (int i = 0; i < allDefsListForReading.Count; i++)
@@ -4784,12 +4886,12 @@ namespace Verse
 		}
 
 		[CompilerGenerated]
-		private void <DoListingItems_MapTools>m__6E()
+		private void <DoListingItems_MapTools>m__71()
 		{
 			List<DebugMenuOption> list = new List<DebugMenuOption>();
 			foreach (SkillDef localDef in DefDatabase<SkillDef>.AllDefs)
 			{
-				Dialog_DebugActionsMenu.<DoListingItems_MapTools>c__AnonStorey22 <DoListingItems_MapTools>c__AnonStorey = new Dialog_DebugActionsMenu.<DoListingItems_MapTools>c__AnonStorey22();
+				Dialog_DebugActionsMenu.<DoListingItems_MapTools>c__AnonStorey24 <DoListingItems_MapTools>c__AnonStorey = new Dialog_DebugActionsMenu.<DoListingItems_MapTools>c__AnonStorey24();
 				<DoListingItems_MapTools>c__AnonStorey.$this = this;
 				<DoListingItems_MapTools>c__AnonStorey.localDef = localDef;
 				list.Add(new DebugMenuOption(<DoListingItems_MapTools>c__AnonStorey.localDef.defName, DebugMenuOptionMode.Action, delegate()
@@ -4803,13 +4905,14 @@ namespace Verse
 							Pawn pawn = (from t in Find.CurrentMap.thingGrid.ThingsAt(UI.MouseCell())
 							where t is Pawn
 							select t).Cast<Pawn>().FirstOrDefault<Pawn>();
-							if (pawn != null)
+							if (pawn == null)
 							{
-								SkillRecord skill = pawn.skills.GetSkill(<DoListingItems_MapTools>c__AnonStorey.localDef);
-								skill.Level = level;
-								skill.xpSinceLastLevel = skill.XpRequiredForLevelUp / 2f;
-								<DoListingItems_MapTools>c__AnonStorey.DustPuffFrom(pawn);
+								return;
 							}
+							SkillRecord skill = pawn.skills.GetSkill(<DoListingItems_MapTools>c__AnonStorey.localDef);
+							skill.Level = level;
+							skill.xpSinceLastLevel = skill.XpRequiredForLevelUp / 2f;
+							<DoListingItems_MapTools>c__AnonStorey.DustPuffFrom(pawn);
 						}));
 					}
 					Find.WindowStack.Add(new Dialog_DebugOptionListLister(list2));
@@ -4819,7 +4922,7 @@ namespace Verse
 		}
 
 		[CompilerGenerated]
-		private void <DoListingItems_MapTools>m__6F(Pawn p)
+		private void <DoListingItems_MapTools>m__72(Pawn p)
 		{
 			if (p.skills != null)
 			{
@@ -4844,7 +4947,7 @@ namespace Verse
 		}
 
 		[CompilerGenerated]
-		private void <DoListingItems_MapTools>m__70()
+		private void <DoListingItems_MapTools>m__73()
 		{
 			List<DebugMenuOption> list = new List<DebugMenuOption>();
 			list.Add(new DebugMenuOption("(log possibles)", DebugMenuOptionMode.Tool, delegate()
@@ -4890,7 +4993,7 @@ namespace Verse
 		}
 
 		[CompilerGenerated]
-		private void <DoListingItems_MapTools>m__71()
+		private void <DoListingItems_MapTools>m__74()
 		{
 			List<DebugMenuOption> list = new List<DebugMenuOption>();
 			foreach (MentalStateDef locBrDef2 in DefDatabase<MentalStateDef>.AllDefs)
@@ -4934,7 +5037,7 @@ namespace Verse
 		}
 
 		[CompilerGenerated]
-		private void <DoListingItems_MapTools>m__72()
+		private void <DoListingItems_MapTools>m__75()
 		{
 			List<DebugMenuOption> list = new List<DebugMenuOption>();
 			foreach (InspirationDef localDef2 in DefDatabase<InspirationDef>.AllDefs)
@@ -4958,7 +5061,7 @@ namespace Verse
 		}
 
 		[CompilerGenerated]
-		private void <DoListingItems_MapTools>m__73()
+		private void <DoListingItems_MapTools>m__76()
 		{
 			List<DebugMenuOption> list = new List<DebugMenuOption>();
 			foreach (TraitDef traitDef in DefDatabase<TraitDef>.AllDefs)
@@ -4993,7 +5096,7 @@ namespace Verse
 		}
 
 		[CompilerGenerated]
-		private static void <DoListingItems_MapTools>m__74(Pawn p)
+		private static void <DoListingItems_MapTools>m__77(Pawn p)
 		{
 			if (p.needs.mood != null)
 			{
@@ -5002,41 +5105,11 @@ namespace Verse
 		}
 
 		[CompilerGenerated]
-		private static void <DoListingItems_MapTools>m__75(Pawn p)
+		private static void <DoListingItems_MapTools>m__78(Pawn p)
 		{
 			if (p.needs.mood != null)
 			{
 				p.needs.mood.thoughts.memories.TryGainMemory(ThoughtDefOf.DebugBad, null);
-			}
-		}
-
-		[CompilerGenerated]
-		private void <DoListingItems_MapTools>m__76(Pawn p)
-		{
-			if (p.Faction != null)
-			{
-				p.Faction.TrySetRelationKind(Faction.OfPlayer, FactionRelationKind.Hostile, true, null, null);
-				this.DustPuffFrom(p);
-			}
-		}
-
-		[CompilerGenerated]
-		private void <DoListingItems_MapTools>m__77(Pawn p)
-		{
-			if (p.Faction != null)
-			{
-				p.Faction.TrySetRelationKind(Faction.OfPlayer, FactionRelationKind.Neutral, true, null, null);
-				this.DustPuffFrom(p);
-			}
-		}
-
-		[CompilerGenerated]
-		private void <DoListingItems_MapTools>m__78(Pawn p)
-		{
-			if (p.Faction != null)
-			{
-				p.Faction.TrySetRelationKind(Faction.OfPlayer, FactionRelationKind.Ally, true, null, null);
-				this.DustPuffFrom(p);
 			}
 		}
 
@@ -5136,27 +5209,28 @@ namespace Verse
 		[CompilerGenerated]
 		private static void <DoListingItems_MapTools>m__80(Pawn p)
 		{
-			if (p.Faction != null)
+			if (p.Faction == null)
 			{
-				if (p.RaceProps.Humanlike)
+				return;
+			}
+			if (p.RaceProps.Humanlike)
+			{
+				IEnumerable<Pawn> source = from x in p.Map.mapPawns.AllPawnsSpawned
+				where x.RaceProps.Animal && x.Faction == p.Faction
+				select x;
+				if (source.Any<Pawn>())
 				{
-					IEnumerable<Pawn> source = from x in p.Map.mapPawns.AllPawnsSpawned
-					where x.RaceProps.Animal && x.Faction == p.Faction
-					select x;
-					if (source.Any<Pawn>())
-					{
-						RelationsUtility.TryDevelopBondRelation(p, source.RandomElement<Pawn>(), 999999f);
-					}
+					RelationsUtility.TryDevelopBondRelation(p, source.RandomElement<Pawn>(), 999999f);
 				}
-				else if (p.RaceProps.Animal)
+			}
+			else if (p.RaceProps.Animal)
+			{
+				IEnumerable<Pawn> source2 = from x in p.Map.mapPawns.AllPawnsSpawned
+				where x.RaceProps.Humanlike && x.Faction == p.Faction
+				select x;
+				if (source2.Any<Pawn>())
 				{
-					IEnumerable<Pawn> source2 = from x in p.Map.mapPawns.AllPawnsSpawned
-					where x.RaceProps.Humanlike && x.Faction == p.Faction
-					select x;
-					if (source2.Any<Pawn>())
-					{
-						RelationsUtility.TryDevelopBondRelation(source2.RandomElement<Pawn>(), p, 999999f);
-					}
+					RelationsUtility.TryDevelopBondRelation(source2.RandomElement<Pawn>(), p, 999999f);
 				}
 			}
 		}
@@ -5174,64 +5248,66 @@ namespace Verse
 		[CompilerGenerated]
 		private static void <DoListingItems_MapTools>m__82(Pawn p)
 		{
-			if (p.RaceProps.Humanlike)
+			if (!p.RaceProps.Humanlike)
 			{
-				List<DebugMenuOption> list = new List<DebugMenuOption>();
-				foreach (Pawn pawn in from x in p.Map.mapPawns.AllPawnsSpawned
-				where x.RaceProps.Humanlike
-				select x)
-				{
-					if (p != pawn)
-					{
-						Pawn otherLocal = pawn;
-						list.Add(new DebugMenuOption(otherLocal.LabelShort + " (" + otherLocal.KindLabel + ")", DebugMenuOptionMode.Action, delegate()
-						{
-							if (!p.relations.DirectRelationExists(PawnRelationDefOf.Fiance, otherLocal))
-							{
-								p.relations.TryRemoveDirectRelation(PawnRelationDefOf.Lover, otherLocal);
-								p.relations.TryRemoveDirectRelation(PawnRelationDefOf.Spouse, otherLocal);
-								p.relations.AddDirectRelation(PawnRelationDefOf.Fiance, otherLocal);
-								Messages.Message("Dev: Auto added fiance relation.", p, MessageTypeDefOf.TaskCompletion, false);
-							}
-							if (!p.Map.lordsStarter.TryStartMarriageCeremony(p, otherLocal))
-							{
-								Messages.Message("Could not find any valid marriage site.", MessageTypeDefOf.RejectInput, false);
-							}
-						}));
-					}
-				}
-				Find.WindowStack.Add(new Dialog_DebugOptionListLister(list));
+				return;
 			}
+			List<DebugMenuOption> list = new List<DebugMenuOption>();
+			foreach (Pawn pawn in from x in p.Map.mapPawns.AllPawnsSpawned
+			where x.RaceProps.Humanlike
+			select x)
+			{
+				if (p != pawn)
+				{
+					Pawn otherLocal = pawn;
+					list.Add(new DebugMenuOption(otherLocal.LabelShort + " (" + otherLocal.KindLabel + ")", DebugMenuOptionMode.Action, delegate()
+					{
+						if (!p.relations.DirectRelationExists(PawnRelationDefOf.Fiance, otherLocal))
+						{
+							p.relations.TryRemoveDirectRelation(PawnRelationDefOf.Lover, otherLocal);
+							p.relations.TryRemoveDirectRelation(PawnRelationDefOf.Spouse, otherLocal);
+							p.relations.AddDirectRelation(PawnRelationDefOf.Fiance, otherLocal);
+							Messages.Message("Dev: Auto added fiance relation.", p, MessageTypeDefOf.TaskCompletion, false);
+						}
+						if (!p.Map.lordsStarter.TryStartMarriageCeremony(p, otherLocal))
+						{
+							Messages.Message("Could not find any valid marriage site.", MessageTypeDefOf.RejectInput, false);
+						}
+					}));
+				}
+			}
+			Find.WindowStack.Add(new Dialog_DebugOptionListLister(list));
 		}
 
 		[CompilerGenerated]
 		private static void <DoListingItems_MapTools>m__83(Pawn p)
 		{
-			if (p.Faction != null)
+			if (p.Faction == null)
 			{
-				List<DebugMenuOption> list = new List<DebugMenuOption>();
-				foreach (Pawn pawn in p.Map.mapPawns.SpawnedPawnsInFaction(p.Faction))
-				{
-					if (pawn != p)
-					{
-						Pawn otherLocal = pawn;
-						list.Add(new DebugMenuOption(otherLocal.LabelShort + " (" + otherLocal.KindLabel + ")", DebugMenuOptionMode.Action, delegate()
-						{
-							List<DebugMenuOption> list2 = new List<DebugMenuOption>();
-							foreach (InteractionDef interactionLocal2 in DefDatabase<InteractionDef>.AllDefsListForReading)
-							{
-								InteractionDef interactionLocal = interactionLocal2;
-								list2.Add(new DebugMenuOption(interactionLocal.label, DebugMenuOptionMode.Action, delegate()
-								{
-									p.interactions.TryInteractWith(otherLocal, interactionLocal);
-								}));
-							}
-							Find.WindowStack.Add(new Dialog_DebugOptionListLister(list2));
-						}));
-					}
-				}
-				Find.WindowStack.Add(new Dialog_DebugOptionListLister(list));
+				return;
 			}
+			List<DebugMenuOption> list = new List<DebugMenuOption>();
+			foreach (Pawn pawn in p.Map.mapPawns.SpawnedPawnsInFaction(p.Faction))
+			{
+				if (pawn != p)
+				{
+					Pawn otherLocal = pawn;
+					list.Add(new DebugMenuOption(otherLocal.LabelShort + " (" + otherLocal.KindLabel + ")", DebugMenuOptionMode.Action, delegate()
+					{
+						List<DebugMenuOption> list2 = new List<DebugMenuOption>();
+						foreach (InteractionDef interactionLocal2 in DefDatabase<InteractionDef>.AllDefsListForReading)
+						{
+							InteractionDef interactionLocal = interactionLocal2;
+							list2.Add(new DebugMenuOption(interactionLocal.label, DebugMenuOptionMode.Action, delegate()
+							{
+								p.interactions.TryInteractWith(otherLocal, interactionLocal);
+							}));
+						}
+						Find.WindowStack.Add(new Dialog_DebugOptionListLister(list2));
+					}));
+				}
+			}
+			Find.WindowStack.Add(new Dialog_DebugOptionListLister(list));
 		}
 
 		[CompilerGenerated]
@@ -5246,10 +5322,11 @@ namespace Verse
 		[CompilerGenerated]
 		private static void <DoListingItems_MapTools>m__85(Pawn p)
 		{
-			if (p.IsPrisoner)
+			if (!p.IsPrisoner)
 			{
-				PrisonBreakUtility.StartPrisonBreak(p);
+				return;
 			}
+			PrisonBreakUtility.StartPrisonBreak(p);
 		}
 
 		[CompilerGenerated]
@@ -5557,42 +5634,43 @@ namespace Verse
 				ThingSetMakerDef localGenerator = allDefsListForReading[i];
 				list.Add(new DebugMenuOption(localGenerator.defName, DebugMenuOptionMode.Tool, delegate()
 				{
-					if (UI.MouseCell().InBounds(Find.CurrentMap))
+					if (!UI.MouseCell().InBounds(Find.CurrentMap))
 					{
-						StringBuilder stringBuilder = new StringBuilder();
-						string nonNullFieldsDebugInfo = Gen.GetNonNullFieldsDebugInfo(localGenerator.debugParams);
-						List<Thing> list2 = localGenerator.root.Generate(localGenerator.debugParams);
-						stringBuilder.Append(string.Concat(new object[]
-						{
-							localGenerator.defName,
-							" generated ",
-							list2.Count,
-							" things"
-						}));
-						if (!nonNullFieldsDebugInfo.NullOrEmpty())
-						{
-							stringBuilder.Append(" (used custom debug params: " + nonNullFieldsDebugInfo + ")");
-						}
-						stringBuilder.AppendLine(":");
-						float num = 0f;
-						float num2 = 0f;
-						for (int j = 0; j < list2.Count; j++)
-						{
-							stringBuilder.AppendLine("   - " + list2[j].LabelCap);
-							num += list2[j].MarketValue * (float)list2[j].stackCount;
-							if (!(list2[j] is Pawn))
-							{
-								num2 += list2[j].GetStatValue(StatDefOf.Mass, true) * (float)list2[j].stackCount;
-							}
-							if (!GenPlace.TryPlaceThing(list2[j], UI.MouseCell(), Find.CurrentMap, ThingPlaceMode.Near, null, null))
-							{
-								list2[j].Destroy(DestroyMode.Vanish);
-							}
-						}
-						stringBuilder.AppendLine("Total market value: " + num.ToString("0.##"));
-						stringBuilder.AppendLine("Total mass: " + num2.ToStringMass());
-						Log.Message(stringBuilder.ToString(), false);
+						return;
 					}
+					StringBuilder stringBuilder = new StringBuilder();
+					string nonNullFieldsDebugInfo = Gen.GetNonNullFieldsDebugInfo(localGenerator.debugParams);
+					List<Thing> list2 = localGenerator.root.Generate(localGenerator.debugParams);
+					stringBuilder.Append(string.Concat(new object[]
+					{
+						localGenerator.defName,
+						" generated ",
+						list2.Count,
+						" things"
+					}));
+					if (!nonNullFieldsDebugInfo.NullOrEmpty())
+					{
+						stringBuilder.Append(" (used custom debug params: " + nonNullFieldsDebugInfo + ")");
+					}
+					stringBuilder.AppendLine(":");
+					float num = 0f;
+					float num2 = 0f;
+					for (int j = 0; j < list2.Count; j++)
+					{
+						stringBuilder.AppendLine("   - " + list2[j].LabelCap);
+						num += list2[j].MarketValue * (float)list2[j].stackCount;
+						if (!(list2[j] is Pawn))
+						{
+							num2 += list2[j].GetStatValue(StatDefOf.Mass, true) * (float)list2[j].stackCount;
+						}
+						if (!GenPlace.TryPlaceThing(list2[j], UI.MouseCell(), Find.CurrentMap, ThingPlaceMode.Near, null, null))
+						{
+							list2[j].Destroy(DestroyMode.Vanish);
+						}
+					}
+					stringBuilder.AppendLine("Total market value: " + num.ToString("0.##"));
+					stringBuilder.AppendLine("Total mass: " + num2.ToStringMass());
+					Log.Message(stringBuilder.ToString(), false);
 				}));
 			}
 			Find.WindowStack.Add(new Dialog_DebugOptionListLister(list));
@@ -5646,7 +5724,7 @@ namespace Verse
 						" at ",
 						pawn.Position
 					}), false);
-					break;
+					return;
 				}
 			}
 		}
@@ -5669,7 +5747,7 @@ namespace Verse
 						" at ",
 						pawn.Position
 					}), false);
-					break;
+					return;
 				}
 			}
 		}
@@ -5683,7 +5761,7 @@ namespace Verse
 				Pawn pawn = PawnGenerator.GeneratePawn(random, FactionUtility.DefaultFactionFrom(random.defaultFactionType));
 				GenSpawn.Spawn(pawn, CellFinderLoose.RandomCellWith((IntVec3 c) => c.Standable(Find.CurrentMap), Find.CurrentMap, 1000), Find.CurrentMap, WipeMode.Vanish);
 				pawn.health.forceIncap = true;
-				BodyPartRecord part = pawn.health.hediffSet.GetNotMissingParts(BodyPartHeight.Undefined, BodyPartDepth.Undefined, null).RandomElement<BodyPartRecord>();
+				BodyPartRecord part = pawn.health.hediffSet.GetNotMissingParts(BodyPartHeight.Undefined, BodyPartDepth.Undefined, null, null).RandomElement<BodyPartRecord>();
 				HealthUtility.GiveInjuriesOperationFailureCatastrophic(pawn, part);
 				pawn.health.forceIncap = false;
 				if (pawn.Dead)
@@ -5804,7 +5882,7 @@ namespace Verse
 							array[1] = results.Average();
 							array[2] = GenMath.Stddev(results);
 							array[3] = (from res in results
-							select res.ToString()).ToLineList("");
+							select res.ToString()).ToLineList(null);
 							Log.Message(string.Format(format, array), false);
 						});
 					}));
@@ -5877,42 +5955,43 @@ namespace Verse
 		{
 			int num = GenWorld.MouseTile(false);
 			Tile tile = Find.WorldGrid[num];
-			if (!tile.biome.impassable)
+			if (tile.biome.impassable)
 			{
-				List<Pawn> list = new List<Pawn>();
-				int num2 = Rand.RangeInclusive(1, 10);
-				for (int i = 0; i < num2; i++)
+				return;
+			}
+			List<Pawn> list = new List<Pawn>();
+			int num2 = Rand.RangeInclusive(1, 10);
+			for (int i = 0; i < num2; i++)
+			{
+				Pawn pawn = PawnGenerator.GeneratePawn(Faction.OfPlayer.def.basicMemberKind, Faction.OfPlayer);
+				list.Add(pawn);
+				if (!pawn.story.WorkTagIsDisabled(WorkTags.Violent) && Rand.Value < 0.9f)
 				{
-					Pawn pawn = PawnGenerator.GeneratePawn(Faction.OfPlayer.def.basicMemberKind, Faction.OfPlayer);
-					list.Add(pawn);
-					if (!pawn.story.WorkTagIsDisabled(WorkTags.Violent) && Rand.Value < 0.9f)
-					{
-						ThingDef thingDef = (from def in DefDatabase<ThingDef>.AllDefs
-						where def.IsWeapon && def.PlayerAcquirable
-						select def).RandomElementWithFallback(null);
-						pawn.equipment.AddEquipment((ThingWithComps)ThingMaker.MakeThing(thingDef, GenStuff.RandomStuffFor(thingDef)));
-					}
+					ThingDef thingDef = (from def in DefDatabase<ThingDef>.AllDefs
+					where def.IsWeapon && def.PlayerAcquirable
+					select def).RandomElementWithFallback(null);
+					pawn.equipment.AddEquipment((ThingWithComps)ThingMaker.MakeThing(thingDef, GenStuff.RandomStuffFor(thingDef)));
 				}
-				int num3 = Rand.RangeInclusive(-4, 10);
-				for (int j = 0; j < num3; j++)
+			}
+			int num3 = Rand.RangeInclusive(-4, 10);
+			for (int j = 0; j < num3; j++)
+			{
+				PawnKindDef kindDef = (from d in DefDatabase<PawnKindDef>.AllDefs
+				where d.RaceProps.Animal && d.RaceProps.wildness < 1f
+				select d).RandomElement<PawnKindDef>();
+				Pawn item = PawnGenerator.GeneratePawn(kindDef, Faction.OfPlayer);
+				list.Add(item);
+			}
+			Caravan caravan = CaravanMaker.MakeCaravan(list, Faction.OfPlayer, num, true);
+			List<Thing> list2 = ThingSetMakerDefOf.DebugCaravanInventory.root.Generate();
+			for (int k = 0; k < list2.Count; k++)
+			{
+				Thing thing = list2[k];
+				if (thing.GetStatValue(StatDefOf.Mass, true) * (float)thing.stackCount > caravan.MassCapacity - caravan.MassUsage)
 				{
-					PawnKindDef kindDef = (from d in DefDatabase<PawnKindDef>.AllDefs
-					where d.RaceProps.Animal && d.RaceProps.wildness < 1f
-					select d).RandomElement<PawnKindDef>();
-					Pawn item = PawnGenerator.GeneratePawn(kindDef, Faction.OfPlayer);
-					list.Add(item);
+					break;
 				}
-				Caravan caravan = CaravanMaker.MakeCaravan(list, Faction.OfPlayer, num, true);
-				List<Thing> list2 = ThingSetMakerDefOf.DebugCaravanInventory.root.Generate();
-				for (int k = 0; k < list2.Count; k++)
-				{
-					Thing thing = list2[k];
-					if (thing.GetStatValue(StatDefOf.Mass, true) * (float)thing.stackCount > caravan.MassCapacity - caravan.MassUsage)
-					{
-						break;
-					}
-					CaravanInventoryUtility.GiveThing(caravan, thing);
-				}
+				CaravanInventoryUtility.GiveThing(caravan, thing);
 			}
 		}
 
@@ -5926,14 +6005,15 @@ namespace Verse
 			{
 				int num = GenWorld.MouseTile(false);
 				Tile tile = Find.WorldGrid[num];
-				if (!tile.biome.impassable)
+				if (tile.biome.impassable)
 				{
-					Settlement settlement = (Settlement)WorldObjectMaker.MakeWorldObject(WorldObjectDefOf.Settlement);
-					settlement.SetFaction(faction);
-					settlement.Tile = num;
-					settlement.Name = SettlementNameGenerator.GenerateSettlementName(settlement, null);
-					Find.WorldObjects.Add(settlement);
+					return;
 				}
+				Settlement settlement = (Settlement)WorldObjectMaker.MakeWorldObject(WorldObjectDefOf.Settlement);
+				settlement.SetFaction(faction);
+				settlement.Tile = num;
+				settlement.Name = SettlementNameGenerator.GenerateSettlementName(settlement, null);
+				Find.WorldObjects.Add(settlement);
 			}
 		}
 
@@ -6113,7 +6193,7 @@ namespace Verse
 		[CompilerGenerated]
 		private static bool <DoListingItems_MapActions>m__B2(StorytellerComp x)
 		{
-			return x is StorytellerComp_ThreatCycle || x is StorytellerComp_RandomMain;
+			return x is StorytellerComp_OnOffCycle || x is StorytellerComp_RandomMain;
 		}
 
 		[CompilerGenerated]
@@ -6383,13 +6463,13 @@ namespace Verse
 		}
 
 		[CompilerGenerated]
-		private sealed class <DoIncidentDebugAction>c__AnonStorey51
+		private sealed class <DoIncidentDebugAction>c__AnonStorey53
 		{
 			internal IIncidentTarget target;
 
 			private static Func<IncidentDef, string> <>f__am$cache0;
 
-			public <DoIncidentDebugAction>c__AnonStorey51()
+			public <DoIncidentDebugAction>c__AnonStorey53()
 			{
 			}
 
@@ -6412,7 +6492,7 @@ namespace Verse
 					{
 						if (localDef.pointsScaleable)
 						{
-							StorytellerComp storytellerComp = Find.Storyteller.storytellerComps.First((StorytellerComp x) => x is StorytellerComp_ThreatCycle || x is StorytellerComp_RandomMain);
+							StorytellerComp storytellerComp = Find.Storyteller.storytellerComps.First((StorytellerComp x) => x is StorytellerComp_OnOffCycle || x is StorytellerComp_RandomMain);
 							parms = storytellerComp.GenerateParms(localDef.category, parms.target);
 						}
 						localDef.Worker.TryExecute(parms);
@@ -6431,17 +6511,17 @@ namespace Verse
 				return d.defName;
 			}
 
-			private sealed class <DoIncidentDebugAction>c__AnonStorey52
+			private sealed class <DoIncidentDebugAction>c__AnonStorey54
 			{
 				internal IncidentDef localDef;
 
 				internal IncidentParms parms;
 
-				internal Dialog_DebugActionsMenu.<DoIncidentDebugAction>c__AnonStorey51 <>f__ref$81;
+				internal Dialog_DebugActionsMenu.<DoIncidentDebugAction>c__AnonStorey53 <>f__ref$83;
 
 				private static Func<StorytellerComp, bool> <>f__am$cache0;
 
-				public <DoIncidentDebugAction>c__AnonStorey52()
+				public <DoIncidentDebugAction>c__AnonStorey54()
 				{
 				}
 
@@ -6449,7 +6529,7 @@ namespace Verse
 				{
 					if (this.localDef.pointsScaleable)
 					{
-						StorytellerComp storytellerComp = Find.Storyteller.storytellerComps.First((StorytellerComp x) => x is StorytellerComp_ThreatCycle || x is StorytellerComp_RandomMain);
+						StorytellerComp storytellerComp = Find.Storyteller.storytellerComps.First((StorytellerComp x) => x is StorytellerComp_OnOffCycle || x is StorytellerComp_RandomMain);
 						this.parms = storytellerComp.GenerateParms(this.localDef.category, this.parms.target);
 					}
 					this.localDef.Worker.TryExecute(this.parms);
@@ -6457,19 +6537,19 @@ namespace Verse
 
 				private static bool <>m__1(StorytellerComp x)
 				{
-					return x is StorytellerComp_ThreatCycle || x is StorytellerComp_RandomMain;
+					return x is StorytellerComp_OnOffCycle || x is StorytellerComp_RandomMain;
 				}
 			}
 		}
 
 		[CompilerGenerated]
-		private sealed class <DoIncidentWithPointsAction>c__AnonStorey53
+		private sealed class <DoIncidentWithPointsAction>c__AnonStorey55
 		{
 			internal IIncidentTarget target;
 
 			private static Func<IncidentDef, string> <>f__am$cache0;
 
-			public <DoIncidentWithPointsAction>c__AnonStorey53()
+			public <DoIncidentWithPointsAction>c__AnonStorey55()
 			{
 			}
 
@@ -6516,15 +6596,15 @@ namespace Verse
 				return d.defName;
 			}
 
-			private sealed class <DoIncidentWithPointsAction>c__AnonStorey55
+			private sealed class <DoIncidentWithPointsAction>c__AnonStorey57
 			{
 				internal IncidentParms parms;
 
 				internal IncidentDef localDef;
 
-				internal Dialog_DebugActionsMenu.<DoIncidentWithPointsAction>c__AnonStorey53 <>f__ref$83;
+				internal Dialog_DebugActionsMenu.<DoIncidentWithPointsAction>c__AnonStorey55 <>f__ref$85;
 
-				public <DoIncidentWithPointsAction>c__AnonStorey55()
+				public <DoIncidentWithPointsAction>c__AnonStorey57()
 				{
 				}
 
@@ -6543,20 +6623,20 @@ namespace Verse
 					Find.WindowStack.Add(new Dialog_DebugOptionListLister(list));
 				}
 
-				private sealed class <DoIncidentWithPointsAction>c__AnonStorey54
+				private sealed class <DoIncidentWithPointsAction>c__AnonStorey56
 				{
 					internal float localPoints;
 
-					internal Dialog_DebugActionsMenu.<DoIncidentWithPointsAction>c__AnonStorey53.<DoIncidentWithPointsAction>c__AnonStorey55 <>f__ref$85;
+					internal Dialog_DebugActionsMenu.<DoIncidentWithPointsAction>c__AnonStorey55.<DoIncidentWithPointsAction>c__AnonStorey57 <>f__ref$87;
 
-					public <DoIncidentWithPointsAction>c__AnonStorey54()
+					public <DoIncidentWithPointsAction>c__AnonStorey56()
 					{
 					}
 
 					internal void <>m__0()
 					{
-						this.<>f__ref$85.parms.points = this.localPoints;
-						this.<>f__ref$85.localDef.Worker.TryExecute(this.<>f__ref$85.parms);
+						this.<>f__ref$87.parms.points = this.localPoints;
+						this.<>f__ref$87.localDef.Worker.TryExecute(this.<>f__ref$87.parms);
 					}
 				}
 			}
@@ -6689,19 +6769,19 @@ namespace Verse
 					}
 					return true;
 				case 13u:
-					goto IL_351;
+					goto IL_344;
 				case 14u:
 					i += 10;
 					break;
 				case 15u:
 					j += 25;
-					goto IL_29A;
+					goto IL_292;
 				case 16u:
 					k += 50;
-					goto IL_2ED;
+					goto IL_2E3;
 				case 17u:
 					l += 100;
-					goto IL_340;
+					goto IL_334;
 				default:
 					return false;
 				}
@@ -6715,7 +6795,7 @@ namespace Verse
 					return true;
 				}
 				j = 100;
-				IL_29A:
+				IL_292:
 				if (j < 500)
 				{
 					this.$current = (float)j;
@@ -6726,7 +6806,7 @@ namespace Verse
 					return true;
 				}
 				k = 500;
-				IL_2ED:
+				IL_2E3:
 				if (k < 1500)
 				{
 					this.$current = (float)k;
@@ -6737,7 +6817,7 @@ namespace Verse
 					return true;
 				}
 				l = 1500;
-				IL_340:
+				IL_334:
 				if (l <= 5000)
 				{
 					this.$current = (float)l;
@@ -6747,7 +6827,7 @@ namespace Verse
 					}
 					return true;
 				}
-				IL_351:
+				IL_344:
 				this.$PC = -1;
 				return false;
 			}
@@ -7181,13 +7261,27 @@ namespace Verse
 		{
 			internal SoundDef localSd;
 
+			private static Predicate<SubSoundDef> <>f__am$cache0;
+
 			public <DoListingItems_MapActions>c__AnonStoreyF()
 			{
 			}
 
 			internal void <>m__0()
 			{
-				this.localSd.PlayOneShotOnCamera(null);
+				if (this.localSd.subSounds.Any((SubSoundDef sub) => sub.onCamera))
+				{
+					this.localSd.PlayOneShotOnCamera(null);
+				}
+				else
+				{
+					this.localSd.PlayOneShot(SoundInfo.InMap(new TargetInfo(Find.CameraDriver.MapPosition, Find.CurrentMap, false), MaintenanceType.None));
+				}
+			}
+
+			private static bool <>m__1(SubSoundDef sub)
+			{
+				return sub.onCamera;
 			}
 		}
 
@@ -7244,9 +7338,36 @@ namespace Verse
 		[CompilerGenerated]
 		private sealed class <DoListingItems_MapActions>c__AnonStorey13
 		{
-			internal Type localGenStep;
+			internal Faction localFac;
 
 			public <DoListingItems_MapActions>c__AnonStorey13()
+			{
+			}
+		}
+
+		[CompilerGenerated]
+		private sealed class <DoListingItems_MapActions>c__AnonStorey14
+		{
+			internal FactionRelationKind localRk;
+
+			internal Dialog_DebugActionsMenu.<DoListingItems_MapActions>c__AnonStorey13 <>f__ref$19;
+
+			public <DoListingItems_MapActions>c__AnonStorey14()
+			{
+			}
+
+			internal void <>m__0()
+			{
+				this.<>f__ref$19.localFac.TrySetRelationKind(Faction.OfPlayer, this.localRk, true, null, null);
+			}
+		}
+
+		[CompilerGenerated]
+		private sealed class <DoListingItems_MapActions>c__AnonStorey15
+		{
+			internal Type localGenStep;
+
+			public <DoListingItems_MapActions>c__AnonStorey15()
 			{
 			}
 
@@ -7258,11 +7379,11 @@ namespace Verse
 		}
 
 		[CompilerGenerated]
-		private sealed class <DoListingItems_MapTools>c__AnonStorey15
+		private sealed class <DoListingItems_MapTools>c__AnonStorey17
 		{
 			internal string localSymbol;
 
-			public <DoListingItems_MapTools>c__AnonStorey15()
+			public <DoListingItems_MapTools>c__AnonStorey17()
 			{
 			}
 
@@ -7286,15 +7407,15 @@ namespace Verse
 				DebugTools.curTool = tool;
 			}
 
-			private sealed class <DoListingItems_MapTools>c__AnonStorey14
+			private sealed class <DoListingItems_MapTools>c__AnonStorey16
 			{
 				internal IntVec3 firstCorner;
 
 				internal DebugTool tool;
 
-				internal Dialog_DebugActionsMenu.<DoListingItems_MapTools>c__AnonStorey15 <>f__ref$21;
+				internal Dialog_DebugActionsMenu.<DoListingItems_MapTools>c__AnonStorey17 <>f__ref$23;
 
-				public <DoListingItems_MapTools>c__AnonStorey14()
+				public <DoListingItems_MapTools>c__AnonStorey16()
 				{
 				}
 
@@ -7306,7 +7427,7 @@ namespace Verse
 						IntVec3 second = UI.MouseCell();
 						CellRect rect = CellRect.FromLimits(this.firstCorner, second).ClipInsideMap(Find.CurrentMap);
 						BaseGen.globalSettings.map = Find.CurrentMap;
-						BaseGen.symbolStack.Push(this.<>f__ref$21.localSymbol, rect);
+						BaseGen.symbolStack.Push(this.<>f__ref$23.localSymbol, rect);
 						BaseGen.Generate();
 						DebugTools.curTool = this.tool;
 					}, this.firstCorner);
@@ -7317,7 +7438,7 @@ namespace Verse
 					IntVec3 second = UI.MouseCell();
 					CellRect rect = CellRect.FromLimits(this.firstCorner, second).ClipInsideMap(Find.CurrentMap);
 					BaseGen.globalSettings.map = Find.CurrentMap;
-					BaseGen.symbolStack.Push(this.<>f__ref$21.localSymbol, rect);
+					BaseGen.symbolStack.Push(this.<>f__ref$23.localSymbol, rect);
 					BaseGen.Generate();
 					DebugTools.curTool = this.tool;
 				}
@@ -7325,11 +7446,11 @@ namespace Verse
 		}
 
 		[CompilerGenerated]
-		private sealed class <DoListingItems_MapTools>c__AnonStorey17
+		private sealed class <DoListingItems_MapTools>c__AnonStorey19
 		{
 			internal Action<bool> act;
 
-			public <DoListingItems_MapTools>c__AnonStorey17()
+			public <DoListingItems_MapTools>c__AnonStorey19()
 			{
 			}
 
@@ -7345,11 +7466,11 @@ namespace Verse
 		}
 
 		[CompilerGenerated]
-		private sealed class <DoListingItems_MapTools>c__AnonStorey19
+		private sealed class <DoListingItems_MapTools>c__AnonStorey1B
 		{
 			internal TraverseMode traverseMode;
 
-			public <DoListingItems_MapTools>c__AnonStorey19()
+			public <DoListingItems_MapTools>c__AnonStorey1B()
 			{
 			}
 
@@ -7398,7 +7519,7 @@ namespace Verse
 				DebugTools.curTool = tool;
 			}
 
-			private sealed class <DoListingItems_MapTools>c__AnonStorey18
+			private sealed class <DoListingItems_MapTools>c__AnonStorey1A
 			{
 				internal IntVec3 from;
 
@@ -7406,9 +7527,9 @@ namespace Verse
 
 				internal DebugTool tool;
 
-				internal Dialog_DebugActionsMenu.<DoListingItems_MapTools>c__AnonStorey19 <>f__ref$25;
+				internal Dialog_DebugActionsMenu.<DoListingItems_MapTools>c__AnonStorey1B <>f__ref$27;
 
-				public <DoListingItems_MapTools>c__AnonStorey18()
+				public <DoListingItems_MapTools>c__AnonStorey1A()
 				{
 				}
 
@@ -7435,13 +7556,13 @@ namespace Verse
 							LocalTargetInfo dest = c;
 							PathEndMode peMode = PathEndMode.OnCell;
 							Danger maxDanger = Danger.Deadly;
-							TraverseMode traverseMode = this.<>f__ref$25.traverseMode;
+							TraverseMode traverseMode = this.<>f__ref$27.traverseMode;
 							flag = pawn.CanReach(dest, peMode, maxDanger, false, traverseMode);
 							position = this.fromPawn.Position;
 						}
 						else
 						{
-							flag = Find.CurrentMap.reachability.CanReach(this.from, c, PathEndMode.OnCell, this.<>f__ref$25.traverseMode, Danger.Deadly);
+							flag = Find.CurrentMap.reachability.CanReach(this.from, c, PathEndMode.OnCell, this.<>f__ref$27.traverseMode, Danger.Deadly);
 							position = this.from;
 						}
 						Color color = (!flag) ? Color.red : Color.green;
@@ -7465,13 +7586,13 @@ namespace Verse
 						LocalTargetInfo dest = c;
 						PathEndMode peMode = PathEndMode.OnCell;
 						Danger maxDanger = Danger.Deadly;
-						TraverseMode traverseMode = this.<>f__ref$25.traverseMode;
+						TraverseMode traverseMode = this.<>f__ref$27.traverseMode;
 						flag = pawn.CanReach(dest, peMode, maxDanger, false, traverseMode);
 						position = this.fromPawn.Position;
 					}
 					else
 					{
-						flag = Find.CurrentMap.reachability.CanReach(this.from, c, PathEndMode.OnCell, this.<>f__ref$25.traverseMode, Danger.Deadly);
+						flag = Find.CurrentMap.reachability.CanReach(this.from, c, PathEndMode.OnCell, this.<>f__ref$27.traverseMode, Danger.Deadly);
 						position = this.from;
 					}
 					Color color = (!flag) ? Color.red : Color.green;
@@ -7481,42 +7602,42 @@ namespace Verse
 		}
 
 		[CompilerGenerated]
-		private sealed class <DoListingItems_MapTools>c__AnonStorey1B
+		private sealed class <DoListingItems_MapTools>c__AnonStorey1D
 		{
 			internal Pawn p;
 
 			internal Dialog_DebugActionsMenu $this;
 
-			public <DoListingItems_MapTools>c__AnonStorey1B()
+			public <DoListingItems_MapTools>c__AnonStorey1D()
 			{
-			}
-		}
-
-		[CompilerGenerated]
-		private sealed class <DoListingItems_MapTools>c__AnonStorey1A
-		{
-			internal HediffGiver localHdg;
-
-			internal Dialog_DebugActionsMenu.<DoListingItems_MapTools>c__AnonStorey1B <>f__ref$27;
-
-			public <DoListingItems_MapTools>c__AnonStorey1A()
-			{
-			}
-
-			internal void <>m__0()
-			{
-				this.localHdg.TryApply(this.<>f__ref$27.p, null);
 			}
 		}
 
 		[CompilerGenerated]
 		private sealed class <DoListingItems_MapTools>c__AnonStorey1C
 		{
+			internal HediffGiver localHdg;
+
+			internal Dialog_DebugActionsMenu.<DoListingItems_MapTools>c__AnonStorey1D <>f__ref$29;
+
+			public <DoListingItems_MapTools>c__AnonStorey1C()
+			{
+			}
+
+			internal void <>m__0()
+			{
+				this.localHdg.TryApply(this.<>f__ref$29.p, null);
+			}
+		}
+
+		[CompilerGenerated]
+		private sealed class <DoListingItems_MapTools>c__AnonStorey1E
+		{
 			internal Pawn p;
 
 			internal Action<bool> act;
 
-			public <DoListingItems_MapTools>c__AnonStorey1C()
+			public <DoListingItems_MapTools>c__AnonStorey1E()
 			{
 			}
 
@@ -7533,10 +7654,15 @@ namespace Verse
 							list.Add(new DebugMenuOption(defLocal.defName, DebugMenuOptionMode.Action, delegate()
 							{
 								List<DebugMenuOption> list3 = new List<DebugMenuOption>();
-								IOrderedEnumerable<Pawn> orderedEnumerable = from x in PawnsFinder.AllMapsWorldAndTemporary_Alive
+								IOrderedEnumerable<Pawn> source = from x in PawnsFinder.AllMapsWorldAndTemporary_Alive
 								where x.RaceProps.IsFlesh
-								orderby x.def == this.p.def descending, x.IsWorldPawn()
+								orderby x.def == this.p.def descending
 								select x;
+								if (Dialog_DebugActionsMenu.<>f__mg$cache0 == null)
+								{
+									Dialog_DebugActionsMenu.<>f__mg$cache0 = new Func<Pawn, bool>(WorldPawnsUtility.IsWorldPawn);
+								}
+								IOrderedEnumerable<Pawn> orderedEnumerable = source.ThenBy(Dialog_DebugActionsMenu.<>f__mg$cache0);
 								foreach (Pawn pawn in orderedEnumerable)
 								{
 									if (this.p != pawn)
@@ -7586,41 +7712,44 @@ namespace Verse
 				this.act(false);
 			}
 
-			private sealed class <DoListingItems_MapTools>c__AnonStorey1D
+			private sealed class <DoListingItems_MapTools>c__AnonStorey1F
 			{
 				internal PawnRelationDef defLocal;
 
-				internal Dialog_DebugActionsMenu.<DoListingItems_MapTools>c__AnonStorey1C <>f__ref$28;
+				internal Dialog_DebugActionsMenu.<DoListingItems_MapTools>c__AnonStorey1E <>f__ref$30;
 
 				private static Func<Pawn, bool> <>f__am$cache0;
 
-				private static Func<Pawn, bool> <>f__am$cache1;
-
-				public <DoListingItems_MapTools>c__AnonStorey1D()
+				public <DoListingItems_MapTools>c__AnonStorey1F()
 				{
 				}
 
 				internal void <>m__0()
 				{
 					List<DebugMenuOption> list = new List<DebugMenuOption>();
-					IOrderedEnumerable<Pawn> orderedEnumerable = from x in PawnsFinder.AllMapsWorldAndTemporary_Alive
+					IOrderedEnumerable<Pawn> source = from x in PawnsFinder.AllMapsWorldAndTemporary_Alive
 					where x.RaceProps.IsFlesh
-					orderby x.def == this.<>f__ref$28.p.def descending, x.IsWorldPawn()
+					orderby x.def == this.<>f__ref$30.p.def descending
 					select x;
+					if (Dialog_DebugActionsMenu.<>f__mg$cache0 == null)
+					{
+						Dialog_DebugActionsMenu.<>f__mg$cache0 = new Func<Pawn, bool>(WorldPawnsUtility.IsWorldPawn);
+					}
+					IOrderedEnumerable<Pawn> orderedEnumerable = source.ThenBy(Dialog_DebugActionsMenu.<>f__mg$cache0);
 					foreach (Pawn pawn in orderedEnumerable)
 					{
-						Dialog_DebugActionsMenu.<DoListingItems_MapTools>c__AnonStorey1C <>f__ref$28 = this.<>f__ref$28;
-						Dialog_DebugActionsMenu.<DoListingItems_MapTools>c__AnonStorey1C.<DoListingItems_MapTools>c__AnonStorey1D <>f__ref$29 = this;
-						if (this.<>f__ref$28.p != pawn)
+						Dialog_DebugActionsMenu.<DoListingItems_MapTools>c__AnonStorey1E <>f__ref$30 = this.<>f__ref$30;
+						Dialog_DebugActionsMenu.<DoListingItems_MapTools>c__AnonStorey1E.<DoListingItems_MapTools>c__AnonStorey1F <>f__ref$31 = this;
+						if (this.<>f__ref$30.p != pawn)
 						{
-							if (!this.defLocal.familyByBloodRelation || pawn.def == this.<>f__ref$28.p.def)
+							if (!this.defLocal.familyByBloodRelation || pawn.def == this.<>f__ref$30.p.def)
 							{
-								if (!this.<>f__ref$28.p.relations.DirectRelationExists(this.defLocal, pawn))
+								if (!this.<>f__ref$30.p.relations.DirectRelationExists(this.defLocal, pawn))
 								{
 									Pawn otherLocal = pawn;
 									list.Add(new DebugMenuOption(otherLocal.LabelShort + " (" + otherLocal.KindLabel + ")", DebugMenuOptionMode.Action, delegate()
 									{
-										<>f__ref$28.p.relations.AddDirectRelation(<>f__ref$29.defLocal, otherLocal);
+										<>f__ref$30.p.relations.AddDirectRelation(<>f__ref$31.defLocal, otherLocal);
 									}));
 								}
 							}
@@ -7636,52 +7765,47 @@ namespace Verse
 
 				internal bool <>m__2(Pawn x)
 				{
-					return x.def == this.<>f__ref$28.p.def;
+					return x.def == this.<>f__ref$30.p.def;
 				}
 
-				private static bool <>m__3(Pawn x)
-				{
-					return x.IsWorldPawn();
-				}
-
-				private sealed class <DoListingItems_MapTools>c__AnonStorey1E
+				private sealed class <DoListingItems_MapTools>c__AnonStorey20
 				{
 					internal Pawn otherLocal;
 
-					internal Dialog_DebugActionsMenu.<DoListingItems_MapTools>c__AnonStorey1C <>f__ref$28;
+					internal Dialog_DebugActionsMenu.<DoListingItems_MapTools>c__AnonStorey1E <>f__ref$30;
 
-					internal Dialog_DebugActionsMenu.<DoListingItems_MapTools>c__AnonStorey1C.<DoListingItems_MapTools>c__AnonStorey1D <>f__ref$29;
+					internal Dialog_DebugActionsMenu.<DoListingItems_MapTools>c__AnonStorey1E.<DoListingItems_MapTools>c__AnonStorey1F <>f__ref$31;
 
-					public <DoListingItems_MapTools>c__AnonStorey1E()
+					public <DoListingItems_MapTools>c__AnonStorey20()
 					{
 					}
 
 					internal void <>m__0()
 					{
-						this.<>f__ref$28.p.relations.AddDirectRelation(this.<>f__ref$29.defLocal, this.otherLocal);
+						this.<>f__ref$30.p.relations.AddDirectRelation(this.<>f__ref$31.defLocal, this.otherLocal);
 					}
 				}
 			}
 
-			private sealed class <DoListingItems_MapTools>c__AnonStorey1F
+			private sealed class <DoListingItems_MapTools>c__AnonStorey21
 			{
 				internal DirectPawnRelation rel;
 
-				internal Dialog_DebugActionsMenu.<DoListingItems_MapTools>c__AnonStorey1C <>f__ref$28;
+				internal Dialog_DebugActionsMenu.<DoListingItems_MapTools>c__AnonStorey1E <>f__ref$30;
 
-				public <DoListingItems_MapTools>c__AnonStorey1F()
+				public <DoListingItems_MapTools>c__AnonStorey21()
 				{
 				}
 
 				internal void <>m__0()
 				{
-					this.<>f__ref$28.p.relations.RemoveDirectRelation(this.rel);
+					this.<>f__ref$30.p.relations.RemoveDirectRelation(this.rel);
 				}
 			}
 		}
 
 		[CompilerGenerated]
-		private sealed class <DoListingItems_MapTools>c__AnonStorey20
+		private sealed class <DoListingItems_MapTools>c__AnonStorey22
 		{
 			internal Pawn p;
 
@@ -7689,7 +7813,7 @@ namespace Verse
 
 			private static Func<Pawn, bool> <>f__am$cache0;
 
-			public <DoListingItems_MapTools>c__AnonStorey20()
+			public <DoListingItems_MapTools>c__AnonStorey22()
 			{
 			}
 
@@ -7730,13 +7854,13 @@ namespace Verse
 				return x.RaceProps.Humanlike;
 			}
 
-			private sealed class <DoListingItems_MapTools>c__AnonStorey21
+			private sealed class <DoListingItems_MapTools>c__AnonStorey23
 			{
 				internal bool good;
 
-				internal Dialog_DebugActionsMenu.<DoListingItems_MapTools>c__AnonStorey20 <>f__ref$32;
+				internal Dialog_DebugActionsMenu.<DoListingItems_MapTools>c__AnonStorey22 <>f__ref$34;
 
-				public <DoListingItems_MapTools>c__AnonStorey21()
+				public <DoListingItems_MapTools>c__AnonStorey23()
 				{
 				}
 
@@ -7748,13 +7872,13 @@ namespace Verse
 		}
 
 		[CompilerGenerated]
-		private sealed class <DoListingItems_MapTools>c__AnonStorey22
+		private sealed class <DoListingItems_MapTools>c__AnonStorey24
 		{
 			internal SkillDef localDef;
 
 			internal Dialog_DebugActionsMenu $this;
 
-			public <DoListingItems_MapTools>c__AnonStorey22()
+			public <DoListingItems_MapTools>c__AnonStorey24()
 			{
 			}
 
@@ -7769,27 +7893,28 @@ namespace Verse
 						Pawn pawn = (from t in Find.CurrentMap.thingGrid.ThingsAt(UI.MouseCell())
 						where t is Pawn
 						select t).Cast<Pawn>().FirstOrDefault<Pawn>();
-						if (pawn != null)
+						if (pawn == null)
 						{
-							SkillRecord skill = pawn.skills.GetSkill(this.localDef);
-							skill.Level = level;
-							skill.xpSinceLastLevel = skill.XpRequiredForLevelUp / 2f;
-							this.DustPuffFrom(pawn);
+							return;
 						}
+						SkillRecord skill = pawn.skills.GetSkill(this.localDef);
+						skill.Level = level;
+						skill.xpSinceLastLevel = skill.XpRequiredForLevelUp / 2f;
+						this.DustPuffFrom(pawn);
 					}));
 				}
 				Find.WindowStack.Add(new Dialog_DebugOptionListLister(list));
 			}
 
-			private sealed class <DoListingItems_MapTools>c__AnonStorey23
+			private sealed class <DoListingItems_MapTools>c__AnonStorey25
 			{
 				internal int level;
 
-				internal Dialog_DebugActionsMenu.<DoListingItems_MapTools>c__AnonStorey22 <>f__ref$34;
+				internal Dialog_DebugActionsMenu.<DoListingItems_MapTools>c__AnonStorey24 <>f__ref$36;
 
 				private static Func<Thing, bool> <>f__am$cache0;
 
-				public <DoListingItems_MapTools>c__AnonStorey23()
+				public <DoListingItems_MapTools>c__AnonStorey25()
 				{
 				}
 
@@ -7798,13 +7923,14 @@ namespace Verse
 					Pawn pawn = (from t in Find.CurrentMap.thingGrid.ThingsAt(UI.MouseCell())
 					where t is Pawn
 					select t).Cast<Pawn>().FirstOrDefault<Pawn>();
-					if (pawn != null)
+					if (pawn == null)
 					{
-						SkillRecord skill = pawn.skills.GetSkill(this.<>f__ref$34.localDef);
-						skill.Level = this.level;
-						skill.xpSinceLastLevel = skill.XpRequiredForLevelUp / 2f;
-						this.<>f__ref$34.$this.DustPuffFrom(pawn);
+						return;
 					}
+					SkillRecord skill = pawn.skills.GetSkill(this.<>f__ref$36.localDef);
+					skill.Level = this.level;
+					skill.xpSinceLastLevel = skill.XpRequiredForLevelUp / 2f;
+					this.<>f__ref$36.$this.DustPuffFrom(pawn);
 				}
 
 				private static bool <>m__1(Thing t)
@@ -7815,7 +7941,7 @@ namespace Verse
 		}
 
 		[CompilerGenerated]
-		private sealed class <DoListingItems_MapTools>c__AnonStorey24
+		private sealed class <DoListingItems_MapTools>c__AnonStorey26
 		{
 			internal MentalBreakDef locBrDef;
 
@@ -7823,7 +7949,7 @@ namespace Verse
 
 			private static Func<Thing, bool> <>f__am$cache0;
 
-			public <DoListingItems_MapTools>c__AnonStorey24()
+			public <DoListingItems_MapTools>c__AnonStorey26()
 			{
 			}
 
@@ -7850,7 +7976,7 @@ namespace Verse
 		}
 
 		[CompilerGenerated]
-		private sealed class <DoListingItems_MapTools>c__AnonStorey25
+		private sealed class <DoListingItems_MapTools>c__AnonStorey27
 		{
 			internal MentalStateDef locBrDef;
 
@@ -7858,7 +7984,7 @@ namespace Verse
 
 			private static Func<Thing, bool> <>f__am$cache0;
 
-			public <DoListingItems_MapTools>c__AnonStorey25()
+			public <DoListingItems_MapTools>c__AnonStorey27()
 			{
 			}
 
@@ -7901,15 +8027,15 @@ namespace Verse
 				return t is Pawn;
 			}
 
-			private sealed class <DoListingItems_MapTools>c__AnonStorey26
+			private sealed class <DoListingItems_MapTools>c__AnonStorey28
 			{
 				internal Pawn locP;
 
-				internal Dialog_DebugActionsMenu.<DoListingItems_MapTools>c__AnonStorey25 <>f__ref$37;
+				internal Dialog_DebugActionsMenu.<DoListingItems_MapTools>c__AnonStorey27 <>f__ref$39;
 
 				private static Func<Thing, bool> <>f__am$cache0;
 
-				public <DoListingItems_MapTools>c__AnonStorey26()
+				public <DoListingItems_MapTools>c__AnonStorey28()
 				{
 				}
 
@@ -7933,13 +8059,13 @@ namespace Verse
 		}
 
 		[CompilerGenerated]
-		private sealed class <DoListingItems_MapTools>c__AnonStorey27
+		private sealed class <DoListingItems_MapTools>c__AnonStorey29
 		{
 			internal InspirationDef localDef;
 
 			internal Dialog_DebugActionsMenu $this;
 
-			public <DoListingItems_MapTools>c__AnonStorey27()
+			public <DoListingItems_MapTools>c__AnonStorey29()
 			{
 			}
 
@@ -7959,27 +8085,27 @@ namespace Verse
 		}
 
 		[CompilerGenerated]
-		private sealed class <DoListingItems_MapTools>c__AnonStorey28
+		private sealed class <DoListingItems_MapTools>c__AnonStorey2A
 		{
 			internal TraitDef trDef;
 
 			internal Dialog_DebugActionsMenu $this;
 
-			public <DoListingItems_MapTools>c__AnonStorey28()
+			public <DoListingItems_MapTools>c__AnonStorey2A()
 			{
 			}
 		}
 
 		[CompilerGenerated]
-		private sealed class <DoListingItems_MapTools>c__AnonStorey29
+		private sealed class <DoListingItems_MapTools>c__AnonStorey2B
 		{
 			internal int i;
 
-			internal Dialog_DebugActionsMenu.<DoListingItems_MapTools>c__AnonStorey28 <>f__ref$40;
+			internal Dialog_DebugActionsMenu.<DoListingItems_MapTools>c__AnonStorey2A <>f__ref$42;
 
 			private static Func<Thing, bool> <>f__am$cache0;
 
-			public <DoListingItems_MapTools>c__AnonStorey29()
+			public <DoListingItems_MapTools>c__AnonStorey2B()
 			{
 			}
 
@@ -7991,9 +8117,9 @@ namespace Verse
 				{
 					if (pawn.story != null)
 					{
-						Trait item = new Trait(this.<>f__ref$40.trDef, this.<>f__ref$40.trDef.degreeDatas[this.i].degree, false);
+						Trait item = new Trait(this.<>f__ref$42.trDef, this.<>f__ref$42.trDef.degreeDatas[this.i].degree, false);
 						pawn.story.traits.allTraits.Add(item);
-						this.<>f__ref$40.$this.DustPuffFrom(pawn);
+						this.<>f__ref$42.$this.DustPuffFrom(pawn);
 					}
 				}
 			}
@@ -8005,11 +8131,11 @@ namespace Verse
 		}
 
 		[CompilerGenerated]
-		private sealed class <DoListingItems_MapTools>c__AnonStorey2A
+		private sealed class <DoListingItems_MapTools>c__AnonStorey2C
 		{
 			internal Pawn p;
 
-			public <DoListingItems_MapTools>c__AnonStorey2A()
+			public <DoListingItems_MapTools>c__AnonStorey2C()
 			{
 			}
 
@@ -8021,43 +8147,6 @@ namespace Verse
 			internal bool <>m__1(Pawn x)
 			{
 				return x.RaceProps.Humanlike && x.Faction == this.p.Faction;
-			}
-		}
-
-		[CompilerGenerated]
-		private sealed class <DoListingItems_MapTools>c__AnonStorey2B
-		{
-			internal Pawn p;
-
-			public <DoListingItems_MapTools>c__AnonStorey2B()
-			{
-			}
-		}
-
-		[CompilerGenerated]
-		private sealed class <DoListingItems_MapTools>c__AnonStorey2C
-		{
-			internal Pawn otherLocal;
-
-			internal Dialog_DebugActionsMenu.<DoListingItems_MapTools>c__AnonStorey2B <>f__ref$43;
-
-			public <DoListingItems_MapTools>c__AnonStorey2C()
-			{
-			}
-
-			internal void <>m__0()
-			{
-				if (!this.<>f__ref$43.p.relations.DirectRelationExists(PawnRelationDefOf.Fiance, this.otherLocal))
-				{
-					this.<>f__ref$43.p.relations.TryRemoveDirectRelation(PawnRelationDefOf.Lover, this.otherLocal);
-					this.<>f__ref$43.p.relations.TryRemoveDirectRelation(PawnRelationDefOf.Spouse, this.otherLocal);
-					this.<>f__ref$43.p.relations.AddDirectRelation(PawnRelationDefOf.Fiance, this.otherLocal);
-					Messages.Message("Dev: Auto added fiance relation.", this.<>f__ref$43.p, MessageTypeDefOf.TaskCompletion, false);
-				}
-				if (!this.<>f__ref$43.p.Map.lordsStarter.TryStartMarriageCeremony(this.<>f__ref$43.p, this.otherLocal))
-				{
-					Messages.Message("Could not find any valid marriage site.", MessageTypeDefOf.RejectInput, false);
-				}
 			}
 		}
 
@@ -8084,45 +8173,26 @@ namespace Verse
 
 			internal void <>m__0()
 			{
-				List<DebugMenuOption> list = new List<DebugMenuOption>();
-				foreach (InteractionDef interactionLocal2 in DefDatabase<InteractionDef>.AllDefsListForReading)
+				if (!this.<>f__ref$45.p.relations.DirectRelationExists(PawnRelationDefOf.Fiance, this.otherLocal))
 				{
-					Dialog_DebugActionsMenu.<DoListingItems_MapTools>c__AnonStorey2D <>f__ref$45 = this.<>f__ref$45;
-					Dialog_DebugActionsMenu.<DoListingItems_MapTools>c__AnonStorey2E <>f__ref$46 = this;
-					InteractionDef interactionLocal = interactionLocal2;
-					list.Add(new DebugMenuOption(interactionLocal.label, DebugMenuOptionMode.Action, delegate()
-					{
-						<>f__ref$45.p.interactions.TryInteractWith(<>f__ref$46.otherLocal, interactionLocal);
-					}));
+					this.<>f__ref$45.p.relations.TryRemoveDirectRelation(PawnRelationDefOf.Lover, this.otherLocal);
+					this.<>f__ref$45.p.relations.TryRemoveDirectRelation(PawnRelationDefOf.Spouse, this.otherLocal);
+					this.<>f__ref$45.p.relations.AddDirectRelation(PawnRelationDefOf.Fiance, this.otherLocal);
+					Messages.Message("Dev: Auto added fiance relation.", this.<>f__ref$45.p, MessageTypeDefOf.TaskCompletion, false);
 				}
-				Find.WindowStack.Add(new Dialog_DebugOptionListLister(list));
-			}
-
-			private sealed class <DoListingItems_MapTools>c__AnonStorey2F
-			{
-				internal InteractionDef interactionLocal;
-
-				internal Dialog_DebugActionsMenu.<DoListingItems_MapTools>c__AnonStorey2D <>f__ref$45;
-
-				internal Dialog_DebugActionsMenu.<DoListingItems_MapTools>c__AnonStorey2E <>f__ref$46;
-
-				public <DoListingItems_MapTools>c__AnonStorey2F()
+				if (!this.<>f__ref$45.p.Map.lordsStarter.TryStartMarriageCeremony(this.<>f__ref$45.p, this.otherLocal))
 				{
-				}
-
-				internal void <>m__0()
-				{
-					this.<>f__ref$45.p.interactions.TryInteractWith(this.<>f__ref$46.otherLocal, this.interactionLocal);
+					Messages.Message("Could not find any valid marriage site.", MessageTypeDefOf.RejectInput, false);
 				}
 			}
 		}
 
 		[CompilerGenerated]
-		private sealed class <DoListingItems_MapTools>c__AnonStorey31
+		private sealed class <DoListingItems_MapTools>c__AnonStorey2F
 		{
 			internal Pawn p;
 
-			public <DoListingItems_MapTools>c__AnonStorey31()
+			public <DoListingItems_MapTools>c__AnonStorey2F()
 			{
 			}
 		}
@@ -8130,9 +8200,9 @@ namespace Verse
 		[CompilerGenerated]
 		private sealed class <DoListingItems_MapTools>c__AnonStorey30
 		{
-			internal Type localType;
+			internal Pawn otherLocal;
 
-			internal Dialog_DebugActionsMenu.<DoListingItems_MapTools>c__AnonStorey31 <>f__ref$49;
+			internal Dialog_DebugActionsMenu.<DoListingItems_MapTools>c__AnonStorey2F <>f__ref$47;
 
 			public <DoListingItems_MapTools>c__AnonStorey30()
 			{
@@ -8140,16 +8210,35 @@ namespace Verse
 
 			internal void <>m__0()
 			{
-				ThinkNode_JobGiver thinkNode_JobGiver = (ThinkNode_JobGiver)Activator.CreateInstance(this.localType);
-				thinkNode_JobGiver.ResolveReferences();
-				ThinkResult thinkResult = thinkNode_JobGiver.TryIssueJobPackage(this.<>f__ref$49.p, default(JobIssueParams));
-				if (thinkResult.Job != null)
+				List<DebugMenuOption> list = new List<DebugMenuOption>();
+				foreach (InteractionDef interactionLocal2 in DefDatabase<InteractionDef>.AllDefsListForReading)
 				{
-					this.<>f__ref$49.p.jobs.StartJob(thinkResult.Job, JobCondition.None, null, false, true, null, null, false);
+					Dialog_DebugActionsMenu.<DoListingItems_MapTools>c__AnonStorey2F <>f__ref$47 = this.<>f__ref$47;
+					Dialog_DebugActionsMenu.<DoListingItems_MapTools>c__AnonStorey30 <>f__ref$48 = this;
+					InteractionDef interactionLocal = interactionLocal2;
+					list.Add(new DebugMenuOption(interactionLocal.label, DebugMenuOptionMode.Action, delegate()
+					{
+						<>f__ref$47.p.interactions.TryInteractWith(<>f__ref$48.otherLocal, interactionLocal);
+					}));
 				}
-				else
+				Find.WindowStack.Add(new Dialog_DebugOptionListLister(list));
+			}
+
+			private sealed class <DoListingItems_MapTools>c__AnonStorey31
+			{
+				internal InteractionDef interactionLocal;
+
+				internal Dialog_DebugActionsMenu.<DoListingItems_MapTools>c__AnonStorey2F <>f__ref$47;
+
+				internal Dialog_DebugActionsMenu.<DoListingItems_MapTools>c__AnonStorey30 <>f__ref$48;
+
+				public <DoListingItems_MapTools>c__AnonStorey31()
 				{
-					Messages.Message("Failed to give job", MessageTypeDefOf.RejectInput, false);
+				}
+
+				internal void <>m__0()
+				{
+					this.<>f__ref$47.p.interactions.TryInteractWith(this.<>f__ref$48.otherLocal, this.interactionLocal);
 				}
 			}
 		}
@@ -8167,7 +8256,7 @@ namespace Verse
 		[CompilerGenerated]
 		private sealed class <DoListingItems_MapTools>c__AnonStorey32
 		{
-			internal JoyGiverDef def;
+			internal Type localType;
 
 			internal Dialog_DebugActionsMenu.<DoListingItems_MapTools>c__AnonStorey33 <>f__ref$51;
 
@@ -8177,10 +8266,12 @@ namespace Verse
 
 			internal void <>m__0()
 			{
-				Job job = this.def.Worker.TryGiveJob(this.<>f__ref$51.p);
-				if (job != null)
+				ThinkNode_JobGiver thinkNode_JobGiver = (ThinkNode_JobGiver)Activator.CreateInstance(this.localType);
+				thinkNode_JobGiver.ResolveReferences();
+				ThinkResult thinkResult = thinkNode_JobGiver.TryIssueJobPackage(this.<>f__ref$51.p, default(JobIssueParams));
+				if (thinkResult.Job != null)
 				{
-					this.<>f__ref$51.p.jobs.StartJob(job, JobCondition.InterruptForced, null, false, true, null, null, false);
+					this.<>f__ref$51.p.jobs.StartJob(thinkResult.Job, JobCondition.None, null, false, true, null, null, false);
 				}
 				else
 				{
@@ -8190,11 +8281,46 @@ namespace Verse
 		}
 
 		[CompilerGenerated]
+		private sealed class <DoListingItems_MapTools>c__AnonStorey35
+		{
+			internal Pawn p;
+
+			public <DoListingItems_MapTools>c__AnonStorey35()
+			{
+			}
+		}
+
+		[CompilerGenerated]
 		private sealed class <DoListingItems_MapTools>c__AnonStorey34
+		{
+			internal JoyGiverDef def;
+
+			internal Dialog_DebugActionsMenu.<DoListingItems_MapTools>c__AnonStorey35 <>f__ref$53;
+
+			public <DoListingItems_MapTools>c__AnonStorey34()
+			{
+			}
+
+			internal void <>m__0()
+			{
+				Job job = this.def.Worker.TryGiveJob(this.<>f__ref$53.p);
+				if (job != null)
+				{
+					this.<>f__ref$53.p.jobs.StartJob(job, JobCondition.InterruptForced, null, false, true, null, null, false);
+				}
+				else
+				{
+					Messages.Message("Failed to give job", MessageTypeDefOf.RejectInput, false);
+				}
+			}
+		}
+
+		[CompilerGenerated]
+		private sealed class <DoListingItems_MapTools>c__AnonStorey36
 		{
 			internal PawnKindDef localKindDef;
 
-			public <DoListingItems_MapTools>c__AnonStorey34()
+			public <DoListingItems_MapTools>c__AnonStorey36()
 			{
 			}
 
@@ -8220,13 +8346,13 @@ namespace Verse
 				}
 			}
 
-			private sealed class <DoListingItems_MapTools>c__AnonStorey35
+			private sealed class <DoListingItems_MapTools>c__AnonStorey37
 			{
 				internal Pawn newPawn;
 
-				internal Dialog_DebugActionsMenu.<DoListingItems_MapTools>c__AnonStorey34 <>f__ref$52;
+				internal Dialog_DebugActionsMenu.<DoListingItems_MapTools>c__AnonStorey36 <>f__ref$54;
 
-				public <DoListingItems_MapTools>c__AnonStorey35()
+				public <DoListingItems_MapTools>c__AnonStorey37()
 				{
 				}
 
@@ -8243,41 +8369,41 @@ namespace Verse
 		}
 
 		[CompilerGenerated]
-		private sealed class <DoListingItems_MapTools>c__AnonStorey36
-		{
-			internal ThingDef localDef;
-
-			public <DoListingItems_MapTools>c__AnonStorey36()
-			{
-			}
-
-			internal void <>m__0()
-			{
-				DebugThingPlaceHelper.DebugSpawn(this.localDef, UI.MouseCell(), -1, false);
-			}
-		}
-
-		[CompilerGenerated]
-		private sealed class <DoListingItems_MapTools>c__AnonStorey37
-		{
-			internal ThingDef localDef;
-
-			public <DoListingItems_MapTools>c__AnonStorey37()
-			{
-			}
-
-			internal void <>m__0()
-			{
-				DebugThingPlaceHelper.DebugSpawn(this.localDef, UI.MouseCell(), -1, false);
-			}
-		}
-
-		[CompilerGenerated]
 		private sealed class <DoListingItems_MapTools>c__AnonStorey38
+		{
+			internal ThingDef localDef;
+
+			public <DoListingItems_MapTools>c__AnonStorey38()
+			{
+			}
+
+			internal void <>m__0()
+			{
+				DebugThingPlaceHelper.DebugSpawn(this.localDef, UI.MouseCell(), -1, false);
+			}
+		}
+
+		[CompilerGenerated]
+		private sealed class <DoListingItems_MapTools>c__AnonStorey39
+		{
+			internal ThingDef localDef;
+
+			public <DoListingItems_MapTools>c__AnonStorey39()
+			{
+			}
+
+			internal void <>m__0()
+			{
+				DebugThingPlaceHelper.DebugSpawn(this.localDef, UI.MouseCell(), -1, false);
+			}
+		}
+
+		[CompilerGenerated]
+		private sealed class <DoListingItems_MapTools>c__AnonStorey3A
 		{
 			internal WipeMode localWipeMode;
 
-			public <DoListingItems_MapTools>c__AnonStorey38()
+			public <DoListingItems_MapTools>c__AnonStorey3A()
 			{
 			}
 
@@ -8288,11 +8414,11 @@ namespace Verse
 		}
 
 		[CompilerGenerated]
-		private sealed class <DoListingItems_MapTools>c__AnonStorey39
+		private sealed class <DoListingItems_MapTools>c__AnonStorey3B
 		{
 			internal TerrainDef localDef;
 
-			public <DoListingItems_MapTools>c__AnonStorey39()
+			public <DoListingItems_MapTools>c__AnonStorey3B()
 			{
 			}
 
@@ -8306,11 +8432,11 @@ namespace Verse
 		}
 
 		[CompilerGenerated]
-		private sealed class <DoListingItems_MapTools>c__AnonStorey3A
+		private sealed class <DoListingItems_MapTools>c__AnonStorey3C
 		{
 			internal Faction localFac;
 
-			public <DoListingItems_MapTools>c__AnonStorey3A()
+			public <DoListingItems_MapTools>c__AnonStorey3C()
 			{
 			}
 
@@ -8321,88 +8447,89 @@ namespace Verse
 		}
 
 		[CompilerGenerated]
-		private sealed class <DoListingItems_MapTools>c__AnonStorey3D
+		private sealed class <DoListingItems_MapTools>c__AnonStorey3F
 		{
 			internal Action<Pawn> act;
 
-			public <DoListingItems_MapTools>c__AnonStorey3D()
-			{
-			}
-		}
-
-		[CompilerGenerated]
-		private sealed class <DoListingItems_MapTools>c__AnonStorey3E
-		{
-			internal Pawn pLocal;
-
-			internal Dialog_DebugActionsMenu.<DoListingItems_MapTools>c__AnonStorey3D <>f__ref$61;
-
-			public <DoListingItems_MapTools>c__AnonStorey3E()
-			{
-			}
-
-			internal void <>m__0()
-			{
-				this.<>f__ref$61.act(this.pLocal);
-			}
-		}
-
-		[CompilerGenerated]
-		private sealed class <DoListingItems_MapTools>c__AnonStorey3F
-		{
-			internal ThingSetMakerDef localGenerator;
-
 			public <DoListingItems_MapTools>c__AnonStorey3F()
 			{
-			}
-
-			internal void <>m__0()
-			{
-				if (UI.MouseCell().InBounds(Find.CurrentMap))
-				{
-					StringBuilder stringBuilder = new StringBuilder();
-					string nonNullFieldsDebugInfo = Gen.GetNonNullFieldsDebugInfo(this.localGenerator.debugParams);
-					List<Thing> list = this.localGenerator.root.Generate(this.localGenerator.debugParams);
-					stringBuilder.Append(string.Concat(new object[]
-					{
-						this.localGenerator.defName,
-						" generated ",
-						list.Count,
-						" things"
-					}));
-					if (!nonNullFieldsDebugInfo.NullOrEmpty())
-					{
-						stringBuilder.Append(" (used custom debug params: " + nonNullFieldsDebugInfo + ")");
-					}
-					stringBuilder.AppendLine(":");
-					float num = 0f;
-					float num2 = 0f;
-					for (int i = 0; i < list.Count; i++)
-					{
-						stringBuilder.AppendLine("   - " + list[i].LabelCap);
-						num += list[i].MarketValue * (float)list[i].stackCount;
-						if (!(list[i] is Pawn))
-						{
-							num2 += list[i].GetStatValue(StatDefOf.Mass, true) * (float)list[i].stackCount;
-						}
-						if (!GenPlace.TryPlaceThing(list[i], UI.MouseCell(), Find.CurrentMap, ThingPlaceMode.Near, null, null))
-						{
-							list[i].Destroy(DestroyMode.Vanish);
-						}
-					}
-					stringBuilder.AppendLine("Total market value: " + num.ToString("0.##"));
-					stringBuilder.AppendLine("Total mass: " + num2.ToStringMass());
-					Log.Message(stringBuilder.ToString(), false);
-				}
 			}
 		}
 
 		[CompilerGenerated]
 		private sealed class <DoListingItems_MapTools>c__AnonStorey40
 		{
-			internal EffecterDef localDef;
+			internal Pawn pLocal;
+
+			internal Dialog_DebugActionsMenu.<DoListingItems_MapTools>c__AnonStorey3F <>f__ref$63;
 
 			public <DoListingItems_MapTools>c__AnonStorey40()
+			{
+			}
+
+			internal void <>m__0()
+			{
+				this.<>f__ref$63.act(this.pLocal);
+			}
+		}
+
+		[CompilerGenerated]
+		private sealed class <DoListingItems_MapTools>c__AnonStorey41
+		{
+			internal ThingSetMakerDef localGenerator;
+
+			public <DoListingItems_MapTools>c__AnonStorey41()
+			{
+			}
+
+			internal void <>m__0()
+			{
+				if (!UI.MouseCell().InBounds(Find.CurrentMap))
+				{
+					return;
+				}
+				StringBuilder stringBuilder = new StringBuilder();
+				string nonNullFieldsDebugInfo = Gen.GetNonNullFieldsDebugInfo(this.localGenerator.debugParams);
+				List<Thing> list = this.localGenerator.root.Generate(this.localGenerator.debugParams);
+				stringBuilder.Append(string.Concat(new object[]
+				{
+					this.localGenerator.defName,
+					" generated ",
+					list.Count,
+					" things"
+				}));
+				if (!nonNullFieldsDebugInfo.NullOrEmpty())
+				{
+					stringBuilder.Append(" (used custom debug params: " + nonNullFieldsDebugInfo + ")");
+				}
+				stringBuilder.AppendLine(":");
+				float num = 0f;
+				float num2 = 0f;
+				for (int i = 0; i < list.Count; i++)
+				{
+					stringBuilder.AppendLine("   - " + list[i].LabelCap);
+					num += list[i].MarketValue * (float)list[i].stackCount;
+					if (!(list[i] is Pawn))
+					{
+						num2 += list[i].GetStatValue(StatDefOf.Mass, true) * (float)list[i].stackCount;
+					}
+					if (!GenPlace.TryPlaceThing(list[i], UI.MouseCell(), Find.CurrentMap, ThingPlaceMode.Near, null, null))
+					{
+						list[i].Destroy(DestroyMode.Vanish);
+					}
+				}
+				stringBuilder.AppendLine("Total market value: " + num.ToString("0.##"));
+				stringBuilder.AppendLine("Total mass: " + num2.ToStringMass());
+				Log.Message(stringBuilder.ToString(), false);
+			}
+		}
+
+		[CompilerGenerated]
+		private sealed class <DoListingItems_MapTools>c__AnonStorey42
+		{
+			internal EffecterDef localDef;
+
+			public <DoListingItems_MapTools>c__AnonStorey42()
 			{
 			}
 
@@ -8415,11 +8542,11 @@ namespace Verse
 		}
 
 		[CompilerGenerated]
-		private sealed class <DoListingItems_MapTools>c__AnonStorey41
+		private sealed class <DoListingItems_MapTools>c__AnonStorey43
 		{
 			internal float ms;
 
-			public <DoListingItems_MapTools>c__AnonStorey41()
+			public <DoListingItems_MapTools>c__AnonStorey43()
 			{
 			}
 
@@ -8430,11 +8557,11 @@ namespace Verse
 		}
 
 		[CompilerGenerated]
-		private sealed class <DoListingItems_MapTools>c__AnonStorey42
+		private sealed class <DoListingItems_MapTools>c__AnonStorey44
 		{
 			internal PawnKindDef kindDef;
 
-			public <DoListingItems_MapTools>c__AnonStorey42()
+			public <DoListingItems_MapTools>c__AnonStorey44()
 			{
 			}
 
@@ -8463,20 +8590,20 @@ namespace Verse
 					array[1] = results.Average();
 					array[2] = GenMath.Stddev(results);
 					array[3] = (from res in results
-					select res.ToString()).ToLineList("");
+					select res.ToString()).ToLineList(null);
 					Log.Message(string.Format(format, array), false);
 				});
 			}
 
-			private sealed class <DoListingItems_MapTools>c__AnonStorey43
+			private sealed class <DoListingItems_MapTools>c__AnonStorey45
 			{
 				internal List<float> results;
 
-				internal Dialog_DebugActionsMenu.<DoListingItems_MapTools>c__AnonStorey42 <>f__ref$66;
+				internal Dialog_DebugActionsMenu.<DoListingItems_MapTools>c__AnonStorey44 <>f__ref$68;
 
 				private static Func<float, string> <>f__am$cache0;
 
-				public <DoListingItems_MapTools>c__AnonStorey43()
+				public <DoListingItems_MapTools>c__AnonStorey45()
 				{
 				}
 
@@ -8496,7 +8623,7 @@ namespace Verse
 					array[1] = this.results.Average();
 					array[2] = GenMath.Stddev(this.results);
 					array[3] = (from res in this.results
-					select res.ToString()).ToLineList("");
+					select res.ToString()).ToLineList(null);
 					Log.Message(string.Format(format, array), false);
 				}
 
@@ -8508,11 +8635,11 @@ namespace Verse
 		}
 
 		[CompilerGenerated]
-		private sealed class <DoListingItems_MapTools>c__AnonStorey44
+		private sealed class <DoListingItems_MapTools>c__AnonStorey46
 		{
 			internal ToolCapacityDef toolType;
 
-			public <DoListingItems_MapTools>c__AnonStorey44()
+			public <DoListingItems_MapTools>c__AnonStorey46()
 			{
 			}
 
@@ -8526,9 +8653,19 @@ namespace Verse
 		}
 
 		[CompilerGenerated]
-		private sealed class <DoListingItems_World>c__AnonStorey47
+		private sealed class <DoListingItems_World>c__AnonStorey49
 		{
 			internal int tile;
+
+			public <DoListingItems_World>c__AnonStorey49()
+			{
+			}
+		}
+
+		[CompilerGenerated]
+		private sealed class <DoListingItems_World>c__AnonStorey47
+		{
+			internal List<SitePartDef> parts;
 
 			public <DoListingItems_World>c__AnonStorey47()
 			{
@@ -8536,36 +8673,26 @@ namespace Verse
 		}
 
 		[CompilerGenerated]
-		private sealed class <DoListingItems_World>c__AnonStorey45
-		{
-			internal List<SitePartDef> parts;
-
-			public <DoListingItems_World>c__AnonStorey45()
-			{
-			}
-		}
-
-		[CompilerGenerated]
-		private sealed class <DoListingItems_World>c__AnonStorey46
+		private sealed class <DoListingItems_World>c__AnonStorey48
 		{
 			internal SiteCoreDef localDef;
 
 			internal Action addPart;
 
+			internal Dialog_DebugActionsMenu.<DoListingItems_World>c__AnonStorey49 <>f__ref$73;
+
 			internal Dialog_DebugActionsMenu.<DoListingItems_World>c__AnonStorey47 <>f__ref$71;
 
-			internal Dialog_DebugActionsMenu.<DoListingItems_World>c__AnonStorey45 <>f__ref$69;
-
-			public <DoListingItems_World>c__AnonStorey46()
+			public <DoListingItems_World>c__AnonStorey48()
 			{
 			}
 
 			internal void <>m__0()
 			{
 				List<DebugMenuOption> list = new List<DebugMenuOption>();
-				list.Add(new DebugMenuOption("-Done (" + this.<>f__ref$69.parts.Count + " parts)-", DebugMenuOptionMode.Action, delegate()
+				list.Add(new DebugMenuOption("-Done (" + this.<>f__ref$71.parts.Count + " parts)-", DebugMenuOptionMode.Action, delegate()
 				{
-					Site site = SiteMaker.TryMakeSite(this.localDef, this.<>f__ref$69.parts, this.<>f__ref$71.tile, true, null, true, null);
+					Site site = SiteMaker.TryMakeSite(this.localDef, this.<>f__ref$71.parts, this.<>f__ref$73.tile, true, null, true, null);
 					if (site == null)
 					{
 						Messages.Message("Could not find any valid faction for this site.", MessageTypeDefOf.RejectInput, false);
@@ -8577,13 +8704,13 @@ namespace Verse
 				}));
 				foreach (SitePartDef sitePartDef in DefDatabase<SitePartDef>.AllDefs)
 				{
-					Dialog_DebugActionsMenu.<DoListingItems_World>c__AnonStorey45 <>f__ref$69 = this.<>f__ref$69;
-					Dialog_DebugActionsMenu.<DoListingItems_World>c__AnonStorey46 <>f__ref$70 = this;
+					Dialog_DebugActionsMenu.<DoListingItems_World>c__AnonStorey47 <>f__ref$71 = this.<>f__ref$71;
+					Dialog_DebugActionsMenu.<DoListingItems_World>c__AnonStorey48 <>f__ref$72 = this;
 					SitePartDef localPart = sitePartDef;
 					list.Add(new DebugMenuOption(sitePartDef.defName, DebugMenuOptionMode.Action, delegate()
 					{
-						<>f__ref$69.parts.Add(localPart);
-						<>f__ref$70.addPart();
+						<>f__ref$71.parts.Add(localPart);
+						<>f__ref$72.addPart();
 					}));
 				}
 				Find.WindowStack.Add(new Dialog_DebugOptionListLister(list));
@@ -8591,7 +8718,7 @@ namespace Verse
 
 			internal void <>m__1()
 			{
-				Site site = SiteMaker.TryMakeSite(this.localDef, this.<>f__ref$69.parts, this.<>f__ref$71.tile, true, null, true, null);
+				Site site = SiteMaker.TryMakeSite(this.localDef, this.<>f__ref$71.parts, this.<>f__ref$73.tile, true, null, true, null);
 				if (site == null)
 				{
 					Messages.Message("Could not find any valid faction for this site.", MessageTypeDefOf.RejectInput, false);
@@ -8602,30 +8729,40 @@ namespace Verse
 				}
 			}
 
-			private sealed class <DoListingItems_World>c__AnonStorey48
+			private sealed class <DoListingItems_World>c__AnonStorey4A
 			{
 				internal SitePartDef localPart;
 
-				internal Dialog_DebugActionsMenu.<DoListingItems_World>c__AnonStorey45 <>f__ref$69;
+				internal Dialog_DebugActionsMenu.<DoListingItems_World>c__AnonStorey47 <>f__ref$71;
 
-				internal Dialog_DebugActionsMenu.<DoListingItems_World>c__AnonStorey46 <>f__ref$70;
+				internal Dialog_DebugActionsMenu.<DoListingItems_World>c__AnonStorey48 <>f__ref$72;
 
-				public <DoListingItems_World>c__AnonStorey48()
+				public <DoListingItems_World>c__AnonStorey4A()
 				{
 				}
 
 				internal void <>m__0()
 				{
-					this.<>f__ref$69.parts.Add(this.localPart);
-					this.<>f__ref$70.addPart();
+					this.<>f__ref$71.parts.Add(this.localPart);
+					this.<>f__ref$72.addPart();
 				}
+			}
+		}
+
+		[CompilerGenerated]
+		private sealed class <DoListingItems_World>c__AnonStorey4D
+		{
+			internal int tile;
+
+			public <DoListingItems_World>c__AnonStorey4D()
+			{
 			}
 		}
 
 		[CompilerGenerated]
 		private sealed class <DoListingItems_World>c__AnonStorey4B
 		{
-			internal int tile;
+			internal List<SitePartDef> parts;
 
 			public <DoListingItems_World>c__AnonStorey4B()
 			{
@@ -8633,47 +8770,37 @@ namespace Verse
 		}
 
 		[CompilerGenerated]
-		private sealed class <DoListingItems_World>c__AnonStorey49
-		{
-			internal List<SitePartDef> parts;
-
-			public <DoListingItems_World>c__AnonStorey49()
-			{
-			}
-		}
-
-		[CompilerGenerated]
-		private sealed class <DoListingItems_World>c__AnonStorey4A
+		private sealed class <DoListingItems_World>c__AnonStorey4C
 		{
 			internal SiteCoreDef localDef;
 
 			internal Action addPart;
 
+			internal Dialog_DebugActionsMenu.<DoListingItems_World>c__AnonStorey4D <>f__ref$77;
+
 			internal Dialog_DebugActionsMenu.<DoListingItems_World>c__AnonStorey4B <>f__ref$75;
 
-			internal Dialog_DebugActionsMenu.<DoListingItems_World>c__AnonStorey49 <>f__ref$73;
-
-			public <DoListingItems_World>c__AnonStorey4A()
+			public <DoListingItems_World>c__AnonStorey4C()
 			{
 			}
 
 			internal void <>m__0()
 			{
 				List<DebugMenuOption> list = new List<DebugMenuOption>();
-				list.Add(new DebugMenuOption("-Done (" + this.<>f__ref$73.parts.Count + " parts)-", DebugMenuOptionMode.Action, delegate()
+				list.Add(new DebugMenuOption("-Done (" + this.<>f__ref$75.parts.Count + " parts)-", DebugMenuOptionMode.Action, delegate()
 				{
 					List<DebugMenuOption> list2 = new List<DebugMenuOption>();
 					foreach (float localPoints2 in Dialog_DebugActionsMenu.PointsOptions(true))
 					{
+						Dialog_DebugActionsMenu.<DoListingItems_World>c__AnonStorey4D <>f__ref$77 = this.<>f__ref$77;
 						Dialog_DebugActionsMenu.<DoListingItems_World>c__AnonStorey4B <>f__ref$75 = this.<>f__ref$75;
-						Dialog_DebugActionsMenu.<DoListingItems_World>c__AnonStorey49 <>f__ref$73 = this.<>f__ref$73;
-						Dialog_DebugActionsMenu.<DoListingItems_World>c__AnonStorey4A <>f__ref$74 = this;
+						Dialog_DebugActionsMenu.<DoListingItems_World>c__AnonStorey4C <>f__ref$76 = this;
 						float localPoints = localPoints2;
 						list2.Add(new DebugMenuOption(localPoints2.ToString("F0"), DebugMenuOptionMode.Action, delegate()
 						{
-							SiteCoreDef core = <>f__ref$74.localDef;
-							List<SitePartDef> parts = <>f__ref$73.parts;
-							int tile = <>f__ref$75.tile;
+							SiteCoreDef core = <>f__ref$76.localDef;
+							List<SitePartDef> parts = <>f__ref$75.parts;
+							int tile = <>f__ref$77.tile;
 							float? threatPoints = new float?(localPoints);
 							Site site = SiteMaker.TryMakeSite(core, parts, tile, true, null, true, threatPoints);
 							if (site == null)
@@ -8690,13 +8817,13 @@ namespace Verse
 				}));
 				foreach (SitePartDef sitePartDef in DefDatabase<SitePartDef>.AllDefs)
 				{
-					Dialog_DebugActionsMenu.<DoListingItems_World>c__AnonStorey49 <>f__ref$73 = this.<>f__ref$73;
-					Dialog_DebugActionsMenu.<DoListingItems_World>c__AnonStorey4A <>f__ref$74 = this;
+					Dialog_DebugActionsMenu.<DoListingItems_World>c__AnonStorey4B <>f__ref$75 = this.<>f__ref$75;
+					Dialog_DebugActionsMenu.<DoListingItems_World>c__AnonStorey4C <>f__ref$76 = this;
 					SitePartDef localPart = sitePartDef;
 					list.Add(new DebugMenuOption(sitePartDef.defName, DebugMenuOptionMode.Action, delegate()
 					{
-						<>f__ref$73.parts.Add(localPart);
-						<>f__ref$74.addPart();
+						<>f__ref$75.parts.Add(localPart);
+						<>f__ref$76.addPart();
 					}));
 				}
 				Find.WindowStack.Add(new Dialog_DebugOptionListLister(list));
@@ -8707,15 +8834,15 @@ namespace Verse
 				List<DebugMenuOption> list = new List<DebugMenuOption>();
 				foreach (float localPoints2 in Dialog_DebugActionsMenu.PointsOptions(true))
 				{
+					Dialog_DebugActionsMenu.<DoListingItems_World>c__AnonStorey4D <>f__ref$77 = this.<>f__ref$77;
 					Dialog_DebugActionsMenu.<DoListingItems_World>c__AnonStorey4B <>f__ref$75 = this.<>f__ref$75;
-					Dialog_DebugActionsMenu.<DoListingItems_World>c__AnonStorey49 <>f__ref$73 = this.<>f__ref$73;
-					Dialog_DebugActionsMenu.<DoListingItems_World>c__AnonStorey4A <>f__ref$74 = this;
+					Dialog_DebugActionsMenu.<DoListingItems_World>c__AnonStorey4C <>f__ref$76 = this;
 					float localPoints = localPoints2;
 					list.Add(new DebugMenuOption(localPoints2.ToString("F0"), DebugMenuOptionMode.Action, delegate()
 					{
-						SiteCoreDef core = <>f__ref$74.localDef;
-						List<SitePartDef> parts = <>f__ref$73.parts;
-						int tile = <>f__ref$75.tile;
+						SiteCoreDef core = <>f__ref$76.localDef;
+						List<SitePartDef> parts = <>f__ref$75.parts;
+						int tile = <>f__ref$77.tile;
 						float? threatPoints = new float?(localPoints);
 						Site site = SiteMaker.TryMakeSite(core, parts, tile, true, null, true, threatPoints);
 						if (site == null)
@@ -8731,44 +8858,44 @@ namespace Verse
 				Find.WindowStack.Add(new Dialog_DebugOptionListLister(list));
 			}
 
-			private sealed class <DoListingItems_World>c__AnonStorey4D
+			private sealed class <DoListingItems_World>c__AnonStorey4F
 			{
 				internal SitePartDef localPart;
 
-				internal Dialog_DebugActionsMenu.<DoListingItems_World>c__AnonStorey49 <>f__ref$73;
+				internal Dialog_DebugActionsMenu.<DoListingItems_World>c__AnonStorey4B <>f__ref$75;
 
-				internal Dialog_DebugActionsMenu.<DoListingItems_World>c__AnonStorey4A <>f__ref$74;
+				internal Dialog_DebugActionsMenu.<DoListingItems_World>c__AnonStorey4C <>f__ref$76;
 
-				public <DoListingItems_World>c__AnonStorey4D()
+				public <DoListingItems_World>c__AnonStorey4F()
 				{
 				}
 
 				internal void <>m__0()
 				{
-					this.<>f__ref$73.parts.Add(this.localPart);
-					this.<>f__ref$74.addPart();
+					this.<>f__ref$75.parts.Add(this.localPart);
+					this.<>f__ref$76.addPart();
 				}
 			}
 
-			private sealed class <DoListingItems_World>c__AnonStorey4C
+			private sealed class <DoListingItems_World>c__AnonStorey4E
 			{
 				internal float localPoints;
 
+				internal Dialog_DebugActionsMenu.<DoListingItems_World>c__AnonStorey4D <>f__ref$77;
+
 				internal Dialog_DebugActionsMenu.<DoListingItems_World>c__AnonStorey4B <>f__ref$75;
 
-				internal Dialog_DebugActionsMenu.<DoListingItems_World>c__AnonStorey49 <>f__ref$73;
+				internal Dialog_DebugActionsMenu.<DoListingItems_World>c__AnonStorey4C <>f__ref$76;
 
-				internal Dialog_DebugActionsMenu.<DoListingItems_World>c__AnonStorey4A <>f__ref$74;
-
-				public <DoListingItems_World>c__AnonStorey4C()
+				public <DoListingItems_World>c__AnonStorey4E()
 				{
 				}
 
 				internal void <>m__0()
 				{
-					SiteCoreDef localDef = this.<>f__ref$74.localDef;
-					List<SitePartDef> parts = this.<>f__ref$73.parts;
-					int tile = this.<>f__ref$75.tile;
+					SiteCoreDef localDef = this.<>f__ref$76.localDef;
+					List<SitePartDef> parts = this.<>f__ref$75.parts;
+					int tile = this.<>f__ref$77.tile;
 					float? threatPoints = new float?(this.localPoints);
 					Site site = SiteMaker.TryMakeSite(localDef, parts, tile, true, null, true, threatPoints);
 					if (site == null)
@@ -8784,40 +8911,40 @@ namespace Verse
 		}
 
 		[CompilerGenerated]
-		private sealed class <DoListingItems_World>c__AnonStorey4F
+		private sealed class <DoListingItems_World>c__AnonStorey51
 		{
 			internal int tile;
 
-			public <DoListingItems_World>c__AnonStorey4F()
+			public <DoListingItems_World>c__AnonStorey51()
 			{
-			}
-		}
-
-		[CompilerGenerated]
-		private sealed class <DoListingItems_World>c__AnonStorey4E
-		{
-			internal WorldObjectDef localDef;
-
-			internal Dialog_DebugActionsMenu.<DoListingItems_World>c__AnonStorey4F <>f__ref$79;
-
-			public <DoListingItems_World>c__AnonStorey4E()
-			{
-			}
-
-			internal void <>m__0()
-			{
-				WorldObject worldObject = WorldObjectMaker.MakeWorldObject(this.localDef);
-				worldObject.Tile = this.<>f__ref$79.tile;
-				Find.WorldObjects.Add(worldObject);
 			}
 		}
 
 		[CompilerGenerated]
 		private sealed class <DoListingItems_World>c__AnonStorey50
 		{
-			internal Type localType;
+			internal WorldObjectDef localDef;
+
+			internal Dialog_DebugActionsMenu.<DoListingItems_World>c__AnonStorey51 <>f__ref$81;
 
 			public <DoListingItems_World>c__AnonStorey50()
+			{
+			}
+
+			internal void <>m__0()
+			{
+				WorldObject worldObject = WorldObjectMaker.MakeWorldObject(this.localDef);
+				worldObject.Tile = this.<>f__ref$81.tile;
+				Find.WorldObjects.Add(worldObject);
+			}
+		}
+
+		[CompilerGenerated]
+		private sealed class <DoListingItems_World>c__AnonStorey52
+		{
+			internal Type localType;
+
+			public <DoListingItems_World>c__AnonStorey52()
 			{
 			}
 
@@ -8828,7 +8955,7 @@ namespace Verse
 		}
 
 		[CompilerGenerated]
-		private sealed class <DoListingItems_MapTools>c__AnonStorey16
+		private sealed class <DoListingItems_MapTools>c__AnonStorey18
 		{
 			internal IntVec3 firstCorner;
 
@@ -8836,7 +8963,7 @@ namespace Verse
 
 			internal DebugTool tool;
 
-			public <DoListingItems_MapTools>c__AnonStorey16()
+			public <DoListingItems_MapTools>c__AnonStorey18()
 			{
 			}
 
@@ -8872,11 +8999,11 @@ namespace Verse
 		}
 
 		[CompilerGenerated]
-		private sealed class <DoListingItems_MapTools>c__AnonStorey3B
+		private sealed class <DoListingItems_MapTools>c__AnonStorey3D
 		{
 			internal Pawn p;
 
-			public <DoListingItems_MapTools>c__AnonStorey3B()
+			public <DoListingItems_MapTools>c__AnonStorey3D()
 			{
 			}
 
@@ -8887,21 +9014,21 @@ namespace Verse
 		}
 
 		[CompilerGenerated]
-		private sealed class <DoListingItems_MapTools>c__AnonStorey3C
+		private sealed class <DoListingItems_MapTools>c__AnonStorey3E
 		{
 			internal PawnKindDef kLocal;
 
-			internal Dialog_DebugActionsMenu.<DoListingItems_MapTools>c__AnonStorey3B <>f__ref$59;
+			internal Dialog_DebugActionsMenu.<DoListingItems_MapTools>c__AnonStorey3D <>f__ref$61;
 
-			public <DoListingItems_MapTools>c__AnonStorey3C()
+			public <DoListingItems_MapTools>c__AnonStorey3E()
 			{
 			}
 
 			internal void <>m__0()
 			{
-				PawnGenerationRequest request = new PawnGenerationRequest(this.kLocal, this.<>f__ref$59.p.Faction, PawnGenerationContext.NonPlayer, -1, false, false, false, false, true, false, 1f, false, true, true, false, false, false, false, null, null, null, null, null, null, null, null);
-				PawnGenerator.RedressPawn(this.<>f__ref$59.p, request);
-				GenSpawn.Spawn(this.<>f__ref$59.p, UI.MouseCell(), Find.CurrentMap, WipeMode.Vanish);
+				PawnGenerationRequest request = new PawnGenerationRequest(this.kLocal, this.<>f__ref$61.p.Faction, PawnGenerationContext.NonPlayer, -1, false, false, false, false, true, false, 1f, false, true, true, false, false, false, false, null, null, null, null, null, null, null, null);
+				PawnGenerator.RedressPawn(this.<>f__ref$61.p, request);
+				GenSpawn.Spawn(this.<>f__ref$61.p, UI.MouseCell(), Find.CurrentMap, WipeMode.Vanish);
 				DebugTools.curTool = null;
 			}
 		}

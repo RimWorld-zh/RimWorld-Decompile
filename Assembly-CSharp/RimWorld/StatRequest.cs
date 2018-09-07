@@ -63,43 +63,33 @@ namespace RimWorld
 
 		public static StatRequest For(Thing thing)
 		{
-			StatRequest result;
 			if (thing == null)
 			{
 				Log.Error("StatRequest for null thing.", false);
-				result = StatRequest.ForEmpty();
+				return StatRequest.ForEmpty();
 			}
-			else
-			{
-				StatRequest statRequest = default(StatRequest);
-				statRequest.thingInt = thing;
-				statRequest.defInt = thing.def;
-				statRequest.stuffDefInt = thing.Stuff;
-				thing.TryGetQuality(out statRequest.qualityCategoryInt);
-				result = statRequest;
-			}
+			StatRequest result = default(StatRequest);
+			result.thingInt = thing;
+			result.defInt = thing.def;
+			result.stuffDefInt = thing.Stuff;
+			thing.TryGetQuality(out result.qualityCategoryInt);
 			return result;
 		}
 
 		public static StatRequest For(BuildableDef def, ThingDef stuffDef, QualityCategory quality = QualityCategory.Normal)
 		{
-			StatRequest result;
 			if (def == null)
 			{
 				Log.Error("StatRequest for null def.", false);
-				result = StatRequest.ForEmpty();
+				return StatRequest.ForEmpty();
 			}
-			else
+			return new StatRequest
 			{
-				result = new StatRequest
-				{
-					thingInt = null,
-					defInt = def,
-					stuffDefInt = stuffDef,
-					qualityCategoryInt = quality
-				};
-			}
-			return result;
+				thingInt = null,
+				defInt = def,
+				stuffDefInt = stuffDef,
+				qualityCategoryInt = quality
+			};
 		}
 
 		public static StatRequest ForEmpty()
@@ -115,23 +105,18 @@ namespace RimWorld
 
 		public override string ToString()
 		{
-			string result;
 			if (this.Thing != null)
 			{
-				result = "(" + this.Thing + ")";
+				return "(" + this.Thing + ")";
 			}
-			else
+			return string.Concat(new object[]
 			{
-				result = string.Concat(new object[]
-				{
-					"(",
-					this.Thing,
-					", ",
-					(this.StuffDef == null) ? "null" : this.StuffDef.defName,
-					")"
-				});
-			}
-			return result;
+				"(",
+				this.Thing,
+				", ",
+				(this.StuffDef == null) ? "null" : this.StuffDef.defName,
+				")"
+			});
 		}
 
 		public override int GetHashCode()
@@ -151,17 +136,12 @@ namespace RimWorld
 
 		public override bool Equals(object obj)
 		{
-			bool result;
 			if (!(obj is StatRequest))
 			{
-				result = false;
+				return false;
 			}
-			else
-			{
-				StatRequest statRequest = (StatRequest)obj;
-				result = (statRequest.defInt == this.defInt && statRequest.thingInt == this.thingInt && statRequest.stuffDefInt == this.stuffDefInt);
-			}
-			return result;
+			StatRequest statRequest = (StatRequest)obj;
+			return statRequest.defInt == this.defInt && statRequest.thingInt == this.thingInt && statRequest.stuffDefInt == this.stuffDefInt;
 		}
 
 		public bool Equals(StatRequest other)

@@ -16,28 +16,28 @@ namespace Verse
 		private static Dictionary<string, int> snapshot = new Dictionary<string, int>();
 
 		[CompilerGenerated]
+		private static Func<IGrouping<string, KeyValuePair<Material, MaterialAllocator.MaterialInfo>>, int> <>f__mg$cache0;
+
+		[CompilerGenerated]
 		private static Func<KeyValuePair<Material, MaterialAllocator.MaterialInfo>, string> <>f__am$cache0;
 
 		[CompilerGenerated]
-		private static Func<IGrouping<string, KeyValuePair<Material, MaterialAllocator.MaterialInfo>>, int> <>f__am$cache1;
+		private static Func<IGrouping<string, KeyValuePair<Material, MaterialAllocator.MaterialInfo>>, string> <>f__am$cache1;
 
 		[CompilerGenerated]
-		private static Func<IGrouping<string, KeyValuePair<Material, MaterialAllocator.MaterialInfo>>, string> <>f__am$cache2;
+		private static Func<KeyValuePair<Material, MaterialAllocator.MaterialInfo>, string> <>f__am$cache2;
 
 		[CompilerGenerated]
-		private static Func<KeyValuePair<Material, MaterialAllocator.MaterialInfo>, string> <>f__am$cache3;
+		private static Func<MaterialAllocator.MaterialInfo, string> <>f__am$cache3;
 
 		[CompilerGenerated]
-		private static Func<MaterialAllocator.MaterialInfo, string> <>f__am$cache4;
+		private static Func<KeyValuePair<Material, MaterialAllocator.MaterialInfo>, string> <>f__am$cache4;
 
 		[CompilerGenerated]
-		private static Func<KeyValuePair<Material, MaterialAllocator.MaterialInfo>, string> <>f__am$cache5;
+		private static Func<KeyValuePair<string, int>, int> <>f__am$cache5;
 
 		[CompilerGenerated]
-		private static Func<KeyValuePair<string, int>, int> <>f__am$cache6;
-
-		[CompilerGenerated]
-		private static Func<KeyValuePair<string, int>, string> <>f__am$cache7;
+		private static Func<KeyValuePair<string, int>, string> <>f__am$cache6;
 
 		public static Material Create(Material material)
 		{
@@ -97,9 +97,13 @@ namespace Verse
 		[DebugOutput]
 		public static void MaterialReport()
 		{
-			foreach (string text in (from kvp in MaterialAllocator.references
-			group kvp by kvp.Value.stackTrace into g
-			orderby g.Count<KeyValuePair<Material, MaterialAllocator.MaterialInfo>>() descending
+			IEnumerable<IGrouping<string, KeyValuePair<Material, MaterialAllocator.MaterialInfo>>> source = from kvp in MaterialAllocator.references
+			group kvp by kvp.Value.stackTrace;
+			if (MaterialAllocator.<>f__mg$cache0 == null)
+			{
+				MaterialAllocator.<>f__mg$cache0 = new Func<IGrouping<string, KeyValuePair<Material, MaterialAllocator.MaterialInfo>>, int>(Enumerable.Count<KeyValuePair<Material, MaterialAllocator.MaterialInfo>>);
+			}
+			foreach (string text in (from g in source.OrderByDescending(MaterialAllocator.<>f__mg$cache0)
 			select string.Format("{0}: {1}", g.Count<KeyValuePair<Material, MaterialAllocator.MaterialInfo>>(), g.FirstOrDefault<KeyValuePair<Material, MaterialAllocator.MaterialInfo>>().Value.stackTrace)).Take(20))
 			{
 				Log.Error(text, false);
@@ -153,43 +157,37 @@ namespace Verse
 		}
 
 		[CompilerGenerated]
-		private static int <MaterialReport>m__1(IGrouping<string, KeyValuePair<Material, MaterialAllocator.MaterialInfo>> g)
-		{
-			return g.Count<KeyValuePair<Material, MaterialAllocator.MaterialInfo>>();
-		}
-
-		[CompilerGenerated]
-		private static string <MaterialReport>m__2(IGrouping<string, KeyValuePair<Material, MaterialAllocator.MaterialInfo>> g)
+		private static string <MaterialReport>m__1(IGrouping<string, KeyValuePair<Material, MaterialAllocator.MaterialInfo>> g)
 		{
 			return string.Format("{0}: {1}", g.Count<KeyValuePair<Material, MaterialAllocator.MaterialInfo>>(), g.FirstOrDefault<KeyValuePair<Material, MaterialAllocator.MaterialInfo>>().Value.stackTrace);
 		}
 
 		[CompilerGenerated]
-		private static string <MaterialSnapshot>m__3(KeyValuePair<Material, MaterialAllocator.MaterialInfo> kvp)
+		private static string <MaterialSnapshot>m__2(KeyValuePair<Material, MaterialAllocator.MaterialInfo> kvp)
 		{
 			return kvp.Value.stackTrace;
 		}
 
 		[CompilerGenerated]
-		private static string <MaterialDelta>m__4(MaterialAllocator.MaterialInfo v)
+		private static string <MaterialDelta>m__3(MaterialAllocator.MaterialInfo v)
 		{
 			return v.stackTrace;
 		}
 
 		[CompilerGenerated]
-		private static string <MaterialDelta>m__5(KeyValuePair<Material, MaterialAllocator.MaterialInfo> kvp)
+		private static string <MaterialDelta>m__4(KeyValuePair<Material, MaterialAllocator.MaterialInfo> kvp)
 		{
 			return kvp.Value.stackTrace;
 		}
 
 		[CompilerGenerated]
-		private static int <MaterialDelta>m__6(KeyValuePair<string, int> kvp)
+		private static int <MaterialDelta>m__5(KeyValuePair<string, int> kvp)
 		{
 			return kvp.Value;
 		}
 
 		[CompilerGenerated]
-		private static string <MaterialDelta>m__7(KeyValuePair<string, int> g)
+		private static string <MaterialDelta>m__6(KeyValuePair<string, int> g)
 		{
 			return string.Format("{0}: {1}", g.Value, g.Key);
 		}

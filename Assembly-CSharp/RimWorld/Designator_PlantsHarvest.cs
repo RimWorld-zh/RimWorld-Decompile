@@ -21,25 +21,17 @@ namespace RimWorld
 
 		public override AcceptanceReport CanDesignateThing(Thing t)
 		{
-			AcceptanceReport acceptanceReport = base.CanDesignateThing(t);
-			AcceptanceReport result;
-			if (!acceptanceReport.Accepted)
+			AcceptanceReport result = base.CanDesignateThing(t);
+			if (!result.Accepted)
 			{
-				result = acceptanceReport;
+				return result;
 			}
-			else
+			Plant plant = (Plant)t;
+			if (!plant.HarvestableNow || plant.def.plant.harvestTag != "Standard")
 			{
-				Plant plant = (Plant)t;
-				if (!plant.HarvestableNow || plant.def.plant.harvestTag != "Standard")
-				{
-					result = "MessageMustDesignateHarvestable".Translate();
-				}
-				else
-				{
-					result = true;
-				}
+				return "MessageMustDesignateHarvestable".Translate();
 			}
-			return result;
+			return true;
 		}
 
 		protected override bool RemoveAllDesignationsAffects(LocalTargetInfo target)

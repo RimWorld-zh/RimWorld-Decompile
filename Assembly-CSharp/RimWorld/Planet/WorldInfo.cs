@@ -11,7 +11,7 @@ namespace RimWorld.Planet
 
 		public string seedString = "SeedError";
 
-		public int randomValue = Rand.Int;
+		public int persistentRandomValue = Rand.Int;
 
 		public OverallRainfall overallRainfall = OverallRainfall.Normal;
 
@@ -44,7 +44,7 @@ namespace RimWorld.Planet
 			Scribe_Values.Look<string>(ref this.name, "name", null, false);
 			Scribe_Values.Look<float>(ref this.planetCoverage, "planetCoverage", 0f, false);
 			Scribe_Values.Look<string>(ref this.seedString, "seedString", null, false);
-			Scribe_Values.Look<int>(ref this.randomValue, "randomValue", 0, false);
+			Scribe_Values.Look<int>(ref this.persistentRandomValue, "persistentRandomValue", 0, false);
 			Scribe_Values.Look<OverallRainfall>(ref this.overallRainfall, "overallRainfall", OverallRainfall.AlmostNone, false);
 			Scribe_Values.Look<OverallTemperature>(ref this.overallTemperature, "overallTemperature", OverallTemperature.VeryCold, false);
 			Scribe_Values.Look<IntVec3>(ref this.initialMapSize, "initialMapSize", default(IntVec3), false);

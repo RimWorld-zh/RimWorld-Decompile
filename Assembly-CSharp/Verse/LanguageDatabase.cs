@@ -141,16 +141,11 @@ namespace Verse
 				}
 			}
 			string text2 = Application.systemLanguage.ToString();
-			string result;
 			if (LanguageDatabase.SupportedAutoSelectLanguages.Contains(text2))
 			{
-				result = text2;
+				return text2;
 			}
-			else
-			{
-				result = LanguageDatabase.DefaultLangFolderName;
-			}
-			return result;
+			return LanguageDatabase.DefaultLangFolderName;
 		}
 
 		// Note: this type is marked as 'beforefieldinit'.

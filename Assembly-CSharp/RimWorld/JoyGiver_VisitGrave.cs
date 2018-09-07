@@ -23,20 +23,15 @@ namespace RimWorld
 				return x.Faction == Faction.OfPlayer && building_Grave.HasCorpse && !building_Grave.IsForbidden(pawn) && building_Grave.Corpse.InnerPawn.Faction == Faction.OfPlayer && (allowedOutside || building_Grave.Position.Roofed(building_Grave.Map)) && pawn.CanReserveAndReach(x, PathEndMode.Touch, Danger.None, 1, -1, null, false) && building_Grave.IsPoliticallyProper(pawn);
 			});
 			Thing t;
-			Job result;
 			if (!source.TryRandomElementByWeight(delegate(Thing x)
 			{
 				float lengthHorizontal = (x.Position - pawn.Position).LengthHorizontal;
 				return Mathf.Max(150f - lengthHorizontal, 5f);
 			}, out t))
 			{
-				result = null;
+				return null;
 			}
-			else
-			{
-				result = new Job(this.def.jobDef, t);
-			}
-			return result;
+			return new Job(this.def.jobDef, t);
 		}
 
 		[CompilerGenerated]

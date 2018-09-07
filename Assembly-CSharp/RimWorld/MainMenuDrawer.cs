@@ -14,6 +14,8 @@ namespace RimWorld
 	{
 		private static bool anyMapFiles;
 
+		private static Vector2 translationInfoScrollbarPos;
+
 		private const float PlayRectWidth = 170f;
 
 		private const float WebRectWidth = 145f;
@@ -88,6 +90,9 @@ namespace RimWorld
 		[CompilerGenerated]
 		private static Action <>f__am$cache11;
 
+		[CompilerGenerated]
+		private static Action <>f__am$cache12;
+
 		public static void Init()
 		{
 			PlayerKnowledgeDatabase.Save();
@@ -131,8 +136,13 @@ namespace RimWorld
 			GUI.color = Color.white;
 			rect.yMin += 17f;
 			MainMenuDrawer.DoMainMenuControls(rect, MainMenuDrawer.anyMapFiles);
-			Rect outRect = new Rect(8f, (float)(UI.screenHeight - 8 - 400), 230f, 400f);
-			MainMenuDrawer.DoMainTextRect(outRect);
+			if (Debug.isDebugBuild)
+			{
+				Rect outRect = new Rect(rect.x - 310f, rect.y, 295f, 400f);
+				MainMenuDrawer.DoDevBuildWarningRect(outRect);
+			}
+			Rect outRect2 = new Rect(8f, (float)(UI.screenHeight - 8 - 400), 240f, 400f);
+			MainMenuDrawer.DoTranslationInfoRect(outRect2);
 		}
 
 		public static void DoMainMenuControls(Rect rect, bool anyMapFiles)
@@ -162,16 +172,13 @@ namespace RimWorld
 					Find.WindowStack.Add(new Page_SelectScenario());
 				}, null));
 			}
-			if (Current.ProgramState == ProgramState.Playing)
+			if (Current.ProgramState == ProgramState.Playing && !Current.Game.Info.permadeathMode)
 			{
-				if (!Current.Game.Info.permadeathMode)
+				list.Add(new ListableOption("Save".Translate(), delegate()
 				{
-					list.Add(new ListableOption("Save".Translate(), delegate()
-					{
-						MainMenuDrawer.CloseMainTab();
-						Find.WindowStack.Add(new Dialog_SaveFileList_Save());
-					}, null));
-				}
+					MainMenuDrawer.CloseMainTab();
+					Find.WindowStack.Add(new Dialog_SaveFileList_Save());
+				}, null));
 			}
 			ListableOption item;
 			if (anyMapFiles && (Current.ProgramState != ProgramState.Playing || !Current.Game.Info.permadeathMode))
@@ -206,6 +213,14 @@ namespace RimWorld
 					Find.WindowStack.Add(new Page_ModsConfig());
 				}, null);
 				list.Add(item);
+				if (Prefs.DevMode && LanguageDatabase.activeLanguage == LanguageDatabase.defaultLanguage && LanguageDatabase.activeLanguage.anyError)
+				{
+					item = new ListableOption("SaveTranslationReport".Translate(), delegate()
+					{
+						LanguageReportGenerator.SaveTranslationReport();
+					}, null);
+					list.Add(item);
+				}
 				item = new ListableOption("Credits".Translate(), delegate()
 				{
 					Find.WindowStack.Add(new Screen_Credits());
@@ -303,64 +318,75 @@ namespace RimWorld
 			list2.Add(item2);
 			float num = OptionListingUtility.DrawOptionListing(rect3, list2);
 			GUI.BeginGroup(rect3);
-			if (Current.ProgramState == ProgramState.Entry)
+			if (Current.ProgramState == ProgramState.Entry && Widgets.ButtonImage(new Rect(0f, num + 10f, 64f, 32f), LanguageDatabase.activeLanguage.icon))
 			{
-				if (Widgets.ButtonImage(new Rect(0f, num + 10f, 64f, 32f), LanguageDatabase.activeLanguage.icon))
+				List<FloatMenuOption> list3 = new List<FloatMenuOption>();
+				foreach (LoadedLanguage localLang2 in LanguageDatabase.AllLoadedLanguages)
 				{
-					List<FloatMenuOption> list3 = new List<FloatMenuOption>();
-					foreach (LoadedLanguage localLang2 in LanguageDatabase.AllLoadedLanguages)
+					LoadedLanguage localLang = localLang2;
+					list3.Add(new FloatMenuOption(localLang.FriendlyNameNative, delegate()
 					{
-						LoadedLanguage localLang = localLang2;
-						list3.Add(new FloatMenuOption(localLang.FriendlyNameNative, delegate()
-						{
-							LanguageDatabase.SelectLanguage(localLang);
-							Prefs.Save();
-						}, MenuOptionPriority.Default, null, null, 0f, null, null));
-					}
-					Find.WindowStack.Add(new FloatMenu(list3));
+						LanguageDatabase.SelectLanguage(localLang);
+						Prefs.Save();
+					}, MenuOptionPriority.Default, null, null, 0f, null, null));
 				}
+				Find.WindowStack.Add(new FloatMenu(list3));
 			}
 			GUI.EndGroup();
 			GUI.EndGroup();
 		}
 
-		public static void DoMainTextRect(Rect outRect)
+		public static void DoTranslationInfoRect(Rect outRect)
 		{
-			if (LanguageDatabase.activeLanguage != LanguageDatabase.defaultLanguage)
+			if (LanguageDatabase.activeLanguage == LanguageDatabase.defaultLanguage)
 			{
-				Widgets.DrawWindowBackground(outRect);
-				Rect rect = outRect.ContractedBy(8f);
-				GUI.BeginGroup(rect);
-				rect = rect.AtZero();
-				Rect rect2 = new Rect(5f, rect.height - 25f, rect.width - 10f, 25f);
-				rect.height -= 29f;
-				Rect rect3 = new Rect(5f, rect.height - 25f, rect.width - 10f, 25f);
-				rect.height -= 29f;
-				string text = "";
-				foreach (CreditsEntry creditsEntry in LanguageDatabase.activeLanguage.info.credits)
-				{
-					CreditRecord_Role creditRecord_Role = creditsEntry as CreditRecord_Role;
-					if (creditRecord_Role != null)
-					{
-						text = text + creditRecord_Role.creditee + "\n";
-					}
-				}
-				text = text.TrimEndNewlines();
-				string label = "TranslationThanks".Translate(new object[]
-				{
-					text
-				}) + "\n\n" + "TranslationHowToContribute".Translate();
-				Widgets.Label(rect, label);
-				if (Widgets.ButtonText(rect3, "LearnMore".Translate(), true, false, true))
-				{
-					Application.OpenURL(MainMenuDrawer.TranslationsContributeURL);
-				}
-				if (Widgets.ButtonText(rect2, "SaveTranslationReport".Translate(), true, false, true))
-				{
-					LanguageReportGenerator.SaveTranslationReport();
-				}
-				GUI.EndGroup();
+				return;
 			}
+			Widgets.DrawWindowBackground(outRect);
+			Rect rect = outRect.ContractedBy(8f);
+			GUI.BeginGroup(rect);
+			rect = rect.AtZero();
+			Rect rect2 = new Rect(5f, rect.height - 25f, rect.width - 10f, 25f);
+			rect.height -= 29f;
+			Rect rect3 = new Rect(5f, rect.height - 25f, rect.width - 10f, 25f);
+			rect.height -= 29f;
+			Rect rect4 = new Rect(5f, rect.height - 25f, rect.width - 10f, 25f);
+			rect.height -= 29f;
+			string text = string.Empty;
+			foreach (CreditsEntry creditsEntry in LanguageDatabase.activeLanguage.info.credits)
+			{
+				CreditRecord_Role creditRecord_Role = creditsEntry as CreditRecord_Role;
+				if (creditRecord_Role != null)
+				{
+					text = text + creditRecord_Role.creditee + "\n";
+				}
+			}
+			text = text.TrimEndNewlines();
+			string label = "TranslationThanks".Translate(new object[]
+			{
+				text
+			}) + "\n\n" + "TranslationHowToContribute".Translate();
+			Widgets.LabelScrollable(rect, label, ref MainMenuDrawer.translationInfoScrollbarPos, false, false);
+			if (Widgets.ButtonText(rect4, "LearnMore".Translate(), true, false, true))
+			{
+				Application.OpenURL(MainMenuDrawer.TranslationsContributeURL);
+			}
+			if (Widgets.ButtonText(rect3, "SaveTranslationReport".Translate(), true, false, true))
+			{
+				LanguageReportGenerator.SaveTranslationReport();
+			}
+			if (Widgets.ButtonText(rect2, "CleanupTranslationFiles".Translate(), true, false, true))
+			{
+				TranslationFilesCleaner.CleanupTranslationFiles();
+			}
+			GUI.EndGroup();
+		}
+
+		private static void DoDevBuildWarningRect(Rect outRect)
+		{
+			Widgets.DrawWindowBackground(outRect);
+			Rect rect = outRect.ContractedBy(17f);
+			Widgets.Label(rect, "DevBuildWarning".Translate());
 		}
 
 		private static void InitLearnToPlay()
@@ -440,11 +466,17 @@ namespace RimWorld
 		[CompilerGenerated]
 		private static void <DoMainMenuControls>m__7()
 		{
-			Find.WindowStack.Add(new Screen_Credits());
+			LanguageReportGenerator.SaveTranslationReport();
 		}
 
 		[CompilerGenerated]
 		private static void <DoMainMenuControls>m__8()
+		{
+			Find.WindowStack.Add(new Screen_Credits());
+		}
+
+		[CompilerGenerated]
+		private static void <DoMainMenuControls>m__9()
 		{
 			LongEventHandler.QueueLongEvent(delegate()
 			{
@@ -454,7 +486,7 @@ namespace RimWorld
 		}
 
 		[CompilerGenerated]
-		private static void <DoMainMenuControls>m__9()
+		private static void <DoMainMenuControls>m__A()
 		{
 			LongEventHandler.QueueLongEvent(delegate()
 			{
@@ -467,7 +499,7 @@ namespace RimWorld
 		}
 
 		[CompilerGenerated]
-		private static void <DoMainMenuControls>m__A()
+		private static void <DoMainMenuControls>m__B()
 		{
 			if (GameDataSaveLoader.CurrentGameStateIsValuable)
 			{
@@ -483,7 +515,7 @@ namespace RimWorld
 		}
 
 		[CompilerGenerated]
-		private static void <DoMainMenuControls>m__B()
+		private static void <DoMainMenuControls>m__C()
 		{
 			if (GameDataSaveLoader.CurrentGameStateIsValuable)
 			{
@@ -499,20 +531,20 @@ namespace RimWorld
 		}
 
 		[CompilerGenerated]
-		private static void <DoMainMenuControls>m__C()
+		private static void <DoMainMenuControls>m__D()
 		{
 			Root.Shutdown();
 		}
 
 		[CompilerGenerated]
-		private static void <DoMainMenuControls>m__D()
+		private static void <DoMainMenuControls>m__E()
 		{
 			GameDataSaveLoader.SaveGame(Current.Game.Info.permadeathModeUniqueName);
 			MemoryUtility.ClearAllMapsAndWorld();
 		}
 
 		[CompilerGenerated]
-		private static void <DoMainMenuControls>m__E()
+		private static void <DoMainMenuControls>m__F()
 		{
 			GameDataSaveLoader.SaveGame(Current.Game.Info.permadeathModeUniqueName);
 			LongEventHandler.ExecuteWhenFinished(delegate
@@ -522,19 +554,19 @@ namespace RimWorld
 		}
 
 		[CompilerGenerated]
-		private static void <DoMainMenuControls>m__F()
+		private static void <DoMainMenuControls>m__10()
 		{
 			GenScene.GoToMainMenu();
 		}
 
 		[CompilerGenerated]
-		private static void <DoMainMenuControls>m__10()
+		private static void <DoMainMenuControls>m__11()
 		{
 			Root.Shutdown();
 		}
 
 		[CompilerGenerated]
-		private static void <DoMainMenuControls>m__11()
+		private static void <DoMainMenuControls>m__12()
 		{
 			Root.Shutdown();
 		}

@@ -13,7 +13,7 @@ namespace Verse
 	{
 		private SimpleCurve curve;
 
-		public List<float> debugInputValues = null;
+		public List<float> debugInputValues;
 
 		private int draggingPointIndex = -1;
 
@@ -329,7 +329,7 @@ namespace Verse
 					switch (num)
 					{
 					case 1u:
-						IL_D9:
+						IL_D6:
 						i++;
 						break;
 					default:
@@ -349,7 +349,7 @@ namespace Verse
 							flag = true;
 							return true;
 						}
-						goto IL_D9;
+						goto IL_D6;
 					}
 				}
 				finally

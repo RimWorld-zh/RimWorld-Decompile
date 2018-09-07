@@ -14,28 +14,23 @@ namespace RimWorld
 
 		protected override ThoughtState CurrentStateInternal(Pawn p)
 		{
-			ThoughtState result;
 			if (!p.Spawned)
 			{
-				result = false;
+				return false;
 			}
-			else
+			List<Thing> list = p.Map.listerThings.ThingsOfDef(ThingDefOf.PsychicEmanator);
+			for (int i = 0; i < list.Count; i++)
 			{
-				List<Thing> list = p.Map.listerThings.ThingsOfDef(ThingDefOf.PsychicEmanator);
-				for (int i = 0; i < list.Count; i++)
+				CompPowerTrader compPowerTrader = list[i].TryGetComp<CompPowerTrader>();
+				if (compPowerTrader == null || compPowerTrader.PowerOn)
 				{
-					CompPowerTrader compPowerTrader = list[i].TryGetComp<CompPowerTrader>();
-					if (compPowerTrader == null || compPowerTrader.PowerOn)
+					if (p.Position.InHorDistOf(list[i].Position, 15f))
 					{
-						if (p.Position.InHorDistOf(list[i].Position, 15f))
-						{
-							return true;
-						}
+						return true;
 					}
 				}
-				result = false;
 			}
-			return result;
+			return false;
 		}
 	}
 }

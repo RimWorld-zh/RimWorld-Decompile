@@ -13,15 +13,15 @@ namespace RimWorld
 	{
 		private int ticksToPickHit = -1000;
 
-		private Effecter effecter = null;
+		private Effecter effecter;
 
-		public const int BaseTicksBetweenPickHits = 110;
+		public const int BaseTicksBetweenPickHits = 100;
 
 		private const int BaseDamagePerPickHit_NaturalRock = 80;
 
 		private const int BaseDamagePerPickHit_NotNaturalRock = 40;
 
-		private const float MinMiningSpeedFactorForNPCs = 0.5f;
+		private const float MinMiningSpeedFactorForNPCs = 0.6f;
 
 		public JobDriver_Mine()
 		{
@@ -35,9 +35,12 @@ namespace RimWorld
 			}
 		}
 
-		public override bool TryMakePreToilReservations()
+		public override bool TryMakePreToilReservations(bool errorOnFailed)
 		{
-			return this.pawn.Reserve(this.MineTarget, this.job, 1, -1, null);
+			Pawn pawn = this.pawn;
+			LocalTargetInfo target = this.MineTarget;
+			Job job = this.job;
+			return pawn.Reserve(target, job, 1, -1, null, errorOnFailed);
 		}
 
 		protected override IEnumerable<Toil> MakeNewToils()
@@ -56,7 +59,7 @@ namespace RimWorld
 				}
 				if (actor.skills != null && (mineTarget.Faction != actor.Faction || actor.Faction == null))
 				{
-					actor.skills.Learn(SkillDefOf.Mining, 0.077f, false);
+					actor.skills.Learn(SkillDefOf.Mining, 0.07f, false);
 				}
 				this.ticksToPickHit--;
 				if (this.ticksToPickHit <= 0)
@@ -112,11 +115,9 @@ namespace RimWorld
 							});
 						}
 						this.ReadyForNextToil();
+						return;
 					}
-					else
-					{
-						this.ResetTicksToPickHit();
-					}
+					this.ResetTicksToPickHit();
 				}
 			};
 			mine.defaultCompleteMode = ToilCompleteMode.Never;
@@ -130,11 +131,11 @@ namespace RimWorld
 		private void ResetTicksToPickHit()
 		{
 			float num = this.pawn.GetStatValue(StatDefOf.MiningSpeed, true);
-			if (num < 0.5f && this.pawn.Faction != Faction.OfPlayer)
+			if (num < 0.6f && this.pawn.Faction != Faction.OfPlayer)
 			{
-				num = 0.5f;
+				num = 0.6f;
 			}
-			this.ticksToPickHit = (int)Math.Round((double)(110f / num));
+			this.ticksToPickHit = (int)Math.Round((double)(100f / num));
 		}
 
 		public override void ExposeData()
@@ -190,7 +191,7 @@ namespace RimWorld
 						}
 						if (actor.skills != null && (mineTarget.Faction != actor.Faction || actor.Faction == null))
 						{
-							actor.skills.Learn(SkillDefOf.Mining, 0.077f, false);
+							actor.skills.Learn(SkillDefOf.Mining, 0.07f, false);
 						}
 						<MakeNewToils>c__AnonStorey.<>f__ref$0.$this.ticksToPickHit--;
 						if (<MakeNewToils>c__AnonStorey.<>f__ref$0.$this.ticksToPickHit <= 0)
@@ -246,11 +247,9 @@ namespace RimWorld
 									});
 								}
 								<MakeNewToils>c__AnonStorey.<>f__ref$0.$this.ReadyForNextToil();
+								return;
 							}
-							else
-							{
-								<MakeNewToils>c__AnonStorey.<>f__ref$0.$this.ResetTicksToPickHit();
-							}
+							<MakeNewToils>c__AnonStorey.<>f__ref$0.$this.ResetTicksToPickHit();
 						}
 					};
 					<MakeNewToils>c__AnonStorey.mine.defaultCompleteMode = ToilCompleteMode.Never;
@@ -344,7 +343,7 @@ namespace RimWorld
 					}
 					if (actor.skills != null && (mineTarget.Faction != actor.Faction || actor.Faction == null))
 					{
-						actor.skills.Learn(SkillDefOf.Mining, 0.077f, false);
+						actor.skills.Learn(SkillDefOf.Mining, 0.07f, false);
 					}
 					this.<>f__ref$0.$this.ticksToPickHit--;
 					if (this.<>f__ref$0.$this.ticksToPickHit <= 0)
@@ -400,11 +399,9 @@ namespace RimWorld
 								});
 							}
 							this.<>f__ref$0.$this.ReadyForNextToil();
+							return;
 						}
-						else
-						{
-							this.<>f__ref$0.$this.ResetTicksToPickHit();
-						}
+						this.<>f__ref$0.$this.ResetTicksToPickHit();
 					}
 				}
 

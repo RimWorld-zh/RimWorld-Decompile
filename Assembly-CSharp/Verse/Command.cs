@@ -8,11 +8,11 @@ namespace Verse
 	[StaticConstructorOnStartup]
 	public abstract class Command : Gizmo
 	{
-		public string defaultLabel = null;
+		public string defaultLabel;
 
 		public string defaultDesc = "No description.";
 
-		public Texture2D icon = null;
+		public Texture2D icon;
 
 		public float iconAngle;
 
@@ -28,9 +28,9 @@ namespace Verse
 
 		public KeyBindingDef hotKey;
 
-		public SoundDef activateSound = null;
+		public SoundDef activateSound;
 
-		public int groupKey = 0;
+		public int groupKey;
 
 		public string tutorTag = "TutorTagNotSet";
 
@@ -117,20 +117,23 @@ namespace Verse
 			if (Mouse.IsOver(rect))
 			{
 				flag = true;
-				GUI.color = GenUI.MouseoverColor;
+				if (!this.disabled)
+				{
+					GUI.color = GenUI.MouseoverColor;
+				}
 			}
 			Texture2D badTex = this.icon;
 			if (badTex == null)
 			{
 				badTex = BaseContent.BadTex;
 			}
-			Material mat = (!this.disabled) ? null : TexUI.GrayscaleGUI;
-			Graphics.DrawTexture(rect, Command.BGTex, mat);
+			Material material = (!this.disabled) ? null : TexUI.GrayscaleGUI;
+			GenUI.DrawTextureWithMaterial(rect, Command.BGTex, material, default(Rect));
 			MouseoverSounds.DoRegion(rect, SoundDefOf.Mouseover_Command);
 			Rect outerRect = rect;
 			outerRect.position += new Vector2(this.iconOffset.x * outerRect.size.x, this.iconOffset.y * outerRect.size.y);
 			GUI.color = this.IconDrawColor;
-			Widgets.DrawTextureFitted(outerRect, badTex, this.iconDrawScale * 0.85f, this.iconProportions, this.iconTexCoords, this.iconAngle, mat);
+			Widgets.DrawTextureFitted(outerRect, badTex, this.iconDrawScale * 0.85f, this.iconProportions, this.iconTexCoords, this.iconAngle, material);
 			GUI.color = Color.white;
 			bool flag2 = false;
 			KeyCode keyCode = (this.hotKey != null) ? this.hotKey.MainKey : KeyCode.None;
@@ -184,7 +187,6 @@ namespace Verse
 				UIHighlighter.HighlightOpportunity(rect, this.HighlightTag);
 			}
 			Text.Font = GameFont.Small;
-			GizmoResult result;
 			if (flag2)
 			{
 				if (this.disabled)
@@ -193,36 +195,32 @@ namespace Verse
 					{
 						Messages.Message(this.disabledReason, MessageTypeDefOf.RejectInput, false);
 					}
-					result = new GizmoResult(GizmoState.Mouseover, null);
+					return new GizmoResult(GizmoState.Mouseover, null);
+				}
+				GizmoResult result;
+				if (Event.current.button == 1)
+				{
+					result = new GizmoResult(GizmoState.OpenedFloatMenu, Event.current);
 				}
 				else
 				{
-					GizmoResult gizmoResult;
-					if (Event.current.button == 1)
+					if (!TutorSystem.AllowAction(this.TutorTagSelect))
 					{
-						gizmoResult = new GizmoResult(GizmoState.OpenedFloatMenu, Event.current);
+						return new GizmoResult(GizmoState.Mouseover, null);
 					}
-					else
-					{
-						if (!TutorSystem.AllowAction(this.TutorTagSelect))
-						{
-							return new GizmoResult(GizmoState.Mouseover, null);
-						}
-						gizmoResult = new GizmoResult(GizmoState.Interacted, Event.current);
-						TutorSystem.Notify_Event(this.TutorTagSelect);
-					}
-					result = gizmoResult;
+					result = new GizmoResult(GizmoState.Interacted, Event.current);
+					TutorSystem.Notify_Event(this.TutorTagSelect);
 				}
-			}
-			else if (flag)
-			{
-				result = new GizmoResult(GizmoState.Mouseover, null);
+				return result;
 			}
 			else
 			{
-				result = new GizmoResult(GizmoState.Clear, null);
+				if (flag)
+				{
+					return new GizmoResult(GizmoState.Mouseover, null);
+				}
+				return new GizmoResult(GizmoState.Clear, null);
 			}
-			return result;
 		}
 
 		public override bool GroupsWith(Gizmo other)

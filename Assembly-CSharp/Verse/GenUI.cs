@@ -89,18 +89,13 @@ namespace Verse
 
 		public static float BackgroundDarkAlphaForText()
 		{
-			float result;
 			if (Find.CurrentMap == null)
 			{
-				result = 0f;
+				return 0f;
 			}
-			else
-			{
-				float num = GenCelestial.CurCelestialSunGlow(Find.CurrentMap);
-				float num2 = (Find.CurrentMap.Biome != BiomeDefOf.IceSheet) ? Mathf.Clamp01(Find.CurrentMap.snowGrid.TotalDepth / 1000f) : 1f;
-				result = num * num2 * 0.41f;
-			}
-			return result;
+			float num = GenCelestial.CurCelestialSunGlow(Find.CurrentMap);
+			float num2 = (Find.CurrentMap.Biome != BiomeDefOf.IceSheet) ? Mathf.Clamp01(Find.CurrentMap.snowGrid.TotalDepth / 1000f) : 1f;
+			return num * num2 * 0.41f;
 		}
 
 		public static void DrawTextWinterShadow(Rect rect)
@@ -111,6 +106,29 @@ namespace Verse
 				GUI.color = new Color(1f, 1f, 1f, num);
 				GUI.DrawTexture(rect, GenUI.UnderShadowTex);
 				GUI.color = Color.white;
+			}
+		}
+
+		public static void DrawTextureWithMaterial(Rect rect, Texture texture, Material material, Rect texCoords = default(Rect))
+		{
+			if (texCoords == default(Rect))
+			{
+				if (material == null)
+				{
+					GUI.DrawTexture(rect, texture);
+				}
+				else if (Event.current.type == EventType.Repaint)
+				{
+					Graphics.DrawTexture(rect, texture, new Rect(0f, 0f, 1f, 1f), 0, 0, 0, 0, new Color(GUI.color.r * 0.5f, GUI.color.g * 0.5f, GUI.color.b * 0.5f, 0.5f), material);
+				}
+			}
+			else if (material == null)
+			{
+				GUI.DrawTextureWithTexCoords(rect, texture, texCoords);
+			}
+			else if (Event.current.type == EventType.Repaint)
+			{
+				Graphics.DrawTexture(rect, texture, texCoords, 0, 0, 0, 0, new Color(GUI.color.r * 0.5f, GUI.color.g * 0.5f, GUI.color.b * 0.5f, 0.5f), material);
 			}
 		}
 
@@ -150,18 +168,13 @@ namespace Verse
 				GenUI.labelWidthCache.Clear();
 			}
 			float x;
-			float result;
 			if (GenUI.labelWidthCache.TryGetValue(s, out x))
 			{
-				result = x;
+				return x;
 			}
-			else
-			{
-				x = Text.CalcSize(s).x;
-				GenUI.labelWidthCache.Add(s, x);
-				result = x;
-			}
-			return result;
+			x = Text.CalcSize(s).x;
+			GenUI.labelWidthCache.Add(s, x);
+			return x;
 		}
 
 		public static Rect Rounded(this Rect r)
@@ -212,7 +225,7 @@ namespace Verse
 				}, false, false, 0f);
 				num += mouseRect.height;
 			}
-			if (text != "")
+			if (text != string.Empty)
 			{
 				Rect textRect = new Rect(mousePosition.x + 12f, num, 200f, 9999f);
 				Find.WindowStack.ImmediateWindow(34003429, textRect, WindowLayer.Super, delegate
@@ -349,60 +362,45 @@ namespace Verse
 			Vector3 b2 = UI.MouseMapPosition();
 			float num = (a.DrawPos - b2).MagnitudeHorizontalSquared();
 			float num2 = (b.DrawPos - b2).MagnitudeHorizontalSquared();
-			int result;
 			if (num < num2)
 			{
-				result = -1;
+				return -1;
 			}
-			else if (num == num2)
+			if (num == num2)
 			{
-				result = 0;
+				return 0;
 			}
-			else
-			{
-				result = 1;
-			}
-			return result;
+			return 1;
 		}
 
 		private static int CompareThingsByDrawAltitude(Thing A, Thing B)
 		{
-			int result;
 			if (A.def.Altitude < B.def.Altitude)
 			{
-				result = 1;
+				return 1;
 			}
-			else if (A.def.Altitude == B.def.Altitude)
+			if (A.def.Altitude == B.def.Altitude)
 			{
-				result = 0;
+				return 0;
 			}
-			else
-			{
-				result = -1;
-			}
-			return result;
+			return -1;
 		}
 
 		public static int CurrentAdjustmentMultiplier()
 		{
-			int result;
 			if (KeyBindingDefOf.ModifierIncrement_10x.IsDownEvent && KeyBindingDefOf.ModifierIncrement_100x.IsDownEvent)
 			{
-				result = 1000;
+				return 1000;
 			}
-			else if (KeyBindingDefOf.ModifierIncrement_100x.IsDownEvent)
+			if (KeyBindingDefOf.ModifierIncrement_100x.IsDownEvent)
 			{
-				result = 100;
+				return 100;
 			}
-			else if (KeyBindingDefOf.ModifierIncrement_10x.IsDownEvent)
+			if (KeyBindingDefOf.ModifierIncrement_10x.IsDownEvent)
 			{
-				result = 10;
+				return 10;
 			}
-			else
-			{
-				result = 1;
-			}
-			return result;
+			return 1;
 		}
 
 		public static Rect GetInnerRect(this Rect rect)
@@ -514,32 +512,27 @@ namespace Verse
 
 		public static Color LerpColor(List<Pair<float, Color>> colors, float value)
 		{
-			Color result;
 			if (colors.Count == 0)
 			{
-				result = Color.white;
+				return Color.white;
 			}
-			else
+			int i = 0;
+			while (i < colors.Count)
 			{
-				int i = 0;
-				while (i < colors.Count)
+				if (value < colors[i].First)
 				{
-					if (value < colors[i].First)
+					if (i == 0)
 					{
-						if (i == 0)
-						{
-							return colors[i].Second;
-						}
-						return Color.Lerp(colors[i - 1].Second, colors[i].Second, Mathf.InverseLerp(colors[i - 1].First, colors[i].First, value));
+						return colors[i].Second;
 					}
-					else
-					{
-						i++;
-					}
+					return Color.Lerp(colors[i - 1].Second, colors[i].Second, Mathf.InverseLerp(colors[i - 1].First, colors[i].First, value));
 				}
-				result = colors.Last<Pair<float, Color>>().Second;
+				else
+				{
+					i++;
+				}
 			}
-			return result;
+			return colors.Last<Pair<float, Color>>().Second;
 		}
 
 		public static Vector2 GetMouseAttachedWindowPos(float width, float height)
@@ -696,8 +689,9 @@ namespace Verse
 					i++;
 					break;
 				case 2u:
-					IL_116:
-					goto IL_117;
+					IL_112:
+					this.$PC = -1;
+					return false;
 				default:
 					return false;
 				}
@@ -705,12 +699,12 @@ namespace Verse
 				{
 					if (thingsOnly)
 					{
-						goto IL_117;
+						goto IL_112;
 					}
 					cellTarg = UI.MouseCell();
 					if (!cellTarg.InBounds(Find.CurrentMap) || !clickParams.CanTarget(new TargetInfo(cellTarg, Find.CurrentMap, false)))
 					{
-						goto IL_116;
+						goto IL_112;
 					}
 					this.$current = cellTarg;
 					if (!this.$disposing)
@@ -727,9 +721,6 @@ namespace Verse
 					}
 				}
 				return true;
-				IL_117:
-				this.$PC = -1;
-				return false;
 			}
 
 			LocalTargetInfo IEnumerator<LocalTargetInfo>.Current

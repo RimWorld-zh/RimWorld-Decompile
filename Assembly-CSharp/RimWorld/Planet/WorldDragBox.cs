@@ -6,7 +6,7 @@ namespace RimWorld.Planet
 {
 	public class WorldDragBox
 	{
-		public bool active = false;
+		public bool active;
 
 		public Vector2 start;
 

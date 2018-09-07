@@ -53,16 +53,11 @@ namespace RimWorld
 		{
 			get
 			{
-				Plant result;
 				if (!base.Spawned)
 				{
-					result = null;
+					return null;
 				}
-				else
-				{
-					result = BlightUtility.GetFirstBlightableEverPlant(base.Position, base.Map);
-				}
-				return result;
+				return BlightUtility.GetFirstBlightableEverPlant(base.Position, base.Map);
 			}
 		}
 
@@ -70,16 +65,11 @@ namespace RimWorld
 		{
 			get
 			{
-				float result;
 				if (this.severity < 0.28f)
 				{
-					result = -1f;
+					return -1f;
 				}
-				else
-				{
-					result = GenMath.LerpDouble(0.28f, 1f, 16.8f, 2.1f, this.severity);
-				}
-				return result;
+				return GenMath.LerpDouble(0.28f, 1f, 16.8f, 2.1f, this.severity);
 			}
 		}
 
@@ -103,19 +93,20 @@ namespace RimWorld
 		public override void TickLong()
 		{
 			this.CheckHarmPlant();
-			if (!this.DestroyIfNoPlantHere())
+			if (this.DestroyIfNoPlantHere())
 			{
-				this.Severity += 0.0333333351f;
-				float reproduceMTBHours = this.ReproduceMTBHours;
-				if (reproduceMTBHours > 0f && Rand.MTBEventOccurs(reproduceMTBHours, 2500f, 2000f))
-				{
-					this.TryReproduceNow();
-				}
-				if (Mathf.Abs(this.Severity - this.lastMapMeshUpdateSeverity) >= 0.05f)
-				{
-					base.Map.mapDrawer.MapMeshDirty(base.Position, MapMeshFlag.Things);
-					this.lastMapMeshUpdateSeverity = this.Severity;
-				}
+				return;
+			}
+			this.Severity += 0.0333333351f;
+			float reproduceMTBHours = this.ReproduceMTBHours;
+			if (reproduceMTBHours > 0f && Rand.MTBEventOccurs(reproduceMTBHours, 2500f, 2000f))
+			{
+				this.TryReproduceNow();
+			}
+			if (Mathf.Abs(this.Severity - this.lastMapMeshUpdateSeverity) >= 0.05f)
+			{
+				base.Map.mapDrawer.MapMeshDirty(base.Position, MapMeshFlag.Things);
+				this.lastMapMeshUpdateSeverity = this.Severity;
 			}
 		}
 
@@ -126,21 +117,16 @@ namespace RimWorld
 
 		private bool DestroyIfNoPlantHere()
 		{
-			bool result;
 			if (base.Destroyed)
 			{
-				result = true;
+				return true;
 			}
-			else if (this.Plant == null)
+			if (this.Plant == null)
 			{
 				this.Destroy(DestroyMode.Vanish);
-				result = true;
+				return true;
 			}
-			else
-			{
-				result = false;
-			}
-			return result;
+			return false;
 		}
 
 		private void CheckHarmPlant()
@@ -181,19 +167,14 @@ namespace RimWorld
 			GenRadial.ProcessEquidistantCells(base.Position, 4f, delegate(List<IntVec3> cells)
 			{
 				IntVec3 c;
-				bool result;
 				if ((from x in cells
 				where BlightUtility.GetFirstBlightableNowPlant(x, base.Map) != null
 				select x).TryRandomElement(out c))
 				{
 					BlightUtility.GetFirstBlightableNowPlant(c, base.Map).CropBlighted();
-					result = true;
+					return true;
 				}
-				else
-				{
-					result = false;
-				}
-				return result;
+				return false;
 			}, base.Map);
 		}
 
@@ -231,19 +212,14 @@ namespace RimWorld
 		private bool <TryReproduceNow>m__0(List<IntVec3> cells)
 		{
 			IntVec3 c;
-			bool result;
 			if ((from x in cells
 			where BlightUtility.GetFirstBlightableNowPlant(x, base.Map) != null
 			select x).TryRandomElement(out c))
 			{
 				BlightUtility.GetFirstBlightableNowPlant(c, base.Map).CropBlighted();
-				result = true;
+				return true;
 			}
-			else
-			{
-				result = false;
-			}
-			return result;
+			return false;
 		}
 
 		[CompilerGenerated]

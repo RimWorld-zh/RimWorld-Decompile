@@ -50,34 +50,36 @@ namespace RimWorld
 
 		public static void Notify_BuildingDestroying(Thing t, DestroyMode mode)
 		{
-			if (mode == DestroyMode.KillFinalize || mode == DestroyMode.Deconstruct)
+			if (mode != DestroyMode.KillFinalize && mode != DestroyMode.Deconstruct)
 			{
-				if (t.def.IsSmoothed)
+				return;
+			}
+			if (!t.def.IsSmoothed)
+			{
+				return;
+			}
+			for (int i = 0; i < GenAdj.CardinalDirections.Length; i++)
+			{
+				IntVec3 c = t.Position + GenAdj.CardinalDirections[i];
+				if (c.InBounds(t.Map))
 				{
-					for (int i = 0; i < GenAdj.CardinalDirections.Length; i++)
+					Building edifice = c.GetEdifice(t.Map);
+					if (edifice != null && edifice.def.IsSmoothed)
 					{
-						IntVec3 c = t.Position + GenAdj.CardinalDirections[i];
-						if (c.InBounds(t.Map))
+						bool flag = true;
+						for (int j = 0; j < GenAdj.CardinalDirections.Length; j++)
 						{
-							Building edifice = c.GetEdifice(t.Map);
-							if (edifice != null && edifice.def.IsSmoothed)
+							IntVec3 pos = edifice.Position + GenAdj.CardinalDirections[j];
+							if (!SmoothableWallUtility.IsBlocked(pos, t.Map))
 							{
-								bool flag = true;
-								for (int j = 0; j < GenAdj.CardinalDirections.Length; j++)
-								{
-									IntVec3 pos = edifice.Position + GenAdj.CardinalDirections[j];
-									if (!SmoothableWallUtility.IsBlocked(pos, t.Map))
-									{
-										flag = false;
-										break;
-									}
-								}
-								if (flag)
-								{
-									edifice.Destroy(DestroyMode.WillReplace);
-									GenSpawn.Spawn(ThingMaker.MakeThing(edifice.def.building.unsmoothedThing, edifice.Stuff), edifice.Position, t.Map, edifice.Rotation, WipeMode.Vanish, false);
-								}
+								flag = false;
+								break;
 							}
+						}
+						if (flag)
+						{
+							edifice.Destroy(DestroyMode.WillReplace);
+							GenSpawn.Spawn(ThingMaker.MakeThing(edifice.def.building.unsmoothedThing, edifice.Stuff), edifice.Position, t.Map, edifice.Rotation, WipeMode.Vanish, false);
 						}
 					}
 				}
@@ -97,21 +99,16 @@ namespace RimWorld
 
 		private static bool IsBlocked(IntVec3 pos, Map map)
 		{
-			bool result;
 			if (!pos.InBounds(map))
 			{
-				result = false;
+				return false;
 			}
-			else if (pos.Walkable(map))
+			if (pos.Walkable(map))
 			{
-				result = false;
+				return false;
 			}
-			else
-			{
-				Building edifice = pos.GetEdifice(map);
-				result = (edifice != null && (edifice.def.IsSmoothed || edifice.def.building.isNaturalRock));
-			}
-			return result;
+			Building edifice = pos.GetEdifice(map);
+			return edifice != null && (edifice.def.IsSmoothed || edifice.def.building.isNaturalRock);
 		}
 	}
 }

@@ -33,7 +33,7 @@ namespace RimWorld
 
 		public override IEnumerable<string> ConfigErrors(TraderKindDef parentDef)
 		{
-			foreach (string e in this.<ConfigErrors>__BaseCallProxy0(parentDef))
+			foreach (string e in base.ConfigErrors(parentDef))
 			{
 				yield return e;
 			}
@@ -228,9 +228,9 @@ namespace RimWorld
 				case 1u:
 					break;
 				case 2u:
-					IL_12A:
+					IL_125:
 					i++;
-					goto IL_139;
+					goto IL_133;
 				default:
 					return false;
 				}
@@ -262,7 +262,7 @@ namespace RimWorld
 					}
 				}
 				i = 0;
-				IL_139:
+				IL_133:
 				if (i >= this.thingDefs.Count)
 				{
 					this.$PC = -1;
@@ -278,7 +278,7 @@ namespace RimWorld
 						}
 						return true;
 					}
-					goto IL_12A;
+					goto IL_125;
 				}
 				return false;
 			}

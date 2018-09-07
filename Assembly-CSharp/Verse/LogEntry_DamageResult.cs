@@ -43,19 +43,16 @@ namespace Verse
 			Scribe_Collections.Look<BodyPartRecord>(ref this.damagedParts, "damagedParts", LookMode.BodyPart, new object[0]);
 			Scribe_Collections.Look<bool>(ref this.damagedPartsDestroyed, "damagedPartsDestroyed", LookMode.Value, new object[0]);
 			Scribe_Values.Look<bool>(ref this.deflected, "deflected", false, false);
-			if (Scribe.mode == LoadSaveMode.PostLoadInit)
+			if (Scribe.mode == LoadSaveMode.PostLoadInit && this.damagedParts != null)
 			{
-				if (this.damagedParts != null)
+				for (int i = this.damagedParts.Count - 1; i >= 0; i--)
 				{
-					for (int i = this.damagedParts.Count - 1; i >= 0; i--)
+					if (this.damagedParts[i] == null)
 					{
-						if (this.damagedParts[i] == null)
+						this.damagedParts.RemoveAt(i);
+						if (i < this.damagedPartsDestroyed.Count)
 						{
-							this.damagedParts.RemoveAt(i);
-							if (i < this.damagedPartsDestroyed.Count)
-							{
-								this.damagedPartsDestroyed.RemoveAt(i);
-							}
+							this.damagedPartsDestroyed.RemoveAt(i);
 						}
 					}
 				}

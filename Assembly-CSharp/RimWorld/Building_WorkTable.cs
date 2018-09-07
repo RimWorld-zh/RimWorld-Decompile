@@ -6,13 +6,13 @@ namespace RimWorld
 {
 	public class Building_WorkTable : Building, IBillGiver, IBillGiverWithTickAction
 	{
-		public BillStack billStack = null;
+		public BillStack billStack;
 
-		private CompPowerTrader powerComp = null;
+		private CompPowerTrader powerComp;
 
-		private CompRefuelable refuelableComp = null;
+		private CompRefuelable refuelableComp;
 
-		private CompBreakdownable breakdownableComp = null;
+		private CompBreakdownable breakdownableComp;
 
 		public Building_WorkTable()
 		{

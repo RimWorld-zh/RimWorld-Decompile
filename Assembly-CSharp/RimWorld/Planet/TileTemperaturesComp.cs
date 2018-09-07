@@ -79,18 +79,13 @@ namespace RimWorld.Planet
 
 		private TileTemperaturesComp.CachedTileTemperatureData RetrieveCachedData(int tile)
 		{
-			TileTemperaturesComp.CachedTileTemperatureData result;
 			if (this.cache[tile] != null)
 			{
-				result = this.cache[tile];
+				return this.cache[tile];
 			}
-			else
-			{
-				this.cache[tile] = new TileTemperaturesComp.CachedTileTemperatureData(tile);
-				this.usedSlots.Add(tile);
-				result = this.cache[tile];
-			}
-			return result;
+			this.cache[tile] = new TileTemperaturesComp.CachedTileTemperatureData(tile);
+			this.usedSlots.Add(tile);
+			return this.cache[tile];
 		}
 
 		private class CachedTileTemperatureData

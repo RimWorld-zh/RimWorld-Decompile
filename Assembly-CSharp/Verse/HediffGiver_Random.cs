@@ -4,7 +4,7 @@ namespace Verse
 {
 	public class HediffGiver_Random : HediffGiver
 	{
-		public float mtbDays = 0f;
+		public float mtbDays;
 
 		public HediffGiver_Random()
 		{
@@ -12,12 +12,9 @@ namespace Verse
 
 		public override void OnIntervalPassed(Pawn pawn, Hediff cause)
 		{
-			if (Rand.MTBEventOccurs(this.mtbDays, 60000f, 60f))
+			if (Rand.MTBEventOccurs(this.mtbDays, 60000f, 60f) && base.TryApply(pawn, null))
 			{
-				if (base.TryApply(pawn, null))
-				{
-					base.SendLetter(pawn, cause);
-				}
+				base.SendLetter(pawn, cause);
 			}
 		}
 	}

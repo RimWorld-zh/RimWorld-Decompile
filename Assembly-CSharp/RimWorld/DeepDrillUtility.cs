@@ -44,17 +44,12 @@ namespace RimWorld
 
 		public static ThingDef GetBaseResource(Map map)
 		{
-			ThingDef result;
 			if (!map.Biome.hasBedrock)
 			{
-				result = null;
+				return null;
 			}
-			else
-			{
-				result = (from rock in Find.World.NaturalRockTypesIn(map.Tile)
-				select rock.building.mineableThing).FirstOrDefault<ThingDef>();
-			}
-			return result;
+			return (from rock in Find.World.NaturalRockTypesIn(map.Tile)
+			select rock.building.mineableThing).FirstOrDefault<ThingDef>();
 		}
 
 		[CompilerGenerated]

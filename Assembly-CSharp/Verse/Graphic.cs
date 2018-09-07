@@ -16,7 +16,7 @@ namespace Verse
 
 		public Vector2 drawSize = Vector2.one;
 
-		private Graphic_Shadow cachedShadowGraphicInt = null;
+		private Graphic_Shadow cachedShadowGraphicInt;
 
 		private Graphic cachedShadowlessGraphicInt;
 
@@ -29,16 +29,11 @@ namespace Verse
 			get
 			{
 				Material matSingle = this.MatSingle;
-				Shader result;
 				if (matSingle != null)
 				{
-					result = matSingle.shader;
+					return matSingle.shader;
 				}
-				else
-				{
-					result = ShaderDatabase.Cutout;
-				}
-				return result;
+				return ShaderDatabase.Cutout;
 			}
 		}
 
@@ -114,7 +109,15 @@ namespace Verse
 		{
 			get
 			{
-				return this.data == null || this.data.allowFlip;
+				return this.DataAllowsFlip && !this.ShouldDrawRotated;
+			}
+		}
+
+		public virtual bool EastFlipped
+		{
+			get
+			{
+				return false;
 			}
 		}
 
@@ -126,6 +129,22 @@ namespace Verse
 			}
 		}
 
+		public virtual float DrawRotatedExtraAngleOffset
+		{
+			get
+			{
+				return 0f;
+			}
+		}
+
+		protected bool DataAllowsFlip
+		{
+			get
+			{
+				return this.data == null || this.data.allowFlip;
+			}
+		}
+
 		public virtual void Init(GraphicRequest req)
 		{
 			Log.ErrorOnce("Cannot init Graphic of class " + base.GetType().ToString(), 658928, false);
@@ -133,52 +152,33 @@ namespace Verse
 
 		public virtual Material MatAt(Rot4 rot, Thing thing = null)
 		{
-			Material result;
 			switch (rot.AsInt)
 			{
 			case 0:
-				result = this.MatNorth;
-				break;
+				return this.MatNorth;
 			case 1:
-				result = this.MatEast;
-				break;
+				return this.MatEast;
 			case 2:
-				result = this.MatSouth;
-				break;
+				return this.MatSouth;
 			case 3:
-				result = this.MatWest;
-				break;
+				return this.MatWest;
 			default:
-				result = BaseContent.BadMat;
-				break;
+				return BaseContent.BadMat;
 			}
-			return result;
 		}
 
 		public virtual Mesh MeshAt(Rot4 rot)
 		{
-			Mesh result;
-			if (this.ShouldDrawRotated)
+			Vector2 vector = this.drawSize;
+			if (rot.IsHorizontal && !this.ShouldDrawRotated)
 			{
-				result = MeshPool.GridPlane(this.drawSize);
+				vector = vector.Rotated();
 			}
-			else
+			if ((rot == Rot4.West && this.WestFlipped) || (rot == Rot4.East && this.EastFlipped))
 			{
-				Vector2 vector = this.drawSize;
-				if (rot.IsHorizontal)
-				{
-					vector = vector.Rotated();
-				}
-				if (rot == Rot4.West && this.WestFlipped)
-				{
-					result = MeshPool.GridPlaneFlip(vector);
-				}
-				else
-				{
-					result = MeshPool.GridPlane(vector);
-				}
+				return MeshPool.GridPlaneFlip(vector);
 			}
-			return result;
+			return MeshPool.GridPlane(vector);
 		}
 
 		public virtual Material MatSingleFor(Thing thing)
@@ -231,13 +231,9 @@ namespace Verse
 				{
 					size = this.drawSize.Rotated();
 				}
-				flag = (thing.Rotation == Rot4.West && this.WestFlipped);
+				flag = ((thing.Rotation == Rot4.West && this.WestFlipped) || (thing.Rotation == Rot4.East && this.EastFlipped));
 			}
-			float num = 0f;
-			if (this.ShouldDrawRotated)
-			{
-				num = thing.Rotation.AsAngle;
-			}
+			float num = this.AngleFromRot(thing.Rotation);
 			if (flag && this.data != null)
 			{
 				num += this.data.flipExtraRotation;
@@ -262,41 +258,43 @@ namespace Verse
 
 		public virtual Graphic GetShadowlessGraphic()
 		{
-			Graphic result;
 			if (this.data == null || this.data.shadowData == null)
 			{
-				result = this;
+				return this;
 			}
-			else
+			if (this.cachedShadowlessGraphicInt == null)
 			{
-				if (this.cachedShadowlessGraphicInt == null)
-				{
-					GraphicData graphicData = new GraphicData();
-					graphicData.CopyFrom(this.data);
-					graphicData.shadowData = null;
-					this.cachedShadowlessGraphicInt = graphicData.Graphic;
-				}
-				result = this.cachedShadowlessGraphicInt;
+				GraphicData graphicData = new GraphicData();
+				graphicData.CopyFrom(this.data);
+				graphicData.shadowData = null;
+				this.cachedShadowlessGraphicInt = graphicData.Graphic;
 			}
-			return result;
+			return this.cachedShadowlessGraphicInt;
+		}
+
+		protected float AngleFromRot(Rot4 rot)
+		{
+			if (this.ShouldDrawRotated)
+			{
+				float num = rot.AsAngle;
+				num += this.DrawRotatedExtraAngleOffset;
+				if ((rot == Rot4.West && this.WestFlipped) || (rot == Rot4.East && this.EastFlipped))
+				{
+					num += 180f;
+				}
+				return num;
+			}
+			return 0f;
 		}
 
 		protected Quaternion QuatFromRot(Rot4 rot)
 		{
-			Quaternion result;
-			if (this.data != null && !this.data.drawRotated)
+			float num = this.AngleFromRot(rot);
+			if (num == 0f)
 			{
-				result = Quaternion.identity;
+				return Quaternion.identity;
 			}
-			else if (this.ShouldDrawRotated)
-			{
-				result = rot.AsQuat;
-			}
-			else
-			{
-				result = Quaternion.identity;
-			}
-			return result;
+			return Quaternion.AngleAxis(num, Vector3.up);
 		}
 	}
 }

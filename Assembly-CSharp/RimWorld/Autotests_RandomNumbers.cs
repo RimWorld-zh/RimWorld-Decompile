@@ -52,12 +52,12 @@ namespace RimWorld
 				{
 					if (list.Any((float x) => (double)x > 0.9))
 					{
-						goto IL_C7;
+						goto IL_C6;
 					}
 				}
 			}
 			Log.Warning("Possibly uneven distribution.", false);
-			IL_C7:
+			IL_C6:
 			list = Autotests_RandomNumbers.RandomFloats(1300000).ToList<float>();
 			int num = list.Count((float x) => (double)x < 0.1);
 			Log.Message("< 0.1 count (should be ~10%): " + (float)num / (float)list.Count<float>() * 100f + "%", false);

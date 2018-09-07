@@ -2,7 +2,6 @@
 using System.Collections.Generic;
 using RimWorld;
 using UnityEngine;
-using UnityEngine.Profiling;
 using Verse.AI;
 using Verse.Sound;
 
@@ -14,15 +13,15 @@ namespace Verse
 
 		public VerbTracker verbTracker;
 
-		public ManeuverDef maneuver = null;
+		public ManeuverDef maneuver;
 
-		public Tool tool = null;
+		public Tool tool;
 
-		public Thing caster = null;
+		public Thing caster;
 
 		public string loadID;
 
-		public VerbState state = VerbState.Idle;
+		public VerbState state;
 
 		protected LocalTargetInfo currentTarget;
 
@@ -136,16 +135,11 @@ namespace Verse
 		{
 			get
 			{
-				Texture2D result;
 				if (this.EquipmentSource != null)
 				{
-					result = this.EquipmentSource.def.uiIcon;
+					return this.EquipmentSource.def.uiIcon;
 				}
-				else
-				{
-					result = BaseContent.BadTex;
-				}
-				return result;
+				return BaseContent.BadTex;
 			}
 		}
 
@@ -165,31 +159,17 @@ namespace Verse
 			}
 		}
 
+		public bool BuggedAfterLoading
+		{
+			get
+			{
+				return this.verbProps == null;
+			}
+		}
+
 		public bool IsStillUsableBy(Pawn pawn)
 		{
-			Profiler.BeginSample("IsStillUsableBy()");
-			bool result;
-			if (!this.Available())
-			{
-				Profiler.EndSample();
-				result = false;
-			}
-			else if (!this.DirectOwner.VerbsStillUsableBy(pawn))
-			{
-				Profiler.EndSample();
-				result = false;
-			}
-			else if (this.verbProps.GetDamageFactorFor(this, pawn) == 0f)
-			{
-				Profiler.EndSample();
-				result = false;
-			}
-			else
-			{
-				Profiler.EndSample();
-				result = true;
-			}
-			return result;
+			return this.Available() && this.DirectOwner.VerbsStillUsableBy(pawn) && this.verbProps.GetDamageFactorFor(this, pawn) != 0f;
 		}
 
 		public virtual bool IsUsableOn(Thing target)
@@ -225,48 +205,43 @@ namespace Verse
 
 		public bool TryStartCastOn(LocalTargetInfo castTarg, bool surpriseAttack = false, bool canHitNonTargetPawns = true)
 		{
-			bool result;
 			if (this.caster == null)
 			{
 				Log.Error("Verb " + this.GetUniqueLoadID() + " needs caster to work (possibly lost during saving/loading).", false);
-				result = false;
+				return false;
 			}
-			else if (!this.caster.Spawned)
+			if (!this.caster.Spawned)
 			{
-				result = false;
+				return false;
 			}
-			else if (this.state == VerbState.Bursting || !this.CanHitTarget(castTarg))
+			if (this.state == VerbState.Bursting || !this.CanHitTarget(castTarg))
 			{
-				result = false;
+				return false;
+			}
+			if (this.CausesTimeSlowdown(castTarg))
+			{
+				Find.TickManager.slower.SignalForceNormalSpeed();
+			}
+			this.surpriseAttack = surpriseAttack;
+			this.canHitNonTargetPawnsNow = canHitNonTargetPawns;
+			this.currentTarget = castTarg;
+			if (this.CasterIsPawn && this.verbProps.warmupTime > 0f)
+			{
+				ShootLine newShootLine;
+				if (!this.TryFindShootLineFromTo(this.caster.Position, castTarg, out newShootLine))
+				{
+					return false;
+				}
+				this.CasterPawn.Drawer.Notify_WarmingCastAlongLine(newShootLine, this.caster.Position);
+				float statValue = this.CasterPawn.GetStatValue(StatDefOf.AimingDelayFactor, true);
+				int ticks = (this.verbProps.warmupTime * statValue).SecondsToTicks();
+				this.CasterPawn.stances.SetStance(new Stance_Warmup(ticks, castTarg, this));
 			}
 			else
 			{
-				if (this.verbProps.CausesTimeSlowdown && castTarg.HasThing && (castTarg.Thing.def.category == ThingCategory.Pawn || (castTarg.Thing.def.building != null && castTarg.Thing.def.building.IsTurret)) && castTarg.Thing.Faction == Faction.OfPlayer && this.caster.HostileTo(Faction.OfPlayer))
-				{
-					Find.TickManager.slower.SignalForceNormalSpeed();
-				}
-				this.surpriseAttack = surpriseAttack;
-				this.canHitNonTargetPawnsNow = canHitNonTargetPawns;
-				this.currentTarget = castTarg;
-				if (this.CasterIsPawn && this.verbProps.warmupTime > 0f)
-				{
-					ShootLine newShootLine;
-					if (!this.TryFindShootLineFromTo(this.caster.Position, castTarg, out newShootLine))
-					{
-						return false;
-					}
-					this.CasterPawn.Drawer.Notify_WarmingCastAlongLine(newShootLine, this.caster.Position);
-					float statValue = this.CasterPawn.GetStatValue(StatDefOf.AimingDelayFactor, true);
-					int ticks = (this.verbProps.warmupTime * statValue).SecondsToTicks();
-					this.CasterPawn.stances.SetStance(new Stance_Warmup(ticks, castTarg, this));
-				}
-				else
-				{
-					this.WarmupComplete();
-				}
-				result = true;
+				this.WarmupComplete();
 			}
-			return result;
+			return true;
 		}
 
 		public virtual void WarmupComplete()
@@ -435,6 +410,20 @@ namespace Verse
 			return 0f;
 		}
 
+		private bool CausesTimeSlowdown(LocalTargetInfo castTarg)
+		{
+			if (!this.verbProps.CausesTimeSlowdown)
+			{
+				return false;
+			}
+			if (!castTarg.HasThing)
+			{
+				return false;
+			}
+			Thing thing = castTarg.Thing;
+			return (thing.def.category == ThingCategory.Pawn || (thing.def.building != null && thing.def.building.IsTurret)) && ((thing.Faction == Faction.OfPlayer && this.caster.HostileTo(Faction.OfPlayer)) || (this.caster.Faction == Faction.OfPlayer && thing.HostileTo(Faction.OfPlayer)));
+		}
+
 		public bool CanHitTarget(LocalTargetInfo targ)
 		{
 			return this.caster != null && this.caster.Spawned && this.CanHitTargetFrom(this.caster.Position, targ);
@@ -442,98 +431,86 @@ namespace Verse
 
 		public virtual bool CanHitTargetFrom(IntVec3 root, LocalTargetInfo targ)
 		{
-			bool result;
 			if (targ.Thing != null && targ.Thing == this.caster)
 			{
-				result = this.verbProps.targetParams.canTargetSelf;
+				return this.verbProps.targetParams.canTargetSelf;
 			}
-			else
+			if (this.CasterIsPawn && this.CasterPawn.apparel != null)
 			{
-				if (this.CasterIsPawn && this.CasterPawn.apparel != null)
+				List<Apparel> wornApparel = this.CasterPawn.apparel.WornApparel;
+				for (int i = 0; i < wornApparel.Count; i++)
 				{
-					List<Apparel> wornApparel = this.CasterPawn.apparel.WornApparel;
-					for (int i = 0; i < wornApparel.Count; i++)
+					if (!wornApparel[i].AllowVerbCast(root, this.caster.Map, targ, this))
 					{
-						if (!wornApparel[i].AllowVerbCast(root, this.caster.Map, targ, this))
-						{
-							return false;
-						}
+						return false;
 					}
 				}
-				ShootLine shootLine;
-				result = this.TryFindShootLineFromTo(root, targ, out shootLine);
 			}
-			return result;
+			ShootLine shootLine;
+			return this.TryFindShootLineFromTo(root, targ, out shootLine);
 		}
 
 		public bool TryFindShootLineFromTo(IntVec3 root, LocalTargetInfo targ, out ShootLine resultingLine)
 		{
-			bool result;
 			if (targ.HasThing && targ.Thing.Map != this.caster.Map)
 			{
 				resultingLine = default(ShootLine);
-				result = false;
+				return false;
 			}
-			else if (this.verbProps.IsMeleeAttack || this.verbProps.range <= 1.42f)
+			if (this.verbProps.IsMeleeAttack || this.verbProps.range <= 1.42f)
 			{
 				resultingLine = new ShootLine(root, targ.Cell);
-				result = ReachabilityImmediate.CanReachImmediate(root, targ, this.caster.Map, PathEndMode.Touch, null);
+				return ReachabilityImmediate.CanReachImmediate(root, targ, this.caster.Map, PathEndMode.Touch, null);
+			}
+			CellRect cellRect = (!targ.HasThing) ? CellRect.SingleCell(targ.Cell) : targ.Thing.OccupiedRect();
+			float num = this.verbProps.EffectiveMinRange(targ, this.caster);
+			float num2 = cellRect.ClosestDistSquaredTo(root);
+			if (num2 > this.verbProps.range * this.verbProps.range || num2 < num * num)
+			{
+				resultingLine = new ShootLine(root, targ.Cell);
+				return false;
+			}
+			if (!this.verbProps.requireLineOfSight)
+			{
+				resultingLine = new ShootLine(root, targ.Cell);
+				return true;
+			}
+			if (this.CasterIsPawn)
+			{
+				IntVec3 dest;
+				if (this.CanHitFromCellIgnoringRange(root, targ, out dest))
+				{
+					resultingLine = new ShootLine(root, dest);
+					return true;
+				}
+				ShootLeanUtility.LeanShootingSourcesFromTo(root, cellRect.ClosestCellTo(root), this.caster.Map, Verb.tempLeanShootSources);
+				for (int i = 0; i < Verb.tempLeanShootSources.Count; i++)
+				{
+					IntVec3 intVec = Verb.tempLeanShootSources[i];
+					if (this.CanHitFromCellIgnoringRange(intVec, targ, out dest))
+					{
+						resultingLine = new ShootLine(intVec, dest);
+						return true;
+					}
+				}
 			}
 			else
 			{
-				CellRect cellRect = (!targ.HasThing) ? CellRect.SingleCell(targ.Cell) : targ.Thing.OccupiedRect();
-				float num = cellRect.ClosestDistSquaredTo(root);
-				if (num > this.verbProps.range * this.verbProps.range || num < this.verbProps.minRange * this.verbProps.minRange)
+				CellRect.CellRectIterator iterator = this.caster.OccupiedRect().GetIterator();
+				while (!iterator.Done())
 				{
-					resultingLine = new ShootLine(root, targ.Cell);
-					result = false;
-				}
-				else if (!this.verbProps.requireLineOfSight)
-				{
-					resultingLine = new ShootLine(root, targ.Cell);
-					result = true;
-				}
-				else
-				{
-					if (this.CasterIsPawn)
+					IntVec3 intVec2 = iterator.Current;
+					IntVec3 dest;
+					if (this.CanHitFromCellIgnoringRange(intVec2, targ, out dest))
 					{
-						IntVec3 dest;
-						if (this.CanHitFromCellIgnoringRange(root, targ, out dest))
-						{
-							resultingLine = new ShootLine(root, dest);
-							return true;
-						}
-						ShootLeanUtility.LeanShootingSourcesFromTo(root, cellRect.ClosestCellTo(root), this.caster.Map, Verb.tempLeanShootSources);
-						for (int i = 0; i < Verb.tempLeanShootSources.Count; i++)
-						{
-							IntVec3 intVec = Verb.tempLeanShootSources[i];
-							if (this.CanHitFromCellIgnoringRange(intVec, targ, out dest))
-							{
-								resultingLine = new ShootLine(intVec, dest);
-								return true;
-							}
-						}
+						resultingLine = new ShootLine(intVec2, dest);
+						return true;
 					}
-					else
-					{
-						CellRect.CellRectIterator iterator = this.caster.OccupiedRect().GetIterator();
-						while (!iterator.Done())
-						{
-							IntVec3 intVec2 = iterator.Current;
-							IntVec3 dest;
-							if (this.CanHitFromCellIgnoringRange(intVec2, targ, out dest))
-							{
-								resultingLine = new ShootLine(intVec2, dest);
-								return true;
-							}
-							iterator.MoveNext();
-						}
-					}
-					resultingLine = new ShootLine(root, targ.Cell);
-					result = false;
+					iterator.MoveNext();
 				}
 			}
-			return result;
+			resultingLine = new ShootLine(root, targ.Cell);
+			return false;
 		}
 
 		private bool CanHitFromCellIgnoringRange(IntVec3 sourceCell, LocalTargetInfo targ, out IntVec3 goodDest)
@@ -566,12 +543,9 @@ namespace Verse
 
 		private bool CanHitCellFromCellIgnoringRange(IntVec3 sourceSq, IntVec3 targetLoc, bool includeCorners = false)
 		{
-			if (this.verbProps.mustCastOnOpenGround)
+			if (this.verbProps.mustCastOnOpenGround && (!targetLoc.Standable(this.caster.Map) || this.caster.Map.thingGrid.CellContains(targetLoc, ThingCategory.Pawn)))
 			{
-				if (!targetLoc.Standable(this.caster.Map) || this.caster.Map.thingGrid.CellContains(targetLoc, ThingCategory.Pawn))
-				{
-					return false;
-				}
+				return false;
 			}
 			if (this.verbProps.requireLineOfSight)
 			{

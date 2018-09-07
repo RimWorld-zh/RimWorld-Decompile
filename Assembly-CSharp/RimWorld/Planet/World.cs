@@ -5,7 +5,6 @@ using System.Diagnostics;
 using System.Linq;
 using System.Runtime.CompilerServices;
 using System.Threading;
-using UnityEngine.Profiling;
 using Verse;
 using Verse.Noise;
 
@@ -144,9 +143,9 @@ namespace RimWorld.Planet
 			}
 		}
 
-		public IEnumerable<IncidentTargetTypeDef> AcceptedTypes()
+		public IEnumerable<IncidentTargetTagDef> IncidentTargetTags()
 		{
-			yield return IncidentTargetTypeDefOf.World;
+			yield return IncidentTargetTagDefOf.World;
 			yield break;
 		}
 
@@ -243,29 +242,16 @@ namespace RimWorld.Planet
 
 		public void WorldTick()
 		{
-			Profiler.BeginSample("WorldPawnsTick()");
 			this.worldPawns.WorldPawnsTick();
-			Profiler.EndSample();
-			Profiler.BeginSample("FactionManagerTick()");
 			this.factionManager.FactionManagerTick();
-			Profiler.EndSample();
-			Profiler.BeginSample("WorldObjectsHolderTick()");
 			this.worldObjects.WorldObjectsHolderTick();
-			Profiler.EndSample();
-			Profiler.BeginSample("WorldDebugDrawerTick()");
 			this.debugDrawer.WorldDebugDrawerTick();
-			Profiler.EndSample();
-			Profiler.BeginSample("WorldPathGridTick()");
 			this.pathGrid.WorldPathGridTick();
-			Profiler.EndSample();
-			Profiler.BeginSample("WorldComponentTick()");
 			WorldComponentUtility.WorldComponentTick(this);
-			Profiler.EndSample();
 		}
 
 		public void WorldPostTick()
 		{
-			Profiler.BeginSample("GameConditionManager.GameConditionManagerTick()");
 			try
 			{
 				this.gameConditionManager.GameConditionManagerTick();
@@ -274,7 +260,6 @@ namespace RimWorld.Planet
 			{
 				Log.Error(ex.ToString(), false);
 			}
-			Profiler.EndSample();
 		}
 
 		public void WorldUpdate()
@@ -283,25 +268,13 @@ namespace RimWorld.Planet
 			this.renderer.CheckActivateWorldCamera();
 			if (worldRenderedNow)
 			{
-				Profiler.BeginSample("ExpandableWorldObjectsUpdate()");
 				ExpandableWorldObjectsUtility.ExpandableWorldObjectsUpdate();
-				Profiler.EndSample();
-				Profiler.BeginSample("World.renderer.DrawWorldLayers()");
 				this.renderer.DrawWorldLayers();
-				Profiler.EndSample();
-				Profiler.BeginSample("World.dynamicDrawManager.DrawDynamicWorldObjects()");
 				this.dynamicDrawManager.DrawDynamicWorldObjects();
-				Profiler.EndSample();
-				Profiler.BeginSample("World.features.UpdateFeatures()");
 				this.features.UpdateFeatures();
-				Profiler.EndSample();
-				Profiler.BeginSample("NoiseDebugUI.RenderPlanetNoise()");
 				NoiseDebugUI.RenderPlanetNoise();
-				Profiler.EndSample();
 			}
-			Profiler.BeginSample("WorldComponentUpdate()");
 			WorldComponentUtility.WorldComponentUpdate(this);
-			Profiler.EndSample();
 		}
 
 		public T GetComponent<T>() where T : WorldComponent
@@ -332,44 +305,36 @@ namespace RimWorld.Planet
 		public Rot4 CoastDirectionAt(int tileID)
 		{
 			Tile tile = this.grid[tileID];
-			Rot4 result;
 			if (!tile.biome.canBuildBase)
 			{
-				result = Rot4.Invalid;
+				return Rot4.Invalid;
 			}
-			else
+			World.tmpOceanDirs.Clear();
+			this.grid.GetTileNeighbors(tileID, World.tmpNeighbors);
+			int i = 0;
+			int count = World.tmpNeighbors.Count;
+			while (i < count)
 			{
-				World.tmpOceanDirs.Clear();
-				this.grid.GetTileNeighbors(tileID, World.tmpNeighbors);
-				int i = 0;
-				int count = World.tmpNeighbors.Count;
-				while (i < count)
+				Tile tile2 = this.grid[World.tmpNeighbors[i]];
+				if (tile2.biome == BiomeDefOf.Ocean)
 				{
-					Tile tile2 = this.grid[World.tmpNeighbors[i]];
-					if (tile2.biome == BiomeDefOf.Ocean)
+					Rot4 rotFromTo = this.grid.GetRotFromTo(tileID, World.tmpNeighbors[i]);
+					if (!World.tmpOceanDirs.Contains(rotFromTo))
 					{
-						Rot4 rotFromTo = this.grid.GetRotFromTo(tileID, World.tmpNeighbors[i]);
-						if (!World.tmpOceanDirs.Contains(rotFromTo))
-						{
-							World.tmpOceanDirs.Add(rotFromTo);
-						}
+						World.tmpOceanDirs.Add(rotFromTo);
 					}
-					i++;
 				}
-				if (World.tmpOceanDirs.Count == 0)
-				{
-					result = Rot4.Invalid;
-				}
-				else
-				{
-					Rand.PushState();
-					Rand.Seed = tileID;
-					int index = Rand.Range(0, World.tmpOceanDirs.Count);
-					Rand.PopState();
-					result = World.tmpOceanDirs[index];
-				}
+				i++;
 			}
-			return result;
+			if (World.tmpOceanDirs.Count == 0)
+			{
+				return Rot4.Invalid;
+			}
+			Rand.PushState();
+			Rand.Seed = tileID;
+			int index = Rand.Range(0, World.tmpOceanDirs.Count);
+			Rand.PopState();
+			return World.tmpOceanDirs[index];
 		}
 
 		public bool HasCaves(int tile)
@@ -460,6 +425,14 @@ namespace RimWorld.Planet
 			return "World";
 		}
 
+		public int ConstantRandSeed
+		{
+			get
+			{
+				return this.info.persistentRandomValue;
+			}
+		}
+
 		public override string ToString()
 		{
 			return "(World-" + this.info.name + ")";
@@ -483,16 +456,16 @@ namespace RimWorld.Planet
 		}
 
 		[CompilerGenerated]
-		private sealed class <AcceptedTypes>c__Iterator0 : IEnumerable, IEnumerable<IncidentTargetTypeDef>, IEnumerator, IDisposable, IEnumerator<IncidentTargetTypeDef>
+		private sealed class <IncidentTargetTags>c__Iterator0 : IEnumerable, IEnumerable<IncidentTargetTagDef>, IEnumerator, IDisposable, IEnumerator<IncidentTargetTagDef>
 		{
-			internal IncidentTargetTypeDef $current;
+			internal IncidentTargetTagDef $current;
 
 			internal bool $disposing;
 
 			internal int $PC;
 
 			[DebuggerHidden]
-			public <AcceptedTypes>c__Iterator0()
+			public <IncidentTargetTags>c__Iterator0()
 			{
 			}
 
@@ -503,7 +476,7 @@ namespace RimWorld.Planet
 				switch (num)
 				{
 				case 0u:
-					this.$current = IncidentTargetTypeDefOf.World;
+					this.$current = IncidentTargetTagDefOf.World;
 					if (!this.$disposing)
 					{
 						this.$PC = 1;
@@ -516,7 +489,7 @@ namespace RimWorld.Planet
 				return false;
 			}
 
-			IncidentTargetTypeDef IEnumerator<IncidentTargetTypeDef>.Current
+			IncidentTargetTagDef IEnumerator<IncidentTargetTagDef>.Current
 			{
 				[DebuggerHidden]
 				get
@@ -550,17 +523,17 @@ namespace RimWorld.Planet
 			[DebuggerHidden]
 			IEnumerator IEnumerable.GetEnumerator()
 			{
-				return this.System.Collections.Generic.IEnumerable<RimWorld.IncidentTargetTypeDef>.GetEnumerator();
+				return this.System.Collections.Generic.IEnumerable<RimWorld.IncidentTargetTagDef>.GetEnumerator();
 			}
 
 			[DebuggerHidden]
-			IEnumerator<IncidentTargetTypeDef> IEnumerable<IncidentTargetTypeDef>.GetEnumerator()
+			IEnumerator<IncidentTargetTagDef> IEnumerable<IncidentTargetTagDef>.GetEnumerator()
 			{
 				if (Interlocked.CompareExchange(ref this.$PC, 0, -2) == -2)
 				{
 					return this;
 				}
-				return new World.<AcceptedTypes>c__Iterator0();
+				return new World.<IncidentTargetTags>c__Iterator0();
 			}
 		}
 	}

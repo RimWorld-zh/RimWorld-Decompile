@@ -16,7 +16,7 @@ namespace Verse
 
 		public bool alsoClickIfOtherInGroupClicked = true;
 
-		public float order = 0f;
+		public float order;
 
 		public const float Height = 75f;
 

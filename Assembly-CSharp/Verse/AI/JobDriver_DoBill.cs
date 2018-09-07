@@ -31,16 +31,11 @@ namespace Verse.AI
 
 		public override string GetReport()
 		{
-			string result;
 			if (this.job.RecipeDef != null)
 			{
-				result = base.ReportStringProcessed(this.job.RecipeDef.jobString);
+				return base.ReportStringProcessed(this.job.RecipeDef.jobString);
 			}
-			else
-			{
-				result = base.GetReport();
-			}
-			return result;
+			return base.GetReport();
 		}
 
 		public IBillGiver BillGiver
@@ -64,10 +59,17 @@ namespace Verse.AI
 			Scribe_Values.Look<int>(ref this.ticksSpentDoingRecipeWork, "ticksSpentDoingRecipeWork", 0, false);
 		}
 
-		public override bool TryMakePreToilReservations()
+		public override bool TryMakePreToilReservations(bool errorOnFailed)
 		{
+			Pawn pawn = this.pawn;
+			LocalTargetInfo target = this.job.GetTarget(TargetIndex.A);
+			Job job = this.job;
+			if (!pawn.Reserve(target, job, 1, -1, null, errorOnFailed))
+			{
+				return false;
+			}
 			this.pawn.ReserveAsManyAsPossible(this.job.GetTargetQueue(TargetIndex.B), this.job, 1, -1, null);
-			return this.pawn.Reserve(this.job.GetTarget(TargetIndex.A), this.job, 1, -1, null);
+			return true;
 		}
 
 		protected override IEnumerable<Toil> MakeNewToils()
@@ -75,16 +77,11 @@ namespace Verse.AI
 			base.AddEndCondition(delegate
 			{
 				Thing thing = base.GetActor().jobs.curJob.GetTarget(TargetIndex.A).Thing;
-				JobCondition result;
 				if (thing is Building && !thing.Spawned)
 				{
-					result = JobCondition.Incompletable;
+					return JobCondition.Incompletable;
 				}
-				else
-				{
-					result = JobCondition.Ongoing;
-				}
-				return result;
+				return JobCondition.Ongoing;
 			});
 			this.FailOnBurningImmobile(TargetIndex.A);
 			this.FailOn(delegate()
@@ -163,41 +160,44 @@ namespace Verse.AI
 				if (actor.carryTracker.CarriedThing == null)
 				{
 					Log.Error("JumpToAlsoCollectTargetInQueue run on " + actor + " who is not carrying something.", false);
+					return;
 				}
-				else if (!actor.carryTracker.Full)
+				if (actor.carryTracker.Full)
 				{
-					Job curJob = actor.jobs.curJob;
-					List<LocalTargetInfo> targetQueue = curJob.GetTargetQueue(ind);
-					if (!targetQueue.NullOrEmpty<LocalTargetInfo>())
+					return;
+				}
+				Job curJob = actor.jobs.curJob;
+				List<LocalTargetInfo> targetQueue = curJob.GetTargetQueue(ind);
+				if (targetQueue.NullOrEmpty<LocalTargetInfo>())
+				{
+					return;
+				}
+				for (int i = 0; i < targetQueue.Count; i++)
+				{
+					if (GenAI.CanUseItemForWork(actor, targetQueue[i].Thing))
 					{
-						for (int i = 0; i < targetQueue.Count; i++)
+						if (targetQueue[i].Thing.CanStackWith(actor.carryTracker.CarriedThing))
 						{
-							if (GenAI.CanUseItemForWork(actor, targetQueue[i].Thing))
+							if ((float)(actor.Position - targetQueue[i].Thing.Position).LengthHorizontalSquared <= 64f)
 							{
-								if (targetQueue[i].Thing.CanStackWith(actor.carryTracker.CarriedThing))
+								int num = (actor.carryTracker.CarriedThing != null) ? actor.carryTracker.CarriedThing.stackCount : 0;
+								int num2 = curJob.countQueue[i];
+								num2 = Mathf.Min(num2, targetQueue[i].Thing.def.stackLimit - num);
+								num2 = Mathf.Min(num2, actor.carryTracker.AvailableStackSpace(targetQueue[i].Thing.def));
+								if (num2 > 0)
 								{
-									if ((float)(actor.Position - targetQueue[i].Thing.Position).LengthHorizontalSquared <= 64f)
+									curJob.count = num2;
+									curJob.SetTarget(ind, targetQueue[i].Thing);
+									List<int> countQueue;
+									int index;
+									(countQueue = curJob.countQueue)[index = i] = countQueue[index] - num2;
+									if (curJob.countQueue[i] <= 0)
 									{
-										int num = (actor.carryTracker.CarriedThing != null) ? actor.carryTracker.CarriedThing.stackCount : 0;
-										int num2 = curJob.countQueue[i];
-										num2 = Mathf.Min(num2, targetQueue[i].Thing.def.stackLimit - num);
-										num2 = Mathf.Min(num2, actor.carryTracker.AvailableStackSpace(targetQueue[i].Thing.def));
-										if (num2 > 0)
-										{
-											curJob.count = num2;
-											curJob.SetTarget(ind, targetQueue[i].Thing);
-											List<int> countQueue;
-											int index;
-											(countQueue = curJob.countQueue)[index = i] = countQueue[index] - num2;
-											if (curJob.countQueue[i] <= 0)
-											{
-												curJob.countQueue.RemoveAt(i);
-												targetQueue.RemoveAt(i);
-											}
-											actor.jobs.curDriver.JumpToToil(gotoGetTargetToil);
-											break;
-										}
+										curJob.countQueue.RemoveAt(i);
+										targetQueue.RemoveAt(i);
 									}
+									actor.jobs.curDriver.JumpToToil(gotoGetTargetToil);
+									return;
 								}
 							}
 						}
@@ -248,16 +248,11 @@ namespace Verse.AI
 					base.AddEndCondition(delegate
 					{
 						Thing thing = base.GetActor().jobs.curJob.GetTarget(TargetIndex.A).Thing;
-						JobCondition result;
 						if (thing is Building && !thing.Spawned)
 						{
-							result = JobCondition.Incompletable;
+							return JobCondition.Incompletable;
 						}
-						else
-						{
-							result = JobCondition.Ongoing;
-						}
-						return result;
+						return JobCondition.Ongoing;
 					});
 					this.FailOnBurningImmobile(TargetIndex.A);
 					this.FailOn(delegate()
@@ -493,16 +488,11 @@ namespace Verse.AI
 			internal JobCondition <>m__0()
 			{
 				Thing thing = base.GetActor().jobs.curJob.GetTarget(TargetIndex.A).Thing;
-				JobCondition result;
 				if (thing is Building && !thing.Spawned)
 				{
-					result = JobCondition.Incompletable;
+					return JobCondition.Incompletable;
 				}
-				else
-				{
-					result = JobCondition.Ongoing;
-				}
-				return result;
+				return JobCondition.Ongoing;
 			}
 
 			internal bool <>m__1()
@@ -579,41 +569,44 @@ namespace Verse.AI
 				if (actor.carryTracker.CarriedThing == null)
 				{
 					Log.Error("JumpToAlsoCollectTargetInQueue run on " + actor + " who is not carrying something.", false);
+					return;
 				}
-				else if (!actor.carryTracker.Full)
+				if (actor.carryTracker.Full)
 				{
-					Job curJob = actor.jobs.curJob;
-					List<LocalTargetInfo> targetQueue = curJob.GetTargetQueue(this.ind);
-					if (!targetQueue.NullOrEmpty<LocalTargetInfo>())
+					return;
+				}
+				Job curJob = actor.jobs.curJob;
+				List<LocalTargetInfo> targetQueue = curJob.GetTargetQueue(this.ind);
+				if (targetQueue.NullOrEmpty<LocalTargetInfo>())
+				{
+					return;
+				}
+				for (int i = 0; i < targetQueue.Count; i++)
+				{
+					if (GenAI.CanUseItemForWork(actor, targetQueue[i].Thing))
 					{
-						for (int i = 0; i < targetQueue.Count; i++)
+						if (targetQueue[i].Thing.CanStackWith(actor.carryTracker.CarriedThing))
 						{
-							if (GenAI.CanUseItemForWork(actor, targetQueue[i].Thing))
+							if ((float)(actor.Position - targetQueue[i].Thing.Position).LengthHorizontalSquared <= 64f)
 							{
-								if (targetQueue[i].Thing.CanStackWith(actor.carryTracker.CarriedThing))
+								int num = (actor.carryTracker.CarriedThing != null) ? actor.carryTracker.CarriedThing.stackCount : 0;
+								int num2 = curJob.countQueue[i];
+								num2 = Mathf.Min(num2, targetQueue[i].Thing.def.stackLimit - num);
+								num2 = Mathf.Min(num2, actor.carryTracker.AvailableStackSpace(targetQueue[i].Thing.def));
+								if (num2 > 0)
 								{
-									if ((float)(actor.Position - targetQueue[i].Thing.Position).LengthHorizontalSquared <= 64f)
+									curJob.count = num2;
+									curJob.SetTarget(this.ind, targetQueue[i].Thing);
+									List<int> countQueue;
+									int index;
+									(countQueue = curJob.countQueue)[index = i] = countQueue[index] - num2;
+									if (curJob.countQueue[i] <= 0)
 									{
-										int num = (actor.carryTracker.CarriedThing != null) ? actor.carryTracker.CarriedThing.stackCount : 0;
-										int num2 = curJob.countQueue[i];
-										num2 = Mathf.Min(num2, targetQueue[i].Thing.def.stackLimit - num);
-										num2 = Mathf.Min(num2, actor.carryTracker.AvailableStackSpace(targetQueue[i].Thing.def));
-										if (num2 > 0)
-										{
-											curJob.count = num2;
-											curJob.SetTarget(this.ind, targetQueue[i].Thing);
-											List<int> countQueue;
-											int index;
-											(countQueue = curJob.countQueue)[index = i] = countQueue[index] - num2;
-											if (curJob.countQueue[i] <= 0)
-											{
-												curJob.countQueue.RemoveAt(i);
-												targetQueue.RemoveAt(i);
-											}
-											actor.jobs.curDriver.JumpToToil(this.gotoGetTargetToil);
-											break;
-										}
+										curJob.countQueue.RemoveAt(i);
+										targetQueue.RemoveAt(i);
 									}
+									actor.jobs.curDriver.JumpToToil(this.gotoGetTargetToil);
+									return;
 								}
 							}
 						}

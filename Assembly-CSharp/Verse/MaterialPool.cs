@@ -10,32 +10,22 @@ namespace Verse
 
 		public static Material MatFrom(string texPath, bool reportFailure)
 		{
-			Material result;
 			if (texPath == null || texPath == "null")
 			{
-				result = null;
+				return null;
 			}
-			else
-			{
-				MaterialRequest req = new MaterialRequest(ContentFinder<Texture2D>.Get(texPath, reportFailure));
-				result = MaterialPool.MatFrom(req);
-			}
-			return result;
+			MaterialRequest req = new MaterialRequest(ContentFinder<Texture2D>.Get(texPath, reportFailure));
+			return MaterialPool.MatFrom(req);
 		}
 
 		public static Material MatFrom(string texPath)
 		{
-			Material result;
 			if (texPath == null || texPath == "null")
 			{
-				result = null;
+				return null;
 			}
-			else
-			{
-				MaterialRequest req = new MaterialRequest(ContentFinder<Texture2D>.Get(texPath, true));
-				result = MaterialPool.MatFrom(req);
-			}
-			return result;
+			MaterialRequest req = new MaterialRequest(ContentFinder<Texture2D>.Get(texPath, true));
+			return MaterialPool.MatFrom(req);
 		}
 
 		public static Material MatFrom(Texture2D srcTex)
@@ -88,65 +78,60 @@ namespace Verse
 
 		public static Material MatFrom(MaterialRequest req)
 		{
-			Material result;
 			if (!UnityData.IsInMainThread)
 			{
 				Log.Error("Tried to get a material from a different thread.", false);
-				result = null;
+				return null;
 			}
-			else if (req.mainTex == null)
+			if (req.mainTex == null)
 			{
 				Log.Error("MatFrom with null sourceTex.", false);
-				result = BaseContent.BadMat;
+				return BaseContent.BadMat;
 			}
-			else if (req.shader == null)
+			if (req.shader == null)
 			{
 				Log.Warning("Matfrom with null shader.", false);
-				result = BaseContent.BadMat;
+				return BaseContent.BadMat;
 			}
-			else
+			if (req.maskTex != null && !req.shader.SupportsMaskTex())
 			{
-				if (req.maskTex != null && !req.shader.SupportsMaskTex())
-				{
-					Log.Error("MaterialRequest has maskTex but shader does not support it. req=" + req.ToString(), false);
-					req.maskTex = null;
-				}
-				Material material;
-				if (!MaterialPool.matDictionary.TryGetValue(req, out material))
-				{
-					material = MaterialAllocator.Create(req.shader);
-					material.name = req.shader.name + "_" + req.mainTex.name;
-					material.mainTexture = req.mainTex;
-					material.color = req.color;
-					if (req.maskTex != null)
-					{
-						material.SetTexture(ShaderPropertyIDs.MaskTex, req.maskTex);
-						material.SetColor(ShaderPropertyIDs.ColorTwo, req.colorTwo);
-					}
-					if (req.renderQueue != 0)
-					{
-						material.renderQueue = req.renderQueue;
-					}
-					if (!req.shaderParameters.NullOrEmpty<ShaderParameter>())
-					{
-						for (int i = 0; i < req.shaderParameters.Count; i++)
-						{
-							req.shaderParameters[i].Apply(material);
-						}
-					}
-					MaterialPool.matDictionary.Add(req, material);
-					if (!MaterialPool.matDictionary.ContainsKey(req))
-					{
-						Log.Error("MaterialRequest is not present in the dictionary even though we've just added it there. The equality operators are most likely defined incorrectly.", false);
-					}
-					if (req.shader == ShaderDatabase.CutoutPlant || req.shader == ShaderDatabase.TransparentPlant)
-					{
-						WindManager.Notify_PlantMaterialCreated(material);
-					}
-				}
-				result = material;
+				Log.Error("MaterialRequest has maskTex but shader does not support it. req=" + req.ToString(), false);
+				req.maskTex = null;
 			}
-			return result;
+			Material material;
+			if (!MaterialPool.matDictionary.TryGetValue(req, out material))
+			{
+				material = MaterialAllocator.Create(req.shader);
+				material.name = req.shader.name + "_" + req.mainTex.name;
+				material.mainTexture = req.mainTex;
+				material.color = req.color;
+				if (req.maskTex != null)
+				{
+					material.SetTexture(ShaderPropertyIDs.MaskTex, req.maskTex);
+					material.SetColor(ShaderPropertyIDs.ColorTwo, req.colorTwo);
+				}
+				if (req.renderQueue != 0)
+				{
+					material.renderQueue = req.renderQueue;
+				}
+				if (!req.shaderParameters.NullOrEmpty<ShaderParameter>())
+				{
+					for (int i = 0; i < req.shaderParameters.Count; i++)
+					{
+						req.shaderParameters[i].Apply(material);
+					}
+				}
+				MaterialPool.matDictionary.Add(req, material);
+				if (!MaterialPool.matDictionary.ContainsKey(req))
+				{
+					Log.Error("MaterialRequest is not present in the dictionary even though we've just added it there. The equality operators are most likely defined incorrectly.", false);
+				}
+				if (req.shader == ShaderDatabase.CutoutPlant || req.shader == ShaderDatabase.TransparentPlant)
+				{
+					WindManager.Notify_PlantMaterialCreated(material);
+				}
+			}
+			return material;
 		}
 
 		// Note: this type is marked as 'beforefieldinit'.

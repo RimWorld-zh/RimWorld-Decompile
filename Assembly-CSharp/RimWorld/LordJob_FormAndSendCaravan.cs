@@ -80,49 +80,52 @@ namespace RimWorld
 			}
 		}
 
+		public override bool AddFleeToil
+		{
+			get
+			{
+				return false;
+			}
+		}
+
 		public string Status
 		{
 			get
 			{
 				LordToil curLordToil = this.lord.CurLordToil;
-				string result;
 				if (curLordToil == this.gatherAnimals)
 				{
-					result = "FormingCaravanStatus_GatheringAnimals".Translate();
+					return "FormingCaravanStatus_GatheringAnimals".Translate();
 				}
-				else if (curLordToil == this.gatherAnimals_pause)
+				if (curLordToil == this.gatherAnimals_pause)
 				{
-					result = "FormingCaravanStatus_GatheringAnimals_Pause".Translate();
+					return "FormingCaravanStatus_GatheringAnimals_Pause".Translate();
 				}
-				else if (curLordToil == this.gatherItems)
+				if (curLordToil == this.gatherItems)
 				{
-					result = "FormingCaravanStatus_GatheringItems".Translate();
+					return "FormingCaravanStatus_GatheringItems".Translate();
 				}
-				else if (curLordToil == this.gatherItems_pause)
+				if (curLordToil == this.gatherItems_pause)
 				{
-					result = "FormingCaravanStatus_GatheringItems_Pause".Translate();
+					return "FormingCaravanStatus_GatheringItems_Pause".Translate();
 				}
-				else if (curLordToil == this.gatherSlaves)
+				if (curLordToil == this.gatherSlaves)
 				{
-					result = "FormingCaravanStatus_GatheringSlaves".Translate();
+					return "FormingCaravanStatus_GatheringSlaves".Translate();
 				}
-				else if (curLordToil == this.gatherSlaves_pause)
+				if (curLordToil == this.gatherSlaves_pause)
 				{
-					result = "FormingCaravanStatus_GatheringSlaves_Pause".Translate();
+					return "FormingCaravanStatus_GatheringSlaves_Pause".Translate();
 				}
-				else if (curLordToil == this.leave)
+				if (curLordToil == this.leave)
 				{
-					result = "FormingCaravanStatus_Leaving".Translate();
+					return "FormingCaravanStatus_Leaving".Translate();
 				}
-				else if (curLordToil == this.leave_pause)
+				if (curLordToil == this.leave_pause)
 				{
-					result = "FormingCaravanStatus_Leaving_Pause".Translate();
+					return "FormingCaravanStatus_Leaving_Pause".Translate();
 				}
-				else
-				{
-					result = "FormingCaravanStatus_Waiting".Translate();
-				}
-				return result;
+				return "FormingCaravanStatus_Waiting".Translate();
 			}
 		}
 
@@ -233,12 +236,12 @@ namespace RimWorld
 
 		public override void Notify_PawnAdded(Pawn p)
 		{
-			ReachabilityUtility.ClearCache();
+			ReachabilityUtility.ClearCacheFor(p);
 		}
 
 		public override void Notify_PawnLost(Pawn p, PawnLostCondition condition)
 		{
-			ReachabilityUtility.ClearCache();
+			ReachabilityUtility.ClearCacheFor(p);
 			if (!this.caravanSent)
 			{
 				CaravanFormingUtility.RemovePawnFromCaravan(p, this.lord);

@@ -205,16 +205,11 @@ namespace RimWorld
 			SkyTarget value = default(SkyTarget);
 			float num = 0f;
 			this.AggregateSkyTargetWorker(ref value, ref num, map);
-			SkyTarget? result;
 			if (num == 0f)
 			{
-				result = null;
+				return null;
 			}
-			else
-			{
-				result = new SkyTarget?(value);
-			}
-			return result;
+			return new SkyTarget?(value);
 		}
 
 		private void AggregateSkyTargetWorker(ref SkyTarget total, ref float lfTotal, Map map)

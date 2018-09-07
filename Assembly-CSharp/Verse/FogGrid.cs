@@ -42,22 +42,23 @@ namespace Verse
 		private void UnfogWorker(IntVec3 c)
 		{
 			int num = this.map.cellIndices.CellToIndex(c);
-			if (this.fogGrid[num])
+			if (!this.fogGrid[num])
 			{
-				this.fogGrid[num] = false;
-				if (Current.ProgramState == ProgramState.Playing)
-				{
-					this.map.mapDrawer.MapMeshDirty(c, MapMeshFlag.FogOfWar);
-				}
-				Designation designation = this.map.designationManager.DesignationAt(c, DesignationDefOf.Mine);
-				if (designation != null && c.GetFirstMineable(this.map) == null)
-				{
-					designation.Delete();
-				}
-				if (Current.ProgramState == ProgramState.Playing)
-				{
-					this.map.roofGrid.Drawer.SetDirty();
-				}
+				return;
+			}
+			this.fogGrid[num] = false;
+			if (Current.ProgramState == ProgramState.Playing)
+			{
+				this.map.mapDrawer.MapMeshDirty(c, MapMeshFlag.FogOfWar);
+			}
+			Designation designation = this.map.designationManager.DesignationAt(c, DesignationDefOf.Mine);
+			if (designation != null && c.GetFirstMineable(this.map) == null)
+			{
+				designation.Delete();
+			}
+			if (Current.ProgramState == ProgramState.Playing)
+			{
+				this.map.roofGrid.Drawer.SetDirty();
 			}
 		}
 
@@ -84,31 +85,34 @@ namespace Verse
 
 		public void Notify_FogBlockerRemoved(IntVec3 c)
 		{
-			if (Current.ProgramState == ProgramState.Playing)
+			if (Current.ProgramState != ProgramState.Playing)
 			{
-				bool flag = false;
-				for (int i = 0; i < 8; i++)
+				return;
+			}
+			bool flag = false;
+			for (int i = 0; i < 8; i++)
+			{
+				IntVec3 c2 = c + GenAdj.AdjacentCells[i];
+				if (c2.InBounds(this.map) && !this.IsFogged(c2))
 				{
-					IntVec3 c2 = c + GenAdj.AdjacentCells[i];
-					if (c2.InBounds(this.map) && !this.IsFogged(c2))
-					{
-						flag = true;
-						break;
-					}
-				}
-				if (flag)
-				{
-					this.FloodUnfogAdjacent(c);
+					flag = true;
+					break;
 				}
 			}
+			if (!flag)
+			{
+				return;
+			}
+			this.FloodUnfogAdjacent(c);
 		}
 
 		public void Notify_PawnEnteringDoor(Building_Door door, Pawn pawn)
 		{
-			if (pawn.Faction == Faction.OfPlayer || pawn.HostFaction == Faction.OfPlayer)
+			if (pawn.Faction != Faction.OfPlayer && pawn.HostFaction != Faction.OfPlayer)
 			{
-				this.FloodUnfogAdjacent(door.Position);
+				return;
 			}
+			this.FloodUnfogAdjacent(door.Position);
 		}
 
 		internal void SetAllFogged()

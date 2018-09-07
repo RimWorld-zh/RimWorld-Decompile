@@ -23,24 +23,19 @@ namespace RimWorld
 
 		public static bool HasBuildingDestroyerWeapon(Pawn p)
 		{
-			bool result;
 			if (p.equipment == null || p.equipment.Primary == null)
 			{
-				result = false;
+				return false;
 			}
-			else
+			List<Verb> allVerbs = p.equipment.Primary.GetComp<CompEquippable>().AllVerbs;
+			for (int i = 0; i < allVerbs.Count; i++)
 			{
-				List<Verb> allVerbs = p.equipment.Primary.GetComp<CompEquippable>().AllVerbs;
-				for (int i = 0; i < allVerbs.Count; i++)
+				if (allVerbs[i].verbProps.ai_IsBuildingDestroyer)
 				{
-					if (allVerbs[i].verbProps.ai_IsBuildingDestroyer)
-					{
-						return true;
-					}
+					return true;
 				}
-				result = false;
 			}
-			return result;
+			return false;
 		}
 	}
 }

@@ -35,30 +35,32 @@ namespace Verse
 
 		public static void FlushToFileAndOpen()
 		{
-			if (LogSimple.messages.Count != 0)
+			if (LogSimple.messages.Count == 0)
 			{
-				string value = LogSimple.CompiledLog();
-				string path = GenFilePaths.SaveDataFolderPath + Path.DirectorySeparatorChar + "LogSimple.txt";
-				using (StreamWriter streamWriter = new StreamWriter(path, false))
-				{
-					streamWriter.Write(value);
-				}
-				LongEventHandler.ExecuteWhenFinished(delegate
-				{
-					Application.OpenURL(path);
-				});
-				LogSimple.messages.Clear();
+				return;
 			}
+			string value = LogSimple.CompiledLog();
+			string path = GenFilePaths.SaveDataFolderPath + Path.DirectorySeparatorChar + "LogSimple.txt";
+			using (StreamWriter streamWriter = new StreamWriter(path, false))
+			{
+				streamWriter.Write(value);
+			}
+			LongEventHandler.ExecuteWhenFinished(delegate
+			{
+				Application.OpenURL(path);
+			});
+			LogSimple.messages.Clear();
 		}
 
 		public static void FlushToStandardLog()
 		{
-			if (LogSimple.messages.Count != 0)
+			if (LogSimple.messages.Count == 0)
 			{
-				string text = LogSimple.CompiledLog();
-				Log.Message(text, false);
-				LogSimple.messages.Clear();
+				return;
 			}
+			string text = LogSimple.CompiledLog();
+			Log.Message(text, false);
+			LogSimple.messages.Clear();
 		}
 
 		private static string CompiledLog()

@@ -15,7 +15,7 @@ namespace RimWorld
 
 		public SlotGroup slotGroup;
 
-		private List<IntVec3> cachedOccupiedCells = null;
+		private List<IntVec3> cachedOccupiedCells;
 
 		public Building_Storage()
 		{
@@ -120,7 +120,7 @@ namespace RimWorld
 
 		public override IEnumerable<Gizmo> GetGizmos()
 		{
-			foreach (Gizmo g in this.<GetGizmos>__BaseCallProxy0())
+			foreach (Gizmo g in base.GetGizmos())
 			{
 				yield return g;
 			}
@@ -309,7 +309,7 @@ namespace RimWorld
 				case 1u:
 					break;
 				case 2u:
-					goto IL_D7;
+					goto IL_D2;
 				default:
 					return false;
 				}
@@ -344,7 +344,7 @@ namespace RimWorld
 				num = 4294967293u;
 				try
 				{
-					IL_D7:
+					IL_D2:
 					switch (num)
 					{
 					}

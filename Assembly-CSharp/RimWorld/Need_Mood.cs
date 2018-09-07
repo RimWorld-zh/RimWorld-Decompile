@@ -38,40 +38,32 @@ namespace RimWorld
 		{
 			get
 			{
-				string result;
 				if (this.pawn.MentalStateDef != null)
 				{
-					result = "Mood_MentalState".Translate();
+					return "Mood_MentalState".Translate();
 				}
-				else
+				float statValue = this.pawn.GetStatValue(StatDefOf.MentalBreakThreshold, true);
+				if (this.CurLevel < statValue)
 				{
-					float statValue = this.pawn.GetStatValue(StatDefOf.MentalBreakThreshold, true);
-					if (this.CurLevel < statValue)
-					{
-						result = "Mood_AboutToBreak".Translate();
-					}
-					else if (this.CurLevel < statValue + 0.05f)
-					{
-						result = "Mood_OnEdge".Translate();
-					}
-					else if (this.CurLevel < this.pawn.mindState.mentalBreaker.BreakThresholdMinor)
-					{
-						result = "Mood_Stressed".Translate();
-					}
-					else if (this.CurLevel < 0.65f)
-					{
-						result = "Mood_Neutral".Translate();
-					}
-					else if (this.CurLevel < 0.9f)
-					{
-						result = "Mood_Content".Translate();
-					}
-					else
-					{
-						result = "Mood_Happy".Translate();
-					}
+					return "Mood_AboutToBreak".Translate();
 				}
-				return result;
+				if (this.CurLevel < statValue + 0.05f)
+				{
+					return "Mood_OnEdge".Translate();
+				}
+				if (this.CurLevel < this.pawn.mindState.mentalBreaker.BreakThresholdMinor)
+				{
+					return "Mood_Stressed".Translate();
+				}
+				if (this.CurLevel < 0.65f)
+				{
+					return "Mood_Neutral".Translate();
+				}
+				if (this.CurLevel < 0.9f)
+				{
+					return "Mood_Content".Translate();
+				}
+				return "Mood_Happy".Translate();
 			}
 		}
 

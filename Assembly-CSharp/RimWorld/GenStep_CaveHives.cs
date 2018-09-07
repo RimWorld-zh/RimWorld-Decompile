@@ -37,65 +37,67 @@ namespace RimWorld
 
 		public override void Generate(Map map, GenStepParams parms)
 		{
-			if (Find.Storyteller.difficulty.allowCaveHives)
+			if (!Find.Storyteller.difficulty.allowCaveHives)
 			{
-				MapGenFloatGrid caves = MapGenerator.Caves;
-				MapGenFloatGrid elevation = MapGenerator.Elevation;
-				float num = 0.7f;
-				int num2 = 0;
-				this.rockCells.Clear();
-				foreach (IntVec3 intVec in map.AllCells)
-				{
-					if (elevation[intVec] > num)
-					{
-						this.rockCells.Add(intVec);
-					}
-					if (caves[intVec] > 0f)
-					{
-						num2++;
-					}
-				}
-				List<IntVec3> list = (from c in map.AllCells
-				where map.thingGrid.ThingsAt(c).Any((Thing thing) => thing.Faction != null)
-				select c).ToList<IntVec3>();
-				GenMorphology.Dilate(list, 50, map, null);
-				HashSet<IntVec3> hashSet = new HashSet<IntVec3>(list);
-				int num3 = GenMath.RoundRandom((float)num2 / 1000f);
-				GenMorphology.Erode(this.rockCells, 10, map, null);
-				this.possibleSpawnCells.Clear();
-				for (int i = 0; i < this.rockCells.Count; i++)
-				{
-					if (caves[this.rockCells[i]] > 0f && !hashSet.Contains(this.rockCells[i]))
-					{
-						this.possibleSpawnCells.Add(this.rockCells[i]);
-					}
-				}
-				this.spawnedHives.Clear();
-				for (int j = 0; j < num3; j++)
-				{
-					this.TrySpawnHive(map);
-				}
-				this.spawnedHives.Clear();
+				return;
 			}
+			MapGenFloatGrid caves = MapGenerator.Caves;
+			MapGenFloatGrid elevation = MapGenerator.Elevation;
+			float num = 0.7f;
+			int num2 = 0;
+			this.rockCells.Clear();
+			foreach (IntVec3 intVec in map.AllCells)
+			{
+				if (elevation[intVec] > num)
+				{
+					this.rockCells.Add(intVec);
+				}
+				if (caves[intVec] > 0f)
+				{
+					num2++;
+				}
+			}
+			List<IntVec3> list = (from c in map.AllCells
+			where map.thingGrid.ThingsAt(c).Any((Thing thing) => thing.Faction != null)
+			select c).ToList<IntVec3>();
+			GenMorphology.Dilate(list, 50, map, null);
+			HashSet<IntVec3> hashSet = new HashSet<IntVec3>(list);
+			int num3 = GenMath.RoundRandom((float)num2 / 1000f);
+			GenMorphology.Erode(this.rockCells, 10, map, null);
+			this.possibleSpawnCells.Clear();
+			for (int i = 0; i < this.rockCells.Count; i++)
+			{
+				if (caves[this.rockCells[i]] > 0f && !hashSet.Contains(this.rockCells[i]))
+				{
+					this.possibleSpawnCells.Add(this.rockCells[i]);
+				}
+			}
+			this.spawnedHives.Clear();
+			for (int j = 0; j < num3; j++)
+			{
+				this.TrySpawnHive(map);
+			}
+			this.spawnedHives.Clear();
 		}
 
 		private void TrySpawnHive(Map map)
 		{
 			IntVec3 intVec;
-			if (this.TryFindHiveSpawnCell(map, out intVec))
+			if (!this.TryFindHiveSpawnCell(map, out intVec))
 			{
-				this.possibleSpawnCells.Remove(intVec);
-				Hive hive = (Hive)GenSpawn.Spawn(ThingMaker.MakeThing(ThingDefOf.Hive, null), intVec, map, WipeMode.Vanish);
-				hive.SetFaction(Faction.OfInsects, null);
-				hive.caveColony = true;
-				(from x in hive.GetComps<CompSpawner>()
-				where x.PropsSpawner.thingToSpawn == ThingDefOf.GlowPod
-				select x).First<CompSpawner>().TryDoSpawn();
-				hive.SpawnPawnsUntilPoints(Rand.Range(200f, 500f));
-				hive.canSpawnPawns = false;
-				hive.GetComp<CompSpawnerHives>().canSpawnHives = false;
-				this.spawnedHives.Add(hive);
+				return;
 			}
+			this.possibleSpawnCells.Remove(intVec);
+			Hive hive = (Hive)GenSpawn.Spawn(ThingMaker.MakeThing(ThingDefOf.Hive, null), intVec, map, WipeMode.Vanish);
+			hive.SetFaction(Faction.OfInsects, null);
+			hive.caveColony = true;
+			(from x in hive.GetComps<CompSpawner>()
+			where x.PropsSpawner.thingToSpawn == ThingDefOf.GlowPod
+			select x).First<CompSpawner>().TryDoSpawn();
+			hive.SpawnPawnsUntilPoints(Rand.Range(200f, 500f));
+			hive.canSpawnPawns = false;
+			hive.GetComp<CompSpawnerHives>().canSpawnHives = false;
+			this.spawnedHives.Add(hive);
 		}
 
 		private bool TryFindHiveSpawnCell(Map map, out IntVec3 spawnCell)

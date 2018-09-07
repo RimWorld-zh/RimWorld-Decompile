@@ -2,7 +2,6 @@
 using System.Collections.Generic;
 using System.Runtime.CompilerServices;
 using UnityEngine;
-using UnityEngine.Profiling;
 using Verse;
 
 namespace RimWorld
@@ -93,9 +92,7 @@ namespace RimWorld
 					if (num > num2 && num < num3)
 					{
 						Rect rect3 = new Rect(0f, num, viewRect.width, 24f);
-						Profiler.BeginSample("DoRow()");
 						this.DoRow(rect3, sellableItemsInCategory[i], i);
-						Profiler.EndSample();
 					}
 					num += 24f;
 				}
@@ -141,7 +138,7 @@ namespace RimWorld
 			List<ThingDef> allDefsListForReading = DefDatabase<ThingDef>.AllDefsListForReading;
 			for (int i = 0; i < allDefsListForReading.Count; i++)
 			{
-				if (allDefsListForReading[i].PlayerAcquirable && !allDefsListForReading[i].IsCorpse && !typeof(MinifiedThing).IsAssignableFrom(allDefsListForReading[i].thingClass) && trader.WillTrade(allDefsListForReading[i]))
+				if (allDefsListForReading[i].PlayerAcquirable && !allDefsListForReading[i].IsCorpse && !typeof(MinifiedThing).IsAssignableFrom(allDefsListForReading[i].thingClass) && trader.WillTrade(allDefsListForReading[i]) && TradeUtility.EverPlayerSellable(allDefsListForReading[i]))
 				{
 					this.sellableItems.Add(allDefsListForReading[i]);
 				}
@@ -178,8 +175,6 @@ namespace RimWorld
 
 		private List<ThingDef> GetSellableItemsInCategory(ThingCategoryDef category, bool pawns)
 		{
-			List<ThingDef> result;
-			List<ThingDef> list;
 			if (pawns)
 			{
 				if (this.cachedSellablePawns == null)
@@ -193,26 +188,23 @@ namespace RimWorld
 						}
 					}
 				}
-				result = this.cachedSellablePawns;
+				return this.cachedSellablePawns;
 			}
-			else if (this.cachedSellableItemsByCategory.TryGetValue(category, out list))
+			List<ThingDef> list;
+			if (this.cachedSellableItemsByCategory.TryGetValue(category, out list))
 			{
-				result = list;
+				return list;
 			}
-			else
+			list = new List<ThingDef>();
+			for (int j = 0; j < this.sellableItems.Count; j++)
 			{
-				list = new List<ThingDef>();
-				for (int j = 0; j < this.sellableItems.Count; j++)
+				if (this.sellableItems[j].IsWithinCategory(category))
 				{
-					if (this.sellableItems[j].IsWithinCategory(category))
-					{
-						list.Add(this.sellableItems[j]);
-					}
+					list.Add(this.sellableItems[j]);
 				}
-				this.cachedSellableItemsByCategory.Add(category, list);
-				result = list;
 			}
-			return result;
+			this.cachedSellableItemsByCategory.Add(category, list);
+			return list;
 		}
 
 		private bool AnyTraderWillEverTrade(ThingCategoryDef thingCategory)

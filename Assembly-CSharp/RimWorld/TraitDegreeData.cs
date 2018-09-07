@@ -11,12 +11,12 @@ namespace RimWorld
 
 		[TranslationHandle]
 		[Unsaved]
-		public string untranslatedLabel = null;
+		public string untranslatedLabel;
 
 		[MustTranslate]
 		public string description;
 
-		public int degree = 0;
+		public int degree;
 
 		public float commonality = 1f;
 
@@ -24,28 +24,46 @@ namespace RimWorld
 
 		public List<StatModifier> statFactors;
 
-		public ThinkTreeDef thinkTree = null;
+		public ThinkTreeDef thinkTree;
 
-		public MentalStateDef randomMentalState = null;
+		public MentalStateDef randomMentalState;
 
-		public SimpleCurve randomMentalStateMtbDaysMoodCurve = null;
+		public SimpleCurve randomMentalStateMtbDaysMoodCurve;
 
-		public List<MentalStateDef> disallowedMentalStates = null;
+		public List<MentalStateDef> disallowedMentalStates;
 
-		public List<InspirationDef> disallowedInspirations = null;
+		public List<InspirationDef> disallowedInspirations;
 
-		public List<MentalBreakDef> theOnlyAllowedMentalBreaks = null;
+		public List<MentalBreakDef> theOnlyAllowedMentalBreaks;
 
 		public Dictionary<SkillDef, int> skillGains = new Dictionary<SkillDef, int>();
 
 		public float socialFightChanceFactor = 1f;
 
-		public float marketValueFactorOffset = 0f;
+		public float marketValueFactorOffset;
 
-		public float randomDiseaseMtbDays = 0f;
+		public float randomDiseaseMtbDays;
+
+		public Type mentalStateGiverClass = typeof(TraitMentalStateGiver);
+
+		[Unsaved]
+		private TraitMentalStateGiver mentalStateGiverInt;
 
 		public TraitDegreeData()
 		{
+		}
+
+		public TraitMentalStateGiver MentalStateGiver
+		{
+			get
+			{
+				if (this.mentalStateGiverInt == null)
+				{
+					this.mentalStateGiverInt = (TraitMentalStateGiver)Activator.CreateInstance(this.mentalStateGiverClass);
+					this.mentalStateGiverInt.traitDegreeData = this;
+				}
+				return this.mentalStateGiverInt;
+			}
 		}
 
 		public void PostLoad()

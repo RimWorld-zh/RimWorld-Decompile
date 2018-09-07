@@ -49,25 +49,26 @@ namespace RimWorld
 
 		protected virtual void ResolveRaidArriveMode(IncidentParms parms)
 		{
-			if (parms.raidArrivalMode == null)
+			if (parms.raidArrivalMode != null)
 			{
-				if (parms.raidArrivalModeForQuickMilitaryAid)
+				return;
+			}
+			if (parms.raidArrivalModeForQuickMilitaryAid)
+			{
+				if (!(from d in DefDatabase<PawnsArrivalModeDef>.AllDefs
+				where d.forQuickMilitaryAid
+				select d).Any((PawnsArrivalModeDef d) => d.Worker.GetSelectionWeight(parms) > 0f))
 				{
-					if (!(from d in DefDatabase<PawnsArrivalModeDef>.AllDefs
-					where d.forQuickMilitaryAid
-					select d).Any((PawnsArrivalModeDef d) => d.Worker.GetSelectionWeight(parms) > 0f))
-					{
-						parms.raidArrivalMode = ((Rand.Value >= 0.6f) ? PawnsArrivalModeDefOf.CenterDrop : PawnsArrivalModeDefOf.EdgeDrop);
-						return;
-					}
+					parms.raidArrivalMode = ((Rand.Value >= 0.6f) ? PawnsArrivalModeDefOf.CenterDrop : PawnsArrivalModeDefOf.EdgeDrop);
+					return;
 				}
-				if (!(from x in parms.raidStrategy.arriveModes
-				where x.Worker.CanUseWith(parms)
-				select x).TryRandomElementByWeight((PawnsArrivalModeDef x) => x.Worker.GetSelectionWeight(parms), out parms.raidArrivalMode))
-				{
-					Log.Error("Could not resolve arrival mode for raid. Defaulting to EdgeWalkIn. parms=" + parms, false);
-					parms.raidArrivalMode = PawnsArrivalModeDefOf.EdgeWalkIn;
-				}
+			}
+			if (!(from x in parms.raidStrategy.arriveModes
+			where x.Worker.CanUseWith(parms)
+			select x).TryRandomElementByWeight((PawnsArrivalModeDef x) => x.Worker.GetSelectionWeight(parms), out parms.raidArrivalMode))
+			{
+				Log.Error("Could not resolve arrival mode for raid. Defaulting to EdgeWalkIn. parms=" + parms, false);
+				parms.raidArrivalMode = PawnsArrivalModeDefOf.EdgeWalkIn;
 			}
 		}
 
@@ -75,94 +76,91 @@ namespace RimWorld
 		{
 			Map map = (Map)parms.target;
 			this.ResolveRaidPoints(parms);
-			bool result;
 			if (!this.TryResolveRaidFaction(parms))
 			{
-				result = false;
+				return false;
 			}
-			else
+			PawnGroupKindDef combat = PawnGroupKindDefOf.Combat;
+			this.ResolveRaidStrategy(parms, combat);
+			this.ResolveRaidArriveMode(parms);
+			if (!parms.raidArrivalMode.Worker.TryResolveRaidSpawnCenter(parms))
 			{
-				PawnGroupKindDef combat = PawnGroupKindDefOf.Combat;
-				this.ResolveRaidStrategy(parms, combat);
-				this.ResolveRaidArriveMode(parms);
-				if (!parms.raidArrivalMode.Worker.TryResolveRaidSpawnCenter(parms))
+				return false;
+			}
+			parms.points = IncidentWorker_Raid.AdjustedRaidPoints(parms.points, parms.raidArrivalMode, parms.raidStrategy, parms.faction, combat);
+			PawnGroupMakerParms defaultPawnGroupMakerParms = IncidentParmsUtility.GetDefaultPawnGroupMakerParms(combat, parms, false);
+			List<Pawn> list = PawnGroupMakerUtility.GeneratePawns(defaultPawnGroupMakerParms, true).ToList<Pawn>();
+			if (list.Count == 0)
+			{
+				Log.Error("Got no pawns spawning raid from parms " + parms, false);
+				return false;
+			}
+			parms.raidArrivalMode.Worker.Arrive(list, parms);
+			StringBuilder stringBuilder = new StringBuilder();
+			stringBuilder.AppendLine("Points = " + parms.points.ToString("F0"));
+			foreach (Pawn pawn in list)
+			{
+				string str = (pawn.equipment == null || pawn.equipment.Primary == null) ? "unarmed" : pawn.equipment.Primary.LabelCap;
+				stringBuilder.AppendLine(pawn.KindLabel + " - " + str);
+			}
+			string letterLabel = this.GetLetterLabel(parms);
+			string letterText = this.GetLetterText(parms, list);
+			PawnRelationUtility.Notify_PawnsSeenByPlayer_Letter(list, ref letterLabel, ref letterText, this.GetRelatedPawnsInfoLetterText(parms), true, true);
+			List<TargetInfo> list2 = new List<TargetInfo>();
+			if (parms.pawnGroups != null)
+			{
+				List<List<Pawn>> list3 = IncidentParmsUtility.SplitIntoGroups(list, parms.pawnGroups);
+				List<Pawn> list4 = list3.MaxBy((List<Pawn> x) => x.Count);
+				if (list4.Any<Pawn>())
 				{
-					result = false;
+					list2.Add(list4[0]);
 				}
-				else
+				for (int i = 0; i < list3.Count; i++)
 				{
-					parms.points *= parms.raidArrivalMode.pointsFactor;
-					parms.points *= parms.raidStrategy.pointsFactor;
-					parms.points = Mathf.Max(parms.points, parms.raidStrategy.Worker.MinimumPoints(parms.faction, combat) * 1.05f);
-					PawnGroupMakerParms defaultPawnGroupMakerParms = IncidentParmsUtility.GetDefaultPawnGroupMakerParms(combat, parms, false);
-					List<Pawn> list = PawnGroupMakerUtility.GeneratePawns(defaultPawnGroupMakerParms, true).ToList<Pawn>();
-					if (list.Count == 0)
+					if (list3[i] != list4)
 					{
-						Log.Error("Got no pawns spawning raid from parms " + parms, false);
-						result = false;
-					}
-					else
-					{
-						parms.raidArrivalMode.Worker.Arrive(list, parms);
-						StringBuilder stringBuilder = new StringBuilder();
-						stringBuilder.AppendLine("Points = " + parms.points.ToString("F0"));
-						foreach (Pawn pawn in list)
+						if (list3[i].Any<Pawn>())
 						{
-							string str = (pawn.equipment == null || pawn.equipment.Primary == null) ? "unarmed" : pawn.equipment.Primary.LabelCap;
-							stringBuilder.AppendLine(pawn.KindLabel + " - " + str);
+							list2.Add(list3[i][0]);
 						}
-						string letterLabel = this.GetLetterLabel(parms);
-						string letterText = this.GetLetterText(parms, list);
-						PawnRelationUtility.Notify_PawnsSeenByPlayer_Letter(list, ref letterLabel, ref letterText, this.GetRelatedPawnsInfoLetterText(parms), true, true);
-						List<TargetInfo> list2 = new List<TargetInfo>();
-						if (parms.pawnGroups != null)
-						{
-							List<List<Pawn>> list3 = IncidentParmsUtility.SplitIntoGroups(list, parms.pawnGroups);
-							List<Pawn> list4 = list3.MaxBy((List<Pawn> x) => x.Count);
-							if (list4.Any<Pawn>())
-							{
-								list2.Add(list4[0]);
-							}
-							for (int i = 0; i < list3.Count; i++)
-							{
-								if (list3[i] != list4)
-								{
-									if (list3[i].Any<Pawn>())
-									{
-										list2.Add(list3[i][0]);
-									}
-								}
-							}
-						}
-						else if (list.Any<Pawn>())
-						{
-							list2.Add(list[0]);
-						}
-						Find.LetterStack.ReceiveLetter(letterLabel, letterText, this.GetLetterDef(), list2, parms.faction, stringBuilder.ToString());
-						if (this.GetLetterDef() == LetterDefOf.ThreatBig)
-						{
-							TaleRecorder.RecordTale(TaleDefOf.RaidArrived, new object[0]);
-						}
-						parms.raidStrategy.Worker.MakeLords(parms, list);
-						AvoidGridMaker.RegenerateAvoidGridsFor(parms.faction, map);
-						LessonAutoActivator.TeachOpportunity(ConceptDefOf.EquippingWeapons, OpportunityType.Critical);
-						if (!PlayerKnowledgeDatabase.IsComplete(ConceptDefOf.ShieldBelts))
-						{
-							for (int j = 0; j < list.Count; j++)
-							{
-								Pawn pawn2 = list[j];
-								if (pawn2.apparel.WornApparel.Any((Apparel ap) => ap is ShieldBelt))
-								{
-									LessonAutoActivator.TeachOpportunity(ConceptDefOf.ShieldBelts, OpportunityType.Critical);
-									break;
-								}
-							}
-						}
-						result = true;
 					}
 				}
 			}
-			return result;
+			else if (list.Any<Pawn>())
+			{
+				list2.Add(list[0]);
+			}
+			Find.LetterStack.ReceiveLetter(letterLabel, letterText, this.GetLetterDef(), list2, parms.faction, stringBuilder.ToString());
+			parms.raidStrategy.Worker.MakeLords(parms, list);
+			AvoidGridMaker.RegenerateAvoidGridsFor(parms.faction, map);
+			LessonAutoActivator.TeachOpportunity(ConceptDefOf.EquippingWeapons, OpportunityType.Critical);
+			if (!PlayerKnowledgeDatabase.IsComplete(ConceptDefOf.ShieldBelts))
+			{
+				for (int j = 0; j < list.Count; j++)
+				{
+					Pawn pawn2 = list[j];
+					if (pawn2.apparel.WornApparel.Any((Apparel ap) => ap is ShieldBelt))
+					{
+						LessonAutoActivator.TeachOpportunity(ConceptDefOf.ShieldBelts, OpportunityType.Critical);
+						break;
+					}
+				}
+			}
+			return true;
+		}
+
+		public static float AdjustedRaidPoints(float points, PawnsArrivalModeDef raidArrivalMode, RaidStrategyDef raidStrategy, Faction faction, PawnGroupKindDef groupKind)
+		{
+			if (raidArrivalMode.pointsFactorCurve != null)
+			{
+				points *= raidArrivalMode.pointsFactorCurve.Evaluate(points);
+			}
+			if (raidStrategy.pointsFactorCurve != null)
+			{
+				points *= raidStrategy.pointsFactorCurve.Evaluate(points);
+			}
+			points = Mathf.Max(points, raidStrategy.Worker.MinimumPoints(faction, groupKind) * 1.05f);
+			return points;
 		}
 
 		public void DoTable_RaidFactionSampled()

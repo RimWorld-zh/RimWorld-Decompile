@@ -16,7 +16,7 @@ namespace RimWorld
 		public string graphLabelY;
 
 		[Unsaved]
-		private HistoryAutoRecorderWorker workerInt = null;
+		private HistoryAutoRecorderWorker workerInt;
 
 		public HistoryAutoRecorderDef()
 		{

@@ -16,11 +16,9 @@ namespace RimWorld
 			if (!thing.TryGetComp<CompPowerTrader>().PowerOn)
 			{
 				base.EndJobWith(JobCondition.Incompletable);
+				return;
 			}
-			else
-			{
-				base.WatchTickAction();
-			}
+			base.WatchTickAction();
 		}
 	}
 }

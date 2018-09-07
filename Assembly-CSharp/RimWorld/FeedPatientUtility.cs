@@ -7,57 +7,53 @@ namespace RimWorld
 	{
 		public static bool ShouldBeFed(Pawn p)
 		{
-			bool result;
 			if (p.GetPosture() == PawnPosture.Standing)
 			{
-				result = false;
+				return false;
+			}
+			if (p.NonHumanlikeOrWildMan())
+			{
+				Building_Bed building_Bed = p.CurrentBed();
+				if (building_Bed == null || building_Bed.Faction != Faction.OfPlayer)
+				{
+					return false;
+				}
 			}
 			else
 			{
-				if (p.NonHumanlikeOrWildMan())
+				if (p.Faction != Faction.OfPlayer && p.HostFaction != Faction.OfPlayer)
 				{
-					Building_Bed building_Bed = p.CurrentBed();
-					if (building_Bed == null || building_Bed.Faction != Faction.OfPlayer)
-					{
-						return false;
-					}
+					return false;
 				}
-				else
+				if (!p.InBed())
 				{
-					if (p.Faction != Faction.OfPlayer && p.HostFaction != Faction.OfPlayer)
-					{
-						return false;
-					}
-					if (!p.InBed())
-					{
-						return false;
-					}
-				}
-				if (!p.RaceProps.EatsFood)
-				{
-					result = false;
-				}
-				else if (!HealthAIUtility.ShouldSeekMedicalRest(p))
-				{
-					result = false;
-				}
-				else
-				{
-					if (p.HostFaction != null)
-					{
-						if (p.HostFaction != Faction.OfPlayer)
-						{
-							return false;
-						}
-						if (p.guest != null && !p.guest.CanBeBroughtFood)
-						{
-							return false;
-						}
-					}
-					result = true;
+					return false;
 				}
 			}
-			return result;
+			if (!p.RaceProps.EatsFood)
+			{
+				return false;
+			}
+			if (p.Spawned && p.Map.designationManager.DesignationOn(p, DesignationDefOf.Slaughter) != null)
+			{
+				return false;
+			}
+			if (!HealthAIUtility.ShouldSeekMedicalRest(p))
+			{
+				return false;
+			}
+			if (p.HostFaction != null)
+			{
+				if (p.HostFaction != Faction.OfPlayer)
+				{
+					return false;
+				}
+				if (p.guest != null && !p.guest.CanBeBroughtFood)
+				{
+					return false;
+				}
+			}
+			return true;
 		}
 	}
 }

@@ -14,17 +14,20 @@ namespace RimWorld
 		[CompilerGenerated]
 		private static Func<Pawn, int> <>f__am$cache1;
 
-		public static void ShowDesignationWarnings(Pawn pawn)
+		public static void ShowDesignationWarnings(Pawn pawn, bool showManhunterOnTameFailWarning = true)
 		{
-			float manhunterOnTameFailChance = PawnUtility.GetManhunterOnTameFailChance(pawn);
-			if (manhunterOnTameFailChance > 0.02f)
+			if (showManhunterOnTameFailWarning)
 			{
-				string text = "MessageAnimalManhuntsOnTameFailed".Translate(new object[]
+				float manhunterOnTameFailChance = pawn.RaceProps.manhunterOnTameFailChance;
+				if (manhunterOnTameFailChance >= 0.015f)
 				{
-					pawn.kindDef.GetLabelPlural(-1).CapitalizeFirst(),
-					manhunterOnTameFailChance.ToStringPercent()
-				});
-				Messages.Message(text, pawn, MessageTypeDefOf.CautionInput, false);
+					string text = "MessageAnimalManhuntsOnTameFailed".Translate(new object[]
+					{
+						pawn.kindDef.GetLabelPlural(-1).CapitalizeFirst(),
+						manhunterOnTameFailChance.ToStringPercent()
+					});
+					Messages.Message(text, pawn, MessageTypeDefOf.CautionInput, false);
+				}
 			}
 			IEnumerable<Pawn> source = from c in pawn.Map.mapPawns.FreeColonistsSpawned
 			where c.workSettings.WorkIsActive(WorkTypeDefOf.Handling)
@@ -51,6 +54,11 @@ namespace RimWorld
 					Messages.Message(text2, pawn, MessageTypeDefOf.CautionInput, false);
 				}
 			}
+		}
+
+		public static bool CanTame(Pawn pawn)
+		{
+			return pawn.AnimalOrWildMan() && pawn.Faction == null && pawn.RaceProps.wildness < 1f && !pawn.IsPrisonerInPrisonCell();
 		}
 
 		[CompilerGenerated]

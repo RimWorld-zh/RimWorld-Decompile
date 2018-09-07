@@ -12,16 +12,11 @@ namespace RimWorld
 
 		public override Job JobOnThing(Pawn pawn, Thing t, bool forced = false)
 		{
-			Job result;
 			if (!(t is Corpse))
 			{
-				result = null;
+				return null;
 			}
-			else
-			{
-				result = base.JobOnThing(pawn, t, forced);
-			}
-			return result;
+			return base.JobOnThing(pawn, t, forced);
 		}
 	}
 }

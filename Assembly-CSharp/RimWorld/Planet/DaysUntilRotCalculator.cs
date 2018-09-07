@@ -26,7 +26,7 @@ namespace RimWorld.Planet
 		[CompilerGenerated]
 		private static Action<Thing, int> <>f__am$cache1;
 
-		public static float ApproxDaysUntilRot(List<ThingCount> potentiallyFood, int tile, WorldPath path = null, float nextTileCostLeft = 0f, int caravanTicksPerMove = 3500)
+		public static float ApproxDaysUntilRot(List<ThingCount> potentiallyFood, int tile, WorldPath path = null, float nextTileCostLeft = 0f, int caravanTicksPerMove = 3300)
 		{
 			DaysUntilRotCalculator.tmpTicksToArrive.Clear();
 			if (path != null && path.Found)
@@ -80,7 +80,7 @@ namespace RimWorld.Planet
 			return DaysUntilRotCalculator.ApproxDaysUntilRot(CaravanInventoryUtility.AllInventoryItems(caravan), caravan.Tile, caravan.pather.curPath, caravan.pather.nextTileCostLeft, caravan.TicksPerMove);
 		}
 
-		public static float ApproxDaysUntilRot(List<Thing> potentiallyFood, int tile, WorldPath path = null, float nextTileCostLeft = 0f, int caravanTicksPerMove = 3500)
+		public static float ApproxDaysUntilRot(List<Thing> potentiallyFood, int tile, WorldPath path = null, float nextTileCostLeft = 0f, int caravanTicksPerMove = 3300)
 		{
 			DaysUntilRotCalculator.tmpThingCounts.Clear();
 			for (int i = 0; i < potentiallyFood.Count; i++)
@@ -92,7 +92,7 @@ namespace RimWorld.Planet
 			return result;
 		}
 
-		public static float ApproxDaysUntilRot(List<TransferableOneWay> transferables, int tile, IgnorePawnsInventoryMode ignoreInventory, WorldPath path = null, float nextTileCostLeft = 0f, int caravanTicksPerMove = 3500)
+		public static float ApproxDaysUntilRot(List<TransferableOneWay> transferables, int tile, IgnorePawnsInventoryMode ignoreInventory, WorldPath path = null, float nextTileCostLeft = 0f, int caravanTicksPerMove = 3300)
 		{
 			DaysUntilRotCalculator.tmpThingCounts.Clear();
 			for (int i = 0; i < transferables.Count; i++)
@@ -129,7 +129,7 @@ namespace RimWorld.Planet
 			return result;
 		}
 
-		public static float ApproxDaysUntilRotLeftAfterTransfer(List<TransferableOneWay> transferables, int tile, IgnorePawnsInventoryMode ignoreInventory, WorldPath path = null, float nextTileCostLeft = 0f, int caravanTicksPerMove = 3500)
+		public static float ApproxDaysUntilRotLeftAfterTransfer(List<TransferableOneWay> transferables, int tile, IgnorePawnsInventoryMode ignoreInventory, WorldPath path = null, float nextTileCostLeft = 0f, int caravanTicksPerMove = 3300)
 		{
 			DaysUntilRotCalculator.tmpThingCounts.Clear();
 			for (int i = 0; i < transferables.Count; i++)
@@ -198,7 +198,7 @@ namespace RimWorld.Planet
 				}
 			}
 			DaysUntilRotCalculator.tmpThingCountsFromTradeables.Clear();
-			float result = DaysUntilRotCalculator.ApproxDaysUntilRot(DaysUntilRotCalculator.tmpThingCounts, tile, null, 0f, 3500);
+			float result = DaysUntilRotCalculator.ApproxDaysUntilRot(DaysUntilRotCalculator.tmpThingCounts, tile, null, 0f, 3300);
 			DaysUntilRotCalculator.tmpThingCounts.Clear();
 			return result;
 		}

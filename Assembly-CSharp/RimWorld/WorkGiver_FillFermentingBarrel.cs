@@ -40,43 +40,35 @@ namespace RimWorld
 		public override bool HasJobOnThing(Pawn pawn, Thing t, bool forced = false)
 		{
 			Building_FermentingBarrel building_FermentingBarrel = t as Building_FermentingBarrel;
-			bool result;
 			if (building_FermentingBarrel == null || building_FermentingBarrel.Fermented || building_FermentingBarrel.SpaceLeftForWort <= 0)
 			{
-				result = false;
+				return false;
 			}
-			else
+			float ambientTemperature = building_FermentingBarrel.AmbientTemperature;
+			CompProperties_TemperatureRuinable compProperties = building_FermentingBarrel.def.GetCompProperties<CompProperties_TemperatureRuinable>();
+			if (ambientTemperature < compProperties.minSafeTemperature + 2f || ambientTemperature > compProperties.maxSafeTemperature - 2f)
 			{
-				float ambientTemperature = building_FermentingBarrel.AmbientTemperature;
-				CompProperties_TemperatureRuinable compProperties = building_FermentingBarrel.def.GetCompProperties<CompProperties_TemperatureRuinable>();
-				if (ambientTemperature < compProperties.minSafeTemperature + 2f || ambientTemperature > compProperties.maxSafeTemperature - 2f)
+				JobFailReason.Is(WorkGiver_FillFermentingBarrel.TemperatureTrans, null);
+				return false;
+			}
+			if (!t.IsForbidden(pawn))
+			{
+				LocalTargetInfo target = t;
+				if (pawn.CanReserve(target, 1, -1, null, forced))
 				{
-					JobFailReason.Is(WorkGiver_FillFermentingBarrel.TemperatureTrans, null);
-					result = false;
-				}
-				else
-				{
-					if (!t.IsForbidden(pawn))
+					if (pawn.Map.designationManager.DesignationOn(t, DesignationDefOf.Deconstruct) != null)
 					{
-						LocalTargetInfo target = t;
-						if (pawn.CanReserve(target, 1, -1, null, forced))
-						{
-							if (pawn.Map.designationManager.DesignationOn(t, DesignationDefOf.Deconstruct) != null)
-							{
-								return false;
-							}
-							if (this.FindWort(pawn, building_FermentingBarrel) == null)
-							{
-								JobFailReason.Is(WorkGiver_FillFermentingBarrel.NoWortTrans, null);
-								return false;
-							}
-							return !t.IsBurning();
-						}
+						return false;
 					}
-					result = false;
+					if (this.FindWort(pawn, building_FermentingBarrel) == null)
+					{
+						JobFailReason.Is(WorkGiver_FillFermentingBarrel.NoWortTrans, null);
+						return false;
+					}
+					return !t.IsBurning();
 				}
 			}
-			return result;
+			return false;
 		}
 
 		public override Job JobOnThing(Pawn pawn, Thing t, bool forced = false)

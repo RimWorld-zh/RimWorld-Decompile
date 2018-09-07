@@ -155,8 +155,7 @@ namespace Verse
 		public static void ResolveAllReferences(bool onlyExactlyMyType = true)
 		{
 			DefDatabase<T>.SetIndices();
-			int i = 0;
-			while (i < DefDatabase<T>.defsList.Count)
+			for (int i = 0; i < DefDatabase<T>.defsList.Count; i++)
 			{
 				try
 				{
@@ -165,7 +164,7 @@ namespace Verse
 						T t = DefDatabase<T>.defsList[i];
 						if (t.GetType() != typeof(T))
 						{
-							goto IL_A2;
+							goto IL_9B;
 						}
 					}
 					T t2 = DefDatabase<T>.defsList[i];
@@ -181,10 +180,7 @@ namespace Verse
 						ex
 					}), false);
 				}
-				IL_A2:
-				i++;
-				continue;
-				goto IL_A2;
+				IL_9B:;
 			}
 			DefDatabase<T>.SetIndices();
 		}
@@ -232,39 +228,34 @@ namespace Verse
 
 		public static T GetNamed(string defName, bool errorOnFail = true)
 		{
-			T result;
-			T t2;
 			if (errorOnFail)
 			{
-				T t;
-				if (DefDatabase<T>.defsByName.TryGetValue(defName, out t))
+				T result;
+				if (DefDatabase<T>.defsByName.TryGetValue(defName, out result))
 				{
-					result = t;
+					return result;
 				}
-				else
+				Log.Error(string.Concat(new object[]
 				{
-					Log.Error(string.Concat(new object[]
-					{
-						"Failed to find ",
-						typeof(T),
-						" named ",
-						defName,
-						". There are ",
-						DefDatabase<T>.defsList.Count,
-						" defs of this type loaded."
-					}), false);
-					result = (T)((object)null);
-				}
-			}
-			else if (DefDatabase<T>.defsByName.TryGetValue(defName, out t2))
-			{
-				result = t2;
+					"Failed to find ",
+					typeof(T),
+					" named ",
+					defName,
+					". There are ",
+					DefDatabase<T>.defsList.Count,
+					" defs of this type loaded."
+				}), false);
+				return (T)((object)null);
 			}
 			else
 			{
-				result = (T)((object)null);
+				T result2;
+				if (DefDatabase<T>.defsByName.TryGetValue(defName, out result2))
+				{
+					return result2;
+				}
+				return (T)((object)null);
 			}
-			return result;
 		}
 
 		public static T GetNamedSilentFail(string defName)

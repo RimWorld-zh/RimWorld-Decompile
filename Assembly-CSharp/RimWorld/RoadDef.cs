@@ -6,29 +6,29 @@ namespace RimWorld
 {
 	public class RoadDef : Def
 	{
-		public int priority = 0;
+		public int priority;
 
-		public bool ancientOnly = false;
+		public bool ancientOnly;
 
 		public float movementCostMultiplier = 1f;
 
 		public int tilesPerSegment = 15;
 
-		public RoadPathingDef pathingMode = null;
+		public RoadPathingDef pathingMode;
 
 		public List<RoadDefGenStep> roadGenSteps;
 
 		public List<RoadDef.WorldRenderStep> worldRenderSteps;
 
 		[NoTranslate]
-		public string worldTransitionGroup = "";
+		public string worldTransitionGroup = string.Empty;
 
 		public float distortionFrequency = 1f;
 
-		public float distortionIntensity = 0f;
+		public float distortionIntensity;
 
 		[Unsaved]
-		private float[] cachedLayerWidth = null;
+		private float[] cachedLayerWidth;
 
 		public RoadDef()
 		{

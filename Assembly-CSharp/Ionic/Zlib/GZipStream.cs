@@ -72,20 +72,21 @@ namespace Ionic.Zlib
 					throw new ObjectDisposedException("GZipStream");
 				}
 				this._FileName = value;
-				if (this._FileName != null)
+				if (this._FileName == null)
 				{
-					if (this._FileName.IndexOf("/") != -1)
-					{
-						this._FileName = this._FileName.Replace("/", "\\");
-					}
-					if (this._FileName.EndsWith("\\"))
-					{
-						throw new Exception("Illegal filename");
-					}
-					if (this._FileName.IndexOf("\\") != -1)
-					{
-						this._FileName = Path.GetFileName(this._FileName);
-					}
+					return;
+				}
+				if (this._FileName.IndexOf("/") != -1)
+				{
+					this._FileName = this._FileName.Replace("/", "\\");
+				}
+				if (this._FileName.EndsWith("\\"))
+				{
+					throw new Exception("Illegal filename");
+				}
+				if (this._FileName.IndexOf("\\") != -1)
+				{
+					this._FileName = Path.GetFileName(this._FileName);
 				}
 			}
 		}
@@ -227,20 +228,15 @@ namespace Ionic.Zlib
 		{
 			get
 			{
-				long result;
 				if (this._baseStream._streamMode == ZlibBaseStream.StreamMode.Writer)
 				{
-					result = this._baseStream._z.TotalBytesOut + (long)this._headerByteCount;
+					return this._baseStream._z.TotalBytesOut + (long)this._headerByteCount;
 				}
-				else if (this._baseStream._streamMode == ZlibBaseStream.StreamMode.Reader)
+				if (this._baseStream._streamMode == ZlibBaseStream.StreamMode.Reader)
 				{
-					result = this._baseStream._z.TotalBytesIn + (long)this._baseStream._gzipHeaderByteCount;
+					return this._baseStream._z.TotalBytesIn + (long)this._baseStream._gzipHeaderByteCount;
 				}
-				else
-				{
-					result = 0L;
-				}
-				return result;
+				return 0L;
 			}
 			set
 			{

@@ -21,107 +21,89 @@ namespace RimWorld
 
 		public override Job TryGiveJob(Pawn pawn)
 		{
-			Job result;
 			if (pawn.story.WorkTypeIsDisabled(WorkTypeDefOf.Construction))
 			{
-				result = null;
+				return null;
 			}
-			else if (!JoyUtility.EnjoyableOutsideNow(pawn, null))
+			if (!JoyUtility.EnjoyableOutsideNow(pawn, null))
 			{
-				result = null;
+				return null;
 			}
-			else if (pawn.Map.snowGrid.TotalDepth < 200f)
+			if (pawn.Map.snowGrid.TotalDepth < 200f)
 			{
-				result = null;
+				return null;
 			}
-			else
+			IntVec3 c = JoyGiver_BuildSnowman.TryFindSnowmanBuildCell(pawn);
+			if (!c.IsValid)
 			{
-				IntVec3 c = JoyGiver_BuildSnowman.TryFindSnowmanBuildCell(pawn);
-				if (!c.IsValid)
-				{
-					result = null;
-				}
-				else
-				{
-					result = new Job(this.def.jobDef, c);
-				}
+				return null;
 			}
-			return result;
+			return new Job(this.def.jobDef, c);
 		}
 
 		private static IntVec3 TryFindSnowmanBuildCell(Pawn pawn)
 		{
 			Region rootReg;
-			IntVec3 result2;
 			if (!CellFinder.TryFindClosestRegionWith(pawn.GetRegion(RegionType.Set_Passable), TraverseParms.For(pawn, Danger.Deadly, TraverseMode.ByPawn, false), (Region r) => r.Room.PsychologicallyOutdoors, 100, out rootReg, RegionType.Set_Passable))
 			{
-				result2 = IntVec3.Invalid;
+				return IntVec3.Invalid;
 			}
-			else
+			IntVec3 result = IntVec3.Invalid;
+			RegionTraverser.BreadthFirstTraverse(rootReg, (Region from, Region r) => r.Room == rootReg.Room, delegate(Region r)
 			{
-				IntVec3 result = IntVec3.Invalid;
-				RegionTraverser.BreadthFirstTraverse(rootReg, (Region from, Region r) => r.Room == rootReg.Room, delegate(Region r)
+				for (int i = 0; i < 5; i++)
 				{
-					for (int i = 0; i < 5; i++)
+					IntVec3 randomCell = r.RandomCell;
+					if (JoyGiver_BuildSnowman.IsGoodSnowmanCell(randomCell, pawn))
 					{
-						IntVec3 randomCell = r.RandomCell;
-						if (JoyGiver_BuildSnowman.IsGoodSnowmanCell(randomCell, pawn))
-						{
-							result = randomCell;
-							return true;
-						}
+						result = randomCell;
+						return true;
 					}
-					return false;
-				}, 30, RegionType.Set_Passable);
-				result2 = result;
-			}
-			return result2;
+				}
+				return false;
+			}, 30, RegionType.Set_Passable);
+			return result;
 		}
 
 		private static bool IsGoodSnowmanCell(IntVec3 c, Pawn pawn)
 		{
-			bool result;
 			if (pawn.Map.snowGrid.GetDepth(c) < 0.5f)
 			{
-				result = false;
+				return false;
 			}
-			else if (c.IsForbidden(pawn))
+			if (c.IsForbidden(pawn))
 			{
-				result = false;
+				return false;
 			}
-			else if (c.GetEdifice(pawn.Map) != null)
+			if (c.GetEdifice(pawn.Map) != null)
 			{
-				result = false;
+				return false;
 			}
-			else
+			for (int i = 0; i < 9; i++)
 			{
-				for (int i = 0; i < 9; i++)
+				IntVec3 c2 = c + GenAdj.AdjacentCellsAndInside[i];
+				if (!c2.InBounds(pawn.Map))
 				{
-					IntVec3 c2 = c + GenAdj.AdjacentCellsAndInside[i];
-					if (!c2.InBounds(pawn.Map))
-					{
-						return false;
-					}
-					if (!c2.Standable(pawn.Map))
-					{
-						return false;
-					}
-					if (pawn.Map.reservationManager.IsReservedAndRespected(c2, pawn))
-					{
-						return false;
-					}
+					return false;
 				}
-				List<Thing> list = pawn.Map.listerThings.ThingsOfDef(ThingDefOf.Snowman);
-				for (int j = 0; j < list.Count; j++)
+				if (!c2.Standable(pawn.Map))
 				{
-					if (list[j].Position.InHorDistOf(c, 12f))
-					{
-						return false;
-					}
+					return false;
 				}
-				result = true;
+				if (pawn.Map.reservationManager.IsReservedAndRespected(c2, pawn))
+				{
+					return false;
+				}
 			}
-			return result;
+			List<Thing> list = pawn.Map.listerThings.ThingsOfDef(ThingDefOf.Snowman);
+			for (int j = 0; j < list.Count; j++)
+			{
+				if (list[j].Position.InHorDistOf(c, 12f))
+				{
+					return false;
+				}
+			}
+			return true;
 		}
 
 		[CompilerGenerated]

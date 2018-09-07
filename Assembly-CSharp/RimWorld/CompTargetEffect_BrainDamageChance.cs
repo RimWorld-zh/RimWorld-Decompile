@@ -20,21 +20,23 @@ namespace RimWorld
 		public override void DoEffectOn(Pawn user, Thing target)
 		{
 			Pawn pawn = (Pawn)target;
-			if (!pawn.Dead)
+			if (pawn.Dead)
 			{
-				if (Rand.Value <= this.PropsBrainDamageChance.brainDamageChance)
+				return;
+			}
+			if (Rand.Value <= this.PropsBrainDamageChance.brainDamageChance)
+			{
+				BodyPartRecord brain = pawn.health.hediffSet.GetBrain();
+				if (brain == null)
 				{
-					BodyPartRecord brain = pawn.health.hediffSet.GetBrain();
-					if (brain != null)
-					{
-						int num = Rand.RangeInclusive(1, 5);
-						Thing thing = pawn;
-						DamageDef flame = DamageDefOf.Flame;
-						float amount = (float)num;
-						BodyPartRecord hitPart = brain;
-						thing.TakeDamage(new DamageInfo(flame, amount, 0f, -1f, user, hitPart, this.parent.def, DamageInfo.SourceCategory.ThingOrUnknown, null));
-					}
+					return;
 				}
+				int num = Rand.RangeInclusive(1, 5);
+				Thing thing = pawn;
+				DamageDef flame = DamageDefOf.Flame;
+				float amount = (float)num;
+				BodyPartRecord hitPart = brain;
+				thing.TakeDamage(new DamageInfo(flame, amount, 0f, -1f, user, hitPart, this.parent.def, DamageInfo.SourceCategory.ThingOrUnknown, null));
 			}
 		}
 	}

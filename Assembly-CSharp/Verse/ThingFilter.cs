@@ -13,7 +13,7 @@ namespace Verse
 		private Action settingsChangedCallback;
 
 		[Unsaved]
-		private TreeNode_ThingCategory displayRootCategoryInt = null;
+		private TreeNode_ThingCategory displayRootCategoryInt;
 
 		[Unsaved]
 		private HashSet<ThingDef> allowedDefs = new HashSet<ThingDef>();
@@ -30,49 +30,49 @@ namespace Verse
 		public bool allowedQualitiesConfigurable = true;
 
 		[MustTranslate]
-		public string customSummary = null;
+		public string customSummary;
 
-		private List<ThingDef> thingDefs = null;
-
-		[NoTranslate]
-		private List<string> categories = null;
+		private List<ThingDef> thingDefs;
 
 		[NoTranslate]
-		private List<string> tradeTagsToAllow = null;
+		private List<string> categories;
 
 		[NoTranslate]
-		private List<string> tradeTagsToDisallow = null;
+		private List<string> tradeTagsToAllow;
 
 		[NoTranslate]
-		private List<string> thingSetMakerTagsToAllow = null;
+		private List<string> tradeTagsToDisallow;
 
 		[NoTranslate]
-		private List<string> thingSetMakerTagsToDisallow = null;
+		private List<string> thingSetMakerTagsToAllow;
 
 		[NoTranslate]
-		private List<string> disallowedCategories = null;
+		private List<string> thingSetMakerTagsToDisallow;
 
 		[NoTranslate]
-		private List<string> specialFiltersToAllow = null;
+		private List<string> disallowedCategories;
 
 		[NoTranslate]
-		private List<string> specialFiltersToDisallow = null;
+		private List<string> specialFiltersToAllow;
 
-		private List<StuffCategoryDef> stuffCategoriesToAllow = null;
+		[NoTranslate]
+		private List<string> specialFiltersToDisallow;
 
-		private List<ThingDef> allowAllWhoCanMake = null;
+		private List<StuffCategoryDef> stuffCategoriesToAllow;
 
-		private FoodPreferability disallowWorsePreferability = FoodPreferability.Undefined;
+		private List<ThingDef> allowAllWhoCanMake;
 
-		private bool disallowInedibleByHuman = false;
+		private FoodPreferability disallowWorsePreferability;
 
-		private Type allowWithComp = null;
+		private bool disallowInedibleByHuman;
 
-		private Type disallowWithComp = null;
+		private Type allowWithComp;
+
+		private Type disallowWithComp;
 
 		private float disallowCheaperThan = float.MinValue;
 
-		private List<ThingDef> disallowedThingDefs = null;
+		private List<ThingDef> disallowedThingDefs;
 
 		[CompilerGenerated]
 		private static Func<ThingDef, bool> <>f__am$cache0;
@@ -96,28 +96,23 @@ namespace Verse
 		{
 			get
 			{
-				string result;
 				if (!this.customSummary.NullOrEmpty())
 				{
-					result = this.customSummary;
+					return this.customSummary;
 				}
-				else if (this.thingDefs != null && this.thingDefs.Count == 1 && this.categories.NullOrEmpty<string>() && this.tradeTagsToAllow.NullOrEmpty<string>() && this.tradeTagsToDisallow.NullOrEmpty<string>() && this.thingSetMakerTagsToAllow.NullOrEmpty<string>() && this.thingSetMakerTagsToDisallow.NullOrEmpty<string>() && this.disallowedCategories.NullOrEmpty<string>() && this.specialFiltersToAllow.NullOrEmpty<string>() && this.specialFiltersToDisallow.NullOrEmpty<string>() && this.stuffCategoriesToAllow.NullOrEmpty<StuffCategoryDef>() && this.allowAllWhoCanMake.NullOrEmpty<ThingDef>() && this.disallowWorsePreferability == FoodPreferability.Undefined && !this.disallowInedibleByHuman && this.allowWithComp == null && this.disallowWithComp == null && this.disallowCheaperThan == -3.40282347E+38f && this.disallowedThingDefs.NullOrEmpty<ThingDef>())
+				if (this.thingDefs != null && this.thingDefs.Count == 1 && this.categories.NullOrEmpty<string>() && this.tradeTagsToAllow.NullOrEmpty<string>() && this.tradeTagsToDisallow.NullOrEmpty<string>() && this.thingSetMakerTagsToAllow.NullOrEmpty<string>() && this.thingSetMakerTagsToDisallow.NullOrEmpty<string>() && this.disallowedCategories.NullOrEmpty<string>() && this.specialFiltersToAllow.NullOrEmpty<string>() && this.specialFiltersToDisallow.NullOrEmpty<string>() && this.stuffCategoriesToAllow.NullOrEmpty<StuffCategoryDef>() && this.allowAllWhoCanMake.NullOrEmpty<ThingDef>() && this.disallowWorsePreferability == FoodPreferability.Undefined && !this.disallowInedibleByHuman && this.allowWithComp == null && this.disallowWithComp == null && this.disallowCheaperThan == -3.40282347E+38f && this.disallowedThingDefs.NullOrEmpty<ThingDef>())
 				{
-					result = this.thingDefs[0].label;
+					return this.thingDefs[0].label;
 				}
-				else if (this.thingDefs.NullOrEmpty<ThingDef>() && this.categories != null && this.categories.Count == 1 && this.tradeTagsToAllow.NullOrEmpty<string>() && this.tradeTagsToDisallow.NullOrEmpty<string>() && this.thingSetMakerTagsToAllow.NullOrEmpty<string>() && this.thingSetMakerTagsToDisallow.NullOrEmpty<string>() && this.disallowedCategories.NullOrEmpty<string>() && this.specialFiltersToAllow.NullOrEmpty<string>() && this.specialFiltersToDisallow.NullOrEmpty<string>() && this.stuffCategoriesToAllow.NullOrEmpty<StuffCategoryDef>() && this.allowAllWhoCanMake.NullOrEmpty<ThingDef>() && this.disallowWorsePreferability == FoodPreferability.Undefined && !this.disallowInedibleByHuman && this.allowWithComp == null && this.disallowWithComp == null && this.disallowCheaperThan == -3.40282347E+38f && this.disallowedThingDefs.NullOrEmpty<ThingDef>())
+				if (this.thingDefs.NullOrEmpty<ThingDef>() && this.categories != null && this.categories.Count == 1 && this.tradeTagsToAllow.NullOrEmpty<string>() && this.tradeTagsToDisallow.NullOrEmpty<string>() && this.thingSetMakerTagsToAllow.NullOrEmpty<string>() && this.thingSetMakerTagsToDisallow.NullOrEmpty<string>() && this.disallowedCategories.NullOrEmpty<string>() && this.specialFiltersToAllow.NullOrEmpty<string>() && this.specialFiltersToDisallow.NullOrEmpty<string>() && this.stuffCategoriesToAllow.NullOrEmpty<StuffCategoryDef>() && this.allowAllWhoCanMake.NullOrEmpty<ThingDef>() && this.disallowWorsePreferability == FoodPreferability.Undefined && !this.disallowInedibleByHuman && this.allowWithComp == null && this.disallowWithComp == null && this.disallowCheaperThan == -3.40282347E+38f && this.disallowedThingDefs.NullOrEmpty<ThingDef>())
 				{
-					result = DefDatabase<ThingCategoryDef>.GetNamed(this.categories[0], true).label;
+					return DefDatabase<ThingCategoryDef>.GetNamed(this.categories[0], true).label;
 				}
-				else if (this.allowedDefs.Count == 1)
+				if (this.allowedDefs.Count == 1)
 				{
-					result = this.allowedDefs.First<ThingDef>().label;
+					return this.allowedDefs.First<ThingDef>().label;
 				}
-				else
-				{
-					result = "UsableIngredients".Translate();
-				}
-				return result;
+				return "UsableIngredients".Translate();
 			}
 		}
 
@@ -125,40 +120,32 @@ namespace Verse
 		{
 			get
 			{
-				ThingRequest result;
 				if (this.allowedDefs.Count == 1)
 				{
-					result = ThingRequest.ForDef(this.allowedDefs.First<ThingDef>());
+					return ThingRequest.ForDef(this.allowedDefs.First<ThingDef>());
 				}
-				else
+				bool flag = true;
+				bool flag2 = true;
+				foreach (ThingDef thingDef in this.allowedDefs)
 				{
-					bool flag = true;
-					bool flag2 = true;
-					foreach (ThingDef thingDef in this.allowedDefs)
+					if (!thingDef.EverHaulable)
 					{
-						if (!thingDef.EverHaulable)
-						{
-							flag = false;
-						}
-						if (thingDef.category != ThingCategory.Pawn)
-						{
-							flag2 = false;
-						}
+						flag = false;
 					}
-					if (flag)
+					if (thingDef.category != ThingCategory.Pawn)
 					{
-						result = ThingRequest.ForGroup(ThingRequestGroup.HaulableEver);
-					}
-					else if (flag2)
-					{
-						result = ThingRequest.ForGroup(ThingRequestGroup.Pawn);
-					}
-					else
-					{
-						result = ThingRequest.ForGroup(ThingRequestGroup.Everything);
+						flag2 = false;
 					}
 				}
-				return result;
+				if (flag)
+				{
+					return ThingRequest.ForGroup(ThingRequestGroup.HaulableEver);
+				}
+				if (flag2)
+				{
+					return ThingRequest.ForGroup(ThingRequestGroup.Pawn);
+				}
+				return ThingRequest.ForGroup(ThingRequestGroup.Everything);
 			}
 		}
 
@@ -228,24 +215,20 @@ namespace Verse
 				{
 					this.RecalculateDisplayRootCategory();
 				}
-				TreeNode_ThingCategory rootNode;
 				if (this.displayRootCategoryInt == null)
 				{
-					rootNode = ThingCategoryNodeDatabase.RootNode;
+					return ThingCategoryNodeDatabase.RootNode;
 				}
-				else
-				{
-					rootNode = this.displayRootCategoryInt;
-				}
-				return rootNode;
+				return this.displayRootCategoryInt;
 			}
 			set
 			{
-				if (value != this.displayRootCategoryInt)
+				if (value == this.displayRootCategoryInt)
 				{
-					this.displayRootCategoryInt = value;
-					this.RecalculateSpecialFilterConfigurability();
+					return;
 				}
+				this.displayRootCategoryInt = value;
+				this.RecalculateSpecialFilterConfigurability();
 			}
 		}
 
@@ -502,25 +485,23 @@ namespace Verse
 			{
 				this.allowedHitPointsConfigurable = true;
 				this.allowedQualitiesConfigurable = true;
+				return;
 			}
-			else
+			this.allowedHitPointsConfigurable = false;
+			this.allowedQualitiesConfigurable = false;
+			foreach (ThingDef thingDef in this.DisplayRootCategory.catDef.DescendantThingDefs)
 			{
-				this.allowedHitPointsConfigurable = false;
-				this.allowedQualitiesConfigurable = false;
-				foreach (ThingDef thingDef in this.DisplayRootCategory.catDef.DescendantThingDefs)
+				if (thingDef.useHitPoints)
 				{
-					if (thingDef.useHitPoints)
-					{
-						this.allowedHitPointsConfigurable = true;
-					}
-					if (thingDef.HasComp(typeof(CompQuality)))
-					{
-						this.allowedQualitiesConfigurable = true;
-					}
-					if (this.allowedHitPointsConfigurable && this.allowedQualitiesConfigurable)
-					{
-						break;
-					}
+					this.allowedHitPointsConfigurable = true;
+				}
+				if (thingDef.HasComp(typeof(CompQuality)))
+				{
+					this.allowedQualitiesConfigurable = true;
+				}
+				if (this.allowedHitPointsConfigurable && this.allowedQualitiesConfigurable)
+				{
+					break;
 				}
 			}
 		}
@@ -574,45 +555,48 @@ namespace Verse
 
 		public void SetAllow(ThingDef thingDef, bool allow)
 		{
-			if (allow != this.Allows(thingDef))
+			if (allow == this.Allows(thingDef))
 			{
-				if (allow)
-				{
-					this.allowedDefs.Add(thingDef);
-				}
-				else
-				{
-					this.allowedDefs.Remove(thingDef);
-				}
-				if (this.settingsChangedCallback != null)
-				{
-					this.settingsChangedCallback();
-				}
+				return;
+			}
+			if (allow)
+			{
+				this.allowedDefs.Add(thingDef);
+			}
+			else
+			{
+				this.allowedDefs.Remove(thingDef);
+			}
+			if (this.settingsChangedCallback != null)
+			{
+				this.settingsChangedCallback();
 			}
 		}
 
 		public void SetAllow(SpecialThingFilterDef sfDef, bool allow)
 		{
-			if (sfDef.configurable)
+			if (!sfDef.configurable)
 			{
-				if (allow != this.Allows(sfDef))
+				return;
+			}
+			if (allow == this.Allows(sfDef))
+			{
+				return;
+			}
+			if (allow)
+			{
+				if (this.disallowedSpecialFilters.Contains(sfDef))
 				{
-					if (allow)
-					{
-						if (this.disallowedSpecialFilters.Contains(sfDef))
-						{
-							this.disallowedSpecialFilters.Remove(sfDef);
-						}
-					}
-					else if (!this.disallowedSpecialFilters.Contains(sfDef))
-					{
-						this.disallowedSpecialFilters.Add(sfDef);
-					}
-					if (this.settingsChangedCallback != null)
-					{
-						this.settingsChangedCallback();
-					}
+					this.disallowedSpecialFilters.Remove(sfDef);
 				}
+			}
+			else if (!this.disallowedSpecialFilters.Contains(sfDef))
+			{
+				this.disallowedSpecialFilters.Add(sfDef);
+			}
+			if (this.settingsChangedCallback != null)
+			{
+				this.settingsChangedCallback();
 			}
 		}
 
@@ -735,44 +719,39 @@ namespace Verse
 		public virtual bool Allows(Thing t)
 		{
 			t = t.GetInnerIfMinified();
-			bool result;
 			if (!this.Allows(t.def))
 			{
-				result = false;
+				return false;
 			}
-			else
+			if (t.def.useHitPoints)
 			{
-				if (t.def.useHitPoints)
+				float num = (float)t.HitPoints / (float)t.MaxHitPoints;
+				num = GenMath.RoundedHundredth(num);
+				if (!this.allowedHitPointsPercents.IncludesEpsilon(Mathf.Clamp01(num)))
 				{
-					float num = (float)t.HitPoints / (float)t.MaxHitPoints;
-					num = GenMath.RoundedHundredth(num);
-					if (!this.allowedHitPointsPercents.IncludesEpsilon(Mathf.Clamp01(num)))
-					{
-						return false;
-					}
+					return false;
 				}
-				if (this.allowedQualities != QualityRange.All && t.def.FollowQualityThingFilter())
-				{
-					QualityCategory p;
-					if (!t.TryGetQuality(out p))
-					{
-						p = QualityCategory.Normal;
-					}
-					if (!this.allowedQualities.Includes(p))
-					{
-						return false;
-					}
-				}
-				for (int i = 0; i < this.disallowedSpecialFilters.Count; i++)
-				{
-					if (this.disallowedSpecialFilters[i].Worker.Matches(t))
-					{
-						return false;
-					}
-				}
-				result = true;
 			}
-			return result;
+			if (this.allowedQualities != QualityRange.All && t.def.FollowQualityThingFilter())
+			{
+				QualityCategory p;
+				if (!t.TryGetQuality(out p))
+				{
+					p = QualityCategory.Normal;
+				}
+				if (!this.allowedQualities.Includes(p))
+				{
+					return false;
+				}
+			}
+			for (int i = 0; i < this.disallowedSpecialFilters.Count; i++)
+			{
+				if (this.disallowedSpecialFilters[i].Worker.Matches(t))
+				{
+					return false;
+				}
+			}
+			return true;
 		}
 
 		public bool Allows(ThingDef def)
@@ -787,16 +766,11 @@ namespace Verse
 
 		public ThingRequest GetThingRequest()
 		{
-			ThingRequest result;
 			if (this.AllowedThingDefs.Any((ThingDef def) => !def.alwaysHaulable))
 			{
-				result = ThingRequest.ForGroup(ThingRequestGroup.HaulableEver);
+				return ThingRequest.ForGroup(ThingRequestGroup.HaulableEver);
 			}
-			else
-			{
-				result = ThingRequest.ForGroup(ThingRequestGroup.HaulableAlways);
-			}
-			return result;
+			return ThingRequest.ForGroup(ThingRequestGroup.HaulableAlways);
 		}
 
 		public override string ToString()

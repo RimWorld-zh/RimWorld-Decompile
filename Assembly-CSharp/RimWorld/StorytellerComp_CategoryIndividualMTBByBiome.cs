@@ -31,8 +31,7 @@ namespace RimWorld
 				yield break;
 			}
 			List<IncidentDef> allIncidents = DefDatabase<IncidentDef>.AllDefsListForReading;
-			int i = 0;
-			while (i < allIncidents.Count)
+			for (int i = 0; i < allIncidents.Count; i++)
 			{
 				IncidentDef inc = allIncidents[i];
 				if (inc.category == this.Props.category)
@@ -72,10 +71,6 @@ namespace RimWorld
 						}
 					}
 				}
-				IL_24F:
-				i++;
-				continue;
-				goto IL_24F;
 			}
 			yield break;
 		}
@@ -130,18 +125,14 @@ namespace RimWorld
 					}
 					allIncidents = DefDatabase<IncidentDef>.AllDefsListForReading;
 					i = 0;
-					goto IL_25D;
+					break;
 				case 1u:
-					IL_24C:
+					IL_242:
+					i++;
 					break;
 				default:
 					return false;
 				}
-				IL_24D:
-				IL_24E:
-				IL_24F:
-				i++;
-				IL_25D:
 				if (i >= allIncidents.Count)
 				{
 					this.$PC = -1;
@@ -151,17 +142,17 @@ namespace RimWorld
 					inc = allIncidents[i];
 					if (inc.category != base.Props.category)
 					{
-						goto IL_24E;
+						goto IL_242;
 					}
 					BiomeDef biome = Find.WorldGrid[target.Tile].biome;
 					if (inc.mtbDaysByBiome == null)
 					{
-						goto IL_24F;
+						goto IL_242;
 					}
 					entry = inc.mtbDaysByBiome.Find((MTBByBiome x) => x.biome == biome);
 					if (entry == null)
 					{
-						goto IL_24F;
+						goto IL_242;
 					}
 					mtb = entry.mtbDays;
 					if (base.Props.applyCaravanVisibility)
@@ -183,7 +174,7 @@ namespace RimWorld
 					}
 					if (!Rand.MTBEventOccurs(mtb, 60000f, 1000f))
 					{
-						goto IL_24D;
+						goto IL_242;
 					}
 					parms = this.GenerateParms(inc.category, target);
 					if (inc.Worker.CanFireNow(parms, false))
@@ -195,7 +186,7 @@ namespace RimWorld
 						}
 						return true;
 					}
-					goto IL_24C;
+					goto IL_242;
 				}
 				return false;
 			}

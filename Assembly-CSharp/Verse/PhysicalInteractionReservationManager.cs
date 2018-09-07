@@ -18,14 +18,15 @@ namespace Verse
 
 		public void Reserve(Pawn claimant, Job job, LocalTargetInfo target)
 		{
-			if (!this.IsReservedBy(claimant, target))
+			if (this.IsReservedBy(claimant, target))
 			{
-				PhysicalInteractionReservationManager.PhysicalInteractionReservation physicalInteractionReservation = new PhysicalInteractionReservationManager.PhysicalInteractionReservation();
-				physicalInteractionReservation.target = target;
-				physicalInteractionReservation.claimant = claimant;
-				physicalInteractionReservation.job = job;
-				this.reservations.Add(physicalInteractionReservation);
+				return;
 			}
+			PhysicalInteractionReservationManager.PhysicalInteractionReservation physicalInteractionReservation = new PhysicalInteractionReservationManager.PhysicalInteractionReservation();
+			physicalInteractionReservation.target = target;
+			physicalInteractionReservation.claimant = claimant;
+			physicalInteractionReservation.job = job;
+			this.reservations.Add(physicalInteractionReservation);
 		}
 
 		public void Release(Pawn claimant, Job job, LocalTargetInfo target)

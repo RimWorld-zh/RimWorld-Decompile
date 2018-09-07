@@ -34,103 +34,95 @@ namespace RimWorld
 
 		public static bool TryDevelopBondRelation(Pawn humanlike, Pawn animal, float baseChance)
 		{
-			bool result;
 			if (!animal.RaceProps.Animal)
 			{
-				result = false;
+				return false;
 			}
-			else if (animal.RaceProps.trainability.intelligenceOrder < TrainabilityDefOf.Intermediate.intelligenceOrder)
+			if (animal.RaceProps.trainability.intelligenceOrder < TrainabilityDefOf.Intermediate.intelligenceOrder)
 			{
-				result = false;
+				return false;
 			}
-			else if (humanlike.relations.DirectRelationExists(PawnRelationDefOf.Bond, animal))
+			if (humanlike.relations.DirectRelationExists(PawnRelationDefOf.Bond, animal))
 			{
-				result = false;
+				return false;
 			}
-			else if (animal.relations.GetFirstDirectRelationPawn(PawnRelationDefOf.Bond, (Pawn x) => x.Spawned) != null)
+			if (animal.relations.GetFirstDirectRelationPawn(PawnRelationDefOf.Bond, (Pawn x) => x.Spawned) != null)
 			{
-				result = false;
+				return false;
 			}
-			else
+			int num = 0;
+			List<DirectPawnRelation> directRelations = animal.relations.DirectRelations;
+			for (int i = 0; i < directRelations.Count; i++)
 			{
-				int num = 0;
-				List<DirectPawnRelation> directRelations = animal.relations.DirectRelations;
-				for (int i = 0; i < directRelations.Count; i++)
+				if (directRelations[i].def == PawnRelationDefOf.Bond && !directRelations[i].otherPawn.Dead)
 				{
-					if (directRelations[i].def == PawnRelationDefOf.Bond && !directRelations[i].otherPawn.Dead)
-					{
-						num++;
-					}
+					num++;
 				}
-				int num2 = 0;
-				List<DirectPawnRelation> directRelations2 = humanlike.relations.DirectRelations;
-				for (int j = 0; j < directRelations2.Count; j++)
+			}
+			int num2 = 0;
+			List<DirectPawnRelation> directRelations2 = humanlike.relations.DirectRelations;
+			for (int j = 0; j < directRelations2.Count; j++)
+			{
+				if (directRelations2[j].def == PawnRelationDefOf.Bond && !directRelations2[j].otherPawn.Dead)
 				{
-					if (directRelations2[j].def == PawnRelationDefOf.Bond && !directRelations2[j].otherPawn.Dead)
-					{
-						num2++;
-					}
+					num2++;
 				}
-				if (num > 0)
+			}
+			if (num > 0)
+			{
+				baseChance *= Mathf.Pow(0.2f, (float)num);
+			}
+			if (num2 > 0)
+			{
+				baseChance *= Mathf.Pow(0.55f, (float)num2);
+			}
+			if (Rand.Value < baseChance)
+			{
+				if (!humanlike.story.traits.HasTrait(TraitDefOf.Psychopath))
 				{
-					baseChance *= Mathf.Pow(0.2f, (float)num);
+					humanlike.relations.AddDirectRelation(PawnRelationDefOf.Bond, animal);
 				}
-				if (num2 > 0)
+				if (humanlike.Faction == Faction.OfPlayer || animal.Faction == Faction.OfPlayer)
 				{
-					baseChance *= Mathf.Pow(0.55f, (float)num2);
+					TaleRecorder.RecordTale(TaleDefOf.BondedWithAnimal, new object[]
+					{
+						humanlike,
+						animal
+					});
 				}
-				if (Rand.Value < baseChance)
+				bool flag = false;
+				string text = null;
+				if (animal.Name == null || animal.Name.Numerical)
 				{
-					if (!humanlike.story.traits.HasTrait(TraitDefOf.Psychopath))
+					flag = true;
+					text = ((animal.Name != null) ? animal.Name.ToStringFull : animal.LabelIndefinite());
+					animal.Name = PawnBioAndNameGenerator.GeneratePawnName(animal, NameStyle.Full, null);
+				}
+				if (PawnUtility.ShouldSendNotificationAbout(humanlike) || PawnUtility.ShouldSendNotificationAbout(animal))
+				{
+					string text2;
+					if (flag)
 					{
-						humanlike.relations.AddDirectRelation(PawnRelationDefOf.Bond, animal);
-					}
-					if (humanlike.Faction == Faction.OfPlayer || animal.Faction == Faction.OfPlayer)
-					{
-						TaleRecorder.RecordTale(TaleDefOf.BondedWithAnimal, new object[]
+						text2 = "MessageNewBondRelationNewName".Translate(new object[]
 						{
-							humanlike,
-							animal
-						});
+							humanlike.LabelShort,
+							text,
+							animal.Name.ToStringFull
+						}).AdjustedFor(animal, "PAWN").CapitalizeFirst();
 					}
-					bool flag = false;
-					string text = null;
-					if (animal.Name == null || animal.Name.Numerical)
+					else
 					{
-						flag = true;
-						text = ((animal.Name != null) ? animal.Name.ToStringFull : animal.LabelIndefinite());
-						animal.Name = PawnBioAndNameGenerator.GeneratePawnName(animal, NameStyle.Full, null);
-					}
-					if (PawnUtility.ShouldSendNotificationAbout(humanlike) || PawnUtility.ShouldSendNotificationAbout(animal))
-					{
-						string text2;
-						if (flag)
+						text2 = "MessageNewBondRelation".Translate(new object[]
 						{
-							text2 = "MessageNewBondRelationNewName".Translate(new object[]
-							{
-								humanlike.LabelShort,
-								text,
-								animal.Name.ToStringFull
-							}).AdjustedFor(animal, "PAWN").CapitalizeFirst();
-						}
-						else
-						{
-							text2 = "MessageNewBondRelation".Translate(new object[]
-							{
-								humanlike.LabelShort,
-								animal.LabelShort
-							}).CapitalizeFirst();
-						}
-						Messages.Message(text2, humanlike, MessageTypeDefOf.PositiveEvent, true);
+							humanlike.LabelShort,
+							animal.LabelShort
+						}).CapitalizeFirst();
 					}
-					result = true;
+					Messages.Message(text2, humanlike, MessageTypeDefOf.PositiveEvent, true);
 				}
-				else
-				{
-					result = false;
-				}
+				return true;
 			}
-			return result;
+			return false;
 		}
 
 		public static string LabelWithBondInfo(Pawn humanlike, Pawn animal)
@@ -145,29 +137,24 @@ namespace RimWorld
 
 		private static bool HasAnySocialMemoryWith(Pawn p, Pawn otherPawn)
 		{
-			bool result;
 			if (!p.RaceProps.Humanlike || !otherPawn.RaceProps.Humanlike)
 			{
-				result = false;
+				return false;
 			}
-			else if (p.Dead)
+			if (p.Dead)
 			{
-				result = false;
+				return false;
 			}
-			else
+			List<Thought_Memory> memories = p.needs.mood.thoughts.memories.Memories;
+			for (int i = 0; i < memories.Count; i++)
 			{
-				List<Thought_Memory> memories = p.needs.mood.thoughts.memories.Memories;
-				for (int i = 0; i < memories.Count; i++)
+				Thought_MemorySocial thought_MemorySocial = memories[i] as Thought_MemorySocial;
+				if (thought_MemorySocial != null && thought_MemorySocial.OtherPawn() == otherPawn)
 				{
-					Thought_MemorySocial thought_MemorySocial = memories[i] as Thought_MemorySocial;
-					if (thought_MemorySocial != null && thought_MemorySocial.OtherPawn() == otherPawn)
-					{
-						return true;
-					}
+					return true;
 				}
-				result = false;
 			}
-			return result;
+			return false;
 		}
 
 		[CompilerGenerated]

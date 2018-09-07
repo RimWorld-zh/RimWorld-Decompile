@@ -6,7 +6,7 @@ namespace Verse
 {
 	public class Graphic_Linked : Graphic
 	{
-		protected Graphic subGraphic = null;
+		protected Graphic subGraphic;
 
 		public Graphic_Linked()
 		{
@@ -72,20 +72,15 @@ namespace Verse
 
 		public virtual bool ShouldLinkWith(IntVec3 c, Thing parent)
 		{
-			bool result;
 			if (!parent.Spawned)
 			{
-				result = false;
+				return false;
 			}
-			else if (!c.InBounds(parent.Map))
+			if (!c.InBounds(parent.Map))
 			{
-				result = ((parent.def.graphicData.linkFlags & LinkFlags.MapEdge) != LinkFlags.None);
+				return (parent.def.graphicData.linkFlags & LinkFlags.MapEdge) != LinkFlags.None;
 			}
-			else
-			{
-				result = ((parent.Map.linkGrid.LinkFlagsAt(c) & parent.def.graphicData.linkFlags) != LinkFlags.None);
-			}
-			return result;
+			return (parent.Map.linkGrid.LinkFlagsAt(c) & parent.def.graphicData.linkFlags) != LinkFlags.None;
 		}
 	}
 }

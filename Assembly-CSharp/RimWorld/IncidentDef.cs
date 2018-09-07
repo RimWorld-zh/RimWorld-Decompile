@@ -13,23 +13,23 @@ namespace RimWorld
 	{
 		public Type workerClass;
 
-		public IncidentCategoryDef category = null;
+		public IncidentCategoryDef category;
 
-		public List<IncidentTargetTypeDef> targetTypes = null;
+		public List<IncidentTargetTagDef> targetTags;
 
-		public float baseChance = 0f;
+		public float baseChance;
 
-		public IncidentPopulationEffect populationEffect = IncidentPopulationEffect.None;
+		public IncidentPopulationEffect populationEffect;
 
-		public int earliestDay = 0;
+		public int earliestDay;
 
-		public int minPopulation = 0;
+		public int minPopulation;
 
-		public float minRefireDays = 0f;
+		public float minRefireDays;
 
-		public int minDifficulty = 0;
+		public int minDifficulty;
 
-		public bool pointsScaleable = false;
+		public bool pointsScaleable;
 
 		public float minThreatPoints = -1f;
 
@@ -41,9 +41,11 @@ namespace RimWorld
 		[NoTranslate]
 		public List<string> refireCheckTags;
 
-		public SimpleCurve chanceFactorByPopulationCurve = null;
+		public SimpleCurve chanceFactorByPopulationCurve;
 
-		public TaleDef tale = null;
+		public TaleDef tale;
+
+		public int minGreatestPopulation = -1;
 
 		[MustTranslate]
 		public string letterText;
@@ -53,29 +55,35 @@ namespace RimWorld
 
 		public LetterDef letterDef;
 
+		public PawnKindDef pawnKind;
+
+		public bool pawnMustBeCapableOfViolence;
+
+		public Gender pawnFixedGender;
+
 		public GameConditionDef gameCondition;
 
 		public FloatRange durationDays;
 
-		public HediffDef diseaseIncident = null;
+		public HediffDef diseaseIncident;
 
 		public FloatRange diseaseVictimFractionRange = new FloatRange(0f, 0.49f);
 
 		public int diseaseMaxVictims = 99999;
 
-		public List<BiomeDiseaseRecord> diseaseBiomeRecords = null;
+		public List<BiomeDiseaseRecord> diseaseBiomeRecords;
 
-		public List<BodyPartDef> diseasePartsToAffect = null;
+		public List<BodyPartDef> diseasePartsToAffect;
 
-		public ThingDef shipPart = null;
+		public ThingDef shipPart;
 
 		public List<MTBByBiome> mtbDaysByBiome;
 
 		[Unsaved]
-		private IncidentWorker workerInt = null;
+		private IncidentWorker workerInt;
 
 		[Unsaved]
-		private List<IncidentDef> cachedRefireCheckIncidents = null;
+		private List<IncidentDef> cachedRefireCheckIncidents;
 
 		public IncidentDef()
 		{
@@ -106,28 +114,23 @@ namespace RimWorld
 		{
 			get
 			{
-				List<IncidentDef> result;
 				if (this.refireCheckTags == null)
 				{
-					result = null;
+					return null;
 				}
-				else
+				if (this.cachedRefireCheckIncidents == null)
 				{
-					if (this.cachedRefireCheckIncidents == null)
+					this.cachedRefireCheckIncidents = new List<IncidentDef>();
+					List<IncidentDef> allDefsListForReading = DefDatabase<IncidentDef>.AllDefsListForReading;
+					for (int i = 0; i < allDefsListForReading.Count; i++)
 					{
-						this.cachedRefireCheckIncidents = new List<IncidentDef>();
-						List<IncidentDef> allDefsListForReading = DefDatabase<IncidentDef>.AllDefsListForReading;
-						for (int i = 0; i < allDefsListForReading.Count; i++)
+						if (this.ShouldDoRefireCheckWith(allDefsListForReading[i]))
 						{
-							if (this.ShouldDoRefireCheckWith(allDefsListForReading[i]))
-							{
-								this.cachedRefireCheckIncidents.Add(allDefsListForReading[i]);
-							}
+							this.cachedRefireCheckIncidents.Add(allDefsListForReading[i]);
 						}
 					}
-					result = this.cachedRefireCheckIncidents;
 				}
-				return result;
+				return this.cachedRefireCheckIncidents;
 			}
 		}
 
@@ -138,35 +141,30 @@ namespace RimWorld
 
 		private bool ShouldDoRefireCheckWith(IncidentDef other)
 		{
-			bool result;
 			if (other.tags == null)
 			{
-				result = false;
+				return false;
 			}
-			else if (other == this)
+			if (other == this)
 			{
-				result = false;
+				return false;
 			}
-			else
+			for (int i = 0; i < other.tags.Count; i++)
 			{
-				for (int i = 0; i < other.tags.Count; i++)
+				for (int j = 0; j < this.refireCheckTags.Count; j++)
 				{
-					for (int j = 0; j < this.refireCheckTags.Count; j++)
+					if (other.tags[i] == this.refireCheckTags[j])
 					{
-						if (other.tags[i] == this.refireCheckTags[j])
-						{
-							return true;
-						}
+						return true;
 					}
 				}
-				result = false;
 			}
-			return result;
+			return false;
 		}
 
 		public override IEnumerable<string> ConfigErrors()
 		{
-			foreach (string c in this.<ConfigErrors>__BaseCallProxy0())
+			foreach (string c in base.ConfigErrors())
 			{
 				yield return c;
 			}
@@ -174,32 +172,32 @@ namespace RimWorld
 			{
 				yield return "category is undefined.";
 			}
-			if (this.targetTypes == null || this.targetTypes.Count == 0)
+			if (this.targetTags == null || this.targetTags.Count == 0)
 			{
 				yield return "no target type";
 			}
-			if (this.TargetTypeAllowed(IncidentTargetTypeDefOf.World))
+			if (this.TargetTagAllowed(IncidentTargetTagDefOf.World))
 			{
-				if (this.targetTypes.Any((IncidentTargetTypeDef tt) => tt != IncidentTargetTypeDefOf.World))
+				if (this.targetTags.Any((IncidentTargetTagDef tt) => tt != IncidentTargetTagDefOf.World))
 				{
 					yield return "allows world target type along with other targets. World targeting incidents should only target the world.";
 				}
 			}
-			if (this.TargetTypeAllowed(IncidentTargetTypeDefOf.World) && this.allowedBiomes != null)
+			if (this.TargetTagAllowed(IncidentTargetTagDefOf.World) && this.allowedBiomes != null)
 			{
 				yield return "world-targeting incident has a biome restriction list";
 			}
 			yield break;
 		}
 
-		public bool TargetTypeAllowed(IncidentTargetTypeDef target)
+		public bool TargetTagAllowed(IncidentTargetTagDef target)
 		{
-			return this.targetTypes.Contains(target);
+			return this.targetTags.Contains(target);
 		}
 
 		public bool TargetAllowed(IIncidentTarget target)
 		{
-			return this.targetTypes.Intersect(target.AcceptedTypes()).Any<IncidentTargetTypeDef>();
+			return this.targetTags.Intersect(target.IncidentTargetTags()).Any<IncidentTargetTagDef>();
 		}
 
 		[DebuggerHidden]
@@ -224,7 +222,7 @@ namespace RimWorld
 
 			internal int $PC;
 
-			private static Predicate<IncidentTargetTypeDef> <>f__am$cache0;
+			private static Predicate<IncidentTargetTagDef> <>f__am$cache0;
 
 			[DebuggerHidden]
 			public <ConfigErrors>c__Iterator0()
@@ -245,13 +243,13 @@ namespace RimWorld
 				case 1u:
 					break;
 				case 2u:
-					goto IL_F3;
+					goto IL_EF;
 				case 3u:
-					goto IL_137;
+					goto IL_133;
 				case 4u:
-					goto IL_19D;
+					goto IL_199;
 				case 5u:
-					goto IL_1E1;
+					goto IL_1DD;
 				default:
 					return false;
 				}
@@ -291,8 +289,8 @@ namespace RimWorld
 					}
 					return true;
 				}
-				IL_F3:
-				if (this.targetTypes == null || this.targetTypes.Count == 0)
+				IL_EF:
+				if (this.targetTags == null || this.targetTags.Count == 0)
 				{
 					this.$current = "no target type";
 					if (!this.$disposing)
@@ -301,10 +299,10 @@ namespace RimWorld
 					}
 					return true;
 				}
-				IL_137:
-				if (base.TargetTypeAllowed(IncidentTargetTypeDefOf.World))
+				IL_133:
+				if (base.TargetTagAllowed(IncidentTargetTagDefOf.World))
 				{
-					if (this.targetTypes.Any((IncidentTargetTypeDef tt) => tt != IncidentTargetTypeDefOf.World))
+					if (this.targetTags.Any((IncidentTargetTagDef tt) => tt != IncidentTargetTagDefOf.World))
 					{
 						this.$current = "allows world target type along with other targets. World targeting incidents should only target the world.";
 						if (!this.$disposing)
@@ -314,8 +312,8 @@ namespace RimWorld
 						return true;
 					}
 				}
-				IL_19D:
-				if (base.TargetTypeAllowed(IncidentTargetTypeDefOf.World) && this.allowedBiomes != null)
+				IL_199:
+				if (base.TargetTagAllowed(IncidentTargetTagDefOf.World) && this.allowedBiomes != null)
 				{
 					this.$current = "world-targeting incident has a biome restriction list";
 					if (!this.$disposing)
@@ -324,7 +322,7 @@ namespace RimWorld
 					}
 					return true;
 				}
-				IL_1E1:
+				IL_1DD:
 				this.$PC = -1;
 				return false;
 			}
@@ -394,9 +392,9 @@ namespace RimWorld
 				return <ConfigErrors>c__Iterator;
 			}
 
-			private static bool <>m__0(IncidentTargetTypeDef tt)
+			private static bool <>m__0(IncidentTargetTagDef tt)
 			{
-				return tt != IncidentTargetTypeDefOf.World;
+				return tt != IncidentTargetTagDefOf.World;
 			}
 		}
 	}

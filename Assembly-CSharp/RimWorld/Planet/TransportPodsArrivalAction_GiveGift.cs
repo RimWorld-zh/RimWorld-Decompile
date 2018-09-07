@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Runtime.CompilerServices;
 using Verse;
 
@@ -27,20 +28,15 @@ namespace RimWorld.Planet
 		public override FloatMenuAcceptanceReport StillValid(IEnumerable<IThingHolder> pods, int destinationTile)
 		{
 			FloatMenuAcceptanceReport floatMenuAcceptanceReport = base.StillValid(pods, destinationTile);
-			FloatMenuAcceptanceReport result;
 			if (!floatMenuAcceptanceReport)
 			{
-				result = floatMenuAcceptanceReport;
+				return floatMenuAcceptanceReport;
 			}
-			else if (this.settlement != null && this.settlement.Tile != destinationTile)
+			if (this.settlement != null && this.settlement.Tile != destinationTile)
 			{
-				result = false;
+				return false;
 			}
-			else
-			{
-				result = TransportPodsArrivalAction_GiveGift.CanGiveGiftTo(pods, this.settlement);
-			}
-			return result;
+			return TransportPodsArrivalAction_GiveGift.CanGiveGiftTo(pods, this.settlement);
 		}
 
 		public override void Arrived(List<ActiveDropPodInfo> pods, int tile)
@@ -55,6 +51,10 @@ namespace RimWorld.Planet
 
 		public static IEnumerable<FloatMenuOption> GetFloatMenuOptions(CompLaunchable representative, IEnumerable<IThingHolder> pods, SettlementBase settlement)
 		{
+			if (settlement.Faction == Faction.OfPlayer)
+			{
+				return Enumerable.Empty<FloatMenuOption>();
+			}
 			return TransportPodsArrivalActionUtility.GetFloatMenuOptions<TransportPodsArrivalAction_GiveGift>(() => TransportPodsArrivalAction_GiveGift.CanGiveGiftTo(pods, settlement), () => new TransportPodsArrivalAction_GiveGift(settlement), "GiveGiftViaTransportPods".Translate(new object[]
 			{
 				settlement.Faction.Name,

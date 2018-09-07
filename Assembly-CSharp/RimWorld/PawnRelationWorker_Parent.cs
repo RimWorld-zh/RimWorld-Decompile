@@ -51,43 +51,45 @@ namespace RimWorld
 
 		private static void ResolveMyName(ref PawnGenerationRequest request, Pawn generatedChild)
 		{
-			if (request.FixedLastName == null)
+			if (request.FixedLastName != null)
 			{
-				if (ChildRelationUtility.ChildWantsNameOfAnyParent(generatedChild))
+				return;
+			}
+			if (ChildRelationUtility.ChildWantsNameOfAnyParent(generatedChild))
+			{
+				bool flag = Rand.Value < 0.5f || generatedChild.GetMother() == null;
+				if (generatedChild.GetFather() == null)
 				{
-					bool flag = Rand.Value < 0.5f || generatedChild.GetMother() == null;
-					if (generatedChild.GetFather() == null)
-					{
-						flag = false;
-					}
-					if (flag)
-					{
-						request.SetFixedLastName(((NameTriple)generatedChild.GetFather().Name).Last);
-					}
-					else
-					{
-						request.SetFixedLastName(((NameTriple)generatedChild.GetMother().Name).Last);
-					}
+					flag = false;
+				}
+				if (flag)
+				{
+					request.SetFixedLastName(((NameTriple)generatedChild.GetFather().Name).Last);
+				}
+				else
+				{
+					request.SetFixedLastName(((NameTriple)generatedChild.GetMother().Name).Last);
 				}
 			}
 		}
 
 		private static void ResolveMySkinColor(ref PawnGenerationRequest request, Pawn generatedChild)
 		{
-			if (request.FixedMelanin == null)
+			if (request.FixedMelanin != null)
 			{
-				if (generatedChild.GetFather() != null && generatedChild.GetMother() != null)
-				{
-					request.SetFixedMelanin(ChildRelationUtility.GetRandomChildSkinColor(generatedChild.GetFather().story.melanin, generatedChild.GetMother().story.melanin));
-				}
-				else if (generatedChild.GetFather() != null)
-				{
-					request.SetFixedMelanin(PawnSkinColors.GetRandomMelaninSimilarTo(generatedChild.GetFather().story.melanin, 0f, 1f));
-				}
-				else
-				{
-					request.SetFixedMelanin(PawnSkinColors.GetRandomMelaninSimilarTo(generatedChild.GetMother().story.melanin, 0f, 1f));
-				}
+				return;
+			}
+			if (generatedChild.GetFather() != null && generatedChild.GetMother() != null)
+			{
+				request.SetFixedMelanin(ChildRelationUtility.GetRandomChildSkinColor(generatedChild.GetFather().story.melanin, generatedChild.GetMother().story.melanin));
+			}
+			else if (generatedChild.GetFather() != null)
+			{
+				request.SetFixedMelanin(PawnSkinColors.GetRandomMelaninSimilarTo(generatedChild.GetFather().story.melanin, 0f, 1f));
+			}
+			else
+			{
+				request.SetFixedMelanin(PawnSkinColors.GetRandomMelaninSimilarTo(generatedChild.GetMother().story.melanin, 0f, 1f));
 			}
 		}
 	}

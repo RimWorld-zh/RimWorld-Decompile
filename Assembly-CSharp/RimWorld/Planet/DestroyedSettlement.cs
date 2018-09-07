@@ -16,23 +16,18 @@ namespace RimWorld.Planet
 
 		public override bool ShouldRemoveMapNow(out bool alsoRemoveWorldObject)
 		{
-			bool result;
 			if (!base.Map.mapPawns.AnyPawnBlockingMapRemoval)
 			{
 				alsoRemoveWorldObject = true;
-				result = true;
+				return true;
 			}
-			else
-			{
-				alsoRemoveWorldObject = false;
-				result = false;
-			}
-			return result;
+			alsoRemoveWorldObject = false;
+			return false;
 		}
 
 		public override IEnumerable<Gizmo> GetGizmos()
 		{
-			foreach (Gizmo g in this.<GetGizmos>__BaseCallProxy0())
+			foreach (Gizmo g in base.GetGizmos())
 			{
 				yield return g;
 			}
@@ -84,7 +79,7 @@ namespace RimWorld.Planet
 				case 1u:
 					break;
 				case 2u:
-					goto IL_108;
+					goto IL_104;
 				default:
 					return false;
 				}
@@ -117,7 +112,7 @@ namespace RimWorld.Planet
 				}
 				if (!base.HasMap || Find.WorldSelector.SingleSelectedObject != this)
 				{
-					goto IL_108;
+					goto IL_104;
 				}
 				this.$current = SettleInExistingMapUtility.SettleCommand(base.Map, false);
 				if (!this.$disposing)
@@ -125,7 +120,7 @@ namespace RimWorld.Planet
 					this.$PC = 2;
 				}
 				return true;
-				IL_108:
+				IL_104:
 				this.$PC = -1;
 				return false;
 			}

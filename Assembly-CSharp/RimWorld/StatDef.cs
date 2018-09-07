@@ -11,7 +11,7 @@ namespace RimWorld
 {
 	public class StatDef : Def
 	{
-		public StatCategoryDef category = null;
+		public StatCategoryDef category;
 
 		public Type workerClass = typeof(StatWorker);
 
@@ -35,55 +35,55 @@ namespace RimWorld
 
 		public bool showOnNonWorkTables = true;
 
-		public bool neverDisabled = false;
+		public bool neverDisabled;
 
-		public int displayPriorityInCategory = 0;
+		public int displayPriorityInCategory;
 
 		public ToStringNumberSense toStringNumberSense = ToStringNumberSense.Absolute;
 
-		public ToStringStyle toStringStyle = ToStringStyle.Integer;
+		public ToStringStyle toStringStyle;
 
-		public ToStringStyle? toStringStyleUnfinalized;
+		private ToStringStyle? toStringStyleUnfinalized;
 
 		[MustTranslate]
-		public string formatString = null;
+		public string formatString;
 
 		public float defaultBaseValue = 1f;
 
-		public List<SkillNeed> skillNeedOffsets = null;
+		public List<SkillNeed> skillNeedOffsets;
 
-		public float noSkillOffset = 0f;
+		public float noSkillOffset;
 
-		public List<PawnCapacityOffset> capacityOffsets = null;
+		public List<PawnCapacityOffset> capacityOffsets;
 
-		public List<StatDef> statFactors = null;
+		public List<StatDef> statFactors;
 
 		public bool applyFactorsIfNegative = true;
 
-		public List<SkillNeed> skillNeedFactors = null;
+		public List<SkillNeed> skillNeedFactors;
 
 		public float noSkillFactor = 1f;
 
-		public List<PawnCapacityFactor> capacityFactors = null;
+		public List<PawnCapacityFactor> capacityFactors;
 
-		public SimpleCurve postProcessCurve = null;
+		public SimpleCurve postProcessCurve;
 
 		public float minValue = -9999999f;
 
 		public float maxValue = 9999999f;
 
-		public bool roundValue = false;
+		public bool roundValue;
 
 		public float roundToFiveOver = float.MaxValue;
 
 		public bool minifiedThingInherits;
 
-		public bool scenarioRandomizable = false;
+		public bool scenarioRandomizable;
 
-		public List<StatPart> parts = null;
+		public List<StatPart> parts;
 
 		[Unsaved]
-		private StatWorker workerInt = null;
+		private StatWorker workerInt;
 
 		[CompilerGenerated]
 		private static Func<StatPart, float> <>f__am$cache0;
@@ -123,7 +123,7 @@ namespace RimWorld
 
 		public override IEnumerable<string> ConfigErrors()
 		{
-			foreach (string err in this.<ConfigErrors>__BaseCallProxy0())
+			foreach (string err in base.ConfigErrors())
 			{
 				yield return err;
 			}
@@ -239,7 +239,7 @@ namespace RimWorld
 				case 1u:
 					break;
 				case 2u:
-					goto IL_E7;
+					goto IL_E1;
 				case 3u:
 					Block_6:
 					try
@@ -277,7 +277,7 @@ namespace RimWorld
 						}
 					}
 					i++;
-					goto IL_294;
+					goto IL_285;
 				default:
 					return false;
 				}
@@ -310,20 +310,17 @@ namespace RimWorld
 				}
 				if (this.capacityFactors == null)
 				{
-					goto IL_17D;
+					goto IL_174;
 				}
 				enumerator2 = this.capacityFactors.GetEnumerator();
 				num = 4294967293u;
 				try
 				{
-					IL_E7:
+					IL_E1:
 					switch (num)
 					{
-					case 2u:
-						IL_150:
-						break;
 					}
-					if (enumerator2.MoveNext())
+					while (enumerator2.MoveNext())
 					{
 						afac = enumerator2.Current;
 						if (afac.weight > 1f)
@@ -336,7 +333,6 @@ namespace RimWorld
 							flag = true;
 							return true;
 						}
-						goto IL_150;
 					}
 				}
 				finally
@@ -346,20 +342,20 @@ namespace RimWorld
 						((IDisposable)enumerator2).Dispose();
 					}
 				}
-				IL_17D:
+				IL_174:
 				if (this.parts == null)
 				{
-					goto IL_2B0;
+					goto IL_2A0;
 				}
 				i = 0;
-				IL_294:
+				IL_285:
 				if (i < this.parts.Count)
 				{
 					enumerator3 = this.parts[i].ConfigErrors().GetEnumerator();
 					num = 4294967293u;
 					goto Block_6;
 				}
-				IL_2B0:
+				IL_2A0:
 				this.$PC = -1;
 				return false;
 			}

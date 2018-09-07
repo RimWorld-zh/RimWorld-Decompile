@@ -118,32 +118,27 @@ namespace RimWorld
 		public static List<Building> ShipBuildingsAttachedTo(Building root)
 		{
 			ShipUtility.closedSet.Clear();
-			List<Building> result;
 			if (root == null || root.Destroyed)
 			{
-				result = ShipUtility.closedSet;
+				return ShipUtility.closedSet;
 			}
-			else
+			ShipUtility.openSet.Clear();
+			ShipUtility.openSet.Add(root);
+			while (ShipUtility.openSet.Count > 0)
 			{
-				ShipUtility.openSet.Clear();
-				ShipUtility.openSet.Add(root);
-				while (ShipUtility.openSet.Count > 0)
+				Building building = ShipUtility.openSet[ShipUtility.openSet.Count - 1];
+				ShipUtility.openSet.Remove(building);
+				ShipUtility.closedSet.Add(building);
+				foreach (IntVec3 c in GenAdj.CellsAdjacentCardinal(building))
 				{
-					Building building = ShipUtility.openSet[ShipUtility.openSet.Count - 1];
-					ShipUtility.openSet.Remove(building);
-					ShipUtility.closedSet.Add(building);
-					foreach (IntVec3 c in GenAdj.CellsAdjacentCardinal(building))
+					Building edifice = c.GetEdifice(building.Map);
+					if (edifice != null && edifice.def.building.shipPart && !ShipUtility.closedSet.Contains(edifice) && !ShipUtility.openSet.Contains(edifice))
 					{
-						Building edifice = c.GetEdifice(building.Map);
-						if (edifice != null && edifice.def.building.shipPart && !ShipUtility.closedSet.Contains(edifice) && !ShipUtility.openSet.Contains(edifice))
-						{
-							ShipUtility.openSet.Add(edifice);
-						}
+						ShipUtility.openSet.Add(edifice);
 					}
 				}
-				result = ShipUtility.closedSet;
 			}
-			return result;
+			return ShipUtility.closedSet;
 		}
 
 		public static IEnumerable<Gizmo> ShipStartupGizmos(Building building)
@@ -240,9 +235,9 @@ namespace RimWorld
 					break;
 				case 2u:
 				case 3u:
-					goto IL_22A;
+					goto IL_21F;
 				case 4u:
-					goto IL_373;
+					goto IL_366;
 				default:
 					return false;
 				}
@@ -250,11 +245,8 @@ namespace RimWorld
 				{
 					switch (num)
 					{
-					case 1u:
-						IL_15F:
-						break;
 					}
-					if (enumerator.MoveNext())
+					while (enumerator.MoveNext())
 					{
 						KeyValuePair<ThingDef, int> partDef = enumerator.Current;
 						shipPartCount = shipParts.Count((Building pa) => pa.def == partDef.Key);
@@ -275,7 +267,6 @@ namespace RimWorld
 							flag = true;
 							return true;
 						}
-						goto IL_15F;
 					}
 				}
 				finally
@@ -311,12 +302,11 @@ namespace RimWorld
 				num = 4294967293u;
 				try
 				{
-					IL_22A:
+					IL_21F:
 					switch (num)
 					{
 					}
-					IL_318:
-					if (enumerator3.MoveNext())
+					while (enumerator3.MoveNext())
 					{
 						part = enumerator3.Current;
 						hibernatable = part.TryGetComp<CompHibernatable>();
@@ -340,7 +330,6 @@ namespace RimWorld
 							flag = true;
 							return true;
 						}
-						goto IL_318;
 					}
 				}
 				finally
@@ -359,7 +348,7 @@ namespace RimWorld
 					}
 					return true;
 				}
-				IL_373:
+				IL_366:
 				this.$PC = -1;
 				return false;
 			}

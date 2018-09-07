@@ -63,16 +63,11 @@ namespace RimWorld
 
 		public override AlertReport GetReport()
 		{
-			AlertReport result;
 			if (Find.AnyPlayerHomeMap == null)
 			{
-				result = false;
+				return false;
 			}
-			else
-			{
-				result = AlertReport.CulpritsAre(this.Patients);
-			}
-			return result;
+			return AlertReport.CulpritsAre(this.Patients);
 		}
 
 		[CompilerGenerated]
@@ -111,7 +106,7 @@ namespace RimWorld
 				case 0u:
 					maps = Find.Maps;
 					i = 0;
-					goto IL_20D;
+					goto IL_201;
 				case 1u:
 					Block_5:
 					try
@@ -119,8 +114,7 @@ namespace RimWorld
 						switch (num)
 						{
 						}
-						IL_1CD:
-						if (enumerator2.MoveNext())
+						while (enumerator2.MoveNext())
 						{
 							p = enumerator2.Current;
 							if ((p.Downed && p.needs.food.CurCategory < HungerCategory.Fed && p.InBed()) || HealthAIUtility.ShouldBeTendedNowByPlayer(p))
@@ -133,7 +127,6 @@ namespace RimWorld
 								flag = true;
 								return true;
 							}
-							goto IL_1CD;
 						}
 					}
 					finally
@@ -150,9 +143,9 @@ namespace RimWorld
 				default:
 					return false;
 				}
-				IL_1FF:
+				IL_1F3:
 				i++;
-				IL_20D:
+				IL_201:
 				if (i >= maps.Count)
 				{
 					this.$PC = -1;
@@ -161,7 +154,7 @@ namespace RimWorld
 				{
 					if (!maps[i].IsPlayerHome)
 					{
-						goto IL_1FF;
+						goto IL_1F3;
 					}
 					healthyDoc = false;
 					enumerator = maps[i].mapPawns.FreeColonistsSpawned.GetEnumerator();
@@ -186,7 +179,7 @@ namespace RimWorld
 					}
 					if (healthyDoc)
 					{
-						goto IL_1FF;
+						goto IL_1F3;
 					}
 					enumerator2 = maps[i].mapPawns.FreeColonistsSpawned.GetEnumerator();
 					num = 4294967293u;

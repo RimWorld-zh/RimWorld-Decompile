@@ -69,23 +69,18 @@ namespace RimWorld
 
 		public static float NegativeInteractionChanceFactor(Pawn initiator, Pawn recipient)
 		{
-			float result;
 			if (initiator.story.traits.HasTrait(TraitDefOf.Kind))
 			{
-				result = 0f;
+				return 0f;
 			}
-			else
+			float num = 1f;
+			num *= NegativeInteractionUtility.OpinionFactorCurve.Evaluate((float)initiator.relations.OpinionOf(recipient));
+			num *= NegativeInteractionUtility.CompatibilityFactorCurve.Evaluate(initiator.relations.CompatibilityWith(recipient));
+			if (initiator.story.traits.HasTrait(TraitDefOf.Abrasive))
 			{
-				float num = 1f;
-				num *= NegativeInteractionUtility.OpinionFactorCurve.Evaluate((float)initiator.relations.OpinionOf(recipient));
-				num *= NegativeInteractionUtility.CompatibilityFactorCurve.Evaluate(initiator.relations.CompatibilityWith(recipient));
-				if (initiator.story.traits.HasTrait(TraitDefOf.Abrasive))
-				{
-					num *= 2.3f;
-				}
-				result = num;
+				num *= 2.3f;
 			}
-			return result;
+			return num;
 		}
 
 		// Note: this type is marked as 'beforefieldinit'.

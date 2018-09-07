@@ -7,7 +7,7 @@ namespace RimWorld
 	{
 		public float mtbDays = -1f;
 
-		public SimpleCurve mtbDaysFactorByDaysPassedCurve = null;
+		public SimpleCurve mtbDaysFactorByDaysPassedCurve;
 
 		public IncidentCategoryDef category;
 

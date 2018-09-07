@@ -10,7 +10,7 @@ namespace RimWorld
 {
 	public class StatPart_Mood : StatPart
 	{
-		private SimpleCurve factorFromMoodCurve = null;
+		private SimpleCurve factorFromMoodCurve;
 
 		public StatPart_Mood()
 		{

@@ -8,13 +8,13 @@ namespace UnityStandardAssets.ImageEffects
 	[RequireComponent(typeof(Camera))]
 	public class BloomAndFlares : PostEffectsBase
 	{
-		public TweakMode34 tweakMode = TweakMode34.Basic;
+		public TweakMode34 tweakMode;
 
 		public BloomScreenBlendMode screenBlendMode = BloomScreenBlendMode.Add;
 
-		public HDRBloomMode hdr = HDRBloomMode.Auto;
+		public HDRBloomMode hdr;
 
-		private bool doHdr = false;
+		private bool doHdr;
 
 		public float sepBlurSpread = 1.5f;
 
@@ -26,7 +26,7 @@ namespace UnityStandardAssets.ImageEffects
 
 		public int bloomBlurIterations = 2;
 
-		public bool lensflares = false;
+		public bool lensflares;
 
 		public int hollywoodFlareBlurIterations = 2;
 
@@ -102,121 +102,119 @@ namespace UnityStandardAssets.ImageEffects
 			if (!this.CheckResources())
 			{
 				Graphics.Blit(source, destination);
+				return;
+			}
+			this.doHdr = false;
+			if (this.hdr == HDRBloomMode.Auto)
+			{
+				this.doHdr = (source.format == RenderTextureFormat.ARGBHalf && base.GetComponent<Camera>().allowHDR);
 			}
 			else
 			{
-				this.doHdr = false;
-				if (this.hdr == HDRBloomMode.Auto)
+				this.doHdr = (this.hdr == HDRBloomMode.On);
+			}
+			this.doHdr = (this.doHdr && this.supportHDRTextures);
+			BloomScreenBlendMode pass = this.screenBlendMode;
+			if (this.doHdr)
+			{
+				pass = BloomScreenBlendMode.Add;
+			}
+			RenderTextureFormat format = (!this.doHdr) ? RenderTextureFormat.Default : RenderTextureFormat.ARGBHalf;
+			RenderTexture temporary = RenderTexture.GetTemporary(source.width / 2, source.height / 2, 0, format);
+			RenderTexture temporary2 = RenderTexture.GetTemporary(source.width / 4, source.height / 4, 0, format);
+			RenderTexture temporary3 = RenderTexture.GetTemporary(source.width / 4, source.height / 4, 0, format);
+			RenderTexture temporary4 = RenderTexture.GetTemporary(source.width / 4, source.height / 4, 0, format);
+			float num = 1f * (float)source.width / (1f * (float)source.height);
+			float num2 = 0.001953125f;
+			Graphics.Blit(source, temporary, this.screenBlend, 2);
+			Graphics.Blit(temporary, temporary2, this.screenBlend, 2);
+			RenderTexture.ReleaseTemporary(temporary);
+			this.BrightFilter(this.bloomThreshold, this.useSrcAlphaAsMask, temporary2, temporary3);
+			temporary2.DiscardContents();
+			if (this.bloomBlurIterations < 1)
+			{
+				this.bloomBlurIterations = 1;
+			}
+			for (int i = 0; i < this.bloomBlurIterations; i++)
+			{
+				float num3 = (1f + (float)i * 0.5f) * this.sepBlurSpread;
+				this.separableBlurMaterial.SetVector("offsets", new Vector4(0f, num3 * num2, 0f, 0f));
+				RenderTexture renderTexture = (i != 0) ? temporary2 : temporary3;
+				Graphics.Blit(renderTexture, temporary4, this.separableBlurMaterial);
+				renderTexture.DiscardContents();
+				this.separableBlurMaterial.SetVector("offsets", new Vector4(num3 / num * num2, 0f, 0f, 0f));
+				Graphics.Blit(temporary4, temporary2, this.separableBlurMaterial);
+				temporary4.DiscardContents();
+			}
+			if (this.lensflares)
+			{
+				if (this.lensflareMode == LensflareStyle34.Ghosting)
 				{
-					this.doHdr = (source.format == RenderTextureFormat.ARGBHalf && base.GetComponent<Camera>().allowHDR);
+					this.BrightFilter(this.lensflareThreshold, 0f, temporary2, temporary4);
+					temporary2.DiscardContents();
+					this.Vignette(0.975f, temporary4, temporary3);
+					temporary4.DiscardContents();
+					this.BlendFlares(temporary3, temporary2);
+					temporary3.DiscardContents();
 				}
 				else
 				{
-					this.doHdr = (this.hdr == HDRBloomMode.On);
-				}
-				this.doHdr = (this.doHdr && this.supportHDRTextures);
-				BloomScreenBlendMode pass = this.screenBlendMode;
-				if (this.doHdr)
-				{
-					pass = BloomScreenBlendMode.Add;
-				}
-				RenderTextureFormat format = (!this.doHdr) ? RenderTextureFormat.Default : RenderTextureFormat.ARGBHalf;
-				RenderTexture temporary = RenderTexture.GetTemporary(source.width / 2, source.height / 2, 0, format);
-				RenderTexture temporary2 = RenderTexture.GetTemporary(source.width / 4, source.height / 4, 0, format);
-				RenderTexture temporary3 = RenderTexture.GetTemporary(source.width / 4, source.height / 4, 0, format);
-				RenderTexture temporary4 = RenderTexture.GetTemporary(source.width / 4, source.height / 4, 0, format);
-				float num = 1f * (float)source.width / (1f * (float)source.height);
-				float num2 = 0.001953125f;
-				Graphics.Blit(source, temporary, this.screenBlend, 2);
-				Graphics.Blit(temporary, temporary2, this.screenBlend, 2);
-				RenderTexture.ReleaseTemporary(temporary);
-				this.BrightFilter(this.bloomThreshold, this.useSrcAlphaAsMask, temporary2, temporary3);
-				temporary2.DiscardContents();
-				if (this.bloomBlurIterations < 1)
-				{
-					this.bloomBlurIterations = 1;
-				}
-				for (int i = 0; i < this.bloomBlurIterations; i++)
-				{
-					float num3 = (1f + (float)i * 0.5f) * this.sepBlurSpread;
-					this.separableBlurMaterial.SetVector("offsets", new Vector4(0f, num3 * num2, 0f, 0f));
-					RenderTexture renderTexture = (i != 0) ? temporary2 : temporary3;
-					Graphics.Blit(renderTexture, temporary4, this.separableBlurMaterial);
-					renderTexture.DiscardContents();
-					this.separableBlurMaterial.SetVector("offsets", new Vector4(num3 / num * num2, 0f, 0f, 0f));
-					Graphics.Blit(temporary4, temporary2, this.separableBlurMaterial);
+					this.hollywoodFlaresMaterial.SetVector("_threshold", new Vector4(this.lensflareThreshold, 1f / (1f - this.lensflareThreshold), 0f, 0f));
+					this.hollywoodFlaresMaterial.SetVector("tintColor", new Vector4(this.flareColorA.r, this.flareColorA.g, this.flareColorA.b, this.flareColorA.a) * this.flareColorA.a * this.lensflareIntensity);
+					Graphics.Blit(temporary4, temporary3, this.hollywoodFlaresMaterial, 2);
 					temporary4.DiscardContents();
-				}
-				if (this.lensflares)
-				{
-					if (this.lensflareMode == LensflareStyle34.Ghosting)
+					Graphics.Blit(temporary3, temporary4, this.hollywoodFlaresMaterial, 3);
+					temporary3.DiscardContents();
+					this.hollywoodFlaresMaterial.SetVector("offsets", new Vector4(this.sepBlurSpread * 1f / num * num2, 0f, 0f, 0f));
+					this.hollywoodFlaresMaterial.SetFloat("stretchWidth", this.hollyStretchWidth);
+					Graphics.Blit(temporary4, temporary3, this.hollywoodFlaresMaterial, 1);
+					temporary4.DiscardContents();
+					this.hollywoodFlaresMaterial.SetFloat("stretchWidth", this.hollyStretchWidth * 2f);
+					Graphics.Blit(temporary3, temporary4, this.hollywoodFlaresMaterial, 1);
+					temporary3.DiscardContents();
+					this.hollywoodFlaresMaterial.SetFloat("stretchWidth", this.hollyStretchWidth * 4f);
+					Graphics.Blit(temporary4, temporary3, this.hollywoodFlaresMaterial, 1);
+					temporary4.DiscardContents();
+					if (this.lensflareMode == LensflareStyle34.Anamorphic)
 					{
-						this.BrightFilter(this.lensflareThreshold, 0f, temporary2, temporary4);
-						temporary2.DiscardContents();
-						this.Vignette(0.975f, temporary4, temporary3);
-						temporary4.DiscardContents();
-						this.BlendFlares(temporary3, temporary2);
+						for (int j = 0; j < this.hollywoodFlareBlurIterations; j++)
+						{
+							this.separableBlurMaterial.SetVector("offsets", new Vector4(this.hollyStretchWidth * 2f / num * num2, 0f, 0f, 0f));
+							Graphics.Blit(temporary3, temporary4, this.separableBlurMaterial);
+							temporary3.DiscardContents();
+							this.separableBlurMaterial.SetVector("offsets", new Vector4(this.hollyStretchWidth * 2f / num * num2, 0f, 0f, 0f));
+							Graphics.Blit(temporary4, temporary3, this.separableBlurMaterial);
+							temporary4.DiscardContents();
+						}
+						this.AddTo(1f, temporary3, temporary2);
 						temporary3.DiscardContents();
 					}
 					else
 					{
-						this.hollywoodFlaresMaterial.SetVector("_threshold", new Vector4(this.lensflareThreshold, 1f / (1f - this.lensflareThreshold), 0f, 0f));
-						this.hollywoodFlaresMaterial.SetVector("tintColor", new Vector4(this.flareColorA.r, this.flareColorA.g, this.flareColorA.b, this.flareColorA.a) * this.flareColorA.a * this.lensflareIntensity);
-						Graphics.Blit(temporary4, temporary3, this.hollywoodFlaresMaterial, 2);
-						temporary4.DiscardContents();
-						Graphics.Blit(temporary3, temporary4, this.hollywoodFlaresMaterial, 3);
-						temporary3.DiscardContents();
-						this.hollywoodFlaresMaterial.SetVector("offsets", new Vector4(this.sepBlurSpread * 1f / num * num2, 0f, 0f, 0f));
-						this.hollywoodFlaresMaterial.SetFloat("stretchWidth", this.hollyStretchWidth);
-						Graphics.Blit(temporary4, temporary3, this.hollywoodFlaresMaterial, 1);
-						temporary4.DiscardContents();
-						this.hollywoodFlaresMaterial.SetFloat("stretchWidth", this.hollyStretchWidth * 2f);
-						Graphics.Blit(temporary3, temporary4, this.hollywoodFlaresMaterial, 1);
-						temporary3.DiscardContents();
-						this.hollywoodFlaresMaterial.SetFloat("stretchWidth", this.hollyStretchWidth * 4f);
-						Graphics.Blit(temporary4, temporary3, this.hollywoodFlaresMaterial, 1);
-						temporary4.DiscardContents();
-						if (this.lensflareMode == LensflareStyle34.Anamorphic)
+						for (int k = 0; k < this.hollywoodFlareBlurIterations; k++)
 						{
-							for (int j = 0; j < this.hollywoodFlareBlurIterations; j++)
-							{
-								this.separableBlurMaterial.SetVector("offsets", new Vector4(this.hollyStretchWidth * 2f / num * num2, 0f, 0f, 0f));
-								Graphics.Blit(temporary3, temporary4, this.separableBlurMaterial);
-								temporary3.DiscardContents();
-								this.separableBlurMaterial.SetVector("offsets", new Vector4(this.hollyStretchWidth * 2f / num * num2, 0f, 0f, 0f));
-								Graphics.Blit(temporary4, temporary3, this.separableBlurMaterial);
-								temporary4.DiscardContents();
-							}
-							this.AddTo(1f, temporary3, temporary2);
+							this.separableBlurMaterial.SetVector("offsets", new Vector4(this.hollyStretchWidth * 2f / num * num2, 0f, 0f, 0f));
+							Graphics.Blit(temporary3, temporary4, this.separableBlurMaterial);
 							temporary3.DiscardContents();
-						}
-						else
-						{
-							for (int k = 0; k < this.hollywoodFlareBlurIterations; k++)
-							{
-								this.separableBlurMaterial.SetVector("offsets", new Vector4(this.hollyStretchWidth * 2f / num * num2, 0f, 0f, 0f));
-								Graphics.Blit(temporary3, temporary4, this.separableBlurMaterial);
-								temporary3.DiscardContents();
-								this.separableBlurMaterial.SetVector("offsets", new Vector4(this.hollyStretchWidth * 2f / num * num2, 0f, 0f, 0f));
-								Graphics.Blit(temporary4, temporary3, this.separableBlurMaterial);
-								temporary4.DiscardContents();
-							}
-							this.Vignette(1f, temporary3, temporary4);
-							temporary3.DiscardContents();
-							this.BlendFlares(temporary4, temporary3);
+							this.separableBlurMaterial.SetVector("offsets", new Vector4(this.hollyStretchWidth * 2f / num * num2, 0f, 0f, 0f));
+							Graphics.Blit(temporary4, temporary3, this.separableBlurMaterial);
 							temporary4.DiscardContents();
-							this.AddTo(1f, temporary3, temporary2);
-							temporary3.DiscardContents();
 						}
+						this.Vignette(1f, temporary3, temporary4);
+						temporary3.DiscardContents();
+						this.BlendFlares(temporary4, temporary3);
+						temporary4.DiscardContents();
+						this.AddTo(1f, temporary3, temporary2);
+						temporary3.DiscardContents();
 					}
 				}
-				this.screenBlend.SetFloat("_Intensity", this.bloomIntensity);
-				this.screenBlend.SetTexture("_ColorBuffer", source);
-				Graphics.Blit(temporary2, destination, this.screenBlend, (int)pass);
-				RenderTexture.ReleaseTemporary(temporary2);
-				RenderTexture.ReleaseTemporary(temporary3);
-				RenderTexture.ReleaseTemporary(temporary4);
 			}
+			this.screenBlend.SetFloat("_Intensity", this.bloomIntensity);
+			this.screenBlend.SetTexture("_ColorBuffer", source);
+			Graphics.Blit(temporary2, destination, this.screenBlend, (int)pass);
+			RenderTexture.ReleaseTemporary(temporary2);
+			RenderTexture.ReleaseTemporary(temporary3);
+			RenderTexture.ReleaseTemporary(temporary4);
 		}
 
 		private void AddTo(float intensity_, RenderTexture from, RenderTexture to)

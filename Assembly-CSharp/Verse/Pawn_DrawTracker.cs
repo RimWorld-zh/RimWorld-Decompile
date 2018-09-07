@@ -51,17 +51,19 @@ namespace Verse
 
 		public void DrawTrackerTick()
 		{
-			if (this.pawn.Spawned)
+			if (!this.pawn.Spawned)
 			{
-				if (Current.ProgramState != ProgramState.Playing || Find.CameraDriver.CurrentViewRect.ExpandedBy(3).Contains(this.pawn.Position))
-				{
-					this.jitterer.JitterHandlerTick();
-					this.footprintMaker.FootprintMakerTick();
-					this.breathMoteMaker.BreathMoteMakerTick();
-					this.leaner.LeanerTick();
-					this.renderer.RendererTick();
-				}
+				return;
 			}
+			if (Current.ProgramState == ProgramState.Playing && !Find.CameraDriver.CurrentViewRect.ExpandedBy(3).Contains(this.pawn.Position))
+			{
+				return;
+			}
+			this.jitterer.JitterHandlerTick();
+			this.footprintMaker.FootprintMakerTick();
+			this.breathMoteMaker.BreathMoteMakerTick();
+			this.leaner.LeanerTick();
+			this.renderer.RendererTick();
 		}
 
 		public void DrawAt(Vector3 loc)
@@ -81,19 +83,21 @@ namespace Verse
 
 		public void Notify_DamageApplied(DamageInfo dinfo)
 		{
-			if (!this.pawn.Destroyed)
+			if (this.pawn.Destroyed)
 			{
-				this.jitterer.Notify_DamageApplied(dinfo);
-				this.renderer.Notify_DamageApplied(dinfo);
+				return;
 			}
+			this.jitterer.Notify_DamageApplied(dinfo);
+			this.renderer.Notify_DamageApplied(dinfo);
 		}
 
 		public void Notify_DamageDeflected(DamageInfo dinfo)
 		{
-			if (!this.pawn.Destroyed)
+			if (this.pawn.Destroyed)
 			{
-				this.jitterer.Notify_DamageDeflected(dinfo);
+				return;
 			}
+			this.jitterer.Notify_DamageDeflected(dinfo);
 		}
 
 		public void Notify_MeleeAttackOn(Thing Target)

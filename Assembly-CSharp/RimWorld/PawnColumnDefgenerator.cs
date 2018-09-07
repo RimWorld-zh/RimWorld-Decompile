@@ -111,7 +111,7 @@ namespace RimWorld
 				case 1u:
 					break;
 				case 2u:
-					goto IL_21C;
+					goto IL_217;
 				default:
 					return false;
 				}
@@ -160,7 +160,7 @@ namespace RimWorld
 				num = 4294967293u;
 				try
 				{
-					IL_21C:
+					IL_217:
 					switch (num)
 					{
 					}

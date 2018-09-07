@@ -76,16 +76,13 @@ namespace RimWorld
 			bool flag = site.Faction == null || site.Faction.HostileTo(Faction.OfPlayer);
 			bool flag2 = !site.HasMap;
 			Map orGenerateMap = GetOrGenerateMapUtility.GetOrGenerateMap(site.Tile, SiteCoreWorker.MapSize, null);
-			if (flag)
-			{
-				Find.TickManager.CurTimeSpeed = TimeSpeed.Paused;
-			}
 			Messages.Message("MessageCaravanArrivedAtDestination".Translate(new object[]
 			{
 				caravan.Label
 			}).CapitalizeFirst(), t, MessageTypeDefOf.TaskCompletion, true);
 			if (flag2)
 			{
+				Find.TickManager.Notify_GeneratedPotentiallyHostileMap();
 				PawnRelationUtility.Notify_PawnsSeenByPlayer_Letter_Send(orGenerateMap.mapPawns.AllPawns, "LetterRelatedPawnsSite".Translate(new object[]
 				{
 					Faction.OfPlayer.def.pawnsPlural
@@ -134,7 +131,7 @@ namespace RimWorld
 				case 0u:
 					if (site.HasMap)
 					{
-						goto IL_CC;
+						goto IL_C6;
 					}
 					enumerator = CaravanArrivalAction_VisitSite.GetFloatMenuOptions(caravan, site).GetEnumerator();
 					num = 4294967293u;
@@ -171,7 +168,7 @@ namespace RimWorld
 						}
 					}
 				}
-				IL_CC:
+				IL_C6:
 				this.$PC = -1;
 				return false;
 			}

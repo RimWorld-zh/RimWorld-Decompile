@@ -43,34 +43,26 @@ namespace RimWorld
 
 		public override AcceptanceReport CanDesignateCell(IntVec3 c)
 		{
-			AcceptanceReport result;
 			if (!c.InBounds(base.Map))
 			{
-				result = false;
+				return false;
 			}
-			else if (c.InNoBuildEdgeArea(base.Map))
+			if (c.InNoBuildEdgeArea(base.Map))
 			{
-				result = "TooCloseToMapEdge".Translate();
+				return "TooCloseToMapEdge".Translate();
 			}
-			else
+			if (this.mode == DesignateMode.Add)
 			{
-				if (this.mode == DesignateMode.Add)
+				if (base.Map.designationManager.DesignationAt(c, this.Designation) != null)
 				{
-					if (base.Map.designationManager.DesignationAt(c, this.Designation) != null)
-					{
-						return false;
-					}
+					return false;
 				}
-				else if (this.mode == DesignateMode.Remove)
-				{
-					if (base.Map.designationManager.DesignationAt(c, this.Designation) == null)
-					{
-						return false;
-					}
-				}
-				result = true;
 			}
-			return result;
+			else if (this.mode == DesignateMode.Remove && base.Map.designationManager.DesignationAt(c, this.Designation) == null)
+			{
+				return false;
+			}
+			return true;
 		}
 
 		public override void DesignateSingleCell(IntVec3 c)

@@ -22,7 +22,7 @@ namespace UnityStandardAssets.ImageEffects
 
 		public float smoothness = 0.5f;
 
-		public float focalZDistance = 0f;
+		public float focalZDistance;
 
 		public float focalZStartCurve = 1f;
 
@@ -34,9 +34,9 @@ namespace UnityStandardAssets.ImageEffects
 
 		private float focalDistance01 = 0.1f;
 
-		public Transform objectFocus = null;
+		public Transform objectFocus;
 
-		public float focalSize = 0f;
+		public float focalSize;
 
 		public DepthOfFieldDeprecated.DofBlurriness bluriness = DepthOfFieldDeprecated.DofBlurriness.High;
 
@@ -46,13 +46,13 @@ namespace UnityStandardAssets.ImageEffects
 
 		public Shader dofBlurShader;
 
-		private Material dofBlurMaterial = null;
+		private Material dofBlurMaterial;
 
 		public Shader dofShader;
 
-		private Material dofMaterial = null;
+		private Material dofMaterial;
 
-		public bool visualize = false;
+		public bool visualize;
 
 		public DepthOfFieldDeprecated.BokehDestination bokehDestination = DepthOfFieldDeprecated.BokehDestination.Background;
 
@@ -60,7 +60,7 @@ namespace UnityStandardAssets.ImageEffects
 
 		private float oneOverBaseSize = 0.001953125f;
 
-		public bool bokeh = false;
+		public bool bokeh;
 
 		public bool bokehSupport = true;
 
@@ -82,17 +82,17 @@ namespace UnityStandardAssets.ImageEffects
 
 		private Camera _camera;
 
-		private RenderTexture foregroundTexture = null;
+		private RenderTexture foregroundTexture;
 
-		private RenderTexture mediumRezWorkTexture = null;
+		private RenderTexture mediumRezWorkTexture;
 
-		private RenderTexture finalDefocus = null;
+		private RenderTexture finalDefocus;
 
-		private RenderTexture lowRezWorkTexture = null;
+		private RenderTexture lowRezWorkTexture;
 
-		private RenderTexture bokehSource = null;
+		private RenderTexture bokehSource;
 
-		private RenderTexture bokehSource2 = null;
+		private RenderTexture bokehSource2;
 
 		public DepthOfFieldDeprecated()
 		{
@@ -175,99 +175,97 @@ namespace UnityStandardAssets.ImageEffects
 			if (!this.CheckResources())
 			{
 				Graphics.Blit(source, destination);
+				return;
+			}
+			if (this.smoothness < 0.1f)
+			{
+				this.smoothness = 0.1f;
+			}
+			this.bokeh = (this.bokeh && this.bokehSupport);
+			float num = (!this.bokeh) ? 1f : DepthOfFieldDeprecated.BOKEH_EXTRA_BLUR;
+			bool flag = this.quality > DepthOfFieldDeprecated.Dof34QualitySetting.OnlyBackground;
+			float num2 = this.focalSize / (this._camera.farClipPlane - this._camera.nearClipPlane);
+			if (this.simpleTweakMode)
+			{
+				this.focalDistance01 = ((!this.objectFocus) ? this.FocalDistance01(this.focalPoint) : (this._camera.WorldToViewportPoint(this.objectFocus.position).z / this._camera.farClipPlane));
+				this.focalStartCurve = this.focalDistance01 * this.smoothness;
+				this.focalEndCurve = this.focalStartCurve;
+				flag = (flag && this.focalPoint > this._camera.nearClipPlane + Mathf.Epsilon);
 			}
 			else
 			{
-				if (this.smoothness < 0.1f)
+				if (this.objectFocus)
 				{
-					this.smoothness = 0.1f;
-				}
-				this.bokeh = (this.bokeh && this.bokehSupport);
-				float num = (!this.bokeh) ? 1f : DepthOfFieldDeprecated.BOKEH_EXTRA_BLUR;
-				bool flag = this.quality > DepthOfFieldDeprecated.Dof34QualitySetting.OnlyBackground;
-				float num2 = this.focalSize / (this._camera.farClipPlane - this._camera.nearClipPlane);
-				if (this.simpleTweakMode)
-				{
-					this.focalDistance01 = ((!this.objectFocus) ? this.FocalDistance01(this.focalPoint) : (this._camera.WorldToViewportPoint(this.objectFocus.position).z / this._camera.farClipPlane));
-					this.focalStartCurve = this.focalDistance01 * this.smoothness;
-					this.focalEndCurve = this.focalStartCurve;
-					flag = (flag && this.focalPoint > this._camera.nearClipPlane + Mathf.Epsilon);
+					Vector3 vector = this._camera.WorldToViewportPoint(this.objectFocus.position);
+					vector.z /= this._camera.farClipPlane;
+					this.focalDistance01 = vector.z;
 				}
 				else
 				{
-					if (this.objectFocus)
-					{
-						Vector3 vector = this._camera.WorldToViewportPoint(this.objectFocus.position);
-						vector.z /= this._camera.farClipPlane;
-						this.focalDistance01 = vector.z;
-					}
-					else
-					{
-						this.focalDistance01 = this.FocalDistance01(this.focalZDistance);
-					}
-					this.focalStartCurve = this.focalZStartCurve;
-					this.focalEndCurve = this.focalZEndCurve;
-					flag = (flag && this.focalPoint > this._camera.nearClipPlane + Mathf.Epsilon);
+					this.focalDistance01 = this.FocalDistance01(this.focalZDistance);
 				}
-				this.widthOverHeight = 1f * (float)source.width / (1f * (float)source.height);
-				this.oneOverBaseSize = 0.001953125f;
-				this.dofMaterial.SetFloat("_ForegroundBlurExtrude", this.foregroundBlurExtrude);
-				this.dofMaterial.SetVector("_CurveParams", new Vector4((!this.simpleTweakMode) ? this.focalStartCurve : (1f / this.focalStartCurve), (!this.simpleTweakMode) ? this.focalEndCurve : (1f / this.focalEndCurve), num2 * 0.5f, this.focalDistance01));
-				this.dofMaterial.SetVector("_InvRenderTargetSize", new Vector4(1f / (1f * (float)source.width), 1f / (1f * (float)source.height), 0f, 0f));
-				int dividerBasedOnQuality = this.GetDividerBasedOnQuality();
-				int lowResolutionDividerBasedOnQuality = this.GetLowResolutionDividerBasedOnQuality(dividerBasedOnQuality);
-				this.AllocateTextures(flag, source, dividerBasedOnQuality, lowResolutionDividerBasedOnQuality);
-				Graphics.Blit(source, source, this.dofMaterial, 3);
+				this.focalStartCurve = this.focalZStartCurve;
+				this.focalEndCurve = this.focalZEndCurve;
+				flag = (flag && this.focalPoint > this._camera.nearClipPlane + Mathf.Epsilon);
+			}
+			this.widthOverHeight = 1f * (float)source.width / (1f * (float)source.height);
+			this.oneOverBaseSize = 0.001953125f;
+			this.dofMaterial.SetFloat("_ForegroundBlurExtrude", this.foregroundBlurExtrude);
+			this.dofMaterial.SetVector("_CurveParams", new Vector4((!this.simpleTweakMode) ? this.focalStartCurve : (1f / this.focalStartCurve), (!this.simpleTweakMode) ? this.focalEndCurve : (1f / this.focalEndCurve), num2 * 0.5f, this.focalDistance01));
+			this.dofMaterial.SetVector("_InvRenderTargetSize", new Vector4(1f / (1f * (float)source.width), 1f / (1f * (float)source.height), 0f, 0f));
+			int dividerBasedOnQuality = this.GetDividerBasedOnQuality();
+			int lowResolutionDividerBasedOnQuality = this.GetLowResolutionDividerBasedOnQuality(dividerBasedOnQuality);
+			this.AllocateTextures(flag, source, dividerBasedOnQuality, lowResolutionDividerBasedOnQuality);
+			Graphics.Blit(source, source, this.dofMaterial, 3);
+			this.Downsample(source, this.mediumRezWorkTexture);
+			this.Blur(this.mediumRezWorkTexture, this.mediumRezWorkTexture, DepthOfFieldDeprecated.DofBlurriness.Low, 4, this.maxBlurSpread);
+			if (this.bokeh && (DepthOfFieldDeprecated.BokehDestination.Foreground & this.bokehDestination) != (DepthOfFieldDeprecated.BokehDestination)0)
+			{
+				this.dofMaterial.SetVector("_Threshhold", new Vector4(this.bokehThresholdContrast, this.bokehThresholdLuminance, 0.95f, 0f));
+				Graphics.Blit(this.mediumRezWorkTexture, this.bokehSource2, this.dofMaterial, 11);
+				Graphics.Blit(this.mediumRezWorkTexture, this.lowRezWorkTexture);
+				this.Blur(this.lowRezWorkTexture, this.lowRezWorkTexture, this.bluriness, 0, this.maxBlurSpread * num);
+			}
+			else
+			{
+				this.Downsample(this.mediumRezWorkTexture, this.lowRezWorkTexture);
+				this.Blur(this.lowRezWorkTexture, this.lowRezWorkTexture, this.bluriness, 0, this.maxBlurSpread);
+			}
+			this.dofBlurMaterial.SetTexture("_TapLow", this.lowRezWorkTexture);
+			this.dofBlurMaterial.SetTexture("_TapMedium", this.mediumRezWorkTexture);
+			Graphics.Blit(null, this.finalDefocus, this.dofBlurMaterial, 3);
+			if (this.bokeh && (DepthOfFieldDeprecated.BokehDestination.Foreground & this.bokehDestination) != (DepthOfFieldDeprecated.BokehDestination)0)
+			{
+				this.AddBokeh(this.bokehSource2, this.bokehSource, this.finalDefocus);
+			}
+			this.dofMaterial.SetTexture("_TapLowBackground", this.finalDefocus);
+			this.dofMaterial.SetTexture("_TapMedium", this.mediumRezWorkTexture);
+			Graphics.Blit(source, (!flag) ? destination : this.foregroundTexture, this.dofMaterial, (!this.visualize) ? 0 : 2);
+			if (flag)
+			{
+				Graphics.Blit(this.foregroundTexture, source, this.dofMaterial, 5);
 				this.Downsample(source, this.mediumRezWorkTexture);
-				this.Blur(this.mediumRezWorkTexture, this.mediumRezWorkTexture, DepthOfFieldDeprecated.DofBlurriness.Low, 4, this.maxBlurSpread);
+				this.BlurFg(this.mediumRezWorkTexture, this.mediumRezWorkTexture, DepthOfFieldDeprecated.DofBlurriness.Low, 2, this.maxBlurSpread);
 				if (this.bokeh && (DepthOfFieldDeprecated.BokehDestination.Foreground & this.bokehDestination) != (DepthOfFieldDeprecated.BokehDestination)0)
 				{
-					this.dofMaterial.SetVector("_Threshhold", new Vector4(this.bokehThresholdContrast, this.bokehThresholdLuminance, 0.95f, 0f));
+					this.dofMaterial.SetVector("_Threshhold", new Vector4(this.bokehThresholdContrast * 0.5f, this.bokehThresholdLuminance, 0f, 0f));
 					Graphics.Blit(this.mediumRezWorkTexture, this.bokehSource2, this.dofMaterial, 11);
 					Graphics.Blit(this.mediumRezWorkTexture, this.lowRezWorkTexture);
-					this.Blur(this.lowRezWorkTexture, this.lowRezWorkTexture, this.bluriness, 0, this.maxBlurSpread * num);
+					this.BlurFg(this.lowRezWorkTexture, this.lowRezWorkTexture, this.bluriness, 1, this.maxBlurSpread * num);
 				}
 				else
 				{
-					this.Downsample(this.mediumRezWorkTexture, this.lowRezWorkTexture);
-					this.Blur(this.lowRezWorkTexture, this.lowRezWorkTexture, this.bluriness, 0, this.maxBlurSpread);
+					this.BlurFg(this.mediumRezWorkTexture, this.lowRezWorkTexture, this.bluriness, 1, this.maxBlurSpread);
 				}
-				this.dofBlurMaterial.SetTexture("_TapLow", this.lowRezWorkTexture);
-				this.dofBlurMaterial.SetTexture("_TapMedium", this.mediumRezWorkTexture);
-				Graphics.Blit(null, this.finalDefocus, this.dofBlurMaterial, 3);
+				Graphics.Blit(this.lowRezWorkTexture, this.finalDefocus);
+				this.dofMaterial.SetTexture("_TapLowForeground", this.finalDefocus);
+				Graphics.Blit(source, destination, this.dofMaterial, (!this.visualize) ? 4 : 1);
 				if (this.bokeh && (DepthOfFieldDeprecated.BokehDestination.Foreground & this.bokehDestination) != (DepthOfFieldDeprecated.BokehDestination)0)
 				{
-					this.AddBokeh(this.bokehSource2, this.bokehSource, this.finalDefocus);
+					this.AddBokeh(this.bokehSource2, this.bokehSource, destination);
 				}
-				this.dofMaterial.SetTexture("_TapLowBackground", this.finalDefocus);
-				this.dofMaterial.SetTexture("_TapMedium", this.mediumRezWorkTexture);
-				Graphics.Blit(source, (!flag) ? destination : this.foregroundTexture, this.dofMaterial, (!this.visualize) ? 0 : 2);
-				if (flag)
-				{
-					Graphics.Blit(this.foregroundTexture, source, this.dofMaterial, 5);
-					this.Downsample(source, this.mediumRezWorkTexture);
-					this.BlurFg(this.mediumRezWorkTexture, this.mediumRezWorkTexture, DepthOfFieldDeprecated.DofBlurriness.Low, 2, this.maxBlurSpread);
-					if (this.bokeh && (DepthOfFieldDeprecated.BokehDestination.Foreground & this.bokehDestination) != (DepthOfFieldDeprecated.BokehDestination)0)
-					{
-						this.dofMaterial.SetVector("_Threshhold", new Vector4(this.bokehThresholdContrast * 0.5f, this.bokehThresholdLuminance, 0f, 0f));
-						Graphics.Blit(this.mediumRezWorkTexture, this.bokehSource2, this.dofMaterial, 11);
-						Graphics.Blit(this.mediumRezWorkTexture, this.lowRezWorkTexture);
-						this.BlurFg(this.lowRezWorkTexture, this.lowRezWorkTexture, this.bluriness, 1, this.maxBlurSpread * num);
-					}
-					else
-					{
-						this.BlurFg(this.mediumRezWorkTexture, this.lowRezWorkTexture, this.bluriness, 1, this.maxBlurSpread);
-					}
-					Graphics.Blit(this.lowRezWorkTexture, this.finalDefocus);
-					this.dofMaterial.SetTexture("_TapLowForeground", this.finalDefocus);
-					Graphics.Blit(source, destination, this.dofMaterial, (!this.visualize) ? 4 : 1);
-					if (this.bokeh && (DepthOfFieldDeprecated.BokehDestination.Foreground & this.bokehDestination) != (DepthOfFieldDeprecated.BokehDestination)0)
-					{
-						this.AddBokeh(this.bokehSource2, this.bokehSource, destination);
-					}
-				}
-				this.ReleaseTextures();
 			}
+			this.ReleaseTextures();
 		}
 
 		private void Blur(RenderTexture from, RenderTexture to, DepthOfFieldDeprecated.DofBlurriness iterations, int blurPass, float spread)

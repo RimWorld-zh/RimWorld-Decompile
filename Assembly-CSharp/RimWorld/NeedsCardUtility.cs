@@ -37,16 +37,11 @@ namespace RimWorld
 		public static Vector2 GetSize(Pawn pawn)
 		{
 			NeedsCardUtility.UpdateDisplayNeeds(pawn);
-			Vector2 result;
 			if (pawn.needs.mood != null)
 			{
-				result = NeedsCardUtility.FullSize;
+				return NeedsCardUtility.FullSize;
 			}
-			else
-			{
-				result = new Vector2(225f, (float)NeedsCardUtility.displayNeeds.Count * Mathf.Min(70f, NeedsCardUtility.FullSize.y / (float)NeedsCardUtility.displayNeeds.Count));
-			}
-			return result;
+			return new Vector2(225f, (float)NeedsCardUtility.displayNeeds.Count * Mathf.Min(70f, NeedsCardUtility.FullSize.y / (float)NeedsCardUtility.displayNeeds.Count));
 		}
 
 		public static void DoNeedsMoodAndThoughts(Rect rect, Pawn pawn, ref Vector2 thoughtScrollPosition)
@@ -109,25 +104,26 @@ namespace RimWorld
 
 		private static void DrawThoughtListing(Rect listingRect, Pawn pawn, ref Vector2 thoughtScrollPosition)
 		{
-			if (Event.current.type != EventType.Layout)
+			if (Event.current.type == EventType.Layout)
 			{
-				Text.Font = GameFont.Small;
-				PawnNeedsUIUtility.GetThoughtGroupsInDisplayOrder(pawn.needs.mood, NeedsCardUtility.thoughtGroupsPresent);
-				float height = (float)NeedsCardUtility.thoughtGroupsPresent.Count * 24f;
-				Widgets.BeginScrollView(listingRect, ref thoughtScrollPosition, new Rect(0f, 0f, listingRect.width - 16f, height), true);
-				Text.Anchor = TextAnchor.MiddleLeft;
-				float num = 0f;
-				for (int i = 0; i < NeedsCardUtility.thoughtGroupsPresent.Count; i++)
-				{
-					Rect rect = new Rect(0f, num, listingRect.width - 16f, 20f);
-					if (NeedsCardUtility.DrawThoughtGroup(rect, NeedsCardUtility.thoughtGroupsPresent[i], pawn))
-					{
-						num += 24f;
-					}
-				}
-				Widgets.EndScrollView();
-				Text.Anchor = TextAnchor.UpperLeft;
+				return;
 			}
+			Text.Font = GameFont.Small;
+			PawnNeedsUIUtility.GetThoughtGroupsInDisplayOrder(pawn.needs.mood, NeedsCardUtility.thoughtGroupsPresent);
+			float height = (float)NeedsCardUtility.thoughtGroupsPresent.Count * 24f;
+			Widgets.BeginScrollView(listingRect, ref thoughtScrollPosition, new Rect(0f, 0f, listingRect.width - 16f, height), true);
+			Text.Anchor = TextAnchor.MiddleLeft;
+			float num = 0f;
+			for (int i = 0; i < NeedsCardUtility.thoughtGroupsPresent.Count; i++)
+			{
+				Rect rect = new Rect(0f, num, listingRect.width - 16f, 20f);
+				if (NeedsCardUtility.DrawThoughtGroup(rect, NeedsCardUtility.thoughtGroupsPresent[i], pawn))
+				{
+					num += 24f;
+				}
+			}
+			Widgets.EndScrollView();
+			Text.Anchor = TextAnchor.UpperLeft;
 		}
 
 		private static bool DrawThoughtGroup(Rect rect, Thought group, Pawn pawn)

@@ -33,16 +33,11 @@ namespace RimWorld
 		{
 			get
 			{
-				string result;
 				if (!this.reason.NullOrEmpty())
 				{
-					result = string.Format(base.CurStage.label, this.reason).CapitalizeFirst();
+					return string.Format(base.CurStage.label, this.reason).CapitalizeFirst();
 				}
-				else
-				{
-					result = base.LabelCap;
-				}
-				return result;
+				return base.LabelCap;
 			}
 		}
 

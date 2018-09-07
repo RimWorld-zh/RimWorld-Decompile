@@ -1,7 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
 using UnityEngine;
-using UnityEngine.Profiling;
 using Verse;
 using Verse.Sound;
 
@@ -17,9 +16,9 @@ namespace RimWorld
 
 		private float flammabilityMax = 0.5f;
 
-		private int ticksUntilSmoke = 0;
+		private int ticksUntilSmoke;
 
-		private Sustainer sustainer = null;
+		private Sustainer sustainer;
 
 		private static List<Thing> flammableList = new List<Thing>();
 
@@ -77,19 +76,14 @@ namespace RimWorld
 		{
 			get
 			{
-				string result;
 				if (this.parent != null)
 				{
-					result = "FireOn".Translate(new object[]
+					return "FireOn".Translate(new object[]
 					{
 						this.parent.LabelCap
 					});
 				}
-				else
-				{
-					result = "Fire".Translate();
-				}
-				return result;
+				return "Fire".Translate();
 			}
 		}
 
@@ -195,7 +189,6 @@ namespace RimWorld
 				SoundInfo info = SoundInfo.InMap(new TargetInfo(base.Position, base.Map, false), MaintenanceType.PerTick);
 				this.sustainer = SustainerAggregatorUtility.AggregateOrSpawnSustainerFor(this, SoundDefOf.FireBurning, info);
 			}
-			Profiler.BeginSample("Spawn particles");
 			this.ticksUntilSmoke--;
 			if (this.ticksUntilSmoke <= 0)
 			{
@@ -205,8 +198,6 @@ namespace RimWorld
 			{
 				MoteMaker.ThrowMicroSparks(this.DrawPos, base.Map);
 			}
-			Profiler.EndSample();
-			Profiler.BeginSample("Spread");
 			if (this.fireSize > 1f)
 			{
 				this.ticksSinceSpread++;
@@ -216,7 +207,6 @@ namespace RimWorld
 					this.ticksSinceSpread = 0;
 				}
 			}
-			Profiler.EndSample();
 			if (this.IsHashIntervalTick(150))
 			{
 				this.DoComplexCalcs();
@@ -249,7 +239,6 @@ namespace RimWorld
 		private void DoComplexCalcs()
 		{
 			bool flag = false;
-			Profiler.BeginSample("Determine flammability");
 			Fire.flammableList.Clear();
 			this.flammabilityMax = 0f;
 			if (!base.Position.GetTerrain(base.Map).extinguishesFire)
@@ -289,109 +278,82 @@ namespace RimWorld
 					this.flammabilityMax = this.parent.GetStatValue(StatDefOf.Flammability, true);
 				}
 			}
-			Profiler.EndSample();
 			if (this.flammabilityMax < 0.01f)
 			{
 				this.Destroy(DestroyMode.Vanish);
+				return;
+			}
+			Thing thing2;
+			if (this.parent != null)
+			{
+				thing2 = this.parent;
+			}
+			else if (Fire.flammableList.Count > 0)
+			{
+				thing2 = Fire.flammableList.RandomElement<Thing>();
 			}
 			else
 			{
-				Profiler.BeginSample("Do damage");
-				Thing thing2;
-				if (this.parent != null)
+				thing2 = null;
+			}
+			if (thing2 != null && (this.fireSize >= 0.4f || thing2 == this.parent || thing2.def.category != ThingCategory.Pawn))
+			{
+				this.DoFireDamage(thing2);
+			}
+			if (base.Spawned)
+			{
+				float num = this.fireSize * 160f;
+				if (flag)
 				{
-					thing2 = this.parent;
+					num *= 0.15f;
 				}
-				else if (Fire.flammableList.Count > 0)
+				GenTemperature.PushHeat(base.Position, base.Map, num);
+				if (Rand.Value < 0.4f)
 				{
-					thing2 = Fire.flammableList.RandomElement<Thing>();
+					float radius = this.fireSize * 3f;
+					SnowUtility.AddSnowRadial(base.Position, base.Map, radius, -(this.fireSize * 0.1f));
 				}
-				else
+				this.fireSize += 0.00055f * this.flammabilityMax * 150f;
+				if (this.fireSize > 1.75f)
 				{
-					thing2 = null;
+					this.fireSize = 1.75f;
 				}
-				if (thing2 != null)
+				if (base.Map.weatherManager.RainRate > 0.01f && this.VulnerableToRain() && Rand.Value < 6f)
 				{
-					if (this.fireSize >= 0.4f || thing2 == this.parent || thing2.def.category != ThingCategory.Pawn)
-					{
-						this.DoFireDamage(thing2);
-					}
-				}
-				Profiler.EndSample();
-				if (base.Spawned)
-				{
-					Profiler.BeginSample("Room heat");
-					float num = this.fireSize * 160f;
-					if (flag)
-					{
-						num *= 0.15f;
-					}
-					GenTemperature.PushHeat(base.Position, base.Map, num);
-					Profiler.EndSample();
-					Profiler.BeginSample("Snow clear");
-					if (Rand.Value < 0.4f)
-					{
-						float radius = this.fireSize * 3f;
-						SnowUtility.AddSnowRadial(base.Position, base.Map, radius, -(this.fireSize * 0.1f));
-					}
-					Profiler.EndSample();
-					Profiler.BeginSample("Grow/extinguish");
-					this.fireSize += 0.00055f * this.flammabilityMax * 150f;
-					if (this.fireSize > 1.75f)
-					{
-						this.fireSize = 1.75f;
-					}
-					if (base.Map.weatherManager.RainRate > 0.01f)
-					{
-						if (this.VulnerableToRain())
-						{
-							if (Rand.Value < 6f)
-							{
-								base.TakeDamage(new DamageInfo(DamageDefOf.Extinguish, 10f, 0f, -1f, null, null, null, DamageInfo.SourceCategory.ThingOrUnknown, null));
-							}
-						}
-					}
-					Profiler.EndSample();
+					base.TakeDamage(new DamageInfo(DamageDefOf.Extinguish, 10f, 0f, -1f, null, null, null, DamageInfo.SourceCategory.ThingOrUnknown, null));
 				}
 			}
 		}
 
 		private void TryBurnFloor()
 		{
-			if (this.parent == null && base.Spawned)
+			if (this.parent != null || !base.Spawned)
 			{
-				if (base.Position.TerrainFlammableNow(base.Map))
-				{
-					base.Map.terrainGrid.Notify_TerrainBurned(base.Position);
-				}
+				return;
+			}
+			if (base.Position.TerrainFlammableNow(base.Map))
+			{
+				base.Map.terrainGrid.Notify_TerrainBurned(base.Position);
 			}
 		}
 
 		private bool VulnerableToRain()
 		{
-			bool result;
 			if (!base.Spawned)
 			{
-				result = false;
+				return false;
 			}
-			else
+			RoofDef roofDef = base.Map.roofGrid.RoofAt(base.Position);
+			if (roofDef == null)
 			{
-				RoofDef roofDef = base.Map.roofGrid.RoofAt(base.Position);
-				if (roofDef == null)
-				{
-					result = true;
-				}
-				else if (roofDef.isThickRoof)
-				{
-					result = false;
-				}
-				else
-				{
-					Thing edifice = base.Position.GetEdifice(base.Map);
-					result = (edifice != null && edifice.def.holdsRoof);
-				}
+				return true;
 			}
-			return result;
+			if (roofDef.isThickRoof)
+			{
+				return false;
+			}
+			Thing edifice = base.Position.GetEdifice(base.Map);
+			return edifice != null && edifice.def.holdsRoof;
 		}
 
 		private void DoFireDamage(Thing targ)
@@ -411,13 +373,10 @@ namespace RimWorld
 				DamageInfo dinfo = new DamageInfo(DamageDefOf.Flame, (float)num2, 0f, -1f, this, null, null, DamageInfo.SourceCategory.ThingOrUnknown, null);
 				dinfo.SetBodyRegion(BodyPartHeight.Undefined, BodyPartDepth.Outside);
 				targ.TakeDamage(dinfo).AssociateWithLog(battleLogEntry_DamageTaken);
-				if (pawn.apparel != null)
+				Apparel apparel;
+				if (pawn.apparel != null && pawn.apparel.WornApparel.TryRandomElement(out apparel))
 				{
-					Apparel apparel;
-					if (pawn.apparel.WornApparel.TryRandomElement(out apparel))
-					{
-						apparel.TakeDamage(new DamageInfo(DamageDefOf.Flame, (float)num2, 0f, -1f, this, null, null, DamageInfo.SourceCategory.ThingOrUnknown, null));
-					}
+					apparel.TakeDamage(new DamageInfo(DamageDefOf.Flame, (float)num2, 0f, -1f, this, null, null, DamageInfo.SourceCategory.ThingOrUnknown, null));
 				}
 			}
 			else
@@ -440,24 +399,26 @@ namespace RimWorld
 				intVec = base.Position + GenRadial.ManualRadialPattern[Rand.RangeInclusive(10, 20)];
 				flag = false;
 			}
-			if (intVec.InBounds(base.Map))
+			if (!intVec.InBounds(base.Map))
 			{
-				if (Rand.Chance(FireUtility.ChanceToStartFireIn(intVec, base.Map)))
+				return;
+			}
+			if (Rand.Chance(FireUtility.ChanceToStartFireIn(intVec, base.Map)))
+			{
+				if (!flag)
 				{
-					if (!flag)
+					CellRect startRect = CellRect.SingleCell(base.Position);
+					CellRect endRect = CellRect.SingleCell(intVec);
+					if (!GenSight.LineOfSight(base.Position, intVec, base.Map, startRect, endRect, null))
 					{
-						CellRect startRect = CellRect.SingleCell(base.Position);
-						CellRect endRect = CellRect.SingleCell(intVec);
-						if (GenSight.LineOfSight(base.Position, intVec, base.Map, startRect, endRect, null))
-						{
-							Spark spark = (Spark)GenSpawn.Spawn(ThingDefOf.Spark, base.Position, base.Map, WipeMode.Vanish);
-							spark.Launch(this, intVec, intVec, ProjectileHitFlags.All, null);
-						}
+						return;
 					}
-					else
-					{
-						FireUtility.TryStartFireIn(intVec, base.Map, 0.1f);
-					}
+					Spark spark = (Spark)GenSpawn.Spawn(ThingDefOf.Spark, base.Position, base.Map, WipeMode.Vanish);
+					spark.Launch(this, intVec, intVec, ProjectileHitFlags.All, null);
+				}
+				else
+				{
+					FireUtility.TryStartFireIn(intVec, base.Map, 0.1f);
 				}
 			}
 		}

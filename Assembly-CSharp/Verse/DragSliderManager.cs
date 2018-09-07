@@ -5,7 +5,7 @@ namespace Verse
 {
 	public static class DragSliderManager
 	{
-		private static bool dragging = false;
+		private static bool dragging;
 
 		private static float rootX;
 
@@ -22,19 +22,14 @@ namespace Verse
 
 		public static bool DragSlider(Rect rect, float rateFactor, DragSliderCallback newStartMethod, DragSliderCallback newDraggingUpdateMethod, DragSliderCallback newCompletedMethod)
 		{
-			bool result;
 			if (Event.current.type == EventType.MouseDown && Event.current.button == 0 && Mouse.IsOver(rect))
 			{
 				DragSliderManager.lastRateFactor = rateFactor;
 				newStartMethod(0f, rateFactor);
 				DragSliderManager.StartDragSliding(newDraggingUpdateMethod, newCompletedMethod);
-				result = true;
+				return true;
 			}
-			else
-			{
-				result = false;
-			}
-			return result;
+			return false;
 		}
 
 		private static void StartDragSliding(DragSliderCallback newDraggingUpdateMethod, DragSliderCallback newCompletedMethod)
@@ -52,27 +47,21 @@ namespace Verse
 
 		public static void DragSlidersOnGUI()
 		{
-			if (DragSliderManager.dragging)
+			if (DragSliderManager.dragging && Event.current.type == EventType.MouseUp && Event.current.button == 0)
 			{
-				if (Event.current.type == EventType.MouseUp && Event.current.button == 0)
+				DragSliderManager.dragging = false;
+				if (DragSliderManager.completedMethod != null)
 				{
-					DragSliderManager.dragging = false;
-					if (DragSliderManager.completedMethod != null)
-					{
-						DragSliderManager.completedMethod(DragSliderManager.CurMouseOffset(), DragSliderManager.lastRateFactor);
-					}
+					DragSliderManager.completedMethod(DragSliderManager.CurMouseOffset(), DragSliderManager.lastRateFactor);
 				}
 			}
 		}
 
 		public static void DragSlidersUpdate()
 		{
-			if (DragSliderManager.dragging)
+			if (DragSliderManager.dragging && DragSliderManager.draggingUpdateMethod != null)
 			{
-				if (DragSliderManager.draggingUpdateMethod != null)
-				{
-					DragSliderManager.draggingUpdateMethod(DragSliderManager.CurMouseOffset(), DragSliderManager.lastRateFactor);
-				}
+				DragSliderManager.draggingUpdateMethod(DragSliderManager.CurMouseOffset(), DragSliderManager.lastRateFactor);
 			}
 		}
 

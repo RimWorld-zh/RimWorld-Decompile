@@ -31,7 +31,7 @@ namespace RimWorld
 				float num = this.commonality;
 				if (this.commonalityMultFromPopulationIntent != null)
 				{
-					num *= this.commonalityMultFromPopulationIntent.Evaluate(Find.Storyteller.intenderPopulation.PopulationIntent);
+					num *= this.commonalityMultFromPopulationIntent.Evaluate(StorytellerUtilityPopulation.PopulationIntent);
 				}
 				return num;
 			}
@@ -48,7 +48,7 @@ namespace RimWorld
 
 		public override IEnumerable<string> ConfigErrors()
 		{
-			foreach (string err in this.<ConfigErrors>__BaseCallProxy0())
+			foreach (string err in base.ConfigErrors())
 			{
 				yield return err;
 			}
@@ -76,27 +76,22 @@ namespace RimWorld
 
 		public PriceType PriceTypeFor(ThingDef thingDef, TradeAction action)
 		{
-			PriceType result;
 			if (thingDef == ThingDefOf.Silver)
 			{
-				result = PriceType.Undefined;
+				return PriceType.Undefined;
 			}
-			else
+			if (action == TradeAction.PlayerBuys)
 			{
-				if (action == TradeAction.PlayerBuys)
+				for (int i = 0; i < this.stockGenerators.Count; i++)
 				{
-					for (int i = 0; i < this.stockGenerators.Count; i++)
+					PriceType result;
+					if (this.stockGenerators[i].TryGetPriceType(thingDef, action, out result))
 					{
-						PriceType result2;
-						if (this.stockGenerators[i].TryGetPriceType(thingDef, action, out result2))
-						{
-							return result2;
-						}
+						return result;
 					}
 				}
-				result = PriceType.Normal;
 			}
-			return result;
+			return PriceType.Normal;
 		}
 
 		[DebuggerHidden]
@@ -148,7 +143,7 @@ namespace RimWorld
 				case 1u:
 					break;
 				case 2u:
-					goto IL_D2;
+					goto IL_CD;
 				default:
 					return false;
 				}
@@ -183,7 +178,7 @@ namespace RimWorld
 				num = 4294967293u;
 				try
 				{
-					IL_D2:
+					IL_CD:
 					switch (num)
 					{
 					case 2u:

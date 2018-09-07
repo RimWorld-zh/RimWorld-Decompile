@@ -235,16 +235,11 @@ namespace RimWorld
 
 		private static float GetListPriority(BodyPartRecord rec)
 		{
-			float result;
 			if (rec == null)
 			{
-				result = 9999999f;
+				return 9999999f;
 			}
-			else
-			{
-				result = (float)((int)rec.height * 10000) + rec.coverageAbsWithChildren;
-			}
-			return result;
+			return (float)((int)rec.height * 10000) + rec.coverageAbsWithChildren;
 		}
 
 		private static IEnumerable<Hediff> VisibleHediffs(Pawn pawn, bool showBloodLoss)
@@ -346,51 +341,52 @@ namespace RimWorld
 				Action action = delegate()
 				{
 					Pawn pawn2 = thingForMedBills as Pawn;
-					if (pawn2 != null)
+					if (pawn2 == null)
 					{
-						Bill_Medical bill_Medical = new Bill_Medical(recipe);
-						pawn2.BillStack.AddBill(bill_Medical);
-						bill_Medical.Part = part;
-						if (recipe.conceptLearned != null)
+						return;
+					}
+					Bill_Medical bill_Medical = new Bill_Medical(recipe);
+					pawn2.BillStack.AddBill(bill_Medical);
+					bill_Medical.Part = part;
+					if (recipe.conceptLearned != null)
+					{
+						PlayerKnowledgeDatabase.KnowledgeDemonstrated(recipe.conceptLearned, KnowledgeAmount.Total);
+					}
+					Map map = thingForMedBills.Map;
+					if (!map.mapPawns.FreeColonists.Any((Pawn col) => recipe.PawnSatisfiesSkillRequirements(col)))
+					{
+						Bill.CreateNoPawnsWithSkillDialog(recipe);
+					}
+					if (!pawn2.InBed() && pawn2.RaceProps.IsFlesh)
+					{
+						if (pawn2.RaceProps.Humanlike)
 						{
-							PlayerKnowledgeDatabase.KnowledgeDemonstrated(recipe.conceptLearned, KnowledgeAmount.Total);
-						}
-						Map map = thingForMedBills.Map;
-						if (!map.mapPawns.FreeColonists.Any((Pawn col) => recipe.PawnSatisfiesSkillRequirements(col)))
-						{
-							Bill.CreateNoPawnsWithSkillDialog(recipe);
-						}
-						if (!pawn2.InBed() && pawn2.RaceProps.IsFlesh)
-						{
-							if (pawn2.RaceProps.Humanlike)
+							if (!map.listerBuildings.allBuildingsColonist.Any((Building x) => x is Building_Bed && RestUtility.CanUseBedEver(pawn, x.def) && ((Building_Bed)x).Medical))
 							{
-								if (!map.listerBuildings.allBuildingsColonist.Any((Building x) => x is Building_Bed && RestUtility.CanUseBedEver(pawn, x.def) && ((Building_Bed)x).Medical))
-								{
-									Messages.Message("MessageNoMedicalBeds".Translate(), pawn2, MessageTypeDefOf.CautionInput, false);
-								}
-							}
-							else if (!map.listerBuildings.allBuildingsColonist.Any((Building x) => x is Building_Bed && RestUtility.CanUseBedEver(pawn, x.def)))
-							{
-								Messages.Message("MessageNoAnimalBeds".Translate(), pawn2, MessageTypeDefOf.CautionInput, false);
+								Messages.Message("MessageNoMedicalBeds".Translate(), pawn2, MessageTypeDefOf.CautionInput, false);
 							}
 						}
-						if (pawn2.Faction != null && !pawn2.Faction.def.hidden && !pawn2.Faction.HostileTo(Faction.OfPlayer) && recipe.Worker.IsViolationOnPawn(pawn2, part, Faction.OfPlayer))
+						else if (!map.listerBuildings.allBuildingsColonist.Any((Building x) => x is Building_Bed && RestUtility.CanUseBedEver(pawn, x.def)))
 						{
-							Messages.Message("MessageMedicalOperationWillAngerFaction".Translate(new object[]
-							{
-								pawn2.Faction
-							}), pawn2, MessageTypeDefOf.CautionInput, false);
+							Messages.Message("MessageNoAnimalBeds".Translate(), pawn2, MessageTypeDefOf.CautionInput, false);
 						}
-						ThingDef minRequiredMedicine = HealthCardUtility.GetMinRequiredMedicine(recipe);
-						if (minRequiredMedicine != null && pawn2.playerSettings != null && !pawn2.playerSettings.medCare.AllowsMedicine(minRequiredMedicine))
+					}
+					if (pawn2.Faction != null && !pawn2.Faction.def.hidden && !pawn2.Faction.HostileTo(Faction.OfPlayer) && recipe.Worker.IsViolationOnPawn(pawn2, part, Faction.OfPlayer))
+					{
+						Messages.Message("MessageMedicalOperationWillAngerFaction".Translate(new object[]
 						{
-							Messages.Message("MessageTooLowMedCare".Translate(new object[]
-							{
-								minRequiredMedicine.label,
-								pawn2.LabelShort,
-								pawn2.playerSettings.medCare.GetLabel()
-							}), pawn2, MessageTypeDefOf.CautionInput, false);
-						}
+							pawn2.Faction
+						}), pawn2, MessageTypeDefOf.CautionInput, false);
+					}
+					ThingDef minRequiredMedicine = HealthCardUtility.GetMinRequiredMedicine(recipe);
+					if (minRequiredMedicine != null && pawn2.playerSettings != null && !pawn2.playerSettings.medCare.AllowsMedicine(minRequiredMedicine))
+					{
+						Messages.Message("MessageTooLowMedCare".Translate(new object[]
+						{
+							minRequiredMedicine.label,
+							pawn2.LabelShort,
+							pawn2.playerSettings.medCare.GetLabel()
+						}), pawn2, MessageTypeDefOf.CautionInput, false);
 					}
 				};
 				floatMenuOption = new FloatMenuOption(text, action, MenuOptionPriority.Default, null, null, 0f, null, null);
@@ -438,10 +434,10 @@ namespace RimWorld
 			Text.Font = GameFont.Tiny;
 			Text.Anchor = TextAnchor.UpperLeft;
 			GUI.color = new Color(0.9f, 0.9f, 0.9f);
-			string text = "";
+			string text = string.Empty;
 			if (pawn.gender != Gender.None)
 			{
-				text = pawn.gender.GetLabel() + " ";
+				text = pawn.GetGenderLabel() + " ";
 			}
 			text = text + pawn.def.label + ", " + "AgeIndicator".Translate(new object[]
 			{
@@ -533,7 +529,7 @@ namespace RimWorld
 					{
 						PawnCapacityDef activityLocal = pawnCapacityDef;
 						Pair<string, Color> efficiencyLabel = HealthCardUtility.GetEfficiencyLabel(pawn, pawnCapacityDef);
-						Func<string> textGetter = () => (!pawn.Dead) ? HealthCardUtility.GetPawnCapacityTip(pawn, activityLocal) : "";
+						Func<string> textGetter = () => (!pawn.Dead) ? HealthCardUtility.GetPawnCapacityTip(pawn, activityLocal) : string.Empty;
 						curY = HealthCardUtility.DrawLeftRow(leftRect, curY, pawnCapacityDef.GetLabelFor(pawn.RaceProps.IsFlesh, pawn.RaceProps.Humanlike).CapitalizeFirst(), efficiencyLabel.First, efficiencyLabel.Second, new TipSignal(textGetter, pawn.thingIDNumber ^ (int)pawnCapacityDef.index));
 					}
 				}
@@ -764,18 +760,21 @@ namespace RimWorld
 		{
 			LogEntry combatLogEntry;
 			string text;
-			if (HealthCardUtility.GetCombatLogInfo(diffs, out text, out combatLogEntry) && combatLogEntry != null)
+			if (!HealthCardUtility.GetCombatLogInfo(diffs, out text, out combatLogEntry) || combatLogEntry == null)
 			{
-				if (Find.BattleLog.Battles.Any((Battle b) => b.Concerns(pawn) && b.Entries.Any((LogEntry e) => e == combatLogEntry)))
-				{
-					ITab_Pawn_Log tab_Pawn_Log = InspectPaneUtility.OpenTab(typeof(ITab_Pawn_Log)) as ITab_Pawn_Log;
-					if (tab_Pawn_Log != null)
-					{
-						tab_Pawn_Log.SeekTo(combatLogEntry);
-						tab_Pawn_Log.Highlight(combatLogEntry);
-					}
-				}
+				return;
 			}
+			if (!Find.BattleLog.Battles.Any((Battle b) => b.Concerns(pawn) && b.Entries.Any((LogEntry e) => e == combatLogEntry)))
+			{
+				return;
+			}
+			ITab_Pawn_Log tab_Pawn_Log = InspectPaneUtility.OpenTab(typeof(ITab_Pawn_Log)) as ITab_Pawn_Log;
+			if (tab_Pawn_Log == null)
+			{
+				return;
+			}
+			tab_Pawn_Log.SeekTo(combatLogEntry);
+			tab_Pawn_Log.Highlight(combatLogEntry);
 		}
 
 		private static bool GetCombatLogInfo(IEnumerable<Hediff> diffs, out string combatLogText, out LogEntry combatLogEntry)
@@ -868,7 +867,7 @@ namespace RimWorld
 				list.Add(new FloatMenuOption("IsSolid", delegate()
 				{
 					StringBuilder stringBuilder = new StringBuilder();
-					foreach (BodyPartRecord bodyPartRecord in pawn.health.hediffSet.GetNotMissingParts(BodyPartHeight.Undefined, BodyPartDepth.Undefined, null))
+					foreach (BodyPartRecord bodyPartRecord in pawn.health.hediffSet.GetNotMissingParts(BodyPartHeight.Undefined, BodyPartDepth.Undefined, null, null))
 					{
 						stringBuilder.AppendLine(bodyPartRecord.LabelCap + " " + bodyPartRecord.def.IsSolid(bodyPartRecord, pawn.health.hediffSet.hediffs));
 					}
@@ -877,7 +876,7 @@ namespace RimWorld
 				list.Add(new FloatMenuOption("IsSkinCovered", delegate()
 				{
 					StringBuilder stringBuilder = new StringBuilder();
-					foreach (BodyPartRecord bodyPartRecord in pawn.health.hediffSet.GetNotMissingParts(BodyPartHeight.Undefined, BodyPartDepth.Undefined, null))
+					foreach (BodyPartRecord bodyPartRecord in pawn.health.hediffSet.GetNotMissingParts(BodyPartHeight.Undefined, BodyPartDepth.Undefined, null, null))
 					{
 						stringBuilder.AppendLine(bodyPartRecord.LabelCap + " " + bodyPartRecord.def.IsSkinCovered(bodyPartRecord, pawn.health.hediffSet));
 					}
@@ -886,7 +885,7 @@ namespace RimWorld
 				list.Add(new FloatMenuOption("does have added parts", delegate()
 				{
 					StringBuilder stringBuilder = new StringBuilder();
-					foreach (BodyPartRecord bodyPartRecord in pawn.health.hediffSet.GetNotMissingParts(BodyPartHeight.Undefined, BodyPartDepth.Undefined, null))
+					foreach (BodyPartRecord bodyPartRecord in pawn.health.hediffSet.GetNotMissingParts(BodyPartHeight.Undefined, BodyPartDepth.Undefined, null, null))
 					{
 						stringBuilder.AppendLine(bodyPartRecord.LabelCap + " " + pawn.health.hediffSet.PartOrAnyAncestorHasDirectlyAddedParts(bodyPartRecord));
 					}
@@ -895,7 +894,7 @@ namespace RimWorld
 				list.Add(new FloatMenuOption("GetNotMissingParts", delegate()
 				{
 					StringBuilder stringBuilder = new StringBuilder();
-					foreach (BodyPartRecord bodyPartRecord in pawn.health.hediffSet.GetNotMissingParts(BodyPartHeight.Undefined, BodyPartDepth.Undefined, null))
+					foreach (BodyPartRecord bodyPartRecord in pawn.health.hediffSet.GetNotMissingParts(BodyPartHeight.Undefined, BodyPartDepth.Undefined, null, null))
 					{
 						stringBuilder.AppendLine(bodyPartRecord.LabelCap);
 					}
@@ -1038,8 +1037,8 @@ namespace RimWorld
 		public static Pair<string, Color> GetEfficiencyLabel(Pawn pawn, PawnCapacityDef activity)
 		{
 			float level = pawn.health.capacities.GetLevel(activity);
+			string first = string.Empty;
 			Color second = Color.white;
-			string first;
 			if (level <= 0f)
 			{
 				first = "None".Translate();
@@ -1076,8 +1075,8 @@ namespace RimWorld
 		public static Pair<string, Color> GetPainLabel(Pawn pawn)
 		{
 			float painTotal = pawn.health.hediffSet.PainTotal;
+			string first = string.Empty;
 			Color second = Color.white;
-			string first;
 			if (Mathf.Approximately(painTotal, 0f))
 			{
 				first = "NoPain".Translate();
@@ -1469,9 +1468,9 @@ namespace RimWorld
 							}
 						}
 					}
-					goto IL_230;
+					goto IL_223;
 				case 3u:
-					goto IL_1BE;
+					goto IL_1B4;
 				default:
 					return false;
 				}
@@ -1493,7 +1492,7 @@ namespace RimWorld
 				Block_6:
 				try
 				{
-					IL_1BE:
+					IL_1B4:
 					switch (num)
 					{
 					}
@@ -1516,7 +1515,7 @@ namespace RimWorld
 						((IDisposable)enumerator2).Dispose();
 					}
 				}
-				IL_230:
+				IL_223:
 				this.$PC = -1;
 				return false;
 			}
@@ -1690,51 +1689,52 @@ namespace RimWorld
 			internal void <>m__0()
 			{
 				Pawn pawn = this.thingForMedBills as Pawn;
-				if (pawn != null)
+				if (pawn == null)
 				{
-					Bill_Medical bill_Medical = new Bill_Medical(this.recipe);
-					pawn.BillStack.AddBill(bill_Medical);
-					bill_Medical.Part = this.part;
-					if (this.recipe.conceptLearned != null)
+					return;
+				}
+				Bill_Medical bill_Medical = new Bill_Medical(this.recipe);
+				pawn.BillStack.AddBill(bill_Medical);
+				bill_Medical.Part = this.part;
+				if (this.recipe.conceptLearned != null)
+				{
+					PlayerKnowledgeDatabase.KnowledgeDemonstrated(this.recipe.conceptLearned, KnowledgeAmount.Total);
+				}
+				Map map = this.thingForMedBills.Map;
+				if (!map.mapPawns.FreeColonists.Any((Pawn col) => this.recipe.PawnSatisfiesSkillRequirements(col)))
+				{
+					Bill.CreateNoPawnsWithSkillDialog(this.recipe);
+				}
+				if (!pawn.InBed() && pawn.RaceProps.IsFlesh)
+				{
+					if (pawn.RaceProps.Humanlike)
 					{
-						PlayerKnowledgeDatabase.KnowledgeDemonstrated(this.recipe.conceptLearned, KnowledgeAmount.Total);
-					}
-					Map map = this.thingForMedBills.Map;
-					if (!map.mapPawns.FreeColonists.Any((Pawn col) => this.recipe.PawnSatisfiesSkillRequirements(col)))
-					{
-						Bill.CreateNoPawnsWithSkillDialog(this.recipe);
-					}
-					if (!pawn.InBed() && pawn.RaceProps.IsFlesh)
-					{
-						if (pawn.RaceProps.Humanlike)
+						if (!map.listerBuildings.allBuildingsColonist.Any((Building x) => x is Building_Bed && RestUtility.CanUseBedEver(this.pawn, x.def) && ((Building_Bed)x).Medical))
 						{
-							if (!map.listerBuildings.allBuildingsColonist.Any((Building x) => x is Building_Bed && RestUtility.CanUseBedEver(this.pawn, x.def) && ((Building_Bed)x).Medical))
-							{
-								Messages.Message("MessageNoMedicalBeds".Translate(), pawn, MessageTypeDefOf.CautionInput, false);
-							}
-						}
-						else if (!map.listerBuildings.allBuildingsColonist.Any((Building x) => x is Building_Bed && RestUtility.CanUseBedEver(this.pawn, x.def)))
-						{
-							Messages.Message("MessageNoAnimalBeds".Translate(), pawn, MessageTypeDefOf.CautionInput, false);
+							Messages.Message("MessageNoMedicalBeds".Translate(), pawn, MessageTypeDefOf.CautionInput, false);
 						}
 					}
-					if (pawn.Faction != null && !pawn.Faction.def.hidden && !pawn.Faction.HostileTo(Faction.OfPlayer) && this.recipe.Worker.IsViolationOnPawn(pawn, this.part, Faction.OfPlayer))
+					else if (!map.listerBuildings.allBuildingsColonist.Any((Building x) => x is Building_Bed && RestUtility.CanUseBedEver(this.pawn, x.def)))
 					{
-						Messages.Message("MessageMedicalOperationWillAngerFaction".Translate(new object[]
-						{
-							pawn.Faction
-						}), pawn, MessageTypeDefOf.CautionInput, false);
+						Messages.Message("MessageNoAnimalBeds".Translate(), pawn, MessageTypeDefOf.CautionInput, false);
 					}
-					ThingDef minRequiredMedicine = HealthCardUtility.GetMinRequiredMedicine(this.recipe);
-					if (minRequiredMedicine != null && pawn.playerSettings != null && !pawn.playerSettings.medCare.AllowsMedicine(minRequiredMedicine))
+				}
+				if (pawn.Faction != null && !pawn.Faction.def.hidden && !pawn.Faction.HostileTo(Faction.OfPlayer) && this.recipe.Worker.IsViolationOnPawn(pawn, this.part, Faction.OfPlayer))
+				{
+					Messages.Message("MessageMedicalOperationWillAngerFaction".Translate(new object[]
 					{
-						Messages.Message("MessageTooLowMedCare".Translate(new object[]
-						{
-							minRequiredMedicine.label,
-							pawn.LabelShort,
-							pawn.playerSettings.medCare.GetLabel()
-						}), pawn, MessageTypeDefOf.CautionInput, false);
-					}
+						pawn.Faction
+					}), pawn, MessageTypeDefOf.CautionInput, false);
+				}
+				ThingDef minRequiredMedicine = HealthCardUtility.GetMinRequiredMedicine(this.recipe);
+				if (minRequiredMedicine != null && pawn.playerSettings != null && !pawn.playerSettings.medCare.AllowsMedicine(minRequiredMedicine))
+				{
+					Messages.Message("MessageTooLowMedCare".Translate(new object[]
+					{
+						minRequiredMedicine.label,
+						pawn.LabelShort,
+						pawn.playerSettings.medCare.GetLabel()
+					}), pawn, MessageTypeDefOf.CautionInput, false);
 				}
 			}
 
@@ -1787,7 +1787,7 @@ namespace RimWorld
 
 			internal string <>m__0()
 			{
-				return (!this.<>f__ref$5.pawn.Dead) ? HealthCardUtility.GetPawnCapacityTip(this.<>f__ref$5.pawn, this.activityLocal) : "";
+				return (!this.<>f__ref$5.pawn.Dead) ? HealthCardUtility.GetPawnCapacityTip(this.<>f__ref$5.pawn, this.activityLocal) : string.Empty;
 			}
 		}
 
@@ -1898,7 +1898,7 @@ namespace RimWorld
 			internal void <>m__4()
 			{
 				StringBuilder stringBuilder = new StringBuilder();
-				foreach (BodyPartRecord bodyPartRecord in this.pawn.health.hediffSet.GetNotMissingParts(BodyPartHeight.Undefined, BodyPartDepth.Undefined, null))
+				foreach (BodyPartRecord bodyPartRecord in this.pawn.health.hediffSet.GetNotMissingParts(BodyPartHeight.Undefined, BodyPartDepth.Undefined, null, null))
 				{
 					stringBuilder.AppendLine(bodyPartRecord.LabelCap + " " + bodyPartRecord.def.IsSolid(bodyPartRecord, this.pawn.health.hediffSet.hediffs));
 				}
@@ -1908,7 +1908,7 @@ namespace RimWorld
 			internal void <>m__5()
 			{
 				StringBuilder stringBuilder = new StringBuilder();
-				foreach (BodyPartRecord bodyPartRecord in this.pawn.health.hediffSet.GetNotMissingParts(BodyPartHeight.Undefined, BodyPartDepth.Undefined, null))
+				foreach (BodyPartRecord bodyPartRecord in this.pawn.health.hediffSet.GetNotMissingParts(BodyPartHeight.Undefined, BodyPartDepth.Undefined, null, null))
 				{
 					stringBuilder.AppendLine(bodyPartRecord.LabelCap + " " + bodyPartRecord.def.IsSkinCovered(bodyPartRecord, this.pawn.health.hediffSet));
 				}
@@ -1918,7 +1918,7 @@ namespace RimWorld
 			internal void <>m__6()
 			{
 				StringBuilder stringBuilder = new StringBuilder();
-				foreach (BodyPartRecord bodyPartRecord in this.pawn.health.hediffSet.GetNotMissingParts(BodyPartHeight.Undefined, BodyPartDepth.Undefined, null))
+				foreach (BodyPartRecord bodyPartRecord in this.pawn.health.hediffSet.GetNotMissingParts(BodyPartHeight.Undefined, BodyPartDepth.Undefined, null, null))
 				{
 					stringBuilder.AppendLine(bodyPartRecord.LabelCap + " " + this.pawn.health.hediffSet.PartOrAnyAncestorHasDirectlyAddedParts(bodyPartRecord));
 				}
@@ -1928,7 +1928,7 @@ namespace RimWorld
 			internal void <>m__7()
 			{
 				StringBuilder stringBuilder = new StringBuilder();
-				foreach (BodyPartRecord bodyPartRecord in this.pawn.health.hediffSet.GetNotMissingParts(BodyPartHeight.Undefined, BodyPartDepth.Undefined, null))
+				foreach (BodyPartRecord bodyPartRecord in this.pawn.health.hediffSet.GetNotMissingParts(BodyPartHeight.Undefined, BodyPartDepth.Undefined, null, null))
 				{
 					stringBuilder.AppendLine(bodyPartRecord.LabelCap);
 				}

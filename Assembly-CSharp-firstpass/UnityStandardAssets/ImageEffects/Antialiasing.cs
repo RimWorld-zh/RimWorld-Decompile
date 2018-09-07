@@ -10,7 +10,7 @@ namespace UnityStandardAssets.ImageEffects
 	{
 		public AAMode mode = AAMode.FXAA3Console;
 
-		public bool showGeneratedNormals = false;
+		public bool showGeneratedNormals;
 
 		public float offsetScale = 0.2f;
 
@@ -22,7 +22,7 @@ namespace UnityStandardAssets.ImageEffects
 
 		public float edgeSharpness = 4f;
 
-		public bool dlaaSharp = false;
+		public bool dlaaSharp;
 
 		public Shader ssaaShader;
 
@@ -112,8 +112,9 @@ namespace UnityStandardAssets.ImageEffects
 			if (!this.CheckResources())
 			{
 				Graphics.Blit(source, destination);
+				return;
 			}
-			else if (this.mode == AAMode.FXAA3Console && this.materialFXAAIII != null)
+			if (this.mode == AAMode.FXAA3Console && this.materialFXAAIII != null)
 			{
 				this.materialFXAAIII.SetFloat("_EdgeThresholdMin", this.edgeThresholdMin);
 				this.materialFXAAIII.SetFloat("_EdgeThreshold", this.edgeThreshold);

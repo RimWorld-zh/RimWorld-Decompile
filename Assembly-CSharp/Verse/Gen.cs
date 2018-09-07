@@ -15,7 +15,7 @@ namespace Verse
 {
 	public static class Gen
 	{
-		private static MethodInfo s_memberwiseClone = null;
+		private static MethodInfo s_memberwiseClone;
 
 		[CompilerGenerated]
 		private static Func<IntVec3, int> <>f__am$cache0;
@@ -86,100 +86,94 @@ namespace Verse
 
 		public static string ToStringSafe<T>(this T obj)
 		{
-			string result;
 			if (obj == null)
 			{
-				result = "null";
+				return "null";
 			}
-			else
+			string result;
+			try
 			{
+				result = obj.ToString();
+			}
+			catch (Exception arg)
+			{
+				int num = 0;
+				bool flag = false;
 				try
 				{
-					result = obj.ToString();
+					num = obj.GetHashCode();
+					flag = true;
 				}
-				catch (Exception arg)
+				catch
 				{
-					int num = 0;
-					bool flag = false;
-					try
-					{
-						num = obj.GetHashCode();
-						flag = true;
-					}
-					catch
-					{
-					}
-					if (flag)
-					{
-						Log.ErrorOnce("Exception in ToString(): " + arg, num ^ 1857461521, false);
-					}
-					else
-					{
-						Log.Error("Exception in ToString(): " + arg, false);
-					}
-					result = "error";
 				}
+				if (flag)
+				{
+					Log.ErrorOnce("Exception in ToString(): " + arg, num ^ 1857461521, false);
+				}
+				else
+				{
+					Log.Error("Exception in ToString(): " + arg, false);
+				}
+				result = "error";
 			}
 			return result;
 		}
 
 		public static string ToStringSafeEnumerable(this IEnumerable enumerable)
 		{
-			string result;
 			if (enumerable == null)
 			{
-				result = "null";
+				return "null";
 			}
-			else
+			string result;
+			try
 			{
+				string text = string.Empty;
+				IEnumerator enumerator = enumerable.GetEnumerator();
 				try
 				{
-					string text = "";
-					IEnumerator enumerator = enumerable.GetEnumerator();
-					try
+					while (enumerator.MoveNext())
 					{
-						while (enumerator.MoveNext())
+						object obj = enumerator.Current;
+						if (text.Length > 0)
 						{
-							object obj = enumerator.Current;
-							if (text.Length > 0)
-							{
-								text += ", ";
-							}
-							text += obj.ToStringSafe<object>();
+							text += ", ";
 						}
+						text += obj.ToStringSafe<object>();
 					}
-					finally
-					{
-						IDisposable disposable;
-						if ((disposable = (enumerator as IDisposable)) != null)
-						{
-							disposable.Dispose();
-						}
-					}
-					result = text;
 				}
-				catch (Exception arg)
+				finally
 				{
-					int num = 0;
-					bool flag = false;
-					try
+					IDisposable disposable;
+					if ((disposable = (enumerator as IDisposable)) != null)
 					{
-						num = enumerable.GetHashCode();
-						flag = true;
+						disposable.Dispose();
 					}
-					catch
-					{
-					}
-					if (flag)
-					{
-						Log.ErrorOnce("Exception while enumerating: " + arg, num ^ 581736153, false);
-					}
-					else
-					{
-						Log.Error("Exception while enumerating: " + arg, false);
-					}
-					result = "error";
 				}
+				result = text;
+			}
+			catch (Exception arg)
+			{
+				int num = 0;
+				bool flag = false;
+				try
+				{
+					num = enumerable.GetHashCode();
+					flag = true;
+				}
+				catch
+				{
+				}
+				if (flag)
+				{
+					Log.ErrorOnce("Exception while enumerating: " + arg, num ^ 581736153, false);
+				}
+				else
+				{
+					Log.Error("Exception while enumerating: " + arg, false);
+				}
+				result = "error";
 			}
 			return result;
 		}
@@ -223,6 +217,17 @@ namespace Verse
 		public static int HashCombineInt(int seed, int value)
 		{
 			return (int)((long)seed ^ (long)value + (long)((ulong)-1640531527) + (long)((long)seed << 6) + (long)(seed >> 2));
+		}
+
+		public static int HashCombineInt(int v1, int v2, int v3, int v4)
+		{
+			int num = 352654597;
+			int num2 = num;
+			num = ((num << 5) + num + (num >> 27) ^ v1);
+			num2 = ((num2 << 5) + num2 + (num2 >> 27) ^ v2);
+			num = ((num << 5) + num + (num >> 27) ^ v3);
+			num2 = ((num2 << 5) + num2 + (num2 >> 27) ^ v4);
+			return num + num2 * 1566083941;
 		}
 
 		public static int HashOffset(this int baseInt)
@@ -278,19 +283,20 @@ namespace Verse
 
 		public static void ReplaceNullFields<T>(ref T replaceIn, T replaceWith)
 		{
-			if (replaceIn != null && replaceWith != null)
+			if (replaceIn == null || replaceWith == null)
 			{
-				foreach (FieldInfo fieldInfo in typeof(T).GetFields(BindingFlags.Instance | BindingFlags.Public | BindingFlags.NonPublic))
+				return;
+			}
+			foreach (FieldInfo fieldInfo in typeof(T).GetFields(BindingFlags.Instance | BindingFlags.Public | BindingFlags.NonPublic))
+			{
+				if (fieldInfo.GetValue(replaceIn) == null)
 				{
-					if (fieldInfo.GetValue(replaceIn) == null)
+					object value = fieldInfo.GetValue(replaceWith);
+					if (value != null)
 					{
-						object value = fieldInfo.GetValue(replaceWith);
-						if (value != null)
-						{
-							object obj = replaceIn;
-							fieldInfo.SetValue(obj, value);
-							replaceIn = (T)((object)obj);
-						}
+						object obj = replaceIn;
+						fieldInfo.SetValue(obj, value);
+						replaceIn = (T)((object)obj);
 					}
 				}
 			}
@@ -320,29 +326,24 @@ namespace Verse
 
 		public static string GetNonNullFieldsDebugInfo(object obj)
 		{
-			string result;
 			if (obj == null)
 			{
-				result = "";
+				return string.Empty;
 			}
-			else
+			StringBuilder stringBuilder = new StringBuilder();
+			foreach (FieldInfo fieldInfo in obj.GetType().GetFields(BindingFlags.Instance | BindingFlags.Public | BindingFlags.NonPublic))
 			{
-				StringBuilder stringBuilder = new StringBuilder();
-				foreach (FieldInfo fieldInfo in obj.GetType().GetFields(BindingFlags.Instance | BindingFlags.Public | BindingFlags.NonPublic))
+				object value = fieldInfo.GetValue(obj);
+				if (value != null)
 				{
-					object value = fieldInfo.GetValue(obj);
-					if (value != null)
+					if (stringBuilder.Length > 0)
 					{
-						if (stringBuilder.Length > 0)
-						{
-							stringBuilder.Append(", ");
-						}
-						stringBuilder.Append(fieldInfo.Name + "=" + value.ToStringSafe<object>());
+						stringBuilder.Append(", ");
 					}
+					stringBuilder.Append(fieldInfo.Name + "=" + value.ToStringSafe<object>());
 				}
-				result = stringBuilder.ToString();
 			}
-			return result;
+			return stringBuilder.ToString();
 		}
 
 		// Note: this type is marked as 'beforefieldinit'.
@@ -410,8 +411,7 @@ namespace Verse
 					switch (num)
 					{
 					}
-					IL_C8:
-					if (enumerator.MoveNext())
+					while (enumerator.MoveNext())
 					{
 						item = enumerator.Current;
 						itemAsInt = Convert.ToInt32(item);
@@ -425,7 +425,6 @@ namespace Verse
 							flag = true;
 							return true;
 						}
-						goto IL_C8;
 					}
 				}
 				finally

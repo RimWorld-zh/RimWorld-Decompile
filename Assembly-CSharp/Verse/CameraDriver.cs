@@ -9,7 +9,7 @@ namespace Verse
 	{
 		public CameraShaker shaker = new CameraShaker();
 
-		private Camera cachedCamera = null;
+		private Camera cachedCamera;
 
 		private GameObject reverbDummy;
 
@@ -27,7 +27,7 @@ namespace Verse
 
 		private Vector2 mouseDragVect = Vector2.zero;
 
-		private bool mouseCoveredByUI = false;
+		private bool mouseCoveredByUI;
 
 		private float mouseTouchingScreenBottomEdgeStartTime = -1f;
 
@@ -87,16 +87,11 @@ namespace Verse
 		{
 			get
 			{
-				float result;
 				if (Screen.fullScreen)
 				{
-					result = 6f;
+					return 6f;
 				}
-				else
-				{
-					result = 20f;
-				}
-				return result;
+				return 20f;
 			}
 		}
 
@@ -104,28 +99,23 @@ namespace Verse
 		{
 			get
 			{
-				CameraZoomRange result;
 				if (this.rootSize < 12f)
 				{
-					result = CameraZoomRange.Closest;
+					return CameraZoomRange.Closest;
 				}
-				else if (this.rootSize < 13.8f)
+				if (this.rootSize < 13.8f)
 				{
-					result = CameraZoomRange.Close;
+					return CameraZoomRange.Close;
 				}
-				else if (this.rootSize < 42f)
+				if (this.rootSize < 42f)
 				{
-					result = CameraZoomRange.Middle;
+					return CameraZoomRange.Middle;
 				}
-				else if (this.rootSize < 57f)
+				if (this.rootSize < 57f)
 				{
-					result = CameraZoomRange.Far;
+					return CameraZoomRange.Far;
 				}
-				else
-				{
-					result = CameraZoomRange.Furthest;
-				}
-				return result;
+				return CameraZoomRange.Furthest;
 			}
 		}
 
@@ -204,93 +194,99 @@ namespace Verse
 
 		public void OnPreRender()
 		{
-			if (!LongEventHandler.ShouldWaitForEvent)
+			if (LongEventHandler.ShouldWaitForEvent)
 			{
-				if (Find.CurrentMap == null)
-				{
-				}
+				return;
+			}
+			if (Find.CurrentMap == null)
+			{
+				return;
 			}
 		}
 
 		public void OnPreCull()
 		{
-			if (!LongEventHandler.ShouldWaitForEvent)
+			if (LongEventHandler.ShouldWaitForEvent)
 			{
-				if (Find.CurrentMap != null)
-				{
-					if (!WorldRendererUtility.WorldRenderedNow)
-					{
-						Find.CurrentMap.weatherManager.DrawAllWeather();
-					}
-				}
+				return;
+			}
+			if (Find.CurrentMap == null)
+			{
+				return;
+			}
+			if (!WorldRendererUtility.WorldRenderedNow)
+			{
+				Find.CurrentMap.weatherManager.DrawAllWeather();
 			}
 		}
 
 		public void OnGUI()
 		{
 			GUI.depth = 100;
-			if (!LongEventHandler.ShouldWaitForEvent)
+			if (LongEventHandler.ShouldWaitForEvent)
 			{
-				if (Find.CurrentMap != null)
+				return;
+			}
+			if (Find.CurrentMap == null)
+			{
+				return;
+			}
+			UnityGUIBugsFixer.OnGUI();
+			this.mouseCoveredByUI = false;
+			if (Find.WindowStack.GetWindowAt(UI.MousePositionOnUIInverted) != null)
+			{
+				this.mouseCoveredByUI = true;
+			}
+			if (!this.AnythingPreventsCameraMotion)
+			{
+				if (Event.current.type == EventType.MouseDrag && Event.current.button == 2)
 				{
-					UnityGUIBugsFixer.OnGUI();
-					this.mouseCoveredByUI = false;
-					if (Find.WindowStack.GetWindowAt(UI.MousePositionOnUIInverted) != null)
-					{
-						this.mouseCoveredByUI = true;
-					}
-					if (!this.AnythingPreventsCameraMotion)
-					{
-						if (Event.current.type == EventType.MouseDrag && Event.current.button == 2)
-						{
-							this.mouseDragVect = Event.current.delta;
-							Event.current.Use();
-						}
-						float num = 0f;
-						if (Event.current.type == EventType.ScrollWheel)
-						{
-							num -= Event.current.delta.y * 0.35f;
-							PlayerKnowledgeDatabase.KnowledgeDemonstrated(ConceptDefOf.CameraZoom, KnowledgeAmount.TinyInteraction);
-						}
-						if (KeyBindingDefOf.MapZoom_In.KeyDownEvent)
-						{
-							num += 4f;
-							PlayerKnowledgeDatabase.KnowledgeDemonstrated(ConceptDefOf.CameraZoom, KnowledgeAmount.SmallInteraction);
-						}
-						if (KeyBindingDefOf.MapZoom_Out.KeyDownEvent)
-						{
-							num -= 4f;
-							PlayerKnowledgeDatabase.KnowledgeDemonstrated(ConceptDefOf.CameraZoom, KnowledgeAmount.SmallInteraction);
-						}
-						this.desiredSize -= num * this.config.zoomSpeed * this.rootSize / 35f;
-						this.desiredSize = Mathf.Clamp(this.desiredSize, 11f, 60f);
-						this.desiredDolly = Vector3.zero;
-						if (KeyBindingDefOf.MapDolly_Left.IsDown)
-						{
-							this.desiredDolly.x = -this.config.dollyRateKeys;
-						}
-						if (KeyBindingDefOf.MapDolly_Right.IsDown)
-						{
-							this.desiredDolly.x = this.config.dollyRateKeys;
-						}
-						if (KeyBindingDefOf.MapDolly_Up.IsDown)
-						{
-							this.desiredDolly.y = this.config.dollyRateKeys;
-						}
-						if (KeyBindingDefOf.MapDolly_Down.IsDown)
-						{
-							this.desiredDolly.y = -this.config.dollyRateKeys;
-						}
-						if (this.mouseDragVect != Vector2.zero)
-						{
-							this.mouseDragVect *= CameraDriver.HitchReduceFactor;
-							this.mouseDragVect.x = this.mouseDragVect.x * -1f;
-							this.desiredDolly += this.mouseDragVect * this.config.dollyRateMouseDrag;
-							this.mouseDragVect = Vector2.zero;
-						}
-						this.config.ConfigOnGUI();
-					}
+					this.mouseDragVect = Event.current.delta;
+					Event.current.Use();
 				}
+				float num = 0f;
+				if (Event.current.type == EventType.ScrollWheel)
+				{
+					num -= Event.current.delta.y * 0.35f;
+					PlayerKnowledgeDatabase.KnowledgeDemonstrated(ConceptDefOf.CameraZoom, KnowledgeAmount.TinyInteraction);
+				}
+				if (KeyBindingDefOf.MapZoom_In.KeyDownEvent)
+				{
+					num += 4f;
+					PlayerKnowledgeDatabase.KnowledgeDemonstrated(ConceptDefOf.CameraZoom, KnowledgeAmount.SmallInteraction);
+				}
+				if (KeyBindingDefOf.MapZoom_Out.KeyDownEvent)
+				{
+					num -= 4f;
+					PlayerKnowledgeDatabase.KnowledgeDemonstrated(ConceptDefOf.CameraZoom, KnowledgeAmount.SmallInteraction);
+				}
+				this.desiredSize -= num * this.config.zoomSpeed * this.rootSize / 35f;
+				this.desiredSize = Mathf.Clamp(this.desiredSize, 11f, 60f);
+				this.desiredDolly = Vector3.zero;
+				if (KeyBindingDefOf.MapDolly_Left.IsDown)
+				{
+					this.desiredDolly.x = -this.config.dollyRateKeys;
+				}
+				if (KeyBindingDefOf.MapDolly_Right.IsDown)
+				{
+					this.desiredDolly.x = this.config.dollyRateKeys;
+				}
+				if (KeyBindingDefOf.MapDolly_Up.IsDown)
+				{
+					this.desiredDolly.y = this.config.dollyRateKeys;
+				}
+				if (KeyBindingDefOf.MapDolly_Down.IsDown)
+				{
+					this.desiredDolly.y = -this.config.dollyRateKeys;
+				}
+				if (this.mouseDragVect != Vector2.zero)
+				{
+					this.mouseDragVect *= CameraDriver.HitchReduceFactor;
+					this.mouseDragVect.x = this.mouseDragVect.x * -1f;
+					this.desiredDolly += this.mouseDragVect * this.config.dollyRateMouseDrag;
+					this.mouseDragVect = Vector2.zero;
+				}
+				this.config.ConfigOnGUI();
 			}
 		}
 
@@ -302,58 +298,60 @@ namespace Verse
 				{
 					Current.SubcameraDriver.UpdatePositions(this.MyCamera);
 				}
+				return;
 			}
-			else if (Find.CurrentMap != null)
+			if (Find.CurrentMap == null)
 			{
-				Vector2 lhs = this.CalculateCurInputDollyVect();
-				if (lhs != Vector2.zero)
+				return;
+			}
+			Vector2 lhs = this.CalculateCurInputDollyVect();
+			if (lhs != Vector2.zero)
+			{
+				float d = (this.rootSize - 11f) / 49f * 0.7f + 0.3f;
+				this.velocity = new Vector3(lhs.x, 0f, lhs.y) * d;
+				PlayerKnowledgeDatabase.KnowledgeDemonstrated(ConceptDefOf.CameraDolly, KnowledgeAmount.FrameInteraction);
+			}
+			if (!this.AnythingPreventsCameraMotion)
+			{
+				float d2 = Time.deltaTime * CameraDriver.HitchReduceFactor;
+				this.rootPos += this.velocity * d2 * this.config.moveSpeedScale;
+				this.rootPos.x = Mathf.Clamp(this.rootPos.x, 2f, (float)Find.CurrentMap.Size.x + -2f);
+				this.rootPos.z = Mathf.Clamp(this.rootPos.z, 2f, (float)Find.CurrentMap.Size.z + -2f);
+			}
+			int num = Gen.FixedTimeStepUpdate(ref this.fixedTimeStepBuffer, 60f);
+			for (int i = 0; i < num; i++)
+			{
+				if (this.velocity != Vector3.zero)
 				{
-					float d = (this.rootSize - 11f) / 49f * 0.7f + 0.3f;
-					this.velocity = new Vector3(lhs.x, 0f, lhs.y) * d;
-					PlayerKnowledgeDatabase.KnowledgeDemonstrated(ConceptDefOf.CameraDolly, KnowledgeAmount.FrameInteraction);
-				}
-				if (!this.AnythingPreventsCameraMotion)
-				{
-					float d2 = Time.deltaTime * CameraDriver.HitchReduceFactor;
-					this.rootPos += this.velocity * d2 * this.config.moveSpeedScale;
-					this.rootPos.x = Mathf.Clamp(this.rootPos.x, 2f, (float)Find.CurrentMap.Size.x + -2f);
-					this.rootPos.z = Mathf.Clamp(this.rootPos.z, 2f, (float)Find.CurrentMap.Size.z + -2f);
-				}
-				int num = Gen.FixedTimeStepUpdate(ref this.fixedTimeStepBuffer, 60f);
-				for (int i = 0; i < num; i++)
-				{
-					if (this.velocity != Vector3.zero)
+					this.velocity *= this.config.camSpeedDecayFactor;
+					if (this.velocity.magnitude < 0.1f)
 					{
-						this.velocity *= this.config.camSpeedDecayFactor;
-						if (this.velocity.magnitude < 0.1f)
-						{
-							this.velocity = Vector3.zero;
-						}
+						this.velocity = Vector3.zero;
 					}
-					if (this.config.smoothZoom)
-					{
-						float num2 = Mathf.Lerp(this.rootSize, this.desiredSize, 0.05f);
-						this.desiredSize += (num2 - this.rootSize) * this.config.zoomPreserveFactor;
-						this.rootSize = num2;
-					}
-					else
-					{
-						float num3 = this.desiredSize - this.rootSize;
-						float num4 = num3 * 0.4f;
-						this.desiredSize += this.config.zoomPreserveFactor * num4;
-						this.rootSize += num4;
-					}
-					this.config.ConfigFixedUpdate_60(ref this.velocity);
 				}
-				this.shaker.Update();
-				this.ApplyPositionToGameObject();
-				Current.SubcameraDriver.UpdatePositions(this.MyCamera);
-				if (Find.CurrentMap != null)
+				if (this.config.smoothZoom)
 				{
-					RememberedCameraPos rememberedCameraPos = Find.CurrentMap.rememberedCameraPos;
-					rememberedCameraPos.rootPos = this.rootPos;
-					rememberedCameraPos.rootSize = this.rootSize;
+					float num2 = Mathf.Lerp(this.rootSize, this.desiredSize, 0.05f);
+					this.desiredSize += (num2 - this.rootSize) * this.config.zoomPreserveFactor;
+					this.rootSize = num2;
 				}
+				else
+				{
+					float num3 = this.desiredSize - this.rootSize;
+					float num4 = num3 * 0.4f;
+					this.desiredSize += this.config.zoomPreserveFactor * num4;
+					this.rootSize += num4;
+				}
+				this.config.ConfigFixedUpdate_60(ref this.velocity);
+			}
+			this.shaker.Update();
+			this.ApplyPositionToGameObject();
+			Current.SubcameraDriver.UpdatePositions(this.MyCamera);
+			if (Find.CurrentMap != null)
+			{
+				RememberedCameraPos rememberedCameraPos = Find.CurrentMap.rememberedCameraPos;
+				rememberedCameraPos.rootPos = this.rootPos;
+				rememberedCameraPos.rootSize = this.rootSize;
 			}
 		}
 

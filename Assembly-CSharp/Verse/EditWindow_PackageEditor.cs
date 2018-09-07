@@ -4,7 +4,6 @@ using System.Linq;
 using System.Runtime.CompilerServices;
 using RimWorld;
 using UnityEngine;
-using UnityEngine.Profiling;
 
 namespace Verse
 {
@@ -12,7 +11,7 @@ namespace Verse
 	{
 		public ModContentPack curMod = LoadedModManager.RunningMods.First<ModContentPack>();
 
-		private DefPackage curPackage = null;
+		private DefPackage curPackage;
 
 		private Vector2 scrollPosition = default(Vector2);
 
@@ -47,7 +46,6 @@ namespace Verse
 
 		public override void DoWindowContents(Rect selectorInner)
 		{
-			Profiler.BeginSample("PackageEditorOnGUI");
 			Text.Font = GameFont.Tiny;
 			float width = (selectorInner.width - 4f) / 2f;
 			Rect rect = new Rect(0f, 0f, width, 24f);
@@ -164,7 +162,6 @@ namespace Verse
 			}
 			listing_Standard.End();
 			Widgets.EndScrollView();
-			Profiler.EndSample();
 		}
 
 		[CompilerGenerated]

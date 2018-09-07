@@ -36,106 +36,100 @@ namespace RimWorld
 
 		public static void GiveThoughtsForPawnExecuted(Pawn victim, PawnExecutionKind kind)
 		{
-			if (victim.RaceProps.Humanlike)
+			if (!victim.RaceProps.Humanlike)
 			{
-				int forcedStage = 1;
-				if (victim.guilt.IsGuilty)
+				return;
+			}
+			int forcedStage = 1;
+			if (victim.guilt.IsGuilty)
+			{
+				forcedStage = 0;
+			}
+			else if (kind != PawnExecutionKind.GenericHumane)
+			{
+				if (kind != PawnExecutionKind.GenericBrutal)
 				{
-					forcedStage = 0;
-				}
-				else if (kind != PawnExecutionKind.GenericHumane)
-				{
-					if (kind != PawnExecutionKind.GenericBrutal)
+					if (kind == PawnExecutionKind.OrganHarvesting)
 					{
-						if (kind == PawnExecutionKind.OrganHarvesting)
-						{
-							forcedStage = 3;
-						}
-					}
-					else
-					{
-						forcedStage = 2;
+						forcedStage = 3;
 					}
 				}
 				else
 				{
-					forcedStage = 1;
+					forcedStage = 2;
 				}
-				ThoughtDef def;
-				if (victim.IsColonist)
-				{
-					def = ThoughtDefOf.KnowColonistExecuted;
-				}
-				else
-				{
-					def = ThoughtDefOf.KnowGuestExecuted;
-				}
-				foreach (Pawn pawn in PawnsFinder.AllMapsCaravansAndTravelingTransportPods_Alive_FreeColonistsAndPrisoners)
-				{
-					pawn.needs.mood.thoughts.memories.TryGainMemory(ThoughtMaker.MakeThought(def, forcedStage), null);
-				}
+			}
+			else
+			{
+				forcedStage = 1;
+			}
+			ThoughtDef def;
+			if (victim.IsColonist)
+			{
+				def = ThoughtDefOf.KnowColonistExecuted;
+			}
+			else
+			{
+				def = ThoughtDefOf.KnowGuestExecuted;
+			}
+			foreach (Pawn pawn in PawnsFinder.AllMapsCaravansAndTravelingTransportPods_Alive_FreeColonistsAndPrisoners)
+			{
+				pawn.needs.mood.thoughts.memories.TryGainMemory(ThoughtMaker.MakeThought(def, forcedStage), null);
 			}
 		}
 
 		public static void GiveThoughtsForPawnOrganHarvested(Pawn victim)
 		{
-			if (victim.RaceProps.Humanlike)
+			if (!victim.RaceProps.Humanlike)
 			{
-				ThoughtDef thoughtDef = null;
-				if (victim.IsColonist)
+				return;
+			}
+			ThoughtDef thoughtDef = null;
+			if (victim.IsColonist)
+			{
+				thoughtDef = ThoughtDefOf.KnowColonistOrganHarvested;
+			}
+			else if (victim.HostFaction == Faction.OfPlayer)
+			{
+				thoughtDef = ThoughtDefOf.KnowGuestOrganHarvested;
+			}
+			foreach (Pawn pawn in PawnsFinder.AllMapsCaravansAndTravelingTransportPods_Alive_FreeColonistsAndPrisoners)
+			{
+				if (pawn == victim)
 				{
-					thoughtDef = ThoughtDefOf.KnowColonistOrganHarvested;
+					pawn.needs.mood.thoughts.memories.TryGainMemory(ThoughtDefOf.MyOrganHarvested, null);
 				}
-				else if (victim.HostFaction == Faction.OfPlayer)
+				else if (thoughtDef != null)
 				{
-					thoughtDef = ThoughtDefOf.KnowGuestOrganHarvested;
-				}
-				foreach (Pawn pawn in PawnsFinder.AllMapsCaravansAndTravelingTransportPods_Alive_FreeColonistsAndPrisoners)
-				{
-					if (pawn == victim)
-					{
-						pawn.needs.mood.thoughts.memories.TryGainMemory(ThoughtDefOf.MyOrganHarvested, null);
-					}
-					else if (thoughtDef != null)
-					{
-						pawn.needs.mood.thoughts.memories.TryGainMemory(thoughtDef, null);
-					}
+					pawn.needs.mood.thoughts.memories.TryGainMemory(thoughtDef, null);
 				}
 			}
 		}
 
 		public static bool IsSituationalThoughtNullifiedByHediffs(ThoughtDef def, Pawn pawn)
 		{
-			bool result;
 			if (def.IsMemory)
 			{
-				result = false;
+				return false;
 			}
-			else
+			float num = 0f;
+			List<Hediff> hediffs = pawn.health.hediffSet.hediffs;
+			for (int i = 0; i < hediffs.Count; i++)
 			{
-				float num = 0f;
-				List<Hediff> hediffs = pawn.health.hediffSet.hediffs;
-				for (int i = 0; i < hediffs.Count; i++)
+				HediffStage curStage = hediffs[i].CurStage;
+				if (curStage != null && curStage.pctConditionalThoughtsNullified > num)
 				{
-					HediffStage curStage = hediffs[i].CurStage;
-					if (curStage != null && curStage.pctConditionalThoughtsNullified > num)
-					{
-						num = curStage.pctConditionalThoughtsNullified;
-					}
-				}
-				if (num == 0f)
-				{
-					result = false;
-				}
-				else
-				{
-					Rand.PushState();
-					Rand.Seed = pawn.thingIDNumber * 31 + (int)(def.index * 139);
-					bool flag = Rand.Value < num;
-					Rand.PopState();
-					result = flag;
+					num = curStage.pctConditionalThoughtsNullified;
 				}
 			}
+			if (num == 0f)
+			{
+				return false;
+			}
+			Rand.PushState();
+			Rand.Seed = pawn.thingIDNumber * 31 + (int)(def.index * 139);
+			bool result = Rand.Value < num;
+			Rand.PopState();
 			return result;
 		}
 
@@ -156,11 +150,12 @@ namespace RimWorld
 
 		public static void RemovePositiveBedroomThoughts(Pawn pawn)
 		{
-			if (pawn.needs.mood != null)
+			if (pawn.needs.mood == null)
 			{
-				pawn.needs.mood.thoughts.memories.RemoveMemoriesOfDefIf(ThoughtDefOf.SleptInBedroom, (Thought_Memory thought) => thought.MoodOffset() > 0f);
-				pawn.needs.mood.thoughts.memories.RemoveMemoriesOfDefIf(ThoughtDefOf.SleptInBarracks, (Thought_Memory thought) => thought.MoodOffset() > 0f);
+				return;
 			}
+			pawn.needs.mood.thoughts.memories.RemoveMemoriesOfDefIf(ThoughtDefOf.SleptInBedroom, (Thought_Memory thought) => thought.MoodOffset() > 0f);
+			pawn.needs.mood.thoughts.memories.RemoveMemoriesOfDefIf(ThoughtDefOf.SleptInBarracks, (Thought_Memory thought) => thought.MoodOffset() > 0f);
 		}
 
 		public static bool CanGetThought(Pawn pawn, ThoughtDef def)

@@ -85,11 +85,8 @@ namespace RimWorld
 				{
 					switch (num)
 					{
-					case 1u:
-						IL_AC:
-						break;
 					}
-					if (enumerator.MoveNext())
+					while (enumerator.MoveNext())
 					{
 						p = enumerator.Current;
 						if (p.needs.food != null && p.needs.food.Starving)
@@ -102,7 +99,6 @@ namespace RimWorld
 							flag = true;
 							return true;
 						}
-						goto IL_AC;
 					}
 				}
 				finally

@@ -6,15 +6,15 @@ namespace RimWorld
 {
 	public class Jetter : Thing
 	{
-		private Jetter.JetterState JState = Jetter.JetterState.Resting;
+		private Jetter.JetterState JState;
 
-		private int WickTicksLeft = 0;
+		private int WickTicksLeft;
 
-		private int TicksUntilMove = 0;
+		private int TicksUntilMove;
 
-		protected Sustainer wickSoundSustainer = null;
+		protected Sustainer wickSoundSustainer;
 
-		protected Sustainer jetSoundSustainer = null;
+		protected Sustainer jetSoundSustainer;
 
 		private const int TicksBeforeBeginAccelerate = 25;
 
@@ -79,11 +79,9 @@ namespace RimWorld
 			{
 				this.Destroy(DestroyMode.Vanish);
 				GenExplosion.DoExplosion(base.Position, base.Map, 2.9f, DamageDefOf.Bomb, null, -1, -1f, null, null, null, null, null, 0f, 1, false, null, 0f, 1, 0f, false);
+				return;
 			}
-			else
-			{
-				base.Position = intVec;
-			}
+			base.Position = intVec;
 		}
 
 		public override void Destroy(DestroyMode mode = DestroyMode.Vanish)

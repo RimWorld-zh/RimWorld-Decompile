@@ -19,32 +19,35 @@ namespace RimWorld
 		private static List<Thing> tmpToSteal = new List<Thing>();
 
 		[CompilerGenerated]
-		private static Func<Thing, float> <>f__am$cache0;
+		private static Func<Thing, float> <>f__mg$cache0;
 
 		public static bool TryFindBestItemToSteal(IntVec3 root, Map map, float maxDist, out Thing item, Pawn thief, List<Thing> disallowed = null)
 		{
-			bool result;
 			if (thief != null && !thief.health.capacities.CapableOf(PawnCapacityDefOf.Manipulation))
 			{
 				item = null;
-				result = false;
+				return false;
 			}
-			else if ((thief != null && !map.reachability.CanReachMapEdge(thief.Position, TraverseParms.For(thief, Danger.Some, TraverseMode.ByPawn, false))) || (thief == null && !map.reachability.CanReachMapEdge(root, TraverseParms.For(TraverseMode.PassDoors, Danger.Some, false))))
+			if ((thief != null && !map.reachability.CanReachMapEdge(thief.Position, TraverseParms.For(thief, Danger.Some, TraverseMode.ByPawn, false))) || (thief == null && !map.reachability.CanReachMapEdge(root, TraverseParms.For(TraverseMode.PassDoors, Danger.Some, false))))
 			{
 				item = null;
-				result = false;
+				return false;
 			}
-			else
+			Predicate<Thing> predicate = (Thing t) => (thief == null || thief.CanReserve(t, 1, -1, null, false)) && (disallowed == null || !disallowed.Contains(t)) && t.def.stealable && !t.IsBurning();
+			ThingRequest thingReq = ThingRequest.ForGroup(ThingRequestGroup.HaulableEverOrMinifiable);
+			PathEndMode peMode = PathEndMode.ClosestTouch;
+			TraverseParms traverseParams = TraverseParms.For(TraverseMode.NoPassClosedDoors, Danger.Some, false);
+			Predicate<Thing> validator = predicate;
+			if (StealAIUtility.<>f__mg$cache0 == null)
 			{
-				Predicate<Thing> validator = (Thing t) => (thief == null || thief.CanReserve(t, 1, -1, null, false)) && (disallowed == null || !disallowed.Contains(t)) && t.def.stealable && !t.IsBurning();
-				item = GenClosest.ClosestThing_Regionwise_ReachablePrioritized(root, map, ThingRequest.ForGroup(ThingRequestGroup.HaulableEverOrMinifiable), PathEndMode.ClosestTouch, TraverseParms.For(TraverseMode.NoPassClosedDoors, Danger.Some, false), maxDist, validator, (Thing x) => StealAIUtility.GetValue(x), 15, 15);
-				if (item != null && StealAIUtility.GetValue(item) < 320f)
-				{
-					item = null;
-				}
-				result = (item != null);
+				StealAIUtility.<>f__mg$cache0 = new Func<Thing, float>(StealAIUtility.GetValue);
 			}
-			return result;
+			item = GenClosest.ClosestThing_Regionwise_ReachablePrioritized(root, map, thingReq, peMode, traverseParams, maxDist, validator, StealAIUtility.<>f__mg$cache0, 15, 15);
+			if (item != null && StealAIUtility.GetValue(item) < 320f)
+			{
+				item = null;
+			}
+			return item != null;
 		}
 
 		public static float TotalMarketValueAround(List<Pawn> pawns)
@@ -89,12 +92,6 @@ namespace RimWorld
 		// Note: this type is marked as 'beforefieldinit'.
 		static StealAIUtility()
 		{
-		}
-
-		[CompilerGenerated]
-		private static float <TryFindBestItemToSteal>m__0(Thing x)
-		{
-			return StealAIUtility.GetValue(x);
 		}
 
 		[CompilerGenerated]

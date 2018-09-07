@@ -33,16 +33,11 @@ namespace RimWorld
 					return new AcceptanceReport("TerrainCannotSupport".Translate());
 				}
 			}
-			AcceptanceReport result;
 			if (!this.WaterCellsPresent(loc, rot, map))
 			{
-				result = new AcceptanceReport("MustBeOnMovingWater".Translate());
+				return new AcceptanceReport("MustBeOnMovingWater".Translate());
 			}
-			else
-			{
-				result = true;
-			}
-			return result;
+			return true;
 		}
 
 		private bool WaterCellsPresent(IntVec3 loc, Rot4 rot, Map map)

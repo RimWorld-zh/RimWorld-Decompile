@@ -13,7 +13,7 @@ namespace RimWorld
 
 		private List<Filth> carriedFilth = new List<Filth>();
 
-		private ThingDef lastTerrainFilthDef = null;
+		private ThingDef lastTerrainFilthDef;
 
 		private const float FilthPickupChance = 0.1f;
 
@@ -65,31 +65,25 @@ namespace RimWorld
 			}
 			if (!this.pawn.RaceProps.Humanlike)
 			{
-				if (Rand.Value < PawnUtility.AnimalFilthChancePerCell(this.pawn.def, this.pawn.BodySize))
+				if (Rand.Value < PawnUtility.AnimalFilthChancePerCell(this.pawn.def, this.pawn.BodySize) && this.pawn.Position.GetTerrain(this.pawn.Map).acceptTerrainSourceFilth)
 				{
-					if (this.pawn.Position.GetTerrain(this.pawn.Map).acceptTerrainSourceFilth)
-					{
-						FilthMaker.MakeFilth(this.pawn.Position, this.pawn.Map, ThingDefOf.Filth_AnimalFilth, 1);
-						FilthMonitor.Notify_FilthAnimalGenerated();
-					}
+					FilthMaker.MakeFilth(this.pawn.Position, this.pawn.Map, ThingDefOf.Filth_AnimalFilth, 1);
+					FilthMonitor.Notify_FilthAnimalGenerated();
 				}
 			}
-			else if (Rand.Value < PawnUtility.HumanFilthChancePerCell(this.pawn.def, this.pawn.BodySize))
+			else if (Rand.Value < PawnUtility.HumanFilthChancePerCell(this.pawn.def, this.pawn.BodySize) && this.pawn.Position.GetTerrain(this.pawn.Map).acceptTerrainSourceFilth)
 			{
-				if (this.pawn.Position.GetTerrain(this.pawn.Map).acceptTerrainSourceFilth)
+				ThingDef filth_Trash;
+				if (this.lastTerrainFilthDef != null && Rand.Chance(0.66f))
 				{
-					ThingDef filthDef;
-					if (this.lastTerrainFilthDef != null && Rand.Chance(0.5f))
-					{
-						filthDef = this.lastTerrainFilthDef;
-					}
-					else
-					{
-						filthDef = ((!Rand.Chance(0.5f)) ? ThingDefOf.Filth_Trash : ThingDefOf.Filth_HumanFilth);
-					}
-					FilthMaker.MakeFilth(this.pawn.Position, this.pawn.Map, filthDef, 1);
-					FilthMonitor.Notify_FilthHumanGenerated();
+					filth_Trash = this.lastTerrainFilthDef;
 				}
+				else
+				{
+					filth_Trash = ThingDefOf.Filth_Trash;
+				}
+				FilthMaker.MakeFilth(this.pawn.Position, this.pawn.Map, filth_Trash, 1);
+				FilthMonitor.Notify_FilthHumanGenerated();
 			}
 		}
 
@@ -128,16 +122,17 @@ namespace RimWorld
 
 		private void TryDropFilth()
 		{
-			if (this.carriedFilth.Count != 0)
+			if (this.carriedFilth.Count == 0)
 			{
-				for (int i = this.carriedFilth.Count - 1; i >= 0; i--)
+				return;
+			}
+			for (int i = this.carriedFilth.Count - 1; i >= 0; i--)
+			{
+				Filth filth = this.carriedFilth[i];
+				if (filth.CanDropAt(this.pawn.Position, this.pawn.Map))
 				{
-					Filth filth = this.carriedFilth[i];
-					if (filth.CanDropAt(this.pawn.Position, this.pawn.Map))
-					{
-						this.DropCarriedFilth(this.carriedFilth[i]);
-						FilthMonitor.Notify_FilthDropped();
-					}
+					this.DropCarriedFilth(this.carriedFilth[i]);
+					FilthMonitor.Notify_FilthDropped();
 				}
 			}
 		}

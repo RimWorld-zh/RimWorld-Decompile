@@ -6,7 +6,7 @@ namespace Verse
 	{
 		public MentalStateDef mentalState;
 
-		public float mtbDays = 0f;
+		public float mtbDays;
 
 		public MentalStateGiver()
 		{

@@ -150,12 +150,9 @@ namespace RimWorld
 		{
 			base.ExtraOnGUI();
 			InspectPaneUtility.ExtraOnGUI(this);
-			if (this.AnythingSelected)
+			if (this.AnythingSelected && Find.DesignatorManager.SelectedDesignator != null)
 			{
-				if (Find.DesignatorManager.SelectedDesignator != null)
-				{
-					Find.DesignatorManager.SelectedDesignator.DoExtraGuiControls(0f, this.PaneTopY);
-				}
+				Find.DesignatorManager.SelectedDesignator.DoExtraGuiControls(0f, this.PaneTopY);
 			}
 		}
 
@@ -201,26 +198,27 @@ namespace RimWorld
 
 		public void SelectNextInCell()
 		{
-			if (this.NumSelected != 0)
+			if (this.NumSelected == 0)
 			{
-				Selector selector = Find.Selector;
-				if (selector.SelectedZone == null || selector.SelectedZone.ContainsCell(MainTabWindow_Inspect.lastSelectCell))
+				return;
+			}
+			Selector selector = Find.Selector;
+			if (selector.SelectedZone == null || selector.SelectedZone.ContainsCell(MainTabWindow_Inspect.lastSelectCell))
+			{
+				if (selector.SelectedZone == null)
 				{
-					if (selector.SelectedZone == null)
-					{
-						MainTabWindow_Inspect.lastSelectCell = selector.SingleSelectedThing.Position;
-					}
-					Map map;
-					if (selector.SingleSelectedThing != null)
-					{
-						map = selector.SingleSelectedThing.Map;
-					}
-					else
-					{
-						map = selector.SelectedZone.Map;
-					}
-					selector.SelectNextAt(MainTabWindow_Inspect.lastSelectCell, map);
+					MainTabWindow_Inspect.lastSelectCell = selector.SingleSelectedThing.Position;
 				}
+				Map map;
+				if (selector.SingleSelectedThing != null)
+				{
+					map = selector.SingleSelectedThing.Map;
+				}
+				else
+				{
+					map = selector.SelectedZone.Map;
+				}
+				selector.SelectNextAt(MainTabWindow_Inspect.lastSelectCell, map);
 			}
 		}
 

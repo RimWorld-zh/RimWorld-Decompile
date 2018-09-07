@@ -20,13 +20,13 @@ namespace UnityStandardAssets.ImageEffects
 
 		public float sampleDist = 1f;
 
-		public float edgesOnly = 0f;
+		public float edgesOnly;
 
 		public Color edgesOnlyBgColor = Color.white;
 
 		public Shader edgeDetectShader;
 
-		private Material edgeDetectMaterial = null;
+		private Material edgeDetectMaterial;
 
 		private EdgeDetection.EdgeDetectMode oldMode = EdgeDetection.EdgeDetectMode.SobelDepthThin;
 
@@ -78,18 +78,16 @@ namespace UnityStandardAssets.ImageEffects
 			if (!this.CheckResources())
 			{
 				Graphics.Blit(source, destination);
+				return;
 			}
-			else
-			{
-				Vector2 vector = new Vector2(this.sensitivityDepth, this.sensitivityNormals);
-				this.edgeDetectMaterial.SetVector("_Sensitivity", new Vector4(vector.x, vector.y, 1f, vector.y));
-				this.edgeDetectMaterial.SetFloat("_BgFade", this.edgesOnly);
-				this.edgeDetectMaterial.SetFloat("_SampleDistance", this.sampleDist);
-				this.edgeDetectMaterial.SetVector("_BgColor", this.edgesOnlyBgColor);
-				this.edgeDetectMaterial.SetFloat("_Exponent", this.edgeExp);
-				this.edgeDetectMaterial.SetFloat("_Threshold", this.lumThreshold);
-				Graphics.Blit(source, destination, this.edgeDetectMaterial, (int)this.mode);
-			}
+			Vector2 vector = new Vector2(this.sensitivityDepth, this.sensitivityNormals);
+			this.edgeDetectMaterial.SetVector("_Sensitivity", new Vector4(vector.x, vector.y, 1f, vector.y));
+			this.edgeDetectMaterial.SetFloat("_BgFade", this.edgesOnly);
+			this.edgeDetectMaterial.SetFloat("_SampleDistance", this.sampleDist);
+			this.edgeDetectMaterial.SetVector("_BgColor", this.edgesOnlyBgColor);
+			this.edgeDetectMaterial.SetFloat("_Exponent", this.edgeExp);
+			this.edgeDetectMaterial.SetFloat("_Threshold", this.lumThreshold);
+			Graphics.Blit(source, destination, this.edgeDetectMaterial, (int)this.mode);
 		}
 
 		public enum EdgeDetectMode

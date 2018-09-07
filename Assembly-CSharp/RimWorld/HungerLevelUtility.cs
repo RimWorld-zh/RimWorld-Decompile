@@ -7,25 +7,19 @@ namespace RimWorld
 	{
 		public static string GetLabel(this HungerCategory hunger)
 		{
-			string result;
 			switch (hunger)
 			{
 			case HungerCategory.Fed:
-				result = "HungerLevel_Fed".Translate();
-				break;
+				return "HungerLevel_Fed".Translate();
 			case HungerCategory.Hungry:
-				result = "HungerLevel_Hungry".Translate();
-				break;
+				return "HungerLevel_Hungry".Translate();
 			case HungerCategory.UrgentlyHungry:
-				result = "HungerLevel_UrgentlyHungry".Translate();
-				break;
+				return "HungerLevel_UrgentlyHungry".Translate();
 			case HungerCategory.Starving:
-				result = "HungerLevel_Starving".Translate();
-				break;
+				return "HungerLevel_Starving".Translate();
 			default:
 				throw new InvalidOperationException();
 			}
-			return result;
 		}
 	}
 }

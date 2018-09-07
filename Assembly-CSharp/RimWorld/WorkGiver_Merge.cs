@@ -24,56 +24,51 @@ namespace RimWorld
 
 		public override Job JobOnThing(Pawn pawn, Thing t, bool forced = false)
 		{
-			Job result;
 			if (t.stackCount == t.def.stackLimit)
 			{
-				result = null;
+				return null;
 			}
-			else if (!HaulAIUtility.PawnCanAutomaticallyHaul(pawn, t, forced))
+			if (!HaulAIUtility.PawnCanAutomaticallyHaul(pawn, t, forced))
 			{
-				result = null;
+				return null;
 			}
-			else
+			SlotGroup slotGroup = t.GetSlotGroup();
+			if (slotGroup == null)
 			{
-				SlotGroup slotGroup = t.GetSlotGroup();
-				if (slotGroup == null)
+				return null;
+			}
+			foreach (Thing thing in slotGroup.HeldThings)
+			{
+				if (thing != t)
 				{
-					result = null;
-				}
-				else
-				{
-					foreach (Thing thing in slotGroup.HeldThings)
+					if (thing.def == t.def)
 					{
-						if (thing != t)
+						if (forced || thing.stackCount >= t.stackCount)
 						{
-							if (thing.def == t.def)
+							if (thing.stackCount < thing.def.stackLimit)
 							{
-								if (forced || thing.stackCount >= t.stackCount)
+								LocalTargetInfo target = thing.Position;
+								if (pawn.CanReserve(target, 1, -1, null, forced))
 								{
-									if (thing.stackCount != thing.def.stackLimit)
+									if (pawn.CanReserve(thing, 1, -1, null, false))
 									{
-										LocalTargetInfo target = thing.Position;
-										if (pawn.CanReserve(target, 1, -1, null, forced))
+										if (thing.Position.IsValidStorageFor(thing.Map, t))
 										{
-											if (thing.Position.IsValidStorageFor(thing.Map, t))
+											return new Job(JobDefOf.HaulToCell, t, thing.Position)
 											{
-												return new Job(JobDefOf.HaulToCell, t, thing.Position)
-												{
-													count = Mathf.Min(thing.def.stackLimit - thing.stackCount, t.stackCount),
-													haulMode = HaulMode.ToCellStorage
-												};
-											}
+												count = Mathf.Min(thing.def.stackLimit - thing.stackCount, t.stackCount),
+												haulMode = HaulMode.ToCellStorage
+											};
 										}
 									}
 								}
 							}
 						}
 					}
-					JobFailReason.Is("NoMergeTarget".Translate(), null);
-					result = null;
 				}
 			}
-			return result;
+			JobFailReason.Is("NoMergeTarget".Translate(), null);
+			return null;
 		}
 	}
 }

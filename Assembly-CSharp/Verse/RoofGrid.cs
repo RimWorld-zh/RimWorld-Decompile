@@ -54,16 +54,11 @@ namespace Verse
 
 		public Color GetCellExtraColor(int index)
 		{
-			Color result;
 			if (RoofDefOf.RoofRockThick != null && this.roofGrid[index] == RoofDefOf.RoofRockThick)
 			{
-				result = Color.gray;
+				return Color.gray;
 			}
-			else
-			{
-				result = Color.white;
-			}
-			return result;
+			return Color.white;
 		}
 
 		public bool Roofed(int index)
@@ -98,21 +93,22 @@ namespace Verse
 
 		public void SetRoof(IntVec3 c, RoofDef def)
 		{
-			if (this.roofGrid[this.map.cellIndices.CellToIndex(c)] != def)
+			if (this.roofGrid[this.map.cellIndices.CellToIndex(c)] == def)
 			{
-				this.roofGrid[this.map.cellIndices.CellToIndex(c)] = def;
-				this.map.glowGrid.MarkGlowGridDirty(c);
-				Region validRegionAt_NoRebuild = this.map.regionGrid.GetValidRegionAt_NoRebuild(c);
-				if (validRegionAt_NoRebuild != null)
-				{
-					validRegionAt_NoRebuild.Room.Notify_RoofChanged();
-				}
-				if (this.drawerInt != null)
-				{
-					this.drawerInt.SetDirty();
-				}
-				this.map.mapDrawer.MapMeshDirty(c, MapMeshFlag.Roofs);
+				return;
 			}
+			this.roofGrid[this.map.cellIndices.CellToIndex(c)] = def;
+			this.map.glowGrid.MarkGlowGridDirty(c);
+			Region validRegionAt_NoRebuild = this.map.regionGrid.GetValidRegionAt_NoRebuild(c);
+			if (validRegionAt_NoRebuild != null)
+			{
+				validRegionAt_NoRebuild.Room.Notify_RoofChanged();
+			}
+			if (this.drawerInt != null)
+			{
+				this.drawerInt.SetDirty();
+			}
+			this.map.mapDrawer.MapMeshDirty(c, MapMeshFlag.Roofs);
 		}
 
 		public void RoofGridUpdate()

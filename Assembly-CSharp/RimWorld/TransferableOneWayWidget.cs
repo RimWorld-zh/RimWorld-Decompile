@@ -5,7 +5,6 @@ using System.Runtime.CompilerServices;
 using System.Text;
 using RimWorld.Planet;
 using UnityEngine;
-using UnityEngine.Profiling;
 using Verse;
 
 namespace RimWorld
@@ -110,13 +109,13 @@ namespace RimWorld
 		private static float BondIconWidth = 24f;
 
 		[CompilerGenerated]
+		private static Func<TransferableOneWay, float> <>f__mg$cache0;
+
+		[CompilerGenerated]
 		private static Func<TransferableOneWay, Transferable> <>f__am$cache0;
 
 		[CompilerGenerated]
 		private static Func<TransferableOneWay, Transferable> <>f__am$cache1;
-
-		[CompilerGenerated]
-		private static Func<TransferableOneWay, float> <>f__am$cache2;
 
 		public TransferableOneWayWidget(IEnumerable<TransferableOneWay> transferables, string sourceLabel, string destinationLabel, string sourceCountDesc, bool drawMass = false, IgnorePawnsInventoryMode ignorePawnInventoryMass = IgnorePawnsInventoryMode.DontIgnore, bool includePawnsMassInMassUsage = false, Func<float> availableMassGetter = null, float extraHeaderSpace = 0f, bool ignoreSpawnedCorpseGearAndInventoryMass = false, int tile = -1, bool drawMarketValue = false, bool drawEquippedWeapon = false, bool drawNutritionEatenPerDay = false, bool drawItemNutrition = false, bool drawForagedFoodPerDay = false, bool drawDaysUntilRot = false, bool playerPawnsReadOnly = false)
 		{
@@ -214,7 +213,13 @@ namespace RimWorld
 			{
 				List<TransferableOneWay> cachedTransferables = this.sections[i].cachedTransferables;
 				cachedTransferables.Clear();
-				cachedTransferables.AddRange(this.sections[i].transferables.OrderBy((TransferableOneWay tr) => tr, this.sorter1.Comparer).ThenBy((TransferableOneWay tr) => tr, this.sorter2.Comparer).ThenBy((TransferableOneWay tr) => TransferableUIUtility.DefaultListOrderPriority(tr)).ToList<TransferableOneWay>());
+				List<TransferableOneWay> list = cachedTransferables;
+				IOrderedEnumerable<TransferableOneWay> source = this.sections[i].transferables.OrderBy((TransferableOneWay tr) => tr, this.sorter1.Comparer).ThenBy((TransferableOneWay tr) => tr, this.sorter2.Comparer);
+				if (TransferableOneWayWidget.<>f__mg$cache0 == null)
+				{
+					TransferableOneWayWidget.<>f__mg$cache0 = new Func<TransferableOneWay, float>(TransferableUIUtility.DefaultListOrderPriority);
+				}
+				list.AddRange(source.ThenBy(TransferableOneWayWidget.<>f__mg$cache0).ToList<TransferableOneWay>());
 			}
 		}
 
@@ -230,7 +235,6 @@ namespace RimWorld
 			{
 				this.CacheTransferables();
 			}
-			Profiler.BeginSample("TransferableOneWayWidget.OnGUI()");
 			TransferableUIUtility.DoTransferableSorters(this.sorter1, this.sorter2, delegate(TransferableSorterDef x)
 			{
 				this.sorter1 = x;
@@ -264,7 +268,6 @@ namespace RimWorld
 			}
 			Rect mainRect = new Rect(inRect.x, inRect.y + 37f + this.extraHeaderSpace, inRect.width, inRect.height - 37f - this.extraHeaderSpace);
 			this.FillMainRect(mainRect, out anythingChanged);
-			Profiler.EndSample();
 		}
 
 		private void FillMainRect(Rect mainRect, out bool anythingChanged)
@@ -304,9 +307,7 @@ namespace RimWorld
 							{
 								Rect rect = new Rect(0f, num2, viewRect.width, 30f);
 								int countToTransfer = cachedTransferables[k].CountToTransfer;
-								Profiler.BeginSample("DoRow()");
 								this.DoRow(rect, cachedTransferables[k], k, availableMass);
-								Profiler.EndSample();
 								if (countToTransfer != cachedTransferables[k].CountToTransfer)
 								{
 									anythingChanged = true;
@@ -348,62 +349,47 @@ namespace RimWorld
 			}
 			Pawn pawn = trad.AnyThing as Pawn;
 			bool flag = pawn != null && (pawn.IsColonist || pawn.IsPrisonerOfColony);
-			Profiler.BeginSample("DoCountAdjustInterface()");
 			Rect rect3 = rect2;
 			int min = 0;
 			int max = maxCount;
 			List<TransferableCountToTransferStoppingPoint> extraStoppingPoints = TransferableOneWayWidget.stoppingPoints;
 			TransferableUIUtility.DoCountAdjustInterface(rect3, trad, index, min, max, false, extraStoppingPoints, this.playerPawnsReadOnly && flag);
-			Profiler.EndSample();
 			num -= 240f;
 			if (this.drawMarketValue)
 			{
 				Rect rect4 = new Rect(num - 100f, 0f, 100f, rect.height);
 				Text.Anchor = TextAnchor.MiddleLeft;
-				Profiler.BeginSample("DrawMarketValue()");
 				this.DrawMarketValue(rect4, trad);
-				Profiler.EndSample();
 				num -= 100f;
 			}
 			if (this.drawMass)
 			{
 				Rect rect5 = new Rect(num - 100f, 0f, 100f, rect.height);
 				Text.Anchor = TextAnchor.MiddleLeft;
-				Profiler.BeginSample("DrawMass()");
 				this.DrawMass(rect5, trad, availableMass);
-				Profiler.EndSample();
 				num -= 100f;
 			}
 			if (this.drawDaysUntilRot)
 			{
 				Rect rect6 = new Rect(num - 75f, 0f, 75f, rect.height);
 				Text.Anchor = TextAnchor.MiddleLeft;
-				Profiler.BeginSample("DrawDaysUntilRot()");
 				this.DrawDaysUntilRot(rect6, trad);
-				Profiler.EndSample();
 				num -= 75f;
 			}
 			if (this.drawItemNutrition)
 			{
 				Rect rect7 = new Rect(num - 75f, 0f, 75f, rect.height);
 				Text.Anchor = TextAnchor.MiddleLeft;
-				Profiler.BeginSample("DrawItemNutrition()");
 				this.DrawItemNutrition(rect7, trad);
-				Profiler.EndSample();
 				num -= 75f;
 			}
 			if (this.drawForagedFoodPerDay)
 			{
 				Rect rect8 = new Rect(num - 75f, 0f, 75f, rect.height);
 				Text.Anchor = TextAnchor.MiddleLeft;
-				Profiler.BeginSample("DrawGrazeability()");
-				bool flag2 = this.DrawGrazeability(rect8, trad);
-				Profiler.EndSample();
-				if (!flag2)
+				if (!this.DrawGrazeability(rect8, trad))
 				{
-					Profiler.BeginSample("DrawForagedFoodPerDay()");
 					this.DrawForagedFoodPerDay(rect8, trad);
-					Profiler.EndSample();
 				}
 				num -= 75f;
 			}
@@ -411,9 +397,7 @@ namespace RimWorld
 			{
 				Rect rect9 = new Rect(num - 75f, 0f, 75f, rect.height);
 				Text.Anchor = TextAnchor.MiddleLeft;
-				Profiler.BeginSample("DrawNutritionEatenPerDay()");
 				this.DrawNutritionEatenPerDay(rect9, trad);
-				Profiler.EndSample();
 				num -= 75f;
 			}
 			if (this.ShouldShowCount(trad))
@@ -432,9 +416,7 @@ namespace RimWorld
 			{
 				Rect rect12 = new Rect(num - 30f, 0f, 30f, rect.height);
 				Rect iconRect = new Rect(num - 30f, (rect.height - 30f) / 2f, 30f, 30f);
-				Profiler.BeginSample("DrawEquippedWeapon()");
 				this.DrawEquippedWeapon(rect12, iconRect, trad);
-				Profiler.EndSample();
 				num -= 30f;
 			}
 			Pawn pawn2 = trad.AnyThing as Pawn;
@@ -460,324 +442,314 @@ namespace RimWorld
 				}
 			}
 			Rect idRect = new Rect(0f, 0f, num, rect.height);
-			Profiler.BeginSample("DrawTransferableInfo()");
 			TransferableUIUtility.DrawTransferableInfo(trad, idRect, Color.white);
-			Profiler.EndSample();
 			GenUI.ResetLabelAlign();
 			GUI.EndGroup();
 		}
 
 		private bool ShouldShowCount(TransferableOneWay trad)
 		{
-			bool result;
 			if (!trad.HasAnyThing)
 			{
-				result = true;
+				return true;
 			}
-			else
-			{
-				Pawn pawn = trad.AnyThing as Pawn;
-				result = (pawn == null || !pawn.RaceProps.Humanlike || trad.MaxCount != 1);
-			}
-			return result;
+			Pawn pawn = trad.AnyThing as Pawn;
+			return pawn == null || !pawn.RaceProps.Humanlike || trad.MaxCount != 1;
 		}
 
 		private void DrawDaysUntilRot(Rect rect, TransferableOneWay trad)
 		{
-			if (trad.HasAnyThing)
+			if (!trad.HasAnyThing)
 			{
-				if (trad.ThingDef.IsNutritionGivingIngestible)
+				return;
+			}
+			if (!trad.ThingDef.IsNutritionGivingIngestible)
+			{
+				return;
+			}
+			int num = int.MaxValue;
+			for (int i = 0; i < trad.things.Count; i++)
+			{
+				CompRottable compRottable = trad.things[i].TryGetComp<CompRottable>();
+				if (compRottable != null)
 				{
-					int num = int.MaxValue;
-					for (int i = 0; i < trad.things.Count; i++)
-					{
-						CompRottable compRottable = trad.things[i].TryGetComp<CompRottable>();
-						if (compRottable != null)
-						{
-							num = Mathf.Min(num, DaysUntilRotCalculator.ApproxTicksUntilRot_AssumeTimePassesBy(compRottable, this.tile, null));
-						}
-					}
-					if (num < 36000000)
-					{
-						Widgets.DrawHighlightIfMouseover(rect);
-						float num2 = (float)num / 60000f;
-						GUI.color = Color.yellow;
-						Widgets.Label(rect, num2.ToString("0.#"));
-						GUI.color = Color.white;
-						TooltipHandler.TipRegion(rect, "DaysUntilRotTip".Translate());
-					}
+					num = Mathf.Min(num, DaysUntilRotCalculator.ApproxTicksUntilRot_AssumeTimePassesBy(compRottable, this.tile, null));
 				}
 			}
+			if (num >= 36000000)
+			{
+				return;
+			}
+			Widgets.DrawHighlightIfMouseover(rect);
+			float num2 = (float)num / 60000f;
+			GUI.color = Color.yellow;
+			Widgets.Label(rect, num2.ToString("0.#"));
+			GUI.color = Color.white;
+			TooltipHandler.TipRegion(rect, "DaysUntilRotTip".Translate());
 		}
 
 		private void DrawItemNutrition(Rect rect, TransferableOneWay trad)
 		{
-			if (trad.HasAnyThing)
+			if (!trad.HasAnyThing)
 			{
-				if (trad.ThingDef.IsNutritionGivingIngestible)
-				{
-					Widgets.DrawHighlightIfMouseover(rect);
-					GUI.color = Color.green;
-					Widgets.Label(rect, trad.ThingDef.GetStatValueAbstract(StatDefOf.Nutrition, null).ToString("0.##"));
-					GUI.color = Color.white;
-					TooltipHandler.TipRegion(rect, "ItemNutritionTip".Translate(new object[]
-					{
-						(1.6f * ThingDefOf.Human.race.baseHungerRate).ToString("0.##")
-					}));
-				}
+				return;
 			}
+			if (!trad.ThingDef.IsNutritionGivingIngestible)
+			{
+				return;
+			}
+			Widgets.DrawHighlightIfMouseover(rect);
+			GUI.color = Color.green;
+			Widgets.Label(rect, trad.ThingDef.GetStatValueAbstract(StatDefOf.Nutrition, null).ToString("0.##"));
+			GUI.color = Color.white;
+			TooltipHandler.TipRegion(rect, "ItemNutritionTip".Translate(new object[]
+			{
+				(1.6f * ThingDefOf.Human.race.baseHungerRate).ToString("0.##")
+			}));
 		}
 
 		private bool DrawGrazeability(Rect rect, TransferableOneWay trad)
 		{
-			bool result;
 			if (!trad.HasAnyThing)
 			{
-				result = false;
+				return false;
 			}
-			else
+			Pawn pawn = trad.AnyThing as Pawn;
+			if (pawn == null || !VirtualPlantsUtility.CanEverEatVirtualPlants(pawn))
 			{
-				Pawn pawn = trad.AnyThing as Pawn;
-				if (pawn == null || !VirtualPlantsUtility.CanEverEatVirtualPlants(pawn))
-				{
-					result = false;
-				}
-				else
-				{
-					rect.width = 40f;
-					Rect position = new Rect(rect.x + (float)((int)((rect.width - 28f) / 2f)), rect.y + (float)((int)((rect.height - 28f) / 2f)), 28f, 28f);
-					Widgets.DrawHighlightIfMouseover(rect);
-					GUI.DrawTexture(position, TransferableOneWayWidget.CanGrazeIcon);
-					TooltipHandler.TipRegion(rect, delegate()
-					{
-						string text = "AnimalCanGrazeTip".Translate();
-						if (this.tile != -1)
-						{
-							text = text + "\n\n" + VirtualPlantsUtility.GetVirtualPlantsStatusExplanationAt(this.tile, Find.TickManager.TicksAbs);
-						}
-						return text;
-					}, trad.GetHashCode() ^ 1948571634);
-					result = true;
-				}
+				return false;
 			}
-			return result;
+			rect.width = 40f;
+			Rect position = new Rect(rect.x + (float)((int)((rect.width - 28f) / 2f)), rect.y + (float)((int)((rect.height - 28f) / 2f)), 28f, 28f);
+			Widgets.DrawHighlightIfMouseover(rect);
+			GUI.DrawTexture(position, TransferableOneWayWidget.CanGrazeIcon);
+			TooltipHandler.TipRegion(rect, delegate()
+			{
+				string text = "AnimalCanGrazeTip".Translate();
+				if (this.tile != -1)
+				{
+					text = text + "\n\n" + VirtualPlantsUtility.GetVirtualPlantsStatusExplanationAt(this.tile, Find.TickManager.TicksAbs);
+				}
+				return text;
+			}, trad.GetHashCode() ^ 1948571634);
+			return true;
 		}
 
 		private void DrawForagedFoodPerDay(Rect rect, TransferableOneWay trad)
 		{
-			if (trad.HasAnyThing)
+			if (!trad.HasAnyThing)
 			{
-				Pawn p = trad.AnyThing as Pawn;
-				if (p != null)
-				{
-					bool flag;
-					float foragedNutritionPerDay = ForagedFoodPerDayCalculator.GetBaseForagedNutritionPerDay(p, out flag);
-					if (!flag)
-					{
-						Widgets.DrawHighlightIfMouseover(rect);
-						GUI.color = ((foragedNutritionPerDay != 0f) ? Color.green : Color.gray);
-						Widgets.Label(rect, "+" + foragedNutritionPerDay.ToString("0.##"));
-						GUI.color = Color.white;
-						TooltipHandler.TipRegion(rect, () => "NutritionForagedPerDayTip".Translate(new object[]
-						{
-							StatDefOf.ForagedNutritionPerDay.Worker.GetExplanationFull(StatRequest.For(p), StatDefOf.ForagedNutritionPerDay.toStringNumberSense, foragedNutritionPerDay)
-						}), trad.GetHashCode() ^ 1958671422);
-					}
-				}
+				return;
 			}
+			Pawn p = trad.AnyThing as Pawn;
+			if (p == null)
+			{
+				return;
+			}
+			bool flag;
+			float foragedNutritionPerDay = ForagedFoodPerDayCalculator.GetBaseForagedNutritionPerDay(p, out flag);
+			if (flag)
+			{
+				return;
+			}
+			Widgets.DrawHighlightIfMouseover(rect);
+			GUI.color = ((foragedNutritionPerDay != 0f) ? Color.green : Color.gray);
+			Widgets.Label(rect, "+" + foragedNutritionPerDay.ToString("0.##"));
+			GUI.color = Color.white;
+			TooltipHandler.TipRegion(rect, () => "NutritionForagedPerDayTip".Translate(new object[]
+			{
+				StatDefOf.ForagedNutritionPerDay.Worker.GetExplanationFull(StatRequest.For(p), StatDefOf.ForagedNutritionPerDay.toStringNumberSense, foragedNutritionPerDay)
+			}), trad.GetHashCode() ^ 1958671422);
 		}
 
 		private void DrawNutritionEatenPerDay(Rect rect, TransferableOneWay trad)
 		{
-			if (trad.HasAnyThing)
+			if (!trad.HasAnyThing)
 			{
-				Pawn p = trad.AnyThing as Pawn;
-				if (p != null && p.RaceProps.EatsFood && !p.Dead && p.needs.food != null)
-				{
-					Widgets.DrawHighlightIfMouseover(rect);
-					string text = (p.needs.food.FoodFallPerTick * 60000f).ToString("0.##");
-					DietCategory resolvedDietCategory = p.RaceProps.ResolvedDietCategory;
-					if (resolvedDietCategory != DietCategory.Omnivorous)
-					{
-						text = text + " (" + resolvedDietCategory.ToStringHumanShort() + ")";
-					}
-					GUI.color = new Color(1f, 0.5f, 0f);
-					Widgets.Label(rect, text);
-					GUI.color = Color.white;
-					TooltipHandler.TipRegion(rect, delegate()
-					{
-						StringBuilder stringBuilder = new StringBuilder();
-						stringBuilder.Append("NoDietCategoryLetter".Translate() + " - " + DietCategory.Omnivorous.ToStringHuman());
-						DietCategory[] array = (DietCategory[])Enum.GetValues(typeof(DietCategory));
-						for (int i = 0; i < array.Length; i++)
-						{
-							if (array[i] != DietCategory.NeverEats && array[i] != DietCategory.Omnivorous)
-							{
-								stringBuilder.AppendLine();
-								stringBuilder.Append(array[i].ToStringHumanShort() + " - " + array[i].ToStringHuman());
-							}
-						}
-						return "NutritionEatenPerDayTip".Translate(new object[]
-						{
-							ThingDefOf.MealSimple.GetStatValueAbstract(StatDefOf.Nutrition, null).ToString("0.##"),
-							stringBuilder.ToString(),
-							p.RaceProps.foodType.ToHumanString()
-						});
-					}, trad.GetHashCode() ^ 385968958);
-				}
+				return;
 			}
+			Pawn p = trad.AnyThing as Pawn;
+			if (p == null || !p.RaceProps.EatsFood || p.Dead || p.needs.food == null)
+			{
+				return;
+			}
+			Widgets.DrawHighlightIfMouseover(rect);
+			string text = (p.needs.food.FoodFallPerTick * 60000f).ToString("0.##");
+			DietCategory resolvedDietCategory = p.RaceProps.ResolvedDietCategory;
+			if (resolvedDietCategory != DietCategory.Omnivorous)
+			{
+				text = text + " (" + resolvedDietCategory.ToStringHumanShort() + ")";
+			}
+			GUI.color = new Color(1f, 0.5f, 0f);
+			Widgets.Label(rect, text);
+			GUI.color = Color.white;
+			TooltipHandler.TipRegion(rect, delegate()
+			{
+				StringBuilder stringBuilder = new StringBuilder();
+				stringBuilder.Append("NoDietCategoryLetter".Translate() + " - " + DietCategory.Omnivorous.ToStringHuman());
+				DietCategory[] array = (DietCategory[])Enum.GetValues(typeof(DietCategory));
+				for (int i = 0; i < array.Length; i++)
+				{
+					if (array[i] != DietCategory.NeverEats && array[i] != DietCategory.Omnivorous)
+					{
+						stringBuilder.AppendLine();
+						stringBuilder.Append(array[i].ToStringHumanShort() + " - " + array[i].ToStringHuman());
+					}
+				}
+				return "NutritionEatenPerDayTip".Translate(new object[]
+				{
+					ThingDefOf.MealSimple.GetStatValueAbstract(StatDefOf.Nutrition, null).ToString("0.##"),
+					stringBuilder.ToString(),
+					p.RaceProps.foodType.ToHumanString()
+				});
+			}, trad.GetHashCode() ^ 385968958);
 		}
 
 		private void DrawMarketValue(Rect rect, TransferableOneWay trad)
 		{
-			if (trad.HasAnyThing)
+			if (!trad.HasAnyThing)
 			{
-				Widgets.DrawHighlightIfMouseover(rect);
-				Widgets.Label(rect, trad.AnyThing.MarketValue.ToStringMoney("F2"));
-				TooltipHandler.TipRegion(rect, "MarketValueTip".Translate());
+				return;
 			}
+			Widgets.DrawHighlightIfMouseover(rect);
+			Widgets.Label(rect, trad.AnyThing.MarketValue.ToStringMoney("F2"));
+			TooltipHandler.TipRegion(rect, "MarketValueTip".Translate());
 		}
 
 		private void DrawMass(Rect rect, TransferableOneWay trad, float availableMass)
 		{
-			if (trad.HasAnyThing)
+			if (!trad.HasAnyThing)
 			{
-				Thing anyThing = trad.AnyThing;
-				Pawn pawn = anyThing as Pawn;
-				if (pawn == null || this.includePawnsMassInMassUsage || MassUtility.CanEverCarryAnything(pawn))
-				{
-					Widgets.DrawHighlightIfMouseover(rect);
-					if (pawn == null || this.includePawnsMassInMassUsage)
-					{
-						float mass = this.GetMass(anyThing);
-						if (pawn != null)
-						{
-							float gearMass = 0f;
-							float invMass = 0f;
-							gearMass = MassUtility.GearMass(pawn);
-							if (!InventoryCalculatorsUtility.ShouldIgnoreInventoryOf(pawn, this.ignorePawnInventoryMass))
-							{
-								invMass = MassUtility.InventoryMass(pawn);
-							}
-							TooltipHandler.TipRegion(rect, () => this.GetPawnMassTip(trad, 0f, mass - gearMass - invMass, gearMass, invMass), trad.GetHashCode() * 59);
-						}
-						else
-						{
-							TooltipHandler.TipRegion(rect, "ItemWeightTip".Translate());
-						}
-						if (mass > availableMass)
-						{
-							GUI.color = Color.red;
-						}
-						else
-						{
-							GUI.color = TransferableOneWayWidget.ItemMassColor;
-						}
-						Widgets.Label(rect, mass.ToStringMass());
-					}
-					else
-					{
-						float cap = MassUtility.Capacity(pawn, null);
-						float gearMass = MassUtility.GearMass(pawn);
-						float invMass = (!InventoryCalculatorsUtility.ShouldIgnoreInventoryOf(pawn, this.ignorePawnInventoryMass)) ? MassUtility.InventoryMass(pawn) : 0f;
-						float num = cap - gearMass - invMass;
-						if (num > 0f)
-						{
-							GUI.color = Color.green;
-						}
-						else if (num < 0f)
-						{
-							GUI.color = Color.red;
-						}
-						else
-						{
-							GUI.color = Color.gray;
-						}
-						Widgets.Label(rect, num.ToStringMassOffset());
-						TooltipHandler.TipRegion(rect, () => this.GetPawnMassTip(trad, cap, 0f, gearMass, invMass), trad.GetHashCode() * 59);
-					}
-					GUI.color = Color.white;
-				}
+				return;
 			}
+			Thing anyThing = trad.AnyThing;
+			Pawn pawn = anyThing as Pawn;
+			if (pawn != null && !this.includePawnsMassInMassUsage && !MassUtility.CanEverCarryAnything(pawn))
+			{
+				return;
+			}
+			Widgets.DrawHighlightIfMouseover(rect);
+			if (pawn == null || this.includePawnsMassInMassUsage)
+			{
+				float mass = this.GetMass(anyThing);
+				if (pawn != null)
+				{
+					float gearMass = 0f;
+					float invMass = 0f;
+					gearMass = MassUtility.GearMass(pawn);
+					if (!InventoryCalculatorsUtility.ShouldIgnoreInventoryOf(pawn, this.ignorePawnInventoryMass))
+					{
+						invMass = MassUtility.InventoryMass(pawn);
+					}
+					TooltipHandler.TipRegion(rect, () => this.GetPawnMassTip(trad, 0f, mass - gearMass - invMass, gearMass, invMass), trad.GetHashCode() * 59);
+				}
+				else
+				{
+					TooltipHandler.TipRegion(rect, "ItemWeightTip".Translate());
+				}
+				if (mass > availableMass)
+				{
+					GUI.color = Color.red;
+				}
+				else
+				{
+					GUI.color = TransferableOneWayWidget.ItemMassColor;
+				}
+				Widgets.Label(rect, mass.ToStringMass());
+			}
+			else
+			{
+				float cap = MassUtility.Capacity(pawn, null);
+				float gearMass = MassUtility.GearMass(pawn);
+				float invMass = (!InventoryCalculatorsUtility.ShouldIgnoreInventoryOf(pawn, this.ignorePawnInventoryMass)) ? MassUtility.InventoryMass(pawn) : 0f;
+				float num = cap - gearMass - invMass;
+				if (num > 0f)
+				{
+					GUI.color = Color.green;
+				}
+				else if (num < 0f)
+				{
+					GUI.color = Color.red;
+				}
+				else
+				{
+					GUI.color = Color.gray;
+				}
+				Widgets.Label(rect, num.ToStringMassOffset());
+				TooltipHandler.TipRegion(rect, () => this.GetPawnMassTip(trad, cap, 0f, gearMass, invMass), trad.GetHashCode() * 59);
+			}
+			GUI.color = Color.white;
 		}
 
 		private void DrawEquippedWeapon(Rect rect, Rect iconRect, TransferableOneWay trad)
 		{
-			if (trad.HasAnyThing)
+			if (!trad.HasAnyThing)
 			{
-				Pawn pawn = trad.AnyThing as Pawn;
-				if (pawn != null && pawn.equipment != null && pawn.equipment.Primary != null)
-				{
-					ThingWithComps primary = pawn.equipment.Primary;
-					Widgets.DrawHighlightIfMouseover(rect);
-					Widgets.ThingIcon(iconRect, primary, 1f);
-					TooltipHandler.TipRegion(rect, primary.LabelCap);
-				}
+				return;
 			}
+			Pawn pawn = trad.AnyThing as Pawn;
+			if (pawn == null || pawn.equipment == null || pawn.equipment.Primary == null)
+			{
+				return;
+			}
+			ThingWithComps primary = pawn.equipment.Primary;
+			Widgets.DrawHighlightIfMouseover(rect);
+			Widgets.ThingIcon(iconRect, primary, 1f);
+			TooltipHandler.TipRegion(rect, primary.LabelCap);
 		}
 
 		private string GetPawnMassTip(TransferableOneWay trad, float capacity, float pawnMass, float gearMass, float invMass)
 		{
-			string result;
 			if (!trad.HasAnyThing)
 			{
-				result = "";
+				return string.Empty;
+			}
+			StringBuilder stringBuilder = new StringBuilder();
+			if (capacity != 0f)
+			{
+				stringBuilder.Append("MassCapacity".Translate() + ": " + capacity.ToStringMass());
 			}
 			else
 			{
-				StringBuilder stringBuilder = new StringBuilder();
-				if (capacity != 0f)
-				{
-					stringBuilder.Append("MassCapacity".Translate() + ": " + capacity.ToStringMass());
-				}
-				else
-				{
-					stringBuilder.Append("Mass".Translate() + ": " + pawnMass.ToStringMass());
-				}
-				if (gearMass != 0f)
-				{
-					stringBuilder.AppendLine();
-					stringBuilder.Append("EquipmentAndApparelMass".Translate() + ": " + gearMass.ToStringMass());
-				}
-				if (invMass != 0f)
-				{
-					stringBuilder.AppendLine();
-					stringBuilder.Append("InventoryMass".Translate() + ": " + invMass.ToStringMass());
-				}
-				result = stringBuilder.ToString();
+				stringBuilder.Append("Mass".Translate() + ": " + pawnMass.ToStringMass());
 			}
-			return result;
+			if (gearMass != 0f)
+			{
+				stringBuilder.AppendLine();
+				stringBuilder.Append("EquipmentAndApparelMass".Translate() + ": " + gearMass.ToStringMass());
+			}
+			if (invMass != 0f)
+			{
+				stringBuilder.AppendLine();
+				stringBuilder.Append("InventoryMass".Translate() + ": " + invMass.ToStringMass());
+			}
+			return stringBuilder.ToString();
 		}
 
 		private float GetMass(Thing thing)
 		{
-			float result;
 			if (thing == null)
 			{
-				result = 0f;
+				return 0f;
 			}
-			else
+			float num = thing.GetStatValue(StatDefOf.Mass, true);
+			Pawn pawn = thing as Pawn;
+			if (pawn != null)
 			{
-				float num = thing.GetStatValue(StatDefOf.Mass, true);
-				Pawn pawn = thing as Pawn;
-				if (pawn != null)
+				if (InventoryCalculatorsUtility.ShouldIgnoreInventoryOf(pawn, this.ignorePawnInventoryMass))
 				{
-					if (InventoryCalculatorsUtility.ShouldIgnoreInventoryOf(pawn, this.ignorePawnInventoryMass))
-					{
-						num -= MassUtility.InventoryMass(pawn);
-					}
+					num -= MassUtility.InventoryMass(pawn);
 				}
-				else if (this.ignoreSpawnedCorpseGearAndInventoryMass)
-				{
-					Corpse corpse = thing as Corpse;
-					if (corpse != null && corpse.Spawned)
-					{
-						num -= MassUtility.GearAndInventoryMass(corpse.InnerPawn);
-					}
-				}
-				result = num;
 			}
-			return result;
+			else if (this.ignoreSpawnedCorpseGearAndInventoryMass)
+			{
+				Corpse corpse = thing as Corpse;
+				if (corpse != null && corpse.Spawned)
+				{
+					num -= MassUtility.GearAndInventoryMass(corpse.InnerPawn);
+				}
+			}
+			return num;
 		}
 
 		// Note: this type is marked as 'beforefieldinit'.
@@ -798,27 +770,21 @@ namespace RimWorld
 		}
 
 		[CompilerGenerated]
-		private static float <CacheTransferables>m__2(TransferableOneWay tr)
-		{
-			return TransferableUIUtility.DefaultListOrderPriority(tr);
-		}
-
-		[CompilerGenerated]
-		private void <OnGUI>m__3(TransferableSorterDef x)
+		private void <OnGUI>m__2(TransferableSorterDef x)
 		{
 			this.sorter1 = x;
 			this.CacheTransferables();
 		}
 
 		[CompilerGenerated]
-		private void <OnGUI>m__4(TransferableSorterDef x)
+		private void <OnGUI>m__3(TransferableSorterDef x)
 		{
 			this.sorter2 = x;
 			this.CacheTransferables();
 		}
 
 		[CompilerGenerated]
-		private string <DrawGrazeability>m__5()
+		private string <DrawGrazeability>m__4()
 		{
 			string text = "AnimalCanGrazeTip".Translate();
 			if (this.tile != -1)

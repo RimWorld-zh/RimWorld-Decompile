@@ -19,6 +19,7 @@ namespace RimWorld
 			pawnGroupMakerParms.generateFightersOnly = parms.generateFightersOnly;
 			pawnGroupMakerParms.raidStrategy = parms.raidStrategy;
 			pawnGroupMakerParms.forceOneIncap = parms.raidForceOneIncap;
+			pawnGroupMakerParms.seed = parms.pawnGroupMakerSeed;
 			if (ensureCanGenerateAtLeastOnePawn && parms.faction != null)
 			{
 				pawnGroupMakerParms.points = Mathf.Max(pawnGroupMakerParms.points, parms.faction.def.MinPointsToGeneratePawnGroup(groupKind));
@@ -51,15 +52,10 @@ namespace RimWorld
 
 		private static int GetGroup(Pawn pawn, Dictionary<Pawn, int> groups)
 		{
-			int num;
 			int result;
-			if (groups == null || !groups.TryGetValue(pawn, out num))
+			if (groups == null || !groups.TryGetValue(pawn, out result))
 			{
-				result = -1;
-			}
-			else
-			{
-				result = num;
+				return -1;
 			}
 			return result;
 		}

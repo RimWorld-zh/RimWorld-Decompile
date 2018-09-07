@@ -141,48 +141,31 @@ namespace RimWorld
 
 		private bool ShouldHaveNeed(NeedDef nd)
 		{
-			bool result;
 			if (this.pawn.RaceProps.intelligence < nd.minIntelligence)
 			{
-				result = false;
+				return false;
 			}
-			else
+			if (nd.colonistsOnly && (this.pawn.Faction == null || !this.pawn.Faction.IsPlayer))
 			{
-				if (nd.colonistsOnly)
-				{
-					if (this.pawn.Faction == null || !this.pawn.Faction.IsPlayer)
-					{
-						return false;
-					}
-				}
-				if (nd.colonistAndPrisonersOnly)
-				{
-					if ((this.pawn.Faction == null || !this.pawn.Faction.IsPlayer) && (this.pawn.HostFaction == null || this.pawn.HostFaction != Faction.OfPlayer))
-					{
-						return false;
-					}
-				}
-				if (nd.onlyIfCausedByHediff)
-				{
-					if (!this.pawn.health.hediffSet.hediffs.Any((Hediff x) => x.def.causesNeed == nd))
-					{
-						return false;
-					}
-				}
-				if (nd.neverOnPrisoner && this.pawn.IsPrisoner)
-				{
-					result = false;
-				}
-				else if (nd == NeedDefOf.Food)
-				{
-					result = this.pawn.RaceProps.EatsFood;
-				}
-				else
-				{
-					result = (nd != NeedDefOf.Rest || this.pawn.RaceProps.needsRest);
-				}
+				return false;
 			}
-			return result;
+			if (nd.colonistAndPrisonersOnly && (this.pawn.Faction == null || !this.pawn.Faction.IsPlayer) && (this.pawn.HostFaction == null || this.pawn.HostFaction != Faction.OfPlayer))
+			{
+				return false;
+			}
+			if (nd.onlyIfCausedByHediff && !this.pawn.health.hediffSet.hediffs.Any((Hediff x) => x.def.causesNeed == nd))
+			{
+				return false;
+			}
+			if (nd.neverOnPrisoner && this.pawn.IsPrisoner)
+			{
+				return false;
+			}
+			if (nd == NeedDefOf.Food)
+			{
+				return this.pawn.RaceProps.EatsFood;
+			}
+			return nd != NeedDefOf.Rest || this.pawn.RaceProps.needsRest;
 		}
 
 		private void AddNeed(NeedDef nd)

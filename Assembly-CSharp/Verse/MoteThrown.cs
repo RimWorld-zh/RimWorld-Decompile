@@ -65,76 +65,77 @@ namespace Verse
 				if (value == 0f)
 				{
 					this.velocity = Vector3.zero;
+					return;
 				}
-				else if (this.velocity == Vector3.zero)
+				if (this.velocity == Vector3.zero)
 				{
 					this.velocity = new Vector3(value, 0f, 0f);
+					return;
 				}
-				else
-				{
-					this.velocity = this.velocity.normalized * value;
-				}
+				this.velocity = this.velocity.normalized * value;
 			}
 		}
 
 		protected override void TimeInterval(float deltaTime)
 		{
 			base.TimeInterval(deltaTime);
-			if (!base.Destroyed)
+			if (base.Destroyed)
 			{
-				if (this.Flying || this.Skidding)
+				return;
+			}
+			if (!this.Flying && !this.Skidding)
+			{
+				return;
+			}
+			Vector3 vector = this.NextExactPosition(deltaTime);
+			IntVec3 intVec = new IntVec3(vector);
+			if (intVec != base.Position)
+			{
+				if (!intVec.InBounds(base.Map))
 				{
-					Vector3 vector = this.NextExactPosition(deltaTime);
-					IntVec3 intVec = new IntVec3(vector);
-					if (intVec != base.Position)
-					{
-						if (!intVec.InBounds(base.Map))
-						{
-							this.Destroy(DestroyMode.Vanish);
-							return;
-						}
-						if (this.def.mote.collide && intVec.Filled(base.Map))
-						{
-							this.WallHit();
-							return;
-						}
-					}
-					base.Position = intVec;
-					this.exactPosition = vector;
-					if (this.def.mote.rotateTowardsMoveDirection && this.velocity != default(Vector3))
-					{
-						this.exactRotation = this.velocity.AngleFlat();
-					}
-					else
-					{
-						this.exactRotation += this.rotationRate * deltaTime;
-					}
-					this.velocity += this.def.mote.acceleration * deltaTime;
-					if (this.def.mote.speedPerTime != 0f)
-					{
-						this.Speed = Mathf.Max(this.Speed + this.def.mote.speedPerTime * deltaTime, 0f);
-					}
-					if (this.airTimeLeft > 0f)
-					{
-						this.airTimeLeft -= deltaTime;
-						if (this.airTimeLeft < 0f)
-						{
-							this.airTimeLeft = 0f;
-						}
-						if (this.airTimeLeft <= 0f && !this.def.mote.landSound.NullOrUndefined())
-						{
-							this.def.mote.landSound.PlayOneShot(new TargetInfo(base.Position, base.Map, false));
-						}
-					}
-					if (this.Skidding)
-					{
-						this.Speed *= this.skidSpeedMultiplierPerTick;
-						this.rotationRate *= this.skidSpeedMultiplierPerTick;
-						if (this.Speed < 0.02f)
-						{
-							this.Speed = 0f;
-						}
-					}
+					this.Destroy(DestroyMode.Vanish);
+					return;
+				}
+				if (this.def.mote.collide && intVec.Filled(base.Map))
+				{
+					this.WallHit();
+					return;
+				}
+			}
+			base.Position = intVec;
+			this.exactPosition = vector;
+			if (this.def.mote.rotateTowardsMoveDirection && this.velocity != default(Vector3))
+			{
+				this.exactRotation = this.velocity.AngleFlat();
+			}
+			else
+			{
+				this.exactRotation += this.rotationRate * deltaTime;
+			}
+			this.velocity += this.def.mote.acceleration * deltaTime;
+			if (this.def.mote.speedPerTime != 0f)
+			{
+				this.Speed = Mathf.Max(this.Speed + this.def.mote.speedPerTime * deltaTime, 0f);
+			}
+			if (this.airTimeLeft > 0f)
+			{
+				this.airTimeLeft -= deltaTime;
+				if (this.airTimeLeft < 0f)
+				{
+					this.airTimeLeft = 0f;
+				}
+				if (this.airTimeLeft <= 0f && !this.def.mote.landSound.NullOrUndefined())
+				{
+					this.def.mote.landSound.PlayOneShot(new TargetInfo(base.Position, base.Map, false));
+				}
+			}
+			if (this.Skidding)
+			{
+				this.Speed *= this.skidSpeedMultiplierPerTick;
+				this.rotationRate *= this.skidSpeedMultiplierPerTick;
+				if (this.Speed < 0.02f)
+				{
+					this.Speed = 0f;
 				}
 			}
 		}

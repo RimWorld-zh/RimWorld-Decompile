@@ -30,7 +30,7 @@ namespace RimWorld
 
 		private PublishedFileId_t publishedFileIdInt = PublishedFileId_t.Invalid;
 
-		private ScenarioCategory categoryInt = ScenarioCategory.Undefined;
+		private ScenarioCategory categoryInt;
 
 		[NoTranslate]
 		public string fileName;
@@ -49,22 +49,25 @@ namespace RimWorld
 		public const int DescriptionMaxLength = 1000;
 
 		[CompilerGenerated]
-		private static Func<ScenPart, float> <>f__am$cache0;
+		private static Predicate<ScenPart> <>f__am$cache0;
 
 		[CompilerGenerated]
-		private static Func<ScenPart, string> <>f__am$cache1;
+		private static Func<ScenPart, float> <>f__am$cache1;
 
 		[CompilerGenerated]
-		private static Func<ScenPart, bool> <>f__am$cache2;
+		private static Func<ScenPart, string> <>f__am$cache2;
 
 		[CompilerGenerated]
-		private static Func<ScenPart, ScenPart> <>f__am$cache3;
+		private static Func<ScenPart, bool> <>f__am$cache3;
 
 		[CompilerGenerated]
-		private static Func<ScenPart, IEnumerable<Page>> <>f__am$cache4;
+		private static Func<ScenPart, ScenPart> <>f__am$cache4;
 
 		[CompilerGenerated]
-		private static Action <>f__am$cache5;
+		private static Func<ScenPart, IEnumerable<Page>> <>f__am$cache5;
+
+		[CompilerGenerated]
+		private static Action <>f__am$cache6;
 
 		public Scenario()
 		{
@@ -115,6 +118,13 @@ namespace RimWorld
 			Scribe_Values.Look<PublishedFileId_t>(ref this.publishedFileIdInt, "publishedFileId", PublishedFileId_t.Invalid, false);
 			Scribe_Deep.Look<ScenPart_PlayerFaction>(ref this.playerFaction, "playerFaction", new object[0]);
 			Scribe_Collections.Look<ScenPart>(ref this.parts, "parts", LookMode.Deep, new object[0]);
+			if (Scribe.mode == LoadSaveMode.PostLoadInit)
+			{
+				if (this.parts.RemoveAll((ScenPart x) => x == null) != 0)
+				{
+					Log.Warning("Some ScenParts were null after loading.", false);
+				}
+			}
 		}
 
 		public IEnumerable<string> ConfigErrors()
@@ -335,28 +345,20 @@ namespace RimWorld
 
 		public bool CanReorder(ScenPart part, ReorderDirection dir)
 		{
-			bool result;
 			if (!part.def.PlayerAddRemovable)
 			{
-				result = false;
+				return false;
 			}
-			else
+			int num = this.parts.IndexOf(part);
+			if (dir == ReorderDirection.Up)
 			{
-				int num = this.parts.IndexOf(part);
-				if (dir == ReorderDirection.Up)
-				{
-					result = (num != 0 && (num <= 0 || this.parts[num - 1].def.PlayerAddRemovable));
-				}
-				else
-				{
-					if (dir != ReorderDirection.Down)
-					{
-						throw new NotImplementedException();
-					}
-					result = (num != this.parts.Count - 1);
-				}
+				return num != 0 && (num <= 0 || this.parts[num - 1].def.PlayerAddRemovable);
 			}
-			return result;
+			if (dir == ReorderDirection.Down)
+			{
+				return num != this.parts.Count - 1;
+			}
+			throw new NotImplementedException();
 		}
 
 		public void Reorder(ScenPart part, ReorderDirection dir)
@@ -395,16 +397,11 @@ namespace RimWorld
 
 		public AcceptanceReport TryUploadReport()
 		{
-			AcceptanceReport result;
 			if (this.name == null || this.name.Length < 3 || this.summary == null || this.summary.Length < 3 || this.description == null || this.description.Length < 3)
 			{
-				result = "TextFieldsMustBeFilled".Translate();
+				return "TextFieldsMustBeFilled".Translate();
 			}
-			else
-			{
-				result = AcceptanceReport.WasAccepted;
-			}
-			return result;
+			return AcceptanceReport.WasAccepted;
 		}
 
 		public PublishedFileId_t GetPublishedFileId()
@@ -482,37 +479,43 @@ namespace RimWorld
 		}
 
 		[CompilerGenerated]
-		private static float <GetFullInformationText>m__0(ScenPart p)
+		private static bool <ExposeData>m__0(ScenPart x)
+		{
+			return x == null;
+		}
+
+		[CompilerGenerated]
+		private static float <GetFullInformationText>m__1(ScenPart p)
 		{
 			return p.def.summaryPriority;
 		}
 
 		[CompilerGenerated]
-		private static string <GetFullInformationText>m__1(ScenPart p)
+		private static string <GetFullInformationText>m__2(ScenPart p)
 		{
 			return p.def.defName;
 		}
 
 		[CompilerGenerated]
-		private static bool <GetFullInformationText>m__2(ScenPart p)
+		private static bool <GetFullInformationText>m__3(ScenPart p)
 		{
 			return p.visible;
 		}
 
 		[CompilerGenerated]
-		private static ScenPart <CopyForEditing>m__3(ScenPart p)
+		private static ScenPart <CopyForEditing>m__4(ScenPart p)
 		{
 			return p.CopyForEditing();
 		}
 
 		[CompilerGenerated]
-		private static IEnumerable<Page> <GetFirstConfigPage>m__4(ScenPart p)
+		private static IEnumerable<Page> <GetFirstConfigPage>m__5(ScenPart p)
 		{
 			return p.GetConfigPages();
 		}
 
 		[CompilerGenerated]
-		private static void <GetFirstConfigPage>m__5()
+		private static void <GetFirstConfigPage>m__6()
 		{
 			PageUtility.InitGameStart();
 		}
@@ -665,11 +668,11 @@ namespace RimWorld
 				case 1u:
 					break;
 				case 2u:
-					goto IL_98;
+					goto IL_97;
 				case 3u:
-					goto IL_C7;
+					goto IL_C6;
 				case 4u:
-					goto IL_E1;
+					goto IL_DF;
 				default:
 					return false;
 				}
@@ -682,7 +685,7 @@ namespace RimWorld
 					}
 					return true;
 				}
-				IL_98:
+				IL_97:
 				if (this.playerFaction == null)
 				{
 					this.$current = "no playerFaction";
@@ -692,12 +695,12 @@ namespace RimWorld
 					}
 					return true;
 				}
-				IL_C7:
+				IL_C6:
 				enumerator = base.AllParts.GetEnumerator();
 				num = 4294967293u;
 				try
 				{
-					IL_E1:
+					IL_DF:
 					switch (num)
 					{
 					case 4u:

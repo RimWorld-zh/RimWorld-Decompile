@@ -68,12 +68,9 @@ namespace RimWorld
 			Text.Font = GameFont.Small;
 			string label = "Back".Translate();
 			Rect rect2 = new Rect(rect.x, y, Page.BottomButSize.x, Page.BottomButSize.y);
-			if (Widgets.ButtonText(rect2, label, true, false, true) || KeyBindingDefOf.Cancel.KeyDownEvent)
+			if ((Widgets.ButtonText(rect2, label, true, false, true) || KeyBindingDefOf.Cancel.KeyDownEvent) && this.CanDoBack())
 			{
-				if (this.CanDoBack())
-				{
-					this.DoBack();
-				}
+				this.DoBack();
 			}
 			if (showNext)
 			{
@@ -82,12 +79,9 @@ namespace RimWorld
 					nextLabel = "Next".Translate();
 				}
 				Rect rect3 = new Rect(rect.x + rect.width - Page.BottomButSize.x, y, Page.BottomButSize.x, Page.BottomButSize.y);
-				if (Widgets.ButtonText(rect3, nextLabel, true, false, true) || KeyBindingDefOf.Accept.KeyDownEvent)
+				if ((Widgets.ButtonText(rect3, nextLabel, true, false, true) || KeyBindingDefOf.Accept.KeyDownEvent) && this.CanDoNext())
 				{
-					if (this.CanDoNext())
-					{
-						this.DoNext();
-					}
+					this.DoNext();
 				}
 				UIHighlighter.HighlightOpportunity(rect3, "NextPage");
 			}
@@ -139,31 +133,33 @@ namespace RimWorld
 
 		public override void OnCancelKeyPressed()
 		{
-			if (Find.World == null || !Find.WorldRoutePlanner.Active)
+			if (Find.World != null && Find.WorldRoutePlanner.Active)
 			{
-				if (this.CanDoBack())
-				{
-					this.DoBack();
-				}
-				else
-				{
-					this.Close(true);
-				}
-				Event.current.Use();
-				base.OnCancelKeyPressed();
+				return;
 			}
+			if (this.CanDoBack())
+			{
+				this.DoBack();
+			}
+			else
+			{
+				this.Close(true);
+			}
+			Event.current.Use();
+			base.OnCancelKeyPressed();
 		}
 
 		public override void OnAcceptKeyPressed()
 		{
-			if (Find.World == null || !Find.WorldRoutePlanner.Active)
+			if (Find.World != null && Find.WorldRoutePlanner.Active)
 			{
-				if (this.CanDoNext())
-				{
-					this.DoNext();
-				}
-				Event.current.Use();
+				return;
 			}
+			if (this.CanDoNext())
+			{
+				this.DoNext();
+			}
+			Event.current.Use();
 		}
 
 		// Note: this type is marked as 'beforefieldinit'.

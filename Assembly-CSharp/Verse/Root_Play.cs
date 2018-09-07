@@ -4,7 +4,6 @@ using System.Runtime.CompilerServices;
 using RimWorld;
 using RimWorld.Planet;
 using UnityEngine;
-using UnityEngine.Profiling;
 
 namespace Verse
 {
@@ -104,27 +103,20 @@ namespace Verse
 		public override void Update()
 		{
 			base.Update();
-			if (!LongEventHandler.ShouldWaitForEvent && !this.destroyed)
+			if (LongEventHandler.ShouldWaitForEvent || this.destroyed)
 			{
-				try
-				{
-					Profiler.BeginSample("ShipCountdownUpdate()");
-					ShipCountdown.ShipCountdownUpdate();
-					Profiler.EndSample();
-					Profiler.BeginSample("TargetHighlighterUpdate()");
-					TargetHighlighter.TargetHighlighterUpdate();
-					Profiler.EndSample();
-					Profiler.BeginSample("Game.Update()");
-					Current.Game.UpdatePlay();
-					Profiler.EndSample();
-					Profiler.BeginSample("MusicUpdate()");
-					this.musicManagerPlay.MusicUpdate();
-					Profiler.EndSample();
-				}
-				catch (Exception arg)
-				{
-					Log.Error("Root level exception in Update(): " + arg, false);
-				}
+				return;
+			}
+			try
+			{
+				ShipCountdown.ShipCountdownUpdate();
+				TargetHighlighter.TargetHighlighterUpdate();
+				Current.Game.UpdatePlay();
+				this.musicManagerPlay.MusicUpdate();
+			}
+			catch (Exception arg)
+			{
+				Log.Error("Root level exception in Update(): " + arg, false);
 			}
 		}
 

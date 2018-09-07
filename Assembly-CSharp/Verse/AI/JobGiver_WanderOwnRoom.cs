@@ -6,35 +6,28 @@ namespace Verse.AI
 	public class JobGiver_WanderOwnRoom : JobGiver_Wander
 	{
 		[CompilerGenerated]
-		private static Func<Pawn, IntVec3, IntVec3, bool> <>f__am$cache0;
+		private static Func<Pawn, IntVec3, IntVec3, bool> <>f__mg$cache0;
 
 		public JobGiver_WanderOwnRoom()
 		{
 			this.wanderRadius = 7f;
 			this.ticksBetweenWandersRange = new IntRange(300, 600);
 			this.locomotionUrgency = LocomotionUrgency.Amble;
-			this.wanderDestValidator = ((Pawn pawn, IntVec3 loc, IntVec3 root) => WanderRoomUtility.IsValidWanderDest(pawn, loc, root));
+			if (JobGiver_WanderOwnRoom.<>f__mg$cache0 == null)
+			{
+				JobGiver_WanderOwnRoom.<>f__mg$cache0 = new Func<Pawn, IntVec3, IntVec3, bool>(WanderRoomUtility.IsValidWanderDest);
+			}
+			this.wanderDestValidator = JobGiver_WanderOwnRoom.<>f__mg$cache0;
 		}
 
 		protected override IntVec3 GetWanderRoot(Pawn pawn)
 		{
 			MentalState_WanderOwnRoom mentalState_WanderOwnRoom = pawn.MentalState as MentalState_WanderOwnRoom;
-			IntVec3 result;
 			if (mentalState_WanderOwnRoom != null)
 			{
-				result = mentalState_WanderOwnRoom.target;
+				return mentalState_WanderOwnRoom.target;
 			}
-			else
-			{
-				result = pawn.Position;
-			}
-			return result;
-		}
-
-		[CompilerGenerated]
-		private static bool <JobGiver_WanderOwnRoom>m__0(Pawn pawn, IntVec3 loc, IntVec3 root)
-		{
-			return WanderRoomUtility.IsValidWanderDest(pawn, loc, root);
+			return pawn.Position;
 		}
 	}
 }

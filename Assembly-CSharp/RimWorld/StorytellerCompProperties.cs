@@ -13,9 +13,11 @@ namespace RimWorld
 		[TranslationHandle]
 		public Type compClass;
 
-		public float minDaysPassed = 0f;
+		public float minDaysPassed;
 
-		public List<IncidentTargetTypeDef> allowedTargetTypes = null;
+		public List<IncidentTargetTagDef> allowedTargetTags;
+
+		public List<IncidentTargetTagDef> disallowedTargetTags;
 
 		public float minIncChancePopulationIntentFactor = 0.05f;
 
@@ -32,7 +34,7 @@ namespace RimWorld
 		{
 			if (this.compClass == null)
 			{
-				yield return parentDef.defName + " has StorytellerCompProperties with null compClass.";
+				yield return "a StorytellerCompProperties has null compClass.";
 			}
 			yield break;
 		}
@@ -44,8 +46,6 @@ namespace RimWorld
 		[CompilerGenerated]
 		private sealed class <ConfigErrors>c__Iterator0 : IEnumerable, IEnumerable<string>, IEnumerator, IDisposable, IEnumerator<string>
 		{
-			internal StorytellerDef parentDef;
-
 			internal StorytellerCompProperties $this;
 
 			internal string $current;
@@ -68,7 +68,7 @@ namespace RimWorld
 				case 0u:
 					if (this.compClass == null)
 					{
-						this.$current = parentDef.defName + " has StorytellerCompProperties with null compClass.";
+						this.$current = "a StorytellerCompProperties has null compClass.";
 						if (!this.$disposing)
 						{
 							this.$PC = 1;
@@ -131,7 +131,6 @@ namespace RimWorld
 				}
 				StorytellerCompProperties.<ConfigErrors>c__Iterator0 <ConfigErrors>c__Iterator = new StorytellerCompProperties.<ConfigErrors>c__Iterator0();
 				<ConfigErrors>c__Iterator.$this = this;
-				<ConfigErrors>c__Iterator.parentDef = parentDef;
 				return <ConfigErrors>c__Iterator;
 			}
 		}

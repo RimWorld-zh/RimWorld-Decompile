@@ -113,12 +113,9 @@ namespace Verse
 					{
 						array[num2] = new Color32(0, 0, 0, 0);
 					}
-					if (flag)
+					if (flag && array[num2].a < 100)
 					{
-						if (array[num2].a < 100)
-						{
-							array[num2].a = 100;
-						}
+						array[num2].a = 100;
 					}
 					j++;
 					num2++;

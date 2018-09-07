@@ -23,20 +23,15 @@ namespace RimWorld
 		{
 			get
 			{
-				Thing result;
 				if (this.miniToInstall != null)
 				{
-					result = this.miniToInstall;
+					return this.miniToInstall;
 				}
-				else
+				if (this.buildingToReinstall != null)
 				{
-					if (this.buildingToReinstall == null)
-					{
-						throw new InvalidOperationException("Nothing to install.");
-					}
-					result = this.buildingToReinstall;
+					return this.buildingToReinstall;
 				}
-				return result;
+				throw new InvalidOperationException("Nothing to install.");
 			}
 		}
 
@@ -108,7 +103,7 @@ namespace RimWorld
 
 		public override IEnumerable<Gizmo> GetGizmos()
 		{
-			foreach (Gizmo c in this.<GetGizmos>__BaseCallProxy0())
+			foreach (Gizmo c in base.GetGizmos())
 			{
 				yield return c;
 			}
@@ -147,12 +142,10 @@ namespace RimWorld
 			if (!buildingToReinstall.def.Minifiable)
 			{
 				Log.Error("Tried to reinstall non-minifiable building.", false);
+				return;
 			}
-			else
-			{
-				this.miniToInstall = null;
-				this.buildingToReinstall = buildingToReinstall;
-			}
+			this.miniToInstall = null;
+			this.buildingToReinstall = buildingToReinstall;
 		}
 
 		[DebuggerHidden]
@@ -202,9 +195,9 @@ namespace RimWorld
 				case 1u:
 					break;
 				case 2u:
-					goto IL_112;
+					goto IL_10E;
 				case 3u:
-					goto IL_14C;
+					goto IL_146;
 				default:
 					return false;
 				}
@@ -245,16 +238,16 @@ namespace RimWorld
 					}
 					return true;
 				}
-				IL_112:
+				IL_10E:
 				if (base.Faction != Faction.OfPlayer)
 				{
-					goto IL_1C3;
+					goto IL_1BA;
 				}
 				enumerator2 = BuildFacilityCommandUtility.BuildFacilityCommands(base.ThingToInstall.def).GetEnumerator();
 				num = 4294967293u;
 				try
 				{
-					IL_14C:
+					IL_146:
 					switch (num)
 					{
 					}
@@ -280,7 +273,7 @@ namespace RimWorld
 						}
 					}
 				}
-				IL_1C3:
+				IL_1BA:
 				this.$PC = -1;
 				return false;
 			}

@@ -48,81 +48,62 @@ namespace RimWorld
 
 		protected ThingDef ChooseThingDef()
 		{
-			ThingDef result;
 			if (this.forcedDefToScatter != null)
 			{
-				result = this.forcedDefToScatter;
+				return this.forcedDefToScatter;
 			}
-			else
+			return DefDatabase<ThingDef>.AllDefs.RandomElementByWeightWithFallback(delegate(ThingDef d)
 			{
-				result = DefDatabase<ThingDef>.AllDefs.RandomElementByWeightWithFallback(delegate(ThingDef d)
+				if (d.building == null)
 				{
-					float result2;
-					if (d.building == null)
-					{
-						result2 = 0f;
-					}
-					else if (d.building.mineableThing != null && d.building.mineableThing.BaseMarketValue > this.maxValue)
-					{
-						result2 = 0f;
-					}
-					else
-					{
-						result2 = d.building.mineableScatterCommonality;
-					}
-					return result2;
-				}, null);
-			}
-			return result;
+					return 0f;
+				}
+				if (d.building.mineableThing != null && d.building.mineableThing.BaseMarketValue > this.maxValue)
+				{
+					return 0f;
+				}
+				return d.building.mineableScatterCommonality;
+			}, null);
 		}
 
 		protected override bool CanScatterAt(IntVec3 c, Map map)
 		{
-			bool result;
 			if (base.NearUsedSpot(c, this.minSpacing))
 			{
-				result = false;
+				return false;
 			}
-			else
-			{
-				Building edifice = c.GetEdifice(map);
-				result = (edifice != null && edifice.def.building.isNaturalRock);
-			}
-			return result;
+			Building edifice = c.GetEdifice(map);
+			return edifice != null && edifice.def.building.isNaturalRock;
 		}
 
 		protected override void ScatterAt(IntVec3 c, Map map, int stackCount = 1)
 		{
 			ThingDef thingDef = this.ChooseThingDef();
-			if (thingDef != null)
+			if (thingDef == null)
 			{
-				int numCells = (this.forcedLumpSize <= 0) ? thingDef.building.mineableScatterLumpSizeRange.RandomInRange : this.forcedLumpSize;
-				this.recentLumpCells.Clear();
-				foreach (IntVec3 intVec in GridShapeMaker.IrregularLump(c, map, numCells))
-				{
-					GenSpawn.Spawn(thingDef, intVec, map, WipeMode.Vanish);
-					this.recentLumpCells.Add(intVec);
-				}
+				return;
+			}
+			int numCells = (this.forcedLumpSize <= 0) ? thingDef.building.mineableScatterLumpSizeRange.RandomInRange : this.forcedLumpSize;
+			this.recentLumpCells.Clear();
+			foreach (IntVec3 intVec in GridShapeMaker.IrregularLump(c, map, numCells))
+			{
+				GenSpawn.Spawn(thingDef, intVec, map, WipeMode.Vanish);
+				this.recentLumpCells.Add(intVec);
 			}
 		}
 
 		[CompilerGenerated]
 		private float <ChooseThingDef>m__0(ThingDef d)
 		{
-			float result;
 			if (d.building == null)
 			{
-				result = 0f;
+				return 0f;
 			}
-			else if (d.building.mineableThing != null && d.building.mineableThing.BaseMarketValue > this.maxValue)
+			if (d.building.mineableThing != null && d.building.mineableThing.BaseMarketValue > this.maxValue)
 			{
-				result = 0f;
+				return 0f;
 			}
-			else
-			{
-				result = d.building.mineableScatterCommonality;
-			}
-			return result;
+			return d.building.mineableScatterCommonality;
 		}
 	}
 }

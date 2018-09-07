@@ -18,20 +18,15 @@ namespace RimWorld
 
 		public override float GetScore(Tile tile, int tileID)
 		{
-			float result;
 			if (!tile.WaterCovered)
 			{
-				result = -100f;
+				return -100f;
 			}
-			else if (!this.AllowedAt(tileID))
+			if (!this.AllowedAt(tileID))
 			{
-				result = -100f;
+				return -100f;
 			}
-			else
-			{
-				result = BiomeWorker_IceSheet.PermaIceScore(tile) - 23f;
-			}
-			return result;
+			return BiomeWorker_IceSheet.PermaIceScore(tile) - 23f;
 		}
 
 		private bool AllowedAt(int tile)
@@ -42,23 +37,18 @@ namespace RimWorld
 			float viewAngle = Find.WorldGrid.viewAngle;
 			float num = Mathf.Min(7.5f, viewAngle * 0.12f);
 			float num2 = Mathf.InverseLerp(viewAngle - num, viewAngle, value);
-			bool result;
 			if (num2 <= 0f)
 			{
-				result = true;
+				return true;
 			}
-			else
+			if (this.cachedSeaIceAllowedNoise == null || this.cachedSeaIceAllowedNoiseForSeed != Find.World.info.Seed)
 			{
-				if (this.cachedSeaIceAllowedNoise == null || this.cachedSeaIceAllowedNoiseForSeed != Find.World.info.Seed)
-				{
-					this.cachedSeaIceAllowedNoise = new Perlin(0.017000000923871994, 2.0, 0.5, 6, Find.World.info.Seed, QualityMode.Medium);
-					this.cachedSeaIceAllowedNoiseForSeed = Find.World.info.Seed;
-				}
-				float headingFromTo = Find.WorldGrid.GetHeadingFromTo(viewCenter, tileCenter);
-				float num3 = (float)this.cachedSeaIceAllowedNoise.GetValue((double)headingFromTo, 0.0, 0.0) * 0.5f + 0.5f;
-				result = (num2 <= num3);
+				this.cachedSeaIceAllowedNoise = new Perlin(0.017000000923871994, 2.0, 0.5, 6, Find.World.info.Seed, QualityMode.Medium);
+				this.cachedSeaIceAllowedNoiseForSeed = Find.World.info.Seed;
 			}
-			return result;
+			float headingFromTo = Find.WorldGrid.GetHeadingFromTo(viewCenter, tileCenter);
+			float num3 = (float)this.cachedSeaIceAllowedNoise.GetValue((double)headingFromTo, 0.0, 0.0) * 0.5f + 0.5f;
+			return num2 <= num3;
 		}
 	}
 }

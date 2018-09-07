@@ -12,7 +12,7 @@ namespace Verse
 
 		private const int BattleHistoryLength = 20;
 
-		private HashSet<LogEntry> activeEntries = null;
+		private HashSet<LogEntry> activeEntries;
 
 		[CompilerGenerated]
 		private static Func<Battle, bool> <>f__am$cache0;

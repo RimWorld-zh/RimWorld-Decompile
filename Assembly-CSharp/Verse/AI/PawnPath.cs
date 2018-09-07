@@ -8,11 +8,13 @@ namespace Verse.AI
 	{
 		private List<IntVec3> nodes = new List<IntVec3>(128);
 
-		private float totalCostInt = 0f;
+		private float totalCostInt;
 
 		private int curNodeIndex;
 
-		public bool inUse = false;
+		private bool usedRegionHeuristics;
+
+		public bool inUse;
 
 		public PawnPath()
 		{
@@ -39,6 +41,22 @@ namespace Verse.AI
 			get
 			{
 				return this.curNodeIndex + 1;
+			}
+		}
+
+		public int NodesConsumedCount
+		{
+			get
+			{
+				return this.nodes.Count - this.NodesLeftCount;
+			}
+		}
+
+		public bool UsedRegionHeuristics
+		{
+			get
+			{
+				return this.usedRegionHeuristics;
 			}
 		}
 
@@ -79,17 +97,16 @@ namespace Verse.AI
 			this.nodes.Add(nodePosition);
 		}
 
-		public void SetupFound(float totalCost)
+		public void SetupFound(float totalCost, bool usedRegionHeuristics)
 		{
 			if (this == PawnPath.NotFound)
 			{
 				Log.Warning("Calling SetupFound with totalCost=" + totalCost + " on PawnPath.NotFound", false);
+				return;
 			}
-			else
-			{
-				this.totalCostInt = totalCost;
-				this.curNodeIndex = this.nodes.Count - 1;
-			}
+			this.totalCostInt = totalCost;
+			this.usedRegionHeuristics = usedRegionHeuristics;
+			this.curNodeIndex = this.nodes.Count - 1;
 		}
 
 		public void Dispose()
@@ -102,6 +119,7 @@ namespace Verse.AI
 			if (this != PawnPath.NotFound)
 			{
 				this.totalCostInt = 0f;
+				this.usedRegionHeuristics = false;
 				this.nodes.Clear();
 				this.inUse = false;
 			}
@@ -129,61 +147,57 @@ namespace Verse.AI
 
 		public override string ToString()
 		{
-			string result;
 			if (!this.Found)
 			{
-				result = "PawnPath(not found)";
+				return "PawnPath(not found)";
 			}
-			else if (!this.inUse)
+			if (!this.inUse)
 			{
-				result = "PawnPath(not in use)";
+				return "PawnPath(not in use)";
 			}
-			else
+			return string.Concat(new object[]
 			{
-				result = string.Concat(new object[]
+				"PawnPath(nodeCount= ",
+				this.nodes.Count,
+				(this.nodes.Count <= 0) ? string.Empty : string.Concat(new object[]
 				{
-					"PawnPath(nodeCount= ",
-					this.nodes.Count,
-					(this.nodes.Count <= 0) ? "" : string.Concat(new object[]
-					{
-						" first=",
-						this.FirstNode,
-						" last=",
-						this.LastNode
-					}),
-					" cost=",
-					this.totalCostInt,
-					" )"
-				});
-			}
-			return result;
+					" first=",
+					this.FirstNode,
+					" last=",
+					this.LastNode
+				}),
+				" cost=",
+				this.totalCostInt,
+				" )"
+			});
 		}
 
 		public void DrawPath(Pawn pathingPawn)
 		{
-			if (this.Found)
+			if (!this.Found)
 			{
-				float y = AltitudeLayer.Item.AltitudeFor();
-				if (this.NodesLeftCount > 0)
+				return;
+			}
+			float y = AltitudeLayer.Item.AltitudeFor();
+			if (this.NodesLeftCount > 0)
+			{
+				for (int i = 0; i < this.NodesLeftCount - 1; i++)
 				{
-					for (int i = 0; i < this.NodesLeftCount - 1; i++)
+					Vector3 a = this.Peek(i).ToVector3Shifted();
+					a.y = y;
+					Vector3 b = this.Peek(i + 1).ToVector3Shifted();
+					b.y = y;
+					GenDraw.DrawLineBetween(a, b);
+				}
+				if (pathingPawn != null)
+				{
+					Vector3 drawPos = pathingPawn.DrawPos;
+					drawPos.y = y;
+					Vector3 b2 = this.Peek(0).ToVector3Shifted();
+					b2.y = y;
+					if ((drawPos - b2).sqrMagnitude > 0.01f)
 					{
-						Vector3 a = this.Peek(i).ToVector3Shifted();
-						a.y = y;
-						Vector3 b = this.Peek(i + 1).ToVector3Shifted();
-						b.y = y;
-						GenDraw.DrawLineBetween(a, b);
-					}
-					if (pathingPawn != null)
-					{
-						Vector3 drawPos = pathingPawn.DrawPos;
-						drawPos.y = y;
-						Vector3 b2 = this.Peek(0).ToVector3Shifted();
-						b2.y = y;
-						if ((drawPos - b2).sqrMagnitude > 0.01f)
-						{
-							GenDraw.DrawLineBetween(drawPos, b2);
-						}
+						GenDraw.DrawLineBetween(drawPos, b2);
 					}
 				}
 			}

@@ -14,7 +14,7 @@ namespace RimWorld
 	public class CompTempControl : ThingComp
 	{
 		[Unsaved]
-		public bool operatingAtHighPower = false;
+		public bool operatingAtHighPower;
 
 		public float targetTemperature = -99999f;
 
@@ -56,7 +56,7 @@ namespace RimWorld
 
 		public override IEnumerable<Gizmo> CompGetGizmosExtra()
 		{
-			foreach (Gizmo c in this.<CompGetGizmosExtra>__BaseCallProxy0())
+			foreach (Gizmo c in base.CompGetGizmosExtra())
 			{
 				yield return c;
 			}

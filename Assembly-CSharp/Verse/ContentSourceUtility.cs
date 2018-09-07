@@ -15,27 +15,19 @@ namespace Verse
 
 		public static Texture2D GetIcon(this ContentSource s)
 		{
-			Texture2D result;
-			if (s != ContentSource.Undefined)
+			if (s == ContentSource.Undefined)
 			{
-				if (s != ContentSource.LocalFolder)
-				{
-					if (s != ContentSource.SteamWorkshop)
-					{
-						throw new NotImplementedException();
-					}
-					result = ContentSourceUtility.ContentSourceIcon_SteamWorkshop;
-				}
-				else
-				{
-					result = ContentSourceUtility.ContentSourceIcon_LocalFolder;
-				}
+				return BaseContent.BadTex;
 			}
-			else
+			if (s == ContentSource.LocalFolder)
 			{
-				result = BaseContent.BadTex;
+				return ContentSourceUtility.ContentSourceIcon_LocalFolder;
 			}
-			return result;
+			if (s != ContentSource.SteamWorkshop)
+			{
+				throw new NotImplementedException();
+			}
+			return ContentSourceUtility.ContentSourceIcon_SteamWorkshop;
 		}
 
 		public static void DrawContentSource(Rect r, ContentSource source, Action clickAction = null)

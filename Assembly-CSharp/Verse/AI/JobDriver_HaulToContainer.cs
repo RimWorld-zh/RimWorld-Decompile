@@ -10,17 +10,17 @@ namespace Verse.AI
 {
 	public class JobDriver_HaulToContainer : JobDriver
 	{
-		private const TargetIndex CarryThingIndex = TargetIndex.A;
+		protected const TargetIndex CarryThingIndex = TargetIndex.A;
 
-		private const TargetIndex DestIndex = TargetIndex.B;
+		protected const TargetIndex DestIndex = TargetIndex.B;
 
-		private const TargetIndex PrimaryDestIndex = TargetIndex.C;
+		protected const TargetIndex PrimaryDestIndex = TargetIndex.C;
 
 		public JobDriver_HaulToContainer()
 		{
 		}
 
-		private Thing ThingToCarry
+		public Thing ThingToCarry
 		{
 			get
 			{
@@ -28,7 +28,7 @@ namespace Verse.AI
 			}
 		}
 
-		private Thing Container
+		public Thing Container
 		{
 			get
 			{
@@ -55,27 +55,36 @@ namespace Verse.AI
 			{
 				thing = base.TargetThingA;
 			}
-			string result;
 			if (thing == null || !this.job.targetB.HasThing)
 			{
-				result = "ReportHaulingUnknown".Translate();
+				return "ReportHaulingUnknown".Translate();
 			}
-			else
+			return "ReportHaulingTo".Translate(new object[]
 			{
-				result = "ReportHaulingTo".Translate(new object[]
-				{
-					thing.Label,
-					this.job.targetB.Thing.LabelShort
-				});
-			}
-			return result;
+				thing.Label,
+				this.job.targetB.Thing.LabelShort
+			});
 		}
 
-		public override bool TryMakePreToilReservations()
+		public override bool TryMakePreToilReservations(bool errorOnFailed)
 		{
+			Pawn pawn = this.pawn;
+			LocalTargetInfo target = this.job.GetTarget(TargetIndex.A);
+			Job job = this.job;
+			if (!pawn.Reserve(target, job, 1, -1, null, errorOnFailed))
+			{
+				return false;
+			}
+			pawn = this.pawn;
+			target = this.job.GetTarget(TargetIndex.B);
+			job = this.job;
+			if (!pawn.Reserve(target, job, 1, -1, null, errorOnFailed))
+			{
+				return false;
+			}
 			this.pawn.ReserveAsManyAsPossible(this.job.GetTargetQueue(TargetIndex.A), this.job, 1, -1, null);
 			this.pawn.ReserveAsManyAsPossible(this.job.GetTargetQueue(TargetIndex.B), this.job, 1, -1, null);
-			return this.pawn.Reserve(this.job.GetTarget(TargetIndex.A), this.job, 1, -1, null) && this.pawn.Reserve(this.job.GetTarget(TargetIndex.B), this.job, 1, -1, null);
+			return true;
 		}
 
 		protected override IEnumerable<Toil> MakeNewToils()
@@ -86,17 +95,12 @@ namespace Verse.AI
 			this.FailOn(delegate()
 			{
 				ThingOwner thingOwner = this.Container.TryGetInnerInteractableThingOwner();
-				bool result;
 				if (thingOwner != null && !thingOwner.CanAcceptAnyOf(this.ThingToCarry, true))
 				{
-					result = true;
+					return true;
 				}
-				else
-				{
-					IHaulDestination haulDestination = this.Container as IHaulDestination;
-					result = (haulDestination != null && !haulDestination.Accepts(this.ThingToCarry));
-				}
-				return result;
+				IHaulDestination haulDestination = this.Container as IHaulDestination;
+				return haulDestination != null && !haulDestination.Accepts(this.ThingToCarry);
 			});
 			Toil getToHaulTarget = Toils_Goto.GotoThing(TargetIndex.A, PathEndMode.ClosestTouch).FailOnSomeonePhysicallyInteracting(TargetIndex.A);
 			yield return getToHaulTarget;
@@ -150,17 +154,12 @@ namespace Verse.AI
 					this.FailOn(delegate()
 					{
 						ThingOwner thingOwner = base.Container.TryGetInnerInteractableThingOwner();
-						bool result;
 						if (thingOwner != null && !thingOwner.CanAcceptAnyOf(base.ThingToCarry, true))
 						{
-							result = true;
+							return true;
 						}
-						else
-						{
-							IHaulDestination haulDestination = base.Container as IHaulDestination;
-							result = (haulDestination != null && !haulDestination.Accepts(base.ThingToCarry));
-						}
-						return result;
+						IHaulDestination haulDestination = base.Container as IHaulDestination;
+						return haulDestination != null && !haulDestination.Accepts(base.ThingToCarry);
 					});
 					getToHaulTarget = Toils_Goto.GotoThing(TargetIndex.A, PathEndMode.ClosestTouch).FailOnSomeonePhysicallyInteracting(TargetIndex.A);
 					this.$current = getToHaulTarget;
@@ -299,17 +298,12 @@ namespace Verse.AI
 			internal bool <>m__1()
 			{
 				ThingOwner thingOwner = base.Container.TryGetInnerInteractableThingOwner();
-				bool result;
 				if (thingOwner != null && !thingOwner.CanAcceptAnyOf(base.ThingToCarry, true))
 				{
-					result = true;
+					return true;
 				}
-				else
-				{
-					IHaulDestination haulDestination = base.Container as IHaulDestination;
-					result = (haulDestination != null && !haulDestination.Accepts(base.ThingToCarry));
-				}
-				return result;
+				IHaulDestination haulDestination = base.Container as IHaulDestination;
+				return haulDestination != null && !haulDestination.Accepts(base.ThingToCarry);
 			}
 		}
 	}

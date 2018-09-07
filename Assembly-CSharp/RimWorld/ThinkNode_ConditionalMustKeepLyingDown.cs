@@ -12,37 +12,29 @@ namespace RimWorld
 
 		protected override bool Satisfied(Pawn pawn)
 		{
-			bool result;
 			if (pawn.CurJob == null || !pawn.GetPosture().Laying())
 			{
-				result = false;
+				return false;
 			}
-			else
+			if (!pawn.Downed)
 			{
-				if (!pawn.Downed)
+				if (RestUtility.DisturbancePreventsLyingDown(pawn))
 				{
-					if (RestUtility.DisturbancePreventsLyingDown(pawn))
+					return false;
+				}
+				if (!pawn.CurJob.restUntilHealed || !HealthAIUtility.ShouldSeekMedicalRest(pawn))
+				{
+					if (!pawn.jobs.curDriver.asleep)
 					{
 						return false;
 					}
-					if (!pawn.CurJob.restUntilHealed || !HealthAIUtility.ShouldSeekMedicalRest(pawn))
+					if (!pawn.CurJob.playerForced && RestUtility.TimetablePreventsLayDown(pawn))
 					{
-						if (!pawn.jobs.curDriver.asleep)
-						{
-							return false;
-						}
-						if (!pawn.CurJob.playerForced)
-						{
-							if (RestUtility.TimetablePreventsLayDown(pawn))
-							{
-								return false;
-							}
-						}
+						return false;
 					}
 				}
-				result = true;
 			}
-			return result;
+			return true;
 		}
 	}
 }

@@ -42,7 +42,7 @@ namespace RimWorld
 		public ThoughtDef killedThoughtFemale;
 
 		[Unsaved]
-		private PawnRelationWorker workerInt = null;
+		private PawnRelationWorker workerInt;
 
 		public PawnRelationDef()
 		{
@@ -63,16 +63,11 @@ namespace RimWorld
 
 		public string GetGenderSpecificLabel(Pawn pawn)
 		{
-			string label;
 			if (pawn.gender == Gender.Female && !this.labelFemale.NullOrEmpty())
 			{
-				label = this.labelFemale;
+				return this.labelFemale;
 			}
-			else
-			{
-				label = this.label;
-			}
-			return label;
+			return this.label;
 		}
 
 		public string GetGenderSpecificLabelCap(Pawn pawn)
@@ -82,35 +77,25 @@ namespace RimWorld
 
 		public ThoughtDef GetGenderSpecificDiedThought(Pawn killed)
 		{
-			ThoughtDef result;
 			if (killed.gender == Gender.Female && this.diedThoughtFemale != null)
 			{
-				result = this.diedThoughtFemale;
+				return this.diedThoughtFemale;
 			}
-			else
-			{
-				result = this.diedThought;
-			}
-			return result;
+			return this.diedThought;
 		}
 
 		public ThoughtDef GetGenderSpecificKilledThought(Pawn killed)
 		{
-			ThoughtDef result;
 			if (killed.gender == Gender.Female && this.killedThoughtFemale != null)
 			{
-				result = this.killedThoughtFemale;
+				return this.killedThoughtFemale;
 			}
-			else
-			{
-				result = this.killedThought;
-			}
-			return result;
+			return this.killedThought;
 		}
 
 		public override IEnumerable<string> ConfigErrors()
 		{
-			foreach (string c in this.<ConfigErrors>__BaseCallProxy0())
+			foreach (string c in base.ConfigErrors())
 			{
 				yield return c;
 			}
@@ -164,7 +149,7 @@ namespace RimWorld
 					break;
 				case 2u:
 					this.reflexive = false;
-					goto IL_115;
+					goto IL_10F;
 				default:
 					return false;
 				}
@@ -197,7 +182,7 @@ namespace RimWorld
 				}
 				if (!this.implied || !this.reflexive)
 				{
-					goto IL_115;
+					goto IL_10F;
 				}
 				this.$current = this.defName + ": implied relations can't use the \"reflexive\" option.";
 				if (!this.$disposing)
@@ -205,7 +190,7 @@ namespace RimWorld
 					this.$PC = 2;
 				}
 				return true;
-				IL_115:
+				IL_10F:
 				this.$PC = -1;
 				return false;
 			}

@@ -9,7 +9,7 @@ namespace RimWorld
 {
 	public class Dialog_AddPreferredName : Window
 	{
-		private string searchName = "";
+		private string searchName = string.Empty;
 
 		private string[] searchWords;
 
@@ -48,7 +48,7 @@ namespace RimWorld
 			if (text.Length < 20)
 			{
 				this.searchName = text;
-				this.searchWords = this.searchName.Replace("'", "").Split(new char[]
+				this.searchWords = this.searchName.Replace("'", string.Empty).Split(new char[]
 				{
 					' '
 				});
@@ -73,24 +73,19 @@ namespace RimWorld
 
 		private bool FilterMatch(NameTriple n)
 		{
-			bool result;
 			if (n.First == "Tynan" && n.Last == "Sylvester")
 			{
-				result = false;
+				return false;
 			}
-			else if (this.searchWords.Length == 0)
+			if (this.searchWords.Length == 0)
 			{
-				result = false;
+				return false;
 			}
-			else if (this.searchWords.Length == 1)
+			if (this.searchWords.Length == 1)
 			{
-				result = (n.Last.StartsWith(this.searchName, StringComparison.OrdinalIgnoreCase) || n.First.StartsWith(this.searchName, StringComparison.OrdinalIgnoreCase) || n.Nick.StartsWith(this.searchName, StringComparison.OrdinalIgnoreCase));
+				return n.Last.StartsWith(this.searchName, StringComparison.OrdinalIgnoreCase) || n.First.StartsWith(this.searchName, StringComparison.OrdinalIgnoreCase) || n.Nick.StartsWith(this.searchName, StringComparison.OrdinalIgnoreCase);
 			}
-			else
-			{
-				result = (this.searchWords.Length == 2 && n.First.EqualsIgnoreCase(this.searchWords[0]) && (n.Last.StartsWith(this.searchWords[1], StringComparison.OrdinalIgnoreCase) || n.Nick.StartsWith(this.searchWords[1], StringComparison.OrdinalIgnoreCase)));
-			}
-			return result;
+			return this.searchWords.Length == 2 && n.First.EqualsIgnoreCase(this.searchWords[0]) && (n.Last.StartsWith(this.searchWords[1], StringComparison.OrdinalIgnoreCase) || n.Nick.StartsWith(this.searchWords[1], StringComparison.OrdinalIgnoreCase));
 		}
 
 		private void TryChooseName(NameTriple name)

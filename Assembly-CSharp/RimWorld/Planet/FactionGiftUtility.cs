@@ -88,69 +88,61 @@ namespace RimWorld.Planet
 		public static bool CheckCanCarryGift(List<Tradeable> tradeables, ITrader trader)
 		{
 			Pawn pawn = trader as Pawn;
-			bool result;
 			if (pawn == null)
 			{
-				result = true;
+				return true;
+			}
+			float num = 0f;
+			float num2 = 0f;
+			Lord lord = pawn.GetLord();
+			if (lord != null)
+			{
+				for (int i = 0; i < lord.ownedPawns.Count; i++)
+				{
+					Pawn pawn2 = lord.ownedPawns[i];
+					TraderCaravanRole traderCaravanRole = pawn2.GetTraderCaravanRole();
+					if ((pawn2.RaceProps.Humanlike && traderCaravanRole != TraderCaravanRole.Guard) || traderCaravanRole == TraderCaravanRole.Carrier)
+					{
+						num += MassUtility.Capacity(pawn2, null);
+						num2 += MassUtility.GearAndInventoryMass(pawn2);
+					}
+				}
 			}
 			else
 			{
-				float num = 0f;
-				float num2 = 0f;
-				Lord lord = pawn.GetLord();
-				if (lord != null)
+				num = MassUtility.Capacity(pawn, null);
+				num2 = MassUtility.GearAndInventoryMass(pawn);
+			}
+			float num3 = 0f;
+			for (int j = 0; j < tradeables.Count; j++)
+			{
+				if (tradeables[j].ActionToDo == TradeAction.PlayerSells)
 				{
-					for (int i = 0; i < lord.ownedPawns.Count; i++)
+					int num4 = Mathf.Min(tradeables[j].CountToTransferToDestination, tradeables[j].CountHeldBy(Transactor.Colony));
+					if (num4 > 0)
 					{
-						Pawn pawn2 = lord.ownedPawns[i];
-						TraderCaravanRole traderCaravanRole = pawn2.GetTraderCaravanRole();
-						if ((pawn2.RaceProps.Humanlike && traderCaravanRole != TraderCaravanRole.Guard) || traderCaravanRole == TraderCaravanRole.Carrier)
-						{
-							num += MassUtility.Capacity(pawn2, null);
-							num2 += MassUtility.GearAndInventoryMass(pawn2);
-						}
+						num3 += tradeables[j].AnyThing.GetStatValue(StatDefOf.Mass, true) * (float)num4;
 					}
-				}
-				else
-				{
-					num = MassUtility.Capacity(pawn, null);
-					num2 = MassUtility.GearAndInventoryMass(pawn);
-				}
-				float num3 = 0f;
-				for (int j = 0; j < tradeables.Count; j++)
-				{
-					if (tradeables[j].ActionToDo == TradeAction.PlayerSells)
-					{
-						int num4 = Mathf.Min(tradeables[j].CountToTransferToDestination, tradeables[j].CountHeldBy(Transactor.Colony));
-						if (num4 > 0)
-						{
-							num3 += tradeables[j].AnyThing.GetStatValue(StatDefOf.Mass, true) * (float)num4;
-						}
-					}
-				}
-				if (num2 + num3 <= num)
-				{
-					result = true;
-				}
-				else
-				{
-					float num5 = num - num2;
-					if (num5 <= 0f)
-					{
-						Messages.Message("MessageCantGiveGiftBecauseCantCarryEncumbered".Translate(), MessageTypeDefOf.RejectInput, false);
-					}
-					else
-					{
-						Messages.Message("MessageCantGiveGiftBecauseCantCarry".Translate(new object[]
-						{
-							num3.ToStringMass(),
-							num5.ToStringMass()
-						}), MessageTypeDefOf.RejectInput, false);
-					}
-					result = false;
 				}
 			}
-			return result;
+			if (num2 + num3 <= num)
+			{
+				return true;
+			}
+			float num5 = num - num2;
+			if (num5 <= 0f)
+			{
+				Messages.Message("MessageCantGiveGiftBecauseCantCarryEncumbered".Translate(), MessageTypeDefOf.RejectInput, false);
+			}
+			else
+			{
+				Messages.Message("MessageCantGiveGiftBecauseCantCarry".Translate(new object[]
+				{
+					num3.ToStringMass(),
+					num5.ToStringMass()
+				}), MessageTypeDefOf.RejectInput, false);
+			}
+			return false;
 		}
 
 		public static int GetGoodwillChange(IEnumerable<IThingHolder> pods, SettlementBase giveTo)
@@ -161,10 +153,18 @@ namespace RimWorld.Planet
 				ThingOwner directlyHeldThings = thingHolder.GetDirectlyHeldThings();
 				for (int i = 0; i < directlyHeldThings.Count; i++)
 				{
-					float priceFactorSell_TraderPriceType = (giveTo.TraderKind == null) ? 1f : giveTo.TraderKind.PriceTypeFor(directlyHeldThings[i].def, TradeAction.PlayerSells).PriceMultiplier();
-					float tradePriceImprovementOffsetForPlayer = giveTo.TradePriceImprovementOffsetForPlayer;
-					float pricePlayerSell = TradeUtility.GetPricePlayerSell(directlyHeldThings[i], priceFactorSell_TraderPriceType, 1f, tradePriceImprovementOffsetForPlayer);
-					num += FactionGiftUtility.GetBaseGoodwillChange(directlyHeldThings[i], directlyHeldThings[i].stackCount, pricePlayerSell, giveTo.Faction);
+					float singlePrice;
+					if (directlyHeldThings[i].def == ThingDefOf.Silver)
+					{
+						singlePrice = directlyHeldThings[i].MarketValue;
+					}
+					else
+					{
+						float priceFactorSell_TraderPriceType = (giveTo.TraderKind == null) ? 1f : giveTo.TraderKind.PriceTypeFor(directlyHeldThings[i].def, TradeAction.PlayerSells).PriceMultiplier();
+						float tradePriceImprovementOffsetForPlayer = giveTo.TradePriceImprovementOffsetForPlayer;
+						singlePrice = TradeUtility.GetPricePlayerSell(directlyHeldThings[i], priceFactorSell_TraderPriceType, 1f, tradePriceImprovementOffsetForPlayer);
+					}
+					num += FactionGiftUtility.GetBaseGoodwillChange(directlyHeldThings[i], directlyHeldThings[i].stackCount, singlePrice, giveTo.Faction);
 				}
 			}
 			return FactionGiftUtility.PostProcessedGoodwillChange(num, giveTo.Faction);
@@ -186,22 +186,17 @@ namespace RimWorld.Planet
 
 		private static float GetBaseGoodwillChange(Thing anyThing, int count, float singlePrice, Faction theirFaction)
 		{
-			float result;
 			if (count <= 0)
 			{
-				result = 0f;
+				return 0f;
 			}
-			else
+			float num = singlePrice * (float)count;
+			Pawn pawn = anyThing as Pawn;
+			if (pawn != null && pawn.IsPrisoner && pawn.Faction == theirFaction)
 			{
-				float num = singlePrice * (float)count;
-				Pawn pawn = anyThing as Pawn;
-				if (pawn != null && pawn.IsPrisoner && pawn.Faction == theirFaction)
-				{
-					num *= 2f;
-				}
-				result = num / 25f;
+				num *= 2f;
 			}
-			return result;
+			return num / 40f;
 		}
 
 		private static int PostProcessedGoodwillChange(float goodwillChange, Faction theirFaction)

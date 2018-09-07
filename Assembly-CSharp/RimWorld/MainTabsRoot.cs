@@ -17,16 +17,11 @@ namespace RimWorld
 			get
 			{
 				MainTabWindow mainTabWindow = Find.WindowStack.WindowOfType<MainTabWindow>();
-				MainButtonDef result;
 				if (mainTabWindow == null)
 				{
-					result = null;
+					return null;
 				}
-				else
-				{
-					result = mainTabWindow.def;
-				}
-				return result;
+				return mainTabWindow.def;
 			}
 		}
 
@@ -41,16 +36,13 @@ namespace RimWorld
 				Event.current.Use();
 				MainButtonDefOf.Architect.Worker.InterfaceTryActivate();
 			}
-			if (this.OpenTab != null && this.OpenTab != MainButtonDefOf.Inspect)
+			if (this.OpenTab != null && this.OpenTab != MainButtonDefOf.Inspect && Event.current.type == EventType.MouseDown && Event.current.button != 2)
 			{
-				if (Event.current.type == EventType.MouseDown && Event.current.button != 2)
+				this.EscapeCurrentTab(true);
+				if (Event.current.button == 0)
 				{
-					this.EscapeCurrentTab(true);
-					if (Event.current.button == 0)
-					{
-						Find.Selector.ClearSelection();
-						Find.WorldSelector.ClearSelection();
-					}
+					Find.Selector.ClearSelection();
+					Find.WorldSelector.ClearSelection();
 				}
 			}
 		}
@@ -62,49 +54,51 @@ namespace RimWorld
 
 		public void SetCurrentTab(MainButtonDef tab, bool playSound = true)
 		{
-			if (tab != this.OpenTab)
+			if (tab == this.OpenTab)
 			{
-				this.ToggleTab(tab, playSound);
+				return;
 			}
+			this.ToggleTab(tab, playSound);
 		}
 
 		public void ToggleTab(MainButtonDef newTab, bool playSound = true)
 		{
-			if (this.OpenTab != null || newTab != null)
+			if (this.OpenTab == null && newTab == null)
 			{
-				if (this.OpenTab == newTab)
+				return;
+			}
+			if (this.OpenTab == newTab)
+			{
+				Find.WindowStack.TryRemove(this.OpenTab.TabWindow, true);
+				if (playSound)
+				{
+					SoundDefOf.TabClose.PlayOneShotOnCamera(null);
+				}
+			}
+			else
+			{
+				if (this.OpenTab != null)
 				{
 					Find.WindowStack.TryRemove(this.OpenTab.TabWindow, true);
-					if (playSound)
+				}
+				if (newTab != null)
+				{
+					Find.WindowStack.Add(newTab.TabWindow);
+				}
+				if (playSound)
+				{
+					if (newTab == null)
 					{
 						SoundDefOf.TabClose.PlayOneShotOnCamera(null);
 					}
+					else
+					{
+						SoundDefOf.TabOpen.PlayOneShotOnCamera(null);
+					}
 				}
-				else
+				if (TutorSystem.TutorialMode && newTab != null)
 				{
-					if (this.OpenTab != null)
-					{
-						Find.WindowStack.TryRemove(this.OpenTab.TabWindow, true);
-					}
-					if (newTab != null)
-					{
-						Find.WindowStack.Add(newTab.TabWindow);
-					}
-					if (playSound)
-					{
-						if (newTab == null)
-						{
-							SoundDefOf.TabClose.PlayOneShotOnCamera(null);
-						}
-						else
-						{
-							SoundDefOf.TabOpen.PlayOneShotOnCamera(null);
-						}
-					}
-					if (TutorSystem.TutorialMode && newTab != null)
-					{
-						TutorSystem.Notify_Event("Open-MainTab-" + newTab.defName);
-					}
+					TutorSystem.Notify_Event("Open-MainTab-" + newTab.defName);
 				}
 			}
 		}

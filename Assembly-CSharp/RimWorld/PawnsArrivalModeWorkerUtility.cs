@@ -13,39 +13,34 @@ namespace RimWorld
 		public static void DropInDropPodsNearSpawnCenter(IncidentParms parms, List<Pawn> pawns)
 		{
 			Map map = (Map)parms.target;
-			DropPodUtility.DropThingsNear(parms.spawnCenter, map, pawns.Cast<Thing>(), parms.podOpenDelay, false, true, true, false);
+			DropPodUtility.DropThingsNear(parms.spawnCenter, map, pawns.Cast<Thing>(), parms.podOpenDelay, false, true, true);
 		}
 
 		public static List<Pair<List<Pawn>, IntVec3>> SplitIntoRandomGroupsNearMapEdge(List<Pawn> pawns, Map map, bool arriveInPods)
 		{
 			List<Pair<List<Pawn>, IntVec3>> list = new List<Pair<List<Pawn>, IntVec3>>();
-			List<Pair<List<Pawn>, IntVec3>> result;
 			if (!pawns.Any<Pawn>())
 			{
-				result = list;
+				return list;
 			}
-			else
+			int maxGroupsCount = PawnsArrivalModeWorkerUtility.GetMaxGroupsCount(pawns.Count);
+			int num = (maxGroupsCount != 1) ? Rand.RangeInclusive(2, maxGroupsCount) : 1;
+			for (int i = 0; i < num; i++)
 			{
-				int maxGroupsCount = PawnsArrivalModeWorkerUtility.GetMaxGroupsCount(pawns.Count);
-				int num = (maxGroupsCount != 1) ? Rand.RangeInclusive(2, maxGroupsCount) : 1;
-				for (int i = 0; i < num; i++)
+				IntVec3 second = PawnsArrivalModeWorkerUtility.FindNewMapEdgeGroupCenter(map, list, arriveInPods);
+				list.Add(new Pair<List<Pawn>, IntVec3>(new List<Pawn>(), second)
 				{
-					IntVec3 second = PawnsArrivalModeWorkerUtility.FindNewMapEdgeGroupCenter(map, list, arriveInPods);
-					list.Add(new Pair<List<Pawn>, IntVec3>(new List<Pawn>(), second)
+					First = 
 					{
-						First = 
-						{
-							pawns[i]
-						}
-					});
-				}
-				for (int j = num; j < pawns.Count; j++)
-				{
-					list.RandomElement<Pair<List<Pawn>, IntVec3>>().First.Add(pawns[j]);
-				}
-				result = list;
+						pawns[i]
+					}
+				});
 			}
-			return result;
+			for (int j = num; j < pawns.Count; j++)
+			{
+				list.RandomElement<Pair<List<Pawn>, IntVec3>>().First.Add(pawns[j]);
+			}
+			return list;
 		}
 
 		private static IntVec3 FindNewMapEdgeGroupCenter(Map map, List<Pair<List<Pawn>, IntVec3>> groups, bool arriveInPods)
@@ -88,16 +83,11 @@ namespace RimWorld
 
 		private static int GetMaxGroupsCount(int pawnsCount)
 		{
-			int result;
 			if (pawnsCount <= 1)
 			{
-				result = 1;
+				return 1;
 			}
-			else
-			{
-				result = Mathf.Clamp(pawnsCount / 2, 2, 3);
-			}
-			return result;
+			return Mathf.Clamp(pawnsCount / 2, 2, 3);
 		}
 
 		public static void SetPawnGroupsInfo(IncidentParms parms, List<Pair<List<Pawn>, IntVec3>> groups)

@@ -7,7 +7,7 @@ namespace Verse
 	{
 		protected Pawn Healer;
 
-		protected int Amount = 0;
+		protected int Amount;
 
 		public FeedbackItem_HealthGain(Vector2 ScreenPos, int Amount, Pawn Healer) : base(ScreenPos)
 		{
@@ -17,7 +17,7 @@ namespace Verse
 
 		public override void FeedbackOnGUI()
 		{
-			string text;
+			string text = string.Empty;
 			if (this.Amount >= 0)
 			{
 				text = "+";

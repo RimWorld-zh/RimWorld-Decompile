@@ -7,7 +7,7 @@ namespace Verse
 {
 	public class CompEquippable : ThingComp, IVerbOwner
 	{
-		public VerbTracker verbTracker = null;
+		public VerbTracker verbTracker;
 
 		public CompEquippable()
 		{
@@ -124,16 +124,11 @@ namespace Verse
 		bool IVerbOwner.VerbsStillUsableBy(Pawn p)
 		{
 			Apparel apparel = this.parent as Apparel;
-			bool result;
 			if (apparel != null)
 			{
-				result = p.apparel.WornApparel.Contains(apparel);
+				return p.apparel.WornApparel.Contains(apparel);
 			}
-			else
-			{
-				result = p.equipment.AllEquipmentListForReading.Contains(this.parent);
-			}
-			return result;
+			return p.equipment.AllEquipmentListForReading.Contains(this.parent);
 		}
 	}
 }

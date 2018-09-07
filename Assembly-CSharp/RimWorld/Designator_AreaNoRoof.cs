@@ -39,29 +39,21 @@ namespace RimWorld
 
 		public override AcceptanceReport CanDesignateCell(IntVec3 c)
 		{
-			AcceptanceReport result;
 			if (!c.InBounds(base.Map))
 			{
-				result = false;
+				return false;
 			}
-			else if (c.Fogged(base.Map))
+			if (c.Fogged(base.Map))
 			{
-				result = false;
+				return false;
 			}
-			else
+			RoofDef roofDef = base.Map.roofGrid.RoofAt(c);
+			if (roofDef != null && roofDef.isThickRoof)
 			{
-				RoofDef roofDef = base.Map.roofGrid.RoofAt(c);
-				if (roofDef != null && roofDef.isThickRoof)
-				{
-					result = "MessageNothingCanRemoveThickRoofs".Translate();
-				}
-				else
-				{
-					bool flag = base.Map.areaManager.NoRoof[c];
-					result = !flag;
-				}
+				return "MessageNothingCanRemoveThickRoofs".Translate();
 			}
-			return result;
+			bool flag = base.Map.areaManager.NoRoof[c];
+			return !flag;
 		}
 
 		public override void DesignateSingleCell(IntVec3 c)

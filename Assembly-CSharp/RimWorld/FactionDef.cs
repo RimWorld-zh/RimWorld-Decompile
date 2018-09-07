@@ -12,7 +12,7 @@ namespace RimWorld
 {
 	public class FactionDef : Def
 	{
-		public bool isPlayer = false;
+		public bool isPlayer;
 
 		public RulePackDef factionNameMaker;
 
@@ -21,38 +21,38 @@ namespace RimWorld
 		public RulePackDef playerInitialSettlementNameMaker;
 
 		[MustTranslate]
-		public string fixedName = null;
+		public string fixedName;
 
 		public bool humanlikeFaction = true;
 
-		public bool hidden = false;
+		public bool hidden;
 
-		public float listOrderPriority = 0f;
+		public float listOrderPriority;
 
-		public List<PawnGroupMaker> pawnGroupMakers = null;
+		public List<PawnGroupMaker> pawnGroupMakers;
 
-		public SimpleCurve raidCommonalityFromPointsCurve = null;
+		public SimpleCurve raidCommonalityFromPointsCurve;
 
 		public bool autoFlee = true;
 
-		public bool canSiege = false;
+		public bool canSiege;
 
-		public bool canStageAttacks = false;
+		public bool canStageAttacks;
 
 		public bool canUseAvoidGrid = true;
 
-		public float earliestRaidDays = 0f;
+		public float earliestRaidDays;
 
 		public FloatRange allowedArrivalTemperatureRange = new FloatRange(-1000f, 1000f);
 
 		public PawnKindDef basicMemberKind;
 
-		public List<ResearchProjectTagDef> startingResearchTags = null;
+		public List<ResearchProjectTagDef> startingResearchTags;
 
 		[NoTranslate]
-		public List<string> recipePrerequisiteTags = null;
+		public List<string> recipePrerequisiteTags;
 
-		public bool rescueesCanJoin = false;
+		public bool rescueesCanJoin;
 
 		[MustTranslate]
 		public string pawnSingular = "member";
@@ -64,27 +64,27 @@ namespace RimWorld
 
 		public float forageabilityFactor = 1f;
 
-		public SimpleCurve maxPawnCostPerTotalPointsCurve = null;
+		public SimpleCurve maxPawnCostPerTotalPointsCurve;
 
-		public int requiredCountAtGameStart = 0;
+		public int requiredCountAtGameStart;
 
 		public int maxCountAtGameStart = 9999;
 
-		public bool canMakeRandomly = false;
+		public bool canMakeRandomly;
 
-		public float settlementGenerationWeight = 0f;
+		public float settlementGenerationWeight;
 
 		public RulePackDef pawnNameMaker;
 
-		public TechLevel techLevel = TechLevel.Undefined;
+		public TechLevel techLevel;
 
 		[NoTranslate]
-		public string backstoryCategory = null;
+		public List<string> backstoryCategories;
 
 		[NoTranslate]
 		public List<string> hairTags = new List<string>();
 
-		public ThingFilter apparelStuffFilter = null;
+		public ThingFilter apparelStuffFilter;
 
 		public List<TraderKindDef> caravanTraderKinds = new List<TraderKindDef>();
 
@@ -96,15 +96,15 @@ namespace RimWorld
 
 		public IntRange startingGoodwill = IntRange.zero;
 
-		public bool mustStartOneEnemy = false;
+		public bool mustStartOneEnemy;
 
 		public IntRange naturalColonyGoodwill = IntRange.zero;
 
-		public float goodwillDailyGain = 0f;
+		public float goodwillDailyGain;
 
-		public float goodwillDailyFall = 0f;
+		public float goodwillDailyFall;
 
-		public bool permanentEnemy = false;
+		public bool permanentEnemy;
 
 		[NoTranslate]
 		public string homeIconPath;
@@ -153,26 +153,18 @@ namespace RimWorld
 
 		public float MinPointsToGeneratePawnGroup(PawnGroupKindDef groupKind)
 		{
-			float result;
 			if (this.pawnGroupMakers == null)
 			{
-				result = 0f;
+				return 0f;
 			}
-			else
+			IEnumerable<PawnGroupMaker> source = from x in this.pawnGroupMakers
+			where x.kindDef == groupKind
+			select x;
+			if (!source.Any<PawnGroupMaker>())
 			{
-				IEnumerable<PawnGroupMaker> source = from x in this.pawnGroupMakers
-				where x.kindDef == groupKind
-				select x;
-				if (!source.Any<PawnGroupMaker>())
-				{
-					result = 0f;
-				}
-				else
-				{
-					result = source.Min((PawnGroupMaker pgm) => pgm.MinPointsToGenerateAnything);
-				}
+				return 0f;
 			}
-			return result;
+			return source.Min((PawnGroupMaker pgm) => pgm.MinPointsToGenerateAnything);
 		}
 
 		public bool CanUseStuffForApparel(ThingDef stuffDef)
@@ -182,16 +174,11 @@ namespace RimWorld
 
 		public float RaidCommonalityFromPoints(float points)
 		{
-			float result;
 			if (points < 0f || this.raidCommonalityFromPointsCurve == null)
 			{
-				result = 1f;
+				return 1f;
 			}
-			else
-			{
-				result = this.raidCommonalityFromPointsCurve.Evaluate(points);
-			}
-			return result;
+			return this.raidCommonalityFromPointsCurve.Evaluate(points);
 		}
 
 		public override void ResolveReferences()
@@ -205,7 +192,7 @@ namespace RimWorld
 
 		public override IEnumerable<string> ConfigErrors()
 		{
-			foreach (string error in this.<ConfigErrors>__BaseCallProxy0())
+			foreach (string error in base.ConfigErrors())
 			{
 				yield return error;
 			}
@@ -223,9 +210,9 @@ namespace RimWorld
 			}
 			if (this.humanlikeFaction)
 			{
-				if (this.backstoryCategory == null)
+				if (this.backstoryCategories.NullOrEmpty<string>())
 				{
-					yield return this.defName + " is humanlikeFaction but has no backstory category.";
+					yield return this.defName + " is humanlikeFaction but has no backstory categories.";
 				}
 				if (this.hairTags.Count == 0)
 				{
@@ -336,49 +323,29 @@ namespace RimWorld
 				case 1u:
 					break;
 				case 2u:
-					goto IL_121;
+					goto IL_11F;
 				case 3u:
-					goto IL_185;
+					goto IL_183;
 				case 4u:
-					goto IL_1C4;
+					goto IL_1C2;
 				case 5u:
-					goto IL_214;
+					goto IL_216;
 				case 6u:
-					goto IL_258;
+					goto IL_25A;
 				case 7u:
-					IL_299:
-					if (this.factionNameMaker == null)
-					{
-						this.$current = "isPlayer is true but factionNameMaker is null";
-						if (!this.$disposing)
-						{
-							this.$PC = 8;
-						}
-						return true;
-					}
-					goto IL_2C8;
+					goto IL_299;
 				case 8u:
 					goto IL_2C8;
 				case 9u:
 					goto IL_2F8;
 				case 10u:
-					IL_33A:
-					if (this.goodwillDailyFall != 0f || this.goodwillDailyGain != 0f)
-					{
-						this.$current = "permanentEnemy has a goodwillDailyFall or goodwillDailyGain";
-						if (!this.$disposing)
-						{
-							this.$PC = 11;
-						}
-						return true;
-					}
-					goto IL_384;
+					goto IL_338;
 				case 11u:
-					goto IL_384;
+					goto IL_382;
 				case 12u:
-					goto IL_3BE;
+					goto IL_3BC;
 				case 13u:
-					goto IL_3F8;
+					goto IL_3F6;
 				default:
 					return false;
 				}
@@ -418,7 +385,7 @@ namespace RimWorld
 					}
 					return true;
 				}
-				IL_121:
+				IL_11F:
 				if (!this.isPlayer && this.factionNameMaker == null && this.fixedName == null)
 				{
 					this.$current = "FactionTypeDef " + this.defName + " lacks a factionNameMaker and a fixedName.";
@@ -428,7 +395,7 @@ namespace RimWorld
 					}
 					return true;
 				}
-				IL_185:
+				IL_183:
 				if (this.techLevel == TechLevel.Undefined)
 				{
 					this.$current = this.defName + " has no tech level.";
@@ -438,21 +405,21 @@ namespace RimWorld
 					}
 					return true;
 				}
-				IL_1C4:
+				IL_1C2:
 				if (!this.humanlikeFaction)
 				{
-					goto IL_259;
+					goto IL_25A;
 				}
-				if (this.backstoryCategory == null)
+				if (this.backstoryCategories.NullOrEmpty<string>())
 				{
-					this.$current = this.defName + " is humanlikeFaction but has no backstory category.";
+					this.$current = this.defName + " is humanlikeFaction but has no backstory categories.";
 					if (!this.$disposing)
 					{
 						this.$PC = 5;
 					}
 					return true;
 				}
-				IL_214:
+				IL_216:
 				if (this.hairTags.Count == 0)
 				{
 					this.$current = this.defName + " is humanlikeFaction but has no hairTags.";
@@ -462,11 +429,10 @@ namespace RimWorld
 					}
 					return true;
 				}
-				IL_258:
-				IL_259:
+				IL_25A:
 				if (!this.isPlayer)
 				{
-					goto IL_2F9;
+					goto IL_2F8;
 				}
 				if (this.settlementNameMaker == null)
 				{
@@ -477,7 +443,16 @@ namespace RimWorld
 					}
 					return true;
 				}
-				goto IL_299;
+				IL_299:
+				if (this.factionNameMaker == null)
+				{
+					this.$current = "isPlayer is true but factionNameMaker is null";
+					if (!this.$disposing)
+					{
+						this.$PC = 8;
+					}
+					return true;
+				}
 				IL_2C8:
 				if (this.playerInitialSettlementNameMaker == null)
 				{
@@ -489,10 +464,9 @@ namespace RimWorld
 					return true;
 				}
 				IL_2F8:
-				IL_2F9:
 				if (!this.permanentEnemy)
 				{
-					goto IL_3F9;
+					goto IL_3F6;
 				}
 				if (this.mustStartOneEnemy)
 				{
@@ -503,8 +477,17 @@ namespace RimWorld
 					}
 					return true;
 				}
-				goto IL_33A;
-				IL_384:
+				IL_338:
+				if (this.goodwillDailyFall != 0f || this.goodwillDailyGain != 0f)
+				{
+					this.$current = "permanentEnemy has a goodwillDailyFall or goodwillDailyGain";
+					if (!this.$disposing)
+					{
+						this.$PC = 11;
+					}
+					return true;
+				}
+				IL_382:
 				if (this.startingGoodwill != IntRange.zero)
 				{
 					this.$current = "permanentEnemy has a startingGoodwill defined";
@@ -514,7 +497,7 @@ namespace RimWorld
 					}
 					return true;
 				}
-				IL_3BE:
+				IL_3BC:
 				if (this.naturalColonyGoodwill != IntRange.zero)
 				{
 					this.$current = "permanentEnemy has a naturalColonyGoodwill defined";
@@ -524,8 +507,7 @@ namespace RimWorld
 					}
 					return true;
 				}
-				IL_3F8:
-				IL_3F9:
+				IL_3F6:
 				this.$PC = -1;
 				return false;
 			}

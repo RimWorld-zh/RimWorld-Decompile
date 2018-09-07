@@ -6,7 +6,7 @@ namespace RimWorld
 {
 	public class StatPart_BedStat : StatPart
 	{
-		private StatDef stat = null;
+		private StatDef stat;
 
 		public StatPart_BedStat()
 		{
@@ -39,20 +39,15 @@ namespace RimWorld
 
 		private float BedMultiplier(Pawn pawn)
 		{
-			float result;
 			if (pawn.InBed())
 			{
-				result = pawn.CurrentBed().GetStatValue(this.stat, true);
+				return pawn.CurrentBed().GetStatValue(this.stat, true);
 			}
-			else if (pawn.InCaravanBed())
+			if (pawn.InCaravanBed())
 			{
-				result = pawn.CurrentCaravanBed().GetStatValue(this.stat, true);
+				return pawn.CurrentCaravanBed().GetStatValue(this.stat, true);
 			}
-			else
-			{
-				result = 1f;
-			}
-			return result;
+			return 1f;
 		}
 	}
 }

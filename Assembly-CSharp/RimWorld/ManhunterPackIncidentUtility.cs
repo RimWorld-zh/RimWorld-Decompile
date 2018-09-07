@@ -25,17 +25,12 @@ namespace RimWorld
 		public static float ManhunterAnimalWeight(PawnKindDef animal, float points)
 		{
 			points = Mathf.Max(points, 35f);
-			float result;
 			if (animal.combatPower > points)
 			{
-				result = 0f;
+				return 0f;
 			}
-			else
-			{
-				int num = Mathf.RoundToInt(points / animal.combatPower);
-				result = Mathf.Clamp01(Mathf.InverseLerp(30f, 10f, (float)num));
-			}
-			return result;
+			int num = Mathf.RoundToInt(points / animal.combatPower);
+			return Mathf.Clamp01(Mathf.InverseLerp(30f, 10f, (float)num));
 		}
 
 		public static bool TryFindManhunterAnimalKind(float points, int tile, out PawnKindDef animalKind)
@@ -79,17 +74,12 @@ namespace RimWorld
 			{
 				float num = candidates.Sum((PawnKindDef k) => ManhunterPackIncidentUtility.ManhunterAnimalWeight(k, points));
 				float num2 = ManhunterPackIncidentUtility.ManhunterAnimalWeight(candidate, points);
-				string result;
 				if (num2 == 0f)
 				{
-					result = "0%";
+					return "0%";
 				}
-				else
-				{
-					result = string.Format("{0}%, {1}", (num2 * 100f / num).ToString("F0"), Mathf.Max(Mathf.RoundToInt(points / candidate.combatPower), 1));
-				}
-				return result;
-			}, "");
+				return string.Format("{0}%, {1}", (num2 * 100f / num).ToString("F0"), Mathf.Max(Mathf.RoundToInt(points / candidate.combatPower), 1));
+			}, string.Empty);
 		}
 
 		[CompilerGenerated]
@@ -151,16 +141,11 @@ namespace RimWorld
 			{
 				float num = this.candidates.Sum((PawnKindDef k) => ManhunterPackIncidentUtility.ManhunterAnimalWeight(k, points));
 				float num2 = ManhunterPackIncidentUtility.ManhunterAnimalWeight(candidate, points);
-				string result;
 				if (num2 == 0f)
 				{
-					result = "0%";
+					return "0%";
 				}
-				else
-				{
-					result = string.Format("{0}%, {1}", (num2 * 100f / num).ToString("F0"), Mathf.Max(Mathf.RoundToInt(points / candidate.combatPower), 1));
-				}
-				return result;
+				return string.Format("{0}%, {1}", (num2 * 100f / num).ToString("F0"), Mathf.Max(Mathf.RoundToInt(points / candidate.combatPower), 1));
 			}
 
 			private sealed class <ManhunterResults>c__AnonStorey2

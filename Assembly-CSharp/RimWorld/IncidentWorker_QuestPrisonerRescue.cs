@@ -22,34 +22,26 @@ namespace RimWorld
 		protected override bool TryExecuteWorker(IncidentParms parms)
 		{
 			int tile;
-			bool result;
 			if (!this.TryFindTile(out tile))
 			{
-				result = false;
+				return false;
 			}
-			else
+			Site site = SiteMaker.TryMakeSite_SingleSitePart(SiteCoreDefOf.PrisonerWillingToJoin, "PrisonerRescueQuestThreat", tile, null, true, null, true, null);
+			if (site == null)
 			{
-				Site site = SiteMaker.TryMakeSite_SingleSitePart(SiteCoreDefOf.PrisonerWillingToJoin, "PrisonerRescueQuestThreat", tile, null, true, null, true, null);
-				if (site == null)
-				{
-					result = false;
-				}
-				else
-				{
-					site.sitePartsKnown = true;
-					Pawn pawn = PrisonerWillingToJoinQuestUtility.GeneratePrisoner(tile, site.Faction);
-					site.GetComponent<PrisonerWillingToJoinComp>().pawn.TryAdd(pawn, true);
-					int randomInRange = SiteTuning.QuestSiteTimeoutDaysRange.RandomInRange;
-					site.GetComponent<TimeoutComp>().StartTimeout(randomInRange * 60000);
-					Find.WorldObjects.Add(site);
-					string text;
-					string label;
-					this.GetLetterText(pawn, site, site.parts.FirstOrDefault<SitePart>(), randomInRange, out text, out label);
-					Find.LetterStack.ReceiveLetter(label, text, this.def.letterDef, site, site.Faction, null);
-					result = true;
-				}
+				return false;
 			}
-			return result;
+			site.sitePartsKnown = true;
+			Pawn pawn = PrisonerWillingToJoinQuestUtility.GeneratePrisoner(tile, site.Faction);
+			site.GetComponent<PrisonerWillingToJoinComp>().pawn.TryAdd(pawn, true);
+			int randomInRange = SiteTuning.QuestSiteTimeoutDaysRange.RandomInRange;
+			site.GetComponent<TimeoutComp>().StartTimeout(randomInRange * 60000);
+			Find.WorldObjects.Add(site);
+			string text;
+			string label;
+			this.GetLetterText(pawn, site, site.parts.FirstOrDefault<SitePart>(), randomInRange, out text, out label);
+			Find.LetterStack.ReceiveLetter(label, text, this.def.letterDef, site, site.Faction, null);
+			return true;
 		}
 
 		private bool TryFindTile(out int tile)

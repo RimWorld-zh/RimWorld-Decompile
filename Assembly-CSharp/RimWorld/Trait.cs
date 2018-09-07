@@ -283,15 +283,14 @@ namespace RimWorld
 					degree = base.CurrentData;
 					allThoughts = DefDatabase<ThoughtDef>.AllDefsListForReading;
 					i = 0;
-					goto IL_15B;
+					break;
 				case 1u:
+					IL_14A:
+					i++;
 					break;
 				default:
 					return false;
 				}
-				IL_14D:
-				i++;
-				IL_15B:
 				if (i >= allThoughts.Count)
 				{
 					this.$PC = -1;
@@ -300,19 +299,19 @@ namespace RimWorld
 				{
 					if (!allThoughts[i].IsSituational)
 					{
-						goto IL_14D;
+						goto IL_14A;
 					}
 					if (!(allThoughts[i].Worker is ThoughtWorker_AlwaysActive))
 					{
-						goto IL_14D;
+						goto IL_14A;
 					}
 					if (allThoughts[i].requiredTraits == null || !allThoughts[i].requiredTraits.Contains(this.def))
 					{
-						goto IL_14D;
+						goto IL_14A;
 					}
 					if (allThoughts[i].RequiresSpecificTraitsDegree && allThoughts[i].requiredTraitsDegree != degree.degree)
 					{
-						goto IL_14D;
+						goto IL_14A;
 					}
 					this.$current = allThoughts[i];
 					if (!this.$disposing)
@@ -411,9 +410,9 @@ namespace RimWorld
 					i++;
 					break;
 				case 2u:
-					IL_FC:
+					IL_F8:
 					j++;
-					goto IL_10B;
+					goto IL_106;
 				default:
 					return false;
 				}
@@ -428,7 +427,7 @@ namespace RimWorld
 				}
 				workTypeDefList = DefDatabase<WorkTypeDef>.AllDefsListForReading;
 				j = 0;
-				IL_10B:
+				IL_106:
 				if (j >= workTypeDefList.Count)
 				{
 					this.$PC = -1;
@@ -445,7 +444,7 @@ namespace RimWorld
 						}
 						return true;
 					}
-					goto IL_FC;
+					goto IL_F8;
 				}
 				return false;
 			}

@@ -58,16 +58,11 @@ namespace RimWorld
 
 		public static implicit operator FloatMenuAcceptanceReport(bool value)
 		{
-			FloatMenuAcceptanceReport result;
 			if (value)
 			{
-				result = FloatMenuAcceptanceReport.WasAccepted;
+				return FloatMenuAcceptanceReport.WasAccepted;
 			}
-			else
-			{
-				result = FloatMenuAcceptanceReport.WasRejected;
-			}
-			return result;
+			return FloatMenuAcceptanceReport.WasRejected;
 		}
 
 		public static implicit operator bool(FloatMenuAcceptanceReport rep)

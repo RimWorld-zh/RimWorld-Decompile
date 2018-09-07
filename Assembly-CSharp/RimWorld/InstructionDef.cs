@@ -15,7 +15,7 @@ namespace RimWorld
 		[MustTranslate]
 		public string text;
 
-		public bool startCentered = false;
+		public bool startCentered;
 
 		public bool tutorialModeOnly = true;
 
@@ -28,12 +28,12 @@ namespace RimWorld
 		public List<string> eventTagsEnd;
 
 		[NoTranslate]
-		public List<string> actionTagsAllowed = null;
+		public List<string> actionTagsAllowed;
 
 		[MustTranslate]
-		public string rejectInputMessage = null;
+		public string rejectInputMessage;
 
-		public ConceptDef concept = null;
+		public ConceptDef concept;
 
 		[NoTranslate]
 		public List<string> highlightTags;
@@ -53,9 +53,9 @@ namespace RimWorld
 
 		public int giveOnActivateCount;
 
-		public bool endTutorial = false;
+		public bool endTutorial;
 
-		public bool resetBuildDesignatorStuffs = false;
+		public bool resetBuildDesignatorStuffs;
 
 		private static List<string> tmpParseErrors = new List<string>();
 
@@ -65,7 +65,7 @@ namespace RimWorld
 
 		public override IEnumerable<string> ConfigErrors()
 		{
-			foreach (string e in this.<ConfigErrors>__BaseCallProxy0())
+			foreach (string e in base.ConfigErrors())
 			{
 				yield return e;
 			}
@@ -138,14 +138,14 @@ namespace RimWorld
 				case 1u:
 					break;
 				case 2u:
-					goto IL_F3;
+					goto IL_EF;
 				case 3u:
-					goto IL_127;
+					goto IL_123;
 				case 4u:
-					goto IL_15B;
+					goto IL_157;
 				case 5u:
 					i++;
-					goto IL_1CC;
+					goto IL_1C6;
 				default:
 					return false;
 				}
@@ -185,7 +185,7 @@ namespace RimWorld
 					}
 					return true;
 				}
-				IL_F3:
+				IL_EF:
 				if (this.text.NullOrEmpty())
 				{
 					this.$current = "no text";
@@ -195,7 +195,7 @@ namespace RimWorld
 					}
 					return true;
 				}
-				IL_127:
+				IL_123:
 				if (this.eventTagInitiate.NullOrEmpty())
 				{
 					this.$current = "no eventTagInitiate";
@@ -205,11 +205,11 @@ namespace RimWorld
 					}
 					return true;
 				}
-				IL_15B:
+				IL_157:
 				InstructionDef.tmpParseErrors.Clear();
 				this.text.AdjustedForKeys(InstructionDef.tmpParseErrors, false);
 				i = 0;
-				IL_1CC:
+				IL_1C6:
 				if (i < InstructionDef.tmpParseErrors.Count)
 				{
 					this.$current = "text error: " + InstructionDef.tmpParseErrors[i];

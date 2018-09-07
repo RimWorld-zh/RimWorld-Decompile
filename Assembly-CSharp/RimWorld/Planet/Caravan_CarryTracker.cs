@@ -53,30 +53,31 @@ namespace RimWorld.Planet
 		private void RecalculateCarriedPawns()
 		{
 			this.carriedPawns.Clear();
-			if (this.caravan.Spawned)
+			if (!this.caravan.Spawned)
 			{
-				if (this.caravan.pather.MovingNow)
+				return;
+			}
+			if (this.caravan.pather.MovingNow)
+			{
+				Caravan_CarryTracker.tmpPawnsWhoCanCarry.Clear();
+				this.CalculatePawnsWhoCanCarry(Caravan_CarryTracker.tmpPawnsWhoCanCarry);
+				for (int i = 0; i < this.caravan.pawns.Count; i++)
 				{
-					Caravan_CarryTracker.tmpPawnsWhoCanCarry.Clear();
-					this.CalculatePawnsWhoCanCarry(Caravan_CarryTracker.tmpPawnsWhoCanCarry);
-					for (int i = 0; i < this.caravan.pawns.Count; i++)
+					if (!Caravan_CarryTracker.tmpPawnsWhoCanCarry.Any<Pawn>())
 					{
-						if (!Caravan_CarryTracker.tmpPawnsWhoCanCarry.Any<Pawn>())
+						break;
+					}
+					Pawn pawn = this.caravan.pawns[i];
+					if (this.WantsToBeCarried(pawn))
+					{
+						if (Caravan_CarryTracker.tmpPawnsWhoCanCarry.Any<Pawn>())
 						{
-							break;
-						}
-						Pawn pawn = this.caravan.pawns[i];
-						if (this.WantsToBeCarried(pawn))
-						{
-							if (Caravan_CarryTracker.tmpPawnsWhoCanCarry.Any<Pawn>())
-							{
-								this.carriedPawns.Add(pawn);
-								Caravan_CarryTracker.tmpPawnsWhoCanCarry.RemoveLast<Pawn>();
-							}
+							this.carriedPawns.Add(pawn);
+							Caravan_CarryTracker.tmpPawnsWhoCanCarry.RemoveLast<Pawn>();
 						}
 					}
-					Caravan_CarryTracker.tmpPawnsWhoCanCarry.Clear();
 				}
+				Caravan_CarryTracker.tmpPawnsWhoCanCarry.Clear();
 			}
 		}
 
@@ -116,28 +117,23 @@ namespace RimWorld.Planet
 
 		public string GetInspectStringLine()
 		{
-			string result;
 			if (!this.carriedPawns.Any<Pawn>())
 			{
-				result = null;
+				return null;
 			}
-			else
+			Caravan_CarryTracker.tmpPawnLabels.Clear();
+			int num = 0;
+			for (int i = 0; i < this.carriedPawns.Count; i++)
 			{
-				Caravan_CarryTracker.tmpPawnLabels.Clear();
-				int num = 0;
-				for (int i = 0; i < this.carriedPawns.Count; i++)
+				Caravan_CarryTracker.tmpPawnLabels.Add(this.carriedPawns[i].LabelShort);
+				if (this.caravan.beds.IsInBed(this.carriedPawns[i]))
 				{
-					Caravan_CarryTracker.tmpPawnLabels.Add(this.carriedPawns[i].LabelShort);
-					if (this.caravan.beds.IsInBed(this.carriedPawns[i]))
-					{
-						num++;
-					}
+					num++;
 				}
-				string str = (Caravan_CarryTracker.tmpPawnLabels.Count <= 5) ? Caravan_CarryTracker.tmpPawnLabels.ToCommaList(true) : (Caravan_CarryTracker.tmpPawnLabels.Take(5).ToCommaList(false) + "...");
-				string text = CaravanBedUtility.AppendUsingBedsLabel("BeingCarriedDueToIllness".Translate() + ": " + str.CapitalizeFirst(), num);
-				Caravan_CarryTracker.tmpPawnLabels.Clear();
-				result = text;
 			}
+			string str = (Caravan_CarryTracker.tmpPawnLabels.Count <= 5) ? Caravan_CarryTracker.tmpPawnLabels.ToCommaList(true) : (Caravan_CarryTracker.tmpPawnLabels.Take(5).ToCommaList(false) + "...");
+			string result = CaravanBedUtility.AppendUsingBedsLabel("BeingCarriedDueToIllness".Translate() + ": " + str.CapitalizeFirst(), num);
+			Caravan_CarryTracker.tmpPawnLabels.Clear();
 			return result;
 		}
 

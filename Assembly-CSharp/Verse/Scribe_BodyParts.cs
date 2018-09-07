@@ -8,28 +8,25 @@ namespace Verse
 		{
 			if (Scribe.mode == LoadSaveMode.Saving)
 			{
-				if (part != defaultValue)
+				if (part != defaultValue && Scribe.EnterNode(label))
 				{
-					if (Scribe.EnterNode(label))
+					try
 					{
-						try
+						if (part == null)
 						{
-							if (part == null)
-							{
-								Scribe.saver.WriteAttribute("IsNull", "True");
-							}
-							else
-							{
-								string defName = part.body.defName;
-								Scribe_Values.Look<string>(ref defName, "body", null, false);
-								int index = part.Index;
-								Scribe_Values.Look<int>(ref index, "index", 0, true);
-							}
+							Scribe.saver.WriteAttribute("IsNull", "True");
 						}
-						finally
+						else
 						{
-							Scribe.ExitNode();
+							string defName = part.body.defName;
+							Scribe_Values.Look<string>(ref defName, "body", null, false);
+							int index = part.Index;
+							Scribe_Values.Look<int>(ref index, "index", 0, true);
 						}
+					}
+					finally
+					{
+						Scribe.ExitNode();
 					}
 				}
 			}

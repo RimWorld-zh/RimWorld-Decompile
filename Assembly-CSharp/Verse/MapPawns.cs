@@ -113,17 +113,12 @@ namespace Verse
 		{
 			get
 			{
-				int result;
 				if (Current.ProgramState != ProgramState.Playing)
 				{
 					Log.Error("ColonistCount while not playing. This should get the starting player pawn count.", false);
-					result = 3;
+					return 3;
 				}
-				else
-				{
-					result = this.AllPawns.Count((Pawn x) => x.IsColonist);
-				}
-				return result;
+				return this.AllPawns.Count((Pawn x) => x.IsColonist);
 			}
 		}
 
@@ -172,36 +167,28 @@ namespace Verse
 			get
 			{
 				Faction ofPlayer = Faction.OfPlayer;
-				int i = 0;
-				while (i < this.pawnsSpawned.Count)
+				for (int i = 0; i < this.pawnsSpawned.Count; i++)
 				{
-					bool result;
 					if (!this.pawnsSpawned[i].Downed && this.pawnsSpawned[i].IsColonist)
 					{
-						result = true;
+						return true;
 					}
-					else if (this.pawnsSpawned[i].relations != null && this.pawnsSpawned[i].relations.relativeInvolvedInRescueQuest != null)
+					if (this.pawnsSpawned[i].relations != null && this.pawnsSpawned[i].relations.relativeInvolvedInRescueQuest != null)
 					{
-						result = true;
+						return true;
 					}
-					else
+					if (this.pawnsSpawned[i].Faction == ofPlayer || this.pawnsSpawned[i].HostFaction == ofPlayer)
 					{
-						if (this.pawnsSpawned[i].Faction == ofPlayer || this.pawnsSpawned[i].HostFaction == ofPlayer)
+						Job curJob = this.pawnsSpawned[i].CurJob;
+						if (curJob != null && curJob.exitMapOnArrival)
 						{
-							Job curJob = this.pawnsSpawned[i].CurJob;
-							if (curJob != null && curJob.exitMapOnArrival)
-							{
-								return true;
-							}
+							return true;
 						}
-						if (CaravanExitMapUtility.FindCaravanToJoinFor(this.pawnsSpawned[i]) == null || this.pawnsSpawned[i].Downed)
-						{
-							i++;
-							continue;
-						}
-						result = true;
 					}
-					return result;
+					if (CaravanExitMapUtility.FindCaravanToJoinFor(this.pawnsSpawned[i]) != null && !this.pawnsSpawned[i].Downed)
+					{
+						return true;
+					}
 				}
 				List<Thing> list = this.map.listerThings.ThingsInGroup(ThingRequestGroup.ThingHolder);
 				for (int j = 0; j < list.Count; j++)
@@ -390,35 +377,25 @@ namespace Verse
 
 		public IEnumerable<Pawn> PawnsInFaction(Faction faction)
 		{
-			IEnumerable<Pawn> result;
 			if (faction == null)
 			{
 				Log.Error("Called PawnsInFaction with null faction.", false);
-				result = new List<Pawn>();
+				return new List<Pawn>();
 			}
-			else
-			{
-				result = from x in this.AllPawns
-				where x.Faction == faction
-				select x;
-			}
-			return result;
+			return from x in this.AllPawns
+			where x.Faction == faction
+			select x;
 		}
 
 		public List<Pawn> SpawnedPawnsInFaction(Faction faction)
 		{
 			this.EnsureFactionsListsInit();
-			List<Pawn> result;
 			if (faction == null)
 			{
 				Log.Error("Called SpawnedPawnsInFaction with null faction.", false);
-				result = new List<Pawn>();
+				return new List<Pawn>();
 			}
-			else
-			{
-				result = this.pawnsInFactionSpawned[faction];
-			}
-			return result;
+			return this.pawnsInFactionSpawned[faction];
 		}
 
 		public IEnumerable<Pawn> FreeHumanlikesOfFaction(Faction faction)
@@ -447,8 +424,9 @@ namespace Verse
 					base.GetType(),
 					"."
 				}), false);
+				return;
 			}
-			else if (!p.Spawned)
+			if (!p.Spawned)
 			{
 				Log.Warning(string.Concat(new object[]
 				{
@@ -458,43 +436,40 @@ namespace Verse
 					base.GetType(),
 					"."
 				}), false);
+				return;
 			}
-			else if (p.Map != this.map)
+			if (p.Map != this.map)
 			{
 				Log.Warning("Tried to register pawn " + p + " but his Map is not this one.", false);
+				return;
 			}
-			else if (p.mindState.Active)
+			if (!p.mindState.Active)
 			{
-				this.EnsureFactionsListsInit();
-				if (!this.pawnsSpawned.Contains(p))
-				{
-					this.pawnsSpawned.Add(p);
-				}
-				if (p.Faction != null)
-				{
-					if (!this.pawnsInFactionSpawned[p.Faction].Contains(p))
-					{
-						this.pawnsInFactionSpawned[p.Faction].Add(p);
-						if (p.Faction == Faction.OfPlayer)
-						{
-							this.pawnsInFactionSpawned[Faction.OfPlayer].InsertionSort(delegate(Pawn a, Pawn b)
-							{
-								int num = (a.playerSettings == null) ? 0 : a.playerSettings.joinTick;
-								int value = (b.playerSettings == null) ? 0 : b.playerSettings.joinTick;
-								return num.CompareTo(value);
-							});
-						}
-					}
-				}
-				if (p.IsPrisonerOfColony)
-				{
-					if (!this.prisonersOfColonySpawned.Contains(p))
-					{
-						this.prisonersOfColonySpawned.Add(p);
-					}
-				}
-				this.DoListChangedNotifications();
+				return;
 			}
+			this.EnsureFactionsListsInit();
+			if (!this.pawnsSpawned.Contains(p))
+			{
+				this.pawnsSpawned.Add(p);
+			}
+			if (p.Faction != null && !this.pawnsInFactionSpawned[p.Faction].Contains(p))
+			{
+				this.pawnsInFactionSpawned[p.Faction].Add(p);
+				if (p.Faction == Faction.OfPlayer)
+				{
+					this.pawnsInFactionSpawned[Faction.OfPlayer].InsertionSort(delegate(Pawn a, Pawn b)
+					{
+						int num = (a.playerSettings == null) ? 0 : a.playerSettings.joinTick;
+						int value = (b.playerSettings == null) ? 0 : b.playerSettings.joinTick;
+						return num.CompareTo(value);
+					});
+				}
+			}
+			if (p.IsPrisonerOfColony && !this.prisonersOfColonySpawned.Contains(p))
+			{
+				this.prisonersOfColonySpawned.Add(p);
+			}
+			this.DoListChangedNotifications();
 		}
 
 		public void DeRegisterPawn(Pawn p)

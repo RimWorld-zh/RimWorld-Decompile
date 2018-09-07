@@ -65,19 +65,14 @@ namespace RimWorld.Planet
 
 		public override string CompInspectStringExtra()
 		{
-			string result;
 			if (this.Active && !base.ParentHasMap)
 			{
-				result = "WorldObjectTimeout".Translate(new object[]
+				return "WorldObjectTimeout".Translate(new object[]
 				{
 					this.TicksLeft.ToStringTicksToPeriod()
 				});
 			}
-			else
-			{
-				result = null;
-			}
-			return result;
+			return null;
 		}
 	}
 }

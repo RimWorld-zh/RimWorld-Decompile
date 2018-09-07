@@ -1,6 +1,5 @@
 ﻿using System;
 using UnityEngine;
-using UnityEngine.Profiling;
 using Verse;
 
 namespace RimWorld
@@ -27,18 +26,17 @@ namespace RimWorld
 
 		public virtual void InterfaceTryActivate()
 		{
-			if (!TutorSystem.TutorialMode || !this.def.canBeTutorDenied || Find.MainTabsRoot.OpenTab == this.def || TutorSystem.AllowAction("MainTab-" + this.def.defName + "-Open"))
+			if (TutorSystem.TutorialMode && this.def.canBeTutorDenied && Find.MainTabsRoot.OpenTab != this.def && !TutorSystem.AllowAction("MainTab-" + this.def.defName + "-Open"))
 			{
-				this.Activate();
+				return;
 			}
+			this.Activate();
 		}
 
 		public virtual void DoButton(Rect rect)
 		{
 			Text.Font = GameFont.Small;
-			Profiler.BeginSample("lab");
 			string text = this.def.LabelCap;
-			Profiler.EndSample();
 			float num = this.def.LabelCapWidth;
 			if (num > rect.width - 2f)
 			{
@@ -55,7 +53,6 @@ namespace RimWorld
 			}
 			else
 			{
-				Profiler.BeginSample("ButtonTextSubtle");
 				bool flag = num > 0.85f * rect.width - 1f;
 				Rect rect2 = rect;
 				string label = text;
@@ -64,7 +61,6 @@ namespace RimWorld
 				{
 					this.InterfaceTryActivate();
 				}
-				Profiler.EndSample();
 				if (Find.MainTabsRoot.OpenTab != this.def && !Find.WindowStack.NonImmediateDialogWindowOpen)
 				{
 					UIHighlighter.HighlightOpportunity(rect, this.def.cachedHighlightTagClosed);

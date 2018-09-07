@@ -59,12 +59,9 @@ namespace RimWorld
 								yield return p.inventory.innerContainer[k];
 							}
 						}
-						else if (role == TraderCaravanRole.Chattel)
+						else if (role == TraderCaravanRole.Chattel && !this.soldPrisoners.Contains(p))
 						{
-							if (!this.soldPrisoners.Contains(p))
-							{
-								yield return p;
-							}
+							yield return p;
 						}
 					}
 				}
@@ -133,31 +130,29 @@ namespace RimWorld
 			if (this.Goods.Contains(toGive))
 			{
 				Log.Error("Tried to add " + toGive + " to stock (pawn's trader tracker), but it's already here.", false);
+				return;
+			}
+			Pawn pawn = toGive as Pawn;
+			if (pawn != null)
+			{
+				pawn.PreTraded(TradeAction.PlayerSells, playerNegotiator, this.pawn);
+				this.AddPawnToStock(pawn);
 			}
 			else
 			{
-				Pawn pawn = toGive as Pawn;
-				if (pawn != null)
+				Thing thing = toGive.SplitOff(countToGive);
+				thing.PreTraded(TradeAction.PlayerSells, playerNegotiator, this.pawn);
+				Thing thing2 = TradeUtility.ThingFromStockToMergeWith(this.pawn, thing);
+				if (thing2 != null)
 				{
-					pawn.PreTraded(TradeAction.PlayerSells, playerNegotiator, this.pawn);
-					this.AddPawnToStock(pawn);
+					if (!thing2.TryAbsorbStack(thing, false))
+					{
+						thing.Destroy(DestroyMode.Vanish);
+					}
 				}
 				else
 				{
-					Thing thing = toGive.SplitOff(countToGive);
-					thing.PreTraded(TradeAction.PlayerSells, playerNegotiator, this.pawn);
-					Thing thing2 = TradeUtility.ThingFromStockToMergeWith(this.pawn, thing);
-					if (thing2 != null)
-					{
-						if (!thing2.TryAbsorbStack(thing, false))
-						{
-							thing.Destroy(DestroyMode.Vanish);
-						}
-					}
-					else
-					{
-						this.AddThingToRandomInventory(thing);
-					}
+					this.AddThingToRandomInventory(thing);
 				}
 			}
 		}
@@ -171,7 +166,7 @@ namespace RimWorld
 				Lord lord = pawn.GetLord();
 				if (lord != null)
 				{
-					lord.Notify_PawnLost(pawn, PawnLostCondition.Undefined);
+					lord.Notify_PawnLost(pawn, PawnLostCondition.Undefined, null);
 				}
 				if (this.soldPrisoners.Contains(pawn))
 				{
@@ -234,15 +229,13 @@ namespace RimWorld
 					this.pawn,
 					" has no lord. Traders without lord can't buy pawns."
 				}), false);
+				return;
 			}
-			else
+			if (newPawn.RaceProps.Humanlike)
 			{
-				if (newPawn.RaceProps.Humanlike)
-				{
-					this.soldPrisoners.Add(newPawn);
-				}
-				lord.AddPawn(newPawn);
+				this.soldPrisoners.Add(newPawn);
 			}
+			lord.AddPawn(newPawn);
 		}
 
 		private void AddThingToRandomInventory(Thing thing)
@@ -335,21 +328,22 @@ namespace RimWorld
 					bool traderCaravan = lord != null && lord.LordJob is LordJob_TradeWithColony;
 					if (traderCaravan)
 					{
-						goto IL_11B;
+						goto IL_116;
 					}
 					i = 0;
 					break;
 				}
 				case 1u:
-					IL_E6:
+					IL_E3:
 					i++;
 					break;
 				case 2u:
 					k++;
-					goto IL_1BF;
+					goto IL_1B5;
 				case 3u:
-					IL_22D:
-					goto IL_22E;
+					IL_221:
+					j++;
+					goto IL_22F;
 				default:
 					return false;
 				}
@@ -365,28 +359,27 @@ namespace RimWorld
 						}
 						return true;
 					}
-					goto IL_E6;
+					goto IL_E3;
 				}
-				IL_11B:
+				IL_116:
 				if (lord != null)
 				{
 					j = 0;
-					goto IL_23D;
+					goto IL_22F;
 				}
-				goto IL_259;
-				IL_1BF:
-				if (k < p.inventory.innerContainer.Count)
+				goto IL_24A;
+				IL_1B5:
+				if (k >= p.inventory.innerContainer.Count)
 				{
-					this.$current = p.inventory.innerContainer[k];
-					if (!this.$disposing)
-					{
-						this.$PC = 2;
-					}
-					return true;
+					goto IL_221;
 				}
-				IL_22E:
-				j++;
-				IL_23D:
+				this.$current = p.inventory.innerContainer[k];
+				if (!this.$disposing)
+				{
+					this.$PC = 2;
+				}
+				return true;
+				IL_22F:
 				if (j < lord.ownedPawns.Count)
 				{
 					p = lord.ownedPawns[j];
@@ -394,13 +387,9 @@ namespace RimWorld
 					if (role == TraderCaravanRole.Carrier)
 					{
 						k = 0;
-						goto IL_1BF;
+						goto IL_1B5;
 					}
-					if (role != TraderCaravanRole.Chattel)
-					{
-						goto IL_22E;
-					}
-					if (!this.soldPrisoners.Contains(p))
+					if (role == TraderCaravanRole.Chattel && !this.soldPrisoners.Contains(p))
 					{
 						this.$current = p;
 						if (!this.$disposing)
@@ -409,9 +398,9 @@ namespace RimWorld
 						}
 						return true;
 					}
-					goto IL_22D;
+					goto IL_221;
 				}
-				IL_259:
+				IL_24A:
 				this.$PC = -1;
 				return false;
 			}
@@ -511,7 +500,7 @@ namespace RimWorld
 				case 1u:
 					break;
 				case 2u:
-					goto IL_141;
+					goto IL_13B;
 				default:
 					return false;
 				}
@@ -545,7 +534,7 @@ namespace RimWorld
 				hasLord = (this.pawn.GetLord() != null);
 				if (!hasLord)
 				{
-					goto IL_1B8;
+					goto IL_1AF;
 				}
 				enumerator2 = (from x in TradeUtility.AllSellableColonyPawns(this.pawn.Map)
 				where !x.Downed && base.ReachableForTrade(x)
@@ -553,7 +542,7 @@ namespace RimWorld
 				num = 4294967293u;
 				try
 				{
-					IL_141:
+					IL_13B:
 					switch (num)
 					{
 					}
@@ -579,7 +568,7 @@ namespace RimWorld
 						}
 					}
 				}
-				IL_1B8:
+				IL_1AF:
 				this.$PC = -1;
 				return false;
 			}

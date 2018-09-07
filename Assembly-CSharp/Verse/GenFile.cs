@@ -20,17 +20,12 @@ namespace Verse
 		public static string TextFromResourceFile(string filePath)
 		{
 			TextAsset textAsset = Resources.Load("Text/" + filePath) as TextAsset;
-			string result;
 			if (textAsset == null)
 			{
 				Log.Message("Found no text asset in resources at " + filePath, false);
-				result = null;
+				return null;
 			}
-			else
-			{
-				result = GenFile.GetTextWithoutBOM(textAsset);
-			}
-			return result;
+			return GenFile.GetTextWithoutBOM(textAsset);
 		}
 
 		public static string GetTextWithoutBOM(TextAsset textAsset)
@@ -97,7 +92,7 @@ namespace Verse
 		public static string SanitizedFileName(string fileName)
 		{
 			char[] invalidFileNameChars = Path.GetInvalidFileNameChars();
-			string text = "";
+			string text = string.Empty;
 			for (int i = 0; i < fileName.Length; i++)
 			{
 				if (!invalidFileNameChars.Contains(fileName[i]))

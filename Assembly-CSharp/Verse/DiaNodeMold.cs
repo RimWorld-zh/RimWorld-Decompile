@@ -7,7 +7,7 @@ namespace Verse
 	{
 		public string name = "Unnamed";
 
-		public bool unique = false;
+		public bool unique;
 
 		public List<string> texts = new List<string>();
 
@@ -17,10 +17,10 @@ namespace Verse
 		public bool isRoot = true;
 
 		[Unsaved]
-		public bool used = false;
+		public bool used;
 
 		[Unsaved]
-		public DiaNodeType nodeType = DiaNodeType.Undefined;
+		public DiaNodeType nodeType;
 
 		public DiaNodeMold()
 		{

@@ -12,23 +12,23 @@ namespace Verse
 {
 	public abstract class BuildableDef : Def
 	{
-		public List<StatModifier> statBases = null;
+		public List<StatModifier> statBases;
 
-		public Traversability passability = Traversability.Standable;
+		public Traversability passability;
 
-		public int pathCost = 0;
+		public int pathCost;
 
 		public bool pathCostIgnoreRepeat = true;
 
 		public float fertility = -1f;
 
-		public List<ThingDefCountClass> costList = null;
+		public List<ThingDefCountClass> costList;
 
-		public int costStuffCount = 0;
+		public int costStuffCount;
 
-		public List<StuffCategoryDef> stuffCategories = null;
+		public List<StuffCategoryDef> stuffCategories;
 
-		public int placingDraggableDimensions = 0;
+		public int placingDraggableDimensions;
 
 		public bool clearBuildingArea = true;
 
@@ -36,35 +36,35 @@ namespace Verse
 
 		public float resourcesFractionWhenDeconstructed = 0.75f;
 
-		public TerrainAffordanceDef terrainAffordanceNeeded = null;
+		public TerrainAffordanceDef terrainAffordanceNeeded;
 
-		public List<ThingDef> buildingPrerequisites = null;
+		public List<ThingDef> buildingPrerequisites;
 
-		public List<ResearchProjectDef> researchPrerequisites = null;
+		public List<ResearchProjectDef> researchPrerequisites;
 
-		public int constructionSkillPrerequisite = 0;
+		public int constructionSkillPrerequisite;
 
-		public TechLevel minTechLevelToBuild = TechLevel.Undefined;
+		public TechLevel minTechLevelToBuild;
 
-		public TechLevel maxTechLevelToBuild = TechLevel.Undefined;
+		public TechLevel maxTechLevelToBuild;
 
 		public AltitudeLayer altitudeLayer = AltitudeLayer.Item;
 
-		public EffecterDef repairEffect = null;
+		public EffecterDef repairEffect;
 
-		public EffecterDef constructEffect = null;
+		public EffecterDef constructEffect;
 
-		public bool menuHidden = false;
+		public bool menuHidden;
 
-		public float specialDisplayRadius = 0f;
+		public float specialDisplayRadius;
 
-		public List<Type> placeWorkers = null;
+		public List<Type> placeWorkers;
 
-		public DesignationCategoryDef designationCategory = null;
+		public DesignationCategoryDef designationCategory;
 
-		public DesignatorDropdownGroupDef designatorDropdown = null;
+		public DesignatorDropdownGroupDef designatorDropdown;
 
-		public KeyBindingDef designationHotKey = null;
+		public KeyBindingDef designationHotKey;
 
 		[NoTranslate]
 		public string uiIconPath;
@@ -72,6 +72,8 @@ namespace Verse
 		public Vector2 uiIconOffset;
 
 		public Color uiIconColor = Color.white;
+
+		public int uiIconForStackCount = -1;
 
 		[Unsaved]
 		public ThingDef blueprintDef;
@@ -83,7 +85,7 @@ namespace Verse
 		public ThingDef frameDef;
 
 		[Unsaved]
-		private List<PlaceWorker> placeWorkersInstantiatedInt = null;
+		private List<PlaceWorker> placeWorkersInstantiatedInt;
 
 		[Unsaved]
 		public Graphic graphic = BaseContent.BadGraphic;
@@ -126,16 +128,11 @@ namespace Verse
 		{
 			get
 			{
-				Material result;
 				if (this.graphic == null)
 				{
-					result = null;
+					return null;
 				}
-				else
-				{
-					result = this.graphic.MatSingle;
-				}
-				return result;
+				return this.graphic.MatSingle;
 			}
 		}
 
@@ -151,21 +148,16 @@ namespace Verse
 		{
 			get
 			{
-				List<PlaceWorker> result;
 				if (this.placeWorkers == null)
 				{
-					result = null;
+					return null;
 				}
-				else
+				this.placeWorkersInstantiatedInt = new List<PlaceWorker>();
+				foreach (Type type in this.placeWorkers)
 				{
-					this.placeWorkersInstantiatedInt = new List<PlaceWorker>();
-					foreach (Type type in this.placeWorkers)
-					{
-						this.placeWorkersInstantiatedInt.Add((PlaceWorker)Activator.CreateInstance(type));
-					}
-					result = this.placeWorkersInstantiatedInt;
+					this.placeWorkersInstantiatedInt.Add((PlaceWorker)Activator.CreateInstance(type));
 				}
-				return result;
+				return this.placeWorkersInstantiatedInt;
 			}
 		}
 
@@ -189,23 +181,18 @@ namespace Verse
 
 		public bool ForceAllowPlaceOver(BuildableDef other)
 		{
-			bool result;
 			if (this.PlaceWorkers == null)
 			{
-				result = false;
+				return false;
 			}
-			else
+			for (int i = 0; i < this.PlaceWorkers.Count; i++)
 			{
-				for (int i = 0; i < this.PlaceWorkers.Count; i++)
+				if (this.PlaceWorkers[i].ForceAllowPlaceOver(other))
 				{
-					if (this.PlaceWorkers[i].ForceAllowPlaceOver(other))
-					{
-						return true;
-					}
+					return true;
 				}
-				result = false;
 			}
-			return result;
+			return false;
 		}
 
 		public override void PostLoad()
@@ -228,7 +215,16 @@ namespace Verse
 		{
 			if (this.graphic != null && this.graphic != BaseContent.BadGraphic)
 			{
-				Material material = this.graphic.ExtractInnerGraphicFor(null).MatAt(this.defaultPlacingRot, null);
+				Graphic outerGraphic = this.graphic;
+				if (this.uiIconForStackCount >= 1 && this is ThingDef)
+				{
+					Graphic_StackCount graphic_StackCount = this.graphic as Graphic_StackCount;
+					if (graphic_StackCount != null)
+					{
+						outerGraphic = graphic_StackCount.SubGraphicForStackCount(this.uiIconForStackCount, (ThingDef)this);
+					}
+				}
+				Material material = outerGraphic.ExtractInnerGraphicFor(null).MatAt(this.defaultPlacingRot, null);
 				this.uiIcon = (Texture2D)material.mainTexture;
 				this.uiIconColor = material.color;
 			}
@@ -241,7 +237,7 @@ namespace Verse
 
 		public override IEnumerable<string> ConfigErrors()
 		{
-			foreach (string error in this.<ConfigErrors>__BaseCallProxy0())
+			foreach (string error in base.ConfigErrors())
 			{
 				yield return error;
 			}
@@ -250,7 +246,7 @@ namespace Verse
 
 		public override IEnumerable<StatDrawEntry> SpecialDisplayStats(StatRequest req)
 		{
-			foreach (StatDrawEntry stat in this.<SpecialDisplayStats>__BaseCallProxy1(req))
+			foreach (StatDrawEntry stat in base.SpecialDisplayStats(req))
 			{
 				yield return stat;
 			}
@@ -268,7 +264,7 @@ namespace Verse
 			select ta.label).ToArray<string>();
 			if (affordances.Length > 0)
 			{
-				yield return new StatDrawEntry(StatCategoryDefOf.Basics, "TerrainRequirement".Translate(), affordances.ToCommaList(false).CapitalizeFirst(), 0, "");
+				yield return new StatDrawEntry(StatCategoryDefOf.Basics, "TerrainRequirement".Translate(), affordances.ToCommaList(false).CapitalizeFirst(), 0, string.Empty);
 			}
 			yield break;
 		}
@@ -489,7 +485,7 @@ namespace Verse
 				case 1u:
 					break;
 				case 2u:
-					goto IL_1F1;
+					goto IL_1EC;
 				default:
 					return false;
 				}
@@ -534,15 +530,15 @@ namespace Verse
 				select ta.label).ToArray<string>();
 				if (affordances.Length <= 0)
 				{
-					goto IL_1F1;
+					goto IL_1EC;
 				}
-				this.$current = new StatDrawEntry(StatCategoryDefOf.Basics, "TerrainRequirement".Translate(), affordances.ToCommaList(false).CapitalizeFirst(), 0, "");
+				this.$current = new StatDrawEntry(StatCategoryDefOf.Basics, "TerrainRequirement".Translate(), affordances.ToCommaList(false).CapitalizeFirst(), 0, string.Empty);
 				if (!this.$disposing)
 				{
 					this.$PC = 2;
 				}
 				return true;
-				IL_1F1:
+				IL_1EC:
 				this.$PC = -1;
 				return false;
 			}

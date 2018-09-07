@@ -18,24 +18,19 @@ namespace RimWorld
 		{
 			get
 			{
-				Need_Chemical result;
 				if (this.pawn.Dead)
 				{
-					result = null;
+					return null;
 				}
-				else
+				List<Need> allNeeds = this.pawn.needs.AllNeeds;
+				for (int i = 0; i < allNeeds.Count; i++)
 				{
-					List<Need> allNeeds = this.pawn.needs.AllNeeds;
-					for (int i = 0; i < allNeeds.Count; i++)
+					if (allNeeds[i].def == this.def.causesNeed)
 					{
-						if (allNeeds[i].def == this.def.causesNeed)
-						{
-							return (Need_Chemical)allNeeds[i];
-						}
+						return (Need_Chemical)allNeeds[i];
 					}
-					result = null;
 				}
-				return result;
+				return null;
 			}
 		}
 
@@ -59,16 +54,11 @@ namespace RimWorld
 		{
 			get
 			{
-				string result;
 				if (this.CurStageIndex == 1 && this.def.CompProps<HediffCompProperties_SeverityPerDay>() != null)
 				{
-					result = base.LabelInBrackets + " " + (1f - this.Severity).ToStringPercent();
+					return base.LabelInBrackets + " " + (1f - this.Severity).ToStringPercent();
 				}
-				else
-				{
-					result = base.LabelInBrackets;
-				}
-				return result;
+				return base.LabelInBrackets;
 			}
 		}
 
@@ -77,16 +67,11 @@ namespace RimWorld
 			get
 			{
 				Need_Chemical need = this.Need;
-				int result;
 				if (need == null || need.CurCategory != DrugDesireCategory.Withdrawal)
 				{
-					result = 0;
+					return 0;
 				}
-				else
-				{
-					result = 1;
-				}
-				return result;
+				return 1;
 			}
 		}
 

@@ -12,7 +12,7 @@ namespace RimWorld
 {
 	public class JobDriver_Lovin : JobDriver
 	{
-		private int ticksLeft = 0;
+		private int ticksLeft;
 
 		private TargetIndex PartnerInd = TargetIndex.A;
 
@@ -70,9 +70,26 @@ namespace RimWorld
 			Scribe_Values.Look<int>(ref this.ticksLeft, "ticksLeft", 0, false);
 		}
 
-		public override bool TryMakePreToilReservations()
+		public override bool TryMakePreToilReservations(bool errorOnFailed)
 		{
-			return this.pawn.Reserve(this.Partner, this.job, 1, -1, null) && this.pawn.Reserve(this.Bed, this.job, this.Bed.SleepingSlotsCount, 0, null);
+			Pawn pawn = this.pawn;
+			LocalTargetInfo target = this.Partner;
+			Job job = this.job;
+			bool result;
+			if (pawn.Reserve(target, job, 1, -1, null, errorOnFailed))
+			{
+				pawn = this.pawn;
+				target = this.Bed;
+				job = this.job;
+				int sleepingSlotsCount = this.Bed.SleepingSlotsCount;
+				int stackCount = 0;
+				result = pawn.Reserve(target, job, sleepingSlotsCount, stackCount, null, errorOnFailed);
+			}
+			else
+			{
+				result = false;
+			}
+			return result;
 		}
 
 		public override bool CanBeginNowWhileLyingDown()
@@ -132,22 +149,17 @@ namespace RimWorld
 
 		private int GenerateRandomMinTicksToNextLovin(Pawn pawn)
 		{
-			int result;
 			if (DebugSettings.alwaysDoLovin)
 			{
-				result = 100;
+				return 100;
 			}
-			else
+			float num = JobDriver_Lovin.LovinIntervalHoursFromAgeCurve.Evaluate(pawn.ageTracker.AgeBiologicalYearsFloat);
+			num = Rand.Gaussian(num, 0.3f);
+			if (num < 0.5f)
 			{
-				float num = JobDriver_Lovin.LovinIntervalHoursFromAgeCurve.Evaluate(pawn.ageTracker.AgeBiologicalYearsFloat);
-				num = Rand.Gaussian(num, 0.3f);
-				if (num < 0.5f)
-				{
-					num = 0.5f;
-				}
-				result = (int)(num * 2500f);
+				num = 0.5f;
 			}
-			return result;
+			return (int)(num * 2500f);
 		}
 
 		// Note: this type is marked as 'beforefieldinit'.

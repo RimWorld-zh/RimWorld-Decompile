@@ -19,9 +19,9 @@ namespace RimWorld
 
 		public IntVec2 centerLocation;
 
-		private int areaRadius = 0;
+		private int areaRadius;
 
-		private int nextLightningTicks = 0;
+		private int nextLightningTicks;
 
 		public GameCondition_Flashstorm()
 		{
@@ -151,15 +151,15 @@ namespace RimWorld
 				{
 				case 0u:
 					x = center.x - this.areaRadius;
-					goto IL_13B;
+					goto IL_136;
 				case 1u:
-					IL_FB:
+					IL_F8:
 					z++;
 					break;
 				default:
 					return false;
 				}
-				IL_10A:
+				IL_106:
 				if (z > center.z + this.areaRadius)
 				{
 					x++;
@@ -175,13 +175,13 @@ namespace RimWorld
 						}
 						return true;
 					}
-					goto IL_FB;
+					goto IL_F8;
 				}
-				IL_13B:
+				IL_136:
 				if (x <= center.x + this.areaRadius)
 				{
 					z = center.z - this.areaRadius;
-					goto IL_10A;
+					goto IL_106;
 				}
 				this.$PC = -1;
 				return false;

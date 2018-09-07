@@ -9,15 +9,15 @@ namespace Verse
 	[StaticConstructorOnStartup]
 	public abstract class LogEntry : IExposable, ILoadReferenceable
 	{
-		protected int logID = 0;
+		protected int logID;
 
 		protected int ticksAbs = -1;
 
 		public LogEntryDef def;
 
-		private WeakReference<Thing> cachedStringPov = null;
+		private WeakReference<Thing> cachedStringPov;
 
-		private string cachedString = null;
+		private string cachedString;
 
 		private float cachedHeightWidth;
 
@@ -109,7 +109,7 @@ namespace Verse
 		{
 			string rootKeyword = "r_logentry";
 			GrammarRequest request = this.GenerateGrammarRequest();
-			return GrammarResolver.Resolve(rootKeyword, request, null, forceLog);
+			return GrammarResolver.Resolve(rootKeyword, request, null, forceLog, null);
 		}
 
 		protected virtual GrammarRequest GenerateGrammarRequest()

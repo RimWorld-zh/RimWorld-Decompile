@@ -11,7 +11,7 @@ namespace RimWorld.Planet
 {
 	public class WorldLayer_Stars : WorldLayer
 	{
-		private bool calculatedForStaticRotation = false;
+		private bool calculatedForStaticRotation;
 
 		private int calculatedForStartingTile = -1;
 
@@ -55,22 +55,17 @@ namespace RimWorld.Planet
 		{
 			get
 			{
-				Quaternion result;
 				if (this.UseStaticRotation)
 				{
-					result = Quaternion.identity;
+					return Quaternion.identity;
 				}
-				else
-				{
-					result = Quaternion.LookRotation(GenCelestial.CurSunPositionInWorldSpace());
-				}
-				return result;
+				return Quaternion.LookRotation(GenCelestial.CurSunPositionInWorldSpace());
 			}
 		}
 
 		public override IEnumerable Regenerate()
 		{
-			IEnumerator enumerator = this.<Regenerate>__BaseCallProxy0().GetEnumerator();
+			IEnumerator enumerator = base.Regenerate().GetEnumerator();
 			try
 			{
 				while (enumerator.MoveNext())

@@ -60,7 +60,6 @@ namespace RimWorld
 
 		public bool IsForced(Apparel ap)
 		{
-			bool result;
 			if (ap.Destroyed)
 			{
 				Log.Error("Apparel was forced while Destroyed: " + ap, false);
@@ -68,13 +67,9 @@ namespace RimWorld
 				{
 					this.forcedAps.Remove(ap);
 				}
-				result = false;
+				return false;
 			}
-			else
-			{
-				result = this.forcedAps.Contains(ap);
-			}
-			return result;
+			return this.forcedAps.Contains(ap);
 		}
 	}
 }

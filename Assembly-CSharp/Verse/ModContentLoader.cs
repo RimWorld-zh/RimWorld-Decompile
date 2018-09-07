@@ -154,31 +154,21 @@ namespace Verse
 					ex.ToString()
 				}), false);
 			}
-			LoadedContentItem<T> result;
 			if (typeof(T) == typeof(Texture2D))
 			{
-				result = (LoadedContentItem<T>)new LoadedContentItem<Texture2D>(absFilePath, BaseContent.BadTex);
+				return (LoadedContentItem<T>)new LoadedContentItem<Texture2D>(absFilePath, BaseContent.BadTex);
 			}
-			else
-			{
-				result = null;
-			}
-			return result;
+			return null;
 		}
 
 		private static bool ShouldStreamAudioClipFromPath(string absPath)
 		{
-			bool result;
 			if (!File.Exists(absPath))
 			{
-				result = false;
+				return false;
 			}
-			else
-			{
-				FileInfo fileInfo = new FileInfo(absPath);
-				result = (fileInfo.Length > 307200L);
-			}
-			return result;
+			FileInfo fileInfo = new FileInfo(absPath);
+			return fileInfo.Length > 307200L;
 		}
 
 		private static Texture2D LoadPNG(string filePath)
@@ -253,16 +243,14 @@ namespace Verse
 					}));
 					files = contentDir.GetFiles("*.*", SearchOption.AllDirectories);
 					i = 0;
-					goto IL_141;
+					break;
 				case 1u:
-					IL_132:
+					IL_12F:
+					i++;
 					break;
 				default:
 					return false;
 				}
-				IL_133:
-				i++;
-				IL_141:
 				if (i >= files.Length)
 				{
 					DeepProfiler.End();
@@ -273,7 +261,7 @@ namespace Verse
 					file = files[i];
 					if (!ModContentLoader<T>.IsAcceptableExtension(file.Extension))
 					{
-						goto IL_133;
+						goto IL_12F;
 					}
 					loadedItem = ModContentLoader<T>.LoadItem(file.FullName, contentDirPath);
 					if (loadedItem != null)
@@ -285,7 +273,7 @@ namespace Verse
 						}
 						return true;
 					}
-					goto IL_132;
+					goto IL_12F;
 				}
 				return false;
 			}

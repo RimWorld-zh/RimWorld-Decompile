@@ -14,7 +14,7 @@ namespace RimWorld
 	{
 		public Pawn pawn;
 
-		private bool draftedInt = false;
+		private bool draftedInt;
 
 		private bool fireAtWillInt = true;
 
@@ -34,37 +34,38 @@ namespace RimWorld
 			}
 			set
 			{
-				if (value != this.draftedInt)
+				if (value == this.draftedInt)
 				{
-					this.pawn.mindState.priorityWork.ClearPrioritizedWorkAndJobQueue();
-					this.fireAtWillInt = true;
-					this.draftedInt = value;
-					if (!value && this.pawn.Spawned)
+					return;
+				}
+				this.pawn.mindState.priorityWork.ClearPrioritizedWorkAndJobQueue();
+				this.fireAtWillInt = true;
+				this.draftedInt = value;
+				if (!value && this.pawn.Spawned)
+				{
+					this.pawn.Map.pawnDestinationReservationManager.ReleaseAllClaimedBy(this.pawn);
+				}
+				this.pawn.jobs.ClearQueuedJobs();
+				if (this.pawn.jobs.curJob != null && this.pawn.jobs.IsCurrentJobPlayerInterruptible())
+				{
+					this.pawn.jobs.EndCurrentJob(JobCondition.InterruptForced, true);
+				}
+				if (this.draftedInt)
+				{
+					Lord lord = this.pawn.GetLord();
+					if (lord != null && lord.LordJob is LordJob_VoluntarilyJoinable)
 					{
-						this.pawn.Map.pawnDestinationReservationManager.ReleaseAllClaimedBy(this.pawn);
+						lord.Notify_PawnLost(this.pawn, PawnLostCondition.Drafted, null);
 					}
-					this.pawn.jobs.ClearQueuedJobs();
-					if (this.pawn.jobs.curJob != null && this.pawn.jobs.IsCurrentJobPlayerInterruptible())
-					{
-						this.pawn.jobs.EndCurrentJob(JobCondition.InterruptForced, true);
-					}
-					if (this.draftedInt)
-					{
-						Lord lord = this.pawn.GetLord();
-						if (lord != null && lord.LordJob is LordJob_VoluntarilyJoinable)
-						{
-							lord.Notify_PawnLost(this.pawn, PawnLostCondition.Drafted);
-						}
-						this.autoUndrafter.Notify_Drafted();
-					}
-					else if (this.pawn.playerSettings != null)
-					{
-						this.pawn.playerSettings.animalsReleased = false;
-					}
-					foreach (Pawn pawn in PawnUtility.SpawnedMasteredPawns(this.pawn))
-					{
-						pawn.jobs.Notify_MasterDraftedOrUndrafted();
-					}
+					this.autoUndrafter.Notify_Drafted();
+				}
+				else if (this.pawn.playerSettings != null)
+				{
+					this.pawn.playerSettings.animalsReleased = false;
+				}
+				foreach (Pawn pawn in PawnUtility.SpawnedMasteredPawns(this.pawn))
+				{
+					pawn.jobs.Notify_MasterDraftedOrUndrafted();
 				}
 			}
 		}
@@ -78,12 +79,9 @@ namespace RimWorld
 			set
 			{
 				this.fireAtWillInt = value;
-				if (!this.fireAtWillInt)
+				if (!this.fireAtWillInt && this.pawn.stances.curStance is Stance_Warmup)
 				{
-					if (this.pawn.stances.curStance is Stance_Warmup)
-					{
-						this.pawn.stances.CancelBusyStanceSoft();
-					}
+					this.pawn.stances.CancelBusyStanceSoft();
 				}
 			}
 		}
@@ -107,7 +105,7 @@ namespace RimWorld
 		{
 			Command_Toggle draft = new Command_Toggle();
 			draft.hotKey = KeyBindingDefOf.Command_ColonistDraft;
-			draft.isActive = (() => this.Drafted);
+			draft.isActive = new Func<bool>(this.get_Drafted);
 			draft.toggleAction = delegate()
 			{
 				this.Drafted = !this.Drafted;
@@ -146,7 +144,7 @@ namespace RimWorld
 				yield return new Command_Toggle
 				{
 					hotKey = KeyBindingDefOf.Misc6,
-					isActive = (() => this.FireAtWill),
+					isActive = new Func<bool>(this.get_FireAtWill),
 					toggleAction = delegate()
 					{
 						this.FireAtWill = !this.FireAtWill;
@@ -194,7 +192,7 @@ namespace RimWorld
 				case 0u:
 					draft = new Command_Toggle();
 					draft.hotKey = KeyBindingDefOf.Command_ColonistDraft;
-					draft.isActive = (() => base.Drafted);
+					draft.isActive = new Func<bool>(base.get_Drafted);
 					draft.toggleAction = delegate()
 					{
 						base.Drafted = !base.Drafted;
@@ -238,7 +236,7 @@ namespace RimWorld
 					{
 						Command_Toggle toggleFireAtWill = new Command_Toggle();
 						toggleFireAtWill.hotKey = KeyBindingDefOf.Misc6;
-						toggleFireAtWill.isActive = (() => base.FireAtWill);
+						toggleFireAtWill.isActive = new Func<bool>(base.get_FireAtWill);
 						toggleFireAtWill.toggleAction = delegate()
 						{
 							base.FireAtWill = !base.FireAtWill;
@@ -313,12 +311,7 @@ namespace RimWorld
 				return <GetGizmos>c__Iterator;
 			}
 
-			internal bool <>m__0()
-			{
-				return base.Drafted;
-			}
-
-			internal void <>m__1()
+			internal void <>m__0()
 			{
 				base.Drafted = !base.Drafted;
 				PlayerKnowledgeDatabase.KnowledgeDemonstrated(ConceptDefOf.Drafting, KnowledgeAmount.SpecificInteraction);
@@ -328,12 +321,7 @@ namespace RimWorld
 				}
 			}
 
-			internal bool <>m__2()
-			{
-				return base.FireAtWill;
-			}
-
-			internal void <>m__3()
+			internal void <>m__1()
 			{
 				base.FireAtWill = !base.FireAtWill;
 			}

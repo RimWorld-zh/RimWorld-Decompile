@@ -75,31 +75,21 @@ namespace RimWorld
 		public override bool TryMerge(ScenPart other)
 		{
 			ScenPart_StatFactor scenPart_StatFactor = other as ScenPart_StatFactor;
-			bool result;
 			if (scenPart_StatFactor != null && scenPart_StatFactor.stat == this.stat)
 			{
 				this.factor *= scenPart_StatFactor.factor;
-				result = true;
+				return true;
 			}
-			else
-			{
-				result = false;
-			}
-			return result;
+			return false;
 		}
 
 		public float GetStatFactor(StatDef stat)
 		{
-			float result;
 			if (stat == this.stat)
 			{
-				result = this.factor;
+				return this.factor;
 			}
-			else
-			{
-				result = 1f;
-			}
-			return result;
+			return 1f;
 		}
 
 		[CompilerGenerated]

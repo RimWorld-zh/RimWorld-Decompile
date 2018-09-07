@@ -13,6 +13,8 @@ namespace RimWorld
 
 		private const int LabelDictionaryMaxCount = 2000;
 
+		private static List<ThingCount> tmpThingCounts = new List<ThingCount>();
+
 		private static List<GenLabel.LabelElement> tmpThingsLabelElements = new List<GenLabel.LabelElement>();
 
 		[CompilerGenerated]
@@ -136,27 +138,39 @@ namespace RimWorld
 			return text;
 		}
 
-		public static string ThingsLabel(List<Thing> things)
+		public static string ThingsLabel(List<Thing> things, string prefix = "  - ")
+		{
+			GenLabel.tmpThingCounts.Clear();
+			for (int i = 0; i < things.Count; i++)
+			{
+				GenLabel.tmpThingCounts.Add(new ThingCount(things[i], things[i].stackCount));
+			}
+			string result = GenLabel.ThingsLabel(GenLabel.tmpThingCounts, prefix);
+			GenLabel.tmpThingCounts.Clear();
+			return result;
+		}
+
+		public static string ThingsLabel(List<ThingCount> things, string prefix = "  - ")
 		{
 			GenLabel.tmpThingsLabelElements.Clear();
-			using (List<Thing>.Enumerator enumerator = things.GetEnumerator())
+			using (List<ThingCount>.Enumerator enumerator = things.GetEnumerator())
 			{
 				while (enumerator.MoveNext())
 				{
-					Thing thing = enumerator.Current;
+					ThingCount thing = enumerator.Current;
 					GenLabel.LabelElement labelElement = (from elem in GenLabel.tmpThingsLabelElements
-					where thing.def.stackLimit > 1 && elem.thingTemplate.def == thing.def && elem.thingTemplate.Stuff == thing.Stuff
+					where thing.Thing.def.stackLimit > 1 && elem.thingTemplate.def == thing.Thing.def && elem.thingTemplate.Stuff == thing.Thing.Stuff
 					select elem).FirstOrDefault<GenLabel.LabelElement>();
 					if (labelElement != null)
 					{
-						labelElement.count += thing.stackCount;
+						labelElement.count += thing.Count;
 					}
 					else
 					{
 						GenLabel.tmpThingsLabelElements.Add(new GenLabel.LabelElement
 						{
-							thingTemplate = thing,
-							count = thing.stackCount
+							thingTemplate = thing.Thing,
+							count = thing.Count
 						});
 					}
 				}
@@ -164,21 +178,16 @@ namespace RimWorld
 			GenLabel.tmpThingsLabelElements.Sort(delegate(GenLabel.LabelElement lhs, GenLabel.LabelElement rhs)
 			{
 				int num = TransferableComparer_Category.Compare(lhs.thingTemplate.def, rhs.thingTemplate.def);
-				int result;
 				if (num != 0)
 				{
-					result = num;
+					return num;
 				}
-				else
-				{
-					result = lhs.thingTemplate.MarketValue.CompareTo(rhs.thingTemplate.MarketValue);
-				}
-				return result;
+				return lhs.thingTemplate.MarketValue.CompareTo(rhs.thingTemplate.MarketValue);
 			});
 			StringBuilder stringBuilder = new StringBuilder();
 			foreach (GenLabel.LabelElement labelElement2 in GenLabel.tmpThingsLabelElements)
 			{
-				string str = "";
+				string str = string.Empty;
 				if (labelElement2.thingTemplate.ParentHolder is Pawn_ApparelTracker)
 				{
 					str = " (" + "WornBy".Translate(new object[]
@@ -195,11 +204,11 @@ namespace RimWorld
 				}
 				if (labelElement2.count == 1)
 				{
-					stringBuilder.AppendLine("  - " + labelElement2.thingTemplate.LabelCap + str);
+					stringBuilder.AppendLine(prefix + labelElement2.thingTemplate.LabelCap + str);
 				}
 				else
 				{
-					stringBuilder.AppendLine("  - " + GenLabel.ThingLabel(labelElement2.thingTemplate.def, labelElement2.thingTemplate.Stuff, labelElement2.count).CapitalizeFirst() + str);
+					stringBuilder.AppendLine(prefix + GenLabel.ThingLabel(labelElement2.thingTemplate.def, labelElement2.thingTemplate.Stuff, labelElement2.count).CapitalizeFirst() + str);
 				}
 			}
 			GenLabel.tmpThingsLabelElements.Clear();
@@ -311,27 +320,21 @@ namespace RimWorld
 			{
 				text = GenLabel.BestKindLabel(pawn.kindDef, Gender.None, out flag, plural, pluralCount);
 			}
-			if (mustNoteGender && !flag)
+			if (mustNoteGender && !flag && pawn.gender != Gender.None)
 			{
-				if (pawn.gender != Gender.None)
+				text = "PawnMainDescGendered".Translate(new object[]
 				{
-					text = "PawnMainDescGendered".Translate(new object[]
-					{
-						pawn.gender.GetLabel(),
-						text
-					});
-				}
+					pawn.GetGenderLabel(),
+					text
+				});
 			}
-			if (mustNoteLifeStage && !flag2)
+			if (mustNoteLifeStage && !flag2 && pawn.ageTracker != null && pawn.ageTracker.CurLifeStage.visible)
 			{
-				if (pawn.ageTracker != null && pawn.ageTracker.CurLifeStage.visible)
+				text = "PawnMainDescLifestageWrap".Translate(new object[]
 				{
-					text = "PawnMainDescLifestageWrap".Translate(new object[]
-					{
-						text,
-						pawn.ageTracker.CurLifeStage.Adjective
-					});
-				}
+					text,
+					pawn.ageTracker.CurLifeStage.Adjective
+				});
 			}
 			return text;
 		}
@@ -435,16 +438,11 @@ namespace RimWorld
 		private static int <ThingsLabel>m__0(GenLabel.LabelElement lhs, GenLabel.LabelElement rhs)
 		{
 			int num = TransferableComparer_Category.Compare(lhs.thingTemplate.def, rhs.thingTemplate.def);
-			int result;
 			if (num != 0)
 			{
-				result = num;
+				return num;
 			}
-			else
-			{
-				result = lhs.thingTemplate.MarketValue.CompareTo(rhs.thingTemplate.MarketValue);
-			}
-			return result;
+			return lhs.thingTemplate.MarketValue.CompareTo(rhs.thingTemplate.MarketValue);
 		}
 
 		private class LabelElement
@@ -518,7 +516,7 @@ namespace RimWorld
 		[CompilerGenerated]
 		private sealed class <ThingsLabel>c__AnonStorey0
 		{
-			internal Thing thing;
+			internal ThingCount thing;
 
 			public <ThingsLabel>c__AnonStorey0()
 			{
@@ -526,7 +524,7 @@ namespace RimWorld
 
 			internal bool <>m__0(GenLabel.LabelElement elem)
 			{
-				return this.thing.def.stackLimit > 1 && elem.thingTemplate.def == this.thing.def && elem.thingTemplate.Stuff == this.thing.Stuff;
+				return this.thing.Thing.def.stackLimit > 1 && elem.thingTemplate.def == this.thing.Thing.def && elem.thingTemplate.Stuff == this.thing.Thing.Stuff;
 			}
 		}
 	}

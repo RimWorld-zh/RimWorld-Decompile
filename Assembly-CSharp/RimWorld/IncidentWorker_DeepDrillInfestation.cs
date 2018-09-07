@@ -24,19 +24,14 @@ namespace RimWorld
 
 		protected override bool CanFireNowSub(IncidentParms parms)
 		{
-			bool result;
 			if (!base.CanFireNowSub(parms))
 			{
-				result = false;
+				return false;
 			}
-			else
-			{
-				Map map = (Map)parms.target;
-				IncidentWorker_DeepDrillInfestation.tmpDrills.Clear();
-				DeepDrillInfestationIncidentUtility.GetUsableDeepDrills(map, IncidentWorker_DeepDrillInfestation.tmpDrills);
-				result = IncidentWorker_DeepDrillInfestation.tmpDrills.Any<Thing>();
-			}
-			return result;
+			Map map = (Map)parms.target;
+			IncidentWorker_DeepDrillInfestation.tmpDrills.Clear();
+			DeepDrillInfestationIncidentUtility.GetUsableDeepDrills(map, IncidentWorker_DeepDrillInfestation.tmpDrills);
+			return IncidentWorker_DeepDrillInfestation.tmpDrills.Any<Thing>();
 		}
 
 		protected override bool TryExecuteWorker(IncidentParms parms)
@@ -45,31 +40,23 @@ namespace RimWorld
 			IncidentWorker_DeepDrillInfestation.tmpDrills.Clear();
 			DeepDrillInfestationIncidentUtility.GetUsableDeepDrills(map, IncidentWorker_DeepDrillInfestation.tmpDrills);
 			Thing deepDrill;
-			bool result;
 			if (!IncidentWorker_DeepDrillInfestation.tmpDrills.TryRandomElement(out deepDrill))
 			{
-				result = false;
+				return false;
 			}
-			else
+			IntVec3 intVec = CellFinder.FindNoWipeSpawnLocNear(deepDrill.Position, map, ThingDefOf.TunnelHiveSpawner, Rot4.North, 2, (IntVec3 x) => x.Walkable(map) && x.GetFirstThing(map, deepDrill.def) == null && x.GetFirstThing(map) == null && x.GetFirstThing(map, ThingDefOf.Hive) == null && x.GetFirstThing(map, ThingDefOf.TunnelHiveSpawner) == null);
+			if (intVec == deepDrill.Position)
 			{
-				IntVec3 intVec = CellFinder.FindNoWipeSpawnLocNear(deepDrill.Position, map, ThingDefOf.TunnelHiveSpawner, Rot4.North, 2, (IntVec3 x) => x.Walkable(map) && x.GetFirstThing(map, deepDrill.def) == null && x.GetFirstThing(map) == null && x.GetFirstThing(map, ThingDefOf.Hive) == null && x.GetFirstThing(map, ThingDefOf.TunnelHiveSpawner) == null);
-				if (intVec == deepDrill.Position)
-				{
-					result = false;
-				}
-				else
-				{
-					TunnelHiveSpawner tunnelHiveSpawner = (TunnelHiveSpawner)ThingMaker.MakeThing(ThingDefOf.TunnelHiveSpawner, null);
-					tunnelHiveSpawner.spawnHive = false;
-					tunnelHiveSpawner.insectsPoints = Mathf.Clamp(parms.points * Rand.Range(0.24f, 0.48f), 115f, 800f);
-					tunnelHiveSpawner.spawnedByInfestationThingComp = true;
-					GenSpawn.Spawn(tunnelHiveSpawner, intVec, map, WipeMode.FullRefund);
-					deepDrill.TryGetComp<CompCreatesInfestations>().Notify_CreatedInfestation();
-					base.SendStandardLetter(new TargetInfo(tunnelHiveSpawner.Position, map, false), null, new string[0]);
-					result = true;
-				}
+				return false;
 			}
-			return result;
+			TunnelHiveSpawner tunnelHiveSpawner = (TunnelHiveSpawner)ThingMaker.MakeThing(ThingDefOf.TunnelHiveSpawner, null);
+			tunnelHiveSpawner.spawnHive = false;
+			tunnelHiveSpawner.insectsPoints = Mathf.Clamp(parms.points * Rand.Range(0.24f, 0.48f), 115f, 800f);
+			tunnelHiveSpawner.spawnedByInfestationThingComp = true;
+			GenSpawn.Spawn(tunnelHiveSpawner, intVec, map, WipeMode.FullRefund);
+			deepDrill.TryGetComp<CompCreatesInfestations>().Notify_CreatedInfestation();
+			base.SendStandardLetter(new TargetInfo(tunnelHiveSpawner.Position, map, false), null, new string[0]);
+			return true;
 		}
 
 		// Note: this type is marked as 'beforefieldinit'.

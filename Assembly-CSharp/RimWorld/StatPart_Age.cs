@@ -10,7 +10,7 @@ namespace RimWorld
 {
 	public class StatPart_Age : StatPart
 	{
-		private SimpleCurve curve = null;
+		private SimpleCurve curve;
 
 		public StatPart_Age()
 		{

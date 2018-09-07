@@ -32,17 +32,12 @@ namespace RimWorld.Planet
 		public static bool EnvironmentAllowsEatingVirtualPlantsAt(int tile, int ticksAbs)
 		{
 			BiomeDef biome = Find.WorldGrid[tile].biome;
-			bool result;
 			if (!biome.hasVirtualPlants)
 			{
-				result = false;
+				return false;
 			}
-			else
-			{
-				float temperatureFromSeasonAtTile = GenTemperature.GetTemperatureFromSeasonAtTile(ticksAbs, tile);
-				result = (temperatureFromSeasonAtTile >= 0f);
-			}
-			return result;
+			float temperatureFromSeasonAtTile = GenTemperature.GetTemperatureFromSeasonAtTile(ticksAbs, tile);
+			return temperatureFromSeasonAtTile >= 0f;
 		}
 
 		public static void EatVirtualPlants(Pawn p)
@@ -107,26 +102,21 @@ namespace RimWorld.Planet
 
 		public static float? GetApproxDaysUntilPossibleToGraze(int tile, int ticksAbs, bool untilNoLongerPossibleToGraze = false)
 		{
-			float? result;
 			if (!untilNoLongerPossibleToGraze && !Find.WorldGrid[tile].biome.hasVirtualPlants)
 			{
-				result = null;
+				return null;
 			}
-			else
+			float num = 0f;
+			for (int i = 0; i < Mathf.CeilToInt(133.333344f); i++)
 			{
-				float num = 0f;
-				for (int i = 0; i < Mathf.CeilToInt(133.333344f); i++)
+				bool flag = VirtualPlantsUtility.EnvironmentAllowsEatingVirtualPlantsAt(tile, ticksAbs + (int)(num * 60000f));
+				if ((!untilNoLongerPossibleToGraze && flag) || (untilNoLongerPossibleToGraze && !flag))
 				{
-					bool flag = VirtualPlantsUtility.EnvironmentAllowsEatingVirtualPlantsAt(tile, ticksAbs + (int)(num * 60000f));
-					if ((!untilNoLongerPossibleToGraze && flag) || (untilNoLongerPossibleToGraze && !flag))
-					{
-						return new float?(num);
-					}
-					num += 0.45f;
+					return new float?(num);
 				}
-				result = null;
+				num += 0.45f;
 			}
-			return result;
+			return null;
 		}
 
 		// Note: this type is marked as 'beforefieldinit'.

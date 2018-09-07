@@ -19,7 +19,7 @@ namespace Verse.Steam
 
 		private static UGCUpdateHandle_t curUpdateHandle;
 
-		private static WorkshopInteractStage curStage = WorkshopInteractStage.None;
+		private static WorkshopInteractStage curStage;
 
 		private static Callback<RemoteStoragePublishedFileSubscribed_t> subscribedCallback;
 
@@ -92,50 +92,48 @@ namespace Verse.Steam
 			if (Workshop.curStage != WorkshopInteractStage.None)
 			{
 				Messages.Message("UploadAlreadyInProgress".Translate(), MessageTypeDefOf.RejectInput, false);
+				return;
+			}
+			Workshop.uploadingHook = item.GetWorkshopItemHook();
+			if (Workshop.uploadingHook.PublishedFileId != PublishedFileId_t.Invalid)
+			{
+				if (Prefs.LogVerbose)
+				{
+					Log.Message(string.Concat(new object[]
+					{
+						"Workshop: Starting item update for mod '",
+						Workshop.uploadingHook.Name,
+						"' with PublishedFileId ",
+						Workshop.uploadingHook.PublishedFileId
+					}), false);
+				}
+				Workshop.curStage = WorkshopInteractStage.SubmittingItem;
+				Workshop.curUpdateHandle = SteamUGC.StartItemUpdate(SteamUtils.GetAppID(), Workshop.uploadingHook.PublishedFileId);
+				Workshop.SetWorkshopItemDataFrom(Workshop.curUpdateHandle, Workshop.uploadingHook, false);
+				SteamAPICall_t hAPICall = SteamUGC.SubmitItemUpdate(Workshop.curUpdateHandle, "[Auto-generated text]: Update on " + DateTime.Now.ToString() + ".");
+				if (Workshop.<>f__mg$cache3 == null)
+				{
+					Workshop.<>f__mg$cache3 = new CallResult<SubmitItemUpdateResult_t>.APIDispatchDelegate(Workshop.OnItemSubmitted);
+				}
+				Workshop.submitResult = CallResult<SubmitItemUpdateResult_t>.Create(Workshop.<>f__mg$cache3);
+				Workshop.submitResult.Set(hAPICall, null);
 			}
 			else
 			{
-				Workshop.uploadingHook = item.GetWorkshopItemHook();
-				if (Workshop.uploadingHook.PublishedFileId != PublishedFileId_t.Invalid)
+				if (Prefs.LogVerbose)
 				{
-					if (Prefs.LogVerbose)
-					{
-						Log.Message(string.Concat(new object[]
-						{
-							"Workshop: Starting item update for mod '",
-							Workshop.uploadingHook.Name,
-							"' with PublishedFileId ",
-							Workshop.uploadingHook.PublishedFileId
-						}), false);
-					}
-					Workshop.curStage = WorkshopInteractStage.SubmittingItem;
-					Workshop.curUpdateHandle = SteamUGC.StartItemUpdate(SteamUtils.GetAppID(), Workshop.uploadingHook.PublishedFileId);
-					Workshop.SetWorkshopItemDataFrom(Workshop.curUpdateHandle, Workshop.uploadingHook, false);
-					SteamAPICall_t hAPICall = SteamUGC.SubmitItemUpdate(Workshop.curUpdateHandle, "[Auto-generated text]: Update on " + DateTime.Now.ToString() + ".");
-					if (Workshop.<>f__mg$cache3 == null)
-					{
-						Workshop.<>f__mg$cache3 = new CallResult<SubmitItemUpdateResult_t>.APIDispatchDelegate(Workshop.OnItemSubmitted);
-					}
-					Workshop.submitResult = CallResult<SubmitItemUpdateResult_t>.Create(Workshop.<>f__mg$cache3);
-					Workshop.submitResult.Set(hAPICall, null);
+					Log.Message("Workshop: Starting item creation for mod '" + Workshop.uploadingHook.Name + "'.", false);
 				}
-				else
+				Workshop.curStage = WorkshopInteractStage.CreatingItem;
+				SteamAPICall_t hAPICall2 = SteamUGC.CreateItem(SteamUtils.GetAppID(), EWorkshopFileType.k_EWorkshopFileTypeFirst);
+				if (Workshop.<>f__mg$cache4 == null)
 				{
-					if (Prefs.LogVerbose)
-					{
-						Log.Message("Workshop: Starting item creation for mod '" + Workshop.uploadingHook.Name + "'.", false);
-					}
-					Workshop.curStage = WorkshopInteractStage.CreatingItem;
-					SteamAPICall_t hAPICall2 = SteamUGC.CreateItem(SteamUtils.GetAppID(), EWorkshopFileType.k_EWorkshopFileTypeFirst);
-					if (Workshop.<>f__mg$cache4 == null)
-					{
-						Workshop.<>f__mg$cache4 = new CallResult<CreateItemResult_t>.APIDispatchDelegate(Workshop.OnItemCreated);
-					}
-					Workshop.createResult = CallResult<CreateItemResult_t>.Create(Workshop.<>f__mg$cache4);
-					Workshop.createResult.Set(hAPICall2, null);
+					Workshop.<>f__mg$cache4 = new CallResult<CreateItemResult_t>.APIDispatchDelegate(Workshop.OnItemCreated);
 				}
-				Find.WindowStack.Add(new Dialog_WorkshopOperationInProgress());
+				Workshop.createResult = CallResult<CreateItemResult_t>.Create(Workshop.<>f__mg$cache4);
+				Workshop.createResult.Set(hAPICall2, null);
 			}
+			Find.WindowStack.Add(new Dialog_WorkshopOperationInProgress());
 		}
 
 		internal static void Unsubscribe(WorkshopUploadable item)
@@ -148,65 +146,66 @@ namespace Verse.Steam
 			if (Workshop.detailsQueryCount >= 0)
 			{
 				Log.Error("Requested Workshop item details while a details request was already pending.", false);
+				return;
 			}
-			else
+			Workshop.detailsQueryCount = publishedFileIds.Length;
+			Workshop.detailsQueryHandle = SteamUGC.CreateQueryUGCDetailsRequest(publishedFileIds, (uint)Workshop.detailsQueryCount);
+			SteamAPICall_t hAPICall = SteamUGC.SendQueryUGCRequest(Workshop.detailsQueryHandle);
+			if (Workshop.<>f__mg$cache5 == null)
 			{
-				Workshop.detailsQueryCount = publishedFileIds.Length;
-				Workshop.detailsQueryHandle = SteamUGC.CreateQueryUGCDetailsRequest(publishedFileIds, (uint)Workshop.detailsQueryCount);
-				SteamAPICall_t hAPICall = SteamUGC.SendQueryUGCRequest(Workshop.detailsQueryHandle);
-				if (Workshop.<>f__mg$cache5 == null)
-				{
-					Workshop.<>f__mg$cache5 = new CallResult<SteamUGCRequestUGCDetailsResult_t>.APIDispatchDelegate(Workshop.OnGotItemDetails);
-				}
-				Workshop.requestDetailsResult = CallResult<SteamUGCRequestUGCDetailsResult_t>.Create(Workshop.<>f__mg$cache5);
-				Workshop.requestDetailsResult.Set(hAPICall, null);
+				Workshop.<>f__mg$cache5 = new CallResult<SteamUGCRequestUGCDetailsResult_t>.APIDispatchDelegate(Workshop.OnGotItemDetails);
 			}
+			Workshop.requestDetailsResult = CallResult<SteamUGCRequestUGCDetailsResult_t>.Create(Workshop.<>f__mg$cache5);
+			Workshop.requestDetailsResult.Set(hAPICall, null);
 		}
 
 		internal static void OnItemSubscribed(RemoteStoragePublishedFileSubscribed_t result)
 		{
-			if (Workshop.IsOurAppId(result.m_nAppID))
+			if (!Workshop.IsOurAppId(result.m_nAppID))
 			{
-				if (Prefs.LogVerbose)
-				{
-					Log.Message("Workshop: Item subscribed: " + result.m_nPublishedFileId, false);
-				}
-				WorkshopItems.Notify_Subscribed(result.m_nPublishedFileId);
+				return;
 			}
+			if (Prefs.LogVerbose)
+			{
+				Log.Message("Workshop: Item subscribed: " + result.m_nPublishedFileId, false);
+			}
+			WorkshopItems.Notify_Subscribed(result.m_nPublishedFileId);
 		}
 
 		internal static void OnItemInstalled(ItemInstalled_t result)
 		{
-			if (Workshop.IsOurAppId(result.m_unAppID))
+			if (!Workshop.IsOurAppId(result.m_unAppID))
 			{
-				if (Prefs.LogVerbose)
-				{
-					Log.Message("Workshop: Item installed: " + result.m_nPublishedFileId, false);
-				}
-				WorkshopItems.Notify_Installed(result.m_nPublishedFileId);
+				return;
 			}
+			if (Prefs.LogVerbose)
+			{
+				Log.Message("Workshop: Item installed: " + result.m_nPublishedFileId, false);
+			}
+			WorkshopItems.Notify_Installed(result.m_nPublishedFileId);
 		}
 
 		internal static void OnItemUnsubscribed(RemoteStoragePublishedFileUnsubscribed_t result)
 		{
-			if (Workshop.IsOurAppId(result.m_nAppID))
+			if (!Workshop.IsOurAppId(result.m_nAppID))
 			{
-				if (Prefs.LogVerbose)
-				{
-					Log.Message("Workshop: Item unsubscribed: " + result.m_nPublishedFileId, false);
-				}
-				Page_ModsConfig page_ModsConfig = Find.WindowStack.WindowOfType<Page_ModsConfig>();
-				if (page_ModsConfig != null)
-				{
-					page_ModsConfig.Notify_SteamItemUnsubscribed(result.m_nPublishedFileId);
-				}
-				Page_SelectScenario page_SelectScenario = Find.WindowStack.WindowOfType<Page_SelectScenario>();
-				if (page_SelectScenario != null)
-				{
-					page_SelectScenario.Notify_SteamItemUnsubscribed(result.m_nPublishedFileId);
-				}
-				WorkshopItems.Notify_Unsubscribed(result.m_nPublishedFileId);
+				return;
 			}
+			if (Prefs.LogVerbose)
+			{
+				Log.Message("Workshop: Item unsubscribed: " + result.m_nPublishedFileId, false);
+			}
+			Page_ModsConfig page_ModsConfig = Find.WindowStack.WindowOfType<Page_ModsConfig>();
+			if (page_ModsConfig != null)
+			{
+				page_ModsConfig.Notify_SteamItemUnsubscribed(result.m_nPublishedFileId);
+			}
+			Page_SelectScenario page_SelectScenario = Find.WindowStack.WindowOfType<Page_SelectScenario>();
+			if (page_SelectScenario != null)
+			{
+				page_SelectScenario.Notify_SteamItemUnsubscribed(result.m_nPublishedFileId);
+			}
+			WorkshopItems.Notify_Unsubscribed(result.m_nPublishedFileId);
 		}
 
 		private static void OnItemCreated(CreateItemResult_t result, bool IOFailure)
@@ -220,30 +219,28 @@ namespace Verse.Steam
 				{
 					GenText.SplitCamelCase(result.m_eResult.GetLabel())
 				}), null, null, null, null, null, false, null, null));
+				return;
 			}
-			else
+			Workshop.uploadingHook.PublishedFileId = result.m_nPublishedFileId;
+			if (Prefs.LogVerbose)
 			{
-				Workshop.uploadingHook.PublishedFileId = result.m_nPublishedFileId;
-				if (Prefs.LogVerbose)
-				{
-					Log.Message("Workshop: Item created. PublishedFileId: " + Workshop.uploadingHook.PublishedFileId, false);
-				}
-				Workshop.curUpdateHandle = SteamUGC.StartItemUpdate(SteamUtils.GetAppID(), Workshop.uploadingHook.PublishedFileId);
-				Workshop.SetWorkshopItemDataFrom(Workshop.curUpdateHandle, Workshop.uploadingHook, true);
-				Workshop.curStage = WorkshopInteractStage.SubmittingItem;
-				if (Prefs.LogVerbose)
-				{
-					Log.Message("Workshop: Submitting item.", false);
-				}
-				SteamAPICall_t hAPICall = SteamUGC.SubmitItemUpdate(Workshop.curUpdateHandle, "[Auto-generated text]: Initial upload.");
-				if (Workshop.<>f__mg$cache6 == null)
-				{
-					Workshop.<>f__mg$cache6 = new CallResult<SubmitItemUpdateResult_t>.APIDispatchDelegate(Workshop.OnItemSubmitted);
-				}
-				Workshop.submitResult = CallResult<SubmitItemUpdateResult_t>.Create(Workshop.<>f__mg$cache6);
-				Workshop.submitResult.Set(hAPICall, null);
-				Workshop.createResult = null;
+				Log.Message("Workshop: Item created. PublishedFileId: " + Workshop.uploadingHook.PublishedFileId, false);
 			}
+			Workshop.curUpdateHandle = SteamUGC.StartItemUpdate(SteamUtils.GetAppID(), Workshop.uploadingHook.PublishedFileId);
+			Workshop.SetWorkshopItemDataFrom(Workshop.curUpdateHandle, Workshop.uploadingHook, true);
+			Workshop.curStage = WorkshopInteractStage.SubmittingItem;
+			if (Prefs.LogVerbose)
+			{
+				Log.Message("Workshop: Submitting item.", false);
+			}
+			SteamAPICall_t hAPICall = SteamUGC.SubmitItemUpdate(Workshop.curUpdateHandle, "[Auto-generated text]: Initial upload.");
+			if (Workshop.<>f__mg$cache6 == null)
+			{
+				Workshop.<>f__mg$cache6 = new CallResult<SubmitItemUpdateResult_t>.APIDispatchDelegate(Workshop.OnItemSubmitted);
+			}
+			Workshop.submitResult = CallResult<SubmitItemUpdateResult_t>.Create(Workshop.<>f__mg$cache6);
+			Workshop.submitResult.Set(hAPICall, null);
+			Workshop.createResult = null;
 		}
 
 		private static void OnItemSubmitted(SubmitItemUpdateResult_t result, bool IOFailure)
@@ -280,43 +277,41 @@ namespace Verse.Steam
 			{
 				Log.Error("Workshop: OnGotItemDetails IOFailure.", false);
 				Workshop.detailsQueryCount = -1;
+				return;
 			}
-			else
+			if (Workshop.detailsQueryCount < 0)
 			{
-				if (Workshop.detailsQueryCount < 0)
-				{
-					Log.Warning("Got unexpected Steam Workshop item details response.", false);
-				}
-				string text = "Steam Workshop Item details received:";
-				for (int i = 0; i < Workshop.detailsQueryCount; i++)
-				{
-					SteamUGCDetails_t steamUGCDetails_t;
-					SteamUGC.GetQueryUGCResult(Workshop.detailsQueryHandle, (uint)i, out steamUGCDetails_t);
-					if (steamUGCDetails_t.m_eResult != EResult.k_EResultOK)
-					{
-						text = text + "\n  Query result: " + steamUGCDetails_t.m_eResult;
-					}
-					else
-					{
-						text = text + "\n  Title: " + steamUGCDetails_t.m_rgchTitle;
-						text = text + "\n  PublishedFileId: " + steamUGCDetails_t.m_nPublishedFileId;
-						text = text + "\n  Created: " + DateTime.FromFileTimeUtc((long)((ulong)steamUGCDetails_t.m_rtimeCreated)).ToString();
-						text = text + "\n  Updated: " + DateTime.FromFileTimeUtc((long)((ulong)steamUGCDetails_t.m_rtimeUpdated)).ToString();
-						text = text + "\n  Added to list: " + DateTime.FromFileTimeUtc((long)((ulong)steamUGCDetails_t.m_rtimeAddedToUserList)).ToString();
-						text = text + "\n  File size: " + steamUGCDetails_t.m_nFileSize.ToStringKilobytes("F2");
-						text = text + "\n  Preview size: " + steamUGCDetails_t.m_nPreviewFileSize.ToStringKilobytes("F2");
-						text = text + "\n  File name: " + steamUGCDetails_t.m_pchFileName;
-						text = text + "\n  CreatorAppID: " + steamUGCDetails_t.m_nCreatorAppID;
-						text = text + "\n  ConsumerAppID: " + steamUGCDetails_t.m_nConsumerAppID;
-						text = text + "\n  Visibiliy: " + steamUGCDetails_t.m_eVisibility;
-						text = text + "\n  FileType: " + steamUGCDetails_t.m_eFileType;
-						text = text + "\n  Owner: " + steamUGCDetails_t.m_ulSteamIDOwner;
-					}
-					text += "\n";
-				}
-				Log.Message(text.TrimEndNewlines(), false);
-				Workshop.detailsQueryCount = -1;
+				Log.Warning("Got unexpected Steam Workshop item details response.", false);
 			}
+			string text = "Steam Workshop Item details received:";
+			for (int i = 0; i < Workshop.detailsQueryCount; i++)
+			{
+				SteamUGCDetails_t steamUGCDetails_t;
+				SteamUGC.GetQueryUGCResult(Workshop.detailsQueryHandle, (uint)i, out steamUGCDetails_t);
+				if (steamUGCDetails_t.m_eResult != EResult.k_EResultOK)
+				{
+					text = text + "\n  Query result: " + steamUGCDetails_t.m_eResult;
+				}
+				else
+				{
+					text = text + "\n  Title: " + steamUGCDetails_t.m_rgchTitle;
+					text = text + "\n  PublishedFileId: " + steamUGCDetails_t.m_nPublishedFileId;
+					text = text + "\n  Created: " + DateTime.FromFileTimeUtc((long)((ulong)steamUGCDetails_t.m_rtimeCreated)).ToString();
+					text = text + "\n  Updated: " + DateTime.FromFileTimeUtc((long)((ulong)steamUGCDetails_t.m_rtimeUpdated)).ToString();
+					text = text + "\n  Added to list: " + DateTime.FromFileTimeUtc((long)((ulong)steamUGCDetails_t.m_rtimeAddedToUserList)).ToString();
+					text = text + "\n  File size: " + steamUGCDetails_t.m_nFileSize.ToStringKilobytes("F2");
+					text = text + "\n  Preview size: " + steamUGCDetails_t.m_nPreviewFileSize.ToStringKilobytes("F2");
+					text = text + "\n  File name: " + steamUGCDetails_t.m_pchFileName;
+					text = text + "\n  CreatorAppID: " + steamUGCDetails_t.m_nCreatorAppID;
+					text = text + "\n  ConsumerAppID: " + steamUGCDetails_t.m_nConsumerAppID;
+					text = text + "\n  Visibiliy: " + steamUGCDetails_t.m_eVisibility;
+					text = text + "\n  FileType: " + steamUGCDetails_t.m_eFileType;
+					text = text + "\n  Owner: " + steamUGCDetails_t.m_ulSteamIDOwner;
+				}
+				text += "\n";
+			}
+			Log.Message(text.TrimEndNewlines(), false);
+			Workshop.detailsQueryCount = -1;
 		}
 
 		public static void GetUpdateStatus(out EItemUpdateStatus updateStatus, out float progPercent)
@@ -397,30 +392,25 @@ namespace Verse.Steam
 
 		private static string ItemStatusString(PublishedFileId_t pfid)
 		{
-			string result;
 			if (pfid == PublishedFileId_t.Invalid)
 			{
-				result = "[unpublished]";
+				return "[unpublished]";
+			}
+			string text = "[" + pfid + "] ";
+			ulong num;
+			string str;
+			uint num2;
+			if (SteamUGC.GetItemInstallInfo(pfid, out num, out str, 257u, out num2))
+			{
+				text += "\n      installed";
+				text = text + "\n      folder=" + str;
+				text = text + "\n      sizeOnDisk=" + (num / 1024f).ToString("F2") + "Kb";
 			}
 			else
 			{
-				string text = "[" + pfid + "] ";
-				ulong num;
-				string str;
-				uint num2;
-				if (SteamUGC.GetItemInstallInfo(pfid, out num, out str, 257u, out num2))
-				{
-					text += "\n      installed";
-					text = text + "\n      folder=" + str;
-					text = text + "\n      sizeOnDisk=" + (num / 1024f).ToString("F2") + "Kb";
-				}
-				else
-				{
-					text += "\n      not installed";
-				}
-				result = text;
+				text += "\n      not installed";
 			}
-			return result;
+			return text;
 		}
 
 		private static bool IsOurAppId(AppId_t appId)

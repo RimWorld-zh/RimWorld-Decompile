@@ -27,33 +27,28 @@ namespace RimWorld
 
 		protected override bool CanScatterAt(IntVec3 c, Map map)
 		{
-			bool result;
 			if (!base.CanScatterAt(c, map))
 			{
-				result = false;
+				return false;
 			}
-			else if (!c.SupportsStructureType(map, TerrainAffordanceDefOf.Heavy))
+			if (!c.SupportsStructureType(map, TerrainAffordanceDefOf.Heavy))
 			{
-				result = false;
+				return false;
 			}
-			else if (!map.reachability.CanReachMapEdge(c, TraverseParms.For(TraverseMode.PassDoors, Danger.Deadly, false)))
+			if (!map.reachability.CanReachMapEdge(c, TraverseParms.For(TraverseMode.PassDoors, Danger.Deadly, false)))
 			{
-				result = false;
+				return false;
 			}
-			else
+			CellRect.CellRectIterator iterator = CellRect.CenteredOn(c, 8, 8).GetIterator();
+			while (!iterator.Done())
 			{
-				CellRect.CellRectIterator iterator = CellRect.CenteredOn(c, 8, 8).GetIterator();
-				while (!iterator.Done())
+				if (!iterator.Current.InBounds(map) || iterator.Current.GetEdifice(map) != null)
 				{
-					if (!iterator.Current.InBounds(map) || iterator.Current.GetEdifice(map) != null)
-					{
-						return false;
-					}
-					iterator.MoveNext();
+					return false;
 				}
-				result = true;
+				iterator.MoveNext();
 			}
-			return result;
+			return true;
 		}
 
 		protected override void ScatterAt(IntVec3 loc, Map map, int count = 1)
@@ -91,7 +86,7 @@ namespace RimWorld
 			resolveParams2.postThingSpawn = delegate(Thing x)
 			{
 				MapGenerator.rootsToUnfog.Add(x.Position);
-				((Pawn)x).mindState.willJoinColonyIfRescued = true;
+				((Pawn)x).mindState.WillJoinColonyIfRescued = true;
 			};
 			BaseGen.globalSettings.map = map;
 			BaseGen.symbolStack.Push("pawn", resolveParams2);
@@ -103,7 +98,7 @@ namespace RimWorld
 		private static void <ScatterAt>m__0(Thing x)
 		{
 			MapGenerator.rootsToUnfog.Add(x.Position);
-			((Pawn)x).mindState.willJoinColonyIfRescued = true;
+			((Pawn)x).mindState.WillJoinColonyIfRescued = true;
 		}
 	}
 }

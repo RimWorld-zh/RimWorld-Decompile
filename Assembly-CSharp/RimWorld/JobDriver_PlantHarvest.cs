@@ -11,7 +11,7 @@ namespace RimWorld
 
 		protected override void Init()
 		{
-			this.xpPerTick = 0.0935f;
+			this.xpPerTick = 0.085f;
 		}
 
 		protected override Toil PlantWorkDoneToil()

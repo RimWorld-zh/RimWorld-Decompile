@@ -27,12 +27,13 @@ namespace Verse
 
 		public static void LoadByte(byte[] arr, int elements, Action<int, byte> writer)
 		{
-			if (arr != null && arr.Length != 0)
+			if (arr == null || arr.Length == 0)
 			{
-				for (int i = 0; i < elements; i++)
-				{
-					writer(i, arr[i]);
-				}
+				return;
+			}
+			for (int i = 0; i < elements; i++)
+			{
+				writer(i, arr[i]);
 			}
 		}
 
@@ -65,12 +66,13 @@ namespace Verse
 
 		public static void LoadUshort(byte[] arr, int elements, Action<int, ushort> writer)
 		{
-			if (arr != null && arr.Length != 0)
+			if (arr == null || arr.Length == 0)
 			{
-				for (int i = 0; i < elements; i++)
-				{
-					writer(i, (ushort)((int)arr[i * 2] << 0 | (int)arr[i * 2 + 1] << 8));
-				}
+				return;
+			}
+			for (int i = 0; i < elements; i++)
+			{
+				writer(i, (ushort)((int)arr[i * 2] << 0 | (int)arr[i * 2 + 1] << 8));
 			}
 		}
 
@@ -105,12 +107,13 @@ namespace Verse
 
 		public static void LoadInt(byte[] arr, int elements, Action<int, int> writer)
 		{
-			if (arr != null && arr.Length != 0)
+			if (arr == null || arr.Length == 0)
 			{
-				for (int i = 0; i < elements; i++)
-				{
-					writer(i, (int)arr[i * 4] << 0 | (int)arr[i * 4 + 1] << 8 | (int)arr[i * 4 + 2] << 16 | (int)arr[i * 4 + 3] << 24);
-				}
+				return;
+			}
+			for (int i = 0; i < elements; i++)
+			{
+				writer(i, (int)arr[i * 4] << 0 | (int)arr[i * 4 + 1] << 8 | (int)arr[i * 4 + 2] << 16 | (int)arr[i * 4 + 3] << 24);
 			}
 		}
 

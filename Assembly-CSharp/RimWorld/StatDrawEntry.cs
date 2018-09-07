@@ -10,7 +10,7 @@ namespace RimWorld
 	{
 		public StatCategoryDef category;
 
-		private int displayOrderWithinCategory = 0;
+		private int displayOrderWithinCategory;
 
 		public StatDef stat;
 
@@ -24,7 +24,7 @@ namespace RimWorld
 
 		private string valueStringInt;
 
-		public string overrideReportText = null;
+		public string overrideReportText;
 
 		private ToStringNumberSense numberSense;
 
@@ -83,16 +83,11 @@ namespace RimWorld
 		{
 			get
 			{
-				string result;
 				if (this.labelInt != null)
 				{
-					result = this.labelInt.CapitalizeFirst();
+					return this.labelInt.CapitalizeFirst();
 				}
-				else
-				{
-					result = this.stat.LabelCap;
-				}
-				return result;
+				return this.stat.LabelCap;
 			}
 		}
 
@@ -100,20 +95,15 @@ namespace RimWorld
 		{
 			get
 			{
-				string result;
 				if (this.numberSense == ToStringNumberSense.Factor)
 				{
-					result = this.value.ToStringByStyle(ToStringStyle.PercentZero, ToStringNumberSense.Absolute);
+					return this.value.ToStringByStyle(ToStringStyle.PercentZero, ToStringNumberSense.Absolute);
 				}
-				else if (this.valueStringInt == null)
+				if (this.valueStringInt == null)
 				{
-					result = this.stat.Worker.GetStatDrawEntryLabel(this.stat, this.value, this.numberSense, this.optionalReq);
+					return this.stat.Worker.GetStatDrawEntryLabel(this.stat, this.value, this.numberSense, this.optionalReq);
 				}
-				else
-				{
-					result = this.valueStringInt;
-				}
-				return result;
+				return this.valueStringInt;
 			}
 		}
 
@@ -121,44 +111,34 @@ namespace RimWorld
 		{
 			get
 			{
-				int displayPriorityInCategory;
 				if (this.stat != null)
 				{
-					displayPriorityInCategory = this.stat.displayPriorityInCategory;
+					return this.stat.displayPriorityInCategory;
 				}
-				else
-				{
-					displayPriorityInCategory = this.displayOrderWithinCategory;
-				}
-				return displayPriorityInCategory;
+				return this.displayOrderWithinCategory;
 			}
 		}
 
 		public string GetExplanationText(StatRequest optionalReq)
 		{
-			string result;
 			if (!this.overrideReportText.NullOrEmpty())
 			{
-				result = this.overrideReportText;
+				return this.overrideReportText;
 			}
-			else if (this.stat == null)
+			if (this.stat == null)
 			{
-				result = "";
+				return string.Empty;
 			}
-			else
+			StringBuilder stringBuilder = new StringBuilder();
+			stringBuilder.AppendLine(this.stat.LabelCap);
+			stringBuilder.AppendLine();
+			stringBuilder.AppendLine(this.stat.description);
+			stringBuilder.AppendLine();
+			if (!optionalReq.Empty)
 			{
-				StringBuilder stringBuilder = new StringBuilder();
-				stringBuilder.AppendLine(this.stat.LabelCap);
-				stringBuilder.AppendLine();
-				stringBuilder.AppendLine(this.stat.description);
-				stringBuilder.AppendLine();
-				if (!optionalReq.Empty)
-				{
-					stringBuilder.AppendLine(this.stat.Worker.GetExplanationFull(optionalReq, this.numberSense, this.value));
-				}
-				result = stringBuilder.ToString().TrimEndNewlines();
+				stringBuilder.AppendLine(this.stat.Worker.GetExplanationFull(optionalReq, this.numberSense, this.value));
 			}
-			return result;
+			return stringBuilder.ToString().TrimEndNewlines();
 		}
 
 		public float Draw(float x, float y, float width, bool selected, Action clickedCallback, Action mousedOverCallback, Vector2 scrollPosition, Rect scrollOutRect)

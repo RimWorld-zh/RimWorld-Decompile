@@ -8,7 +8,7 @@ namespace RimWorld
 	{
 		public WeatherDef weather;
 
-		public float commonality = 0f;
+		public float commonality;
 
 		public WeatherCommonalityRecord()
 		{

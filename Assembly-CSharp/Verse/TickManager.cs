@@ -4,21 +4,20 @@ using System.Diagnostics;
 using System.Runtime.CompilerServices;
 using RimWorld;
 using UnityEngine;
-using UnityEngine.Profiling;
 
 namespace Verse
 {
 	public sealed class TickManager : IExposable
 	{
-		private int ticksGameInt = 0;
+		private int ticksGameInt;
 
-		public int gameStartAbsTick = 0;
+		public int gameStartAbsTick;
 
-		private float realTimeToTickThrough = 0f;
+		private float realTimeToTickThrough;
 
 		private TimeSpeed curTimeSpeed = TimeSpeed.Normal;
 
-		public TimeSpeed prePauseTimeSpeed = TimeSpeed.Paused;
+		public TimeSpeed prePauseTimeSpeed;
 
 		private int startingYearInt = 5500;
 
@@ -32,13 +31,13 @@ namespace Verse
 
 		public TimeSlower slower = new TimeSlower();
 
-		private int lastAutoScreenshot = 0;
+		private int lastAutoScreenshot;
 
 		private float WorstAllowedFPS = 22f;
 
 		private int lastNothingHappeningCheckTick = -1;
 
-		private bool nothingHappeningCached = false;
+		private bool nothingHappeningCached;
 
 		public TickManager()
 		{
@@ -56,17 +55,12 @@ namespace Verse
 		{
 			get
 			{
-				int result;
 				if (this.gameStartAbsTick == 0)
 				{
 					Log.ErrorOnce("Accessing TicksAbs but gameStartAbsTick is not set yet (you most likely want to use GenTicks.TicksAbs instead).", 1049580013, false);
-					result = this.ticksGameInt;
+					return this.ticksGameInt;
 				}
-				else
-				{
-					result = this.ticksGameInt + this.gameStartAbsTick;
-				}
-				return result;
+				return this.ticksGameInt + this.gameStartAbsTick;
 			}
 		}
 
@@ -82,61 +76,44 @@ namespace Verse
 		{
 			get
 			{
-				float result;
 				if (this.slower.ForcedNormalSpeed)
 				{
 					if (this.curTimeSpeed == TimeSpeed.Paused)
 					{
-						result = 0f;
+						return 0f;
 					}
-					else
-					{
-						result = 1f;
-					}
+					return 1f;
 				}
 				else
 				{
 					switch (this.curTimeSpeed)
 					{
 					case TimeSpeed.Paused:
-						result = 0f;
-						break;
+						return 0f;
 					case TimeSpeed.Normal:
-						result = 1f;
-						break;
+						return 1f;
 					case TimeSpeed.Fast:
-						result = 3f;
-						break;
+						return 3f;
 					case TimeSpeed.Superfast:
 						if (Find.Maps.Count == 0)
 						{
-							result = 120f;
+							return 120f;
 						}
-						else if (this.NothingHappeningInGame())
+						if (this.NothingHappeningInGame())
 						{
-							result = 12f;
+							return 12f;
 						}
-						else
-						{
-							result = 6f;
-						}
-						break;
+						return 6f;
 					case TimeSpeed.Ultrafast:
 						if (Find.Maps.Count == 0)
 						{
-							result = 150f;
+							return 150f;
 						}
-						else
-						{
-							result = 15f;
-						}
-						break;
+						return 15f;
 					default:
-						result = -1f;
-						break;
+						return -1f;
 					}
 				}
-				return result;
 			}
 		}
 
@@ -144,16 +121,11 @@ namespace Verse
 		{
 			get
 			{
-				float result;
 				if (this.TickRateMultiplier == 0f)
 				{
-					result = 0f;
+					return 0f;
 				}
-				else
-				{
-					result = 1f / (60f * this.TickRateMultiplier);
-				}
-				return result;
+				return 1f / (60f * this.TickRateMultiplier);
 			}
 		}
 
@@ -199,6 +171,14 @@ namespace Verse
 			else
 			{
 				this.curTimeSpeed = TimeSpeed.Normal;
+			}
+		}
+
+		public void Pause()
+		{
+			if (this.curTimeSpeed != TimeSpeed.Paused)
+			{
+				this.TogglePaused();
 			}
 		}
 
@@ -268,25 +248,19 @@ namespace Verse
 
 		private TickList TickListFor(Thing t)
 		{
-			TickList result;
 			switch (t.def.tickerType)
 			{
 			case TickerType.Never:
-				result = null;
-				break;
+				return null;
 			case TickerType.Normal:
-				result = this.tickListNormal;
-				break;
+				return this.tickListNormal;
 			case TickerType.Rare:
-				result = this.tickListRare;
-				break;
+				return this.tickListRare;
 			case TickerType.Long:
-				result = this.tickListLong;
-				break;
+				return this.tickListLong;
 			default:
 				throw new InvalidOperationException();
 			}
-			return result;
 		}
 
 		public void TickManagerUpdate()
@@ -326,14 +300,10 @@ namespace Verse
 		public void DoSingleTick()
 		{
 			List<Map> maps = Find.Maps;
-			Profiler.BeginSample("MapPreTick()");
 			for (int i = 0; i < maps.Count; i++)
 			{
-				Profiler.BeginSample("Map " + i);
 				maps[i].MapPreTick();
-				Profiler.EndSample();
 			}
-			Profiler.EndSample();
 			if (!DebugSettings.fastEcology)
 			{
 				this.ticksGameInt++;
@@ -343,16 +313,9 @@ namespace Verse
 				this.ticksGameInt += 2000;
 			}
 			Shader.SetGlobalFloat(ShaderPropertyIDs.GameSeconds, this.TicksGame.TicksToSeconds());
-			Profiler.BeginSample("tickListNormal");
 			this.tickListNormal.Tick();
-			Profiler.EndSample();
-			Profiler.BeginSample("tickListRare");
 			this.tickListRare.Tick();
-			Profiler.EndSample();
-			Profiler.BeginSample("tickListLong");
 			this.tickListLong.Tick();
-			Profiler.EndSample();
-			Profiler.BeginSample("DateNotifierTick()");
 			try
 			{
 				Find.DateNotifier.DateNotifierTick();
@@ -361,8 +324,6 @@ namespace Verse
 			{
 				Log.Error(ex.ToString(), false);
 			}
-			Profiler.EndSample();
-			Profiler.BeginSample("Scenario.TickScenario()");
 			try
 			{
 				Find.Scenario.TickScenario();
@@ -371,8 +332,6 @@ namespace Verse
 			{
 				Log.Error(ex2.ToString(), false);
 			}
-			Profiler.EndSample();
-			Profiler.BeginSample("WorldTick");
 			try
 			{
 				Find.World.WorldTick();
@@ -381,8 +340,6 @@ namespace Verse
 			{
 				Log.Error(ex3.ToString(), false);
 			}
-			Profiler.EndSample();
-			Profiler.BeginSample("StoryWatcherTick");
 			try
 			{
 				Find.StoryWatcher.StoryWatcherTick();
@@ -391,8 +348,6 @@ namespace Verse
 			{
 				Log.Error(ex4.ToString(), false);
 			}
-			Profiler.EndSample();
-			Profiler.BeginSample("GameEnder.GameEndTick()");
 			try
 			{
 				Find.GameEnder.GameEndTick();
@@ -401,8 +356,6 @@ namespace Verse
 			{
 				Log.Error(ex5.ToString(), false);
 			}
-			Profiler.EndSample();
-			Profiler.BeginSample("Storyteller.StorytellerTick()");
 			try
 			{
 				Find.Storyteller.StorytellerTick();
@@ -411,8 +364,6 @@ namespace Verse
 			{
 				Log.Error(ex6.ToString(), false);
 			}
-			Profiler.EndSample();
-			Profiler.BeginSample("taleManager.TaleManagerTick()");
 			try
 			{
 				Current.Game.taleManager.TaleManagerTick();
@@ -421,8 +372,6 @@ namespace Verse
 			{
 				Log.Error(ex7.ToString(), false);
 			}
-			Profiler.EndSample();
-			Profiler.BeginSample("WorldPostTick");
 			try
 			{
 				Find.World.WorldPostTick();
@@ -431,16 +380,10 @@ namespace Verse
 			{
 				Log.Error(ex8.ToString(), false);
 			}
-			Profiler.EndSample();
-			Profiler.BeginSample("MapPostTick()");
 			for (int j = 0; j < maps.Count; j++)
 			{
-				Profiler.BeginSample("Map " + j);
 				maps[j].MapPostTick();
-				Profiler.EndSample();
 			}
-			Profiler.EndSample();
-			Profiler.BeginSample("History.HistoryTick()");
 			try
 			{
 				Find.History.HistoryTick();
@@ -449,11 +392,7 @@ namespace Verse
 			{
 				Log.Error(ex9.ToString(), false);
 			}
-			Profiler.EndSample();
-			Profiler.BeginSample("GameComponentTick()");
 			GameComponentUtility.GameComponentTick();
-			Profiler.EndSample();
-			Profiler.BeginSample("LetterStack.LetterStackTick()");
 			try
 			{
 				Find.LetterStack.LetterStackTick();
@@ -462,8 +401,6 @@ namespace Verse
 			{
 				Log.Error(ex10.ToString(), false);
 			}
-			Profiler.EndSample();
-			Profiler.BeginSample("Autosaver.AutosaverTick()");
 			try
 			{
 				Find.Autosaver.AutosaverTick();
@@ -472,13 +409,11 @@ namespace Verse
 			{
 				Log.Error(ex11.ToString(), false);
 			}
-			Profiler.EndSample();
 			if (DebugViewSettings.logHourlyScreenshot && Find.TickManager.TicksGame >= this.lastAutoScreenshot + 2500)
 			{
 				ScreenshotTaker.QueueSilentScreenshot();
 				this.lastAutoScreenshot = Find.TickManager.TicksGame / 2500 * 2500;
 			}
-			Profiler.BeginSample("FilthMonitor.FilthMonitorTick()");
 			try
 			{
 				FilthMonitor.FilthMonitorTick();
@@ -487,7 +422,6 @@ namespace Verse
 			{
 				Log.Error(ex12.ToString(), false);
 			}
-			Profiler.EndSample();
 			UnityEngine.Debug.developerConsoleVisible = false;
 		}
 
@@ -501,6 +435,12 @@ namespace Verse
 		public void DebugSetTicksGame(int newTicksGame)
 		{
 			this.ticksGameInt = newTicksGame;
+		}
+
+		public void Notify_GeneratedPotentiallyHostileMap()
+		{
+			this.Pause();
+			this.slower.SignalForceNormalSpeedShort();
 		}
 
 		[CompilerGenerated]

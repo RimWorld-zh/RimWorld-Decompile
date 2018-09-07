@@ -99,7 +99,7 @@ namespace Verse
 				{
 				case 0u:
 					i = 0;
-					goto IL_F6;
+					goto IL_F3;
 				case 1u:
 					break;
 				case 2u:
@@ -107,9 +107,9 @@ namespace Verse
 				default:
 					return false;
 				}
-				IL_E7:
+				IL_E5:
 				i++;
-				IL_F6:
+				IL_F3:
 				if (i < this.length)
 				{
 					if (this.dir == SpanDirection.North)
@@ -124,7 +124,7 @@ namespace Verse
 					{
 						if (this.dir != SpanDirection.East)
 						{
-							goto IL_E7;
+							goto IL_E5;
 						}
 						this.$current = new IntVec3(this.root.x + i, 0, this.root.z);
 						if (!this.$disposing)

@@ -46,18 +46,13 @@ namespace RimWorld
 
 		public bool TryGetPriceType(ThingDef thingDef, TradeAction action, out PriceType priceType)
 		{
-			bool result;
 			if (!this.HandlesThingDef(thingDef))
 			{
 				priceType = PriceType.Undefined;
-				result = false;
+				return false;
 			}
-			else
-			{
-				priceType = this.price;
-				result = true;
-			}
-			return result;
+			priceType = this.price;
+			return true;
 		}
 
 		protected int RandomCountOf(ThingDef def)
@@ -74,36 +69,31 @@ namespace RimWorld
 					}
 				}
 			}
-			int result;
 			if (intRange.max <= 0 && this.totalPriceRange.max <= 0f)
 			{
-				result = 0;
+				return 0;
 			}
-			else if (intRange.max > 0 && this.totalPriceRange.max <= 0f)
+			if (intRange.max > 0 && this.totalPriceRange.max <= 0f)
 			{
-				result = intRange.RandomInRange;
+				return intRange.RandomInRange;
 			}
-			else if (intRange.max <= 0 && this.totalPriceRange.max > 0f)
+			if (intRange.max <= 0 && this.totalPriceRange.max > 0f)
 			{
-				result = Mathf.RoundToInt(this.totalPriceRange.RandomInRange / def.BaseMarketValue);
+				return Mathf.RoundToInt(this.totalPriceRange.RandomInRange / def.BaseMarketValue);
 			}
-			else
+			int num = 0;
+			int randomInRange;
+			do
 			{
-				int num = 0;
-				int randomInRange;
-				do
+				randomInRange = intRange.RandomInRange;
+				num++;
+				if (num > 100)
 				{
-					randomInRange = intRange.RandomInRange;
-					num++;
-					if (num > 100)
-					{
-						break;
-					}
+					break;
 				}
-				while (!this.totalPriceRange.Includes((float)randomInRange * def.BaseMarketValue));
-				result = randomInRange;
 			}
-			return result;
+			while (!this.totalPriceRange.Includes((float)randomInRange * def.BaseMarketValue));
+			return randomInRange;
 		}
 
 		[CompilerGenerated]

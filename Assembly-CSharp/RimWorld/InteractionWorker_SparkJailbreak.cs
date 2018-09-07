@@ -18,15 +18,13 @@ namespace RimWorld
 				letterText = null;
 				letterLabel = null;
 				letterDef = null;
+				return;
 			}
-			else
+			PrisonBreakUtility.StartPrisonBreak(recipient, out letterText, out letterLabel, out letterDef);
+			MentalState_Jailbreaker mentalState_Jailbreaker = initiator.MentalState as MentalState_Jailbreaker;
+			if (mentalState_Jailbreaker != null)
 			{
-				PrisonBreakUtility.StartPrisonBreak(recipient, out letterText, out letterLabel, out letterDef);
-				MentalState_Jailbreaker mentalState_Jailbreaker = initiator.MentalState as MentalState_Jailbreaker;
-				if (mentalState_Jailbreaker != null)
-				{
-					mentalState_Jailbreaker.Notify_InducedPrisonerToEscape();
-				}
+				mentalState_Jailbreaker.Notify_InducedPrisonerToEscape();
 			}
 		}
 	}

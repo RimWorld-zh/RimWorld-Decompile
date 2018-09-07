@@ -4,7 +4,7 @@
   <PropertyGroup>
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
-    <ProjectGuid>{8B7EC31C-BB77-4115-ABF5-3D62F1011C06}</ProjectGuid>
+    <ProjectGuid>{BC82404B-B1C0-48D8-A034-5339B314E2DD}</ProjectGuid>
     <OutputType>Library</OutputType>
     <RootNamespace>Assembly-CSharp</RootNamespace>
     <AssemblyName>Assembly-CSharp</AssemblyName>
@@ -341,8 +341,8 @@
     <Compile Include="RimWorld\Building_SunLamp.cs" />
     <Compile Include="RimWorld\Building_TempControl.cs" />
     <Compile Include="RimWorld\Building_Trap.cs" />
+    <Compile Include="RimWorld\Building_TrapDamager.cs" />
     <Compile Include="RimWorld\Building_TrapExplosive.cs" />
-    <Compile Include="RimWorld\Building_TrapRearmable.cs" />
     <Compile Include="RimWorld\Building_Turret.cs" />
     <Compile Include="RimWorld\Building_TurretGun.cs" />
     <Compile Include="RimWorld\Building_Vent.cs" />
@@ -555,7 +555,6 @@
     <Compile Include="RimWorld\Designator_PlantsCut.cs" />
     <Compile Include="RimWorld\Designator_PlantsHarvest.cs" />
     <Compile Include="RimWorld\Designator_PlantsHarvestWood.cs" />
-    <Compile Include="RimWorld\Designator_RearmTrap.cs" />
     <Compile Include="RimWorld\Designator_RemoveBridge.cs" />
     <Compile Include="RimWorld\Designator_RemoveFloor.cs" />
     <Compile Include="RimWorld\Designator_Slaughter.cs" />
@@ -775,11 +774,13 @@
     <Compile Include="RimWorld\HistoryAutoRecorderWorker_Adaptation.cs" />
     <Compile Include="RimWorld\HistoryAutoRecorderWorker_ColonistMood.cs" />
     <Compile Include="RimWorld\HistoryAutoRecorderWorker_FreeColonists.cs" />
+    <Compile Include="RimWorld\HistoryAutoRecorderWorker_PopAdaptation.cs" />
+    <Compile Include="RimWorld\HistoryAutoRecorderWorker_PopIntent.cs" />
     <Compile Include="RimWorld\HistoryAutoRecorderWorker_Prisoners.cs" />
     <Compile Include="RimWorld\HistoryAutoRecorderWorker_ThreatPoints.cs" />
     <Compile Include="RimWorld\HistoryAutoRecorderWorker_WealthBuildings.cs" />
     <Compile Include="RimWorld\HistoryAutoRecorderWorker_WealthItems.cs" />
-    <Compile Include="RimWorld\HistoryAutoRecorderWorker_WealthTameAnimals.cs" />
+    <Compile Include="RimWorld\HistoryAutoRecorderWorker_WealthPawns.cs" />
     <Compile Include="RimWorld\HistoryAutoRecorderWorker_WealthTotal.cs" />
     <Compile Include="RimWorld\Hive.cs" />
     <Compile Include="RimWorld\HivesUtility.cs" />
@@ -790,7 +791,6 @@
     <Compile Include="RimWorld\HungerCategory.cs" />
     <Compile Include="RimWorld\HungerLevelUtility.cs" />
     <Compile Include="RimWorld\HuntJobUtility.cs" />
-    <Compile Include="RimWorld\HuntUtility.cs" />
     <Compile Include="RimWorld\IActiveDropPod.cs" />
     <Compile Include="RimWorld\IArchivable.cs" />
     <Compile Include="RimWorld\IAssignableBuilding.cs" />
@@ -807,14 +807,15 @@
     <Compile Include="RimWorld\IncidentCategoryDef.cs" />
     <Compile Include="RimWorld\IncidentCategoryDefOf.cs" />
     <Compile Include="RimWorld\IncidentCategoryEntry.cs" />
+    <Compile Include="RimWorld\IncidentCycleUtility.cs" />
     <Compile Include="RimWorld\IncidentDef.cs" />
     <Compile Include="RimWorld\IncidentDefOf.cs" />
     <Compile Include="RimWorld\IncidentParms.cs" />
     <Compile Include="RimWorld\IncidentParmsUtility.cs" />
     <Compile Include="RimWorld\IncidentPopulationEffect.cs" />
     <Compile Include="RimWorld\IncidentQueue.cs" />
-    <Compile Include="RimWorld\IncidentTargetTypeDef.cs" />
-    <Compile Include="RimWorld\IncidentTargetTypeDefOf.cs" />
+    <Compile Include="RimWorld\IncidentTargetTagDef.cs" />
+    <Compile Include="RimWorld\IncidentTargetTagDefOf.cs" />
     <Compile Include="RimWorld\IncidentWorker.cs" />
     <Compile Include="RimWorld\IncidentWorker_Alphabeavers.cs" />
     <Compile Include="RimWorld\IncidentWorker_AmbrosiaSprout.cs" />
@@ -861,7 +862,6 @@
     <Compile Include="RimWorld\IncidentWorker_RaidFriendly.cs" />
     <Compile Include="RimWorld\IncidentWorker_RansomDemand.cs" />
     <Compile Include="RimWorld\IncidentWorker_RefugeeChased.cs" />
-    <Compile Include="RimWorld\IncidentWorker_RefugeePodCrash.cs" />
     <Compile Include="RimWorld\IncidentWorker_ResourcePodCrash.cs" />
     <Compile Include="RimWorld\IncidentWorker_SelfTame.cs" />
     <Compile Include="RimWorld\IncidentWorker_ShipChunkDrop.cs" />
@@ -869,6 +869,7 @@
     <Compile Include="RimWorld\IncidentWorker_ShortCircuit.cs" />
     <Compile Include="RimWorld\IncidentWorker_ThrumboPasses.cs" />
     <Compile Include="RimWorld\IncidentWorker_TraderCaravanArrival.cs" />
+    <Compile Include="RimWorld\IncidentWorker_TransportPodCrash.cs" />
     <Compile Include="RimWorld\IncidentWorker_TravelerGroup.cs" />
     <Compile Include="RimWorld\IncidentWorker_VisitorGroup.cs" />
     <Compile Include="RimWorld\IncidentWorker_WandererJoin.cs" />
@@ -953,6 +954,7 @@
     <Compile Include="RimWorld\ITab_Pawn_Visitor.cs" />
     <Compile Include="RimWorld\ITab_Shells.cs" />
     <Compile Include="RimWorld\ITab_Storage.cs" />
+    <Compile Include="RimWorld\ITab_TransporterContents.cs" />
     <Compile Include="RimWorld\ItemAvailability.cs" />
     <Compile Include="RimWorld\IThoughtGiver.cs" />
     <Compile Include="RimWorld\ITrader.cs" />
@@ -985,6 +987,7 @@
     <Compile Include="RimWorld\JobDriver_GiveToPackAnimal.cs" />
     <Compile Include="RimWorld\JobDriver_GoForWalk.cs" />
     <Compile Include="RimWorld\JobDriver_HaulCorpseToPublicPlace.cs" />
+    <Compile Include="RimWorld\JobDriver_HaulToTransporter.cs" />
     <Compile Include="RimWorld\JobDriver_Hunt.cs" />
     <Compile Include="RimWorld\JobDriver_Ignite.cs" />
     <Compile Include="RimWorld\JobDriver_Ingest.cs" />
@@ -1018,7 +1021,6 @@
     <Compile Include="RimWorld\JobDriver_PredatorHunt.cs" />
     <Compile Include="RimWorld\JobDriver_PrepareCaravan_GatherItems.cs" />
     <Compile Include="RimWorld\JobDriver_PrepareCaravan_GatherPawns.cs" />
-    <Compile Include="RimWorld\JobDriver_RearmTrap.cs" />
     <Compile Include="RimWorld\JobDriver_Refuel.cs" />
     <Compile Include="RimWorld\JobDriver_RefuelAtomic.cs" />
     <Compile Include="RimWorld\JobDriver_RelaxAlone.cs" />
@@ -1335,6 +1337,7 @@
     <Compile Include="RimWorld\Need_RoomSize.cs" />
     <Compile Include="RimWorld\Need_Seeker.cs" />
     <Compile Include="RimWorld\NegativeInteractionUtility.cs" />
+    <Compile Include="RimWorld\NeutralGroupIncidentUtility.cs" />
     <Compile Include="RimWorld\OpportunityType.cs" />
     <Compile Include="RimWorld\OrbitalStrike.cs" />
     <Compile Include="RimWorld\OutdoorsCategory.cs" />
@@ -1404,6 +1407,7 @@
     <Compile Include="RimWorld\PawnColumnWorker_Info.cs" />
     <Compile Include="RimWorld\PawnColumnWorker_Label.cs" />
     <Compile Include="RimWorld\PawnColumnWorker_LifeStage.cs" />
+    <Compile Include="RimWorld\PawnColumnWorker_ManhunterOnDamageChance.cs" />
     <Compile Include="RimWorld\PawnColumnWorker_Master.cs" />
     <Compile Include="RimWorld\PawnColumnWorker_MedicalCare.cs" />
     <Compile Include="RimWorld\PawnColumnWorker_Outfit.cs" />
@@ -1412,6 +1416,7 @@
     <Compile Include="RimWorld\PawnColumnWorker_RemainingSpace.cs" />
     <Compile Include="RimWorld\PawnColumnWorker_Slaughter.cs" />
     <Compile Include="RimWorld\PawnColumnWorker_Tame.cs" />
+    <Compile Include="RimWorld\PawnColumnWorker_Text.cs" />
     <Compile Include="RimWorld\PawnColumnWorker_Timetable.cs" />
     <Compile Include="RimWorld\PawnColumnWorker_Trainable.cs" />
     <Compile Include="RimWorld\PawnColumnWorker_WorkPriority.cs" />
@@ -1528,6 +1533,7 @@
     <Compile Include="RimWorld\PlaceWorker_HeadOnShipBeam.cs" />
     <Compile Include="RimWorld\PlaceWorker_Heater.cs" />
     <Compile Include="RimWorld\PlaceWorker_NeedsFuelingPort.cs" />
+    <Compile Include="RimWorld\PlaceWorker_NeverAdjacentTrap.cs" />
     <Compile Include="RimWorld\PlaceWorker_NeverAdjacentUnstandable.cs" />
     <Compile Include="RimWorld\PlaceWorker_NextToHopperAccepter.cs" />
     <Compile Include="RimWorld\PlaceWorker_NotUnderRoof.cs" />
@@ -1570,8 +1576,8 @@
     <Compile Include="RimWorld\Planet\CaravanMergeUtility.cs" />
     <Compile Include="RimWorld\Planet\CaravanNameGenerator.cs" />
     <Compile Include="RimWorld\Planet\CaravanNeedsTabUtility.cs" />
+    <Compile Include="RimWorld\Planet\CaravanNightRestUtility.cs" />
     <Compile Include="RimWorld\Planet\CaravanPawnsNeedsUtility.cs" />
-    <Compile Include="RimWorld\Planet\CaravanRestUtility.cs" />
     <Compile Include="RimWorld\Planet\CaravansBattlefield.cs" />
     <Compile Include="RimWorld\Planet\CaravanTendUtility.cs" />
     <Compile Include="RimWorld\Planet\CaravanThingsTabUtility.cs" />
@@ -1628,6 +1634,7 @@
     <Compile Include="RimWorld\Planet\ImportantPawnComp.cs" />
     <Compile Include="RimWorld\Planet\ItemStashContentsComp.cs" />
     <Compile Include="RimWorld\Planet\MapParent.cs" />
+    <Compile Include="RimWorld\Planet\MapParentTuning.cs" />
     <Compile Include="RimWorld\Planet\MultipleCaravansCellFinder.cs" />
     <Compile Include="RimWorld\Planet\OverallRainfall.cs" />
     <Compile Include="RimWorld\Planet\OverallRainfallUtility.cs" />
@@ -1786,6 +1793,7 @@
     <Compile Include="RimWorld\PlayerPawnsDisplayOrderUtility.cs" />
     <Compile Include="RimWorld\PlaySettings.cs" />
     <Compile Include="RimWorld\PodContentsType.cs" />
+    <Compile Include="RimWorld\PopAdaptationEvent.cs" />
     <Compile Include="RimWorld\PortraitCameraManager.cs" />
     <Compile Include="RimWorld\PortraitRenderer.cs" />
     <Compile Include="RimWorld\PortraitsCache.cs" />
@@ -2113,12 +2121,10 @@
     <Compile Include="RimWorld\StoryDangerUtility.cs" />
     <Compile Include="RimWorld\StoryEventDef.cs" />
     <Compile Include="RimWorld\StoryEventDefOf.cs" />
-    <Compile Include="RimWorld\StoryIntender_Population.cs" />
     <Compile Include="RimWorld\StoryState.cs" />
     <Compile Include="RimWorld\Storyteller.cs" />
     <Compile Include="RimWorld\StorytellerComp.cs" />
     <Compile Include="RimWorld\StorytellerCompProperties.cs" />
-    <Compile Include="RimWorld\StorytellerCompProperties_AllyAssistance.cs" />
     <Compile Include="RimWorld\StorytellerCompProperties_CategoryIndividualMTBByBiome.cs" />
     <Compile Include="RimWorld\StorytellerCompProperties_CategoryMTB.cs" />
     <Compile Include="RimWorld\StorytellerCompProperties_ClassicIntro.cs" />
@@ -2126,11 +2132,11 @@
     <Compile Include="RimWorld\StorytellerCompProperties_Disease.cs" />
     <Compile Include="RimWorld\StorytellerCompProperties_FactionInteraction.cs" />
     <Compile Include="RimWorld\StorytellerCompProperties_JourneyOffer.cs" />
+    <Compile Include="RimWorld\StorytellerCompProperties_OnOffCycle.cs" />
     <Compile Include="RimWorld\StorytellerCompProperties_RandomMain.cs" />
     <Compile Include="RimWorld\StorytellerCompProperties_ShipChunkDrop.cs" />
     <Compile Include="RimWorld\StorytellerCompProperties_SingleMTB.cs" />
-    <Compile Include="RimWorld\StorytellerCompProperties_ThreatCycle.cs" />
-    <Compile Include="RimWorld\StorytellerComp_AllyAssistance.cs" />
+    <Compile Include="RimWorld\StorytellerCompProperties_Triggered.cs" />
     <Compile Include="RimWorld\StorytellerComp_CategoryIndividualMTBByBiome.cs" />
     <Compile Include="RimWorld\StorytellerComp_CategoryMTB.cs" />
     <Compile Include="RimWorld\StorytellerComp_ClassicIntro.cs" />
@@ -2138,16 +2144,19 @@
     <Compile Include="RimWorld\StorytellerComp_Disease.cs" />
     <Compile Include="RimWorld\StorytellerComp_FactionInteraction.cs" />
     <Compile Include="RimWorld\StorytellerComp_JourneyOffer.cs" />
+    <Compile Include="RimWorld\StorytellerComp_OnOffCycle.cs" />
     <Compile Include="RimWorld\StorytellerComp_RandomMain.cs" />
     <Compile Include="RimWorld\StorytellerComp_ShipChunkDrop.cs" />
     <Compile Include="RimWorld\StorytellerComp_SingleMTB.cs" />
-    <Compile Include="RimWorld\StorytellerComp_ThreatCycle.cs" />
+    <Compile Include="RimWorld\StorytellerComp_Triggered.cs" />
     <Compile Include="RimWorld\StorytellerDef.cs" />
     <Compile Include="RimWorld\StorytellerDefOf.cs" />
     <Compile Include="RimWorld\StorytellerUI.cs" />
     <Compile Include="RimWorld\StorytellerUtility.cs" />
+    <Compile Include="RimWorld\StorytellerUtilityPopulation.cs" />
     <Compile Include="RimWorld\StoryWatcher.cs" />
     <Compile Include="RimWorld\StoryWatcher_Adaptation.cs" />
+    <Compile Include="RimWorld\StoryWatcher_PopAdaptation.cs" />
     <Compile Include="RimWorld\StrengthWatcher.cs" />
     <Compile Include="RimWorld\StrikeRecord.cs" />
     <Compile Include="RimWorld\StuffAppearanceDefOf.cs" />
@@ -2206,6 +2215,9 @@
     <Compile Include="RimWorld\ThingSetMakerDefOf.cs" />
     <Compile Include="RimWorld\ThingSetMakerParams.cs" />
     <Compile Include="RimWorld\ThingSetMakerUtility.cs" />
+    <Compile Include="RimWorld\ThingSetMaker_Conditional.cs" />
+    <Compile Include="RimWorld\ThingSetMaker_Conditional_MinMaxTotalMarketValue.cs" />
+    <Compile Include="RimWorld\ThingSetMaker_Conditional_ResearchFinished.cs" />
     <Compile Include="RimWorld\ThingSetMaker_Count.cs" />
     <Compile Include="RimWorld\ThingSetMaker_MapGen_AncientPodContents.cs" />
     <Compile Include="RimWorld\ThingSetMaker_MarketValue.cs" />
@@ -2313,7 +2325,6 @@
     <Compile Include="RimWorld\ThoughtWorker_HospitalPatientRoomStats.cs" />
     <Compile Include="RimWorld\ThoughtWorker_Hot.cs" />
     <Compile Include="RimWorld\ThoughtWorker_HumanLeatherApparel.cs" />
-    <Compile Include="RimWorld\ThoughtWorker_Imprisoned.cs" />
     <Compile Include="RimWorld\ThoughtWorker_Incestuous.cs" />
     <Compile Include="RimWorld\ThoughtWorker_IsCarryingIncendiaryWeapon.cs" />
     <Compile Include="RimWorld\ThoughtWorker_IsCarryingRangedWeapon.cs" />
@@ -2348,6 +2359,7 @@
     <Compile Include="RimWorld\ThoughtWorker_Ugly.cs" />
     <Compile Include="RimWorld\ThoughtWorker_WantToSleepWithSpouseOrLover.cs" />
     <Compile Include="RimWorld\ThoughtWorker_Woman.cs" />
+    <Compile Include="RimWorld\Thought_BondedAnimalMaster.cs" />
     <Compile Include="RimWorld\Thought_ChemicalInterestVsTeetotaler.cs" />
     <Compile Include="RimWorld\Thought_Dumb.cs" />
     <Compile Include="RimWorld\Thought_HardWorkerVsLazy.cs" />
@@ -2356,6 +2368,7 @@
     <Compile Include="RimWorld\Thought_MemoryObservation.cs" />
     <Compile Include="RimWorld\Thought_MemorySocial.cs" />
     <Compile Include="RimWorld\Thought_MemorySocialCumulative.cs" />
+    <Compile Include="RimWorld\Thought_NotBondedAnimalMaster.cs" />
     <Compile Include="RimWorld\Thought_OpinionOfMyLover.cs" />
     <Compile Include="RimWorld\Thought_SharedBed.cs" />
     <Compile Include="RimWorld\Thought_Situational.cs" />
@@ -2363,7 +2376,6 @@
     <Compile Include="RimWorld\Thought_Tale.cs" />
     <Compile Include="RimWorld\Thought_TeetotalerVsChemicalInterest.cs" />
     <Compile Include="RimWorld\Thought_WantToSleepWithSpouseOrLover.cs" />
-    <Compile Include="RimWorld\ThreatCycleMode.cs" />
     <Compile Include="RimWorld\TimeAssignmentDef.cs" />
     <Compile Include="RimWorld\TimeAssignmentDefOf.cs" />
     <Compile Include="RimWorld\TimeAssignmentSelector.cs" />
@@ -2402,6 +2414,8 @@
     <Compile Include="RimWorld\TraitDefOf.cs" />
     <Compile Include="RimWorld\TraitDegreeData.cs" />
     <Compile Include="RimWorld\TraitEntry.cs" />
+    <Compile Include="RimWorld\TraitMentalStateGiver.cs" />
+    <Compile Include="RimWorld\TraitMentalStateGiver_NoAddictionAboveZero.cs" />
     <Compile Include="RimWorld\TraitSet.cs" />
     <Compile Include="RimWorld\Transactor.cs" />
     <Compile Include="RimWorld\Transferable.cs" />
@@ -2526,7 +2540,6 @@
     <Compile Include="RimWorld\WorkGiver_PatientGoToBedRecuperate.cs" />
     <Compile Include="RimWorld\WorkGiver_PatientGoToBedTreatment.cs" />
     <Compile Include="RimWorld\WorkGiver_PlantsCut.cs" />
-    <Compile Include="RimWorld\WorkGiver_RearmTraps.cs" />
     <Compile Include="RimWorld\WorkGiver_Refuel.cs" />
     <Compile Include="RimWorld\WorkGiver_Refuel_Turret.cs" />
     <Compile Include="RimWorld\WorkGiver_RemoveBuilding.cs" />
@@ -2783,7 +2796,6 @@
     <Compile Include="Verse\AI\QueuedJob.cs" />
     <Compile Include="Verse\AI\RegionCostCalculator.cs" />
     <Compile Include="Verse\AI\RegionCostCalculatorWrapper.cs" />
-    <Compile Include="Verse\AI\Reservation.cs" />
     <Compile Include="Verse\AI\ReservationManager.cs" />
     <Compile Include="Verse\AI\ReservationUtility.cs" />
     <Compile Include="Verse\AI\SlaughtererMentalStateUtility.cs" />
@@ -3036,6 +3048,7 @@
     <Compile Include="Verse\DefDatabase.cs" />
     <Compile Include="Verse\DefInjectionPackage.cs" />
     <Compile Include="Verse\DefInjectionPathPartKind.cs" />
+    <Compile Include="Verse\DefInjectionUtility.cs" />
     <Compile Include="Verse\DefMap.cs" />
     <Compile Include="Verse\DefModExtension.cs" />
     <Compile Include="Verse\DefPackage.cs" />
@@ -3286,6 +3299,7 @@
     <Compile Include="Verse\HediffComp_VerbGiver.cs" />
     <Compile Include="Verse\HediffDef.cs" />
     <Compile Include="Verse\HediffGiver.cs" />
+    <Compile Include="Verse\HediffGiverUtility.cs" />
     <Compile Include="Verse\HediffGiver_Birthday.cs" />
     <Compile Include="Verse\HediffGiver_Bleeding.cs" />
     <Compile Include="Verse\HediffGiver_BrainInjury.cs" />
@@ -3295,7 +3309,6 @@
     <Compile Include="Verse\HediffGiver_Random.cs" />
     <Compile Include="Verse\HediffGiver_RandomAgeCurved.cs" />
     <Compile Include="Verse\HediffGiver_RandomDrugEffect.cs" />
-    <Compile Include="Verse\HediffGiveUtility.cs" />
     <Compile Include="Verse\HediffGrowthMode.cs" />
     <Compile Include="Verse\HediffGrowthModeUtility.cs" />
     <Compile Include="Verse\HediffMaker.cs" />
@@ -3353,6 +3366,7 @@
     <Compile Include="Verse\LanguageWorker.cs" />
     <Compile Include="Verse\LanguageWorker_Default.cs" />
     <Compile Include="Verse\LanguageWorker_English.cs" />
+    <Compile Include="Verse\LanguageWorker_Korean.cs" />
     <Compile Include="Verse\LanguageWorker_Russian.cs" />
     <Compile Include="Verse\LayerLoader.cs" />
     <Compile Include="Verse\LayerSubMesh.cs" />
@@ -3527,6 +3541,7 @@
     <Compile Include="Verse\Noise\Utils.cs" />
     <Compile Include="Verse\Noise\Voronoi.cs" />
     <Compile Include="Verse\NoTranslateAttribute.cs" />
+    <Compile Include="Verse\NumericStringComparer.cs" />
     <Compile Include="Verse\OptionListingUtility.cs" />
     <Compile Include="Verse\Pair.cs" />
     <Compile Include="Verse\ParseHelper.cs" />
@@ -3945,6 +3960,7 @@
     <Compile Include="Verse\ToStringStyle.cs" />
     <Compile Include="Verse\TrainabilityDef.cs" />
     <Compile Include="Verse\TranslationCanChangeCountAttribute.cs" />
+    <Compile Include="Verse\TranslationFilesCleaner.cs" />
     <Compile Include="Verse\TranslationHandleAttribute.cs" />
     <Compile Include="Verse\TranslationHandleUtility.cs" />
     <Compile Include="Verse\Translator.cs" />
@@ -4011,7 +4027,7 @@
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\Assembly-CSharp-firstpass\Assembly-CSharp-firstpass.csproj">
-      <Project>{8b7ec31c-bb77-4115-abf5-3d62f1011c07}</Project>
+      <Project>{bc82404b-b1c0-48d8-a034-5339b314e2de}</Project>
       <Name>Assembly-CSharp-firstpass</Name>
     </ProjectReference>
   </ItemGroup>

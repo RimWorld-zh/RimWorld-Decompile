@@ -13,11 +13,11 @@ namespace RimWorld
 {
 	public class Building_Grave : Building_Casket, IStoreSettingsParent, IAssignableBuilding, IHaulDestination
 	{
-		private StorageSettings storageSettings = null;
+		private StorageSettings storageSettings;
 
-		private Graphic cachedGraphicFull = null;
+		private Graphic cachedGraphicFull;
 
-		public Pawn assignedPawn = null;
+		public Pawn assignedPawn;
 
 		[CompilerGenerated]
 		private static Func<Corpse, bool> <>f__am$cache0;
@@ -33,27 +33,19 @@ namespace RimWorld
 		{
 			get
 			{
-				Graphic graphic;
-				if (this.HasCorpse)
+				if (!this.HasCorpse)
 				{
-					if (this.def.building.fullGraveGraphicData == null)
-					{
-						graphic = base.Graphic;
-					}
-					else
-					{
-						if (this.cachedGraphicFull == null)
-						{
-							this.cachedGraphicFull = this.def.building.fullGraveGraphicData.GraphicColoredFor(this);
-						}
-						graphic = this.cachedGraphicFull;
-					}
+					return base.Graphic;
 				}
-				else
+				if (this.def.building.fullGraveGraphicData == null)
 				{
-					graphic = base.Graphic;
+					return base.Graphic;
 				}
-				return graphic;
+				if (this.cachedGraphicFull == null)
+				{
+					this.cachedGraphicFull = this.def.building.fullGraveGraphicData.GraphicColoredFor(this);
+				}
+				return this.cachedGraphicFull;
 			}
 		}
 
@@ -85,19 +77,14 @@ namespace RimWorld
 		{
 			get
 			{
-				IEnumerable<Pawn> result;
 				if (!base.Spawned)
 				{
-					result = Enumerable.Empty<Pawn>();
+					return Enumerable.Empty<Pawn>();
 				}
-				else
-				{
-					IEnumerable<Pawn> second = from Corpse x in base.Map.listerThings.ThingsInGroup(ThingRequestGroup.Corpse)
-					where x.InnerPawn.IsColonist
-					select x.InnerPawn;
-					result = base.Map.mapPawns.FreeColonistsSpawned.Concat(second);
-				}
-				return result;
+				IEnumerable<Pawn> second = from Corpse x in base.Map.listerThings.ThingsInGroup(ThingRequestGroup.Corpse)
+				where x.InnerPawn.IsColonist
+				select x.InnerPawn;
+				return base.Map.mapPawns.FreeColonistsSpawned.Concat(second);
 			}
 		}
 
@@ -204,67 +191,54 @@ namespace RimWorld
 
 		public override bool Accepts(Thing thing)
 		{
-			bool result;
 			if (!base.Accepts(thing))
 			{
-				result = false;
+				return false;
 			}
-			else if (this.HasCorpse)
+			if (this.HasCorpse)
 			{
-				result = false;
+				return false;
 			}
-			else
+			if (this.assignedPawn != null)
 			{
-				if (this.assignedPawn != null)
-				{
-					Corpse corpse = thing as Corpse;
-					if (corpse == null)
-					{
-						return false;
-					}
-					if (corpse.InnerPawn != this.assignedPawn)
-					{
-						return false;
-					}
-				}
-				else if (!this.storageSettings.AllowedToAccept(thing))
+				Corpse corpse = thing as Corpse;
+				if (corpse == null)
 				{
 					return false;
 				}
-				result = true;
+				if (corpse.InnerPawn != this.assignedPawn)
+				{
+					return false;
+				}
 			}
-			return result;
+			else if (!this.storageSettings.AllowedToAccept(thing))
+			{
+				return false;
+			}
+			return true;
 		}
 
 		public override bool TryAcceptThing(Thing thing, bool allowSpecialEffects = true)
 		{
-			bool result;
 			if (base.TryAcceptThing(thing, allowSpecialEffects))
 			{
 				Corpse corpse = thing as Corpse;
-				if (corpse != null && corpse.InnerPawn.ownership != null)
+				if (corpse != null && corpse.InnerPawn.ownership != null && corpse.InnerPawn.ownership.AssignedGrave != this)
 				{
-					if (corpse.InnerPawn.ownership.AssignedGrave != this)
-					{
-						corpse.InnerPawn.ownership.UnclaimGrave();
-					}
+					corpse.InnerPawn.ownership.UnclaimGrave();
 				}
 				if (base.Spawned)
 				{
 					base.Map.mapDrawer.MapMeshDirty(base.Position, MapMeshFlag.Things);
 				}
-				result = true;
+				return true;
 			}
-			else
-			{
-				result = false;
-			}
-			return result;
+			return false;
 		}
 
 		public override IEnumerable<Gizmo> GetGizmos()
 		{
-			foreach (Gizmo g in this.<GetGizmos>__BaseCallProxy0())
+			foreach (Gizmo g in base.GetGizmos())
 			{
 				yield return g;
 			}
@@ -469,9 +443,11 @@ namespace RimWorld
 				case 1u:
 					break;
 				case 2u:
-					goto IL_EC;
+					goto IL_E6;
 				case 3u:
-					goto IL_207;
+					IL_1FC:
+					this.$PC = -1;
+					return false;
 				default:
 					return false;
 				}
@@ -504,13 +480,13 @@ namespace RimWorld
 				}
 				if (!base.StorageTabVisible)
 				{
-					goto IL_163;
+					goto IL_15A;
 				}
 				enumerator2 = StorageSettingsClipboard.CopyPasteGizmosFor(this.storageSettings).GetEnumerator();
 				num = 4294967293u;
 				try
 				{
-					IL_EC:
+					IL_E6:
 					switch (num)
 					{
 					}
@@ -536,7 +512,7 @@ namespace RimWorld
 						}
 					}
 				}
-				IL_163:
+				IL_15A:
 				if (!base.HasCorpse)
 				{
 					Command_Action own = new Command_Action();
@@ -555,9 +531,7 @@ namespace RimWorld
 					}
 					return true;
 				}
-				IL_207:
-				this.$PC = -1;
-				return false;
+				goto IL_1FC;
 			}
 
 			Gizmo IEnumerator<Gizmo>.Current

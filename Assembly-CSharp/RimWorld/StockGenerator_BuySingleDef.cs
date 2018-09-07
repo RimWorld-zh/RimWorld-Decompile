@@ -10,7 +10,7 @@ namespace RimWorld
 {
 	public class StockGenerator_BuySingleDef : StockGenerator
 	{
-		public ThingDef thingDef = null;
+		public ThingDef thingDef;
 
 		public StockGenerator_BuySingleDef()
 		{

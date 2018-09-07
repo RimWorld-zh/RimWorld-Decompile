@@ -4,7 +4,15 @@ namespace RimWorld
 {
 	public class StorytellerCompProperties_FactionInteraction : StorytellerCompProperties
 	{
-		public float baseMtbDays = 99999f;
+		public IncidentDef incident;
+
+		public float baseIncidentsPerYear;
+
+		public float minSpacingDays;
+
+		public StoryDanger minDanger;
+
+		public bool fullAlliesOnly;
 
 		public StorytellerCompProperties_FactionInteraction()
 		{

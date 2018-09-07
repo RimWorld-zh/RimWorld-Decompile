@@ -13,7 +13,7 @@ namespace RimWorld
 	[CaseInsensitiveXMLParsing]
 	public class Backstory
 	{
-		public string identifier = null;
+		public string identifier;
 
 		public BackstorySlot slot;
 
@@ -25,40 +25,40 @@ namespace RimWorld
 
 		public string titleShortFemale;
 
-		public string baseDesc = null;
+		public string baseDesc;
 
 		private Dictionary<string, int> skillGains = new Dictionary<string, int>();
 
 		[Unsaved]
 		public Dictionary<SkillDef, int> skillGainsResolved = new Dictionary<SkillDef, int>();
 
-		public WorkTags workDisables = WorkTags.None;
+		public WorkTags workDisables;
 
-		public WorkTags requiredWorkTags = WorkTags.None;
+		public WorkTags requiredWorkTags;
 
 		public List<string> spawnCategories = new List<string>();
 
 		[LoadAlias("bodyNameGlobal")]
-		private string bodyTypeGlobal = null;
+		private string bodyTypeGlobal;
 
 		[LoadAlias("bodyNameFemale")]
-		private string bodyTypeFemale = null;
+		private string bodyTypeFemale;
 
 		[LoadAlias("bodyNameMale")]
-		private string bodyTypeMale = null;
+		private string bodyTypeMale;
 
 		[Unsaved]
-		private BodyTypeDef bodyTypeGlobalResolved = null;
+		private BodyTypeDef bodyTypeGlobalResolved;
 
 		[Unsaved]
-		private BodyTypeDef bodyTypeFemaleResolved = null;
+		private BodyTypeDef bodyTypeFemaleResolved;
 
 		[Unsaved]
-		private BodyTypeDef bodyTypeMaleResolved = null;
+		private BodyTypeDef bodyTypeMaleResolved;
 
-		public List<TraitEntry> forcedTraits = null;
+		public List<TraitEntry> forcedTraits;
 
-		public List<TraitEntry> disallowedTraits = null;
+		public List<TraitEntry> disallowedTraits;
 
 		public bool shuffleable = true;
 
@@ -76,6 +76,21 @@ namespace RimWorld
 
 		[Unsaved]
 		public string untranslatedDesc;
+
+		[Unsaved]
+		public bool titleTranslated;
+
+		[Unsaved]
+		public bool titleFemaleTranslated;
+
+		[Unsaved]
+		public bool titleShortTranslated;
+
+		[Unsaved]
+		public bool titleShortFemaleTranslated;
+
+		[Unsaved]
+		public bool descTranslated;
 
 		public Backstory()
 		{
@@ -115,37 +130,27 @@ namespace RimWorld
 
 		public bool DisallowsTrait(TraitDef def, int degree)
 		{
-			bool result;
 			if (this.disallowedTraits == null)
 			{
-				result = false;
+				return false;
 			}
-			else
+			for (int i = 0; i < this.disallowedTraits.Count; i++)
 			{
-				for (int i = 0; i < this.disallowedTraits.Count; i++)
+				if (this.disallowedTraits[i].def == def && this.disallowedTraits[i].degree == degree)
 				{
-					if (this.disallowedTraits[i].def == def && this.disallowedTraits[i].degree == degree)
-					{
-						return true;
-					}
+					return true;
 				}
-				result = false;
 			}
-			return result;
+			return false;
 		}
 
 		public string TitleFor(Gender g)
 		{
-			string result;
 			if (g != Gender.Female || this.titleFemale.NullOrEmpty())
 			{
-				result = this.title;
+				return this.title;
 			}
-			else
-			{
-				result = this.titleFemale;
-			}
-			return result;
+			return this.titleFemale;
 		}
 
 		public string TitleCapFor(Gender g)
@@ -155,20 +160,15 @@ namespace RimWorld
 
 		public string TitleShortFor(Gender g)
 		{
-			string result;
 			if (g == Gender.Female && !this.titleShortFemale.NullOrEmpty())
 			{
-				result = this.titleShortFemale;
+				return this.titleShortFemale;
 			}
-			else if (!this.titleShort.NullOrEmpty())
+			if (!this.titleShort.NullOrEmpty())
 			{
-				result = this.titleShort;
+				return this.titleShort;
 			}
-			else
-			{
-				result = this.TitleFor(g);
-			}
-			return result;
+			return this.TitleFor(g);
 		}
 
 		public string TitleShortCapFor(Gender g)
@@ -178,20 +178,15 @@ namespace RimWorld
 
 		public BodyTypeDef BodyTypeFor(Gender g)
 		{
-			BodyTypeDef result;
 			if (this.bodyTypeGlobalResolved != null || g == Gender.None)
 			{
-				result = this.bodyTypeGlobalResolved;
+				return this.bodyTypeGlobalResolved;
 			}
-			else if (g == Gender.Female)
+			if (g == Gender.Female)
 			{
-				result = this.bodyTypeFemaleResolved;
+				return this.bodyTypeFemaleResolved;
 			}
-			else
-			{
-				result = this.bodyTypeMaleResolved;
-			}
-			return result;
+			return this.bodyTypeMaleResolved;
 		}
 
 		public string FullDescriptionFor(Pawn p)
@@ -225,7 +220,8 @@ namespace RimWorld
 					"DisabledLower".Translate()
 				}));
 			}
-			return stringBuilder.ToString().TrimEndNewlines();
+			string desc = stringBuilder.ToString().TrimEndNewlines();
+			return Find.ActiveLanguageWorker.PostProcessedBackstoryDescription(desc);
 		}
 
 		private bool AllowsWorkType(WorkTypeDef workType)
@@ -264,6 +260,7 @@ namespace RimWorld
 			this.untranslatedTitleShortFemale = this.titleShortFemale;
 			this.untranslatedDesc = this.baseDesc;
 			this.baseDesc = this.baseDesc.TrimEnd(new char[0]);
+			this.baseDesc = this.baseDesc.Replace("\r", string.Empty);
 		}
 
 		public void ResolveReferences()
@@ -289,20 +286,17 @@ namespace RimWorld
 			{
 				this.bodyTypeMaleResolved = DefDatabase<BodyTypeDef>.GetNamed(this.bodyTypeMale, true);
 			}
-			if (this.slot == BackstorySlot.Adulthood)
+			if (this.slot == BackstorySlot.Adulthood && this.bodyTypeGlobalResolved == null)
 			{
-				if (this.bodyTypeGlobalResolved == null)
+				if (this.bodyTypeMaleResolved == null)
 				{
-					if (this.bodyTypeMaleResolved == null)
-					{
-						Log.Error("Adulthood backstory " + this.title + " is missing male body type. Defaulting...", false);
-						this.bodyTypeMaleResolved = BodyTypeDefOf.Male;
-					}
-					if (this.bodyTypeFemaleResolved == null)
-					{
-						Log.Error("Adulthood backstory " + this.title + " is missing female body type. Defaulting...", false);
-						this.bodyTypeFemaleResolved = BodyTypeDefOf.Female;
-					}
+					Log.Error("Adulthood backstory " + this.title + " is missing male body type. Defaulting...", false);
+					this.bodyTypeMaleResolved = BodyTypeDefOf.Male;
+				}
+				if (this.bodyTypeFemaleResolved == null)
+				{
+					Log.Error("Adulthood backstory " + this.title + " is missing female body type. Defaulting...", false);
+					this.bodyTypeFemaleResolved = BodyTypeDefOf.Female;
 				}
 			}
 		}
@@ -374,16 +368,11 @@ namespace RimWorld
 
 		public override string ToString()
 		{
-			string result;
 			if (this.title.NullOrEmpty())
 			{
-				result = "(NullTitleBackstory)";
+				return "(NullTitleBackstory)";
 			}
-			else
-			{
-				result = "(" + this.title + ")";
-			}
-			return result;
+			return "(" + this.title + ")";
 		}
 
 		public override int GetHashCode()
@@ -422,7 +411,7 @@ namespace RimWorld
 					i = 0;
 					break;
 				case 1u:
-					IL_86:
+					IL_84:
 					i++;
 					break;
 				default:
@@ -443,7 +432,7 @@ namespace RimWorld
 						}
 						return true;
 					}
-					goto IL_86;
+					goto IL_84;
 				}
 				return false;
 			}
@@ -529,7 +518,7 @@ namespace RimWorld
 					i = 0;
 					break;
 				case 1u:
-					IL_86:
+					IL_84:
 					i++;
 					break;
 				default:
@@ -550,7 +539,7 @@ namespace RimWorld
 						}
 						return true;
 					}
-					goto IL_86;
+					goto IL_84;
 				}
 				return false;
 			}
@@ -652,55 +641,21 @@ namespace RimWorld
 				case 1u:
 					break;
 				case 2u:
-					goto IL_CC;
+					goto IL_CB;
 				case 3u:
-					goto IL_117;
+					goto IL_116;
 				case 4u:
-					goto IL_156;
+					goto IL_155;
 				case 5u:
-					goto IL_1AB;
+					goto IL_1AA;
 				case 6u:
-					goto IL_1FB;
+					goto IL_1F9;
 				case 7u:
-					goto IL_246;
+					goto IL_244;
 				case 8u:
-					Block_21:
-					try
-					{
-						switch (num)
-						{
-						case 8u:
-							IL_2F0:
-							break;
-						}
-						if (enumerator.MoveNext())
-						{
-							kvp = enumerator.Current;
-							if (kvp.Key.IsDisabled(this.workDisables, base.DisabledWorkTypes))
-							{
-								this.$current = "modifies skill " + kvp.Key + " but also disables this skill";
-								if (!this.$disposing)
-								{
-									this.$PC = 8;
-								}
-								flag = true;
-								return true;
-							}
-							goto IL_2F0;
-						}
-					}
-					finally
-					{
-						if (!flag)
-						{
-							((IDisposable)enumerator).Dispose();
-						}
-					}
-					enumerator2 = BackstoryDatabase.allBackstories.GetEnumerator();
-					num = 4294967293u;
-					goto Block_22;
+					goto IL_267;
 				case 9u:
-					goto IL_330;
+					goto IL_328;
 				default:
 					return false;
 				}
@@ -713,7 +668,7 @@ namespace RimWorld
 					}
 					return true;
 				}
-				IL_CC:
+				IL_CB:
 				if ((this.workDisables & WorkTags.Violent) != WorkTags.None && this.spawnCategories.Contains("Raider"))
 				{
 					this.$current = "cannot do Violent work but can spawn as a raider";
@@ -723,7 +678,7 @@ namespace RimWorld
 					}
 					return true;
 				}
-				IL_117:
+				IL_116:
 				if (this.spawnCategories.Count == 0 && !ignoreNoSpawnCategories)
 				{
 					this.$current = "no spawn categories";
@@ -733,7 +688,7 @@ namespace RimWorld
 					}
 					return true;
 				}
-				IL_156:
+				IL_155:
 				if (this.spawnCategories.Count == 1 && this.spawnCategories[0] == "Trader")
 				{
 					this.$current = "only Trader spawn category";
@@ -743,10 +698,10 @@ namespace RimWorld
 					}
 					return true;
 				}
-				IL_1AB:
+				IL_1AA:
 				if (this.baseDesc.NullOrEmpty())
 				{
-					goto IL_247;
+					goto IL_244;
 				}
 				if (char.IsWhiteSpace(this.baseDesc[0]))
 				{
@@ -757,7 +712,7 @@ namespace RimWorld
 					}
 					return true;
 				}
-				IL_1FB:
+				IL_1F9:
 				if (char.IsWhiteSpace(this.baseDesc[this.baseDesc.Length - 1]))
 				{
 					this.$current = "baseDesc ends with whitespace";
@@ -767,26 +722,50 @@ namespace RimWorld
 					}
 					return true;
 				}
-				IL_246:
-				IL_247:
-				if (Prefs.DevMode)
+				IL_244:
+				if (!Prefs.DevMode)
 				{
-					enumerator = this.skillGainsResolved.GetEnumerator();
-					num = 4294967293u;
-					goto Block_21;
+					goto IL_3E3;
 				}
-				goto IL_3EE;
-				Block_22:
+				enumerator = this.skillGainsResolved.GetEnumerator();
+				num = 4294967293u;
 				try
 				{
-					IL_330:
+					IL_267:
 					switch (num)
 					{
-					case 9u:
-						IL_3C1:
-						break;
 					}
-					if (enumerator2.MoveNext())
+					while (enumerator.MoveNext())
+					{
+						kvp = enumerator.Current;
+						if (kvp.Key.IsDisabled(this.workDisables, base.DisabledWorkTypes))
+						{
+							this.$current = "modifies skill " + kvp.Key + " but also disables this skill";
+							if (!this.$disposing)
+							{
+								this.$PC = 8;
+							}
+							flag = true;
+							return true;
+						}
+					}
+				}
+				finally
+				{
+					if (!flag)
+					{
+						((IDisposable)enumerator).Dispose();
+					}
+				}
+				enumerator2 = BackstoryDatabase.allBackstories.GetEnumerator();
+				num = 4294967293u;
+				try
+				{
+					IL_328:
+					switch (num)
+					{
+					}
+					while (enumerator2.MoveNext())
 					{
 						kvp2 = enumerator2.Current;
 						if (kvp2.Value != this && kvp2.Value.identifier == this.identifier)
@@ -799,7 +778,6 @@ namespace RimWorld
 							flag = true;
 							return true;
 						}
-						goto IL_3C1;
 					}
 				}
 				finally
@@ -809,7 +787,7 @@ namespace RimWorld
 						((IDisposable)enumerator2).Dispose();
 					}
 				}
-				IL_3EE:
+				IL_3E3:
 				this.$PC = -1;
 				return false;
 			}

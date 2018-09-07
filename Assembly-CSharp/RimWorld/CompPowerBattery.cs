@@ -11,7 +11,7 @@ namespace RimWorld
 {
 	public class CompPowerBattery : CompPower
 	{
-		private float storedEnergy = 0f;
+		private float storedEnergy;
 
 		private const float SelfDischargingWatts = 5f;
 
@@ -23,17 +23,12 @@ namespace RimWorld
 		{
 			get
 			{
-				float result;
 				if (this.parent.IsBrokenDown())
 				{
-					result = 0f;
+					return 0f;
 				}
-				else
-				{
-					CompProperties_Battery props = this.Props;
-					result = (props.storedEnergyMax - this.storedEnergy) / props.efficiency;
-				}
-				return result;
+				CompProperties_Battery props = this.Props;
+				return (props.storedEnergyMax - this.storedEnergy) / props.efficiency;
 			}
 		}
 
@@ -83,16 +78,14 @@ namespace RimWorld
 			if (amount < 0f)
 			{
 				Log.Error("Cannot add negative energy " + amount, false);
+				return;
 			}
-			else
+			if (amount > this.AmountCanAccept)
 			{
-				if (amount > this.AmountCanAccept)
-				{
-					amount = this.AmountCanAccept;
-				}
-				amount *= this.Props.efficiency;
-				this.storedEnergy += amount;
+				amount = this.AmountCanAccept;
 			}
+			amount *= this.Props.efficiency;
+			this.storedEnergy += amount;
 		}
 
 		public void DrawPower(float amount)
@@ -159,7 +152,7 @@ namespace RimWorld
 
 		public override IEnumerable<Gizmo> CompGetGizmosExtra()
 		{
-			foreach (Gizmo c in this.<CompGetGizmosExtra>__BaseCallProxy0())
+			foreach (Gizmo c in base.CompGetGizmosExtra())
 			{
 				yield return c;
 			}
@@ -245,7 +238,7 @@ namespace RimWorld
 					return true;
 				}
 				case 3u:
-					goto IL_16C;
+					goto IL_166;
 				default:
 					return false;
 				}
@@ -291,7 +284,7 @@ namespace RimWorld
 					}
 					return true;
 				}
-				IL_16C:
+				IL_166:
 				this.$PC = -1;
 				return false;
 			}

@@ -41,7 +41,7 @@ namespace RimWorld
 		protected override IEnumerable<Toil> MakeNewToils()
 		{
 			this.FailOn(() => base.Building == null || !base.Building.DeconstructibleBy(this.pawn.Faction));
-			foreach (Toil t in this.<MakeNewToils>__BaseCallProxy0())
+			foreach (Toil t in base.MakeNewToils())
 			{
 				yield return t;
 			}
@@ -58,7 +58,7 @@ namespace RimWorld
 		{
 			if (base.Building.def.CostListAdjusted(base.Building.Stuff, true).Count > 0)
 			{
-				this.pawn.skills.Learn(SkillDefOf.Construction, 0.275f, false);
+				this.pawn.skills.Learn(SkillDefOf.Construction, 0.25f, false);
 			}
 		}
 

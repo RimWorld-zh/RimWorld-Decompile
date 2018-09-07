@@ -28,16 +28,11 @@ namespace RimWorld
 		private Job TryGiveJobInternal(Pawn pawn, Predicate<Thing> extraValidator)
 		{
 			Thing thing = this.BestIngestItem(pawn, extraValidator);
-			Job result;
 			if (thing != null)
 			{
-				result = this.CreateIngestJob(thing, pawn);
+				return this.CreateIngestJob(thing, pawn);
 			}
-			else
-			{
-				result = null;
-			}
-			return result;
+			return null;
 		}
 
 		protected virtual Thing BestIngestItem(Pawn pawn, Predicate<Thing> extraValidator)
@@ -70,43 +65,38 @@ namespace RimWorld
 
 		protected virtual bool CanIngestForJoy(Pawn pawn, Thing t)
 		{
-			bool result;
 			if (!t.def.IsIngestible || t.def.ingestible.joyKind == null || t.def.ingestible.joy <= 0f)
 			{
-				result = false;
+				return false;
 			}
-			else
+			if (t.Spawned)
 			{
-				if (t.Spawned)
+				if (!pawn.CanReserve(t, 1, -1, null, false))
 				{
-					if (!pawn.CanReserve(t, 1, -1, null, false))
-					{
-						return false;
-					}
-					if (t.IsForbidden(pawn))
-					{
-						return false;
-					}
-					if (!t.IsSociallyProper(pawn))
-					{
-						return false;
-					}
-					if (!t.IsPoliticallyProper(pawn))
-					{
-						return false;
-					}
+					return false;
 				}
-				if (t.def.IsDrug && pawn.drugs != null && !pawn.drugs.CurrentPolicy[t.def].allowedForJoy && pawn.story != null)
+				if (t.IsForbidden(pawn))
 				{
-					int num = pawn.story.traits.DegreeOfTrait(TraitDefOf.DrugDesire);
-					if (num <= 0 && !pawn.InMentalState)
-					{
-						return false;
-					}
+					return false;
 				}
-				result = true;
+				if (!t.IsSociallyProper(pawn))
+				{
+					return false;
+				}
+				if (!t.IsPoliticallyProper(pawn))
+				{
+					return false;
+				}
 			}
-			return result;
+			if (t.def.IsDrug && pawn.drugs != null && !pawn.drugs.CurrentPolicy[t.def].allowedForJoy && pawn.story != null)
+			{
+				int num = pawn.story.traits.DegreeOfTrait(TraitDefOf.DrugDesire);
+				if (num <= 0 && !pawn.InMentalState)
+				{
+					return false;
+				}
+			}
+			return true;
 		}
 
 		protected virtual bool SearchSetWouldInclude(Thing thing)

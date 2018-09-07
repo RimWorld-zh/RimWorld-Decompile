@@ -21,19 +21,19 @@ namespace Verse
 
 		public static Def GetDefSilentFail(Type type, string targetDefName, bool specialCaseForSoundDefs = true)
 		{
-			Def result;
 			if (specialCaseForSoundDefs && type == typeof(SoundDef))
 			{
-				result = SoundDef.Named(targetDefName);
+				return SoundDef.Named(targetDefName);
 			}
-			else
+			return (Def)GenGeneric.InvokeStaticMethodOnGenericType(typeof(DefDatabase<>), type, "GetNamedSilentFail", new object[]
 			{
-				result = (Def)GenGeneric.InvokeStaticMethodOnGenericType(typeof(DefDatabase<>), type, "GetNamedSilentFail", new object[]
-				{
-					targetDefName
-				});
-			}
-			return result;
+				targetDefName
+			});
+		}
+
+		public static IEnumerable<Def> GetAllDefsInDatabaseForDef(Type defType)
+		{
+			return ((IEnumerable)GenGeneric.GetStaticPropertyOnGenericType(typeof(DefDatabase<>), defType, "AllDefs")).Cast<Def>();
 		}
 
 		public static IEnumerable<Type> AllDefTypesWithDatabases()

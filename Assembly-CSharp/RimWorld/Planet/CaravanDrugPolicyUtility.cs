@@ -27,19 +27,20 @@ namespace RimWorld.Planet
 
 		private static void TryTakeScheduledDrugs(Pawn pawn, Caravan caravan)
 		{
-			if (pawn.drugs != null)
+			if (pawn.drugs == null)
 			{
-				DrugPolicy currentPolicy = pawn.drugs.CurrentPolicy;
-				for (int i = 0; i < currentPolicy.Count; i++)
+				return;
+			}
+			DrugPolicy currentPolicy = pawn.drugs.CurrentPolicy;
+			for (int i = 0; i < currentPolicy.Count; i++)
+			{
+				if (pawn.drugs.ShouldTryToTakeScheduledNow(currentPolicy[i].drug))
 				{
-					if (pawn.drugs.ShouldTryToTakeScheduledNow(currentPolicy[i].drug))
+					Thing drug;
+					Pawn drugOwner;
+					if (CaravanInventoryUtility.TryGetThingOfDef(caravan, currentPolicy[i].drug, out drug, out drugOwner))
 					{
-						Thing drug;
-						Pawn drugOwner;
-						if (CaravanInventoryUtility.TryGetThingOfDef(caravan, currentPolicy[i].drug, out drug, out drugOwner))
-						{
-							caravan.needs.IngestDrug(pawn, drug, drugOwner);
-						}
+						caravan.needs.IngestDrug(pawn, drug, drugOwner);
 					}
 				}
 			}

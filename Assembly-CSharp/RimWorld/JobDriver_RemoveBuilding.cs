@@ -11,9 +11,9 @@ namespace RimWorld
 {
 	public abstract class JobDriver_RemoveBuilding : JobDriver
 	{
-		private float workLeft = 0f;
+		private float workLeft;
 
-		private float totalNeededWork = 0f;
+		private float totalNeededWork;
 
 		protected JobDriver_RemoveBuilding()
 		{
@@ -46,9 +46,12 @@ namespace RimWorld
 			Scribe_Values.Look<float>(ref this.totalNeededWork, "totalNeededWork", 0f, false);
 		}
 
-		public override bool TryMakePreToilReservations()
+		public override bool TryMakePreToilReservations(bool errorOnFailed)
 		{
-			return this.pawn.Reserve(this.Target, this.job, 1, -1, null);
+			Pawn pawn = this.pawn;
+			LocalTargetInfo target = this.Target;
+			Job job = this.job;
+			return pawn.Reserve(target, job, 1, -1, null, errorOnFailed);
 		}
 
 		protected override IEnumerable<Toil> MakeNewToils()

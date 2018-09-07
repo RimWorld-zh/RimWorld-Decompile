@@ -86,24 +86,12 @@ namespace RimWorld
 
 		public override bool CanCoexistWith(ScenPart other)
 		{
-			bool result;
 			if (this.gameCondition == null)
 			{
-				result = true;
+				return true;
 			}
-			else
-			{
-				ScenPart_PermaGameCondition scenPart_PermaGameCondition = other as ScenPart_PermaGameCondition;
-				if (scenPart_PermaGameCondition != null)
-				{
-					if (!this.gameCondition.CanCoexistWith(scenPart_PermaGameCondition.gameCondition))
-					{
-						return false;
-					}
-				}
-				result = true;
-			}
-			return result;
+			ScenPart_PermaGameCondition scenPart_PermaGameCondition = other as ScenPart_PermaGameCondition;
+			return scenPart_PermaGameCondition == null || this.gameCondition.CanCoexistWith(scenPart_PermaGameCondition.gameCondition);
 		}
 
 		[CompilerGenerated]

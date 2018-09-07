@@ -5,7 +5,7 @@ namespace Verse.AI.Group
 {
 	public class LordToil_Travel : LordToil
 	{
-		public Danger maxDanger = Danger.Unspecified;
+		public Danger maxDanger;
 
 		public LordToil_Travel(IntVec3 dest)
 		{

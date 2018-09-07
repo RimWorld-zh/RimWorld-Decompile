@@ -12,7 +12,7 @@ namespace Verse
 
 		private const float GrowthModeChangeMtbDays = 100f;
 
-		public HediffGrowthMode growthMode = HediffGrowthMode.Growing;
+		public HediffGrowthMode growthMode;
 
 		private float severityPerDayGrowingRandomFactor = 1f;
 
@@ -65,22 +65,17 @@ namespace Verse
 
 		protected override float SeverityChangePerDay()
 		{
-			float result;
 			switch (this.growthMode)
 			{
 			case HediffGrowthMode.Growing:
-				result = this.Props.severityPerDayGrowing * this.severityPerDayGrowingRandomFactor;
-				break;
+				return this.Props.severityPerDayGrowing * this.severityPerDayGrowingRandomFactor;
 			case HediffGrowthMode.Stable:
-				result = 0f;
-				break;
+				return 0f;
 			case HediffGrowthMode.Remission:
-				result = this.Props.severityPerDayRemission * this.severityPerDayRemissionRandomFactor;
-				break;
+				return this.Props.severityPerDayRemission * this.severityPerDayRemissionRandomFactor;
 			default:
 				throw new NotImplementedException("GrowthMode");
 			}
-			return result;
 		}
 
 		private void ChangeGrowthMode()
@@ -128,7 +123,7 @@ namespace Verse
 		{
 			StringBuilder stringBuilder = new StringBuilder();
 			stringBuilder.Append(base.CompDebugString());
-			stringBuilder.AppendLine("severity: " + this.parent.Severity.ToString("F3") + ((this.parent.Severity < base.Def.maxSeverity) ? "" : " (reached max)"));
+			stringBuilder.AppendLine("severity: " + this.parent.Severity.ToString("F3") + ((this.parent.Severity < base.Def.maxSeverity) ? string.Empty : " (reached max)"));
 			stringBuilder.AppendLine("severityPerDayGrowingRandomFactor: " + this.severityPerDayGrowingRandomFactor.ToString("0.##"));
 			stringBuilder.AppendLine("severityPerDayRemissionRandomFactor: " + this.severityPerDayRemissionRandomFactor.ToString("0.##"));
 			return stringBuilder.ToString();

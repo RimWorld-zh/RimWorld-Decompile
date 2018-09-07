@@ -13,7 +13,7 @@ namespace Verse
 
 		private Region[] regionGrid;
 
-		private int curCleanIndex = 0;
+		private int curCleanIndex;
 
 		public List<Room> allRooms = new List<Room>();
 
@@ -99,53 +99,37 @@ namespace Verse
 
 		public Region GetValidRegionAt(IntVec3 c)
 		{
-			Region result;
 			if (!c.InBounds(this.map))
 			{
 				Log.Error("Tried to get valid region out of bounds at " + c, false);
-				result = null;
+				return null;
 			}
-			else
+			if (!this.map.regionAndRoomUpdater.Enabled && this.map.regionAndRoomUpdater.AnythingToRebuild)
 			{
-				if (!this.map.regionAndRoomUpdater.Enabled && this.map.regionAndRoomUpdater.AnythingToRebuild)
-				{
-					Log.Warning("Trying to get valid region at " + c + " but RegionAndRoomUpdater is disabled. The result may be incorrect.", false);
-				}
-				this.map.regionAndRoomUpdater.TryRebuildDirtyRegionsAndRooms();
-				Region region = this.regionGrid[this.map.cellIndices.CellToIndex(c)];
-				if (region != null && region.valid)
-				{
-					result = region;
-				}
-				else
-				{
-					result = null;
-				}
+				Log.Warning("Trying to get valid region at " + c + " but RegionAndRoomUpdater is disabled. The result may be incorrect.", false);
 			}
-			return result;
+			this.map.regionAndRoomUpdater.TryRebuildDirtyRegionsAndRooms();
+			Region region = this.regionGrid[this.map.cellIndices.CellToIndex(c)];
+			if (region != null && region.valid)
+			{
+				return region;
+			}
+			return null;
 		}
 
 		public Region GetValidRegionAt_NoRebuild(IntVec3 c)
 		{
-			Region result;
 			if (!c.InBounds(this.map))
 			{
 				Log.Error("Tried to get valid region out of bounds at " + c, false);
-				result = null;
+				return null;
 			}
-			else
+			Region region = this.regionGrid[this.map.cellIndices.CellToIndex(c)];
+			if (region != null && region.valid)
 			{
-				Region region = this.regionGrid[this.map.cellIndices.CellToIndex(c)];
-				if (region != null && region.valid)
-				{
-					result = region;
-				}
-				else
-				{
-					result = null;
-				}
+				return region;
 			}
-			return result;
+			return null;
 		}
 
 		public Region GetRegionAt_NoRebuild_InvalidAllowed(IntVec3 c)
@@ -177,49 +161,50 @@ namespace Verse
 
 		public void DebugDraw()
 		{
-			if (this.map == Find.CurrentMap)
+			if (this.map != Find.CurrentMap)
 			{
-				if (DebugViewSettings.drawRegionTraversal)
+				return;
+			}
+			if (DebugViewSettings.drawRegionTraversal)
+			{
+				CellRect currentViewRect = Find.CameraDriver.CurrentViewRect;
+				currentViewRect.ClipInsideMap(this.map);
+				foreach (IntVec3 c in currentViewRect)
 				{
-					CellRect currentViewRect = Find.CameraDriver.CurrentViewRect;
-					currentViewRect.ClipInsideMap(this.map);
-					foreach (IntVec3 c in currentViewRect)
+					Region validRegionAt = this.GetValidRegionAt(c);
+					if (validRegionAt != null && !this.drawnRegions.Contains(validRegionAt))
 					{
-						Region validRegionAt = this.GetValidRegionAt(c);
-						if (validRegionAt != null && !this.drawnRegions.Contains(validRegionAt))
-						{
-							validRegionAt.DebugDraw();
-							this.drawnRegions.Add(validRegionAt);
-						}
+						validRegionAt.DebugDraw();
+						this.drawnRegions.Add(validRegionAt);
 					}
-					this.drawnRegions.Clear();
 				}
-				IntVec3 intVec = UI.MouseCell();
-				if (intVec.InBounds(this.map))
+				this.drawnRegions.Clear();
+			}
+			IntVec3 intVec = UI.MouseCell();
+			if (intVec.InBounds(this.map))
+			{
+				if (DebugViewSettings.drawRooms)
 				{
-					if (DebugViewSettings.drawRooms)
+					Room room = intVec.GetRoom(this.map, RegionType.Set_All);
+					if (room != null)
 					{
-						Room room = intVec.GetRoom(this.map, RegionType.Set_All);
-						if (room != null)
-						{
-							room.DebugDraw();
-						}
+						room.DebugDraw();
 					}
-					if (DebugViewSettings.drawRoomGroups)
+				}
+				if (DebugViewSettings.drawRoomGroups)
+				{
+					RoomGroup roomGroup = intVec.GetRoomGroup(this.map);
+					if (roomGroup != null)
 					{
-						RoomGroup roomGroup = intVec.GetRoomGroup(this.map);
-						if (roomGroup != null)
-						{
-							roomGroup.DebugDraw();
-						}
+						roomGroup.DebugDraw();
 					}
-					if (DebugViewSettings.drawRegions || DebugViewSettings.drawRegionLinks || DebugViewSettings.drawRegionThings)
+				}
+				if (DebugViewSettings.drawRegions || DebugViewSettings.drawRegionLinks || DebugViewSettings.drawRegionThings)
+				{
+					Region regionAt_NoRebuild_InvalidAllowed = this.GetRegionAt_NoRebuild_InvalidAllowed(intVec);
+					if (regionAt_NoRebuild_InvalidAllowed != null)
 					{
-						Region regionAt_NoRebuild_InvalidAllowed = this.GetRegionAt_NoRebuild_InvalidAllowed(intVec);
-						if (regionAt_NoRebuild_InvalidAllowed != null)
-						{
-							regionAt_NoRebuild_InvalidAllowed.DebugDrawMouseover();
-						}
+						regionAt_NoRebuild_InvalidAllowed.DebugDrawMouseover();
 					}
 				}
 			}
@@ -276,11 +261,11 @@ namespace Verse
 					default:
 						count = this.map.cellIndices.NumGridCells;
 						i = 0;
-						goto IL_FA;
+						goto IL_F4;
 					}
-					IL_EB:
+					IL_E6:
 					i++;
-					IL_FA:
+					IL_F4:
 					if (i < count)
 					{
 						if (this.regionGrid[i] != null && !RegionGrid.allRegionsYielded.Contains(this.regionGrid[i]))
@@ -293,7 +278,7 @@ namespace Verse
 							flag = true;
 							return true;
 						}
-						goto IL_EB;
+						goto IL_E6;
 					}
 				}
 				finally
@@ -426,11 +411,11 @@ namespace Verse
 					default:
 						count = this.map.cellIndices.NumGridCells;
 						i = 0;
-						goto IL_16C;
+						goto IL_164;
 					}
-					IL_15D:
+					IL_156:
 					i++;
-					IL_16C:
+					IL_164:
 					if (i < count)
 					{
 						if (this.regionGrid[i] != null && this.regionGrid[i].valid && !RegionGrid.allRegionsYielded.Contains(this.regionGrid[i]))
@@ -443,7 +428,7 @@ namespace Verse
 							flag = true;
 							return true;
 						}
-						goto IL_15D;
+						goto IL_156;
 					}
 				}
 				finally

@@ -7,10 +7,10 @@ namespace RimWorld
 	public class StatPart_GearAndInventoryMass : StatPart
 	{
 		[CompilerGenerated]
-		private static Func<Pawn, float> <>f__am$cache0;
+		private static Func<Pawn, float> <>f__mg$cache0;
 
 		[CompilerGenerated]
-		private static Func<ThingDef, float> <>f__am$cache1;
+		private static Func<ThingDef, float> <>f__am$cache0;
 
 		public StatPart_GearAndInventoryMass()
 		{
@@ -28,31 +28,24 @@ namespace RimWorld
 		public override string ExplanationPart(StatRequest req)
 		{
 			float mass;
-			string result;
 			if (this.TryGetValue(req, out mass))
 			{
-				result = "StatsReport_GearAndInventoryMass".Translate() + ": " + mass.ToStringMassOffset();
+				return "StatsReport_GearAndInventoryMass".Translate() + ": " + mass.ToStringMassOffset();
 			}
-			else
-			{
-				result = null;
-			}
-			return result;
+			return null;
 		}
 
 		private bool TryGetValue(StatRequest req, out float value)
 		{
-			return PawnOrCorpseStatUtility.TryGetPawnOrCorpseStat(req, (Pawn x) => MassUtility.GearAndInventoryMass(x), (ThingDef x) => 0f, out value);
+			if (StatPart_GearAndInventoryMass.<>f__mg$cache0 == null)
+			{
+				StatPart_GearAndInventoryMass.<>f__mg$cache0 = new Func<Pawn, float>(MassUtility.GearAndInventoryMass);
+			}
+			return PawnOrCorpseStatUtility.TryGetPawnOrCorpseStat(req, StatPart_GearAndInventoryMass.<>f__mg$cache0, (ThingDef x) => 0f, out value);
 		}
 
 		[CompilerGenerated]
-		private static float <TryGetValue>m__0(Pawn x)
-		{
-			return MassUtility.GearAndInventoryMass(x);
-		}
-
-		[CompilerGenerated]
-		private static float <TryGetValue>m__1(ThingDef x)
+		private static float <TryGetValue>m__0(ThingDef x)
 		{
 			return 0f;
 		}

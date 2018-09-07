@@ -125,25 +125,20 @@ namespace Verse
 
 		public ModContentHolder<T> GetContentHolder<T>() where T : class
 		{
-			ModContentHolder<T> result;
 			if (typeof(T) == typeof(Texture2D))
 			{
-				result = (ModContentHolder<T>)this.textures;
+				return (ModContentHolder<T>)this.textures;
 			}
-			else if (typeof(T) == typeof(AudioClip))
+			if (typeof(T) == typeof(AudioClip))
 			{
-				result = (ModContentHolder<T>)this.audioClips;
+				return (ModContentHolder<T>)this.audioClips;
 			}
-			else if (typeof(T) == typeof(string))
+			if (typeof(T) == typeof(string))
 			{
-				result = (ModContentHolder<T>)this.strings;
+				return (ModContentHolder<T>)this.strings;
 			}
-			else
-			{
-				Log.Error("Mod lacks manager for asset type " + this.strings, false);
-				result = null;
-			}
-			return result;
+			Log.Error("Mod lacks manager for asset type " + this.strings, false);
+			return null;
 		}
 
 		public void ReloadContent()
@@ -176,19 +171,14 @@ namespace Verse
 		public IEnumerable<DefPackage> GetDefPackagesInFolder(string relFolder)
 		{
 			string path = Path.Combine(Path.Combine(this.RootDir, "Defs/"), relFolder);
-			IEnumerable<DefPackage> result;
 			if (!Directory.Exists(path))
 			{
-				result = Enumerable.Empty<DefPackage>();
+				return Enumerable.Empty<DefPackage>();
 			}
-			else
-			{
-				string fullPath = Path.GetFullPath(path);
-				result = from x in this.defPackages
-				where x.GetFullFolderPath(this).StartsWith(fullPath)
-				select x;
-			}
-			return result;
+			string fullPath = Path.GetFullPath(path);
+			return from x in this.defPackages
+			where x.GetFullFolderPath(this).StartsWith(fullPath)
+			select x;
 		}
 
 		public void AddDefPackage(DefPackage defPackage)
@@ -241,7 +231,7 @@ namespace Verse
 		{
 			if (this.impliedDefPackage == null)
 			{
-				this.impliedDefPackage = new DefPackage("ImpliedDefs", "");
+				this.impliedDefPackage = new DefPackage("ImpliedDefs", string.Empty);
 				this.defPackages.Add(this.impliedDefPackage);
 			}
 			this.impliedDefPackage.AddDef(def);

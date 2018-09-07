@@ -35,41 +35,31 @@ namespace Verse.Sound
 
 		private float ImportanceOf(SoundDef def, SoundInfo info, float ageRealTime)
 		{
-			float result;
 			if (def.priorityMode == VoicePriorityMode.PrioritizeNearest)
 			{
-				result = 1f / (this.CameraDistanceSquaredOf(info) + 1f);
+				return 1f / (this.CameraDistanceSquaredOf(info) + 1f);
 			}
-			else
+			if (def.priorityMode == VoicePriorityMode.PrioritizeNewest)
 			{
-				if (def.priorityMode != VoicePriorityMode.PrioritizeNewest)
-				{
-					throw new NotImplementedException();
-				}
-				result = 1f / (ageRealTime + 1f);
+				return 1f / (ageRealTime + 1f);
 			}
-			return result;
+			throw new NotImplementedException();
 		}
 
 		public bool CanAddPlayingOneShot(SoundDef def, SoundInfo info)
 		{
-			bool result;
 			if (!SoundDefHelper.CorrectContextNow(def, info.Maker.Map))
 			{
-				result = false;
+				return false;
 			}
-			else if ((from s in this.samples
+			if ((from s in this.samples
 			where s.subDef.parentDef == def && s.AgeRealTime < 0.05f
 			select s).Count<SampleOneShot>() >= def.MaxSimultaneousSamples)
 			{
-				result = false;
+				return false;
 			}
-			else
-			{
-				SampleOneShot sampleOneShot = this.LeastImportantOf(def);
-				result = (sampleOneShot == null || this.ImportanceOf(def, info, 0f) >= this.ImportanceOf(sampleOneShot));
-			}
-			return result;
+			SampleOneShot sampleOneShot = this.LeastImportantOf(def);
+			return sampleOneShot == null || this.ImportanceOf(def, info, 0f) >= this.ImportanceOf(sampleOneShot);
 		}
 
 		public void TryAddPlayingOneShot(SampleOneShot newSample)
@@ -92,12 +82,9 @@ namespace Verse.Sound
 			for (int i = 0; i < this.samples.Count; i++)
 			{
 				SampleOneShot sampleOneShot2 = this.samples[i];
-				if (sampleOneShot2.subDef.parentDef == def)
+				if (sampleOneShot2.subDef.parentDef == def && (sampleOneShot == null || this.ImportanceOf(sampleOneShot2) < this.ImportanceOf(sampleOneShot)))
 				{
-					if (sampleOneShot == null || this.ImportanceOf(sampleOneShot2) < this.ImportanceOf(sampleOneShot))
-					{
-						sampleOneShot = sampleOneShot2;
-					}
+					sampleOneShot = sampleOneShot2;
 				}
 			}
 			return sampleOneShot;

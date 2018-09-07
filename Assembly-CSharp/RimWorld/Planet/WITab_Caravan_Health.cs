@@ -75,16 +75,11 @@ namespace RimWorld.Planet
 			get
 			{
 				this.EnsureSpecificHealthTabForPawnValid();
-				float result;
 				if (this.specificHealthTabForPawn.DestroyedOrNull())
 				{
-					result = 0f;
+					return 0f;
 				}
-				else
-				{
-					result = 630f;
-				}
-				return result;
+				return 630f;
 			}
 		}
 
@@ -133,15 +128,16 @@ namespace RimWorld.Planet
 				Rect rect = new Rect(tabRect.xMax - 1f, tabRect.yMin, specificHealthTabWidth, tabRect.height);
 				Find.WindowStack.ImmediateWindow(1439870015, rect, WindowLayer.GameUI, delegate
 				{
-					if (!localSpecificHealthTabForPawn.DestroyedOrNull())
+					if (localSpecificHealthTabForPawn.DestroyedOrNull())
 					{
-						Rect outRect = new Rect(0f, 20f, rect.width, rect.height - 20f);
-						HealthCardUtility.DrawPawnHealthCard(outRect, localSpecificHealthTabForPawn, false, true, localSpecificHealthTabForPawn);
-						if (Widgets.CloseButtonFor(rect.AtZero()))
-						{
-							this.specificHealthTabForPawn = null;
-							SoundDefOf.TabClose.PlayOneShotOnCamera(null);
-						}
+						return;
+					}
+					Rect outRect = new Rect(0f, 20f, rect.width, rect.height - 20f);
+					HealthCardUtility.DrawPawnHealthCard(outRect, localSpecificHealthTabForPawn, false, true, localSpecificHealthTabForPawn);
+					if (Widgets.CloseButtonFor(rect.AtZero()))
+					{
+						this.specificHealthTabForPawn = null;
+						SoundDefOf.TabClose.PlayOneShotOnCamera(null);
 					}
 				}, true, false, 1f);
 			}
@@ -374,15 +370,16 @@ namespace RimWorld.Planet
 
 			internal void <>m__0()
 			{
-				if (!this.<>f__ref$0.localSpecificHealthTabForPawn.DestroyedOrNull())
+				if (this.<>f__ref$0.localSpecificHealthTabForPawn.DestroyedOrNull())
 				{
-					Rect outRect = new Rect(0f, 20f, this.rect.width, this.rect.height - 20f);
-					HealthCardUtility.DrawPawnHealthCard(outRect, this.<>f__ref$0.localSpecificHealthTabForPawn, false, true, this.<>f__ref$0.localSpecificHealthTabForPawn);
-					if (Widgets.CloseButtonFor(this.rect.AtZero()))
-					{
-						this.<>f__ref$0.$this.specificHealthTabForPawn = null;
-						SoundDefOf.TabClose.PlayOneShotOnCamera(null);
-					}
+					return;
+				}
+				Rect outRect = new Rect(0f, 20f, this.rect.width, this.rect.height - 20f);
+				HealthCardUtility.DrawPawnHealthCard(outRect, this.<>f__ref$0.localSpecificHealthTabForPawn, false, true, this.<>f__ref$0.localSpecificHealthTabForPawn);
+				if (Widgets.CloseButtonFor(this.rect.AtZero()))
+				{
+					this.<>f__ref$0.$this.specificHealthTabForPawn = null;
+					SoundDefOf.TabClose.PlayOneShotOnCamera(null);
 				}
 			}
 		}

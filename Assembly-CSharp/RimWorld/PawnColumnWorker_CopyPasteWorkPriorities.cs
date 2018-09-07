@@ -23,10 +23,11 @@ namespace RimWorld
 
 		public override void DoCell(Rect rect, Pawn pawn, PawnTable table)
 		{
-			if (!pawn.Dead && pawn.workSettings != null && pawn.workSettings.EverWork)
+			if (pawn.Dead || pawn.workSettings == null || !pawn.workSettings.EverWork)
 			{
-				base.DoCell(rect, pawn, table);
+				return;
 			}
+			base.DoCell(rect, pawn, table);
 		}
 
 		protected override void CopyFrom(Pawn p)

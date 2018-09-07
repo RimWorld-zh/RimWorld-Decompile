@@ -86,12 +86,9 @@ namespace RimWorld
 					pawn.workSettings = new Pawn_WorkSettings(pawn);
 				}
 			}
-			if (pawn.RaceProps.IsFlesh)
+			if (pawn.RaceProps.IsFlesh && pawn.relations == null)
 			{
-				if (pawn.relations == null)
-				{
-					pawn.relations = new Pawn_RelationsTracker(pawn);
-				}
+				pawn.relations = new Pawn_RelationsTracker(pawn);
 			}
 			PawnComponentsUtility.AddAndRemoveDynamicComponents(pawn, false);
 		}
@@ -126,19 +123,13 @@ namespace RimWorld
 			{
 				pawn.filth = new Pawn_FilthTracker(pawn);
 			}
-			if (pawn.RaceProps.intelligence <= Intelligence.ToolUser)
+			if (pawn.RaceProps.intelligence <= Intelligence.ToolUser && pawn.caller == null)
 			{
-				if (pawn.caller == null)
-				{
-					pawn.caller = new Pawn_CallTracker(pawn);
-				}
+				pawn.caller = new Pawn_CallTracker(pawn);
 			}
-			if (pawn.RaceProps.IsFlesh)
+			if (pawn.RaceProps.IsFlesh && pawn.interactions == null)
 			{
-				if (pawn.interactions == null)
-				{
-					pawn.interactions = new Pawn_InteractionsTracker(pawn);
-				}
+				pawn.interactions = new Pawn_InteractionsTracker(pawn);
 			}
 			PawnComponentsUtility.AddAndRemoveDynamicComponents(pawn, true);
 		}
@@ -170,21 +161,18 @@ namespace RimWorld
 		{
 			bool flag = pawn.Faction != null && pawn.Faction.IsPlayer;
 			bool flag2 = pawn.HostFaction != null && pawn.HostFaction.IsPlayer;
-			if (pawn.RaceProps.Humanlike)
+			if (pawn.RaceProps.Humanlike && !pawn.Dead)
 			{
-				if (!pawn.Dead)
+				if (pawn.mindState.wantsToTradeWithColony)
 				{
-					if (pawn.mindState.wantsToTradeWithColony)
+					if (pawn.trader == null)
 					{
-						if (pawn.trader == null)
-						{
-							pawn.trader = new Pawn_TraderTracker(pawn);
-						}
+						pawn.trader = new Pawn_TraderTracker(pawn);
 					}
-					else
-					{
-						pawn.trader = null;
-					}
+				}
+				else
+				{
+					pawn.trader = null;
 				}
 			}
 			if (pawn.RaceProps.Humanlike)
@@ -203,12 +191,9 @@ namespace RimWorld
 					{
 						pawn.timetable = new Pawn_TimetableTracker(pawn);
 					}
-					if (pawn.Spawned || actAsIfSpawned)
+					if ((pawn.Spawned || actAsIfSpawned) && pawn.drafter == null)
 					{
-						if (pawn.drafter == null)
-						{
-							pawn.drafter = new Pawn_DraftController(pawn);
-						}
+						pawn.drafter = new Pawn_DraftController(pawn);
 					}
 				}
 				else
@@ -223,12 +208,9 @@ namespace RimWorld
 					pawn.playerSettings = new Pawn_PlayerSettings(pawn);
 				}
 			}
-			if (pawn.RaceProps.intelligence <= Intelligence.ToolUser && pawn.Faction != null && !pawn.RaceProps.IsMechanoid)
+			if (pawn.RaceProps.intelligence <= Intelligence.ToolUser && pawn.Faction != null && !pawn.RaceProps.IsMechanoid && pawn.training == null)
 			{
-				if (pawn.training == null)
-				{
-					pawn.training = new Pawn_TrainingTracker(pawn);
-				}
+				pawn.training = new Pawn_TrainingTracker(pawn);
 			}
 			if (pawn.needs != null)
 			{

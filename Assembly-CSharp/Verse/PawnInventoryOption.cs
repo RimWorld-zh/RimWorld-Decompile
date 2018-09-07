@@ -17,9 +17,9 @@ namespace Verse
 
 		public float skipChance;
 
-		public List<PawnInventoryOption> subOptionsTakeAll = null;
+		public List<PawnInventoryOption> subOptionsTakeAll;
 
-		public List<PawnInventoryOption> subOptionsChooseOne = null;
+		public List<PawnInventoryOption> subOptionsChooseOne;
 
 		public PawnInventoryOption()
 		{
@@ -119,58 +119,7 @@ namespace Verse
 				case 1u:
 					break;
 				case 2u:
-					Block_7:
-					try
-					{
-						switch (num)
-						{
-						case 2u:
-							Block_12:
-							try
-							{
-								switch (num)
-								{
-								}
-								if (enumerator2.MoveNext())
-								{
-									subThing = enumerator2.Current;
-									this.$current = subThing;
-									if (!this.$disposing)
-									{
-										this.$PC = 2;
-									}
-									flag = true;
-									return true;
-								}
-							}
-							finally
-							{
-								if (!flag)
-								{
-									if (enumerator2 != null)
-									{
-										enumerator2.Dispose();
-									}
-								}
-							}
-							break;
-						}
-						if (enumerator.MoveNext())
-						{
-							opt = enumerator.Current;
-							enumerator2 = opt.GenerateThings().GetEnumerator();
-							num = 4294967293u;
-							goto Block_12;
-						}
-					}
-					finally
-					{
-						if (!flag)
-						{
-							((IDisposable)enumerator).Dispose();
-						}
-					}
-					goto IL_1CB;
+					goto IL_E6;
 				case 3u:
 					Block_10:
 					try
@@ -200,17 +149,68 @@ namespace Verse
 							}
 						}
 					}
-					goto IL_2A0;
+					goto IL_290;
 				default:
 					return false;
 				}
-				if (this.subOptionsTakeAll != null)
+				if (this.subOptionsTakeAll == null)
 				{
-					enumerator = this.subOptionsTakeAll.GetEnumerator();
-					num = 4294967293u;
-					goto Block_7;
+					goto IL_1C0;
 				}
-				IL_1CB:
+				enumerator = this.subOptionsTakeAll.GetEnumerator();
+				num = 4294967293u;
+				try
+				{
+					IL_E6:
+					switch (num)
+					{
+					case 2u:
+						Block_12:
+						try
+						{
+							switch (num)
+							{
+							}
+							if (enumerator2.MoveNext())
+							{
+								subThing = enumerator2.Current;
+								this.$current = subThing;
+								if (!this.$disposing)
+								{
+									this.$PC = 2;
+								}
+								flag = true;
+								return true;
+							}
+						}
+						finally
+						{
+							if (!flag)
+							{
+								if (enumerator2 != null)
+								{
+									enumerator2.Dispose();
+								}
+							}
+						}
+						break;
+					}
+					if (enumerator.MoveNext())
+					{
+						opt = enumerator.Current;
+						enumerator2 = opt.GenerateThings().GetEnumerator();
+						num = 4294967293u;
+						goto Block_12;
+					}
+				}
+				finally
+				{
+					if (!flag)
+					{
+						((IDisposable)enumerator).Dispose();
+					}
+				}
+				IL_1C0:
 				if (this.subOptionsChooseOne != null)
 				{
 					chosen = this.subOptionsChooseOne.RandomElementByWeight((PawnInventoryOption o) => o.choiceChance);
@@ -218,7 +218,7 @@ namespace Verse
 					num = 4294967293u;
 					goto Block_10;
 				}
-				IL_2A0:
+				IL_290:
 				this.$PC = -1;
 				return false;
 			}

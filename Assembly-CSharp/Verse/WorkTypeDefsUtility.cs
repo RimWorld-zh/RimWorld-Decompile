@@ -22,115 +22,70 @@ namespace Verse
 
 		public static string LabelTranslated(this WorkTags tags)
 		{
-			string result;
 			switch (tags)
 			{
 			case WorkTags.None:
-				result = "WorkTagNone".Translate();
-				break;
+				return "WorkTagNone".Translate();
 			default:
-				if (tags != WorkTags.Violent)
+				if (tags == WorkTags.Violent)
 				{
-					if (tags != WorkTags.Caring)
-					{
-						if (tags != WorkTags.Social)
-						{
-							if (tags != WorkTags.Intellectual)
-							{
-								if (tags != WorkTags.Animals)
-								{
-									if (tags != WorkTags.Artistic)
-									{
-										if (tags != WorkTags.Crafting)
-										{
-											if (tags != WorkTags.Cooking)
-											{
-												if (tags != WorkTags.Firefighting)
-												{
-													if (tags != WorkTags.Cleaning)
-													{
-														if (tags != WorkTags.Hauling)
-														{
-															if (tags != WorkTags.PlantWork)
-															{
-																if (tags != WorkTags.Mining)
-																{
-																	Log.Error("Unknown or mixed worktags for naming: " + (int)tags, false);
-																	result = "Worktag";
-																}
-																else
-																{
-																	result = "WorkTagMining".Translate();
-																}
-															}
-															else
-															{
-																result = "WorkTagPlantWork".Translate();
-															}
-														}
-														else
-														{
-															result = "WorkTagHauling".Translate();
-														}
-													}
-													else
-													{
-														result = "WorkTagCleaning".Translate();
-													}
-												}
-												else
-												{
-													result = "WorkTagFirefighting".Translate();
-												}
-											}
-											else
-											{
-												result = "WorkTagCooking".Translate();
-											}
-										}
-										else
-										{
-											result = "WorkTagCrafting".Translate();
-										}
-									}
-									else
-									{
-										result = "WorkTagArtistic".Translate();
-									}
-								}
-								else
-								{
-									result = "WorkTagAnimals".Translate();
-								}
-							}
-							else
-							{
-								result = "WorkTagIntellectual".Translate();
-							}
-						}
-						else
-						{
-							result = "WorkTagSocial".Translate();
-						}
-					}
-					else
-					{
-						result = "WorkTagCaring".Translate();
-					}
+					return "WorkTagViolent".Translate();
 				}
-				else
+				if (tags == WorkTags.Caring)
 				{
-					result = "WorkTagViolent".Translate();
+					return "WorkTagCaring".Translate();
 				}
-				break;
+				if (tags == WorkTags.Social)
+				{
+					return "WorkTagSocial".Translate();
+				}
+				if (tags == WorkTags.Intellectual)
+				{
+					return "WorkTagIntellectual".Translate();
+				}
+				if (tags == WorkTags.Animals)
+				{
+					return "WorkTagAnimals".Translate();
+				}
+				if (tags == WorkTags.Artistic)
+				{
+					return "WorkTagArtistic".Translate();
+				}
+				if (tags == WorkTags.Crafting)
+				{
+					return "WorkTagCrafting".Translate();
+				}
+				if (tags == WorkTags.Cooking)
+				{
+					return "WorkTagCooking".Translate();
+				}
+				if (tags == WorkTags.Firefighting)
+				{
+					return "WorkTagFirefighting".Translate();
+				}
+				if (tags == WorkTags.Cleaning)
+				{
+					return "WorkTagCleaning".Translate();
+				}
+				if (tags == WorkTags.Hauling)
+				{
+					return "WorkTagHauling".Translate();
+				}
+				if (tags == WorkTags.PlantWork)
+				{
+					return "WorkTagPlantWork".Translate();
+				}
+				if (tags != WorkTags.Mining)
+				{
+					Log.Error("Unknown or mixed worktags for naming: " + (int)tags, false);
+					return "Worktag";
+				}
+				return "WorkTagMining".Translate();
 			case WorkTags.ManualDumb:
-				result = "WorkTagManualDumb".Translate();
-				break;
+				return "WorkTagManualDumb".Translate();
 			case WorkTags.ManualSkilled:
-				result = "WorkTagManualSkilled".Translate();
-				break;
+				return "WorkTagManualSkilled".Translate();
 			}
-			return result;
 		}
 
 		public static bool OverlapsWithOnAnyWorkType(this WorkTags a, WorkTags b)

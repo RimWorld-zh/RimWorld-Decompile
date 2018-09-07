@@ -31,21 +31,15 @@ namespace Verse
 					SoundDefOf.Click.PlayOneShotOnCamera(null);
 				}
 			}
-			if (this.scen.CanReorder(part, ReorderDirection.Up))
+			if (this.scen.CanReorder(part, ReorderDirection.Up) && widgetRow.ButtonIcon(TexButton.ReorderUp, null, null))
 			{
-				if (widgetRow.ButtonIcon(TexButton.ReorderUp, null, null))
-				{
-					this.scen.Reorder(part, ReorderDirection.Up);
-					SoundDefOf.Tick_High.PlayOneShotOnCamera(null);
-				}
+				this.scen.Reorder(part, ReorderDirection.Up);
+				SoundDefOf.Tick_High.PlayOneShotOnCamera(null);
 			}
-			if (this.scen.CanReorder(part, ReorderDirection.Down))
+			if (this.scen.CanReorder(part, ReorderDirection.Down) && widgetRow.ButtonIcon(TexButton.ReorderDown, null, null))
 			{
-				if (widgetRow.ButtonIcon(TexButton.ReorderDown, null, null))
-				{
-					this.scen.Reorder(part, ReorderDirection.Down);
-					SoundDefOf.Tick_Low.PlayOneShotOnCamera(null);
-				}
+				this.scen.Reorder(part, ReorderDirection.Down);
+				SoundDefOf.Tick_Low.PlayOneShotOnCamera(null);
 			}
 			Text.Anchor = TextAnchor.UpperRight;
 			Rect rect2 = rect.LeftPart(0.5f).Rounded();

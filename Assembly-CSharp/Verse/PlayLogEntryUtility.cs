@@ -110,7 +110,7 @@ namespace Verse
 				case 0u:
 					if (weaponDef == null)
 					{
-						goto IL_1C0;
+						goto IL_1B5;
 					}
 					enumerator = GrammarUtility.RulesForDef(prefix, weaponDef).GetEnumerator();
 					num = 4294967293u;
@@ -118,7 +118,7 @@ namespace Verse
 				case 1u:
 					break;
 				case 2u:
-					goto IL_148;
+					goto IL_141;
 				default:
 					return false;
 				}
@@ -156,13 +156,13 @@ namespace Verse
 				}
 				if (projectile == null)
 				{
-					goto IL_1BF;
+					goto IL_1B5;
 				}
 				enumerator2 = GrammarUtility.RulesForDef(prefix + "_projectile", projectile).GetEnumerator();
 				num = 4294967293u;
 				try
 				{
-					IL_148:
+					IL_141:
 					switch (num)
 					{
 					}
@@ -188,8 +188,7 @@ namespace Verse
 						}
 					}
 				}
-				IL_1BF:
-				IL_1C0:
+				IL_1B5:
 				this.$PC = -1;
 				return false;
 			}
@@ -314,12 +313,12 @@ namespace Verse
 						destroyedIndex = 0;
 						damagedIndex = 0;
 						i = 0;
-						goto IL_27E;
+						goto IL_276;
 					}
 					constants[prefix + "_count"] = "0";
 					constants[prefix + "_destroyed_count"] = "0";
 					constants[prefix + "_damaged_count"] = "0";
-					goto IL_389;
+					goto IL_37E;
 				case 1u:
 					constants[string.Format(prefix + "{0}_destroyed", i)] = bodyPartsDestroyed[i].ToString();
 					if (bodyPartsDestroyed[i])
@@ -349,7 +348,7 @@ namespace Verse
 					return false;
 				}
 				i++;
-				IL_27E:
+				IL_276:
 				if (i < bodyParts.Count)
 				{
 					this.$current = new Rule_String(string.Format(prefix + "{0}_label", i), bodyParts[i].Label);
@@ -362,7 +361,7 @@ namespace Verse
 				constants[prefix + "_count"] = bodyParts.Count.ToString();
 				constants[prefix + "_destroyed_count"] = destroyedIndex.ToString();
 				constants[prefix + "_damaged_count"] = damagedIndex.ToString();
-				IL_389:
+				IL_37E:
 				this.$PC = -1;
 				return false;
 			}

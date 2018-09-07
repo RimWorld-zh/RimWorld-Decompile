@@ -145,12 +145,9 @@ namespace RimWorld
 
 		public override void Notify_KnowledgeDemonstrated(ConceptDef conc)
 		{
-			if (this.def == conc && PlayerKnowledgeDatabase.GetKnowledge(conc) > 0.2f)
+			if (this.def == conc && PlayerKnowledgeDatabase.GetKnowledge(conc) > 0.2f && !this.Expiring)
 			{
-				if (!this.Expiring)
-				{
-					this.expiryTime = Time.timeSinceLevelLoad + 2.1f;
-				}
+				this.expiryTime = Time.timeSinceLevelLoad + 2.1f;
 			}
 		}
 

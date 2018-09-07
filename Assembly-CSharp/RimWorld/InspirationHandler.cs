@@ -50,36 +50,25 @@ namespace RimWorld
 		{
 			get
 			{
-				float result;
 				if (this.pawn.needs.mood == null)
 				{
-					result = -1f;
+					return -1f;
 				}
-				else
+				float curLevel = this.pawn.needs.mood.CurLevel;
+				if (curLevel < 0.5f)
 				{
-					float curLevel = this.pawn.needs.mood.CurLevel;
-					if (curLevel < 0.5f)
-					{
-						result = -1f;
-					}
-					else
-					{
-						result = GenMath.LerpDouble(0.5f, 1f, 210f, 10f, curLevel);
-					}
+					return -1f;
 				}
-				return result;
+				return GenMath.LerpDouble(0.5f, 1f, 210f, 10f, curLevel);
 			}
 		}
 
 		public void ExposeData()
 		{
 			Scribe_Deep.Look<Inspiration>(ref this.curState, "curState", new object[0]);
-			if (Scribe.mode == LoadSaveMode.PostLoadInit)
+			if (Scribe.mode == LoadSaveMode.PostLoadInit && this.curState != null)
 			{
-				if (this.curState != null)
-				{
-					this.curState.pawn = this.pawn;
-				}
+				this.curState.pawn = this.pawn;
 			}
 		}
 
@@ -97,40 +86,34 @@ namespace RimWorld
 
 		public bool TryStartInspiration(InspirationDef def)
 		{
-			bool result;
 			if (this.Inspired)
 			{
-				result = false;
+				return false;
 			}
-			else if (!def.Worker.InspirationCanOccur(this.pawn))
+			if (!def.Worker.InspirationCanOccur(this.pawn))
 			{
-				result = false;
+				return false;
 			}
-			else
-			{
-				this.curState = (Inspiration)Activator.CreateInstance(def.inspirationClass);
-				this.curState.def = def;
-				this.curState.pawn = this.pawn;
-				this.curState.PostStart();
-				result = true;
-			}
-			return result;
+			this.curState = (Inspiration)Activator.CreateInstance(def.inspirationClass);
+			this.curState.def = def;
+			this.curState.pawn = this.pawn;
+			this.curState.PostStart();
+			return true;
 		}
 
 		public void EndInspiration(Inspiration inspiration)
 		{
-			if (inspiration != null)
+			if (inspiration == null)
 			{
-				if (this.curState != inspiration)
-				{
-					Log.Error("Tried to end inspiration " + inspiration.ToStringSafe<Inspiration>() + " but current inspiration is " + this.curState.ToStringSafe<Inspiration>(), false);
-				}
-				else
-				{
-					this.curState = null;
-					inspiration.PostEnd();
-				}
+				return;
 			}
+			if (this.curState != inspiration)
+			{
+				Log.Error("Tried to end inspiration " + inspiration.ToStringSafe<Inspiration>() + " but current inspiration is " + this.curState.ToStringSafe<Inspiration>(), false);
+				return;
+			}
+			this.curState = null;
+			inspiration.PostEnd();
 		}
 
 		public void EndInspiration(InspirationDef inspirationDef)
@@ -148,19 +131,21 @@ namespace RimWorld
 
 		private void CheckStartRandomInspiration()
 		{
-			if (!this.Inspired)
+			if (this.Inspired)
 			{
-				float startInspirationMTBDays = this.StartInspirationMTBDays;
-				if (startInspirationMTBDays >= 0f)
+				return;
+			}
+			float startInspirationMTBDays = this.StartInspirationMTBDays;
+			if (startInspirationMTBDays < 0f)
+			{
+				return;
+			}
+			if (Rand.MTBEventOccurs(startInspirationMTBDays, 60000f, 100f))
+			{
+				InspirationDef randomAvailableInspirationDef = this.GetRandomAvailableInspirationDef();
+				if (randomAvailableInspirationDef != null)
 				{
-					if (Rand.MTBEventOccurs(startInspirationMTBDays, 60000f, 100f))
-					{
-						InspirationDef randomAvailableInspirationDef = this.GetRandomAvailableInspirationDef();
-						if (randomAvailableInspirationDef != null)
-						{
-							this.TryStartInspiration(randomAvailableInspirationDef);
-						}
-					}
+					this.TryStartInspiration(randomAvailableInspirationDef);
 				}
 			}
 		}

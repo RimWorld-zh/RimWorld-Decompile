@@ -16,7 +16,7 @@ namespace RimWorld
 			for (int i = 0; i < pawns.Count; i++)
 			{
 				IntVec3 dropCenter = DropCellFinder.RandomDropSpot(map);
-				DropPodUtility.DropThingsNear(dropCenter, map, Gen.YieldSingle<Thing>(pawns[i]), parms.podOpenDelay, false, true, true, false);
+				DropPodUtility.DropThingsNear(dropCenter, map, Gen.YieldSingle<Thing>(pawns[i]), parms.podOpenDelay, false, true, true);
 			}
 		}
 

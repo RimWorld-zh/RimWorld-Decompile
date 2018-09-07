@@ -57,37 +57,26 @@ namespace RimWorld
 
 		public override bool HasJobOnThing(Pawn pawn, Thing t, bool forced = false)
 		{
-			bool result;
 			if (t.Faction != pawn.Faction)
 			{
-				result = false;
+				return false;
 			}
-			else
+			Building building = t as Building;
+			if (building == null)
 			{
-				Building building = t as Building;
-				if (building == null)
-				{
-					result = false;
-				}
-				else if (building.IsForbidden(pawn))
-				{
-					result = false;
-				}
-				else
-				{
-					LocalTargetInfo target = building;
-					if (!pawn.CanReserve(target, 1, -1, null, forced))
-					{
-						result = false;
-					}
-					else
-					{
-						CompDeepDrill compDeepDrill = building.TryGetComp<CompDeepDrill>();
-						result = (compDeepDrill.CanDrillNow() && !building.IsBurning());
-					}
-				}
+				return false;
 			}
-			return result;
+			if (building.IsForbidden(pawn))
+			{
+				return false;
+			}
+			LocalTargetInfo target = building;
+			if (!pawn.CanReserve(target, 1, -1, null, forced))
+			{
+				return false;
+			}
+			CompDeepDrill compDeepDrill = building.TryGetComp<CompDeepDrill>();
+			return compDeepDrill.CanDrillNow() && !building.IsBurning();
 		}
 
 		public override Job JobOnThing(Pawn pawn, Thing t, bool forced = false)

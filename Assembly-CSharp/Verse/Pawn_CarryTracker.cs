@@ -23,16 +23,11 @@ namespace Verse
 		{
 			get
 			{
-				Thing result;
 				if (this.innerContainer.Count == 0)
 				{
-					result = null;
+					return null;
 				}
-				else
-				{
-					result = this.innerContainer[0];
-				}
-				return result;
+				return this.innerContainer[0];
 			}
 		}
 
@@ -89,27 +84,21 @@ namespace Verse
 
 		public bool TryStartCarry(Thing item)
 		{
-			bool result;
 			if (this.pawn.Dead || this.pawn.Downed)
 			{
 				Log.Error("Dead/downed pawn " + this.pawn + " tried to start carry item.", false);
-				result = false;
+				return false;
 			}
-			else if (this.innerContainer.TryAdd(item, true))
+			if (this.innerContainer.TryAdd(item, true))
 			{
 				item.def.soundPickup.PlayOneShot(new TargetInfo(item.Position, this.pawn.Map, false));
-				result = true;
+				return true;
 			}
-			else
-			{
-				result = false;
-			}
-			return result;
+			return false;
 		}
 
 		public int TryStartCarry(Thing item, int count, bool reserve = true)
 		{
-			int result;
 			if (this.pawn.Dead || this.pawn.Downed)
 			{
 				Log.Error(string.Concat(new object[]
@@ -119,60 +108,46 @@ namespace Verse
 					" tried to start carry ",
 					item.ToStringSafe<Thing>()
 				}), false);
-				result = 0;
+				return 0;
 			}
-			else
+			count = Mathf.Min(count, this.AvailableStackSpace(item.def));
+			count = Mathf.Min(count, item.stackCount);
+			int num = this.innerContainer.TryAdd(item.SplitOff(count), count, true);
+			if (num > 0)
 			{
-				count = Mathf.Min(count, this.AvailableStackSpace(item.def));
-				count = Mathf.Min(count, item.stackCount);
-				int num = this.innerContainer.TryAdd(item.SplitOff(count), count, true);
-				if (num > 0)
+				item.def.soundPickup.PlayOneShot(new TargetInfo(item.Position, this.pawn.Map, false));
+				if (reserve)
 				{
-					item.def.soundPickup.PlayOneShot(new TargetInfo(item.Position, this.pawn.Map, false));
-					if (reserve)
-					{
-						this.pawn.Reserve(this.CarriedThing, this.pawn.CurJob, 1, -1, null);
-					}
+					this.pawn.Reserve(this.CarriedThing, this.pawn.CurJob, 1, -1, null, true);
 				}
-				result = num;
 			}
-			return result;
+			return num;
 		}
 
 		public bool TryDropCarriedThing(IntVec3 dropLoc, ThingPlaceMode mode, out Thing resultingThing, Action<Thing, int> placedAction = null)
 		{
-			bool result;
 			if (this.innerContainer.TryDrop(this.CarriedThing, dropLoc, this.pawn.MapHeld, mode, out resultingThing, placedAction, null))
 			{
 				if (resultingThing != null && this.pawn.Faction.HostileTo(Faction.OfPlayer))
 				{
 					resultingThing.SetForbidden(true, false);
 				}
-				result = true;
+				return true;
 			}
-			else
-			{
-				result = false;
-			}
-			return result;
+			return false;
 		}
 
 		public bool TryDropCarriedThing(IntVec3 dropLoc, int count, ThingPlaceMode mode, out Thing resultingThing, Action<Thing, int> placedAction = null)
 		{
-			bool result;
 			if (this.innerContainer.TryDrop(this.CarriedThing, dropLoc, this.pawn.MapHeld, mode, count, out resultingThing, placedAction, null))
 			{
 				if (resultingThing != null && this.pawn.Faction.HostileTo(Faction.OfPlayer))
 				{
 					resultingThing.SetForbidden(true, false);
 				}
-				result = true;
+				return true;
 			}
-			else
-			{
-				result = false;
-			}
-			return result;
+			return false;
 		}
 
 		public void DestroyCarriedThing()

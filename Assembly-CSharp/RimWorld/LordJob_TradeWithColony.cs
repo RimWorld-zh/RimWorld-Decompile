@@ -22,6 +22,14 @@ namespace RimWorld
 			this.chillSpot = chillSpot;
 		}
 
+		public override bool AddFleeToil
+		{
+			get
+			{
+				return false;
+			}
+		}
+
 		public override StateGraph CreateGraph()
 		{
 			StateGraph stateGraph = new StateGraph();

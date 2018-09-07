@@ -16,7 +16,7 @@ namespace RimWorld
 
 		public override IEnumerable<Gizmo> GetGizmos()
 		{
-			foreach (Gizmo c in this.<GetGizmos>__BaseCallProxy0())
+			foreach (Gizmo c in base.GetGizmos())
 			{
 				yield return c;
 			}
@@ -72,7 +72,7 @@ namespace RimWorld
 				case 1u:
 					break;
 				case 2u:
-					goto IL_D2;
+					goto IL_CD;
 				default:
 					return false;
 				}
@@ -107,7 +107,7 @@ namespace RimWorld
 				num = 4294967293u;
 				try
 				{
-					IL_D2:
+					IL_CD:
 					switch (num)
 					{
 					}

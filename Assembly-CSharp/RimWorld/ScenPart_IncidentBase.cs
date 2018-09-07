@@ -35,13 +35,10 @@ namespace RimWorld
 		{
 			base.ExposeData();
 			Scribe_Defs.Look<IncidentDef>(ref this.incident, "incident");
-			if (Scribe.mode == LoadSaveMode.PostLoadInit)
+			if (Scribe.mode == LoadSaveMode.PostLoadInit && this.incident == null)
 			{
-				if (this.incident == null)
-				{
-					this.incident = this.RandomizableIncidents().FirstOrDefault<IncidentDef>();
-					Log.Error("ScenPart has null incident after loading. Changing to " + this.incident.ToStringSafe<IncidentDef>(), false);
-				}
+				this.incident = this.RandomizableIncidents().FirstOrDefault<IncidentDef>();
+				Log.Error("ScenPart has null incident after loading. Changing to " + this.incident.ToStringSafe<IncidentDef>(), false);
 			}
 		}
 

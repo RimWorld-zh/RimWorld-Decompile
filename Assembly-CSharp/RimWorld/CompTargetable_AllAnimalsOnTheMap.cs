@@ -15,17 +15,12 @@ namespace RimWorld
 			TargetingParameters targetingParameters = base.GetTargetingParameters();
 			targetingParameters.validator = delegate(TargetInfo targ)
 			{
-				bool result;
 				if (!base.BaseTargetValidator(targ.Thing))
 				{
-					result = false;
+					return false;
 				}
-				else
-				{
-					Pawn pawn = targ.Thing as Pawn;
-					result = (pawn != null && pawn.RaceProps.Animal);
-				}
-				return result;
+				Pawn pawn = targ.Thing as Pawn;
+				return pawn != null && pawn.RaceProps.Animal;
 			};
 			return targetingParameters;
 		}
@@ -33,17 +28,12 @@ namespace RimWorld
 		[CompilerGenerated]
 		private bool <GetTargetingParameters>m__0(TargetInfo targ)
 		{
-			bool result;
 			if (!base.BaseTargetValidator(targ.Thing))
 			{
-				result = false;
+				return false;
 			}
-			else
-			{
-				Pawn pawn = targ.Thing as Pawn;
-				result = (pawn != null && pawn.RaceProps.Animal);
-			}
-			return result;
+			Pawn pawn = targ.Thing as Pawn;
+			return pawn != null && pawn.RaceProps.Animal;
 		}
 	}
 }

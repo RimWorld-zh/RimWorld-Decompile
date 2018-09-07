@@ -25,7 +25,7 @@ namespace Verse.AI
 			Scribe_Values.Look<int>(ref this.numAttacksMade, "numAttacksMade", 0, false);
 		}
 
-		public override bool TryMakePreToilReservations()
+		public override bool TryMakePreToilReservations(bool errorOnFailed)
 		{
 			return true;
 		}
@@ -49,33 +49,32 @@ namespace Verse.AI
 					if (!base.TargetA.IsValid)
 					{
 						base.EndJobWith(JobCondition.Succeeded);
+						return;
 					}
-					else
+					if (base.TargetA.HasThing)
 					{
-						if (base.TargetA.HasThing)
-						{
-							Pawn pawn = base.TargetA.Thing as Pawn;
-							if (base.TargetA.Thing.Destroyed || (pawn != null && !this.startedIncapacitated && pawn.Downed))
-							{
-								base.EndJobWith(JobCondition.Succeeded);
-								return;
-							}
-						}
-						if (this.numAttacksMade >= this.job.maxNumStaticAttacks && !this.pawn.stances.FullBodyBusy)
+						Pawn pawn = base.TargetA.Thing as Pawn;
+						if (base.TargetA.Thing.Destroyed || (pawn != null && !this.startedIncapacitated && pawn.Downed))
 						{
 							base.EndJobWith(JobCondition.Succeeded);
+							return;
 						}
-						else if (this.pawn.TryStartAttack(base.TargetA))
+					}
+					if (this.numAttacksMade >= this.job.maxNumStaticAttacks && !this.pawn.stances.FullBodyBusy)
+					{
+						base.EndJobWith(JobCondition.Succeeded);
+						return;
+					}
+					if (this.pawn.TryStartAttack(base.TargetA))
+					{
+						this.numAttacksMade++;
+					}
+					else if (this.job.endIfCantShootTargetFromCurPos && !this.pawn.stances.FullBodyBusy)
+					{
+						Verb verb = this.pawn.TryGetAttackVerb(base.TargetA.Thing, !this.pawn.IsColonist);
+						if (verb == null || !verb.CanHitTargetFrom(this.pawn.Position, base.TargetA))
 						{
-							this.numAttacksMade++;
-						}
-						else if (this.job.endIfCantShootTargetFromCurPos && !this.pawn.stances.FullBodyBusy)
-						{
-							Verb verb = this.pawn.TryGetAttackVerb(base.TargetA.Thing, !this.pawn.IsColonist);
-							if (verb == null || !verb.CanHitTargetFrom(this.pawn.Position, base.TargetA))
-							{
-								base.EndJobWith(JobCondition.Incompletable);
-							}
+							base.EndJobWith(JobCondition.Incompletable);
 						}
 					}
 				},
@@ -132,33 +131,32 @@ namespace Verse.AI
 						if (!base.TargetA.IsValid)
 						{
 							base.EndJobWith(JobCondition.Succeeded);
+							return;
 						}
-						else
+						if (base.TargetA.HasThing)
 						{
-							if (base.TargetA.HasThing)
-							{
-								Pawn pawn = base.TargetA.Thing as Pawn;
-								if (base.TargetA.Thing.Destroyed || (pawn != null && !this.startedIncapacitated && pawn.Downed))
-								{
-									base.EndJobWith(JobCondition.Succeeded);
-									return;
-								}
-							}
-							if (this.numAttacksMade >= this.job.maxNumStaticAttacks && !this.pawn.stances.FullBodyBusy)
+							Pawn pawn = base.TargetA.Thing as Pawn;
+							if (base.TargetA.Thing.Destroyed || (pawn != null && !this.startedIncapacitated && pawn.Downed))
 							{
 								base.EndJobWith(JobCondition.Succeeded);
+								return;
 							}
-							else if (this.pawn.TryStartAttack(base.TargetA))
+						}
+						if (this.numAttacksMade >= this.job.maxNumStaticAttacks && !this.pawn.stances.FullBodyBusy)
+						{
+							base.EndJobWith(JobCondition.Succeeded);
+							return;
+						}
+						if (this.pawn.TryStartAttack(base.TargetA))
+						{
+							this.numAttacksMade++;
+						}
+						else if (this.job.endIfCantShootTargetFromCurPos && !this.pawn.stances.FullBodyBusy)
+						{
+							Verb verb = this.pawn.TryGetAttackVerb(base.TargetA.Thing, !this.pawn.IsColonist);
+							if (verb == null || !verb.CanHitTargetFrom(this.pawn.Position, base.TargetA))
 							{
-								this.numAttacksMade++;
-							}
-							else if (this.job.endIfCantShootTargetFromCurPos && !this.pawn.stances.FullBodyBusy)
-							{
-								Verb verb = this.pawn.TryGetAttackVerb(base.TargetA.Thing, !this.pawn.IsColonist);
-								if (verb == null || !verb.CanHitTargetFrom(this.pawn.Position, base.TargetA))
-								{
-									base.EndJobWith(JobCondition.Incompletable);
-								}
+								base.EndJobWith(JobCondition.Incompletable);
 							}
 						}
 					};
@@ -241,33 +239,32 @@ namespace Verse.AI
 				if (!base.TargetA.IsValid)
 				{
 					base.EndJobWith(JobCondition.Succeeded);
+					return;
 				}
-				else
+				if (base.TargetA.HasThing)
 				{
-					if (base.TargetA.HasThing)
-					{
-						Pawn pawn = base.TargetA.Thing as Pawn;
-						if (base.TargetA.Thing.Destroyed || (pawn != null && !this.startedIncapacitated && pawn.Downed))
-						{
-							base.EndJobWith(JobCondition.Succeeded);
-							return;
-						}
-					}
-					if (this.numAttacksMade >= this.job.maxNumStaticAttacks && !this.pawn.stances.FullBodyBusy)
+					Pawn pawn = base.TargetA.Thing as Pawn;
+					if (base.TargetA.Thing.Destroyed || (pawn != null && !this.startedIncapacitated && pawn.Downed))
 					{
 						base.EndJobWith(JobCondition.Succeeded);
+						return;
 					}
-					else if (this.pawn.TryStartAttack(base.TargetA))
+				}
+				if (this.numAttacksMade >= this.job.maxNumStaticAttacks && !this.pawn.stances.FullBodyBusy)
+				{
+					base.EndJobWith(JobCondition.Succeeded);
+					return;
+				}
+				if (this.pawn.TryStartAttack(base.TargetA))
+				{
+					this.numAttacksMade++;
+				}
+				else if (this.job.endIfCantShootTargetFromCurPos && !this.pawn.stances.FullBodyBusy)
+				{
+					Verb verb = this.pawn.TryGetAttackVerb(base.TargetA.Thing, !this.pawn.IsColonist);
+					if (verb == null || !verb.CanHitTargetFrom(this.pawn.Position, base.TargetA))
 					{
-						this.numAttacksMade++;
-					}
-					else if (this.job.endIfCantShootTargetFromCurPos && !this.pawn.stances.FullBodyBusy)
-					{
-						Verb verb = this.pawn.TryGetAttackVerb(base.TargetA.Thing, !this.pawn.IsColonist);
-						if (verb == null || !verb.CanHitTargetFrom(this.pawn.Position, base.TargetA))
-						{
-							base.EndJobWith(JobCondition.Incompletable);
-						}
+						base.EndJobWith(JobCondition.Incompletable);
 					}
 				}
 			}

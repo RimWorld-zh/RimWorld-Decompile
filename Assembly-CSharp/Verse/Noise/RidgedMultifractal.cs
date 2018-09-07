@@ -13,7 +13,7 @@ namespace Verse.Noise
 
 		private int m_octaveCount = 6;
 
-		private int m_seed = 0;
+		private int m_seed;
 
 		private double[] m_weights = new double[30];
 

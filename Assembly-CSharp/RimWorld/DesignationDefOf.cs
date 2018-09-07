@@ -32,8 +32,6 @@ namespace RimWorld
 
 		public static DesignationDef Strip;
 
-		public static DesignationDef RearmTrap;
-
 		public static DesignationDef Slaughter;
 
 		public static DesignationDef Tame;

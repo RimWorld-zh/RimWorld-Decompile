@@ -61,14 +61,16 @@ namespace RimWorld.Planet
 
 		private void CheckAllEnemiesDefeated(MapParent mapParent)
 		{
-			if (mapParent.HasMap)
+			if (!mapParent.HasMap)
 			{
-				if (!GenHostility.AnyHostileActiveThreatToPlayer(mapParent.Map))
-				{
-					this.GiveRewardsAndSendLetter();
-					this.StopQuest();
-				}
+				return;
 			}
+			if (GenHostility.AnyHostileActiveThreatToPlayer(mapParent.Map))
+			{
+				return;
+			}
+			this.GiveRewardsAndSendLetter();
+			this.StopQuest();
 		}
 
 		public override void PostExposeData()
@@ -89,7 +91,7 @@ namespace RimWorld.Planet
 			DefeatAllEnemiesQuestComp.tmpRewards.AddRange(this.rewards);
 			this.rewards.Clear();
 			IntVec3 intVec = DropCellFinder.TradeDropSpot(map);
-			DropPodUtility.DropThingsNear(intVec, map, DefeatAllEnemiesQuestComp.tmpRewards, 110, false, false, false, false);
+			DropPodUtility.DropThingsNear(intVec, map, DefeatAllEnemiesQuestComp.tmpRewards, 110, false, false, false);
 			DefeatAllEnemiesQuestComp.tmpRewards.Clear();
 			FactionRelationKind playerRelationKind = this.requestingFaction.PlayerRelationKind;
 			string text = "LetterDefeatAllEnemiesQuestCompleted".Translate(new object[]
@@ -120,21 +122,17 @@ namespace RimWorld.Planet
 
 		public override string CompInspectStringExtra()
 		{
-			string result;
 			if (this.active)
 			{
 				string text = GenThing.ThingsToCommaList(this.rewards, true, true, 5).CapitalizeFirst();
-				result = "QuestTargetDestroyInspectString".Translate(new object[]
+				return "QuestTargetDestroyInspectString".Translate(new object[]
 				{
 					this.requestingFaction.Name,
-					text
+					text,
+					GenThing.GetMarketValue(this.rewards).ToStringMoney(null)
 				}).CapitalizeFirst();
 			}
-			else
-			{
-				result = null;
-			}
-			return result;
+			return null;
 		}
 
 		// Note: this type is marked as 'beforefieldinit'.

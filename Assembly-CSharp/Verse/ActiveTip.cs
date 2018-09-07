@@ -9,7 +9,7 @@ namespace Verse
 	{
 		public TipSignal signal;
 
-		public double firstTriggerTime = 0.0;
+		public double firstTriggerTime;
 
 		public int lastTriggerFrame;
 

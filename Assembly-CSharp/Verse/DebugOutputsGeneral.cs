@@ -314,20 +314,20 @@ namespace Verse
 			array[0] = new TableDataGetter<ThingDef>("defName", (ThingDef d) => d.defName);
 			array[1] = new TableDataGetter<ThingDef>("damage", (ThingDef d) => damage(d).ToString());
 			array[2] = new TableDataGetter<ThingDef>("AP", (ThingDef d) => armorPenetration(d).ToStringPercent());
-			array[3] = new TableDataGetter<ThingDef>("stop\npower", (ThingDef d) => (stoppingPower(d) <= 0f) ? "" : stoppingPower(d).ToString("F1"));
+			array[3] = new TableDataGetter<ThingDef>("stop\npower", (ThingDef d) => (stoppingPower(d) <= 0f) ? string.Empty : stoppingPower(d).ToString("F1"));
 			array[4] = new TableDataGetter<ThingDef>("warmup", (ThingDef d) => warmup(d).ToString("F2"));
 			array[5] = new TableDataGetter<ThingDef>("burst\nshots", (ThingDef d) => burstShots(d).ToString());
 			array[6] = new TableDataGetter<ThingDef>("cooldown", (ThingDef d) => cooldown(d).ToString("F2"));
 			array[7] = new TableDataGetter<ThingDef>("full\ncycle", (ThingDef d) => fullcycle(d).ToString("F2"));
 			array[8] = new TableDataGetter<ThingDef>("range", (ThingDef d) => d.Verbs[0].range.ToString("F1"));
-			array[9] = new TableDataGetter<ThingDef>("projectile\nspeed", (ThingDef d) => (d.projectile == null) ? "" : d.projectile.speed.ToString("F0"));
+			array[9] = new TableDataGetter<ThingDef>("projectile\nspeed", (ThingDef d) => (d.projectile == null) ? string.Empty : d.projectile.speed.ToString("F0"));
 			array[10] = new TableDataGetter<ThingDef>("dps\nmissless", (ThingDef d) => dpsMissless(d).ToString("F2"));
 			array[11] = new TableDataGetter<ThingDef>("accuracy\ntouch (" + 3f + ")", (ThingDef d) => accTouch(d).ToStringPercent());
 			array[12] = new TableDataGetter<ThingDef>("accuracy\nshort (" + 12f + ")", (ThingDef d) => accShort(d).ToStringPercent());
 			array[13] = new TableDataGetter<ThingDef>("accuracy\nmed (" + 25f + ")", (ThingDef d) => accMed(d).ToStringPercent());
 			array[14] = new TableDataGetter<ThingDef>("accuracy\nlong (" + 40f + ")", (ThingDef d) => accLong(d).ToStringPercent());
 			array[15] = new TableDataGetter<ThingDef>("accuracy\navg", (ThingDef d) => accAvg(d).ToString("F2"));
-			array[16] = new TableDataGetter<ThingDef>("forced\nmiss\nradius", (ThingDef d) => (d.Verbs[0].forcedMissRadius <= 0f) ? "" : d.Verbs[0].forcedMissRadius.ToString());
+			array[16] = new TableDataGetter<ThingDef>("forced\nmiss\nradius", (ThingDef d) => (d.Verbs[0].forcedMissRadius <= 0f) ? string.Empty : d.Verbs[0].forcedMissRadius.ToString());
 			array[17] = new TableDataGetter<ThingDef>("dps\ntouch", (ThingDef d) => (dpsMissless(d) * accTouch(d)).ToString("F2"));
 			array[18] = new TableDataGetter<ThingDef>("dps\nshort", (ThingDef d) => (dpsMissless(d) * accShort(d)).ToString("F2"));
 			array[19] = new TableDataGetter<ThingDef>("dps\nmed", (ThingDef d) => (dpsMissless(d) * accMed(d)).ToString("F2"));
@@ -382,105 +382,69 @@ namespace Verse
 			Func<Def, float> meleeDamageGetter = delegate(Def d)
 			{
 				List<Verb> concreteExampleVerbs = VerbUtility.GetConcreteExampleVerbs(d, stuff);
-				float result;
 				if (concreteExampleVerbs.OfType<Verb_MeleeAttack>().Any<Verb_MeleeAttack>())
 				{
-					result = concreteExampleVerbs.OfType<Verb_MeleeAttack>().AverageWeighted((Verb_MeleeAttack v) => v.verbProps.AdjustedMeleeSelectionWeight(v, null), (Verb_MeleeAttack v) => v.verbProps.AdjustedMeleeDamageAmount(v, null));
+					return concreteExampleVerbs.OfType<Verb_MeleeAttack>().AverageWeighted((Verb_MeleeAttack v) => v.verbProps.AdjustedMeleeSelectionWeight(v, null), (Verb_MeleeAttack v) => v.verbProps.AdjustedMeleeDamageAmount(v, null));
 				}
-				else
-				{
-					result = -1f;
-				}
-				return result;
+				return -1f;
 			};
 			Func<Def, float> rangedDamageGetter = delegate(Def d)
 			{
 				List<Verb> concreteExampleVerbs = VerbUtility.GetConcreteExampleVerbs(d, stuff);
 				Verb_LaunchProjectile verb_LaunchProjectile = concreteExampleVerbs.OfType<Verb_LaunchProjectile>().FirstOrDefault<Verb_LaunchProjectile>();
-				float result;
 				if (verb_LaunchProjectile != null && verb_LaunchProjectile.GetProjectile() != null)
 				{
-					result = (float)verb_LaunchProjectile.GetProjectile().projectile.GetDamageAmount(null, null);
+					return (float)verb_LaunchProjectile.GetProjectile().projectile.GetDamageAmount(null, null);
 				}
-				else
-				{
-					result = -1f;
-				}
-				return result;
+				return -1f;
 			};
 			Func<Def, float> rangedWarmupGetter = delegate(Def d)
 			{
 				List<Verb> concreteExampleVerbs = VerbUtility.GetConcreteExampleVerbs(d, stuff);
 				Verb_LaunchProjectile verb_LaunchProjectile = concreteExampleVerbs.OfType<Verb_LaunchProjectile>().FirstOrDefault<Verb_LaunchProjectile>();
-				float result;
 				if (verb_LaunchProjectile != null)
 				{
-					result = verb_LaunchProjectile.verbProps.warmupTime;
+					return verb_LaunchProjectile.verbProps.warmupTime;
 				}
-				else
-				{
-					result = -1f;
-				}
-				return result;
+				return -1f;
 			};
 			Func<Def, float> meleeCooldownGetter = delegate(Def d)
 			{
 				List<Verb> concreteExampleVerbs = VerbUtility.GetConcreteExampleVerbs(d, stuff);
-				float result;
 				if (concreteExampleVerbs.OfType<Verb_MeleeAttack>().Any<Verb_MeleeAttack>())
 				{
-					result = concreteExampleVerbs.OfType<Verb_MeleeAttack>().AverageWeighted((Verb_MeleeAttack v) => v.verbProps.AdjustedMeleeSelectionWeight(v, null), (Verb_MeleeAttack v) => v.verbProps.AdjustedCooldown(v, null));
+					return concreteExampleVerbs.OfType<Verb_MeleeAttack>().AverageWeighted((Verb_MeleeAttack v) => v.verbProps.AdjustedMeleeSelectionWeight(v, null), (Verb_MeleeAttack v) => v.verbProps.AdjustedCooldown(v, null));
 				}
-				else
-				{
-					result = -1f;
-				}
-				return result;
+				return -1f;
 			};
 			Func<Def, float> rangedCooldownGetter = delegate(Def d)
 			{
 				List<Verb> concreteExampleVerbs = VerbUtility.GetConcreteExampleVerbs(d, stuff);
 				Verb_LaunchProjectile verb_LaunchProjectile = concreteExampleVerbs.OfType<Verb_LaunchProjectile>().FirstOrDefault<Verb_LaunchProjectile>();
-				float result;
 				if (verb_LaunchProjectile != null)
 				{
-					result = verb_LaunchProjectile.verbProps.defaultCooldownTime;
+					return verb_LaunchProjectile.verbProps.defaultCooldownTime;
 				}
-				else
-				{
-					result = -1f;
-				}
-				return result;
+				return -1f;
 			};
 			Func<Def, float> meleeDpsGetter = (Def d) => meleeDamageGetter(d) * 0.82f / meleeCooldownGetter(d);
 			Func<Def, float> marketValueGetter = delegate(Def d)
 			{
 				ThingDef thingDef = d as ThingDef;
-				float result;
 				if (thingDef != null)
 				{
-					result = thingDef.GetStatValueAbstract(StatDefOf.MarketValue, stuff);
+					return thingDef.GetStatValueAbstract(StatDefOf.MarketValue, stuff);
 				}
-				else
+				HediffDef hediffDef = d as HediffDef;
+				if (hediffDef == null)
 				{
-					HediffDef hediffDef = d as HediffDef;
-					if (hediffDef != null)
-					{
-						if (hediffDef.spawnThingOnRemoved == null)
-						{
-							result = 0f;
-						}
-						else
-						{
-							result = hediffDef.spawnThingOnRemoved.GetStatValueAbstract(StatDefOf.MarketValue, null);
-						}
-					}
-					else
-					{
-						result = -1f;
-					}
+					return -1f;
 				}
-				return result;
+				if (hediffDef.spawnThingOnRemoved == null)
+				{
+					return 0f;
+				}
+				return hediffDef.spawnThingOnRemoved.GetStatValueAbstract(StatDefOf.MarketValue, null);
 			};
 			IEnumerable<Def> enumerable = (from d in DefDatabase<ThingDef>.AllDefs
 			where d.IsWeapon
@@ -509,37 +473,24 @@ namespace Verse
 			array[8] = new TableDataGetter<Def>("work to make", delegate(Def d)
 			{
 				ThingDef thingDef = d as ThingDef;
-				string result;
 				if (thingDef == null)
 				{
-					result = "-";
+					return "-";
 				}
-				else
-				{
-					result = thingDef.GetStatValueAbstract(StatDefOf.WorkToMake, stuff).ToString("F0");
-				}
-				return result;
+				return thingDef.GetStatValueAbstract(StatDefOf.WorkToMake, stuff).ToString("F0");
 			});
 			array[9] = new TableDataGetter<Def>((stuff == null) ? "CanMake" : (stuff.defName + " CanMake"), delegate(Def d)
 			{
-				string result;
 				if (stuff == null)
 				{
-					result = "n/a";
+					return "n/a";
 				}
-				else
+				ThingDef thingDef = d as ThingDef;
+				if (thingDef == null)
 				{
-					ThingDef thingDef = d as ThingDef;
-					if (thingDef == null)
-					{
-						result = "-";
-					}
-					else
-					{
-						result = stuff.stuffProps.CanMake(thingDef).ToStringCheckBlank();
-					}
+					return "-";
 				}
-				return result;
+				return stuff.stuffProps.CanMake(thingDef).ToStringCheckBlank();
 			});
 			array[10] = new TableDataGetter<Def>("assumed\nmelee\nhit chance", (Def d) => 0.82f.ToStringPercent());
 			DebugTables.MakeTablesDialog<Def>(dataSources, array);
@@ -594,13 +545,13 @@ namespace Verse
 				new TableDataGetter<int>("cooldown", (int x) => tools[x].Tool.cooldownTime.ToString("0.##")),
 				new TableDataGetter<int>("selection weight", (int x) => selWeight[tools[x].Tool].ToString("0.##")),
 				new TableDataGetter<int>("selection weight\nwithin def", (int x) => (selWeight[tools[x].Tool] / selWeightSumInGroup[tools[x].Parent]).ToStringPercent()),
-				new TableDataGetter<int>("commonality", (int x) => tools[x].Tool.commonality.ToString("0.##")),
-				new TableDataGetter<int>("adds hediff", (int x) => (tools[x].Tool.hediff == null) ? "" : tools[x].Tool.hediff.defName),
-				new TableDataGetter<int>("linked body parts", (int x) => (tools[x].Tool.linkedBodyPartsGroup == null) ? "" : tools[x].Tool.linkedBodyPartsGroup.defName),
-				new TableDataGetter<int>("surprise attack", (int x) => (tools[x].Tool.surpriseAttack == null || tools[x].Tool.surpriseAttack.extraMeleeDamages.NullOrEmpty<ExtraMeleeDamage>()) ? "" : (tools[x].Tool.surpriseAttack.extraMeleeDamages[0].amount.ToString("0.##") + " (" + tools[x].Tool.surpriseAttack.extraMeleeDamages[0].def.defName + ")")),
+				new TableDataGetter<int>("chance\nfactor", (int x) => (tools[x].Tool.chanceFactor != 1f) ? tools[x].Tool.chanceFactor.ToString("0.##") : string.Empty),
+				new TableDataGetter<int>("adds hediff", (int x) => (tools[x].Tool.hediff == null) ? string.Empty : tools[x].Tool.hediff.defName),
+				new TableDataGetter<int>("linked body parts", (int x) => (tools[x].Tool.linkedBodyPartsGroup == null) ? string.Empty : tools[x].Tool.linkedBodyPartsGroup.defName),
+				new TableDataGetter<int>("surprise attack", (int x) => (tools[x].Tool.surpriseAttack == null || tools[x].Tool.surpriseAttack.extraMeleeDamages.NullOrEmpty<ExtraMeleeDamage>()) ? string.Empty : (tools[x].Tool.surpriseAttack.extraMeleeDamages[0].amount.ToString("0.##") + " (" + tools[x].Tool.surpriseAttack.extraMeleeDamages[0].def.defName + ")")),
 				new TableDataGetter<int>("capacities", (int x) => tools[x].Tool.capacities.ToStringSafeEnumerable()),
 				new TableDataGetter<int>("maneuvers", (int x) => tools[x].Tool.Maneuvers.ToStringSafeEnumerable()),
-				new TableDataGetter<int>("always weapon", (int x) => (!tools[x].Tool.alwaysTreatAsWeapon) ? "" : "always wep"),
+				new TableDataGetter<int>("always weapon", (int x) => (!tools[x].Tool.alwaysTreatAsWeapon) ? string.Empty : "always wep"),
 				new TableDataGetter<int>("id", (int x) => tools[x].Tool.id)
 			});
 		}
@@ -633,23 +584,18 @@ namespace Verse
 			list.Add(new TableDataGetter<ThingDef>("label", (ThingDef x) => x.LabelCap));
 			list.Add(new TableDataGetter<ThingDef>("none", delegate(ThingDef x)
 			{
-				string result;
 				if (x.MadeFromStuff)
 				{
-					result = "";
+					return string.Empty;
 				}
-				else
+				return string.Concat(new string[]
 				{
-					result = string.Concat(new string[]
-					{
-						x.GetStatValueAbstract(StatDefOf.ArmorRating_Sharp, null).ToStringPercent(),
-						" / ",
-						x.GetStatValueAbstract(StatDefOf.ArmorRating_Blunt, null).ToStringPercent(),
-						" / ",
-						x.GetStatValueAbstract(StatDefOf.ArmorRating_Heat, null).ToStringPercent()
-					});
-				}
-				return result;
+					x.GetStatValueAbstract(StatDefOf.ArmorRating_Sharp, null).ToStringPercent(),
+					" / ",
+					x.GetStatValueAbstract(StatDefOf.ArmorRating_Blunt, null).ToStringPercent(),
+					" / ",
+					x.GetStatValueAbstract(StatDefOf.ArmorRating_Heat, null).ToStringPercent()
+				});
 			}));
 			foreach (ThingDef stuffLocal2 in from x in DefDatabase<ThingDef>.AllDefs
 			where x.IsStuff
@@ -661,23 +607,18 @@ namespace Verse
 				{
 					list.Add(new TableDataGetter<ThingDef>(stuffLocal.label.Shorten(), delegate(ThingDef x)
 					{
-						string result;
 						if (!stuffLocal.stuffProps.CanMake(x))
 						{
-							result = "";
+							return string.Empty;
 						}
-						else
+						return string.Concat(new string[]
 						{
-							result = string.Concat(new string[]
-							{
-								x.GetStatValueAbstract(StatDefOf.ArmorRating_Sharp, stuffLocal).ToStringPercent(),
-								" / ",
-								x.GetStatValueAbstract(StatDefOf.ArmorRating_Blunt, stuffLocal).ToStringPercent(),
-								" / ",
-								x.GetStatValueAbstract(StatDefOf.ArmorRating_Heat, stuffLocal).ToStringPercent()
-							});
-						}
-						return result;
+							x.GetStatValueAbstract(StatDefOf.ArmorRating_Sharp, stuffLocal).ToStringPercent(),
+							" / ",
+							x.GetStatValueAbstract(StatDefOf.ArmorRating_Blunt, stuffLocal).ToStringPercent(),
+							" / ",
+							x.GetStatValueAbstract(StatDefOf.ArmorRating_Heat, stuffLocal).ToStringPercent()
+						});
 					}));
 				}
 			}
@@ -694,16 +635,11 @@ namespace Verse
 			list.Add(new TableDataGetter<ThingDef>("label", (ThingDef x) => x.LabelCap));
 			list.Add(new TableDataGetter<ThingDef>("none", delegate(ThingDef x)
 			{
-				string result;
 				if (x.MadeFromStuff)
 				{
-					result = "";
+					return string.Empty;
 				}
-				else
-				{
-					result = x.GetStatValueAbstract(StatDefOf.Insulation_Heat, null).ToStringTemperature("F1") + " / " + x.GetStatValueAbstract(StatDefOf.Insulation_Cold, null).ToStringTemperature("F1");
-				}
-				return result;
+				return x.GetStatValueAbstract(StatDefOf.Insulation_Heat, null).ToStringTemperature("F1") + " / " + x.GetStatValueAbstract(StatDefOf.Insulation_Cold, null).ToStringTemperature("F1");
 			}));
 			foreach (ThingDef stuffLocal2 in from x in DefDatabase<ThingDef>.AllDefs
 			where x.IsStuff
@@ -715,16 +651,11 @@ namespace Verse
 				{
 					list.Add(new TableDataGetter<ThingDef>(stuffLocal.label.Shorten(), delegate(ThingDef x)
 					{
-						string result;
 						if (!stuffLocal.stuffProps.CanMake(x))
 						{
-							result = "";
+							return string.Empty;
 						}
-						else
-						{
-							result = x.GetStatValueAbstract(StatDefOf.Insulation_Heat, stuffLocal).ToString("F1") + ", " + x.GetStatValueAbstract(StatDefOf.Insulation_Cold, stuffLocal).ToString("F1");
-						}
-						return result;
+						return x.GetStatValueAbstract(StatDefOf.Insulation_Heat, stuffLocal).ToString("F1") + ", " + x.GetStatValueAbstract(StatDefOf.Insulation_Cold, stuffLocal).ToString("F1");
 					}));
 				}
 			}
@@ -841,10 +772,10 @@ namespace Verse
 			array[0] = new TableDataGetter<ThingDef>("category", (ThingDef d) => d.category.ToString());
 			array[1] = new TableDataGetter<ThingDef>("defName", (ThingDef d) => d.defName);
 			array[2] = new TableDataGetter<ThingDef>("hp", (ThingDef d) => d.BaseMaxHitPoints.ToString());
-			array[3] = new TableDataGetter<ThingDef>("flammability", (ThingDef d) => (d.BaseFlammability <= 0f) ? "" : d.BaseFlammability.ToString());
+			array[3] = new TableDataGetter<ThingDef>("flammability", (ThingDef d) => (d.BaseFlammability <= 0f) ? string.Empty : d.BaseFlammability.ToString());
 			array[4] = new TableDataGetter<ThingDef>("uses stuff", (ThingDef d) => d.MadeFromStuff.ToStringCheckBlank());
-			array[5] = new TableDataGetter<ThingDef>("deterioration rate", (ThingDef d) => (d.GetStatValueAbstract(StatDefOf.DeteriorationRate, null) <= 0f) ? "" : d.GetStatValueAbstract(StatDefOf.DeteriorationRate, null).ToString());
-			array[6] = new TableDataGetter<ThingDef>("days to deterioriate", (ThingDef d) => (d.GetStatValueAbstract(StatDefOf.DeteriorationRate, null) <= 0f) ? "" : ((float)d.BaseMaxHitPoints / d.GetStatValueAbstract(StatDefOf.DeteriorationRate, null)).ToString());
+			array[5] = new TableDataGetter<ThingDef>("deterioration rate", (ThingDef d) => (d.GetStatValueAbstract(StatDefOf.DeteriorationRate, null) <= 0f) ? string.Empty : d.GetStatValueAbstract(StatDefOf.DeteriorationRate, null).ToString());
+			array[6] = new TableDataGetter<ThingDef>("days to deterioriate", (ThingDef d) => (d.GetStatValueAbstract(StatDefOf.DeteriorationRate, null) <= 0f) ? string.Empty : ((float)d.BaseMaxHitPoints / d.GetStatValueAbstract(StatDefOf.DeteriorationRate, null)).ToString());
 			DebugTables.MakeTablesDialog<ThingDef>(dataSources, array);
 		}
 
@@ -859,43 +790,33 @@ namespace Verse
 			Func<ThingDef, float, string> perPawn = (ThingDef d, float bodySize) => (bodySize * 35f / d.GetStatValueAbstract(StatDefOf.Mass, null)).ToString("F0");
 			Func<ThingDef, string> perNutrition = delegate(ThingDef d)
 			{
-				string result;
 				if (d.ingestible == null || d.GetStatValueAbstract(StatDefOf.Nutrition, null) == 0f)
 				{
-					result = "";
+					return string.Empty;
 				}
-				else
-				{
-					result = (d.GetStatValueAbstract(StatDefOf.Mass, null) / d.GetStatValueAbstract(StatDefOf.Nutrition, null)).ToString("F2");
-				}
-				return result;
+				return (d.GetStatValueAbstract(StatDefOf.Mass, null) / d.GetStatValueAbstract(StatDefOf.Nutrition, null)).ToString("F2");
 			};
 			IEnumerable<ThingDef> dataSources = orderedEnumerable;
 			TableDataGetter<ThingDef>[] array = new TableDataGetter<ThingDef>[7];
 			array[0] = new TableDataGetter<ThingDef>("defName", delegate(ThingDef d)
 			{
-				string result;
 				if (d.Minifiable)
 				{
-					result = d.defName + " (minified)";
+					return d.defName + " (minified)";
 				}
-				else
+				string text = d.defName;
+				if (!d.EverHaulable)
 				{
-					string text = d.defName;
-					if (!d.EverHaulable)
-					{
-						text += " (not haulable)";
-					}
-					result = text;
+					text += " (not haulable)";
 				}
-				return result;
+				return text;
 			});
 			array[1] = new TableDataGetter<ThingDef>("mass", (ThingDef d) => d.GetStatValueAbstract(StatDefOf.Mass, null).ToString());
 			array[2] = new TableDataGetter<ThingDef>("per human", (ThingDef d) => perPawn(d, ThingDefOf.Human.race.baseBodySize));
 			array[3] = new TableDataGetter<ThingDef>("per muffalo", (ThingDef d) => perPawn(d, ThingDefOf.Muffalo.race.baseBodySize));
 			array[4] = new TableDataGetter<ThingDef>("per dromedary", (ThingDef d) => perPawn(d, ThingDefOf.Dromedary.race.baseBodySize));
 			array[5] = new TableDataGetter<ThingDef>("per nutrition", (ThingDef d) => perNutrition(d));
-			array[6] = new TableDataGetter<ThingDef>("small volume", (ThingDef d) => (!d.smallVolume) ? "" : "small");
+			array[6] = new TableDataGetter<ThingDef>("small volume", (ThingDef d) => (!d.smallVolume) ? string.Empty : "small");
 			DebugTables.MakeTablesDialog<ThingDef>(dataSources, array);
 		}
 
@@ -957,35 +878,25 @@ namespace Verse
 
 		public static string ToStringEmptyZero(this float f, string format)
 		{
-			string result;
 			if (f <= 0f)
 			{
-				result = "";
+				return string.Empty;
 			}
-			else
-			{
-				result = f.ToString(format);
-			}
-			return result;
+			return f.ToString(format);
 		}
 
 		public static string ToStringPercentEmptyZero(this float f, string format = "F0")
 		{
-			string result;
 			if (f <= 0f)
 			{
-				result = "";
+				return string.Empty;
 			}
-			else
-			{
-				result = f.ToStringPercent(format);
-			}
-			return result;
+			return f.ToStringPercent(format);
 		}
 
 		public static string ToStringCheckBlank(this bool b)
 		{
-			return (!b) ? "" : "✓";
+			return (!b) ? string.Empty : "✓";
 		}
 
 		[CompilerGenerated]
@@ -1069,13 +980,13 @@ namespace Verse
 		[CompilerGenerated]
 		private static string <WeaponsRanged>m__D(ThingDef d)
 		{
-			return (d.projectile == null) ? "" : d.projectile.speed.ToString("F0");
+			return (d.projectile == null) ? string.Empty : d.projectile.speed.ToString("F0");
 		}
 
 		[CompilerGenerated]
 		private static string <WeaponsRanged>m__E(ThingDef d)
 		{
-			return (d.Verbs[0].forcedMissRadius <= 0f) ? "" : d.Verbs[0].forcedMissRadius.ToString();
+			return (d.Verbs[0].forcedMissRadius <= 0f) ? string.Empty : d.Verbs[0].forcedMissRadius.ToString();
 		}
 
 		[CompilerGenerated]
@@ -1258,23 +1169,18 @@ namespace Verse
 		[CompilerGenerated]
 		private static string <ApparelArmor>m__2A(ThingDef x)
 		{
-			string result;
 			if (x.MadeFromStuff)
 			{
-				result = "";
+				return string.Empty;
 			}
-			else
+			return string.Concat(new string[]
 			{
-				result = string.Concat(new string[]
-				{
-					x.GetStatValueAbstract(StatDefOf.ArmorRating_Sharp, null).ToStringPercent(),
-					" / ",
-					x.GetStatValueAbstract(StatDefOf.ArmorRating_Blunt, null).ToStringPercent(),
-					" / ",
-					x.GetStatValueAbstract(StatDefOf.ArmorRating_Heat, null).ToStringPercent()
-				});
-			}
-			return result;
+				x.GetStatValueAbstract(StatDefOf.ArmorRating_Sharp, null).ToStringPercent(),
+				" / ",
+				x.GetStatValueAbstract(StatDefOf.ArmorRating_Blunt, null).ToStringPercent(),
+				" / ",
+				x.GetStatValueAbstract(StatDefOf.ArmorRating_Heat, null).ToStringPercent()
+			});
 		}
 
 		[CompilerGenerated]
@@ -1310,16 +1216,11 @@ namespace Verse
 		[CompilerGenerated]
 		private static string <ApparelInsulation>m__30(ThingDef x)
 		{
-			string result;
 			if (x.MadeFromStuff)
 			{
-				result = "";
+				return string.Empty;
 			}
-			else
-			{
-				result = x.GetStatValueAbstract(StatDefOf.Insulation_Heat, null).ToStringTemperature("F1") + " / " + x.GetStatValueAbstract(StatDefOf.Insulation_Cold, null).ToStringTemperature("F1");
-			}
-			return result;
+			return x.GetStatValueAbstract(StatDefOf.Insulation_Heat, null).ToStringTemperature("F1") + " / " + x.GetStatValueAbstract(StatDefOf.Insulation_Cold, null).ToStringTemperature("F1");
 		}
 
 		[CompilerGenerated]
@@ -1412,7 +1313,7 @@ namespace Verse
 		[CompilerGenerated]
 		private static string <ThingDamageData>m__3F(ThingDef d)
 		{
-			return (d.BaseFlammability <= 0f) ? "" : d.BaseFlammability.ToString();
+			return (d.BaseFlammability <= 0f) ? string.Empty : d.BaseFlammability.ToString();
 		}
 
 		[CompilerGenerated]
@@ -1424,13 +1325,13 @@ namespace Verse
 		[CompilerGenerated]
 		private static string <ThingDamageData>m__41(ThingDef d)
 		{
-			return (d.GetStatValueAbstract(StatDefOf.DeteriorationRate, null) <= 0f) ? "" : d.GetStatValueAbstract(StatDefOf.DeteriorationRate, null).ToString();
+			return (d.GetStatValueAbstract(StatDefOf.DeteriorationRate, null) <= 0f) ? string.Empty : d.GetStatValueAbstract(StatDefOf.DeteriorationRate, null).ToString();
 		}
 
 		[CompilerGenerated]
 		private static string <ThingDamageData>m__42(ThingDef d)
 		{
-			return (d.GetStatValueAbstract(StatDefOf.DeteriorationRate, null) <= 0f) ? "" : ((float)d.BaseMaxHitPoints / d.GetStatValueAbstract(StatDefOf.DeteriorationRate, null)).ToString();
+			return (d.GetStatValueAbstract(StatDefOf.DeteriorationRate, null) <= 0f) ? string.Empty : ((float)d.BaseMaxHitPoints / d.GetStatValueAbstract(StatDefOf.DeteriorationRate, null)).ToString();
 		}
 
 		[CompilerGenerated]
@@ -1466,36 +1367,26 @@ namespace Verse
 		[CompilerGenerated]
 		private static string <ThingMasses>m__48(ThingDef d)
 		{
-			string result;
 			if (d.ingestible == null || d.GetStatValueAbstract(StatDefOf.Nutrition, null) == 0f)
 			{
-				result = "";
+				return string.Empty;
 			}
-			else
-			{
-				result = (d.GetStatValueAbstract(StatDefOf.Mass, null) / d.GetStatValueAbstract(StatDefOf.Nutrition, null)).ToString("F2");
-			}
-			return result;
+			return (d.GetStatValueAbstract(StatDefOf.Mass, null) / d.GetStatValueAbstract(StatDefOf.Nutrition, null)).ToString("F2");
 		}
 
 		[CompilerGenerated]
 		private static string <ThingMasses>m__49(ThingDef d)
 		{
-			string result;
 			if (d.Minifiable)
 			{
-				result = d.defName + " (minified)";
+				return d.defName + " (minified)";
 			}
-			else
+			string text = d.defName;
+			if (!d.EverHaulable)
 			{
-				string text = d.defName;
-				if (!d.EverHaulable)
-				{
-					text += " (not haulable)";
-				}
-				result = text;
+				text += " (not haulable)";
 			}
-			return result;
+			return text;
 		}
 
 		[CompilerGenerated]
@@ -1507,7 +1398,7 @@ namespace Verse
 		[CompilerGenerated]
 		private static string <ThingMasses>m__4B(ThingDef d)
 		{
-			return (!d.smallVolume) ? "" : "small";
+			return (!d.smallVolume) ? string.Empty : "small";
 		}
 
 		[CompilerGenerated]
@@ -1670,7 +1561,7 @@ namespace Verse
 
 			internal string <>m__6(ThingDef d)
 			{
-				return (this.stoppingPower(d) <= 0f) ? "" : this.stoppingPower(d).ToString("F1");
+				return (this.stoppingPower(d) <= 0f) ? string.Empty : this.stoppingPower(d).ToString("F1");
 			}
 
 			internal string <>m__7(ThingDef d)
@@ -1803,79 +1694,54 @@ namespace Verse
 			internal float <>m__0(Def d)
 			{
 				List<Verb> concreteExampleVerbs = VerbUtility.GetConcreteExampleVerbs(d, this.stuff);
-				float result;
 				if (concreteExampleVerbs.OfType<Verb_MeleeAttack>().Any<Verb_MeleeAttack>())
 				{
-					result = concreteExampleVerbs.OfType<Verb_MeleeAttack>().AverageWeighted((Verb_MeleeAttack v) => v.verbProps.AdjustedMeleeSelectionWeight(v, null), (Verb_MeleeAttack v) => v.verbProps.AdjustedMeleeDamageAmount(v, null));
+					return concreteExampleVerbs.OfType<Verb_MeleeAttack>().AverageWeighted((Verb_MeleeAttack v) => v.verbProps.AdjustedMeleeSelectionWeight(v, null), (Verb_MeleeAttack v) => v.verbProps.AdjustedMeleeDamageAmount(v, null));
 				}
-				else
-				{
-					result = -1f;
-				}
-				return result;
+				return -1f;
 			}
 
 			internal float <>m__1(Def d)
 			{
 				List<Verb> concreteExampleVerbs = VerbUtility.GetConcreteExampleVerbs(d, this.stuff);
 				Verb_LaunchProjectile verb_LaunchProjectile = concreteExampleVerbs.OfType<Verb_LaunchProjectile>().FirstOrDefault<Verb_LaunchProjectile>();
-				float result;
 				if (verb_LaunchProjectile != null && verb_LaunchProjectile.GetProjectile() != null)
 				{
-					result = (float)verb_LaunchProjectile.GetProjectile().projectile.GetDamageAmount(null, null);
+					return (float)verb_LaunchProjectile.GetProjectile().projectile.GetDamageAmount(null, null);
 				}
-				else
-				{
-					result = -1f;
-				}
-				return result;
+				return -1f;
 			}
 
 			internal float <>m__2(Def d)
 			{
 				List<Verb> concreteExampleVerbs = VerbUtility.GetConcreteExampleVerbs(d, this.stuff);
 				Verb_LaunchProjectile verb_LaunchProjectile = concreteExampleVerbs.OfType<Verb_LaunchProjectile>().FirstOrDefault<Verb_LaunchProjectile>();
-				float result;
 				if (verb_LaunchProjectile != null)
 				{
-					result = verb_LaunchProjectile.verbProps.warmupTime;
+					return verb_LaunchProjectile.verbProps.warmupTime;
 				}
-				else
-				{
-					result = -1f;
-				}
-				return result;
+				return -1f;
 			}
 
 			internal float <>m__3(Def d)
 			{
 				List<Verb> concreteExampleVerbs = VerbUtility.GetConcreteExampleVerbs(d, this.stuff);
-				float result;
 				if (concreteExampleVerbs.OfType<Verb_MeleeAttack>().Any<Verb_MeleeAttack>())
 				{
-					result = concreteExampleVerbs.OfType<Verb_MeleeAttack>().AverageWeighted((Verb_MeleeAttack v) => v.verbProps.AdjustedMeleeSelectionWeight(v, null), (Verb_MeleeAttack v) => v.verbProps.AdjustedCooldown(v, null));
+					return concreteExampleVerbs.OfType<Verb_MeleeAttack>().AverageWeighted((Verb_MeleeAttack v) => v.verbProps.AdjustedMeleeSelectionWeight(v, null), (Verb_MeleeAttack v) => v.verbProps.AdjustedCooldown(v, null));
 				}
-				else
-				{
-					result = -1f;
-				}
-				return result;
+				return -1f;
 			}
 
 			internal float <>m__4(Def d)
 			{
 				List<Verb> concreteExampleVerbs = VerbUtility.GetConcreteExampleVerbs(d, this.stuff);
 				Verb_LaunchProjectile verb_LaunchProjectile = concreteExampleVerbs.OfType<Verb_LaunchProjectile>().FirstOrDefault<Verb_LaunchProjectile>();
-				float result;
 				if (verb_LaunchProjectile != null)
 				{
-					result = verb_LaunchProjectile.verbProps.defaultCooldownTime;
+					return verb_LaunchProjectile.verbProps.defaultCooldownTime;
 				}
-				else
-				{
-					result = -1f;
-				}
-				return result;
+				return -1f;
 			}
 
 			internal float <>m__5(Def d)
@@ -1886,31 +1752,20 @@ namespace Verse
 			internal float <>m__6(Def d)
 			{
 				ThingDef thingDef = d as ThingDef;
-				float result;
 				if (thingDef != null)
 				{
-					result = thingDef.GetStatValueAbstract(StatDefOf.MarketValue, this.stuff);
+					return thingDef.GetStatValueAbstract(StatDefOf.MarketValue, this.stuff);
 				}
-				else
+				HediffDef hediffDef = d as HediffDef;
+				if (hediffDef == null)
 				{
-					HediffDef hediffDef = d as HediffDef;
-					if (hediffDef != null)
-					{
-						if (hediffDef.spawnThingOnRemoved == null)
-						{
-							result = 0f;
-						}
-						else
-						{
-							result = hediffDef.spawnThingOnRemoved.GetStatValueAbstract(StatDefOf.MarketValue, null);
-						}
-					}
-					else
-					{
-						result = -1f;
-					}
+					return -1f;
 				}
-				return result;
+				if (hediffDef.spawnThingOnRemoved == null)
+				{
+					return 0f;
+				}
+				return hediffDef.spawnThingOnRemoved.GetStatValueAbstract(StatDefOf.MarketValue, null);
 			}
 
 			internal float <>m__7(Def h)
@@ -1956,38 +1811,25 @@ namespace Verse
 			internal string <>m__F(Def d)
 			{
 				ThingDef thingDef = d as ThingDef;
-				string result;
 				if (thingDef == null)
 				{
-					result = "-";
+					return "-";
 				}
-				else
-				{
-					result = thingDef.GetStatValueAbstract(StatDefOf.WorkToMake, this.stuff).ToString("F0");
-				}
-				return result;
+				return thingDef.GetStatValueAbstract(StatDefOf.WorkToMake, this.stuff).ToString("F0");
 			}
 
 			internal string <>m__10(Def d)
 			{
-				string result;
 				if (this.stuff == null)
 				{
-					result = "n/a";
+					return "n/a";
 				}
-				else
+				ThingDef thingDef = d as ThingDef;
+				if (thingDef == null)
 				{
-					ThingDef thingDef = d as ThingDef;
-					if (thingDef == null)
-					{
-						result = "-";
-					}
-					else
-					{
-						result = this.stuff.stuffProps.CanMake(thingDef).ToStringCheckBlank();
-					}
+					return "-";
 				}
-				return result;
+				return this.stuff.stuffProps.CanMake(thingDef).ToStringCheckBlank();
 			}
 
 			private static float <>m__11(Verb_MeleeAttack v)
@@ -2073,22 +1915,22 @@ namespace Verse
 
 			internal string <>m__8(int x)
 			{
-				return this.tools[x].Tool.commonality.ToString("0.##");
+				return (this.tools[x].Tool.chanceFactor != 1f) ? this.tools[x].Tool.chanceFactor.ToString("0.##") : string.Empty;
 			}
 
 			internal string <>m__9(int x)
 			{
-				return (this.tools[x].Tool.hediff == null) ? "" : this.tools[x].Tool.hediff.defName;
+				return (this.tools[x].Tool.hediff == null) ? string.Empty : this.tools[x].Tool.hediff.defName;
 			}
 
 			internal string <>m__A(int x)
 			{
-				return (this.tools[x].Tool.linkedBodyPartsGroup == null) ? "" : this.tools[x].Tool.linkedBodyPartsGroup.defName;
+				return (this.tools[x].Tool.linkedBodyPartsGroup == null) ? string.Empty : this.tools[x].Tool.linkedBodyPartsGroup.defName;
 			}
 
 			internal string <>m__B(int x)
 			{
-				return (this.tools[x].Tool.surpriseAttack == null || this.tools[x].Tool.surpriseAttack.extraMeleeDamages.NullOrEmpty<ExtraMeleeDamage>()) ? "" : (this.tools[x].Tool.surpriseAttack.extraMeleeDamages[0].amount.ToString("0.##") + " (" + this.tools[x].Tool.surpriseAttack.extraMeleeDamages[0].def.defName + ")");
+				return (this.tools[x].Tool.surpriseAttack == null || this.tools[x].Tool.surpriseAttack.extraMeleeDamages.NullOrEmpty<ExtraMeleeDamage>()) ? string.Empty : (this.tools[x].Tool.surpriseAttack.extraMeleeDamages[0].amount.ToString("0.##") + " (" + this.tools[x].Tool.surpriseAttack.extraMeleeDamages[0].def.defName + ")");
 			}
 
 			internal string <>m__C(int x)
@@ -2103,7 +1945,7 @@ namespace Verse
 
 			internal string <>m__E(int x)
 			{
-				return (!this.tools[x].Tool.alwaysTreatAsWeapon) ? "" : "always wep";
+				return (!this.tools[x].Tool.alwaysTreatAsWeapon) ? string.Empty : "always wep";
 			}
 
 			internal string <>m__F(int x)
@@ -2164,23 +2006,18 @@ namespace Verse
 
 			internal string <>m__1(ThingDef x)
 			{
-				string result;
 				if (!this.stuffLocal.stuffProps.CanMake(x))
 				{
-					result = "";
+					return string.Empty;
 				}
-				else
+				return string.Concat(new string[]
 				{
-					result = string.Concat(new string[]
-					{
-						x.GetStatValueAbstract(StatDefOf.ArmorRating_Sharp, this.stuffLocal).ToStringPercent(),
-						" / ",
-						x.GetStatValueAbstract(StatDefOf.ArmorRating_Blunt, this.stuffLocal).ToStringPercent(),
-						" / ",
-						x.GetStatValueAbstract(StatDefOf.ArmorRating_Heat, this.stuffLocal).ToStringPercent()
-					});
-				}
-				return result;
+					x.GetStatValueAbstract(StatDefOf.ArmorRating_Sharp, this.stuffLocal).ToStringPercent(),
+					" / ",
+					x.GetStatValueAbstract(StatDefOf.ArmorRating_Blunt, this.stuffLocal).ToStringPercent(),
+					" / ",
+					x.GetStatValueAbstract(StatDefOf.ArmorRating_Heat, this.stuffLocal).ToStringPercent()
+				});
 			}
 		}
 
@@ -2200,16 +2037,11 @@ namespace Verse
 
 			internal string <>m__1(ThingDef x)
 			{
-				string result;
 				if (!this.stuffLocal.stuffProps.CanMake(x))
 				{
-					result = "";
+					return string.Empty;
 				}
-				else
-				{
-					result = x.GetStatValueAbstract(StatDefOf.Insulation_Heat, this.stuffLocal).ToString("F1") + ", " + x.GetStatValueAbstract(StatDefOf.Insulation_Cold, this.stuffLocal).ToString("F1");
-				}
-				return result;
+				return x.GetStatValueAbstract(StatDefOf.Insulation_Heat, this.stuffLocal).ToString("F1") + ", " + x.GetStatValueAbstract(StatDefOf.Insulation_Cold, this.stuffLocal).ToString("F1");
 			}
 		}
 

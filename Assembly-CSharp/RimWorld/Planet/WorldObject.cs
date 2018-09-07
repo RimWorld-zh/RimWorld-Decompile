@@ -53,12 +53,9 @@ namespace RimWorld.Planet
 				if (this.tileInt != value)
 				{
 					this.tileInt = value;
-					if (this.Spawned)
+					if (this.Spawned && !this.def.useDynamicDrawer)
 					{
-						if (!this.def.useDynamicDrawer)
-						{
-							Find.World.renderer.Notify_StaticWorldObjectPosChanged();
-						}
+						Find.World.renderer.Notify_StaticWorldObjectPosChanged();
 					}
 					this.PositionChanged();
 				}
@@ -209,18 +206,18 @@ namespace RimWorld.Planet
 			}
 		}
 
-		public virtual IEnumerable<IncidentTargetTypeDef> AcceptedTypes()
+		public virtual IEnumerable<IncidentTargetTagDef> IncidentTargetTags()
 		{
-			if (this.def.incidentTargetTypes != null)
+			if (this.def.IncidentTargetTags != null)
 			{
-				foreach (IncidentTargetTypeDef type in this.def.incidentTargetTypes)
+				foreach (IncidentTargetTagDef type in this.def.IncidentTargetTags)
 				{
 					yield return type;
 				}
 			}
 			for (int i = 0; i < this.comps.Count; i++)
 			{
-				foreach (IncidentTargetTypeDef type2 in this.comps[i].AcceptedTypes())
+				foreach (IncidentTargetTagDef type2 in this.comps[i].IncidentTargetTags())
 				{
 					yield return type2;
 				}
@@ -268,11 +265,9 @@ namespace RimWorld.Planet
 					this,
 					") cannot have faction."
 				}), false);
+				return;
 			}
-			else
-			{
-				this.factionInt = newFaction;
-			}
+			this.factionInt = newFaction;
 		}
 
 		public virtual string GetInspectString()
@@ -463,16 +458,11 @@ namespace RimWorld.Planet
 
 		public virtual IEnumerable<InspectTabBase> GetInspectTabs()
 		{
-			IEnumerable<InspectTabBase> result;
 			if (this.def.inspectorTabsResolved != null)
 			{
-				result = this.def.inspectorTabsResolved;
+				return this.def.inspectorTabsResolved;
 			}
-			else
-			{
-				result = Enumerable.Empty<InspectTabBase>();
-			}
-			return result;
+			return Enumerable.Empty<InspectTabBase>();
 		}
 
 		public virtual bool AllMatchingObjectsOnScreenMatchesWith(WorldObject other)
@@ -599,28 +589,28 @@ namespace RimWorld.Planet
 		}
 
 		[CompilerGenerated]
-		private sealed class <AcceptedTypes>c__Iterator1 : IEnumerable, IEnumerable<IncidentTargetTypeDef>, IEnumerator, IDisposable, IEnumerator<IncidentTargetTypeDef>
+		private sealed class <IncidentTargetTags>c__Iterator1 : IEnumerable, IEnumerable<IncidentTargetTagDef>, IEnumerator, IDisposable, IEnumerator<IncidentTargetTagDef>
 		{
-			internal List<IncidentTargetTypeDef>.Enumerator $locvar0;
+			internal List<IncidentTargetTagDef>.Enumerator $locvar0;
 
-			internal IncidentTargetTypeDef <type>__1;
+			internal IncidentTargetTagDef <type>__1;
 
 			internal int <i>__2;
 
-			internal IEnumerator<IncidentTargetTypeDef> $locvar1;
+			internal IEnumerator<IncidentTargetTagDef> $locvar1;
 
-			internal IncidentTargetTypeDef <type>__3;
+			internal IncidentTargetTagDef <type>__3;
 
 			internal WorldObject $this;
 
-			internal IncidentTargetTypeDef $current;
+			internal IncidentTargetTagDef $current;
 
 			internal bool $disposing;
 
 			internal int $PC;
 
 			[DebuggerHidden]
-			public <AcceptedTypes>c__Iterator1()
+			public <IncidentTargetTags>c__Iterator1()
 			{
 			}
 
@@ -632,11 +622,11 @@ namespace RimWorld.Planet
 				switch (num)
 				{
 				case 0u:
-					if (this.def.incidentTargetTypes == null)
+					if (this.def.IncidentTargetTags == null)
 					{
-						goto IL_CF;
+						goto IL_C9;
 					}
-					enumerator = this.def.incidentTargetTypes.GetEnumerator();
+					enumerator = this.def.IncidentTargetTags.GetEnumerator();
 					num = 4294967293u;
 					break;
 				case 1u:
@@ -671,7 +661,7 @@ namespace RimWorld.Planet
 						}
 					}
 					i++;
-					goto IL_18B;
+					goto IL_180;
 				default:
 					return false;
 				}
@@ -699,12 +689,12 @@ namespace RimWorld.Planet
 						((IDisposable)enumerator).Dispose();
 					}
 				}
-				IL_CF:
+				IL_C9:
 				i = 0;
-				IL_18B:
+				IL_180:
 				if (i < this.comps.Count)
 				{
-					enumerator2 = this.comps[i].AcceptedTypes().GetEnumerator();
+					enumerator2 = this.comps[i].IncidentTargetTags().GetEnumerator();
 					num = 4294967293u;
 					goto Block_4;
 				}
@@ -712,7 +702,7 @@ namespace RimWorld.Planet
 				return false;
 			}
 
-			IncidentTargetTypeDef IEnumerator<IncidentTargetTypeDef>.Current
+			IncidentTargetTagDef IEnumerator<IncidentTargetTagDef>.Current
 			{
 				[DebuggerHidden]
 				get
@@ -771,19 +761,19 @@ namespace RimWorld.Planet
 			[DebuggerHidden]
 			IEnumerator IEnumerable.GetEnumerator()
 			{
-				return this.System.Collections.Generic.IEnumerable<RimWorld.IncidentTargetTypeDef>.GetEnumerator();
+				return this.System.Collections.Generic.IEnumerable<RimWorld.IncidentTargetTagDef>.GetEnumerator();
 			}
 
 			[DebuggerHidden]
-			IEnumerator<IncidentTargetTypeDef> IEnumerable<IncidentTargetTypeDef>.GetEnumerator()
+			IEnumerator<IncidentTargetTagDef> IEnumerable<IncidentTargetTagDef>.GetEnumerator()
 			{
 				if (Interlocked.CompareExchange(ref this.$PC, 0, -2) == -2)
 				{
 					return this;
 				}
-				WorldObject.<AcceptedTypes>c__Iterator1 <AcceptedTypes>c__Iterator = new WorldObject.<AcceptedTypes>c__Iterator1();
-				<AcceptedTypes>c__Iterator.$this = this;
-				return <AcceptedTypes>c__Iterator;
+				WorldObject.<IncidentTargetTags>c__Iterator1 <IncidentTargetTags>c__Iterator = new WorldObject.<IncidentTargetTags>c__Iterator1();
+				<IncidentTargetTags>c__Iterator.$this = this;
+				return <IncidentTargetTags>c__Iterator;
 			}
 		}
 

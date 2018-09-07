@@ -16,21 +16,21 @@ namespace RimWorld
 		[NoTranslate]
 		public List<string> buildingTags = new List<string>();
 
-		public bool isInert = false;
+		public bool isInert;
 
 		private bool deconstructible = true;
 
-		public bool alwaysDeconstructible = false;
+		public bool alwaysDeconstructible;
 
 		public bool claimable = true;
 
-		public bool isSittable = false;
+		public bool isSittable;
 
 		public SoundDef soundAmbient;
 
-		public ConceptDef spawnedConceptLearnOpportunity = null;
+		public ConceptDef spawnedConceptLearnOpportunity;
 
-		public ConceptDef boughtConceptLearnOpportunity = null;
+		public ConceptDef boughtConceptLearnOpportunity;
 
 		public bool expandHomeArea = true;
 
@@ -40,31 +40,31 @@ namespace RimWorld
 
 		public float uninstallWork = 200f;
 
-		public bool wantsHopperAdjacent = false;
+		public bool wantsHopperAdjacent;
 
 		public bool allowWireConnection = true;
 
-		public bool shipPart = false;
+		public bool shipPart;
 
 		public bool canPlaceOverImpassablePlant = true;
 
-		public float heatPerTickWhileWorking = 0f;
+		public float heatPerTickWhileWorking;
 
 		public bool canBuildNonEdificesUnder = true;
 
-		public bool canPlaceOverWall = false;
+		public bool canPlaceOverWall;
 
 		public bool allowAutoroof = true;
 
-		public bool preventDeteriorationOnTop = false;
+		public bool preventDeteriorationOnTop;
 
-		public bool preventDeteriorationInside = false;
+		public bool preventDeteriorationInside;
 
-		public bool isMealSource = false;
+		public bool isMealSource;
 
-		public bool isNaturalRock = false;
+		public bool isNaturalRock;
 
-		public bool isResourceRock = false;
+		public bool isResourceRock;
 
 		public bool repairable = true;
 
@@ -72,7 +72,7 @@ namespace RimWorld
 
 		public bool hasFuelingPort;
 
-		public ThingDef smoothedThing = null;
+		public ThingDef smoothedThing;
 
 		[Unsaved]
 		public ThingDef unsmoothedThing;
@@ -81,15 +81,15 @@ namespace RimWorld
 
 		public TerrainDef leaveTerrain;
 
-		public bool isPlayerEjectable = false;
+		public bool isPlayerEjectable;
 
-		public GraphicData fullGraveGraphicData = null;
+		public GraphicData fullGraveGraphicData;
 
-		public float bed_healPerDay = 0f;
+		public float bed_healPerDay;
 
-		public bool bed_defaultMedical = false;
+		public bool bed_defaultMedical;
 
-		public bool bed_showSleeperBody = false;
+		public bool bed_showSleeperBody;
 
 		public bool bed_humanlike = true;
 
@@ -103,12 +103,12 @@ namespace RimWorld
 
 		public ThingDef turretGunDef;
 
-		public float turretBurstWarmupTime = 0f;
+		public float turretBurstWarmupTime;
 
 		public float turretBurstCooldownTime = -1f;
 
 		[NoTranslate]
-		public string turretTopGraphicPath = null;
+		public string turretTopGraphicPath;
 
 		[Unsaved]
 		public Material turretTopMat;
@@ -117,7 +117,7 @@ namespace RimWorld
 
 		public Vector2 turretTopOffset;
 
-		public bool ai_combatDangerous = false;
+		public bool ai_combatDangerous;
 
 		public bool ai_chillDestination = true;
 
@@ -130,11 +130,11 @@ namespace RimWorld
 		public SoundDef soundDoorCloseManual;
 
 		[NoTranslate]
-		public string sowTag = null;
+		public string sowTag;
 
-		public ThingDef defaultPlantToGrow = null;
+		public ThingDef defaultPlantToGrow;
 
-		public ThingDef mineableThing = null;
+		public ThingDef mineableThing;
 
 		public int mineableYield = 1;
 
@@ -144,17 +144,21 @@ namespace RimWorld
 
 		public bool mineableYieldWasteable = true;
 
-		public float mineableScatterCommonality = 0f;
+		public float mineableScatterCommonality;
 
 		public IntRange mineableScatterLumpSizeRange = new IntRange(20, 40);
 
-		public StorageSettings fixedStorageSettings = null;
+		public StorageSettings fixedStorageSettings;
 
-		public StorageSettings defaultStorageSettings = null;
+		public StorageSettings defaultStorageSettings;
 
 		public bool ignoreStoredThingsBeauty;
 
-		public bool isTrap = false;
+		public bool isTrap;
+
+		public bool trapDestroyOnSpring;
+
+		public float trapPeacefulWildAnimalsSpringChanceFactor = 1f;
 
 		public DamageArmorCategoryDef trapDamageCategory;
 
@@ -163,11 +167,11 @@ namespace RimWorld
 		[Unsaved]
 		public Graphic trapUnarmedGraphic;
 
-		public float unpoweredWorkTableWorkSpeedFactor = 0f;
+		public float unpoweredWorkTableWorkSpeedFactor;
 
-		public bool workSpeedPenaltyOutdoors = false;
+		public bool workSpeedPenaltyOutdoors;
 
-		public bool workSpeedPenaltyTemperature = false;
+		public bool workSpeedPenaltyTemperature;
 
 		public IntRange watchBuildingStandDistanceRange = IntRange.one;
 
@@ -209,38 +213,34 @@ namespace RimWorld
 		{
 			get
 			{
-				bool result;
 				if (!this.IsTurret)
 				{
-					result = false;
+					return false;
 				}
-				else
+				List<VerbProperties> verbs = this.turretGunDef.Verbs;
+				for (int i = 0; i < verbs.Count; i++)
 				{
-					List<VerbProperties> verbs = this.turretGunDef.Verbs;
-					for (int i = 0; i < verbs.Count; i++)
+					if (verbs[i].isPrimary && verbs[i].defaultProjectile != null && verbs[i].defaultProjectile.projectile.flyOverhead)
 					{
-						if (verbs[i].isPrimary && verbs[i].defaultProjectile != null && verbs[i].defaultProjectile.projectile.flyOverhead)
-						{
-							return true;
-						}
+						return true;
 					}
-					if (this.turretGunDef.HasComp(typeof(CompChangeableProjectile)))
-					{
-						if (this.turretGunDef.building.fixedStorageSettings.filter.Allows(ThingDefOf.Shell_HighExplosive))
-						{
-							return true;
-						}
-						foreach (ThingDef thingDef in this.turretGunDef.building.fixedStorageSettings.filter.AllowedThingDefs)
-						{
-							if (thingDef.projectileWhenLoaded != null && thingDef.projectileWhenLoaded.projectile.flyOverhead)
-							{
-								return true;
-							}
-						}
-					}
-					result = false;
 				}
-				return result;
+				if (this.turretGunDef.HasComp(typeof(CompChangeableProjectile)))
+				{
+					if (this.turretGunDef.building.fixedStorageSettings.filter.Allows(ThingDefOf.Shell_HighExplosive))
+					{
+						return true;
+					}
+					foreach (ThingDef thingDef in this.turretGunDef.building.fixedStorageSettings.filter.AllowedThingDefs)
+					{
+						if (thingDef.projectileWhenLoaded != null && thingDef.projectileWhenLoaded.projectile.flyOverhead)
+						{
+							return true;
+						}
+					}
+					return false;
+				}
+				return false;
 			}
 		}
 
@@ -294,13 +294,10 @@ namespace RimWorld
 			{
 				this.fixedStorageSettings.filter.ResolveReferences();
 			}
-			if (this.defaultStorageSettings == null)
+			if (this.defaultStorageSettings == null && this.fixedStorageSettings != null)
 			{
-				if (this.fixedStorageSettings != null)
-				{
-					this.defaultStorageSettings = new StorageSettings();
-					this.defaultStorageSettings.CopyFrom(this.fixedStorageSettings);
-				}
+				this.defaultStorageSettings = new StorageSettings();
+				this.defaultStorageSettings.CopyFrom(this.fixedStorageSettings);
 			}
 			if (this.defaultStorageSettings != null)
 			{
@@ -340,11 +337,11 @@ namespace RimWorld
 		{
 			if (this.joyKind != null)
 			{
-				yield return new StatDrawEntry(StatCategoryDefOf.Building, "StatsReport_JoyKind".Translate(), this.joyKind.LabelCap, 0, "");
+				yield return new StatDrawEntry(StatCategoryDefOf.Building, "StatsReport_JoyKind".Translate(), this.joyKind.LabelCap, 0, string.Empty);
 			}
 			if (parentDef.Minifiable)
 			{
-				yield return new StatDrawEntry(StatCategoryDefOf.Building, "StatsReport_WorkToUninstall".Translate(), this.uninstallWork.ToStringWorkAmount(), 0, "");
+				yield return new StatDrawEntry(StatCategoryDefOf.Building, "StatsReport_WorkToUninstall".Translate(), this.uninstallWork.ToStringWorkAmount(), 0, string.Empty);
 			}
 			yield break;
 		}
@@ -393,9 +390,9 @@ namespace RimWorld
 				case 1u:
 					break;
 				case 2u:
-					goto IL_A8;
+					goto IL_A7;
 				case 3u:
-					goto IL_E7;
+					goto IL_E6;
 				default:
 					return false;
 				}
@@ -408,7 +405,7 @@ namespace RimWorld
 					}
 					return true;
 				}
-				IL_A8:
+				IL_A7:
 				if (parent.holdsRoof && !this.isEdifice)
 				{
 					this.$current = "holds roof but is not an edifice.";
@@ -418,7 +415,7 @@ namespace RimWorld
 					}
 					return true;
 				}
-				IL_E7:
+				IL_E6:
 				this.$PC = -1;
 				return false;
 			}
@@ -501,7 +498,7 @@ namespace RimWorld
 				case 0u:
 					if (this.joyKind != null)
 					{
-						this.$current = new StatDrawEntry(StatCategoryDefOf.Building, "StatsReport_JoyKind".Translate(), this.joyKind.LabelCap, 0, "");
+						this.$current = new StatDrawEntry(StatCategoryDefOf.Building, "StatsReport_JoyKind".Translate(), this.joyKind.LabelCap, 0, string.Empty);
 						if (!this.$disposing)
 						{
 							this.$PC = 1;
@@ -512,20 +509,20 @@ namespace RimWorld
 				case 1u:
 					break;
 				case 2u:
-					goto IL_CE;
+					goto IL_CD;
 				default:
 					return false;
 				}
 				if (parentDef.Minifiable)
 				{
-					this.$current = new StatDrawEntry(StatCategoryDefOf.Building, "StatsReport_WorkToUninstall".Translate(), this.uninstallWork.ToStringWorkAmount(), 0, "");
+					this.$current = new StatDrawEntry(StatCategoryDefOf.Building, "StatsReport_WorkToUninstall".Translate(), this.uninstallWork.ToStringWorkAmount(), 0, string.Empty);
 					if (!this.$disposing)
 					{
 						this.$PC = 2;
 					}
 					return true;
 				}
-				IL_CE:
+				IL_CD:
 				this.$PC = -1;
 				return false;
 			}

@@ -15,7 +15,7 @@ namespace RimWorld
 
 		public bool visible = true;
 
-		public bool summarized = false;
+		public bool summarized;
 
 		protected ScenPart()
 		{

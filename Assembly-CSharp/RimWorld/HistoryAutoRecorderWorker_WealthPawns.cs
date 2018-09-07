@@ -4,9 +4,9 @@ using Verse;
 
 namespace RimWorld
 {
-	public class HistoryAutoRecorderWorker_WealthTameAnimals : HistoryAutoRecorderWorker
+	public class HistoryAutoRecorderWorker_WealthPawns : HistoryAutoRecorderWorker
 	{
-		public HistoryAutoRecorderWorker_WealthTameAnimals()
+		public HistoryAutoRecorderWorker_WealthPawns()
 		{
 		}
 
@@ -18,7 +18,7 @@ namespace RimWorld
 			{
 				if (maps[i].IsPlayerHome)
 				{
-					num += maps[i].wealthWatcher.WealthTameAnimals;
+					num += maps[i].wealthWatcher.WealthPawns;
 				}
 			}
 			return num;

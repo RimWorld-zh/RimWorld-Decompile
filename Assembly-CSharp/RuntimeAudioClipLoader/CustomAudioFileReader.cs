@@ -135,13 +135,10 @@ namespace RuntimeAudioClipLoader
 
 		protected override void Dispose(bool disposing)
 		{
-			if (disposing)
+			if (disposing && this.readerStream != null)
 			{
-				if (this.readerStream != null)
-				{
-					this.readerStream.Dispose();
-					this.readerStream = null;
-				}
+				this.readerStream.Dispose();
+				this.readerStream = null;
 			}
 			base.Dispose(disposing);
 		}

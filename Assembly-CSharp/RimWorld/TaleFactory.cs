@@ -8,10 +8,10 @@ namespace RimWorld
 	public static class TaleFactory
 	{
 		[CompilerGenerated]
-		private static Func<object, string> <>f__am$cache0;
+		private static Func<object, string> <>f__mg$cache0;
 
 		[CompilerGenerated]
-		private static Func<TaleDef, bool> <>f__am$cache1;
+		private static Func<TaleDef, bool> <>f__am$cache0;
 
 		public static Tale MakeRawTale(TaleDef def, params object[] args)
 		{
@@ -26,9 +26,12 @@ namespace RimWorld
 			}
 			catch (Exception arg)
 			{
-				Exception arg2;
-				Log.Error(string.Format("Failed to create tale object {0} with parameters {1}: {2}", def, (from arg in args
-				select arg.ToStringSafe<object>()).ToCommaList(false), arg2), false);
+				string format = "Failed to create tale object {0} with parameters {1}: {2}";
+				if (TaleFactory.<>f__mg$cache0 == null)
+				{
+					TaleFactory.<>f__mg$cache0 = new Func<object, string>(Gen.ToStringSafe<object>);
+				}
+				Log.Error(string.Format(format, def, args.Select(TaleFactory.<>f__mg$cache0).ToCommaList(false), arg), false);
 				result = null;
 			}
 			return result;
@@ -48,13 +51,7 @@ namespace RimWorld
 		}
 
 		[CompilerGenerated]
-		private static string <MakeRawTale>m__0(object arg)
-		{
-			return arg.ToStringSafe<object>();
-		}
-
-		[CompilerGenerated]
-		private static bool <MakeRandomTestTale>m__1(TaleDef d)
+		private static bool <MakeRandomTestTale>m__0(TaleDef d)
 		{
 			return d.usableForArt;
 		}

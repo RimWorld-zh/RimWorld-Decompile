@@ -17,9 +17,9 @@ namespace RimWorld
 
 		public const float MinimumSellPrice = 0.01f;
 
-		public const float PriceFactorBuy_Global = 1.5f;
+		public const float PriceFactorBuy_Global = 1.4f;
 
-		public const float PriceFactorSell_Global = 0.5f;
+		public const float PriceFactorSell_Global = 0.6f;
 
 		[CompilerGenerated]
 		private static Func<Map, bool> <>f__am$cache0;
@@ -47,21 +47,16 @@ namespace RimWorld
 		public static bool PlayerSellableNow(Thing t)
 		{
 			t = t.GetInnerIfMinified();
-			bool result;
 			if (!TradeUtility.EverPlayerSellable(t.def))
 			{
-				result = false;
+				return false;
 			}
-			else if (t.IsNotFresh())
+			if (t.IsNotFresh())
 			{
-				result = false;
+				return false;
 			}
-			else
-			{
-				Apparel apparel = t as Apparel;
-				result = (apparel == null || !apparel.WornByCorpse);
-			}
-			return result;
+			Apparel apparel = t as Apparel;
+			return apparel == null || !apparel.WornByCorpse;
 		}
 
 		public static void SpawnDropPod(IntVec3 dropSpot, Map map, Thing t)
@@ -70,7 +65,7 @@ namespace RimWorld
 			{
 				SingleContainedThing = t,
 				leaveSlag = false
-			}, false);
+			});
 		}
 
 		public static IEnumerable<Thing> AllLaunchableThingsForTrade(Map map)
@@ -116,23 +111,18 @@ namespace RimWorld
 
 		public static Thing ThingFromStockToMergeWith(ITrader trader, Thing thing)
 		{
-			Thing result;
 			if (thing is Pawn)
 			{
-				result = null;
+				return null;
 			}
-			else
+			foreach (Thing thing2 in trader.Goods)
 			{
-				foreach (Thing thing2 in trader.Goods)
+				if (TransferableUtility.TransferAsOne(thing2, thing, TransferAsOneMode.Normal) && thing2.CanStackWith(thing) && thing2.def.stackLimit != 1)
 				{
-					if (TransferableUtility.TransferAsOne(thing2, thing, TransferAsOneMode.Normal) && thing2.CanStackWith(thing) && thing2.def.stackLimit != 1)
-					{
-						return thing2;
-					}
+					return thing2;
 				}
-				result = null;
 			}
-			return result;
+			return null;
 		}
 
 		public static void LaunchThingsOfType(ThingDef resDef, int debt, Map map, TradeShip trader)
@@ -149,12 +139,12 @@ namespace RimWorld
 							if (thing2.def == resDef)
 							{
 								thing = thing2;
-								goto IL_D8;
+								goto IL_CC;
 							}
 						}
 					}
 				}
-				IL_D8:
+				IL_CC:
 				if (thing == null)
 				{
 					Log.Error("Could not find any " + resDef + " to transfer to trader.", false);
@@ -196,20 +186,21 @@ namespace RimWorld
 
 		public static void CheckInteractWithTradersTeachOpportunity(Pawn pawn)
 		{
-			if (!pawn.Dead)
+			if (pawn.Dead)
 			{
-				Lord lord = pawn.GetLord();
-				if (lord != null && lord.CurLordToil is LordToil_DefendTraderCaravan)
-				{
-					LessonAutoActivator.TeachOpportunity(ConceptDefOf.InteractingWithTraders, pawn, OpportunityType.Important);
-				}
+				return;
+			}
+			Lord lord = pawn.GetLord();
+			if (lord != null && lord.CurLordToil is LordToil_DefendTraderCaravan)
+			{
+				LessonAutoActivator.TeachOpportunity(ConceptDefOf.InteractingWithTraders, pawn, OpportunityType.Important);
 			}
 		}
 
 		public static float GetPricePlayerSell(Thing thing, float priceFactorSell_TraderPriceType, float priceGain_PlayerNegotiator, float priceGain_FactionBase)
 		{
 			float statValue = thing.GetStatValue(StatDefOf.SellPriceFactor, true);
-			float num = thing.MarketValue * 0.5f * priceFactorSell_TraderPriceType * statValue * (1f - Find.Storyteller.difficulty.tradePriceFactorLoss);
+			float num = thing.MarketValue * 0.6f * priceFactorSell_TraderPriceType * statValue * (1f - Find.Storyteller.difficulty.tradePriceFactorLoss);
 			num *= 1f + priceGain_PlayerNegotiator + priceGain_FactionBase;
 			num = Mathf.Max(num, 0.01f);
 			if (num > 99.5f)
@@ -221,7 +212,7 @@ namespace RimWorld
 
 		public static float GetPricePlayerBuy(Thing thing, float priceFactorBuy_TraderPriceType, float priceGain_PlayerNegotiator, float priceGain_FactionBase)
 		{
-			float num = thing.MarketValue * 1.5f * priceFactorBuy_TraderPriceType * (1f + Find.Storyteller.difficulty.tradePriceFactorLoss);
+			float num = thing.MarketValue * 1.4f * priceFactorBuy_TraderPriceType * (1f + Find.Storyteller.difficulty.tradePriceFactorLoss);
 			num *= 1f - priceGain_PlayerNegotiator - priceGain_FactionBase;
 			num = Mathf.Max(num, 0.5f);
 			if (num > 99.5f)
@@ -329,13 +320,13 @@ namespace RimWorld
 							switch (num)
 							{
 							case 1u:
+								IL_14E:
+								i++;
 								break;
 							default:
-								goto IL_17C;
+								goto IL_172;
 							}
-							IL_156:
-							i++;
-							IL_165:
+							IL_15C:
 							if (i < thingList.Count)
 							{
 								t = thingList[i];
@@ -350,15 +341,15 @@ namespace RimWorld
 									flag = true;
 									return true;
 								}
-								goto IL_156;
+								goto IL_14E;
 							}
-							IL_17C:
+							IL_172:
 							if (enumerator2.MoveNext())
 							{
 								c = enumerator2.Current;
 								thingList = c.GetThingList(map);
 								i = 0;
-								goto IL_165;
+								goto IL_15C;
 							}
 						}
 						finally
@@ -509,7 +500,7 @@ namespace RimWorld
 				case 1u:
 					break;
 				case 2u:
-					goto IL_F1;
+					goto IL_EC;
 				default:
 					return false;
 				}
@@ -517,11 +508,8 @@ namespace RimWorld
 				{
 					switch (num)
 					{
-					case 1u:
-						IL_A1:
-						break;
 					}
-					if (enumerator.MoveNext())
+					while (enumerator.MoveNext())
 					{
 						p = enumerator.Current;
 						if (p.guest.PrisonerIsSecure)
@@ -534,7 +522,6 @@ namespace RimWorld
 							flag = true;
 							return true;
 						}
-						goto IL_A1;
 					}
 				}
 				finally
@@ -548,14 +535,11 @@ namespace RimWorld
 				num = 4294967293u;
 				try
 				{
-					IL_F1:
+					IL_EC:
 					switch (num)
 					{
-					case 2u:
-						IL_19B:
-						break;
 					}
-					if (enumerator2.MoveNext())
+					while (enumerator2.MoveNext())
 					{
 						p2 = enumerator2.Current;
 						if (p2.RaceProps.Animal && p2.HostFaction == null && !p2.InMentalState && !p2.Downed && map.mapTemperature.SeasonAndOutdoorTemperatureAcceptableFor(p2.def))
@@ -568,7 +552,6 @@ namespace RimWorld
 							flag = true;
 							return true;
 						}
-						goto IL_19B;
 					}
 				}
 				finally

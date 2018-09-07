@@ -1,6 +1,5 @@
 ﻿using System;
 using System.Collections.Generic;
-using UnityEngine.Profiling;
 
 namespace Verse
 {
@@ -28,30 +27,19 @@ namespace Verse
 			get
 			{
 				TickerType tickerType = this.tickType;
-				int result;
-				if (tickerType != TickerType.Normal)
+				if (tickerType == TickerType.Normal)
 				{
-					if (tickerType != TickerType.Rare)
-					{
-						if (tickerType != TickerType.Long)
-						{
-							result = -1;
-						}
-						else
-						{
-							result = 2000;
-						}
-					}
-					else
-					{
-						result = 250;
-					}
+					return 1;
 				}
-				else
+				if (tickerType == TickerType.Rare)
 				{
-					result = 1;
+					return 250;
 				}
-				return result;
+				if (tickerType != TickerType.Long)
+				{
+					return -1;
+				}
+				return 2000;
 			}
 		}
 
@@ -119,7 +107,6 @@ namespace Verse
 				{
 					try
 					{
-						Profiler.BeginSample(list2[m].def.defName);
 						TickerType tickerType = this.tickType;
 						if (tickerType != TickerType.Normal)
 						{
@@ -139,11 +126,10 @@ namespace Verse
 						{
 							list2[m].Tick();
 						}
-						Profiler.EndSample();
 					}
 					catch (Exception ex)
 					{
-						string text = (!list2[m].Spawned) ? "" : (" (at " + list2[m].Position + ")");
+						string text = (!list2[m].Spawned) ? string.Empty : (" (at " + list2[m].Position + ")");
 						if (Prefs.DevMode)
 						{
 							Log.Error(string.Concat(new object[]

@@ -17,13 +17,13 @@ namespace Verse
 
 		public float baseCommonality;
 
-		public SimpleCurve commonalityFactorPerPopulationCurve = null;
+		public SimpleCurve commonalityFactorPerPopulationCurve;
 
-		public MentalBreakIntensity intensity = MentalBreakIntensity.None;
+		public MentalBreakIntensity intensity;
 
 		public TraitDef requiredTrait;
 
-		private MentalBreakWorker workerInt = null;
+		private MentalBreakWorker workerInt;
 
 		public MentalBreakDef()
 		{
@@ -33,13 +33,10 @@ namespace Verse
 		{
 			get
 			{
-				if (this.workerInt == null)
+				if (this.workerInt == null && this.workerClass != null)
 				{
-					if (this.workerClass != null)
-					{
-						this.workerInt = (MentalBreakWorker)Activator.CreateInstance(this.workerClass);
-						this.workerInt.def = this;
-					}
+					this.workerInt = (MentalBreakWorker)Activator.CreateInstance(this.workerClass);
+					this.workerInt.def = this;
 				}
 				return this.workerInt;
 			}
@@ -47,7 +44,7 @@ namespace Verse
 
 		public override IEnumerable<string> ConfigErrors()
 		{
-			foreach (string e in this.<ConfigErrors>__BaseCallProxy0())
+			foreach (string e in base.ConfigErrors())
 			{
 				yield return e;
 			}
@@ -99,7 +96,7 @@ namespace Verse
 				case 1u:
 					break;
 				case 2u:
-					goto IL_E7;
+					goto IL_E3;
 				default:
 					return false;
 				}
@@ -132,7 +129,7 @@ namespace Verse
 				}
 				if (this.intensity != MentalBreakIntensity.None)
 				{
-					goto IL_E7;
+					goto IL_E3;
 				}
 				this.$current = "intensity not set";
 				if (!this.$disposing)
@@ -140,7 +137,7 @@ namespace Verse
 					this.$PC = 2;
 				}
 				return true;
-				IL_E7:
+				IL_E3:
 				this.$PC = -1;
 				return false;
 			}

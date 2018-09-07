@@ -7,7 +7,7 @@ namespace Verse
 	{
 		public float permanentDamageThreshold = 9999f;
 
-		public bool isPermanentInt = false;
+		public bool isPermanentInt;
 
 		private float painFactor = 1f;
 
@@ -33,14 +33,15 @@ namespace Verse
 			}
 			set
 			{
-				if (value != this.isPermanentInt)
+				if (value == this.isPermanentInt)
 				{
-					this.isPermanentInt = value;
-					if (this.isPermanentInt)
-					{
-						this.painFactor = Mathf.Max(0f, Rand.ByCurve(HealthTuning.PermanentInjuryPainFactorRandomCurve));
-						this.permanentDamageThreshold = 9999f;
-					}
+					return;
+				}
+				this.isPermanentInt = value;
+				if (this.isPermanentInt)
+				{
+					this.painFactor = Mathf.Max(0f, Rand.ByCurve(HealthTuning.PermanentInjuryPainFactorRandomCurve));
+					this.permanentDamageThreshold = 9999f;
 				}
 			}
 		}
@@ -66,37 +67,39 @@ namespace Verse
 
 		public void PreFinalizeInjury()
 		{
-			if (!base.Pawn.health.hediffSet.PartOrAnyAncestorHasDirectlyAddedParts(this.parent.Part))
+			if (base.Pawn.health.hediffSet.PartOrAnyAncestorHasDirectlyAddedParts(this.parent.Part))
 			{
-				float num = 0.02f * this.parent.Part.def.permanentInjuryChanceFactor * this.Props.becomePermanentChanceFactor;
-				if (!this.parent.Part.def.delicate)
+				return;
+			}
+			float num = 0.02f * this.parent.Part.def.permanentInjuryChanceFactor * this.Props.becomePermanentChanceFactor;
+			if (!this.parent.Part.def.delicate)
+			{
+				num *= HealthTuning.BecomePermanentChanceFactorBySeverityCurve.Evaluate(this.parent.Severity);
+			}
+			if (Rand.Chance(num))
+			{
+				if (this.parent.Part.def.delicate)
 				{
-					num *= HealthTuning.BecomePermanentChanceFactorBySeverityCurve.Evaluate(this.parent.Severity);
+					this.IsPermanent = true;
 				}
-				if (Rand.Chance(num))
+				else
 				{
-					if (this.parent.Part.def.delicate)
-					{
-						this.IsPermanent = true;
-					}
-					else
-					{
-						this.permanentDamageThreshold = Rand.Range(1f, this.parent.Severity / 2f);
-					}
+					this.permanentDamageThreshold = Rand.Range(1f, this.parent.Severity / 2f);
 				}
 			}
 		}
 
 		public override void CompPostInjuryHeal(float amount)
 		{
-			if (this.permanentDamageThreshold < 9999f && !this.IsPermanent)
+			if (this.permanentDamageThreshold >= 9999f || this.IsPermanent)
 			{
-				if (this.parent.Severity <= this.permanentDamageThreshold && this.parent.Severity >= this.permanentDamageThreshold - amount)
-				{
-					this.parent.Severity = this.permanentDamageThreshold;
-					this.IsPermanent = true;
-					base.Pawn.health.Notify_HediffChanged(this.parent);
-				}
+				return;
+			}
+			if (this.parent.Severity <= this.permanentDamageThreshold && this.parent.Severity >= this.permanentDamageThreshold - amount)
+			{
+				this.parent.Severity = this.permanentDamageThreshold;
+				this.IsPermanent = true;
+				base.Pawn.health.Notify_HediffChanged(this.parent);
 			}
 		}
 

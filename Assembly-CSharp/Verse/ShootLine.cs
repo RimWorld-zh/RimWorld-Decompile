@@ -99,17 +99,12 @@ namespace Verse
 			DebugTables.MakeTablesDialog<int, int>(colValues, (int cells) => cells.ToString() + "-away\ncell\nhit%", enumerable, (int hitchance) => ((float)hitchance / 100f).ToStringPercent() + " aimon chance", delegate(int cells, int hitchance)
 			{
 				float num2 = (float)hitchance / 100f;
-				string result;
 				if (cells == 0)
 				{
-					result = num2.ToStringPercent();
+					return num2.ToStringPercent();
 				}
-				else
-				{
-					result = ((float)results[hitchance, cells] / 10000f * (1f - num2)).ToStringPercent();
-				}
-				return result;
-			}, "");
+				return ((float)results[hitchance, cells] / 10000f * (1f - num2)).ToStringPercent();
+			}, string.Empty);
 		}
 
 		[CompilerGenerated]
@@ -136,16 +131,11 @@ namespace Verse
 			internal string <>m__0(int cells, int hitchance)
 			{
 				float num = (float)hitchance / 100f;
-				string result;
 				if (cells == 0)
 				{
-					result = num.ToStringPercent();
+					return num.ToStringPercent();
 				}
-				else
-				{
-					result = ((float)this.results[hitchance, cells] / 10000f * (1f - num)).ToStringPercent();
-				}
-				return result;
+				return ((float)this.results[hitchance, cells] / 10000f * (1f - num)).ToStringPercent();
 			}
 		}
 	}

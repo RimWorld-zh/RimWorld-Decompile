@@ -117,7 +117,6 @@ namespace RimWorld
 		public static bool TryShortCircuitInRain(Thing thing)
 		{
 			CompPowerTrader compPowerTrader = thing.TryGetComp<CompPowerTrader>();
-			bool result;
 			if ((compPowerTrader != null && compPowerTrader.PowerOn && compPowerTrader.Props.shortCircuitInRain) || (thing.TryGetComp<CompPowerBattery>() != null && thing.TryGetComp<CompPowerBattery>().StoredEnergy > 100f))
 			{
 				string text = "ShortCircuitRain".Translate(new object[]
@@ -134,13 +133,9 @@ namespace RimWorld
 					Messages.Message(text, target, MessageTypeDefOf.NeutralEvent, true);
 				}
 				GenExplosion.DoExplosion(thing.OccupiedRect().RandomCell, thing.Map, 1.9f, DamageDefOf.Flame, null, -1, -1f, null, null, null, null, null, 0f, 1, false, null, 0f, 1, 0f, false);
-				result = true;
+				return true;
 			}
-			else
-			{
-				result = false;
-			}
-			return result;
+			return false;
 		}
 
 		private static void DrainBatteriesAndCauseExplosion(PowerNet net, Building culprit, out float totalEnergy, out float explosionRadius)
@@ -235,22 +230,21 @@ namespace RimWorld
 					switch (num)
 					{
 					case 1u:
+						IL_123:
+						i++;
 						break;
 					default:
 						conduits = map.listerThings.ThingsOfDef(ThingDefOf.PowerConduit);
 						i = 0;
-						goto IL_137;
+						break;
 					}
-					IL_129:
-					i++;
-					IL_137:
 					if (i < conduits.Count)
 					{
 						b = (Building)conduits[i];
 						power = b.PowerComp;
 						if (power == null)
 						{
-							goto IL_129;
+							goto IL_123;
 						}
 						if (!ShortCircuitUtility.tmpPowerNetHasActivePowerSource.TryGetValue(power.PowerNet, out hasActivePowerSource))
 						{
@@ -259,7 +253,7 @@ namespace RimWorld
 						}
 						if (!hasActivePowerSource)
 						{
-							goto IL_129;
+							goto IL_123;
 						}
 						this.$current = b;
 						if (!this.$disposing)

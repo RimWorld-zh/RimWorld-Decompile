@@ -43,7 +43,7 @@ namespace Verse
 						float manhunterOnDamageChance;
 						if (verb.IsMeleeAttack)
 						{
-							manhunterOnDamageChance = PawnUtility.GetManhunterOnDamageChance(pawn2, 0f);
+							manhunterOnDamageChance = PawnUtility.GetManhunterOnDamageChance(pawn2, 0f, singleSelectedThing);
 						}
 						else
 						{

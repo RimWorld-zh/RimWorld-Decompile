@@ -9,7 +9,7 @@ namespace RimWorld
 {
 	public class ScenPart_PlayerPawnsArriveMethod : ScenPart
 	{
-		private PlayerPawnsArriveMethod method = PlayerPawnsArriveMethod.Standing;
+		private PlayerPawnsArriveMethod method;
 
 		public ScenPart_PlayerPawnsArriveMethod()
 		{
@@ -55,16 +55,11 @@ namespace RimWorld
 
 		public override string Summary(Scenario scen)
 		{
-			string result;
 			if (this.method == PlayerPawnsArriveMethod.DropPods)
 			{
-				result = "ScenPart_ArriveInDropPods".Translate();
+				return "ScenPart_ArriveInDropPods".Translate();
 			}
-			else
-			{
-				result = null;
-			}
-			return result;
+			return null;
 		}
 
 		public override void Randomize()
@@ -74,50 +69,52 @@ namespace RimWorld
 
 		public override void GenerateIntoMap(Map map)
 		{
-			if (Find.GameInitData != null)
+			if (Find.GameInitData == null)
 			{
-				List<List<Thing>> list = new List<List<Thing>>();
-				foreach (Pawn item in Find.GameInitData.startingAndOptionalPawns)
-				{
-					list.Add(new List<Thing>
-					{
-						item
-					});
-				}
-				List<Thing> list2 = new List<Thing>();
-				foreach (ScenPart scenPart in Find.Scenario.AllParts)
-				{
-					list2.AddRange(scenPart.PlayerStartingThings());
-				}
-				int num = 0;
-				foreach (Thing thing in list2)
-				{
-					if (thing.def.CanHaveFaction)
-					{
-						thing.SetFactionDirect(Faction.OfPlayer);
-					}
-					list[num].Add(thing);
-					num++;
-					if (num >= list.Count)
-					{
-						num = 0;
-					}
-				}
-				IntVec3 playerStartSpot = MapGenerator.PlayerStartSpot;
-				List<List<Thing>> thingsGroups = list;
-				bool instaDrop = Find.GameInitData.QuickStarted || this.method != PlayerPawnsArriveMethod.DropPods;
-				DropPodUtility.DropThingGroupsNear(playerStartSpot, map, thingsGroups, 110, instaDrop, true, true, false);
+				return;
 			}
+			List<List<Thing>> list = new List<List<Thing>>();
+			foreach (Pawn item in Find.GameInitData.startingAndOptionalPawns)
+			{
+				list.Add(new List<Thing>
+				{
+					item
+				});
+			}
+			List<Thing> list2 = new List<Thing>();
+			foreach (ScenPart scenPart in Find.Scenario.AllParts)
+			{
+				list2.AddRange(scenPart.PlayerStartingThings());
+			}
+			int num = 0;
+			foreach (Thing thing in list2)
+			{
+				if (thing.def.CanHaveFaction)
+				{
+					thing.SetFactionDirect(Faction.OfPlayer);
+				}
+				list[num].Add(thing);
+				num++;
+				if (num >= list.Count)
+				{
+					num = 0;
+				}
+			}
+			IntVec3 playerStartSpot = MapGenerator.PlayerStartSpot;
+			List<List<Thing>> thingsGroups = list;
+			bool instaDrop = Find.GameInitData.QuickStarted || this.method != PlayerPawnsArriveMethod.DropPods;
+			DropPodUtility.DropThingGroupsNear(playerStartSpot, map, thingsGroups, 110, instaDrop, true, true);
 		}
 
 		public override void PostMapGenerate(Map map)
 		{
-			if (Find.GameInitData != null)
+			if (Find.GameInitData == null)
 			{
-				if (this.method == PlayerPawnsArriveMethod.DropPods)
-				{
-					PawnUtility.GiveAllStartingPlayerPawnsThought(ThoughtDefOf.CrashedTogether);
-				}
+				return;
+			}
+			if (this.method == PlayerPawnsArriveMethod.DropPods)
+			{
+				PawnUtility.GiveAllStartingPlayerPawnsThought(ThoughtDefOf.CrashedTogether);
 			}
 		}
 

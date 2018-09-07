@@ -130,7 +130,7 @@ namespace Verse
 				case 1u:
 					break;
 				case 2u:
-					goto IL_90;
+					goto IL_8F;
 				default:
 					return false;
 				}
@@ -143,7 +143,7 @@ namespace Verse
 					}
 					return true;
 				}
-				IL_90:
+				IL_8F:
 				this.$PC = -1;
 				return false;
 			}

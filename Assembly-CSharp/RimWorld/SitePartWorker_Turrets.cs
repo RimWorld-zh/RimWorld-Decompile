@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Linq;
 using System.Runtime.CompilerServices;
+using System.Text;
 using RimWorld.Planet;
 using UnityEngine;
 using Verse;
@@ -47,23 +48,63 @@ namespace RimWorld
 
 		public override string GetPostProcessedDescriptionDialogue(Site site, SiteCoreOrPartBase siteCoreOrPart)
 		{
-			return string.Format(base.GetPostProcessedDescriptionDialogue(site, siteCoreOrPart), this.GetTurretsCount(siteCoreOrPart.parms));
+			return string.Format(base.GetPostProcessedDescriptionDialogue(site, siteCoreOrPart), this.GetThreatsInfo(siteCoreOrPart.parms));
 		}
 
 		public override string GetPostProcessedThreatLabel(Site site, SiteCoreOrPartBase siteCoreOrPart)
 		{
-			return string.Concat(new object[]
-			{
-				base.GetPostProcessedThreatLabel(site, siteCoreOrPart),
-				" (",
-				this.GetTurretsCount(siteCoreOrPart.parms),
-				")"
-			});
+			return base.GetPostProcessedThreatLabel(site, siteCoreOrPart) + " (" + this.GetThreatsInfo(siteCoreOrPart.parms) + ")";
 		}
 
-		private int GetTurretsCount(SiteCoreOrPartParams parms)
+		private string GetThreatsInfo(SiteCoreOrPartParams parms)
 		{
-			return parms.turretsCount + parms.mortarsCount;
+			StringBuilder stringBuilder = new StringBuilder();
+			int num = parms.mortarsCount + 1;
+			if (parms.turretsCount != 0)
+			{
+				stringBuilder.Append(parms.turretsCount + " ");
+				if (parms.turretsCount == 1)
+				{
+					stringBuilder.Append("Turret".Translate());
+				}
+				else
+				{
+					stringBuilder.Append("Turrets".Translate());
+				}
+			}
+			if (parms.mortarsCount != 0)
+			{
+				if (stringBuilder.Length != 0)
+				{
+					stringBuilder.Append(", ");
+				}
+				stringBuilder.Append(parms.mortarsCount + " ");
+				if (parms.mortarsCount == 1)
+				{
+					stringBuilder.Append("Mortar".Translate());
+				}
+				else
+				{
+					stringBuilder.Append("Mortars".Translate());
+				}
+			}
+			if (num != 0)
+			{
+				if (stringBuilder.Length != 0)
+				{
+					stringBuilder.Append(", " + "AndLower".Translate() + " ");
+				}
+				stringBuilder.Append(num + " ");
+				if (num == 1)
+				{
+					stringBuilder.Append("Enemy".Translate());
+				}
+				else
+				{
+					stringBuilder.Append("Enemies".Translate());
+				}
+			}
+			return stringBuilder.ToString();
 		}
 
 		[CompilerGenerated]

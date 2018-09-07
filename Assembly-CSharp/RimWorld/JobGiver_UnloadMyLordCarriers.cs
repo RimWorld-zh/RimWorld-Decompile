@@ -13,31 +13,23 @@ namespace RimWorld
 
 		protected override Job TryGiveJob(Pawn pawn)
 		{
-			Job result;
 			if (!pawn.health.capacities.CapableOf(PawnCapacityDefOf.Manipulation))
 			{
-				result = null;
+				return null;
 			}
-			else
+			Lord lord = pawn.GetLord();
+			if (lord == null)
 			{
-				Lord lord = pawn.GetLord();
-				if (lord == null)
+				return null;
+			}
+			for (int i = 0; i < lord.ownedPawns.Count; i++)
+			{
+				if (UnloadCarriersJobGiverUtility.HasJobOnThing(pawn, lord.ownedPawns[i], false))
 				{
-					result = null;
-				}
-				else
-				{
-					for (int i = 0; i < lord.ownedPawns.Count; i++)
-					{
-						if (UnloadCarriersJobGiverUtility.HasJobOnThing(pawn, lord.ownedPawns[i], false))
-						{
-							return new Job(JobDefOf.UnloadInventory, lord.ownedPawns[i]);
-						}
-					}
-					result = null;
+					return new Job(JobDefOf.UnloadInventory, lord.ownedPawns[i]);
 				}
 			}
-			return result;
+			return null;
 		}
 	}
 }

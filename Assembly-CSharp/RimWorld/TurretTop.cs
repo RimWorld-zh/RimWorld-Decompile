@@ -8,7 +8,7 @@ namespace RimWorld
 	{
 		private Building_Turret parentTurret;
 
-		private float curRotationInt = 0f;
+		private float curRotationInt;
 
 		private int ticksUntilIdleTurn;
 

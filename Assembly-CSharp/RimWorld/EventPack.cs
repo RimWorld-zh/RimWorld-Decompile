@@ -64,16 +64,11 @@ namespace RimWorld
 
 		public override string ToString()
 		{
-			string result;
 			if (this.Cell.IsValid)
 			{
-				result = this.Tag + "-" + this.Cell;
+				return this.Tag + "-" + this.Cell;
 			}
-			else
-			{
-				result = this.Tag;
-			}
-			return result;
+			return this.Tag;
 		}
 	}
 }

@@ -17,25 +17,20 @@ namespace RimWorld
 		{
 		}
 
-		private CompTransporter Transporter
+		public CompTransporter Transporter
 		{
 			get
 			{
 				Thing thing = this.job.GetTarget(this.TransporterInd).Thing;
-				CompTransporter result;
 				if (thing == null)
 				{
-					result = null;
+					return null;
 				}
-				else
-				{
-					result = thing.TryGetComp<CompTransporter>();
-				}
-				return result;
+				return thing.TryGetComp<CompTransporter>();
 			}
 		}
 
-		public override bool TryMakePreToilReservations()
+		public override bool TryMakePreToilReservations(bool errorOnFailed)
 		{
 			return true;
 		}

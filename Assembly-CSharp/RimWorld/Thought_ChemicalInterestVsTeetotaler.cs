@@ -12,20 +12,15 @@ namespace RimWorld
 		{
 			int num = this.pawn.story.traits.DegreeOfTrait(TraitDefOf.DrugDesire);
 			int num2 = this.otherPawn.story.traits.DegreeOfTrait(TraitDefOf.DrugDesire);
-			float result;
 			if (num2 >= 0)
 			{
-				result = 0f;
+				return 0f;
 			}
-			else if (num == 1)
+			if (num == 1)
 			{
-				result = -20f;
+				return -20f;
 			}
-			else
-			{
-				result = -30f;
-			}
-			return result;
+			return -30f;
 		}
 	}
 }

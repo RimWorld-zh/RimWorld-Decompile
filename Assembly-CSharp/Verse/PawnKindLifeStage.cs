@@ -5,42 +5,44 @@ namespace Verse
 	public class PawnKindLifeStage
 	{
 		[MustTranslate]
-		public string label = null;
+		public string label;
 
 		[MustTranslate]
-		public string labelPlural = null;
+		public string labelPlural;
 
 		[MustTranslate]
-		public string labelMale = null;
+		public string labelMale;
 
 		[MustTranslate]
-		public string labelMalePlural = null;
+		public string labelMalePlural;
 
 		[MustTranslate]
-		public string labelFemale = null;
+		public string labelFemale;
 
 		[MustTranslate]
-		public string labelFemalePlural = null;
+		public string labelFemalePlural;
 
 		[TranslationHandle(Priority = 200)]
 		[Unsaved]
-		public string untranslatedLabel = null;
+		public string untranslatedLabel;
 
 		[TranslationHandle(Priority = 100)]
 		[Unsaved]
-		public string untranslatedLabelMale = null;
+		public string untranslatedLabelMale;
 
 		[TranslationHandle]
 		[Unsaved]
-		public string untranslatedLabelFemale = null;
+		public string untranslatedLabelFemale;
 
-		public GraphicData bodyGraphicData = null;
+		public GraphicData bodyGraphicData;
 
-		public GraphicData femaleGraphicData = null;
+		public GraphicData femaleGraphicData;
 
-		public GraphicData dessicatedBodyGraphicData = null;
+		public GraphicData dessicatedBodyGraphicData;
 
-		public BodyPartToDrop butcherBodyPart = null;
+		public GraphicData femaleDessicatedBodyGraphicData;
+
+		public BodyPartToDrop butcherBodyPart;
 
 		public PawnKindLifeStage()
 		{
@@ -66,6 +68,10 @@ namespace Verse
 			if (this.dessicatedBodyGraphicData != null && this.dessicatedBodyGraphicData.graphicClass == null)
 			{
 				this.dessicatedBodyGraphicData.graphicClass = typeof(Graphic_Multi);
+			}
+			if (this.femaleDessicatedBodyGraphicData != null && this.femaleDessicatedBodyGraphicData.graphicClass == null)
+			{
+				this.femaleDessicatedBodyGraphicData.graphicClass = typeof(Graphic_Multi);
 			}
 		}
 	}

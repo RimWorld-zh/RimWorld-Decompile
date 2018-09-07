@@ -7,31 +7,31 @@ namespace Verse
 {
 	public class StuffProperties
 	{
-		public string stuffAdjective = null;
+		public string stuffAdjective;
 
 		public float commonality = 1f;
 
 		public List<StuffCategoryDef> categories = new List<StuffCategoryDef>();
 
-		public bool smeltable = false;
+		public bool smeltable;
 
-		public List<StatModifier> statOffsets = null;
+		public List<StatModifier> statOffsets;
 
-		public List<StatModifier> statFactors = null;
+		public List<StatModifier> statFactors;
 
 		public Color color = new Color(0.8f, 0.8f, 0.8f);
 
-		public EffecterDef constructEffect = null;
+		public EffecterDef constructEffect;
 
 		public StuffAppearanceDef appearance;
 
-		public bool allowColorGenerators = false;
+		public bool allowColorGenerators;
 
-		public SoundDef soundImpactStuff = null;
+		public SoundDef soundImpactStuff;
 
-		public SoundDef soundMeleeHitSharp = null;
+		public SoundDef soundMeleeHitSharp;
 
-		public SoundDef soundMeleeHitBlunt = null;
+		public SoundDef soundMeleeHitBlunt;
 
 		public StuffProperties()
 		{
@@ -39,26 +39,21 @@ namespace Verse
 
 		public bool CanMake(BuildableDef t)
 		{
-			bool result;
 			if (!t.MadeFromStuff)
 			{
-				result = false;
+				return false;
 			}
-			else
+			for (int i = 0; i < t.stuffCategories.Count; i++)
 			{
-				for (int i = 0; i < t.stuffCategories.Count; i++)
+				for (int j = 0; j < this.categories.Count; j++)
 				{
-					for (int j = 0; j < this.categories.Count; j++)
+					if (t.stuffCategories[i] == this.categories[j])
 					{
-						if (t.stuffCategories[i] == this.categories[j])
-						{
-							return true;
-						}
+						return true;
 					}
 				}
-				result = false;
 			}
-			return result;
+			return false;
 		}
 
 		public void ResolveReferencesSpecial()

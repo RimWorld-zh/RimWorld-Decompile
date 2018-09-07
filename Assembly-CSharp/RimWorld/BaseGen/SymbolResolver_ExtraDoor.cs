@@ -69,17 +69,15 @@ namespace RimWorld.BaseGen
 		private bool TryFindRandomDoorSpawnCell(CellRect rect, Rot4 dir, out IntVec3 found)
 		{
 			Map map = BaseGen.globalSettings.map;
-			bool result;
-			int newZ2;
 			if (dir == Rot4.North)
 			{
-				int newX;
 				if (rect.Width <= 2)
 				{
 					found = IntVec3.Invalid;
-					result = false;
+					return false;
 				}
-				else if (!Rand.TryRangeInclusiveWhere(rect.minX + 1, rect.maxX - 1, delegate(int x)
+				int newX;
+				if (!Rand.TryRangeInclusiveWhere(rect.minX + 1, rect.maxX - 1, delegate(int x)
 				{
 					IntVec3 c = new IntVec3(x, 0, rect.maxZ + 1);
 					IntVec3 c2 = new IntVec3(x, 0, rect.maxZ - 1);
@@ -87,23 +85,20 @@ namespace RimWorld.BaseGen
 				}, out newX))
 				{
 					found = IntVec3.Invalid;
-					result = false;
+					return false;
 				}
-				else
-				{
-					found = new IntVec3(newX, 0, rect.maxZ);
-					result = true;
-				}
+				found = new IntVec3(newX, 0, rect.maxZ);
+				return true;
 			}
 			else if (dir == Rot4.South)
 			{
-				int newX2;
 				if (rect.Width <= 2)
 				{
 					found = IntVec3.Invalid;
-					result = false;
+					return false;
 				}
-				else if (!Rand.TryRangeInclusiveWhere(rect.minX + 1, rect.maxX - 1, delegate(int x)
+				int newX2;
+				if (!Rand.TryRangeInclusiveWhere(rect.minX + 1, rect.maxX - 1, delegate(int x)
 				{
 					IntVec3 c = new IntVec3(x, 0, rect.minZ - 1);
 					IntVec3 c2 = new IntVec3(x, 0, rect.minZ + 1);
@@ -111,23 +106,20 @@ namespace RimWorld.BaseGen
 				}, out newX2))
 				{
 					found = IntVec3.Invalid;
-					result = false;
+					return false;
 				}
-				else
-				{
-					found = new IntVec3(newX2, 0, rect.minZ);
-					result = true;
-				}
+				found = new IntVec3(newX2, 0, rect.minZ);
+				return true;
 			}
 			else if (dir == Rot4.West)
 			{
-				int newZ;
 				if (rect.Height <= 2)
 				{
 					found = IntVec3.Invalid;
-					result = false;
+					return false;
 				}
-				else if (!Rand.TryRangeInclusiveWhere(rect.minZ + 1, rect.maxZ - 1, delegate(int z)
+				int newZ;
+				if (!Rand.TryRangeInclusiveWhere(rect.minZ + 1, rect.maxZ - 1, delegate(int z)
 				{
 					IntVec3 c = new IntVec3(rect.minX - 1, 0, z);
 					IntVec3 c2 = new IntVec3(rect.minX + 1, 0, z);
@@ -135,35 +127,32 @@ namespace RimWorld.BaseGen
 				}, out newZ))
 				{
 					found = IntVec3.Invalid;
-					result = false;
+					return false;
 				}
-				else
-				{
-					found = new IntVec3(rect.minX, 0, newZ);
-					result = true;
-				}
-			}
-			else if (rect.Height <= 2)
-			{
-				found = IntVec3.Invalid;
-				result = false;
-			}
-			else if (!Rand.TryRangeInclusiveWhere(rect.minZ + 1, rect.maxZ - 1, delegate(int z)
-			{
-				IntVec3 c = new IntVec3(rect.maxX + 1, 0, z);
-				IntVec3 c2 = new IntVec3(rect.maxX - 1, 0, z);
-				return c.InBounds(map) && c.Standable(map) && c2.InBounds(map) && c2.Standable(map);
-			}, out newZ2))
-			{
-				found = IntVec3.Invalid;
-				result = false;
+				found = new IntVec3(rect.minX, 0, newZ);
+				return true;
 			}
 			else
 			{
+				if (rect.Height <= 2)
+				{
+					found = IntVec3.Invalid;
+					return false;
+				}
+				int newZ2;
+				if (!Rand.TryRangeInclusiveWhere(rect.minZ + 1, rect.maxZ - 1, delegate(int z)
+				{
+					IntVec3 c = new IntVec3(rect.maxX + 1, 0, z);
+					IntVec3 c2 = new IntVec3(rect.maxX - 1, 0, z);
+					return c.InBounds(map) && c.Standable(map) && c2.InBounds(map) && c2.Standable(map);
+				}, out newZ2))
+				{
+					found = IntVec3.Invalid;
+					return false;
+				}
 				found = new IntVec3(rect.maxX, 0, newZ2);
-				result = true;
+				return true;
 			}
-			return result;
 		}
 
 		private int GetDistanceToExistingDoors(IntVec3 cell, CellRect rect)

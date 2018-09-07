@@ -21,62 +21,54 @@ namespace RimWorld
 		protected override bool TryExecuteWorker(IncidentParms parms)
 		{
 			int tile;
-			bool result;
 			if (!this.TryFindTile(out tile))
 			{
-				result = false;
+				return false;
 			}
-			else
+			Site site = SiteMaker.TryMakeSite_SingleSitePart(SiteCoreDefOf.DownedRefugee, (!Rand.Chance(0.3f)) ? "DownedRefugeeQuestThreat" : null, tile, null, true, null, true, null);
+			if (site == null)
 			{
-				Site site = SiteMaker.TryMakeSite_SingleSitePart(SiteCoreDefOf.DownedRefugee, (!Rand.Chance(0.3f)) ? "DownedRefugeeQuestThreat" : null, tile, null, true, null, true, null);
-				if (site == null)
+				return false;
+			}
+			site.sitePartsKnown = true;
+			Pawn pawn = DownedRefugeeQuestUtility.GenerateRefugee(tile);
+			site.GetComponent<DownedRefugeeComp>().pawn.TryAdd(pawn, true);
+			int randomInRange = SiteTuning.QuestSiteRefugeeTimeoutDaysRange.RandomInRange;
+			site.GetComponent<TimeoutComp>().StartTimeout(randomInRange * 60000);
+			Find.WorldObjects.Add(site);
+			string text = this.def.letterLabel;
+			string text2 = string.Format(this.def.letterText.AdjustedFor(pawn, "PAWN"), new object[]
+			{
+				randomInRange,
+				pawn.ageTracker.AgeBiologicalYears,
+				pawn.story.Title,
+				SitePartUtility.GetDescriptionDialogue(site, site.parts.FirstOrDefault<SitePart>())
+			}).CapitalizeFirst();
+			Pawn mostImportantColonyRelative = PawnRelationUtility.GetMostImportantColonyRelative(pawn);
+			if (mostImportantColonyRelative != null)
+			{
+				PawnRelationDef mostImportantRelation = mostImportantColonyRelative.GetMostImportantRelation(pawn);
+				if (mostImportantRelation != null && mostImportantRelation.opinionOffset > 0)
 				{
-					result = false;
+					pawn.relations.relativeInvolvedInRescueQuest = mostImportantColonyRelative;
+					text2 = text2 + "\n\n" + "RelatedPawnInvolvedInQuest".Translate(new object[]
+					{
+						mostImportantColonyRelative.LabelShort,
+						mostImportantRelation.GetGenderSpecificLabel(pawn)
+					}).AdjustedFor(pawn, "PAWN");
 				}
 				else
 				{
-					site.sitePartsKnown = true;
-					Pawn pawn = DownedRefugeeQuestUtility.GenerateRefugee(tile);
-					site.GetComponent<DownedRefugeeComp>().pawn.TryAdd(pawn, true);
-					int randomInRange = SiteTuning.QuestSiteRefugeeTimeoutDaysRange.RandomInRange;
-					site.GetComponent<TimeoutComp>().StartTimeout(randomInRange * 60000);
-					Find.WorldObjects.Add(site);
-					string text = this.def.letterLabel;
-					string text2 = string.Format(this.def.letterText.AdjustedFor(pawn, "PAWN"), new object[]
-					{
-						randomInRange,
-						pawn.ageTracker.AgeBiologicalYears,
-						pawn.story.Title,
-						SitePartUtility.GetDescriptionDialogue(site, site.parts.FirstOrDefault<SitePart>())
-					}).CapitalizeFirst();
-					Pawn mostImportantColonyRelative = PawnRelationUtility.GetMostImportantColonyRelative(pawn);
-					if (mostImportantColonyRelative != null)
-					{
-						PawnRelationDef mostImportantRelation = mostImportantColonyRelative.GetMostImportantRelation(pawn);
-						if (mostImportantRelation != null && mostImportantRelation.opinionOffset > 0)
-						{
-							pawn.relations.relativeInvolvedInRescueQuest = mostImportantColonyRelative;
-							text2 = text2 + "\n\n" + "RelatedPawnInvolvedInQuest".Translate(new object[]
-							{
-								mostImportantColonyRelative.LabelShort,
-								mostImportantRelation.GetGenderSpecificLabel(pawn)
-							}).AdjustedFor(pawn, "PAWN");
-						}
-						else
-						{
-							PawnRelationUtility.TryAppendRelationsWithColonistsInfo(ref text2, pawn);
-						}
-						text = text + " " + "RelationshipAppendedLetterSuffix".Translate();
-					}
-					if (pawn.relations != null)
-					{
-						pawn.relations.everSeenByPlayer = true;
-					}
-					Find.LetterStack.ReceiveLetter(text, text2, this.def.letterDef, site, null, null);
-					result = true;
+					PawnRelationUtility.TryAppendRelationsWithColonistsInfo(ref text2, pawn);
 				}
+				text = text + " " + "RelationshipAppendedLetterSuffix".Translate();
 			}
-			return result;
+			if (pawn.relations != null)
+			{
+				pawn.relations.everSeenByPlayer = true;
+			}
+			Find.LetterStack.ReceiveLetter(text, text2, this.def.letterDef, site, null, null);
+			return true;
 		}
 
 		private bool TryFindTile(out int tile)

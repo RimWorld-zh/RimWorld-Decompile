@@ -7,7 +7,7 @@ namespace RimWorld
 {
 	public class CompRottable : ThingComp
 	{
-		private float rotProgressInt = 0f;
+		private float rotProgressInt;
 
 		public CompRottable()
 		{
@@ -50,20 +50,15 @@ namespace RimWorld
 		{
 			get
 			{
-				RotStage result;
 				if (this.RotProgress < (float)this.PropsRot.TicksToRotStart)
 				{
-					result = RotStage.Fresh;
+					return RotStage.Fresh;
 				}
-				else if (this.RotProgress < (float)this.PropsRot.TicksToDessicated)
+				if (this.RotProgress < (float)this.PropsRot.TicksToDessicated)
 				{
-					result = RotStage.Rotting;
+					return RotStage.Rotting;
 				}
-				else
-				{
-					result = RotStage.Dessicated;
-				}
-				return result;
+				return RotStage.Dessicated;
 			}
 		}
 
@@ -111,38 +106,37 @@ namespace RimWorld
 
 		private void Tick(int interval)
 		{
-			if (this.Active)
+			if (!this.Active)
 			{
-				float rotProgress = this.RotProgress;
-				float ambientTemperature = this.parent.AmbientTemperature;
-				float num = GenTemperature.RotRateAtTemperature(ambientTemperature);
-				this.RotProgress += num * (float)interval;
-				if (this.Stage == RotStage.Rotting && this.PropsRot.rotDestroys)
+				return;
+			}
+			float rotProgress = this.RotProgress;
+			float ambientTemperature = this.parent.AmbientTemperature;
+			float num = GenTemperature.RotRateAtTemperature(ambientTemperature);
+			this.RotProgress += num * (float)interval;
+			if (this.Stage == RotStage.Rotting && this.PropsRot.rotDestroys)
+			{
+				if (this.parent.IsInAnyStorage() && this.parent.SpawnedOrAnyParentSpawned)
 				{
-					if (this.parent.IsInAnyStorage() && this.parent.SpawnedOrAnyParentSpawned)
+					Messages.Message("MessageRottedAwayInStorage".Translate(new object[]
 					{
-						Messages.Message("MessageRottedAwayInStorage".Translate(new object[]
-						{
-							this.parent.Label
-						}).CapitalizeFirst(), new TargetInfo(this.parent.PositionHeld, this.parent.MapHeld, false), MessageTypeDefOf.NegativeEvent, true);
-						LessonAutoActivator.TeachOpportunity(ConceptDefOf.SpoilageAndFreezers, OpportunityType.GoodToKnow);
-					}
-					this.parent.Destroy(DestroyMode.Vanish);
+						this.parent.Label
+					}).CapitalizeFirst(), new TargetInfo(this.parent.PositionHeld, this.parent.MapHeld, false), MessageTypeDefOf.NegativeEvent, true);
+					LessonAutoActivator.TeachOpportunity(ConceptDefOf.SpoilageAndFreezers, OpportunityType.GoodToKnow);
 				}
-				else
+				this.parent.Destroy(DestroyMode.Vanish);
+				return;
+			}
+			bool flag = Mathf.FloorToInt(rotProgress / 60000f) != Mathf.FloorToInt(this.RotProgress / 60000f);
+			if (flag && this.ShouldTakeRotDamage())
+			{
+				if (this.Stage == RotStage.Rotting && this.PropsRot.rotDamagePerDay > 0f)
 				{
-					bool flag = Mathf.FloorToInt(rotProgress / 60000f) != Mathf.FloorToInt(this.RotProgress / 60000f);
-					if (flag && this.ShouldTakeRotDamage())
-					{
-						if (this.Stage == RotStage.Rotting && this.PropsRot.rotDamagePerDay > 0f)
-						{
-							this.parent.TakeDamage(new DamageInfo(DamageDefOf.Rotting, (float)GenMath.RoundRandom(this.PropsRot.rotDamagePerDay), 0f, -1f, null, null, null, DamageInfo.SourceCategory.ThingOrUnknown, null));
-						}
-						else if (this.Stage == RotStage.Dessicated && this.PropsRot.dessicatedDamagePerDay > 0f)
-						{
-							this.parent.TakeDamage(new DamageInfo(DamageDefOf.Rotting, (float)GenMath.RoundRandom(this.PropsRot.dessicatedDamagePerDay), 0f, -1f, null, null, null, DamageInfo.SourceCategory.ThingOrUnknown, null));
-						}
-					}
+					this.parent.TakeDamage(new DamageInfo(DamageDefOf.Rotting, (float)GenMath.RoundRandom(this.PropsRot.rotDamagePerDay), 0f, -1f, null, null, null, DamageInfo.SourceCategory.ThingOrUnknown, null));
+				}
+				else if (this.Stage == RotStage.Dessicated && this.PropsRot.dessicatedDamagePerDay > 0f)
+				{
+					this.parent.TakeDamage(new DamageInfo(DamageDefOf.Rotting, (float)GenMath.RoundRandom(this.PropsRot.dessicatedDamagePerDay), 0f, -1f, null, null, null, DamageInfo.SourceCategory.ThingOrUnknown, null));
 				}
 			}
 		}
@@ -175,63 +169,58 @@ namespace RimWorld
 
 		public override string CompInspectStringExtra()
 		{
-			string result;
 			if (!this.Active)
 			{
-				result = null;
+				return null;
 			}
-			else
+			StringBuilder stringBuilder = new StringBuilder();
+			RotStage stage = this.Stage;
+			if (stage != RotStage.Fresh)
 			{
-				StringBuilder stringBuilder = new StringBuilder();
-				RotStage stage = this.Stage;
-				if (stage != RotStage.Fresh)
+				if (stage != RotStage.Rotting)
 				{
-					if (stage != RotStage.Rotting)
+					if (stage == RotStage.Dessicated)
 					{
-						if (stage == RotStage.Dessicated)
-						{
-							stringBuilder.Append("RotStateDessicated".Translate() + ".");
-						}
-					}
-					else
-					{
-						stringBuilder.Append("RotStateRotting".Translate() + ".");
+						stringBuilder.Append("RotStateDessicated".Translate() + ".");
 					}
 				}
 				else
 				{
-					stringBuilder.Append("RotStateFresh".Translate() + ".");
+					stringBuilder.Append("RotStateRotting".Translate() + ".");
 				}
-				float num = (float)this.PropsRot.TicksToRotStart - this.RotProgress;
-				if (num > 0f)
-				{
-					float num2 = this.parent.AmbientTemperature;
-					num2 = (float)Mathf.RoundToInt(num2);
-					float num3 = GenTemperature.RotRateAtTemperature(num2);
-					int ticksUntilRotAtCurrentTemp = this.TicksUntilRotAtCurrentTemp;
-					stringBuilder.AppendLine();
-					if (num3 < 0.001f)
-					{
-						stringBuilder.Append("CurrentlyFrozen".Translate() + ".");
-					}
-					else if (num3 < 0.999f)
-					{
-						stringBuilder.Append("CurrentlyRefrigerated".Translate(new object[]
-						{
-							ticksUntilRotAtCurrentTemp.ToStringTicksToPeriodVague(true, true)
-						}) + ".");
-					}
-					else
-					{
-						stringBuilder.Append("NotRefrigerated".Translate(new object[]
-						{
-							ticksUntilRotAtCurrentTemp.ToStringTicksToPeriodVague(true, true)
-						}) + ".");
-					}
-				}
-				result = stringBuilder.ToString();
 			}
-			return result;
+			else
+			{
+				stringBuilder.Append("RotStateFresh".Translate() + ".");
+			}
+			float num = (float)this.PropsRot.TicksToRotStart - this.RotProgress;
+			if (num > 0f)
+			{
+				float num2 = this.parent.AmbientTemperature;
+				num2 = (float)Mathf.RoundToInt(num2);
+				float num3 = GenTemperature.RotRateAtTemperature(num2);
+				int ticksUntilRotAtCurrentTemp = this.TicksUntilRotAtCurrentTemp;
+				stringBuilder.AppendLine();
+				if (num3 < 0.001f)
+				{
+					stringBuilder.Append("CurrentlyFrozen".Translate() + ".");
+				}
+				else if (num3 < 0.999f)
+				{
+					stringBuilder.Append("CurrentlyRefrigerated".Translate(new object[]
+					{
+						ticksUntilRotAtCurrentTemp.ToStringTicksToPeriodVague(true, true)
+					}) + ".");
+				}
+				else
+				{
+					stringBuilder.Append("NotRefrigerated".Translate(new object[]
+					{
+						ticksUntilRotAtCurrentTemp.ToStringTicksToPeriodVague(true, true)
+					}) + ".");
+				}
+			}
+			return stringBuilder.ToString();
 		}
 
 		public int ApproxTicksUntilRotWhenAtTempOfTile(int tile, int ticksAbs)
@@ -242,32 +231,21 @@ namespace RimWorld
 
 		public int TicksUntilRotAtTemp(float temp)
 		{
-			int result;
 			if (!this.Active)
 			{
-				result = 72000000;
+				return 72000000;
 			}
-			else
+			float num = GenTemperature.RotRateAtTemperature(temp);
+			if (num <= 0f)
 			{
-				float num = GenTemperature.RotRateAtTemperature(temp);
-				if (num <= 0f)
-				{
-					result = 72000000;
-				}
-				else
-				{
-					float num2 = (float)this.PropsRot.TicksToRotStart - this.RotProgress;
-					if (num2 <= 0f)
-					{
-						result = 0;
-					}
-					else
-					{
-						result = Mathf.RoundToInt(num2 / num);
-					}
-				}
+				return 72000000;
 			}
-			return result;
+			float num2 = (float)this.PropsRot.TicksToRotStart - this.RotProgress;
+			if (num2 <= 0f)
+			{
+				return 0;
+			}
+			return Mathf.RoundToInt(num2 / num);
 		}
 
 		private void StageChanged()

@@ -51,50 +51,51 @@ namespace RimWorld.Planet
 		private void RecalculateUsedBeds()
 		{
 			this.usedBeds.Clear();
-			if (this.caravan.Spawned)
+			if (!this.caravan.Spawned)
 			{
-				Caravan_BedsTracker.tmpUsableBeds.Clear();
-				this.GetUsableBeds(Caravan_BedsTracker.tmpUsableBeds);
-				if (this.caravan.NightResting)
+				return;
+			}
+			Caravan_BedsTracker.tmpUsableBeds.Clear();
+			this.GetUsableBeds(Caravan_BedsTracker.tmpUsableBeds);
+			if (!this.caravan.pather.MovingNow)
+			{
+				Caravan_BedsTracker.tmpUsableBeds.SortByDescending((Building_Bed x) => x.GetStatValue(StatDefOf.BedRestEffectiveness, true));
+				for (int i = 0; i < this.caravan.pawns.Count; i++)
 				{
-					Caravan_BedsTracker.tmpUsableBeds.SortByDescending((Building_Bed x) => x.GetStatValue(StatDefOf.BedRestEffectiveness, true));
-					for (int i = 0; i < this.caravan.pawns.Count; i++)
+					Pawn pawn = this.caravan.pawns[i];
+					if (pawn.needs != null && pawn.needs.rest != null)
 					{
-						Pawn pawn = this.caravan.pawns[i];
-						if (pawn.needs != null && pawn.needs.rest != null)
+						Building_Bed andRemoveFirstAvailableBedFor = this.GetAndRemoveFirstAvailableBedFor(pawn, Caravan_BedsTracker.tmpUsableBeds);
+						if (andRemoveFirstAvailableBedFor != null)
 						{
-							Building_Bed andRemoveFirstAvailableBedFor = this.GetAndRemoveFirstAvailableBedFor(pawn, Caravan_BedsTracker.tmpUsableBeds);
-							if (andRemoveFirstAvailableBedFor != null)
-							{
-								this.usedBeds.Add(pawn, andRemoveFirstAvailableBedFor);
-							}
+							this.usedBeds.Add(pawn, andRemoveFirstAvailableBedFor);
 						}
 					}
 				}
-				else
+			}
+			else
+			{
+				Caravan_BedsTracker.tmpUsableBeds.SortByDescending((Building_Bed x) => x.GetStatValue(StatDefOf.ImmunityGainSpeedFactor, true));
+				for (int j = 0; j < this.caravan.pawns.Count; j++)
 				{
-					Caravan_BedsTracker.tmpUsableBeds.SortByDescending((Building_Bed x) => x.GetStatValue(StatDefOf.ImmunityGainSpeedFactor, true));
-					for (int j = 0; j < this.caravan.pawns.Count; j++)
+					Pawn pawn2 = this.caravan.pawns[j];
+					if (pawn2.needs != null && pawn2.needs.rest != null)
 					{
-						Pawn pawn2 = this.caravan.pawns[j];
-						if (pawn2.needs != null && pawn2.needs.rest != null)
+						if (CaravanBedUtility.WouldBenefitFromRestingInBed(pawn2))
 						{
-							if (CaravanBedUtility.WouldBenefitFromRestingInBed(pawn2))
+							if (!this.caravan.pather.MovingNow || pawn2.CarriedByCaravan())
 							{
-								if (!this.caravan.pather.MovingNow || pawn2.CarriedByCaravan())
+								Building_Bed andRemoveFirstAvailableBedFor2 = this.GetAndRemoveFirstAvailableBedFor(pawn2, Caravan_BedsTracker.tmpUsableBeds);
+								if (andRemoveFirstAvailableBedFor2 != null)
 								{
-									Building_Bed andRemoveFirstAvailableBedFor2 = this.GetAndRemoveFirstAvailableBedFor(pawn2, Caravan_BedsTracker.tmpUsableBeds);
-									if (andRemoveFirstAvailableBedFor2 != null)
-									{
-										this.usedBeds.Add(pawn2, andRemoveFirstAvailableBedFor2);
-									}
+									this.usedBeds.Add(pawn2, andRemoveFirstAvailableBedFor2);
 								}
 							}
 						}
 					}
 				}
-				Caravan_BedsTracker.tmpUsableBeds.Clear();
 			}
+			Caravan_BedsTracker.tmpUsableBeds.Clear();
 		}
 
 		public void Notify_CaravanSpawned()
@@ -110,16 +111,11 @@ namespace RimWorld.Planet
 		public Building_Bed GetBedUsedBy(Pawn p)
 		{
 			Building_Bed building_Bed;
-			Building_Bed result;
 			if (this.usedBeds.TryGetValue(p, out building_Bed) && !building_Bed.DestroyedOrNull())
 			{
-				result = building_Bed;
+				return building_Bed;
 			}
-			else
-			{
-				result = null;
-			}
-			return result;
+			return null;
 		}
 
 		public bool IsInBed(Pawn p)
@@ -168,36 +164,28 @@ namespace RimWorld.Planet
 
 		public string GetInBedForMedicalReasonsInspectStringLine()
 		{
-			string result;
 			if (this.usedBeds.Count == 0)
 			{
-				result = null;
+				return null;
 			}
-			else
+			Caravan_BedsTracker.tmpPawnLabels.Clear();
+			foreach (KeyValuePair<Pawn, Building_Bed> keyValuePair in this.usedBeds)
 			{
-				Caravan_BedsTracker.tmpPawnLabels.Clear();
-				foreach (KeyValuePair<Pawn, Building_Bed> keyValuePair in this.usedBeds)
+				if (!this.caravan.carryTracker.IsCarried(keyValuePair.Key))
 				{
-					if (!this.caravan.carryTracker.IsCarried(keyValuePair.Key))
+					if (CaravanBedUtility.WouldBenefitFromRestingInBed(keyValuePair.Key))
 					{
-						if (CaravanBedUtility.WouldBenefitFromRestingInBed(keyValuePair.Key))
-						{
-							Caravan_BedsTracker.tmpPawnLabels.Add(keyValuePair.Key.LabelShort);
-						}
+						Caravan_BedsTracker.tmpPawnLabels.Add(keyValuePair.Key.LabelShort);
 					}
 				}
-				if (!Caravan_BedsTracker.tmpPawnLabels.Any<string>())
-				{
-					result = null;
-				}
-				else
-				{
-					string str = (Caravan_BedsTracker.tmpPawnLabels.Count <= 5) ? Caravan_BedsTracker.tmpPawnLabels.ToCommaList(true) : (Caravan_BedsTracker.tmpPawnLabels.Take(5).ToCommaList(false) + "...");
-					Caravan_BedsTracker.tmpPawnLabels.Clear();
-					result = "UsingBedrollsDueToIllness".Translate() + ": " + str;
-				}
 			}
-			return result;
+			if (!Caravan_BedsTracker.tmpPawnLabels.Any<string>())
+			{
+				return null;
+			}
+			string str = (Caravan_BedsTracker.tmpPawnLabels.Count <= 5) ? Caravan_BedsTracker.tmpPawnLabels.ToCommaList(true) : (Caravan_BedsTracker.tmpPawnLabels.Take(5).ToCommaList(false) + "...");
+			Caravan_BedsTracker.tmpPawnLabels.Clear();
+			return "UsingBedrollsDueToIllness".Translate() + ": " + str;
 		}
 
 		// Note: this type is marked as 'beforefieldinit'.

@@ -77,14 +77,12 @@ namespace Verse
 			if (this.MapSizeMatches(map) && this.grid != null)
 			{
 				this.Clear();
+				return;
 			}
-			else
-			{
-				this.mapSizeX = map.Size.x;
-				this.mapSizeZ = map.Size.z;
-				this.grid = new int[this.mapSizeX * this.mapSizeZ];
-				this.Clear();
-			}
+			this.mapSizeX = map.Size.x;
+			this.mapSizeZ = map.Size.z;
+			this.grid = new int[this.mapSizeX * this.mapSizeZ];
+			this.Clear();
 		}
 
 		public void Clear()

@@ -40,79 +40,77 @@ namespace RimWorld
 
 		protected override void DoAction(object[] args)
 		{
-			if (this.points > 0f)
+			if (this.points <= 0f)
 			{
-				List<Pawn> list = new List<Pawn>();
-				foreach (Pawn pawn in this.GenerateAmbushPawns())
+				return;
+			}
+			List<Pawn> list = new List<Pawn>();
+			foreach (Pawn pawn in this.GenerateAmbushPawns())
+			{
+				IntVec3 loc;
+				if (this.spawnPawnsOnEdge)
 				{
-					IntVec3 loc;
-					if (this.spawnPawnsOnEdge)
-					{
-						if (!CellFinder.TryFindRandomEdgeCellWith((IntVec3 x) => x.Standable(base.Map) && !x.Fogged(base.Map) && base.Map.reachability.CanReachColony(x), base.Map, CellFinder.EdgeRoadChance_Ignore, out loc))
-						{
-							Find.WorldPawns.PassToWorld(pawn, PawnDiscardDecideMode.Decide);
-							break;
-						}
-					}
-					else if (!SiteGenStepUtility.TryFindSpawnCellAroundOrNear(this.spawnAround, this.spawnNear, base.Map, out loc))
+					if (!CellFinder.TryFindRandomEdgeCellWith((IntVec3 x) => x.Standable(base.Map) && !x.Fogged(base.Map) && base.Map.reachability.CanReachColony(x), base.Map, CellFinder.EdgeRoadChance_Ignore, out loc))
 					{
 						Find.WorldPawns.PassToWorld(pawn, PawnDiscardDecideMode.Decide);
 						break;
 					}
-					GenSpawn.Spawn(pawn, loc, base.Map, WipeMode.Vanish);
-					if (!this.spawnPawnsOnEdge)
-					{
-						for (int i = 0; i < 10; i++)
-						{
-							MoteMaker.ThrowAirPuffUp(pawn.DrawPos, base.Map);
-						}
-					}
-					list.Add(pawn);
 				}
-				if (list.Any<Pawn>())
+				else if (!SiteGenStepUtility.TryFindSpawnCellAroundOrNear(this.spawnAround, this.spawnNear, base.Map, out loc))
 				{
-					if (this.ambushType == SignalActionAmbushType.Manhunters)
+					Find.WorldPawns.PassToWorld(pawn, PawnDiscardDecideMode.Decide);
+					break;
+				}
+				GenSpawn.Spawn(pawn, loc, base.Map, WipeMode.Vanish);
+				if (!this.spawnPawnsOnEdge)
+				{
+					for (int i = 0; i < 10; i++)
 					{
-						for (int j = 0; j < list.Count; j++)
-						{
-							list[j].mindState.mentalStateHandler.TryStartMentalState(MentalStateDefOf.ManhunterPermanent, null, false, false, null, false);
-						}
+						MoteMaker.ThrowAirPuffUp(pawn.DrawPos, base.Map);
 					}
-					else
-					{
-						Faction faction = list[0].Faction;
-						LordMaker.MakeNewLord(faction, new LordJob_AssaultColony(faction, true, true, false, false, true), base.Map, list);
-					}
-					if (!this.spawnPawnsOnEdge)
-					{
-						for (int k = 0; k < list.Count; k++)
-						{
-							list[k].jobs.StartJob(new Job(JobDefOf.Wait, 120, false), JobCondition.None, null, false, true, null, null, false);
-							list[k].Rotation = Rot4.Random;
-						}
-					}
-					Find.LetterStack.ReceiveLetter("LetterLabelAmbushInExistingMap".Translate(), "LetterAmbushInExistingMap".Translate(new object[]
-					{
-						Faction.OfPlayer.def.pawnsPlural
-					}).CapitalizeFirst(), LetterDefOf.ThreatBig, list[0], null, null);
+				}
+				list.Add(pawn);
+			}
+			if (!list.Any<Pawn>())
+			{
+				return;
+			}
+			if (this.ambushType == SignalActionAmbushType.Manhunters)
+			{
+				for (int j = 0; j < list.Count; j++)
+				{
+					list[j].mindState.mentalStateHandler.TryStartMentalState(MentalStateDefOf.ManhunterPermanent, null, false, false, null, false);
 				}
 			}
+			else
+			{
+				Faction faction = list[0].Faction;
+				LordMaker.MakeNewLord(faction, new LordJob_AssaultColony(faction, true, true, false, false, true), base.Map, list);
+			}
+			if (!this.spawnPawnsOnEdge)
+			{
+				for (int k = 0; k < list.Count; k++)
+				{
+					list[k].jobs.StartJob(new Job(JobDefOf.Wait, 120, false), JobCondition.None, null, false, true, null, null, false);
+					list[k].Rotation = Rot4.Random;
+				}
+			}
+			Find.LetterStack.ReceiveLetter("LetterLabelAmbushInExistingMap".Translate(), "LetterAmbushInExistingMap".Translate(new object[]
+			{
+				Faction.OfPlayer.def.pawnsPlural
+			}).CapitalizeFirst(), LetterDefOf.ThreatBig, list[0], null, null);
 		}
 
 		private IEnumerable<Pawn> GenerateAmbushPawns()
 		{
-			IEnumerable<Pawn> result;
 			if (this.ambushType == SignalActionAmbushType.Manhunters)
 			{
 				PawnKindDef animalKind;
 				if (!ManhunterPackIncidentUtility.TryFindManhunterAnimalKind(this.points, base.Map.Tile, out animalKind) && !ManhunterPackIncidentUtility.TryFindManhunterAnimalKind(this.points, -1, out animalKind))
 				{
-					result = Enumerable.Empty<Pawn>();
+					return Enumerable.Empty<Pawn>();
 				}
-				else
-				{
-					result = ManhunterPackIncidentUtility.GenerateAnimals(animalKind, base.Map.Tile, this.points);
-				}
+				return ManhunterPackIncidentUtility.GenerateAnimals(animalKind, base.Map.Tile, this.points);
 			}
 			else
 			{
@@ -127,20 +125,16 @@ namespace RimWorld
 				}
 				if (faction == null)
 				{
-					result = Enumerable.Empty<Pawn>();
+					return Enumerable.Empty<Pawn>();
 				}
-				else
+				return PawnGroupMakerUtility.GeneratePawns(new PawnGroupMakerParms
 				{
-					result = PawnGroupMakerUtility.GeneratePawns(new PawnGroupMakerParms
-					{
-						groupKind = PawnGroupKindDefOf.Combat,
-						tile = base.Map.Tile,
-						faction = faction,
-						points = Mathf.Max(this.points, faction.def.MinPointsToGeneratePawnGroup(PawnGroupKindDefOf.Combat))
-					}, true);
-				}
+					groupKind = PawnGroupKindDefOf.Combat,
+					tile = base.Map.Tile,
+					faction = faction,
+					points = Mathf.Max(this.points, faction.def.MinPointsToGeneratePawnGroup(PawnGroupKindDefOf.Combat))
+				}, true);
 			}
-			return result;
 		}
 
 		[CompilerGenerated]

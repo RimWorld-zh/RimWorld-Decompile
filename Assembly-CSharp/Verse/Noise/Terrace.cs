@@ -1,6 +1,5 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Diagnostics;
 using System.Runtime.CompilerServices;
 using UnityEngine;
 
@@ -10,7 +9,7 @@ namespace Verse.Noise
 	{
 		private List<double> m_data = new List<double>();
 
-		private bool m_inverted = false;
+		private bool m_inverted;
 
 		[CompilerGenerated]
 		private static Comparison<double> <>f__am$cache0;
@@ -90,8 +89,6 @@ namespace Verse.Noise
 
 		public override double GetValue(double x, double y, double z)
 		{
-			System.Diagnostics.Debug.Assert(this.modules[0] != null);
-			System.Diagnostics.Debug.Assert(this.ControlPointCount >= 2);
 			double value = this.modules[0].GetValue(x, y, z);
 			int i;
 			for (i = 0; i < this.m_data.Count; i++)
@@ -103,27 +100,22 @@ namespace Verse.Noise
 			}
 			int num = Mathf.Clamp(i - 1, 0, this.m_data.Count - 1);
 			int num2 = Mathf.Clamp(i, 0, this.m_data.Count - 1);
-			double result;
 			if (num == num2)
 			{
-				result = this.m_data[num2];
+				return this.m_data[num2];
 			}
-			else
+			double num3 = this.m_data[num];
+			double num4 = this.m_data[num2];
+			double num5 = (value - num3) / (num4 - num3);
+			if (this.m_inverted)
 			{
-				double num3 = this.m_data[num];
-				double num4 = this.m_data[num2];
-				double num5 = (value - num3) / (num4 - num3);
-				if (this.m_inverted)
-				{
-					num5 = 1.0 - num5;
-					double num6 = num3;
-					num3 = num4;
-					num4 = num6;
-				}
-				num5 *= num5;
-				result = Utils.InterpolateLinear(num3, num4, num5);
+				num5 = 1.0 - num5;
+				double num6 = num3;
+				num3 = num4;
+				num4 = num6;
 			}
-			return result;
+			num5 *= num5;
+			return Utils.InterpolateLinear(num3, num4, num5);
 		}
 
 		[CompilerGenerated]

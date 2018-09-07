@@ -15,55 +15,40 @@ namespace Verse
 
 		public override float ValuePerUnitOf(ThingDef t)
 		{
-			float result;
 			if (t.IsStuff)
 			{
-				result = t.VolumePerUnit;
+				return t.VolumePerUnit;
 			}
-			else
-			{
-				result = 1f;
-			}
-			return result;
+			return 1f;
 		}
 
 		public override string BillRequirementsDescription(RecipeDef r, IngredientCount ing)
 		{
-			string result;
 			if (!ing.filter.AllowedThingDefs.Any((ThingDef td) => td.smallVolume) || ing.filter.AllowedThingDefs.Any((ThingDef td) => td.smallVolume && !r.GetPremultipliedSmallIngredients().Contains(td)))
 			{
-				result = "BillRequires".Translate(new object[]
+				return "BillRequires".Translate(new object[]
 				{
 					ing.GetBaseCount(),
 					ing.filter.Summary
 				});
 			}
-			else
+			return "BillRequires".Translate(new object[]
 			{
-				result = "BillRequires".Translate(new object[]
-				{
-					ing.GetBaseCount() * 10f,
-					ing.filter.Summary
-				});
-			}
-			return result;
+				ing.GetBaseCount() * 10f,
+				ing.filter.Summary
+			});
 		}
 
 		public override string ExtraDescriptionLine(RecipeDef r)
 		{
-			string result;
 			if (r.ingredients.Any((IngredientCount ing) => ing.filter.AllowedThingDefs.Any((ThingDef td) => td.smallVolume && !r.GetPremultipliedSmallIngredients().Contains(td))))
 			{
-				result = "BillRequiresMayVary".Translate(new object[]
+				return "BillRequiresMayVary".Translate(new object[]
 				{
 					10.ToStringCached()
 				});
 			}
-			else
-			{
-				result = null;
-			}
-			return result;
+			return null;
 		}
 
 		[CompilerGenerated]

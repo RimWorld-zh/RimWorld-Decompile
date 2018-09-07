@@ -29,7 +29,7 @@ namespace RimWorld.Planet
 
 		public override IEnumerable Regenerate()
 		{
-			IEnumerator enumerator = this.<Regenerate>__BaseCallProxy0().GetEnumerator();
+			IEnumerator enumerator = base.Regenerate().GetEnumerator();
 			try
 			{
 				while (enumerator.MoveNext())
@@ -61,24 +61,24 @@ namespace RimWorld.Planet
 				case Hilliness.SmallHills:
 					material = WorldMaterials.SmallHills;
 					floatRange = WorldLayer_Hills.BasePosOffsetRange_SmallHills;
-					goto IL_185;
+					goto IL_180;
 				case Hilliness.LargeHills:
 					material = WorldMaterials.LargeHills;
 					floatRange = WorldLayer_Hills.BasePosOffsetRange_LargeHills;
-					goto IL_185;
+					goto IL_180;
 				case Hilliness.Mountainous:
 					material = WorldMaterials.Mountains;
 					floatRange = WorldLayer_Hills.BasePosOffsetRange_Mountains;
-					goto IL_185;
+					goto IL_180;
 				case Hilliness.Impassable:
 					material = WorldMaterials.ImpassableMountains;
 					floatRange = WorldLayer_Hills.BasePosOffsetRange_ImpassableMountains;
-					goto IL_185;
+					goto IL_180;
 				}
-				IL_262:
+				IL_25C:
 				i++;
 				continue;
-				IL_185:
+				IL_180:
 				LayerSubMesh subMesh = base.GetSubMesh(material);
 				Vector3 vector = grid.GetTileCenter(i);
 				Vector3 posForTangents = vector;
@@ -86,7 +86,7 @@ namespace RimWorld.Planet
 				vector = (vector + Rand.UnitVector3 * floatRange.RandomInRange * grid.averageTileSize).normalized * magnitude;
 				WorldRendererUtility.PrintQuadTangentialToPlanet(vector, posForTangents, WorldLayer_Hills.BaseSizeRange.RandomInRange * grid.averageTileSize, 0.005f, subMesh, false, true, false);
 				WorldRendererUtility.PrintTextureAtlasUVs(Rand.Range(0, WorldLayer_Hills.TexturesInAtlas.x), Rand.Range(0, WorldLayer_Hills.TexturesInAtlas.z), WorldLayer_Hills.TexturesInAtlas.x, WorldLayer_Hills.TexturesInAtlas.z, subMesh);
-				goto IL_262;
+				goto IL_25C;
 			}
 			Rand.PopState();
 			base.FinalizeMesh(MeshParts.All);
@@ -189,24 +189,24 @@ namespace RimWorld.Planet
 					case Hilliness.SmallHills:
 						material = WorldMaterials.SmallHills;
 						floatRange = WorldLayer_Hills.BasePosOffsetRange_SmallHills;
-						goto IL_185;
+						goto IL_180;
 					case Hilliness.LargeHills:
 						material = WorldMaterials.LargeHills;
 						floatRange = WorldLayer_Hills.BasePosOffsetRange_LargeHills;
-						goto IL_185;
+						goto IL_180;
 					case Hilliness.Mountainous:
 						material = WorldMaterials.Mountains;
 						floatRange = WorldLayer_Hills.BasePosOffsetRange_Mountains;
-						goto IL_185;
+						goto IL_180;
 					case Hilliness.Impassable:
 						material = WorldMaterials.ImpassableMountains;
 						floatRange = WorldLayer_Hills.BasePosOffsetRange_ImpassableMountains;
-						goto IL_185;
+						goto IL_180;
 					}
-					IL_262:
+					IL_25C:
 					i++;
 					continue;
-					IL_185:
+					IL_180:
 					LayerSubMesh subMesh = base.GetSubMesh(material);
 					Vector3 vector = grid.GetTileCenter(i);
 					Vector3 posForTangents = vector;
@@ -214,7 +214,7 @@ namespace RimWorld.Planet
 					vector = (vector + Rand.UnitVector3 * floatRange.RandomInRange * grid.averageTileSize).normalized * magnitude;
 					WorldRendererUtility.PrintQuadTangentialToPlanet(vector, posForTangents, WorldLayer_Hills.BaseSizeRange.RandomInRange * grid.averageTileSize, 0.005f, subMesh, false, true, false);
 					WorldRendererUtility.PrintTextureAtlasUVs(Rand.Range(0, WorldLayer_Hills.TexturesInAtlas.x), Rand.Range(0, WorldLayer_Hills.TexturesInAtlas.z), WorldLayer_Hills.TexturesInAtlas.x, WorldLayer_Hills.TexturesInAtlas.z, subMesh);
-					goto IL_262;
+					goto IL_25C;
 				}
 				Rand.PopState();
 				base.FinalizeMesh(MeshParts.All);

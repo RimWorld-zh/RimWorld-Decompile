@@ -60,42 +60,34 @@ namespace RimWorld
 		{
 			get
 			{
-				bool result;
 				if (this.pawn.gender == Gender.None)
 				{
-					result = false;
+					return false;
 				}
-				else
+				bool flag;
+				bool flag2;
+				this.HasBasicApparel(out flag, out flag2);
+				if (!flag)
 				{
-					bool flag;
-					bool flag2;
-					this.HasBasicApparel(out flag, out flag2);
-					if (!flag)
+					bool flag3 = false;
+					foreach (BodyPartRecord bodyPartRecord in this.pawn.health.hediffSet.GetNotMissingParts(BodyPartHeight.Undefined, BodyPartDepth.Undefined, null, null))
 					{
-						bool flag3 = false;
-						foreach (BodyPartRecord bodyPartRecord in this.pawn.health.hediffSet.GetNotMissingParts(BodyPartHeight.Undefined, BodyPartDepth.Undefined, null))
+						if (bodyPartRecord.IsInGroup(BodyPartGroupDefOf.Legs))
 						{
-							if (bodyPartRecord.IsInGroup(BodyPartGroupDefOf.Legs))
-							{
-								flag3 = true;
-								break;
-							}
-						}
-						if (!flag3)
-						{
-							flag = true;
+							flag3 = true;
+							break;
 						}
 					}
-					if (this.pawn.gender == Gender.Male)
+					if (!flag3)
 					{
-						result = !flag;
-					}
-					else
-					{
-						result = (this.pawn.gender == Gender.Female && (!flag || !flag2));
+						flag = true;
 					}
 				}
-				return result;
+				if (this.pawn.gender == Gender.Male)
+				{
+					return !flag;
+				}
+				return this.pawn.gender == Gender.Female && (!flag || !flag2);
 			}
 		}
 
@@ -187,44 +179,42 @@ namespace RimWorld
 					newApparel,
 					" but he has no body parts required to wear it."
 				}), false);
+				return;
 			}
-			else
+			for (int i = this.wornApparel.Count - 1; i >= 0; i--)
 			{
-				for (int i = this.wornApparel.Count - 1; i >= 0; i--)
+				Apparel apparel = this.wornApparel[i];
+				if (!ApparelUtility.CanWearTogether(newApparel.def, apparel.def, this.pawn.RaceProps.body))
 				{
-					Apparel apparel = this.wornApparel[i];
-					if (!ApparelUtility.CanWearTogether(newApparel.def, apparel.def, this.pawn.RaceProps.body))
+					if (dropReplacedApparel)
 					{
-						if (dropReplacedApparel)
+						bool forbid = this.pawn.Faction != null && this.pawn.Faction.HostileTo(Faction.OfPlayer);
+						Apparel apparel2;
+						if (!this.TryDrop(apparel, out apparel2, this.pawn.PositionHeld, forbid))
 						{
-							bool forbid = this.pawn.Faction != null && this.pawn.Faction.HostileTo(Faction.OfPlayer);
-							Apparel apparel2;
-							if (!this.TryDrop(apparel, out apparel2, this.pawn.PositionHeld, forbid))
-							{
-								Log.Error(this.pawn + " could not drop " + apparel, false);
-								return;
-							}
-						}
-						else
-						{
-							this.Remove(apparel);
+							Log.Error(this.pawn + " could not drop " + apparel, false);
+							return;
 						}
 					}
-				}
-				if (newApparel.Wearer != null)
-				{
-					Log.Warning(string.Concat(new object[]
+					else
 					{
-						this.pawn,
-						" is trying to wear ",
-						newApparel,
-						" but this apparel already has a wearer (",
-						newApparel.Wearer,
-						"). This may or may not cause bugs."
-					}), false);
+						this.Remove(apparel);
+					}
 				}
-				this.wornApparel.TryAdd(newApparel, false);
 			}
+			if (newApparel.Wearer != null)
+			{
+				Log.Warning(string.Concat(new object[]
+				{
+					this.pawn,
+					" is trying to wear ",
+					newApparel,
+					" but this apparel already has a wearer (",
+					newApparel.Wearer,
+					"). This may or may not cause bugs."
+				}), false);
+			}
+			this.wornApparel.TryAdd(newApparel, false);
 		}
 
 		public void Remove(Apparel ap)
@@ -245,20 +235,15 @@ namespace RimWorld
 
 		public bool TryDrop(Apparel ap, out Apparel resultingAp, IntVec3 pos, bool forbid = true)
 		{
-			bool result;
 			if (this.wornApparel.TryDrop(ap, pos, this.pawn.MapHeld, ThingPlaceMode.Near, out resultingAp, null, null))
 			{
 				if (resultingAp != null)
 				{
 					resultingAp.SetForbidden(forbid, false);
 				}
-				result = true;
+				return true;
 			}
-			else
-			{
-				result = false;
-			}
-			return result;
+			return false;
 		}
 
 		public void DropAll(IntVec3 pos, bool forbid = true)
@@ -287,7 +272,7 @@ namespace RimWorld
 
 		public void Notify_PawnKilled(DamageInfo? dinfo)
 		{
-			if (dinfo != null && dinfo.Value.Def.externalViolence)
+			if (dinfo != null && dinfo.Value.Def.ExternalViolenceFor(this.pawn))
 			{
 				for (int i = 0; i < this.wornApparel.Count; i++)
 				{

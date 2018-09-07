@@ -112,25 +112,23 @@ namespace Verse
 			if (Scribe.mode != LoadSaveMode.LoadingVars)
 			{
 				Log.Error("Called FinalizeLoading() but current mode is " + Scribe.mode, false);
+				return;
 			}
-			else
+			try
 			{
-				try
-				{
-					Scribe.ExitNode();
-					this.curXmlParent = null;
-					this.curParent = null;
-					this.curPathRelToParent = null;
-					Scribe.mode = LoadSaveMode.Inactive;
-					this.crossRefs.ResolveAllCrossReferences();
-					this.initer.DoAllPostLoadInits();
-				}
-				catch (Exception arg)
-				{
-					Log.Error("Exception in FinalizeLoading(): " + arg, false);
-					this.ForceStop();
-					throw;
-				}
+				Scribe.ExitNode();
+				this.curXmlParent = null;
+				this.curParent = null;
+				this.curPathRelToParent = null;
+				Scribe.mode = LoadSaveMode.Inactive;
+				this.crossRefs.ResolveAllCrossReferences();
+				this.initer.DoAllPostLoadInits();
+			}
+			catch (Exception arg)
+			{
+				Log.Error("Exception in FinalizeLoading(): " + arg, false);
+				this.ForceStop();
+				throw;
 			}
 		}
 

@@ -22,24 +22,19 @@ namespace RimWorld
 
 		public static ExpectationDef CurrentExpectationFor(Pawn p)
 		{
-			ExpectationDef result;
 			if (Current.ProgramState != ProgramState.Playing)
 			{
-				result = null;
+				return null;
 			}
-			else if (p.Faction != Faction.OfPlayer)
+			if (p.Faction != Faction.OfPlayer && !p.IsPrisonerOfColony)
 			{
-				result = ExpectationDefOf.ExtremelyLow;
+				return ExpectationDefOf.ExtremelyLow;
 			}
-			else if (p.MapHeld != null)
+			if (p.MapHeld != null)
 			{
-				result = ExpectationsUtility.CurrentExpectationFor(p.MapHeld);
+				return ExpectationsUtility.CurrentExpectationFor(p.MapHeld);
 			}
-			else
-			{
-				result = ExpectationDefOf.VeryLow;
-			}
-			return result;
+			return ExpectationDefOf.VeryLow;
 		}
 
 		public static ExpectationDef CurrentExpectationFor(Map m)

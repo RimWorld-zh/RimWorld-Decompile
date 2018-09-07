@@ -44,7 +44,6 @@ namespace RimWorld.Planet
 
 		public WorldPath FindPath(int startTile, int destTile, Caravan caravan, Func<float, bool> terminator = null)
 		{
-			WorldPath notFound;
 			if (startTile < 0)
 			{
 				Log.Error(string.Concat(new object[]
@@ -54,9 +53,9 @@ namespace RimWorld.Planet
 					", caravan= ",
 					caravan
 				}), false);
-				notFound = WorldPath.NotFound;
+				return WorldPath.NotFound;
 			}
-			else if (destTile < 0)
+			if (destTile < 0)
 			{
 				Log.Error(string.Concat(new object[]
 				{
@@ -65,124 +64,120 @@ namespace RimWorld.Planet
 					", caravan= ",
 					caravan
 				}), false);
-				notFound = WorldPath.NotFound;
+				return WorldPath.NotFound;
 			}
-			else
+			if (caravan != null)
 			{
-				if (caravan != null)
-				{
-					if (!caravan.CanReach(destTile))
-					{
-						return WorldPath.NotFound;
-					}
-				}
-				else if (!Find.WorldReachability.CanReach(startTile, destTile))
+				if (!caravan.CanReach(destTile))
 				{
 					return WorldPath.NotFound;
 				}
-				World world = Find.World;
-				WorldGrid grid = world.grid;
-				List<int> tileIDToNeighbors_offsets = grid.tileIDToNeighbors_offsets;
-				List<int> tileIDToNeighbors_values = grid.tileIDToNeighbors_values;
-				Vector3 normalized = grid.GetTileCenter(destTile).normalized;
-				float[] movementDifficulty = world.pathGrid.movementDifficulty;
-				int num = 0;
-				int num2 = (caravan == null) ? 3500 : caravan.TicksPerMove;
-				int num3 = this.CalculateHeuristicStrength(startTile, destTile);
-				this.statusOpenValue += 2;
-				this.statusClosedValue += 2;
-				if (this.statusClosedValue >= 65435)
+			}
+			else if (!Find.WorldReachability.CanReach(startTile, destTile))
+			{
+				return WorldPath.NotFound;
+			}
+			World world = Find.World;
+			WorldGrid grid = world.grid;
+			List<int> tileIDToNeighbors_offsets = grid.tileIDToNeighbors_offsets;
+			List<int> tileIDToNeighbors_values = grid.tileIDToNeighbors_values;
+			Vector3 normalized = grid.GetTileCenter(destTile).normalized;
+			float[] movementDifficulty = world.pathGrid.movementDifficulty;
+			int num = 0;
+			int num2 = (caravan == null) ? 3300 : caravan.TicksPerMove;
+			int num3 = this.CalculateHeuristicStrength(startTile, destTile);
+			this.statusOpenValue += 2;
+			this.statusClosedValue += 2;
+			if (this.statusClosedValue >= 65435)
+			{
+				this.ResetStatuses();
+			}
+			this.calcGrid[startTile].knownCost = 0;
+			this.calcGrid[startTile].heuristicCost = 0;
+			this.calcGrid[startTile].costNodeCost = 0;
+			this.calcGrid[startTile].parentTile = startTile;
+			this.calcGrid[startTile].status = this.statusOpenValue;
+			this.openList.Clear();
+			this.openList.Push(new WorldPathFinder.CostNode(startTile, 0));
+			while (this.openList.Count > 0)
+			{
+				WorldPathFinder.CostNode costNode = this.openList.Pop();
+				if (costNode.cost == this.calcGrid[costNode.tile].costNodeCost)
 				{
-					this.ResetStatuses();
-				}
-				this.calcGrid[startTile].knownCost = 0;
-				this.calcGrid[startTile].heuristicCost = 0;
-				this.calcGrid[startTile].costNodeCost = 0;
-				this.calcGrid[startTile].parentTile = startTile;
-				this.calcGrid[startTile].status = this.statusOpenValue;
-				this.openList.Clear();
-				this.openList.Push(new WorldPathFinder.CostNode(startTile, 0));
-				while (this.openList.Count > 0)
-				{
-					WorldPathFinder.CostNode costNode = this.openList.Pop();
-					if (costNode.cost == this.calcGrid[costNode.tile].costNodeCost)
+					int tile = costNode.tile;
+					if (this.calcGrid[tile].status != this.statusClosedValue)
 					{
-						int tile = costNode.tile;
-						if (this.calcGrid[tile].status != this.statusClosedValue)
+						if (DebugViewSettings.drawPaths)
 						{
-							if (DebugViewSettings.drawPaths)
+							Find.WorldDebugDrawer.FlashTile(tile, (float)this.calcGrid[tile].knownCost / 375000f, this.calcGrid[tile].knownCost.ToString(), 50);
+						}
+						if (tile == destTile)
+						{
+							return this.FinalizedPath(tile);
+						}
+						if (num > 500000)
+						{
+							Log.Warning(string.Concat(new object[]
 							{
-								Find.WorldDebugDrawer.FlashTile(tile, (float)this.calcGrid[tile].knownCost / 375000f, this.calcGrid[tile].knownCost.ToString(), 50);
-							}
-							if (tile == destTile)
+								caravan,
+								" pathing from ",
+								startTile,
+								" to ",
+								destTile,
+								" hit search limit of ",
+								500000,
+								" tiles."
+							}), false);
+							return WorldPath.NotFound;
+						}
+						int num4 = (tile + 1 >= tileIDToNeighbors_offsets.Count) ? tileIDToNeighbors_values.Count : tileIDToNeighbors_offsets[tile + 1];
+						for (int i = tileIDToNeighbors_offsets[tile]; i < num4; i++)
+						{
+							int num5 = tileIDToNeighbors_values[i];
+							if (this.calcGrid[num5].status != this.statusClosedValue)
 							{
-								return this.FinalizedPath(tile);
-							}
-							if (num > 500000)
-							{
-								Log.Warning(string.Concat(new object[]
+								if (!world.Impassable(num5))
 								{
-									caravan,
-									" pathing from ",
-									startTile,
-									" to ",
-									destTile,
-									" hit search limit of ",
-									500000,
-									" tiles."
-								}), false);
-								return WorldPath.NotFound;
-							}
-							int num4 = (tile + 1 >= tileIDToNeighbors_offsets.Count) ? tileIDToNeighbors_values.Count : tileIDToNeighbors_offsets[tile + 1];
-							for (int i = tileIDToNeighbors_offsets[tile]; i < num4; i++)
-							{
-								int num5 = tileIDToNeighbors_values[i];
-								if (this.calcGrid[num5].status != this.statusClosedValue)
-								{
-									if (!world.Impassable(num5))
+									int num6 = (int)((float)num2 * movementDifficulty[num5] * grid.GetRoadMovementDifficultyMultiplier(tile, num5, null));
+									int num7 = num6 + this.calcGrid[tile].knownCost;
+									ushort status = this.calcGrid[num5].status;
+									if ((status != this.statusClosedValue && status != this.statusOpenValue) || this.calcGrid[num5].knownCost > num7)
 									{
-										int num6 = (int)((float)num2 * movementDifficulty[num5] * grid.GetRoadMovementDifficultyMultiplier(tile, num5, null));
-										int num7 = num6 + this.calcGrid[tile].knownCost;
-										ushort status = this.calcGrid[num5].status;
-										if ((status != this.statusClosedValue && status != this.statusOpenValue) || this.calcGrid[num5].knownCost > num7)
+										Vector3 tileCenter = grid.GetTileCenter(num5);
+										if (status != this.statusClosedValue && status != this.statusOpenValue)
 										{
-											Vector3 tileCenter = grid.GetTileCenter(num5);
-											if (status != this.statusClosedValue && status != this.statusOpenValue)
-											{
-												float num8 = grid.ApproxDistanceInTiles(GenMath.SphericalDistance(tileCenter.normalized, normalized));
-												this.calcGrid[num5].heuristicCost = Mathf.RoundToInt((float)num2 * num8 * (float)num3 * 0.5f);
-											}
-											int num9 = num7 + this.calcGrid[num5].heuristicCost;
-											this.calcGrid[num5].parentTile = tile;
-											this.calcGrid[num5].knownCost = num7;
-											this.calcGrid[num5].status = this.statusOpenValue;
-											this.calcGrid[num5].costNodeCost = num9;
-											this.openList.Push(new WorldPathFinder.CostNode(num5, num9));
+											float num8 = grid.ApproxDistanceInTiles(GenMath.SphericalDistance(tileCenter.normalized, normalized));
+											this.calcGrid[num5].heuristicCost = Mathf.RoundToInt((float)num2 * num8 * (float)num3 * 0.5f);
 										}
+										int num9 = num7 + this.calcGrid[num5].heuristicCost;
+										this.calcGrid[num5].parentTile = tile;
+										this.calcGrid[num5].knownCost = num7;
+										this.calcGrid[num5].status = this.statusOpenValue;
+										this.calcGrid[num5].costNodeCost = num9;
+										this.openList.Push(new WorldPathFinder.CostNode(num5, num9));
 									}
 								}
 							}
-							num++;
-							this.calcGrid[tile].status = this.statusClosedValue;
-							if (terminator != null && terminator((float)this.calcGrid[tile].costNodeCost))
-							{
-								return WorldPath.NotFound;
-							}
+						}
+						num++;
+						this.calcGrid[tile].status = this.statusClosedValue;
+						if (terminator != null && terminator((float)this.calcGrid[tile].costNodeCost))
+						{
+							return WorldPath.NotFound;
 						}
 					}
 				}
-				Log.Warning(string.Concat(new object[]
-				{
-					caravan,
-					" pathing from ",
-					startTile,
-					" to ",
-					destTile,
-					" ran out of tiles to process."
-				}), false);
-				notFound = WorldPath.NotFound;
 			}
-			return notFound;
+			Log.Warning(string.Concat(new object[]
+			{
+				caravan,
+				" pathing from ",
+				startTile,
+				" to ",
+				destTile,
+				" ran out of tiles to process."
+			}), false);
+			return WorldPath.NotFound;
 		}
 
 		public void FloodPathsWithCost(List<int> startTiles, Func<int, int, int> costFunc, Func<int, bool> impassable = null, Func<int, float, bool> terminator = null)
@@ -190,68 +185,66 @@ namespace RimWorld.Planet
 			if (startTiles.Count < 1 || startTiles.Contains(-1))
 			{
 				Log.Error("Tried to FindPath with invalid start tiles", false);
+				return;
 			}
-			else
+			World world = Find.World;
+			WorldGrid grid = world.grid;
+			List<int> tileIDToNeighbors_offsets = grid.tileIDToNeighbors_offsets;
+			List<int> tileIDToNeighbors_values = grid.tileIDToNeighbors_values;
+			if (impassable == null)
 			{
-				World world = Find.World;
-				WorldGrid grid = world.grid;
-				List<int> tileIDToNeighbors_offsets = grid.tileIDToNeighbors_offsets;
-				List<int> tileIDToNeighbors_values = grid.tileIDToNeighbors_values;
-				if (impassable == null)
+				impassable = ((int tid) => world.Impassable(tid));
+			}
+			this.statusOpenValue += 2;
+			this.statusClosedValue += 2;
+			if (this.statusClosedValue >= 65435)
+			{
+				this.ResetStatuses();
+			}
+			this.openList.Clear();
+			foreach (int num in startTiles)
+			{
+				this.calcGrid[num].knownCost = 0;
+				this.calcGrid[num].costNodeCost = 0;
+				this.calcGrid[num].parentTile = num;
+				this.calcGrid[num].status = this.statusOpenValue;
+				this.openList.Push(new WorldPathFinder.CostNode(num, 0));
+			}
+			while (this.openList.Count > 0)
+			{
+				WorldPathFinder.CostNode costNode = this.openList.Pop();
+				if (costNode.cost == this.calcGrid[costNode.tile].costNodeCost)
 				{
-					impassable = ((int tid) => world.Impassable(tid));
-				}
-				this.statusOpenValue += 2;
-				this.statusClosedValue += 2;
-				if (this.statusClosedValue >= 65435)
-				{
-					this.ResetStatuses();
-				}
-				this.openList.Clear();
-				foreach (int num in startTiles)
-				{
-					this.calcGrid[num].knownCost = 0;
-					this.calcGrid[num].costNodeCost = 0;
-					this.calcGrid[num].parentTile = num;
-					this.calcGrid[num].status = this.statusOpenValue;
-					this.openList.Push(new WorldPathFinder.CostNode(num, 0));
-				}
-				while (this.openList.Count > 0)
-				{
-					WorldPathFinder.CostNode costNode = this.openList.Pop();
-					if (costNode.cost == this.calcGrid[costNode.tile].costNodeCost)
+					int tile = costNode.tile;
+					if (this.calcGrid[tile].status != this.statusClosedValue)
 					{
-						int tile = costNode.tile;
-						if (this.calcGrid[tile].status != this.statusClosedValue)
+						int num2 = (tile + 1 >= tileIDToNeighbors_offsets.Count) ? tileIDToNeighbors_values.Count : tileIDToNeighbors_offsets[tile + 1];
+						for (int i = tileIDToNeighbors_offsets[tile]; i < num2; i++)
 						{
-							int num2 = (tile + 1 >= tileIDToNeighbors_offsets.Count) ? tileIDToNeighbors_values.Count : tileIDToNeighbors_offsets[tile + 1];
-							for (int i = tileIDToNeighbors_offsets[tile]; i < num2; i++)
+							int num3 = tileIDToNeighbors_values[i];
+							if (this.calcGrid[num3].status != this.statusClosedValue)
 							{
-								int num3 = tileIDToNeighbors_values[i];
-								if (this.calcGrid[num3].status != this.statusClosedValue)
+								if (!impassable(num3))
 								{
-									if (!impassable(num3))
+									int num4 = costFunc(tile, num3);
+									int num5 = num4 + this.calcGrid[tile].knownCost;
+									ushort status = this.calcGrid[num3].status;
+									if ((status != this.statusClosedValue && status != this.statusOpenValue) || this.calcGrid[num3].knownCost > num5)
 									{
-										int num4 = costFunc(tile, num3);
-										int num5 = num4 + this.calcGrid[tile].knownCost;
-										ushort status = this.calcGrid[num3].status;
-										if ((status != this.statusClosedValue && status != this.statusOpenValue) || this.calcGrid[num3].knownCost > num5)
-										{
-											int num6 = num5;
-											this.calcGrid[num3].parentTile = tile;
-											this.calcGrid[num3].knownCost = num5;
-											this.calcGrid[num3].status = this.statusOpenValue;
-											this.calcGrid[num3].costNodeCost = num6;
-											this.openList.Push(new WorldPathFinder.CostNode(num3, num6));
-										}
+										int num6 = num5;
+										this.calcGrid[num3].parentTile = tile;
+										this.calcGrid[num3].knownCost = num5;
+										this.calcGrid[num3].status = this.statusOpenValue;
+										this.calcGrid[num3].costNodeCost = num6;
+										this.openList.Push(new WorldPathFinder.CostNode(num3, num6));
 									}
 								}
 							}
-							this.calcGrid[tile].status = this.statusClosedValue;
-							if (terminator != null && terminator(tile, (float)this.calcGrid[tile].costNodeCost))
-							{
-								break;
-							}
+						}
+						this.calcGrid[tile].status = this.statusClosedValue;
+						if (terminator != null && terminator(tile, (float)this.calcGrid[tile].costNodeCost))
+						{
+							break;
 						}
 					}
 				}
@@ -360,20 +353,15 @@ namespace RimWorld.Planet
 			{
 				int cost = a.cost;
 				int cost2 = b.cost;
-				int result;
 				if (cost > cost2)
 				{
-					result = 1;
+					return 1;
 				}
-				else if (cost < cost2)
+				if (cost < cost2)
 				{
-					result = -1;
+					return -1;
 				}
-				else
-				{
-					result = 0;
-				}
-				return result;
+				return 0;
 			}
 		}
 

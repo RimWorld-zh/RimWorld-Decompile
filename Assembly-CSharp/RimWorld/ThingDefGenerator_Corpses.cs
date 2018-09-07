@@ -5,6 +5,7 @@ using System.Diagnostics;
 using System.Linq;
 using System.Runtime.CompilerServices;
 using System.Threading;
+using UnityEngine;
 using Verse;
 
 namespace RimWorld
@@ -18,6 +19,8 @@ namespace RimWorld
 		private const float RotDamagePerDay = 2f;
 
 		private const float DessicatedDamagePerDay = 0.7f;
+
+		private const float ButcherProductsMarketValueFactor = 0.6f;
 
 		public static IEnumerable<ThingDef> ImpliedCorpseDefs()
 		{
@@ -33,7 +36,7 @@ namespace RimWorld
 					d.altitudeLayer = AltitudeLayer.ItemImportant;
 					d.scatterableOnMapGen = false;
 					d.SetStatBaseValue(StatDefOf.Beauty, -50f);
-					d.SetStatBaseValue(StatDefOf.DeteriorationRate, 2f);
+					d.SetStatBaseValue(StatDefOf.DeteriorationRate, 1f);
 					d.SetStatBaseValue(StatDefOf.FoodPoisonChanceFixedHuman, 0.05f);
 					d.alwaysHaulable = true;
 					d.soundDrop = SoundDefOf.Corpse_Drop;
@@ -62,6 +65,7 @@ namespace RimWorld
 						raceDef.label
 					});
 					d.soundImpactDefault = raceDef.soundImpactDefault;
+					d.SetStatBaseValue(StatDefOf.MarketValue, ThingDefGenerator_Corpses.CalculateMarketValue(raceDef));
 					d.SetStatBaseValue(StatDefOf.Flammability, raceDef.GetStatValueAbstract(StatDefOf.Flammability, null));
 					d.SetStatBaseValue(StatDefOf.MaxHitPoints, (float)raceDef.BaseMaxHitPoints);
 					d.SetStatBaseValue(StatDefOf.Mass, raceDef.statBases.GetStatOffsetFromList(StatDefOf.Mass));
@@ -112,6 +116,29 @@ namespace RimWorld
 				}
 			}
 			yield break;
+		}
+
+		private static float CalculateMarketValue(ThingDef raceDef)
+		{
+			float num = 0f;
+			if (raceDef.race.meatDef != null)
+			{
+				int num2 = Mathf.RoundToInt(raceDef.GetStatValueAbstract(StatDefOf.MeatAmount, null));
+				num += (float)num2 * raceDef.race.meatDef.GetStatValueAbstract(StatDefOf.MarketValue, null);
+			}
+			if (raceDef.race.leatherDef != null)
+			{
+				int num3 = Mathf.RoundToInt(raceDef.GetStatValueAbstract(StatDefOf.LeatherAmount, null));
+				num += (float)num3 * raceDef.race.leatherDef.GetStatValueAbstract(StatDefOf.MarketValue, null);
+			}
+			if (raceDef.butcherProducts != null)
+			{
+				for (int i = 0; i < raceDef.butcherProducts.Count; i++)
+				{
+					num += raceDef.butcherProducts[i].thingDef.BaseMarketValue * (float)raceDef.butcherProducts[i].count;
+				}
+			}
+			return num * 0.6f;
 		}
 
 		[CompilerGenerated]
@@ -170,7 +197,7 @@ namespace RimWorld
 							d.altitudeLayer = AltitudeLayer.ItemImportant;
 							d.scatterableOnMapGen = false;
 							d.SetStatBaseValue(StatDefOf.Beauty, -50f);
-							d.SetStatBaseValue(StatDefOf.DeteriorationRate, 2f);
+							d.SetStatBaseValue(StatDefOf.DeteriorationRate, 1f);
 							d.SetStatBaseValue(StatDefOf.FoodPoisonChanceFixedHuman, 0.05f);
 							d.alwaysHaulable = true;
 							d.soundDrop = SoundDefOf.Corpse_Drop;
@@ -199,6 +226,7 @@ namespace RimWorld
 								raceDef.label
 							});
 							d.soundImpactDefault = raceDef.soundImpactDefault;
+							d.SetStatBaseValue(StatDefOf.MarketValue, ThingDefGenerator_Corpses.CalculateMarketValue(raceDef));
 							d.SetStatBaseValue(StatDefOf.Flammability, raceDef.GetStatValueAbstract(StatDefOf.Flammability, null));
 							d.SetStatBaseValue(StatDefOf.MaxHitPoints, (float)raceDef.BaseMaxHitPoints);
 							d.SetStatBaseValue(StatDefOf.Mass, raceDef.statBases.GetStatOffsetFromList(StatDefOf.Mass));

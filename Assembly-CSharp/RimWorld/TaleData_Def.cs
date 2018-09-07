@@ -32,7 +32,7 @@ namespace RimWorld
 			Scribe_Values.Look<Type>(ref this.tmpDefType, "defType", null, false);
 			if (Scribe.mode == LoadSaveMode.LoadingVars && this.tmpDefName != null)
 			{
-				this.def = GenDefDatabase.GetDef(this.tmpDefType, this.tmpDefName, true);
+				this.def = GenDefDatabase.GetDef(this.tmpDefType, BackCompatibility.BackCompatibleDefName(this.tmpDefType, this.tmpDefName, false), true);
 			}
 		}
 

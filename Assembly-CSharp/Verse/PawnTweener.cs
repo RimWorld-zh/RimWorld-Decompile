@@ -38,33 +38,34 @@ namespace Verse
 
 		public void PreDrawPosCalculation()
 		{
-			if (this.lastDrawFrame != RealTime.frameCount)
+			if (this.lastDrawFrame == RealTime.frameCount)
 			{
-				if (this.lastDrawFrame < RealTime.frameCount - 1)
+				return;
+			}
+			if (this.lastDrawFrame < RealTime.frameCount - 1)
+			{
+				this.ResetTweenedPosToRoot();
+			}
+			else
+			{
+				this.lastTickSpringPos = this.tweenedPos;
+				float tickRateMultiplier = Find.TickManager.TickRateMultiplier;
+				if (tickRateMultiplier < 5f)
 				{
-					this.ResetTweenedPosToRoot();
+					Vector3 a = this.TweenedPosRoot() - this.tweenedPos;
+					float num = 0.09f * (RealTime.deltaTime * 60f * tickRateMultiplier);
+					if (RealTime.deltaTime > 0.05f)
+					{
+						num = Mathf.Min(num, 1f);
+					}
+					this.tweenedPos += a * num;
 				}
 				else
 				{
-					this.lastTickSpringPos = this.tweenedPos;
-					float tickRateMultiplier = Find.TickManager.TickRateMultiplier;
-					if (tickRateMultiplier < 5f)
-					{
-						Vector3 a = this.TweenedPosRoot() - this.tweenedPos;
-						float num = 0.09f * (RealTime.deltaTime * 60f * tickRateMultiplier);
-						if (RealTime.deltaTime > 0.05f)
-						{
-							num = Mathf.Min(num, 1f);
-						}
-						this.tweenedPos += a * num;
-					}
-					else
-					{
-						this.tweenedPos = this.TweenedPosRoot();
-					}
+					this.tweenedPos = this.TweenedPosRoot();
 				}
-				this.lastDrawFrame = RealTime.frameCount;
 			}
+			this.lastDrawFrame = RealTime.frameCount;
 		}
 
 		public void ResetTweenedPosToRoot()
@@ -75,47 +76,37 @@ namespace Verse
 
 		private Vector3 TweenedPosRoot()
 		{
-			Vector3 result;
 			if (!this.pawn.Spawned)
 			{
-				result = this.pawn.Position.ToVector3Shifted();
+				return this.pawn.Position.ToVector3Shifted();
 			}
-			else
-			{
-				float num = this.MovedPercent();
-				result = this.pawn.pather.nextCell.ToVector3Shifted() * num + this.pawn.Position.ToVector3Shifted() * (1f - num) + PawnCollisionTweenerUtility.PawnCollisionPosOffsetFor(this.pawn);
-			}
-			return result;
+			float num = this.MovedPercent();
+			return this.pawn.pather.nextCell.ToVector3Shifted() * num + this.pawn.Position.ToVector3Shifted() * (1f - num) + PawnCollisionTweenerUtility.PawnCollisionPosOffsetFor(this.pawn);
 		}
 
 		private float MovedPercent()
 		{
-			float result;
 			if (!this.pawn.pather.Moving)
 			{
-				result = 0f;
+				return 0f;
 			}
-			else if (this.pawn.stances.FullBodyBusy)
+			if (this.pawn.stances.FullBodyBusy)
 			{
-				result = 0f;
+				return 0f;
 			}
-			else if (this.pawn.pather.BuildingBlockingNextPathCell() != null)
+			if (this.pawn.pather.BuildingBlockingNextPathCell() != null)
 			{
-				result = 0f;
+				return 0f;
 			}
-			else if (this.pawn.pather.NextCellDoorToManuallyOpen() != null)
+			if (this.pawn.pather.NextCellDoorToManuallyOpen() != null)
 			{
-				result = 0f;
+				return 0f;
 			}
-			else if (this.pawn.pather.WillCollideWithPawnOnNextPathCell())
+			if (this.pawn.pather.WillCollideWithPawnOnNextPathCell())
 			{
-				result = 0f;
+				return 0f;
 			}
-			else
-			{
-				result = 1f - this.pawn.pather.nextCellCostLeft / this.pawn.pather.nextCellCostTotal;
-			}
-			return result;
+			return 1f - this.pawn.pather.nextCellCostLeft / this.pawn.pather.nextCellCostTotal;
 		}
 	}
 }

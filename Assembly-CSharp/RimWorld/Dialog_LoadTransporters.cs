@@ -24,13 +24,23 @@ namespace RimWorld
 
 		private TransferableOneWayWidget itemsTransfer;
 
-		private Dialog_LoadTransporters.Tab tab = Dialog_LoadTransporters.Tab.Pawns;
+		private Dialog_LoadTransporters.Tab tab;
 
 		private float lastMassFlashTime = -9999f;
 
 		private bool massUsageDirty = true;
 
 		private float cachedMassUsage;
+
+		private bool caravanMassUsageDirty = true;
+
+		private float cachedCaravanMassUsage;
+
+		private bool caravanMassCapacityDirty = true;
+
+		private float cachedCaravanMassCapacity;
+
+		private string cachedCaravanMassCapacityExplanation;
 
 		private bool tilesPerDayDirty = true;
 
@@ -112,6 +122,21 @@ namespace RimWorld
 			}
 		}
 
+		private float CaravanMassCapacity
+		{
+			get
+			{
+				if (this.caravanMassCapacityDirty)
+				{
+					this.caravanMassCapacityDirty = false;
+					StringBuilder stringBuilder = new StringBuilder();
+					this.cachedCaravanMassCapacity = CollectionsMassCalculator.CapacityTransferables(this.transferables, stringBuilder);
+					this.cachedCaravanMassCapacityExplanation = stringBuilder.ToString();
+				}
+				return this.cachedCaravanMassCapacity;
+			}
+		}
+
 		private string TransportersLabel
 		{
 			get
@@ -149,6 +174,19 @@ namespace RimWorld
 			}
 		}
 
+		public float CaravanMassUsage
+		{
+			get
+			{
+				if (this.caravanMassUsageDirty)
+				{
+					this.caravanMassUsageDirty = false;
+					this.cachedCaravanMassUsage = CollectionsMassCalculator.MassUsageTransferables(this.transferables, IgnorePawnsInventoryMode.IgnoreIfAssignedToUnload, false, false);
+				}
+				return this.cachedCaravanMassUsage;
+			}
+		}
+
 		private float TilesPerDay
 		{
 			get
@@ -171,8 +209,8 @@ namespace RimWorld
 				if (this.daysWorthOfFoodDirty)
 				{
 					this.daysWorthOfFoodDirty = false;
-					float first = DaysWorthOfFoodCalculator.ApproxDaysWorthOfFood(this.transferables, this.map.Tile, IgnorePawnsInventoryMode.IgnoreIfAssignedToUnload, Faction.OfPlayer, null, 0f, 3500);
-					this.cachedDaysWorthOfFood = new Pair<float, float>(first, DaysUntilRotCalculator.ApproxDaysUntilRot(this.transferables, this.map.Tile, IgnorePawnsInventoryMode.IgnoreIfAssignedToUnload, null, 0f, 3500));
+					float first = DaysWorthOfFoodCalculator.ApproxDaysWorthOfFood(this.transferables, this.map.Tile, IgnorePawnsInventoryMode.IgnoreIfAssignedToUnload, Faction.OfPlayer, null, 0f, 3300);
+					this.cachedDaysWorthOfFood = new Pair<float, float>(first, DaysUntilRotCalculator.ApproxDaysUntilRot(this.transferables, this.map.Tile, IgnorePawnsInventoryMode.IgnoreIfAssignedToUnload, null, 0f, 3300));
 				}
 				return this.cachedDaysWorthOfFood;
 			}
@@ -225,7 +263,7 @@ namespace RimWorld
 			}));
 			Text.Font = GameFont.Small;
 			Text.Anchor = TextAnchor.UpperLeft;
-			CaravanUIUtility.DrawCaravanInfo(new CaravanUIUtility.CaravanInfo(this.MassUsage, this.MassCapacity, "", this.TilesPerDay, this.cachedTilesPerDayExplanation, this.DaysWorthOfFood, this.ForagedFoodPerDay, this.cachedForagedFoodPerDayExplanation, this.Visibility, this.cachedVisibilityExplanation), null, this.map.Tile, null, this.lastMassFlashTime, new Rect(12f, 35f, inRect.width - 24f, 40f), false, null, false);
+			CaravanUIUtility.DrawCaravanInfo(new CaravanUIUtility.CaravanInfo(this.MassUsage, this.MassCapacity, string.Empty, this.TilesPerDay, this.cachedTilesPerDayExplanation, this.DaysWorthOfFood, this.ForagedFoodPerDay, this.cachedForagedFoodPerDayExplanation, this.Visibility, this.cachedVisibilityExplanation, this.CaravanMassUsage, this.CaravanMassCapacity, this.cachedCaravanMassCapacityExplanation), null, this.map.Tile, null, this.lastMassFlashTime, new Rect(12f, 35f, inRect.width - 24f, 40f), false, null, false);
 			Dialog_LoadTransporters.tabsList.Clear();
 			Dialog_LoadTransporters.tabsList.Add(new TabRecord("PawnsTab".Translate(), delegate()
 			{
@@ -285,7 +323,21 @@ namespace RimWorld
 			Rect rect2 = new Rect(rect.width / 2f - this.BottomButtonSize.x / 2f, rect.height - 55f, this.BottomButtonSize.x, this.BottomButtonSize.y);
 			if (Widgets.ButtonText(rect2, "AcceptButton".Translate(), true, false, true))
 			{
-				if (this.TryAccept())
+				if (this.CaravanMassUsage > this.CaravanMassCapacity && this.CaravanMassCapacity != 0f)
+				{
+					if (this.CheckForErrors(TransferableUtility.GetPawnsFromTransferables(this.transferables)))
+					{
+						Find.WindowStack.Add(Dialog_MessageBox.CreateConfirmation("TransportersCaravanWillBeImmobile".Translate(), delegate
+						{
+							if (this.TryAccept())
+							{
+								SoundDefOf.Tick_High.PlayOneShotOnCamera(null);
+								this.Close(false);
+							}
+						}, false, null));
+					}
+				}
+				else if (this.TryAccept())
 				{
 					SoundDefOf.Tick_High.PlayOneShotOnCamera(null);
 					this.Close(false);
@@ -307,13 +359,10 @@ namespace RimWorld
 				float width = 200f;
 				float num = this.BottomButtonSize.y / 2f;
 				Rect rect5 = new Rect(0f, rect.height - 55f, width, num);
-				if (Widgets.ButtonText(rect5, "Dev: Load instantly", true, false, true))
+				if (Widgets.ButtonText(rect5, "Dev: Load instantly", true, false, true) && this.DebugTryLoadInstantly())
 				{
-					if (this.DebugTryLoadInstantly())
-					{
-						SoundDefOf.Tick_High.PlayOneShotOnCamera(null);
-						this.Close(false);
-					}
+					SoundDefOf.Tick_High.PlayOneShotOnCamera(null);
+					this.Close(false);
 				}
 				Rect rect6 = new Rect(0f, rect.height - 55f + num, width, num);
 				if (Widgets.ButtonText(rect6, "Dev: Select everything", true, false, true))
@@ -372,41 +421,36 @@ namespace RimWorld
 		private bool TryAccept()
 		{
 			List<Pawn> pawnsFromTransferables = TransferableUtility.GetPawnsFromTransferables(this.transferables);
-			bool result;
 			if (!this.CheckForErrors(pawnsFromTransferables))
 			{
-				result = false;
+				return false;
 			}
-			else
+			int transportersGroup = this.CreateAndAssignNewTransportersGroup();
+			this.AssignTransferablesToRandomTransporters();
+			IEnumerable<Pawn> enumerable = from x in pawnsFromTransferables
+			where x.IsColonist && !x.Downed
+			select x;
+			if (enumerable.Any<Pawn>())
 			{
-				int transportersGroup = this.CreateAndAssignNewTransportersGroup();
-				this.AssignTransferablesToRandomTransporters();
-				IEnumerable<Pawn> enumerable = from x in pawnsFromTransferables
-				where x.IsColonist && !x.Downed
-				select x;
-				if (enumerable.Any<Pawn>())
+				foreach (Pawn pawn in enumerable)
 				{
-					foreach (Pawn pawn in enumerable)
+					Lord lord = pawn.GetLord();
+					if (lord != null)
 					{
-						Lord lord = pawn.GetLord();
-						if (lord != null)
-						{
-							lord.Notify_PawnLost(pawn, PawnLostCondition.ForcedToJoinOtherLord);
-						}
-					}
-					LordMaker.MakeNewLord(Faction.OfPlayer, new LordJob_LoadAndEnterTransporters(transportersGroup), this.map, enumerable);
-					foreach (Pawn pawn2 in enumerable)
-					{
-						if (pawn2.Spawned)
-						{
-							pawn2.jobs.EndCurrentJob(JobCondition.InterruptForced, true);
-						}
+						lord.Notify_PawnLost(pawn, PawnLostCondition.ForcedToJoinOtherLord, null);
 					}
 				}
-				Messages.Message("MessageTransportersLoadingProcessStarted".Translate(), this.transporters[0].parent, MessageTypeDefOf.TaskCompletion, false);
-				result = true;
+				LordMaker.MakeNewLord(Faction.OfPlayer, new LordJob_LoadAndEnterTransporters(transportersGroup), this.map, enumerable);
+				foreach (Pawn pawn2 in enumerable)
+				{
+					if (pawn2.Spawned)
+					{
+						pawn2.jobs.EndCurrentJob(JobCondition.InterruptForced, true);
+					}
+				}
 			}
-			return result;
+			Messages.Message("MessageTransportersLoadingProcessStarted".Translate(), this.transporters[0].parent, MessageTypeDefOf.TaskCompletion, false);
+			return true;
 		}
 
 		private void AssignTransferablesToRandomTransporters()
@@ -456,78 +500,70 @@ namespace RimWorld
 
 		private bool CheckForErrors(List<Pawn> pawns)
 		{
-			bool result;
 			if (!this.transferables.Any((TransferableOneWay x) => x.CountToTransfer != 0))
 			{
 				Messages.Message("CantSendEmptyTransportPods".Translate(), MessageTypeDefOf.RejectInput, false);
-				result = false;
+				return false;
 			}
-			else if (this.MassUsage > this.MassCapacity)
+			if (this.MassUsage > this.MassCapacity)
 			{
 				this.FlashMass();
 				Messages.Message("TooBigTransportersMassUsage".Translate(), MessageTypeDefOf.RejectInput, false);
-				result = false;
+				return false;
 			}
-			else
+			Pawn pawn = pawns.Find((Pawn x) => !x.MapHeld.reachability.CanReach(x.PositionHeld, this.transporters[0].parent, PathEndMode.Touch, TraverseParms.For(TraverseMode.PassDoors, Danger.Deadly, false)));
+			if (pawn != null)
 			{
-				Pawn pawn = pawns.Find((Pawn x) => !x.MapHeld.reachability.CanReach(x.PositionHeld, this.transporters[0].parent, PathEndMode.Touch, TraverseParms.For(TraverseMode.PassDoors, Danger.Deadly, false)));
-				if (pawn != null)
+				Messages.Message("PawnCantReachTransporters".Translate(new object[]
 				{
-					Messages.Message("PawnCantReachTransporters".Translate(new object[]
-					{
-						pawn.LabelShort
-					}).CapitalizeFirst(), MessageTypeDefOf.RejectInput, false);
-					result = false;
-				}
-				else
+					pawn.LabelShort
+				}).CapitalizeFirst(), MessageTypeDefOf.RejectInput, false);
+				return false;
+			}
+			Map map = this.transporters[0].parent.Map;
+			for (int i = 0; i < this.transferables.Count; i++)
+			{
+				if (this.transferables[i].ThingDef.category == ThingCategory.Item)
 				{
-					Map map = this.transporters[0].parent.Map;
-					for (int i = 0; i < this.transferables.Count; i++)
+					int countToTransfer = this.transferables[i].CountToTransfer;
+					int num = 0;
+					if (countToTransfer > 0)
 					{
-						if (this.transferables[i].ThingDef.category == ThingCategory.Item)
+						for (int j = 0; j < this.transferables[i].things.Count; j++)
 						{
-							int countToTransfer = this.transferables[i].CountToTransfer;
-							int num = 0;
-							if (countToTransfer > 0)
+							Thing thing = this.transferables[i].things[j];
+							if (map.reachability.CanReach(thing.Position, this.transporters[0].parent, PathEndMode.Touch, TraverseParms.For(TraverseMode.PassDoors, Danger.Deadly, false)))
 							{
-								for (int j = 0; j < this.transferables[i].things.Count; j++)
+								num += thing.stackCount;
+								if (num >= countToTransfer)
 								{
-									Thing thing = this.transferables[i].things[j];
-									if (map.reachability.CanReach(thing.Position, this.transporters[0].parent, PathEndMode.Touch, TraverseParms.For(TraverseMode.PassDoors, Danger.Deadly, false)))
-									{
-										num += thing.stackCount;
-										if (num >= countToTransfer)
-										{
-											break;
-										}
-									}
-								}
-								if (num < countToTransfer)
-								{
-									if (countToTransfer == 1)
-									{
-										Messages.Message("TransporterItemIsUnreachableSingle".Translate(new object[]
-										{
-											this.transferables[i].ThingDef.label
-										}), MessageTypeDefOf.RejectInput, false);
-									}
-									else
-									{
-										Messages.Message("TransporterItemIsUnreachableMulti".Translate(new object[]
-										{
-											countToTransfer,
-											this.transferables[i].ThingDef.label
-										}), MessageTypeDefOf.RejectInput, false);
-									}
-									return false;
+									break;
 								}
 							}
 						}
+						if (num < countToTransfer)
+						{
+							if (countToTransfer == 1)
+							{
+								Messages.Message("TransporterItemIsUnreachableSingle".Translate(new object[]
+								{
+									this.transferables[i].ThingDef.label
+								}), MessageTypeDefOf.RejectInput, false);
+							}
+							else
+							{
+								Messages.Message("TransporterItemIsUnreachableMulti".Translate(new object[]
+								{
+									countToTransfer,
+									this.transferables[i].ThingDef.label
+								}), MessageTypeDefOf.RejectInput, false);
+							}
+							return false;
+						}
 					}
-					result = true;
 				}
 			}
-			return result;
+			return true;
 		}
 
 		private void AddPawnsToTransferables()
@@ -565,6 +601,8 @@ namespace RimWorld
 		private void CountToTransferChanged()
 		{
 			this.massUsageDirty = true;
+			this.caravanMassUsageDirty = true;
+			this.caravanMassCapacityDirty = true;
 			this.tilesPerDayDirty = true;
 			this.daysWorthOfFoodDirty = true;
 			this.foragedFoodPerDayDirty = true;
@@ -589,43 +627,53 @@ namespace RimWorld
 		}
 
 		[CompilerGenerated]
-		private float <CalculateAndRecacheTransferables>m__2()
+		private void <DoBottomButtons>m__2()
+		{
+			if (this.TryAccept())
+			{
+				SoundDefOf.Tick_High.PlayOneShotOnCamera(null);
+				this.Close(false);
+			}
+		}
+
+		[CompilerGenerated]
+		private float <CalculateAndRecacheTransferables>m__3()
 		{
 			return this.MassCapacity - this.MassUsage;
 		}
 
 		[CompilerGenerated]
-		private static bool <CalculateAndRecacheTransferables>m__3(TransferableOneWay x)
+		private static bool <CalculateAndRecacheTransferables>m__4(TransferableOneWay x)
 		{
 			return x.ThingDef.category != ThingCategory.Pawn;
 		}
 
 		[CompilerGenerated]
-		private float <CalculateAndRecacheTransferables>m__4()
+		private float <CalculateAndRecacheTransferables>m__5()
 		{
 			return this.MassCapacity - this.MassUsage;
 		}
 
 		[CompilerGenerated]
-		private static bool <TryAccept>m__5(Pawn x)
+		private static bool <TryAccept>m__6(Pawn x)
 		{
 			return x.IsColonist && !x.Downed;
 		}
 
 		[CompilerGenerated]
-		private static int <AssignTransferablesToRandomTransporters>m__6(TransferableOneWay x)
+		private static int <AssignTransferablesToRandomTransporters>m__7(TransferableOneWay x)
 		{
 			return x.CountToTransfer;
 		}
 
 		[CompilerGenerated]
-		private static bool <CheckForErrors>m__7(TransferableOneWay x)
+		private static bool <CheckForErrors>m__8(TransferableOneWay x)
 		{
 			return x.CountToTransfer != 0;
 		}
 
 		[CompilerGenerated]
-		private bool <CheckForErrors>m__8(Pawn x)
+		private bool <CheckForErrors>m__9(Pawn x)
 		{
 			return !x.MapHeld.reachability.CanReach(x.PositionHeld, this.transporters[0].parent, PathEndMode.Touch, TraverseParms.For(TraverseMode.PassDoors, Danger.Deadly, false));
 		}

@@ -35,34 +35,29 @@ namespace RimWorld
 		{
 			Map map = (Map)parms.target;
 			PawnKindDef pawnKindDef;
-			bool result;
-			IntVec3 intVec;
-			IntVec3 near;
 			if (!this.TryFindAnimalKind(map.Tile, out pawnKindDef))
 			{
-				result = false;
+				return false;
 			}
-			else if (!this.TryFindStartAndEndCells(map, out intVec, out near))
+			IntVec3 intVec;
+			IntVec3 near;
+			if (!this.TryFindStartAndEndCells(map, out intVec, out near))
 			{
-				result = false;
+				return false;
 			}
-			else
+			Rot4 rot = Rot4.FromAngleFlat((map.Center - intVec).AngleFlat);
+			List<Pawn> list = this.GenerateAnimals(pawnKindDef, map.Tile);
+			for (int i = 0; i < list.Count; i++)
 			{
-				Rot4 rot = Rot4.FromAngleFlat((map.Center - intVec).AngleFlat);
-				List<Pawn> list = this.GenerateAnimals(pawnKindDef, map.Tile);
-				for (int i = 0; i < list.Count; i++)
-				{
-					Pawn newThing = list[i];
-					IntVec3 loc = CellFinder.RandomClosewalkCellNear(intVec, map, 10, null);
-					GenSpawn.Spawn(newThing, loc, map, rot, WipeMode.Vanish, false);
-				}
-				LordMaker.MakeNewLord(null, new LordJob_ExitMapNear(near, LocomotionUrgency.Walk, 12f, false, false), map, list);
-				string text = string.Format(this.def.letterText, pawnKindDef.GetLabelPlural(-1)).CapitalizeFirst();
-				string label = string.Format(this.def.letterLabel, pawnKindDef.GetLabelPlural(-1).CapitalizeFirst());
-				Find.LetterStack.ReceiveLetter(label, text, this.def.letterDef, list[0], null, null);
-				result = true;
+				Pawn newThing = list[i];
+				IntVec3 loc = CellFinder.RandomClosewalkCellNear(intVec, map, 10, null);
+				GenSpawn.Spawn(newThing, loc, map, rot, WipeMode.Vanish, false);
 			}
-			return result;
+			LordMaker.MakeNewLord(null, new LordJob_ExitMapNear(near, LocomotionUrgency.Walk, 12f, false, false), map, list);
+			string text = string.Format(this.def.letterText, pawnKindDef.GetLabelPlural(-1)).CapitalizeFirst();
+			string label = string.Format(this.def.letterLabel, pawnKindDef.GetLabelPlural(-1).CapitalizeFirst());
+			Find.LetterStack.ReceiveLetter(label, text, this.def.letterDef, list[0], null, null);
+			return true;
 		}
 
 		private bool TryFindAnimalKind(int tile, out PawnKindDef animalKind)
@@ -74,31 +69,26 @@ namespace RimWorld
 
 		private bool TryFindStartAndEndCells(Map map, out IntVec3 start, out IntVec3 end)
 		{
-			bool result;
 			if (!RCellFinder.TryFindRandomPawnEntryCell(out start, map, CellFinder.EdgeRoadChance_Animal, null))
 			{
 				end = IntVec3.Invalid;
-				result = false;
+				return false;
 			}
-			else
+			end = IntVec3.Invalid;
+			for (int i = 0; i < 8; i++)
 			{
-				end = IntVec3.Invalid;
-				for (int i = 0; i < 8; i++)
+				IntVec3 startLocal = start;
+				IntVec3 intVec;
+				if (!CellFinder.TryFindRandomEdgeCellWith((IntVec3 x) => map.reachability.CanReach(startLocal, x, PathEndMode.OnCell, TraverseMode.NoPassClosedDoors, Danger.Deadly), map, CellFinder.EdgeRoadChance_Ignore, out intVec))
 				{
-					IntVec3 startLocal = start;
-					IntVec3 intVec;
-					if (!CellFinder.TryFindRandomEdgeCellWith((IntVec3 x) => map.reachability.CanReach(startLocal, x, PathEndMode.OnCell, TraverseMode.NoPassClosedDoors, Danger.Deadly), map, CellFinder.EdgeRoadChance_Ignore, out intVec))
-					{
-						break;
-					}
-					if (!end.IsValid || intVec.DistanceToSquared(start) > end.DistanceToSquared(start))
-					{
-						end = intVec;
-					}
+					break;
 				}
-				result = end.IsValid;
+				if (!end.IsValid || intVec.DistanceToSquared(start) > end.DistanceToSquared(start))
+				{
+					end = intVec;
+				}
 			}
-			return result;
+			return end.IsValid;
 		}
 
 		private List<Pawn> GenerateAnimals(PawnKindDef animalKind, int tile)

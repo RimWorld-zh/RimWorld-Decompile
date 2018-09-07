@@ -24,16 +24,11 @@ namespace Verse
 		{
 			get
 			{
-				List<ThingComp> emptyCompsList;
 				if (this.comps == null)
 				{
-					emptyCompsList = ThingWithComps.EmptyCompsList;
+					return ThingWithComps.EmptyCompsList;
 				}
-				else
-				{
-					emptyCompsList = this.comps;
-				}
-				return emptyCompsList;
+				return this.comps;
 			}
 		}
 
@@ -42,16 +37,11 @@ namespace Verse
 			get
 			{
 				CompColorable comp = this.GetComp<CompColorable>();
-				Color result;
 				if (comp != null && comp.Active)
 				{
-					result = comp.Color;
+					return comp.Color;
 				}
-				else
-				{
-					result = base.DrawColor;
-				}
-				return result;
+				return base.DrawColor;
 			}
 			set
 			{
@@ -298,17 +288,18 @@ namespace Verse
 		public override void PreApplyDamage(ref DamageInfo dinfo, out bool absorbed)
 		{
 			base.PreApplyDamage(ref dinfo, out absorbed);
-			if (!absorbed)
+			if (absorbed)
 			{
-				if (this.comps != null)
+				return;
+			}
+			if (this.comps != null)
+			{
+				for (int i = 0; i < this.comps.Count; i++)
 				{
-					for (int i = 0; i < this.comps.Count; i++)
+					this.comps[i].PostPreApplyDamage(dinfo, out absorbed);
+					if (absorbed)
 					{
-						this.comps[i].PostPreApplyDamage(dinfo, out absorbed);
-						if (absorbed)
-						{
-							break;
-						}
+						return;
 					}
 				}
 			}
@@ -395,24 +386,19 @@ namespace Verse
 
 		public override bool TryAbsorbStack(Thing other, bool respectStackLimit)
 		{
-			bool result;
 			if (!this.CanStackWith(other))
 			{
-				result = false;
+				return false;
 			}
-			else
+			int count = ThingUtility.TryAbsorbStackNumToTake(this, other, respectStackLimit);
+			if (this.comps != null)
 			{
-				int count = ThingUtility.TryAbsorbStackNumToTake(this, other, respectStackLimit);
-				if (this.comps != null)
+				for (int i = 0; i < this.comps.Count; i++)
 				{
-					for (int i = 0; i < this.comps.Count; i++)
-					{
-						this.comps[i].PreAbsorbStack(other, count);
-					}
+					this.comps[i].PreAbsorbStack(other, count);
 				}
-				result = base.TryAbsorbStack(other, respectStackLimit);
 			}
-			return result;
+			return base.TryAbsorbStack(other, respectStackLimit);
 		}
 
 		public override Thing SplitOff(int count)
@@ -430,26 +416,21 @@ namespace Verse
 
 		public override bool CanStackWith(Thing other)
 		{
-			bool result;
 			if (!base.CanStackWith(other))
 			{
-				result = false;
+				return false;
 			}
-			else
+			if (this.comps != null)
 			{
-				if (this.comps != null)
+				for (int i = 0; i < this.comps.Count; i++)
 				{
-					for (int i = 0; i < this.comps.Count; i++)
+					if (!this.comps[i].AllowStackWith(other))
 					{
-						if (!this.comps[i].AllowStackWith(other))
-						{
-							return false;
-						}
+						return false;
 					}
 				}
-				result = true;
 			}
-			return result;
+			return true;
 		}
 
 		public override string GetInspectString()
@@ -470,39 +451,34 @@ namespace Verse
 
 		protected string InspectStringPartsFromComps()
 		{
-			string result;
 			if (this.comps == null)
 			{
-				result = null;
+				return null;
 			}
-			else
+			StringBuilder stringBuilder = new StringBuilder();
+			for (int i = 0; i < this.comps.Count; i++)
 			{
-				StringBuilder stringBuilder = new StringBuilder();
-				for (int i = 0; i < this.comps.Count; i++)
+				string text = this.comps[i].CompInspectStringExtra();
+				if (!text.NullOrEmpty())
 				{
-					string text = this.comps[i].CompInspectStringExtra();
-					if (!text.NullOrEmpty())
+					if (Prefs.DevMode && char.IsWhiteSpace(text[text.Length - 1]))
 					{
-						if (Prefs.DevMode && char.IsWhiteSpace(text[text.Length - 1]))
-						{
-							Log.ErrorOnce(this.comps[i].GetType() + " CompInspectStringExtra ended with whitespace: " + text, 25612, false);
-							text = text.TrimEndNewlines();
-						}
-						if (stringBuilder.Length != 0)
-						{
-							stringBuilder.AppendLine();
-						}
-						stringBuilder.Append(text);
+						Log.ErrorOnce(this.comps[i].GetType() + " CompInspectStringExtra ended with whitespace: " + text, 25612, false);
+						text = text.TrimEndNewlines();
 					}
+					if (stringBuilder.Length != 0)
+					{
+						stringBuilder.AppendLine();
+					}
+					stringBuilder.Append(text);
 				}
-				result = stringBuilder.ToString();
 			}
-			return result;
+			return stringBuilder.ToString();
 		}
 
 		public override IEnumerable<FloatMenuOption> GetFloatMenuOptions(Pawn selPawn)
 		{
-			foreach (FloatMenuOption o in this.<GetFloatMenuOptions>__BaseCallProxy0(selPawn))
+			foreach (FloatMenuOption o in base.GetFloatMenuOptions(selPawn))
 			{
 				yield return o;
 			}
@@ -608,12 +584,12 @@ namespace Verse
 				case 0u:
 					if (this.comps == null)
 					{
-						goto IL_C1;
+						goto IL_BC;
 					}
 					i = 0;
 					break;
 				case 1u:
-					IL_96:
+					IL_93:
 					i++;
 					break;
 				default:
@@ -631,9 +607,9 @@ namespace Verse
 						}
 						return true;
 					}
-					goto IL_96;
+					goto IL_93;
 				}
-				IL_C1:
+				IL_BC:
 				this.$PC = -1;
 				return false;
 			}
@@ -720,7 +696,7 @@ namespace Verse
 				case 0u:
 					if (this.comps == null)
 					{
-						goto IL_10D;
+						goto IL_105;
 					}
 					i = 0;
 					break;
@@ -764,7 +740,7 @@ namespace Verse
 					num = 4294967293u;
 					goto Block_3;
 				}
-				IL_10D:
+				IL_105:
 				this.$PC = -1;
 				return false;
 			}
@@ -906,7 +882,7 @@ namespace Verse
 						}
 					}
 					i++;
-					goto IL_191;
+					goto IL_187;
 				default:
 					return false;
 				}
@@ -939,17 +915,17 @@ namespace Verse
 				}
 				if (this.comps == null)
 				{
-					goto IL_1AD;
+					goto IL_1A2;
 				}
 				i = 0;
-				IL_191:
+				IL_187:
 				if (i < this.comps.Count)
 				{
 					enumerator2 = this.comps[i].CompFloatMenuOptions(selPawn).GetEnumerator();
 					num = 4294967293u;
 					goto Block_4;
 				}
-				IL_1AD:
+				IL_1A2:
 				this.$PC = -1;
 				return false;
 			}

@@ -1,6 +1,5 @@
 ﻿using System;
 using System.Diagnostics;
-using UnityEngine.Profiling;
 
 namespace Verse
 {
@@ -12,7 +11,6 @@ namespace Verse
 		{
 			if (UnityData.IsInMainThread)
 			{
-				Profiler.BeginSample(name);
 			}
 		}
 
@@ -22,7 +20,6 @@ namespace Verse
 		{
 			if (UnityData.IsInMainThread)
 			{
-				Profiler.EndSample();
 			}
 		}
 	}

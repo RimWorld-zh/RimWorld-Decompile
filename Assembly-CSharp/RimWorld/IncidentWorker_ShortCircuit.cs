@@ -22,17 +22,12 @@ namespace RimWorld
 			Map map = (Map)parms.target;
 			IEnumerable<Building> shortCircuitablePowerConduits = ShortCircuitUtility.GetShortCircuitablePowerConduits(map);
 			Building culprit;
-			bool result;
 			if (!shortCircuitablePowerConduits.TryRandomElement(out culprit))
 			{
-				result = false;
+				return false;
 			}
-			else
-			{
-				ShortCircuitUtility.DoShortCircuit(culprit);
-				result = true;
-			}
-			return result;
+			ShortCircuitUtility.DoShortCircuit(culprit);
+			return true;
 		}
 	}
 }

@@ -14,11 +14,11 @@ namespace Verse
 	{
 		public float speed = 5f;
 
-		public bool flyOverhead = false;
+		public bool flyOverhead;
 
-		public bool alwaysFreeIntercept = false;
+		public bool alwaysFreeIntercept;
 
-		public DamageDef damageDef = null;
+		public DamageDef damageDef;
 
 		private int damageAmountBase = -1;
 
@@ -26,25 +26,25 @@ namespace Verse
 
 		public float stoppingPower = 0.5f;
 
-		public SoundDef soundHitThickRoof = null;
+		public SoundDef soundHitThickRoof;
 
-		public SoundDef soundExplode = null;
+		public SoundDef soundExplode;
 
-		public SoundDef soundImpactAnticipate = null;
+		public SoundDef soundImpactAnticipate;
 
-		public SoundDef soundAmbient = null;
+		public SoundDef soundAmbient;
 
-		public float explosionRadius = 0f;
+		public float explosionRadius;
 
-		public int explosionDelay = 0;
+		public int explosionDelay;
 
-		public ThingDef preExplosionSpawnThingDef = null;
+		public ThingDef preExplosionSpawnThingDef;
 
 		public float preExplosionSpawnChance = 1f;
 
 		public int preExplosionSpawnThingCount = 1;
 
-		public ThingDef postExplosionSpawnThingDef = null;
+		public ThingDef postExplosionSpawnThingDef;
 
 		public float postExplosionSpawnChance = 1f;
 
@@ -58,7 +58,7 @@ namespace Verse
 
 		public EffecterDef explosionEffect;
 
-		public bool ai_IsIncendiary = false;
+		public bool ai_IsIncendiary;
 
 		public ProjectileProperties()
 		{
@@ -68,20 +68,15 @@ namespace Verse
 		{
 			get
 			{
-				float result;
 				if (this.stoppingPower != 0f)
 				{
-					result = this.stoppingPower;
+					return this.stoppingPower;
 				}
-				else if (this.damageDef != null)
+				if (this.damageDef != null)
 				{
-					result = this.damageDef.defaultStoppingPower;
+					return this.damageDef.defaultStoppingPower;
 				}
-				else
-				{
-					result = 0f;
-				}
-				return result;
+				return 0f;
 			}
 		}
 
@@ -109,8 +104,7 @@ namespace Verse
 			}
 			if (explanation != null)
 			{
-				explanation.Append("StatsReport_BaseValue".Translate() + "\n    " + num);
-				explanation.AppendLine();
+				explanation.AppendLine("StatsReport_BaseValue".Translate() + ": " + num);
 				explanation.AppendLine();
 				explanation.Append("StatsReport_QualityMultiplier".Translate() + ": " + weaponDamageMultiplier.ToStringPercent());
 			}
@@ -132,48 +126,42 @@ namespace Verse
 
 		public float GetArmorPenetration(float weaponDamageMultiplier, StringBuilder explanation = null)
 		{
-			float result;
 			if (this.damageDef.armorCategory == null)
 			{
-				result = 0f;
+				return 0f;
+			}
+			float num;
+			if (this.damageAmountBase != -1 || this.armorPenetrationBase >= 0f)
+			{
+				num = this.armorPenetrationBase;
 			}
 			else
 			{
-				float num;
-				if (this.damageAmountBase != -1 || this.armorPenetrationBase >= 0f)
+				if (this.damageDef == null)
 				{
-					num = this.armorPenetrationBase;
+					return 0f;
 				}
-				else
-				{
-					if (this.damageDef == null)
-					{
-						return 0f;
-					}
-					num = this.damageDef.defaultArmorPenetration;
-				}
-				if (num < 0f)
-				{
-					int damageAmount = this.GetDamageAmount(null, null);
-					num = (float)damageAmount * 0.015f;
-				}
-				if (explanation != null)
-				{
-					explanation.Append("StatsReport_BaseValue".Translate() + "\n    " + num.ToStringPercent());
-					explanation.AppendLine();
-					explanation.AppendLine();
-					explanation.Append("StatsReport_QualityMultiplier".Translate() + ": " + weaponDamageMultiplier.ToStringPercent());
-				}
-				num *= weaponDamageMultiplier;
-				if (explanation != null)
-				{
-					explanation.AppendLine();
-					explanation.AppendLine();
-					explanation.Append("StatsReport_FinalValue".Translate() + ": " + num.ToStringPercent());
-				}
-				result = num;
+				num = this.damageDef.defaultArmorPenetration;
 			}
-			return result;
+			if (num < 0f)
+			{
+				int damageAmount = this.GetDamageAmount(null, null);
+				num = (float)damageAmount * 0.015f;
+			}
+			if (explanation != null)
+			{
+				explanation.AppendLine("StatsReport_BaseValue".Translate() + ": " + num.ToStringPercent());
+				explanation.AppendLine();
+				explanation.Append("StatsReport_QualityMultiplier".Translate() + ": " + weaponDamageMultiplier.ToStringPercent());
+			}
+			num *= weaponDamageMultiplier;
+			if (explanation != null)
+			{
+				explanation.AppendLine();
+				explanation.AppendLine();
+				explanation.Append("StatsReport_FinalValue".Translate() + ": " + num.ToStringPercent());
+			}
+			return num;
 		}
 
 		public IEnumerable<string> ConfigErrors(ThingDef parent)
@@ -225,7 +213,7 @@ namespace Verse
 				case 1u:
 					break;
 				case 2u:
-					goto IL_BB;
+					goto IL_BA;
 				default:
 					return false;
 				}
@@ -238,7 +226,7 @@ namespace Verse
 					}
 					return true;
 				}
-				IL_BB:
+				IL_BA:
 				this.$PC = -1;
 				return false;
 			}

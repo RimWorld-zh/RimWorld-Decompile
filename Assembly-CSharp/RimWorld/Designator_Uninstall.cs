@@ -41,24 +41,19 @@ namespace RimWorld
 
 		public override AcceptanceReport CanDesignateCell(IntVec3 c)
 		{
-			AcceptanceReport result;
 			if (!c.InBounds(base.Map))
 			{
-				result = false;
+				return false;
 			}
-			else if (!DebugSettings.godMode && c.Fogged(base.Map))
+			if (!DebugSettings.godMode && c.Fogged(base.Map))
 			{
-				result = false;
+				return false;
 			}
-			else if (this.TopUninstallableInCell(c) == null)
+			if (this.TopUninstallableInCell(c) == null)
 			{
-				result = false;
+				return false;
 			}
-			else
-			{
-				result = true;
-			}
-			return result;
+			return true;
 		}
 
 		public override void DesignateSingleCell(IntVec3 loc)
@@ -99,49 +94,38 @@ namespace RimWorld
 		public override AcceptanceReport CanDesignateThing(Thing t)
 		{
 			Building building = t as Building;
-			AcceptanceReport result;
 			if (building == null)
 			{
-				result = false;
+				return false;
 			}
-			else if (building.def.category != ThingCategory.Building)
+			if (building.def.category != ThingCategory.Building)
 			{
-				result = false;
+				return false;
 			}
-			else if (!building.def.Minifiable)
+			if (!building.def.Minifiable)
 			{
-				result = false;
+				return false;
 			}
-			else
+			if (!DebugSettings.godMode && building.Faction != Faction.OfPlayer)
 			{
-				if (!DebugSettings.godMode)
+				if (building.Faction != null)
 				{
-					if (building.Faction != Faction.OfPlayer)
-					{
-						if (building.Faction != null)
-						{
-							return false;
-						}
-						if (!building.ClaimableBy(Faction.OfPlayer))
-						{
-							return false;
-						}
-					}
+					return false;
 				}
-				if (base.Map.designationManager.DesignationOn(t, this.Designation) != null)
+				if (!building.ClaimableBy(Faction.OfPlayer))
 				{
-					result = false;
-				}
-				else if (base.Map.designationManager.DesignationOn(t, DesignationDefOf.Deconstruct) != null)
-				{
-					result = false;
-				}
-				else
-				{
-					result = true;
+					return false;
 				}
 			}
-			return result;
+			if (base.Map.designationManager.DesignationOn(t, this.Designation) != null)
+			{
+				return false;
+			}
+			if (base.Map.designationManager.DesignationOn(t, DesignationDefOf.Deconstruct) != null)
+			{
+				return false;
+			}
+			return true;
 		}
 
 		public override void SelectedUpdate()

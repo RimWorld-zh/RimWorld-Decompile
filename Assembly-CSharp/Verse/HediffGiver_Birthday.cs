@@ -6,9 +6,9 @@ namespace Verse
 {
 	public class HediffGiver_Birthday : HediffGiver
 	{
-		public SimpleCurve ageFractionChanceCurve = null;
+		public SimpleCurve ageFractionChanceCurve;
 
-		public float averageSeverityPerDayBeforeGeneration = 0f;
+		public float averageSeverityPerDayBeforeGeneration;
 
 		private static List<Hediff> addedHediffs = new List<Hediff>();
 
@@ -19,29 +19,30 @@ namespace Verse
 		public void TryApplyAndSimulateSeverityChange(Pawn pawn, float gotAtAge, bool tryNotToKillPawn)
 		{
 			HediffGiver_Birthday.addedHediffs.Clear();
-			if (base.TryApply(pawn, HediffGiver_Birthday.addedHediffs))
+			if (!base.TryApply(pawn, HediffGiver_Birthday.addedHediffs))
 			{
-				if (this.averageSeverityPerDayBeforeGeneration != 0f)
-				{
-					float num = (pawn.ageTracker.AgeBiologicalYearsFloat - gotAtAge) * 60f;
-					if (num < 0f)
-					{
-						Log.Error(string.Concat(new object[]
-						{
-							"daysPassed < 0, pawn=",
-							pawn,
-							", gotAtAge=",
-							gotAtAge
-						}), false);
-						return;
-					}
-					for (int i = 0; i < HediffGiver_Birthday.addedHediffs.Count; i++)
-					{
-						this.SimulateSeverityChange(pawn, HediffGiver_Birthday.addedHediffs[i], num, tryNotToKillPawn);
-					}
-				}
-				HediffGiver_Birthday.addedHediffs.Clear();
+				return;
 			}
+			if (this.averageSeverityPerDayBeforeGeneration != 0f)
+			{
+				float num = (pawn.ageTracker.AgeBiologicalYearsFloat - gotAtAge) * 60f;
+				if (num < 0f)
+				{
+					Log.Error(string.Concat(new object[]
+					{
+						"daysPassed < 0, pawn=",
+						pawn,
+						", gotAtAge=",
+						gotAtAge
+					}), false);
+					return;
+				}
+				for (int i = 0; i < HediffGiver_Birthday.addedHediffs.Count; i++)
+				{
+					this.SimulateSeverityChange(pawn, HediffGiver_Birthday.addedHediffs[i], num, tryNotToKillPawn);
+				}
+			}
+			HediffGiver_Birthday.addedHediffs.Clear();
 		}
 
 		private void SimulateSeverityChange(Pawn pawn, Hediff hediff, float daysPassed, bool tryNotToKillPawn)
@@ -59,27 +60,28 @@ namespace Verse
 
 		private void AvoidLifeThreateningStages(ref float severity, List<HediffStage> stages)
 		{
-			if (!stages.NullOrEmpty<HediffStage>())
+			if (stages.NullOrEmpty<HediffStage>())
 			{
-				int num = -1;
-				for (int i = 0; i < stages.Count; i++)
+				return;
+			}
+			int num = -1;
+			for (int i = 0; i < stages.Count; i++)
+			{
+				if (stages[i].lifeThreatening)
 				{
-					if (stages[i].lifeThreatening)
-					{
-						num = i;
-						break;
-					}
+					num = i;
+					break;
 				}
-				if (num >= 0)
+			}
+			if (num >= 0)
+			{
+				if (num == 0)
 				{
-					if (num == 0)
-					{
-						severity = Mathf.Min(severity, stages[num].minSeverity);
-					}
-					else
-					{
-						severity = Mathf.Min(severity, (stages[num].minSeverity + stages[num - 1].minSeverity) / 2f);
-					}
+					severity = Mathf.Min(severity, stages[num].minSeverity);
+				}
+				else
+				{
+					severity = Mathf.Min(severity, (stages[num].minSeverity + stages[num - 1].minSeverity) / 2f);
 				}
 			}
 		}

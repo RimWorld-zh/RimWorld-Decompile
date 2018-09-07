@@ -9,7 +9,6 @@ using System.Threading;
 using RimWorld;
 using RimWorld.Planet;
 using UnityEngine;
-using UnityEngine.Profiling;
 using Verse.AI;
 using Verse.AI.Group;
 
@@ -21,7 +20,7 @@ namespace Verse
 
 		private Name nameInt;
 
-		public Gender gender = Gender.None;
+		public Gender gender;
 
 		public Pawn_AgeTracker ageTracker;
 
@@ -105,7 +104,7 @@ namespace Verse
 
 		private static List<string> states = new List<string>();
 
-		private int lastSleepDisturbedTick = 0;
+		private int lastSleepDisturbedTick;
 
 		private const int SleepDisturbanceMinInterval = 300;
 
@@ -215,16 +214,11 @@ namespace Verse
 		{
 			get
 			{
-				MentalState result;
 				if (this.Dead)
 				{
-					result = null;
+					return null;
 				}
-				else
-				{
-					result = this.mindState.mentalStateHandler.CurState;
-				}
-				return result;
+				return this.mindState.mentalStateHandler.CurState;
 			}
 		}
 
@@ -232,16 +226,11 @@ namespace Verse
 		{
 			get
 			{
-				MentalStateDef result;
 				if (this.Dead)
 				{
-					result = null;
+					return null;
 				}
-				else
-				{
-					result = this.mindState.mentalStateHandler.CurStateDef;
-				}
-				return result;
+				return this.mindState.mentalStateHandler.CurStateDef;
 			}
 		}
 
@@ -265,16 +254,11 @@ namespace Verse
 		{
 			get
 			{
-				Inspiration result;
 				if (this.Dead)
 				{
-					result = null;
+					return null;
 				}
-				else
-				{
-					result = this.mindState.inspirationHandler.CurState;
-				}
-				return result;
+				return this.mindState.inspirationHandler.CurState;
 			}
 		}
 
@@ -282,16 +266,11 @@ namespace Verse
 		{
 			get
 			{
-				InspirationDef result;
 				if (this.Dead)
 				{
-					result = null;
+					return null;
 				}
-				else
-				{
-					result = this.mindState.inspirationHandler.CurStateDef;
-				}
-				return result;
+				return this.mindState.inspirationHandler.CurStateDef;
 			}
 		}
 
@@ -347,16 +326,11 @@ namespace Verse
 		{
 			get
 			{
-				Faction result;
 				if (this.guest == null)
 				{
-					result = null;
+					return null;
 				}
-				else
-				{
-					result = this.guest.HostFaction;
-				}
-				return result;
+				return this.guest.HostFaction;
 			}
 		}
 
@@ -421,24 +395,16 @@ namespace Verse
 		{
 			get
 			{
-				Pawn result;
 				if (base.ParentHolder == null)
 				{
-					result = null;
+					return null;
 				}
-				else
+				Pawn_CarryTracker pawn_CarryTracker = base.ParentHolder as Pawn_CarryTracker;
+				if (pawn_CarryTracker != null)
 				{
-					Pawn_CarryTracker pawn_CarryTracker = base.ParentHolder as Pawn_CarryTracker;
-					if (pawn_CarryTracker != null)
-					{
-						result = pawn_CarryTracker.pawn;
-					}
-					else
-					{
-						result = null;
-					}
+					return pawn_CarryTracker.pawn;
 				}
-				return result;
+				return null;
 			}
 		}
 
@@ -446,23 +412,15 @@ namespace Verse
 		{
 			get
 			{
-				string result;
-				if (this.Name != null)
+				if (this.Name == null)
 				{
-					if (this.story == null || this.story.TitleShortCap.NullOrEmpty())
-					{
-						result = this.Name.ToStringShort;
-					}
-					else
-					{
-						result = this.Name.ToStringShort + ", " + this.story.TitleShortCap;
-					}
+					return this.KindLabel;
 				}
-				else
+				if (this.story == null || this.story.TitleShortCap.NullOrEmpty())
 				{
-					result = this.KindLabel;
+					return this.Name.ToStringShort;
 				}
-				return result;
+				return this.Name.ToStringShort + ", " + this.story.TitleShortCap;
 			}
 		}
 
@@ -470,16 +428,11 @@ namespace Verse
 		{
 			get
 			{
-				string result;
 				if (this.Name != null)
 				{
-					result = this.Name.ToStringShort;
+					return this.Name.ToStringShort;
 				}
-				else
-				{
-					result = this.LabelNoCount;
-				}
-				return result;
+				return this.LabelNoCount;
 			}
 		}
 
@@ -681,24 +634,16 @@ namespace Verse
 		{
 			get
 			{
-				LocalTargetInfo result;
 				if (!base.Spawned)
 				{
-					result = LocalTargetInfo.Invalid;
+					return LocalTargetInfo.Invalid;
 				}
-				else
+				Stance curStance = this.stances.curStance;
+				if (curStance is Stance_Warmup || curStance is Stance_Cooldown)
 				{
-					Stance curStance = this.stances.curStance;
-					if (curStance is Stance_Warmup || curStance is Stance_Cooldown)
-					{
-						result = ((Stance_Busy)curStance).focusTarg;
-					}
-					else
-					{
-						result = LocalTargetInfo.Invalid;
-					}
+					return ((Stance_Busy)curStance).focusTarg;
 				}
-				return result;
+				return LocalTargetInfo.Invalid;
 			}
 		}
 
@@ -731,16 +676,11 @@ namespace Verse
 			get
 			{
 				Building_Turret building_Turret = this.MannedThing() as Building_Turret;
-				Verb result;
 				if (building_Turret != null)
 				{
-					result = building_Turret.AttackVerb;
+					return building_Turret.AttackVerb;
 				}
-				else
-				{
-					result = this.TryGetAttackVerb(null, !this.IsColonist);
-				}
-				return result;
+				return this.TryGetAttackVerb(null, !this.IsColonist);
 			}
 		}
 
@@ -951,28 +891,23 @@ namespace Verse
 
 		public override string ToString()
 		{
-			string result;
 			if (this.story != null)
 			{
-				result = this.LabelShort;
+				return this.LabelShort;
 			}
-			else if (this.thingIDNumber > 0)
+			if (this.thingIDNumber > 0)
 			{
-				result = base.ThingID;
+				return base.ThingID;
 			}
-			else if (this.kindDef != null)
+			if (this.kindDef != null)
 			{
-				result = this.KindLabel + "_" + base.ThingID;
+				return this.KindLabel + "_" + base.ThingID;
 			}
-			else if (this.def != null)
+			if (this.def != null)
 			{
-				result = base.ThingID;
+				return base.ThingID;
 			}
-			else
-			{
-				result = base.GetType().ToString();
-			}
-			return result;
+			return base.GetType().ToString();
 		}
 
 		public override void SpawnSetup(Map map, bool respawningAfterLoad)
@@ -983,63 +918,64 @@ namespace Verse
 				Corpse corpse = (Corpse)ThingMaker.MakeThing(this.RaceProps.corpseDef, null);
 				corpse.InnerPawn = this;
 				GenSpawn.Spawn(corpse, base.Position, map, WipeMode.Vanish);
+				return;
 			}
-			else if (this.def == null || this.kindDef == null)
+			if (this.def == null || this.kindDef == null)
 			{
 				Log.Warning("Tried to spawn pawn without def " + this.ToStringSafe<Pawn>() + ".", false);
+				return;
 			}
-			else
+			base.SpawnSetup(map, respawningAfterLoad);
+			if (Find.WorldPawns.Contains(this))
 			{
-				base.SpawnSetup(map, respawningAfterLoad);
-				if (Find.WorldPawns.Contains(this))
+				Find.WorldPawns.RemovePawn(this);
+			}
+			PawnComponentsUtility.AddComponentsForSpawn(this);
+			if (!PawnUtility.InValidState(this))
+			{
+				Log.Error("Pawn " + this.ToStringSafe<Pawn>() + " spawned in invalid state. Destroying...", false);
+				try
 				{
-					Find.WorldPawns.RemovePawn(this);
+					this.DeSpawn(DestroyMode.Vanish);
 				}
-				PawnComponentsUtility.AddComponentsForSpawn(this);
-				if (!PawnUtility.InValidState(this))
+				catch (Exception ex)
 				{
-					Log.Error("Pawn " + this.ToStringSafe<Pawn>() + " spawned in invalid state. Destroying...", false);
-					try
+					Log.Error(string.Concat(new object[]
 					{
-						this.DeSpawn(DestroyMode.Vanish);
-					}
-					catch (Exception ex)
-					{
-						Log.Error(string.Concat(new object[]
-						{
-							"Tried to despawn ",
-							this.ToStringSafe<Pawn>(),
-							" because of the previous error but couldn't: ",
-							ex
-						}), false);
-					}
-					Find.WorldPawns.PassToWorld(this, PawnDiscardDecideMode.Discard);
+						"Tried to despawn ",
+						this.ToStringSafe<Pawn>(),
+						" because of the previous error but couldn't: ",
+						ex
+					}), false);
 				}
-				else
+				Find.WorldPawns.PassToWorld(this, PawnDiscardDecideMode.Discard);
+				return;
+			}
+			this.Drawer.Notify_Spawned();
+			this.rotationTracker.Notify_Spawned();
+			if (!respawningAfterLoad)
+			{
+				this.pather.ResetToCurrentPosition();
+			}
+			base.Map.mapPawns.RegisterPawn(this);
+			if (this.RaceProps.IsFlesh)
+			{
+				this.relations.everSeenByPlayer = true;
+			}
+			AddictionUtility.CheckDrugAddictionTeachOpportunity(this);
+			if (this.needs != null && this.needs.mood != null && this.needs.mood.recentMemory != null)
+			{
+				this.needs.mood.recentMemory.Notify_Spawned(respawningAfterLoad);
+			}
+			if (!respawningAfterLoad)
+			{
+				this.records.AccumulateStoryEvent(StoryEventDefOf.Seen);
+				Find.GameEnder.CheckOrUpdateGameOver();
+				if (base.Faction == Faction.OfPlayer)
 				{
-					this.Drawer.Notify_Spawned();
-					this.rotationTracker.Notify_Spawned();
-					if (!respawningAfterLoad)
-					{
-						this.pather.ResetToCurrentPosition();
-					}
-					base.Map.mapPawns.RegisterPawn(this);
-					if (this.RaceProps.IsFlesh)
-					{
-						this.relations.everSeenByPlayer = true;
-					}
-					AddictionUtility.CheckDrugAddictionTeachOpportunity(this);
-					if (this.needs != null && this.needs.mood != null && this.needs.mood.recentMemory != null)
-					{
-						this.needs.mood.recentMemory.Notify_Spawned(respawningAfterLoad);
-					}
-					if (!respawningAfterLoad)
-					{
-						this.records.AccumulateStoryEvent(StoryEventDefOf.Seen);
-						Find.GameEnder.CheckOrUpdateGameOver();
-						PawnDiedOrDownedThoughtsUtility.RemoveDiedThoughts(this);
-					}
+					Find.StoryWatcher.statsRecord.UpdateGreatestPopulation();
 				}
+				PawnDiedOrDownedThoughtsUtility.RemoveDiedThoughts(this);
 			}
 		}
 
@@ -1098,102 +1034,86 @@ namespace Verse
 			if (DebugSettings.noAnimals && base.Spawned && this.RaceProps.Animal)
 			{
 				this.Destroy(DestroyMode.Vanish);
+				return;
 			}
-			else
+			base.Tick();
+			if (Find.TickManager.TicksGame % 250 == 0)
 			{
-				base.Tick();
-				if (Find.TickManager.TicksGame % 250 == 0)
+				this.TickRare();
+			}
+			bool suspended = base.Suspended;
+			if (!suspended)
+			{
+				if (base.Spawned)
 				{
-					this.TickRare();
+					this.pather.PatherTick();
 				}
-				bool suspended = base.Suspended;
-				if (!suspended)
+				if (base.Spawned)
 				{
-					if (base.Spawned)
-					{
-						this.pather.PatherTick();
-					}
-					if (base.Spawned)
-					{
-						this.stances.StanceTrackerTick();
-						this.verbTracker.VerbsTick();
-						this.natives.NativeVerbsTick();
-					}
-					if (base.Spawned)
-					{
-						Profiler.BeginSample("jobs");
-						this.jobs.JobTrackerTick();
-						Profiler.EndSample();
-					}
-					if (base.Spawned)
-					{
-						Profiler.BeginSample("Drawer");
-						this.Drawer.DrawTrackerTick();
-						Profiler.EndSample();
-						Profiler.BeginSample("rotationTracker");
-						this.rotationTracker.RotationTrackerTick();
-						Profiler.EndSample();
-					}
-					Profiler.BeginSample("health");
-					this.health.HealthTick();
-					Profiler.EndSample();
-					if (!this.Dead)
-					{
-						Profiler.BeginSample("mindState");
-						this.mindState.MindStateTick();
-						Profiler.EndSample();
-						this.carryTracker.CarryHandsTick();
-					}
+					this.stances.StanceTrackerTick();
+					this.verbTracker.VerbsTick();
+					this.natives.NativeVerbsTick();
 				}
+				if (base.Spawned)
+				{
+					this.jobs.JobTrackerTick();
+				}
+				if (base.Spawned)
+				{
+					this.Drawer.DrawTrackerTick();
+					this.rotationTracker.RotationTrackerTick();
+				}
+				this.health.HealthTick();
 				if (!this.Dead)
 				{
-					this.needs.NeedsTrackerTick();
+					this.mindState.MindStateTick();
+					this.carryTracker.CarryHandsTick();
 				}
-				if (!suspended)
+			}
+			if (!this.Dead)
+			{
+				this.needs.NeedsTrackerTick();
+			}
+			if (!suspended)
+			{
+				if (this.equipment != null)
 				{
-					if (this.equipment != null)
-					{
-						Profiler.BeginSample("equipment");
-						this.equipment.EquipmentTrackerTick();
-						Profiler.EndSample();
-					}
-					if (this.apparel != null)
-					{
-						this.apparel.ApparelTrackerTick();
-					}
-					if (this.interactions != null && base.Spawned)
-					{
-						Profiler.BeginSample("interactions");
-						this.interactions.InteractionsTrackerTick();
-						Profiler.EndSample();
-					}
-					if (this.caller != null)
-					{
-						this.caller.CallTrackerTick();
-					}
-					if (this.skills != null)
-					{
-						this.skills.SkillsTick();
-					}
-					if (this.inventory != null)
-					{
-						this.inventory.InventoryTrackerTick();
-					}
-					if (this.drafter != null)
-					{
-						this.drafter.DraftControllerTick();
-					}
-					if (this.relations != null)
-					{
-						this.relations.RelationsTrackerTick();
-					}
-					if (this.RaceProps.Humanlike)
-					{
-						this.guest.GuestTrackerTick();
-					}
-					this.ageTracker.AgeTick();
-					this.records.RecordsTick();
+					this.equipment.EquipmentTrackerTick();
 				}
+				if (this.apparel != null)
+				{
+					this.apparel.ApparelTrackerTick();
+				}
+				if (this.interactions != null && base.Spawned)
+				{
+					this.interactions.InteractionsTrackerTick();
+				}
+				if (this.caller != null)
+				{
+					this.caller.CallTrackerTick();
+				}
+				if (this.skills != null)
+				{
+					this.skills.SkillsTick();
+				}
+				if (this.inventory != null)
+				{
+					this.inventory.InventoryTrackerTick();
+				}
+				if (this.drafter != null)
+				{
+					this.drafter.DraftControllerTick();
+				}
+				if (this.relations != null)
+				{
+					this.relations.RelationsTrackerTick();
+				}
+				if (this.RaceProps.Humanlike)
+				{
+					this.guest.GuestTrackerTick();
+				}
+				this.ageTracker.AgeTick();
+				this.records.RecordsTick();
 			}
 		}
 
@@ -1206,9 +1126,12 @@ namespace Verse
 			}
 		}
 
-		public void Notify_Teleported(bool endCurrentJob = true)
+		public void Notify_Teleported(bool endCurrentJob = true, bool resetTweenedPos = true)
 		{
-			this.Drawer.tweener.ResetTweenedPosToRoot();
+			if (resetTweenedPos)
+			{
+				this.Drawer.tweener.ResetTweenedPosToRoot();
+			}
 			this.pather.Notify_Teleported_Int();
 			if (endCurrentJob && this.jobs != null && this.jobs.curJob != null)
 			{
@@ -1254,20 +1177,21 @@ namespace Verse
 		public override void PreApplyDamage(ref DamageInfo dinfo, out bool absorbed)
 		{
 			base.PreApplyDamage(ref dinfo, out absorbed);
-			if (!absorbed)
+			if (absorbed)
 			{
-				if (this.story != null && this.story.traits.HasTrait(TraitDefOf.Tough) && dinfo.Def.externalViolence)
-				{
-					dinfo.SetAmount(dinfo.Amount * 0.6f);
-				}
-				this.health.PreApplyDamage(dinfo, out absorbed);
+				return;
 			}
+			if (this.story != null && this.story.traits.HasTrait(TraitDefOf.Tough) && dinfo.Def.ExternalViolenceFor(this))
+			{
+				dinfo.SetAmount(dinfo.Amount * 0.5f);
+			}
+			this.health.PreApplyDamage(dinfo, out absorbed);
 		}
 
 		public override void PostApplyDamage(DamageInfo dinfo, float totalDamageDealt)
 		{
 			base.PostApplyDamage(dinfo, totalDamageDealt);
-			if (dinfo.Def.externalViolence)
+			if (dinfo.Def.ExternalViolenceFor(this))
 			{
 				this.records.AddTo(RecordDefOf.DamageTaken, totalDamageDealt);
 			}
@@ -1385,13 +1309,13 @@ namespace Verse
 			PawnDiedOrDownedThoughtsUtility.TryGiveThoughts(this, dinfo, PawnDiedOrDownedThoughtsKind.Died);
 			if (Current.ProgramState == ProgramState.Playing)
 			{
-				Find.StoryWatcher.watcherAdaptation.Notify_PawnEvent(this, AdaptationEvent.Died, null);
+				Find.Storyteller.Notify_PawnEvent(this, AdaptationEvent.Died, null);
 			}
 			if (this.IsColonist)
 			{
-				Find.StoryWatcher.statsRecord.colonistsKilled++;
+				Find.StoryWatcher.statsRecord.Notify_ColonistKilled();
 			}
-			if (flag && dinfo != null && dinfo.Value.Def.externalViolence)
+			if (flag && dinfo != null && dinfo.Value.Def.ExternalViolenceFor(this))
 			{
 				LifeStageUtility.PlayNearestLifestageSound(this, (LifeStageAge ls) => ls.soundDeath, 1f);
 			}
@@ -1423,14 +1347,11 @@ namespace Verse
 			}
 			this.meleeVerbs.Notify_PawnKilled();
 			Pawn_CarryTracker pawn_CarryTracker = base.ParentHolder as Pawn_CarryTracker;
-			if (pawn_CarryTracker != null)
+			Thing thing;
+			if (pawn_CarryTracker != null && this.holdingOwner.TryDrop(this, pawn_CarryTracker.pawn.Position, pawn_CarryTracker.pawn.Map, ThingPlaceMode.Near, out thing, null, null))
 			{
-				Thing thing;
-				if (this.holdingOwner.TryDrop(this, pawn_CarryTracker.pawn.Position, pawn_CarryTracker.pawn.Map, ThingPlaceMode.Near, out thing, null, null))
-				{
-					map = pawn_CarryTracker.pawn.Map;
-					flag = true;
-				}
+				map = pawn_CarryTracker.pawn.Map;
+				flag = true;
 			}
 			this.health.SetDead();
 			if (this.health.deflectionEffecter != null)
@@ -1441,6 +1362,11 @@ namespace Verse
 			if (caravan != null)
 			{
 				caravan.Notify_MemberDied(this);
+			}
+			Lord lord = this.GetLord();
+			if (lord != null)
+			{
+				lord.Notify_PawnLost(this, PawnLostCondition.IncappedOrKilled, dinfo);
 			}
 			if (flag)
 			{
@@ -1474,7 +1400,7 @@ namespace Verse
 						corpse.Rotation = base.Rotation;
 						if (HuntJobUtility.WasKilledByHunter(this, dinfo))
 						{
-							((Pawn)dinfo.Value.Instigator).Reserve(corpse, ((Pawn)dinfo.Value.Instigator).CurJob, 1, -1, null);
+							((Pawn)dinfo.Value.Instigator).Reserve(corpse, ((Pawn)dinfo.Value.Instigator).CurJob, 1, -1, null, true);
 						}
 						else if (!flag3 && !flag4)
 						{
@@ -1578,14 +1504,14 @@ namespace Verse
 				this.ownership.UnclaimAll();
 			}
 			this.ClearMind(false);
+			Lord lord = this.GetLord();
+			if (lord != null)
+			{
+				PawnLostCondition cond = (mode != DestroyMode.KillFinalize) ? PawnLostCondition.Vanished : PawnLostCondition.IncappedOrKilled;
+				lord.Notify_PawnLost(this, cond, null);
+			}
 			if (Current.ProgramState == ProgramState.Playing)
 			{
-				Lord lord = this.GetLord();
-				if (lord != null)
-				{
-					PawnLostCondition cond = (mode != DestroyMode.KillFinalize) ? PawnLostCondition.Vanished : PawnLostCondition.IncappedOrKilled;
-					lord.Notify_PawnLost(this, cond);
-				}
 				Find.GameEnder.CheckOrUpdateGameOver();
 				Find.TaleManager.Notify_PawnDestroyed(this);
 			}
@@ -1647,54 +1573,47 @@ namespace Verse
 			if (Find.WorldPawns.Contains(this))
 			{
 				Log.Warning("Tried to discard a world pawn " + this + ".", false);
+				return;
 			}
-			else
+			base.Discard(silentlyRemoveReferences);
+			if (this.relations != null)
 			{
-				base.Discard(silentlyRemoveReferences);
-				if (this.relations != null)
-				{
-					this.relations.ClearAllRelations();
-				}
-				if (Current.ProgramState == ProgramState.Playing)
-				{
-					Find.PlayLog.Notify_PawnDiscarded(this, silentlyRemoveReferences);
-					Find.BattleLog.Notify_PawnDiscarded(this, silentlyRemoveReferences);
-					Find.TaleManager.Notify_PawnDiscarded(this, silentlyRemoveReferences);
-				}
-				foreach (Pawn pawn in PawnsFinder.AllMapsWorldAndTemporary_Alive)
-				{
-					if (pawn.needs.mood != null)
-					{
-						pawn.needs.mood.thoughts.memories.Notify_PawnDiscarded(this);
-					}
-				}
-				Corpse.PostCorpseDestroy(this);
+				this.relations.ClearAllRelations();
 			}
+			if (Current.ProgramState == ProgramState.Playing)
+			{
+				Find.PlayLog.Notify_PawnDiscarded(this, silentlyRemoveReferences);
+				Find.BattleLog.Notify_PawnDiscarded(this, silentlyRemoveReferences);
+				Find.TaleManager.Notify_PawnDiscarded(this, silentlyRemoveReferences);
+			}
+			foreach (Pawn pawn in PawnsFinder.AllMapsWorldAndTemporary_Alive)
+			{
+				if (pawn.needs.mood != null)
+				{
+					pawn.needs.mood.thoughts.memories.Notify_PawnDiscarded(this);
+				}
+			}
+			Corpse.PostCorpseDestroy(this);
 		}
 
 		private Corpse MakeCorpse(Building_Grave assignedGrave, bool inBed, float bedRotation)
 		{
-			Corpse result;
 			if (this.holdingOwner != null)
 			{
 				Log.Warning("We can't make corpse because the pawn is in a ThingOwner. Remove him from the container first. This should have been already handled before calling this method. holder=" + base.ParentHolder, false);
-				result = null;
+				return null;
 			}
-			else
+			Corpse corpse = (Corpse)ThingMaker.MakeThing(this.RaceProps.corpseDef, null);
+			corpse.InnerPawn = this;
+			if (assignedGrave != null)
 			{
-				Corpse corpse = (Corpse)ThingMaker.MakeThing(this.RaceProps.corpseDef, null);
-				corpse.InnerPawn = this;
-				if (assignedGrave != null)
-				{
-					corpse.InnerPawn.ownership.ClaimGrave(assignedGrave);
-				}
-				if (inBed)
-				{
-					corpse.InnerPawn.Drawer.renderer.wiggler.SetToCustomRotation(bedRotation + 180f);
-				}
-				result = corpse;
+				corpse.InnerPawn.ownership.ClaimGrave(assignedGrave);
 			}
-			return result;
+			if (inBed)
+			{
+				corpse.InnerPawn.Drawer.renderer.wiggler.SetToCustomRotation(bedRotation + 180f);
+			}
+			return corpse;
 		}
 
 		public void ExitMap(bool allowedToJoinOrCreateCaravan, Rot4 exitDir)
@@ -1702,71 +1621,70 @@ namespace Verse
 			if (this.IsWorldPawn())
 			{
 				Log.Warning("Called ExitMap() on world pawn " + this, false);
+				return;
 			}
-			else if (allowedToJoinOrCreateCaravan && CaravanExitMapUtility.CanExitMapAndJoinOrCreateCaravanNow(this))
+			if (allowedToJoinOrCreateCaravan && CaravanExitMapUtility.CanExitMapAndJoinOrCreateCaravanNow(this))
 			{
 				CaravanExitMapUtility.ExitMapAndJoinOrCreateCaravan(this, exitDir);
+				return;
 			}
-			else
+			Lord lord = this.GetLord();
+			if (lord != null)
 			{
-				Lord lord = this.GetLord();
-				if (lord != null)
+				lord.Notify_PawnLost(this, PawnLostCondition.ExitedMap, null);
+			}
+			if (this.carryTracker != null && this.carryTracker.CarriedThing != null)
+			{
+				Pawn pawn = this.carryTracker.CarriedThing as Pawn;
+				if (pawn != null)
 				{
-					lord.Notify_PawnLost(this, PawnLostCondition.ExitedMap);
-				}
-				if (this.carryTracker != null && this.carryTracker.CarriedThing != null)
-				{
-					Pawn pawn = this.carryTracker.CarriedThing as Pawn;
-					if (pawn != null)
+					if (base.Faction != null && base.Faction != pawn.Faction)
 					{
-						if (base.Faction != null && base.Faction != pawn.Faction)
-						{
-							base.Faction.kidnapped.KidnapPawn(pawn, this);
-						}
-						else
-						{
-							this.carryTracker.innerContainer.Remove(pawn);
-							pawn.ExitMap(false, exitDir);
-						}
+						base.Faction.kidnapped.KidnapPawn(pawn, this);
 					}
 					else
 					{
-						this.carryTracker.CarriedThing.Destroy(DestroyMode.Vanish);
+						this.carryTracker.innerContainer.Remove(pawn);
+						pawn.ExitMap(false, exitDir);
 					}
-					this.carryTracker.innerContainer.Clear();
 				}
-				bool flag = !this.IsCaravanMember() && !PawnUtility.IsTravelingInTransportPodWorldObject(this);
-				if (base.Faction != null)
+				else
 				{
-					base.Faction.Notify_MemberExitedMap(this, flag);
+					this.carryTracker.CarriedThing.Destroy(DestroyMode.Vanish);
 				}
-				if (this.ownership != null)
-				{
-					this.ownership.UnclaimAll();
-				}
-				if (this.guest != null)
-				{
-					if (flag)
-					{
-						this.guest.SetGuestStatus(null, false);
-					}
-					this.guest.Released = false;
-				}
-				if (base.Spawned)
-				{
-					this.DeSpawn(DestroyMode.Vanish);
-				}
-				this.inventory.UnloadEverything = false;
+				this.carryTracker.innerContainer.Clear();
+			}
+			bool flag = !this.IsCaravanMember() && !PawnUtility.IsTravelingInTransportPodWorldObject(this);
+			if (base.Faction != null)
+			{
+				base.Faction.Notify_MemberExitedMap(this, flag);
+			}
+			if (this.ownership != null && flag)
+			{
+				this.ownership.UnclaimAll();
+			}
+			if (this.guest != null)
+			{
 				if (flag)
 				{
-					this.ClearMind(false);
+					this.guest.SetGuestStatus(null, false);
 				}
-				if (this.relations != null)
-				{
-					this.relations.Notify_ExitedMap();
-				}
-				Find.WorldPawns.PassToWorld(this, PawnDiscardDecideMode.Decide);
+				this.guest.Released = false;
 			}
+			if (base.Spawned)
+			{
+				this.DeSpawn(DestroyMode.Vanish);
+			}
+			this.inventory.UnloadEverything = false;
+			if (flag)
+			{
+				this.ClearMind(false);
+			}
+			if (this.relations != null)
+			{
+				this.relations.Notify_ExitedMap();
+			}
+			Find.WorldPawns.PassToWorld(this, PawnDiscardDecideMode.Decide);
 		}
 
 		public override void PreTraded(TradeAction action, Pawn playerNegotiator, ITrader trader)
@@ -1820,7 +1738,7 @@ namespace Verse
 
 		public void PreKidnapped(Pawn kidnapper)
 		{
-			Find.StoryWatcher.watcherAdaptation.Notify_PawnEvent(this, AdaptationEvent.Kidnapped, null);
+			Find.Storyteller.Notify_PawnEvent(this, AdaptationEvent.Kidnapped, null);
 			if (this.IsColonist && kidnapper != null)
 			{
 				TaleRecorder.RecordTale(TaleDefOf.KidnappedColonist, new object[]
@@ -1849,94 +1767,96 @@ namespace Verse
 			if (newFaction == base.Faction)
 			{
 				Log.Warning("Used SetFaction to change " + this.ToStringSafe<Pawn>() + " to same faction " + newFaction.ToStringSafe<Faction>(), false);
+				return;
 			}
-			else
+			Faction faction = base.Faction;
+			if (this.guest != null)
 			{
-				Faction faction = base.Faction;
-				if (this.guest != null)
+				this.guest.SetGuestStatus(null, false);
+			}
+			if (base.Spawned)
+			{
+				base.Map.mapPawns.DeRegisterPawn(this);
+				base.Map.pawnDestinationReservationManager.ReleaseAllClaimedBy(this);
+				base.Map.designationManager.RemoveAllDesignationsOn(this, false);
+			}
+			if ((newFaction == Faction.OfPlayer || base.Faction == Faction.OfPlayer) && Current.ProgramState == ProgramState.Playing)
+			{
+				Find.ColonistBar.MarkColonistsDirty();
+			}
+			Lord lord = this.GetLord();
+			if (lord != null)
+			{
+				lord.Notify_PawnLost(this, PawnLostCondition.ChangedFaction, null);
+			}
+			if (base.Faction != null && base.Faction.leader == this)
+			{
+				base.Faction.Notify_LeaderLost();
+			}
+			if (newFaction == Faction.OfPlayer && this.RaceProps.Humanlike)
+			{
+				this.ChangeKind(newFaction.def.basicMemberKind);
+			}
+			base.SetFaction(newFaction, null);
+			PawnComponentsUtility.AddAndRemoveDynamicComponents(this, false);
+			if (base.Faction != null && base.Faction.IsPlayer)
+			{
+				if (this.workSettings != null)
 				{
-					this.guest.SetGuestStatus(null, false);
+					this.workSettings.EnableAndInitialize();
 				}
-				if (base.Spawned)
-				{
-					base.Map.mapPawns.DeRegisterPawn(this);
-					base.Map.pawnDestinationReservationManager.ReleaseAllClaimedBy(this);
-					base.Map.designationManager.RemoveAllDesignationsOn(this, false);
-				}
-				if ((newFaction == Faction.OfPlayer || base.Faction == Faction.OfPlayer) && Current.ProgramState == ProgramState.Playing)
-				{
-					Find.ColonistBar.MarkColonistsDirty();
-				}
-				Lord lord = this.GetLord();
-				if (lord != null)
-				{
-					lord.Notify_PawnLost(this, PawnLostCondition.ChangedFaction);
-				}
-				if (base.Faction != null && base.Faction.leader == this)
-				{
-					base.Faction.Notify_LeaderLost();
-				}
-				if (newFaction == Faction.OfPlayer && this.RaceProps.Humanlike)
-				{
-					this.ChangeKind(newFaction.def.basicMemberKind);
-				}
-				base.SetFaction(newFaction, null);
-				PawnComponentsUtility.AddAndRemoveDynamicComponents(this, false);
-				if (base.Faction != null && base.Faction.IsPlayer)
-				{
-					if (this.workSettings != null)
-					{
-						this.workSettings.EnableAndInitialize();
-					}
-					Find.Storyteller.intenderPopulation.Notify_PopulationGained();
-				}
-				if (this.Drafted)
-				{
-					this.drafter.Drafted = false;
-				}
-				ReachabilityUtility.ClearCache();
-				this.health.surgeryBills.Clear();
-				if (base.Spawned)
-				{
-					base.Map.mapPawns.RegisterPawn(this);
-				}
-				this.GenerateNecessaryName();
-				if (this.playerSettings != null)
-				{
-					this.playerSettings.ResetMedicalCare();
-				}
-				this.ClearMind(true);
-				if (!this.Dead && this.needs.mood != null)
-				{
-					this.needs.mood.thoughts.situational.Notify_SituationalThoughtsDirty();
-				}
-				if (base.Spawned)
-				{
-					base.Map.attackTargetsCache.UpdateTarget(this);
-				}
-				Find.GameEnder.CheckOrUpdateGameOver();
-				AddictionUtility.CheckDrugAddictionTeachOpportunity(this);
-				if (this.needs != null)
-				{
-					this.needs.AddOrRemoveNeedsAsAppropriate();
-				}
-				if (this.playerSettings != null)
-				{
-					this.playerSettings.Notify_FactionChanged();
-				}
-				if (this.relations != null)
-				{
-					this.relations.Notify_ChangedFaction();
-				}
-				if (this.RaceProps.Animal && newFaction == Faction.OfPlayer)
-				{
-					this.training.SetWantedRecursive(TrainableDefOf.Tameness, true);
-					this.training.Train(TrainableDefOf.Tameness, recruiter, true);
-				}
-				if (faction == Faction.OfPlayer)
-				{
-					BillUtility.Notify_ColonistUnavailable(this);
-				}
+				Find.StoryWatcher.watcherPopAdaptation.Notify_PawnEvent(this, PopAdaptationEvent.GainedColonist);
+			}
+			if (this.Drafted)
+			{
+				this.drafter.Drafted = false;
+			}
+			ReachabilityUtility.ClearCacheFor(this);
+			this.health.surgeryBills.Clear();
+			if (base.Spawned)
+			{
+				base.Map.mapPawns.RegisterPawn(this);
+			}
+			this.GenerateNecessaryName();
+			if (this.playerSettings != null)
+			{
+				this.playerSettings.ResetMedicalCare();
+			}
+			this.ClearMind(true);
+			if (!this.Dead && this.needs.mood != null)
+			{
+				this.needs.mood.thoughts.situational.Notify_SituationalThoughtsDirty();
+			}
+			if (base.Spawned)
+			{
+				base.Map.attackTargetsCache.UpdateTarget(this);
+			}
+			Find.GameEnder.CheckOrUpdateGameOver();
+			AddictionUtility.CheckDrugAddictionTeachOpportunity(this);
+			if (this.needs != null)
+			{
+				this.needs.AddOrRemoveNeedsAsAppropriate();
+			}
+			if (this.playerSettings != null)
+			{
+				this.playerSettings.Notify_FactionChanged();
+			}
+			if (this.relations != null)
+			{
+				this.relations.Notify_ChangedFaction();
+			}
+			if (this.RaceProps.Animal && newFaction == Faction.OfPlayer)
+			{
+				this.training.SetWantedRecursive(TrainableDefOf.Tameness, true);
+				this.training.Train(TrainableDefOf.Tameness, recruiter, true);
+			}
+			if (faction == Faction.OfPlayer)
+			{
+				BillUtility.Notify_ColonistUnavailable(this);
+			}
+			if (newFaction == Faction.OfPlayer)
+			{
+				Find.StoryWatcher.statsRecord.UpdateGreatestPopulation();
 			}
 		}
 
@@ -1990,51 +1910,53 @@ namespace Verse
 
 		public void VerifyReservations()
 		{
-			if (this.jobs != null)
+			if (this.jobs == null)
 			{
-				if (this.CurJob == null && this.jobs.jobQueue.Count <= 0 && !this.jobs.startingNewJob)
+				return;
+			}
+			if (this.CurJob != null || this.jobs.jobQueue.Count > 0 || this.jobs.startingNewJob)
+			{
+				return;
+			}
+			bool flag = false;
+			List<Map> maps = Find.Maps;
+			for (int i = 0; i < maps.Count; i++)
+			{
+				LocalTargetInfo obj = maps[i].reservationManager.FirstReservationFor(this);
+				if (obj.IsValid)
 				{
-					bool flag = false;
-					List<Map> maps = Find.Maps;
-					for (int i = 0; i < maps.Count; i++)
-					{
-						LocalTargetInfo obj = maps[i].reservationManager.FirstReservationFor(this);
-						if (obj.IsValid)
-						{
-							Log.ErrorOnce(string.Format("Reservation manager failed to clean up properly; {0} still reserving {1}", this.ToStringSafe<Pawn>(), obj.ToStringSafe<LocalTargetInfo>()), 97771429 ^ this.thingIDNumber, false);
-							flag = true;
-						}
-						LocalTargetInfo obj2 = maps[i].physicalInteractionReservationManager.FirstReservationFor(this);
-						if (obj2.IsValid)
-						{
-							Log.ErrorOnce(string.Format("Physical interaction reservation manager failed to clean up properly; {0} still reserving {1}", this.ToStringSafe<Pawn>(), obj2.ToStringSafe<LocalTargetInfo>()), 19586765 ^ this.thingIDNumber, false);
-							flag = true;
-						}
-						IAttackTarget attackTarget = maps[i].attackTargetReservationManager.FirstReservationFor(this);
-						if (attackTarget != null)
-						{
-							Log.ErrorOnce(string.Format("Attack target reservation manager failed to clean up properly; {0} still reserving {1}", this.ToStringSafe<Pawn>(), attackTarget.ToStringSafe<IAttackTarget>()), 100495878 ^ this.thingIDNumber, false);
-							flag = true;
-						}
-						IntVec3 obj3 = maps[i].pawnDestinationReservationManager.FirstObsoleteReservationFor(this);
-						if (obj3.IsValid)
-						{
-							Job job = maps[i].pawnDestinationReservationManager.FirstObsoleteReservationJobFor(this);
-							Log.ErrorOnce(string.Format("Pawn destination reservation manager failed to clean up properly; {0}/{1}/{2} still reserving {3}", new object[]
-							{
-								this.ToStringSafe<Pawn>(),
-								job.ToStringSafe<Job>(),
-								job.def.ToStringSafe<JobDef>(),
-								obj3.ToStringSafe<IntVec3>()
-							}), 1958674 ^ this.thingIDNumber, false);
-							flag = true;
-						}
-					}
-					if (flag)
-					{
-						this.ClearAllReservations(true);
-					}
+					Log.ErrorOnce(string.Format("Reservation manager failed to clean up properly; {0} still reserving {1}", this.ToStringSafe<Pawn>(), obj.ToStringSafe<LocalTargetInfo>()), 97771429 ^ this.thingIDNumber, false);
+					flag = true;
 				}
+				LocalTargetInfo obj2 = maps[i].physicalInteractionReservationManager.FirstReservationFor(this);
+				if (obj2.IsValid)
+				{
+					Log.ErrorOnce(string.Format("Physical interaction reservation manager failed to clean up properly; {0} still reserving {1}", this.ToStringSafe<Pawn>(), obj2.ToStringSafe<LocalTargetInfo>()), 19586765 ^ this.thingIDNumber, false);
+					flag = true;
+				}
+				IAttackTarget attackTarget = maps[i].attackTargetReservationManager.FirstReservationFor(this);
+				if (attackTarget != null)
+				{
+					Log.ErrorOnce(string.Format("Attack target reservation manager failed to clean up properly; {0} still reserving {1}", this.ToStringSafe<Pawn>(), attackTarget.ToStringSafe<IAttackTarget>()), 100495878 ^ this.thingIDNumber, false);
+					flag = true;
+				}
+				IntVec3 obj3 = maps[i].pawnDestinationReservationManager.FirstObsoleteReservationFor(this);
+				if (obj3.IsValid)
+				{
+					Job job = maps[i].pawnDestinationReservationManager.FirstObsoleteReservationJobFor(this);
+					Log.ErrorOnce(string.Format("Pawn destination reservation manager failed to clean up properly; {0}/{1}/{2} still reserving {3}", new object[]
+					{
+						this.ToStringSafe<Pawn>(),
+						job.ToStringSafe<Job>(),
+						job.def.ToStringSafe<JobDef>(),
+						obj3.ToStringSafe<IntVec3>()
+					}), 1958674 ^ this.thingIDNumber, false);
+					flag = true;
+				}
+			}
+			if (flag)
+			{
+				this.ClearAllReservations(true);
 			}
 		}
 
@@ -2083,54 +2005,45 @@ namespace Verse
 
 		public void GenerateNecessaryName()
 		{
-			if (base.Faction == Faction.OfPlayer && this.RaceProps.Animal)
+			if (base.Faction != Faction.OfPlayer || !this.RaceProps.Animal)
 			{
-				if (this.Name == null || this.Name.Numerical)
+				return;
+			}
+			if (this.Name == null || this.Name.Numerical)
+			{
+				if (Rand.Value < this.RaceProps.nameOnTameChance)
 				{
-					if (Rand.Value < this.RaceProps.nameOnTameChance)
-					{
-						this.Name = PawnBioAndNameGenerator.GeneratePawnName(this, NameStyle.Full, null);
-					}
-					else
-					{
-						this.Name = PawnBioAndNameGenerator.GeneratePawnName(this, NameStyle.Numeric, null);
-					}
+					this.Name = PawnBioAndNameGenerator.GeneratePawnName(this, NameStyle.Full, null);
+				}
+				else
+				{
+					this.Name = PawnBioAndNameGenerator.GeneratePawnName(this, NameStyle.Numeric, null);
 				}
 			}
 		}
 
 		public Verb TryGetAttackVerb(Thing target, bool allowManualCastWeapons = false)
 		{
-			Verb result;
 			if (this.equipment != null && this.equipment.Primary != null && this.equipment.PrimaryEq.PrimaryVerb.Available() && (!this.equipment.PrimaryEq.PrimaryVerb.verbProps.onlyManualCast || (this.CurJob != null && this.CurJob.def != JobDefOf.Wait_Combat) || allowManualCastWeapons))
 			{
-				result = this.equipment.PrimaryEq.PrimaryVerb;
+				return this.equipment.PrimaryEq.PrimaryVerb;
 			}
-			else
-			{
-				result = this.meleeVerbs.TryGetMeleeVerb(target);
-			}
-			return result;
+			return this.meleeVerbs.TryGetMeleeVerb(target);
 		}
 
 		public bool TryStartAttack(LocalTargetInfo targ)
 		{
-			bool result;
 			if (this.stances.FullBodyBusy)
 			{
-				result = false;
+				return false;
 			}
-			else if (this.story != null && this.story.WorkTagIsDisabled(WorkTags.Violent))
+			if (this.story != null && this.story.WorkTagIsDisabled(WorkTags.Violent))
 			{
-				result = false;
+				return false;
 			}
-			else
-			{
-				bool allowManualCastWeapons = !this.IsColonist;
-				Verb verb = this.TryGetAttackVerb(targ.Thing, allowManualCastWeapons);
-				result = (verb != null && verb.TryStartCastOn(targ, false, true));
-			}
-			return result;
+			bool allowManualCastWeapons = !this.IsColonist;
+			Verb verb = this.TryGetAttackVerb(targ.Thing, allowManualCastWeapons);
+			return verb != null && verb.TryStartCastOn(targ, false, true);
 		}
 
 		public override IEnumerable<Thing> ButcherProducts(Pawn butcher, float efficiency)
@@ -2145,7 +2058,7 @@ namespace Verse
 					yield return meat;
 				}
 			}
-			foreach (Thing t in this.<ButcherProducts>__BaseCallProxy0(butcher, efficiency))
+			foreach (Thing t in base.ButcherProducts(butcher, efficiency))
 			{
 				yield return t;
 			}
@@ -2162,31 +2075,28 @@ namespace Verse
 			if (!this.RaceProps.Humanlike)
 			{
 				PawnKindLifeStage lifeStage = this.ageTracker.CurKindLifeStage;
-				if (lifeStage.butcherBodyPart != null)
+				if (lifeStage.butcherBodyPart != null && (this.gender == Gender.None || (this.gender == Gender.Male && lifeStage.butcherBodyPart.allowMale) || (this.gender == Gender.Female && lifeStage.butcherBodyPart.allowFemale)))
 				{
-					if (this.gender == Gender.None || (this.gender == Gender.Male && lifeStage.butcherBodyPart.allowMale) || (this.gender == Gender.Female && lifeStage.butcherBodyPart.allowFemale))
+					for (;;)
 					{
-						for (;;)
+						BodyPartRecord record = (from x in this.health.hediffSet.GetNotMissingParts(BodyPartHeight.Undefined, BodyPartDepth.Undefined, null, null)
+						where x.IsInGroup(lifeStage.butcherBodyPart.bodyPartGroup)
+						select x).FirstOrDefault<BodyPartRecord>();
+						if (record == null)
 						{
-							BodyPartRecord record = (from x in this.health.hediffSet.GetNotMissingParts(BodyPartHeight.Undefined, BodyPartDepth.Undefined, null)
-							where x.IsInGroup(lifeStage.butcherBodyPart.bodyPartGroup)
-							select x).FirstOrDefault<BodyPartRecord>();
-							if (record == null)
-							{
-								break;
-							}
-							this.health.AddHediff(HediffMaker.MakeHediff(HediffDefOf.MissingBodyPart, this, record), null, null, null);
-							Thing thing;
-							if (lifeStage.butcherBodyPart.thing != null)
-							{
-								thing = ThingMaker.MakeThing(lifeStage.butcherBodyPart.thing, null);
-							}
-							else
-							{
-								thing = ThingMaker.MakeThing(record.def.spawnThingOnRemoved, null);
-							}
-							yield return thing;
+							break;
 						}
+						this.health.AddHediff(HediffMaker.MakeHediff(HediffDefOf.MissingBodyPart, this, record), null, null, null);
+						Thing thing;
+						if (lifeStage.butcherBodyPart.thing != null)
+						{
+							thing = ThingMaker.MakeThing(lifeStage.butcherBodyPart.thing, null);
+						}
+						else
+						{
+							thing = ThingMaker.MakeThing(record.def.spawnThingOnRemoved, null);
+						}
+						yield return thing;
 					}
 				}
 			}
@@ -2262,34 +2172,37 @@ namespace Verse
 				stringBuilder.Append("Carrying".Translate() + ": ");
 				stringBuilder.AppendLine(this.carryTracker.CarriedThing.LabelCap);
 			}
-			string text = null;
-			Lord lord = this.GetLord();
-			if (lord != null && lord.LordJob != null)
+			if ((base.Faction == Faction.OfPlayer || this.HostFaction == Faction.OfPlayer) && !this.InMentalState)
 			{
-				text = lord.LordJob.GetReport();
-			}
-			if (this.jobs.curJob != null)
-			{
-				try
+				string text = null;
+				Lord lord = this.GetLord();
+				if (lord != null && lord.LordJob != null)
 				{
-					string text2 = this.jobs.curDriver.GetReport().CapitalizeFirst();
-					if (!text.NullOrEmpty())
+					text = lord.LordJob.GetReport();
+				}
+				if (this.jobs.curJob != null)
+				{
+					try
 					{
-						text = text + ": " + text2;
+						string text2 = this.jobs.curDriver.GetReport().CapitalizeFirst();
+						if (!text.NullOrEmpty())
+						{
+							text = text + ": " + text2;
+						}
+						else
+						{
+							text = text2;
+						}
 					}
-					else
+					catch (Exception arg)
 					{
-						text = text2;
+						Log.Error("JobDriver.GetReport() exception: " + arg, false);
 					}
 				}
-				catch (Exception arg)
+				if (!text.NullOrEmpty())
 				{
-					Log.Error("JobDriver.GetReport() exception: " + arg, false);
+					stringBuilder.AppendLine(text);
 				}
-			}
-			if (!text.NullOrEmpty())
-			{
-				stringBuilder.AppendLine(text);
 			}
 			if (this.jobs.curJob != null && this.jobs.jobQueue.Count > 0)
 			{
@@ -2326,7 +2239,7 @@ namespace Verse
 		{
 			if (this.IsColonistPlayerControlled)
 			{
-				foreach (Gizmo c in this.<GetGizmos>__BaseCallProxy1())
+				foreach (Gizmo c in base.GetGizmos())
 				{
 					yield return c;
 				}
@@ -2382,20 +2295,20 @@ namespace Verse
 		{
 			StringBuilder stringBuilder = new StringBuilder();
 			stringBuilder.Append(this.LabelCap);
-			string text = "";
+			string text = string.Empty;
 			if (this.gender != Gender.None)
 			{
-				text = this.gender.GetLabel();
+				text = this.GetGenderLabel();
 			}
 			if (!this.LabelCap.EqualsIgnoreCase(this.KindLabel))
 			{
-				if (text != "")
+				if (text != string.Empty)
 				{
 					text += " ";
 				}
 				text += this.KindLabel;
 			}
-			if (text != "")
+			if (text != string.Empty)
 			{
 				stringBuilder.Append(" (" + text + ")");
 			}
@@ -2410,32 +2323,27 @@ namespace Verse
 
 		public override IEnumerable<StatDrawEntry> SpecialDisplayStats()
 		{
-			foreach (StatDrawEntry s in this.<SpecialDisplayStats>__BaseCallProxy2())
+			foreach (StatDrawEntry s in base.SpecialDisplayStats())
 			{
 				yield return s;
 			}
-			yield return new StatDrawEntry(StatCategoryDefOf.BasicsPawn, "BodySize".Translate(), this.BodySize.ToString("F2"), 0, "");
+			yield return new StatDrawEntry(StatCategoryDefOf.BasicsPawn, "BodySize".Translate(), this.BodySize.ToString("F2"), 0, string.Empty);
 			yield break;
 		}
 
 		public bool CurrentlyUsableForBills()
 		{
-			bool result;
-			if (!this.InBed() && (this.RaceProps.FleshType.requiresBedForSurgery || !this.Downed))
+			if (!this.InBed())
 			{
 				JobFailReason.Is(Pawn.NotSurgeryReadyTrans, null);
-				result = false;
+				return false;
 			}
-			else if (!this.InteractionCell.IsValid)
+			if (!this.InteractionCell.IsValid)
 			{
 				JobFailReason.Is(Pawn.CannotReachTrans, null);
-				result = false;
+				return false;
 			}
-			else
-			{
-				result = true;
-			}
-			return result;
+			return true;
 		}
 
 		public bool UsableForBillsAfterFueling()
@@ -2498,194 +2406,169 @@ namespace Verse
 
 		public void HearClamor(Thing source, ClamorDef type)
 		{
-			if (!this.Dead && !this.Downed)
+			if (this.Dead || this.Downed)
 			{
-				if (type == ClamorDefOf.Movement)
+				return;
+			}
+			if (type == ClamorDefOf.Movement)
+			{
+				Pawn pawn = source as Pawn;
+				if (pawn != null)
 				{
-					Pawn pawn = source as Pawn;
-					if (pawn != null)
-					{
-						this.CheckForDisturbedSleep(pawn);
-					}
+					this.CheckForDisturbedSleep(pawn);
 				}
-				if (type == ClamorDefOf.Harm)
+			}
+			if (type == ClamorDefOf.Harm && base.Faction != Faction.OfPlayer && !this.Awake() && base.Faction == source.Faction && this.HostFaction == null)
+			{
+				this.mindState.canSleepTick = Find.TickManager.TicksGame + 1000;
+				if (this.CurJob != null)
 				{
-					if (base.Faction != Faction.OfPlayer && !this.Awake() && base.Faction == source.Faction && this.HostFaction == null)
-					{
-						this.mindState.canSleepTick = Find.TickManager.TicksGame + 1000;
-						if (this.CurJob != null)
-						{
-							this.jobs.EndCurrentJob(JobCondition.InterruptForced, true);
-						}
-					}
+					this.jobs.EndCurrentJob(JobCondition.InterruptForced, true);
 				}
-				if (type == ClamorDefOf.Construction)
+			}
+			if (type == ClamorDefOf.Construction && base.Faction != Faction.OfPlayer && !this.Awake() && base.Faction != source.Faction && this.HostFaction == null)
+			{
+				this.mindState.canSleepTick = Find.TickManager.TicksGame + 1000;
+				if (this.CurJob != null)
 				{
-					if (base.Faction != Faction.OfPlayer && !this.Awake() && base.Faction != source.Faction && this.HostFaction == null)
-					{
-						this.mindState.canSleepTick = Find.TickManager.TicksGame + 1000;
-						if (this.CurJob != null)
-						{
-							this.jobs.EndCurrentJob(JobCondition.InterruptForced, true);
-						}
-					}
+					this.jobs.EndCurrentJob(JobCondition.InterruptForced, true);
 				}
-				if (type == ClamorDefOf.Impact)
+			}
+			if (type == ClamorDefOf.Impact)
+			{
+				this.mindState.canSleepTick = Find.TickManager.TicksGame + 1000;
+				if (this.CurJob != null && !this.Awake())
 				{
-					this.mindState.canSleepTick = Find.TickManager.TicksGame + 1000;
-					if (this.CurJob != null && !this.Awake())
-					{
-						this.jobs.EndCurrentJob(JobCondition.InterruptForced, true);
-					}
+					this.jobs.EndCurrentJob(JobCondition.InterruptForced, true);
 				}
 			}
 		}
 
 		private void CheckForDisturbedSleep(Pawn source)
 		{
-			if (this.needs.mood != null)
+			if (this.needs.mood == null)
 			{
-				if (!this.Awake())
+				return;
+			}
+			if (this.Awake())
+			{
+				return;
+			}
+			if (base.Faction != Faction.OfPlayer)
+			{
+				return;
+			}
+			if (Find.TickManager.TicksGame < this.lastSleepDisturbedTick + 300)
+			{
+				return;
+			}
+			if (source != null)
+			{
+				if (LovePartnerRelationUtility.LovePartnerRelationExists(this, source))
 				{
-					if (base.Faction == Faction.OfPlayer)
+					return;
+				}
+				if (source.RaceProps.petness > 0f)
+				{
+					return;
+				}
+				if (source.relations != null)
+				{
+					if (source.relations.DirectRelations.Any((DirectPawnRelation dr) => dr.def == PawnRelationDefOf.Bond))
 					{
-						if (Find.TickManager.TicksGame >= this.lastSleepDisturbedTick + 300)
-						{
-							if (source != null)
-							{
-								if (LovePartnerRelationUtility.LovePartnerRelationExists(this, source))
-								{
-									return;
-								}
-								if (source.RaceProps.petness > 0f)
-								{
-									return;
-								}
-								if (source.relations != null)
-								{
-									if (source.relations.DirectRelations.Any((DirectPawnRelation dr) => dr.def == PawnRelationDefOf.Bond))
-									{
-										return;
-									}
-								}
-							}
-							this.lastSleepDisturbedTick = Find.TickManager.TicksGame;
-							this.needs.mood.thoughts.memories.TryGainMemory(ThoughtDefOf.SleepDisturbed, null);
-						}
+						return;
 					}
 				}
 			}
+			this.lastSleepDisturbedTick = Find.TickManager.TicksGame;
+			this.needs.mood.thoughts.memories.TryGainMemory(ThoughtDefOf.SleepDisturbed, null);
 		}
 
 		public bool CheckAcceptArrest(Pawn arrester)
 		{
-			bool result;
 			if (this.health.Downed)
 			{
-				result = true;
+				return true;
 			}
-			else if (this.story != null && this.story.WorkTagIsDisabled(WorkTags.Violent))
+			if (this.story != null && this.story.WorkTagIsDisabled(WorkTags.Violent))
 			{
-				result = true;
+				return true;
 			}
-			else
+			if (base.Faction != null && base.Faction != arrester.factionInt)
 			{
-				if (base.Faction != null && base.Faction != arrester.factionInt)
-				{
-					base.Faction.Notify_MemberCaptured(this, arrester.Faction);
-				}
-				float num = (!this.IsWildMan()) ? 0.5f : 0.2f;
-				if (Rand.Value < num)
-				{
-					result = true;
-				}
-				else
-				{
-					Messages.Message("MessageRefusedArrest".Translate(new object[]
-					{
-						this.LabelShort
-					}), this, MessageTypeDefOf.ThreatSmall, true);
-					if (base.Faction == null || !arrester.HostileTo(this))
-					{
-						this.mindState.mentalStateHandler.TryStartMentalState(MentalStateDefOf.Berserk, null, false, false, null, false);
-					}
-					result = false;
-				}
+				base.Faction.Notify_MemberCaptured(this, arrester.Faction);
 			}
-			return result;
+			float num = (!this.IsWildMan()) ? 0.6f : 0.3f;
+			if (Rand.Value < num)
+			{
+				return true;
+			}
+			Messages.Message("MessageRefusedArrest".Translate(new object[]
+			{
+				this.LabelShort
+			}), this, MessageTypeDefOf.ThreatSmall, true);
+			if (base.Faction == null || !arrester.HostileTo(this))
+			{
+				this.mindState.mentalStateHandler.TryStartMentalState(MentalStateDefOf.Berserk, null, false, false, null, false);
+			}
+			return false;
 		}
 
 		public bool ThreatDisabled(IAttackTargetSearcher disabledFor)
 		{
-			bool result;
 			if (!base.Spawned)
 			{
-				result = true;
+				return true;
 			}
-			else if (!this.InMentalState && this.GetTraderCaravanRole() == TraderCaravanRole.Carrier && !(this.jobs.curDriver is JobDriver_AttackMelee))
+			if (!this.InMentalState && this.GetTraderCaravanRole() == TraderCaravanRole.Carrier && !(this.jobs.curDriver is JobDriver_AttackMelee))
 			{
-				result = true;
+				return true;
 			}
-			else if (this.mindState.duty != null && this.mindState.duty.def.threatDisabled)
+			if (this.mindState.duty != null && this.mindState.duty.def.threatDisabled)
 			{
-				result = true;
+				return true;
 			}
-			else if (!this.mindState.Active)
+			if (!this.mindState.Active)
 			{
-				result = true;
+				return true;
 			}
-			else
+			if (this.Downed)
 			{
-				if (this.Downed)
+				if (disabledFor == null)
 				{
-					if (disabledFor == null)
-					{
-						return true;
-					}
-					Pawn pawn = disabledFor.Thing as Pawn;
-					if (pawn == null || pawn.mindState == null || pawn.mindState.duty == null || !pawn.mindState.duty.attackDownedIfStarving || !pawn.Starving())
-					{
-						return true;
-					}
+					return true;
 				}
-				result = false;
+				Pawn pawn = disabledFor.Thing as Pawn;
+				if (pawn == null || pawn.mindState == null || pawn.mindState.duty == null || !pawn.mindState.duty.attackDownedIfStarving || !pawn.Starving())
+				{
+					return true;
+				}
 			}
-			return result;
+			return false;
 		}
 
 		public override bool PreventPlayerSellingThingsNearby(out string reason)
 		{
-			bool result;
 			if (this.InAggroMentalState || (base.Faction.HostileTo(Faction.OfPlayer) && this.HostFaction == null && !this.Downed && !this.InMentalState))
 			{
 				reason = "Enemies".Translate();
-				result = true;
+				return true;
 			}
-			else
-			{
-				reason = null;
-				result = false;
-			}
-			return result;
+			reason = null;
+			return false;
 		}
 
 		public void ChangeKind(PawnKindDef newKindDef)
 		{
-			if (this.kindDef != newKindDef)
+			if (this.kindDef == newKindDef)
 			{
-				if (this.kindDef == PawnKindDefOf.WildMan && base.Spawned)
-				{
-					base.Map.reachability.ClearCache();
-				}
-				this.kindDef = newKindDef;
-				if (this.kindDef == PawnKindDefOf.WildMan)
-				{
-					this.mindState.wildManEverReachedOutside = false;
-					if (base.Spawned)
-					{
-						base.Map.reachability.ClearCache();
-					}
-				}
+				return;
+			}
+			this.kindDef = newKindDef;
+			if (this.kindDef == PawnKindDefOf.WildMan)
+			{
+				this.mindState.WildManEverReachedOutside = false;
+				ReachabilityUtility.ClearCacheFor(this);
 			}
 		}
 
@@ -2932,38 +2815,46 @@ namespace Verse
 				case 1u:
 					break;
 				case 2u:
-					Block_5:
-					try
+					goto IL_E5;
+				case 3u:
+					goto IL_1EA;
+				case 4u:
+					goto IL_2AC;
+				default:
+					return false;
+				}
+				enumerator = base.<ButcherProducts>__BaseCallProxy0(butcher, efficiency).GetEnumerator();
+				num = 4294967293u;
+				try
+				{
+					IL_E5:
+					switch (num)
 					{
-						switch (num)
+					}
+					if (enumerator.MoveNext())
+					{
+						t = enumerator.Current;
+						this.$current = t;
+						if (!this.$disposing)
 						{
+							this.$PC = 2;
 						}
-						if (enumerator.MoveNext())
+						flag = true;
+						return true;
+					}
+				}
+				finally
+				{
+					if (!flag)
+					{
+						if (enumerator != null)
 						{
-							t = enumerator.Current;
-							this.$current = t;
-							if (!this.$disposing)
-							{
-								this.$PC = 2;
-							}
-							flag = true;
-							return true;
+							enumerator.Dispose();
 						}
 					}
-					finally
-					{
-						if (!flag)
-						{
-							if (enumerator != null)
-							{
-								enumerator.Dispose();
-							}
-						}
-					}
-					if (base.RaceProps.leatherDef == null)
-					{
-						goto IL_1F6;
-					}
+				}
+				if (base.RaceProps.leatherDef != null)
+				{
 					leatherCount = GenMath.RoundRandom(this.GetStatValue(StatDefOf.LeatherAmount, true) * efficiency);
 					if (leatherCount > 0)
 					{
@@ -2976,34 +2867,19 @@ namespace Verse
 						}
 						return true;
 					}
-					goto IL_1F5;
-				case 3u:
-					goto IL_1F5;
-				case 4u:
-					goto IL_2BB;
-				default:
-					return false;
 				}
-				enumerator = base.<ButcherProducts>__BaseCallProxy0(butcher, efficiency).GetEnumerator();
-				num = 4294967293u;
-				goto Block_5;
-				IL_1F5:
-				IL_1F6:
+				IL_1EA:
 				if (base.RaceProps.Humanlike)
 				{
-					goto IL_3BC;
+					goto IL_3A8;
 				}
 				PawnKindLifeStage lifeStage = this.ageTracker.CurKindLifeStage;
-				if (lifeStage.butcherBodyPart == null)
+				if (lifeStage.butcherBodyPart == null || (this.gender != Gender.None && (this.gender != Gender.Male || !lifeStage.butcherBodyPart.allowMale) && (this.gender != Gender.Female || !lifeStage.butcherBodyPart.allowFemale)))
 				{
-					goto IL_3BB;
+					goto IL_3A8;
 				}
-				if (this.gender != Gender.None && (this.gender != Gender.Male || !lifeStage.butcherBodyPart.allowMale) && (this.gender != Gender.Female || !lifeStage.butcherBodyPart.allowFemale))
-				{
-					goto IL_3BA;
-				}
-				IL_2BB:
-				record = (from x in this.health.hediffSet.GetNotMissingParts(BodyPartHeight.Undefined, BodyPartDepth.Undefined, null)
+				IL_2AC:
+				record = (from x in this.health.hediffSet.GetNotMissingParts(BodyPartHeight.Undefined, BodyPartDepth.Undefined, null, null)
 				where x.IsInGroup(lifeStage.butcherBodyPart.bodyPartGroup)
 				select x).FirstOrDefault<BodyPartRecord>();
 				if (record != null)
@@ -3024,9 +2900,7 @@ namespace Verse
 					}
 					return true;
 				}
-				IL_3BA:
-				IL_3BB:
-				IL_3BC:
+				IL_3A8:
 				this.$PC = -1;
 				return false;
 			}
@@ -3169,7 +3043,7 @@ namespace Verse
 				case 0u:
 					if (!base.IsColonistPlayerControlled)
 					{
-						goto IL_215;
+						goto IL_207;
 					}
 					enumerator = base.<GetGizmos>__BaseCallProxy1().GetEnumerator();
 					num = 4294967293u;
@@ -3177,7 +3051,7 @@ namespace Verse
 				case 1u:
 					break;
 				case 2u:
-					goto IL_10D;
+					goto IL_106;
 				case 3u:
 					Block_6:
 					try
@@ -3207,7 +3081,7 @@ namespace Verse
 							}
 						}
 					}
-					goto IL_215;
+					goto IL_207;
 				case 4u:
 					Block_8:
 					try
@@ -3237,7 +3111,7 @@ namespace Verse
 							}
 						}
 					}
-					goto IL_2BC;
+					goto IL_2A9;
 				case 5u:
 					Block_11:
 					try
@@ -3267,7 +3141,7 @@ namespace Verse
 							}
 						}
 					}
-					goto IL_374;
+					goto IL_35B;
 				case 6u:
 					Block_13:
 					try
@@ -3297,7 +3171,7 @@ namespace Verse
 							}
 						}
 					}
-					goto IL_41B;
+					goto IL_3FD;
 				case 7u:
 					Block_14:
 					try
@@ -3361,13 +3235,13 @@ namespace Verse
 				}
 				if (this.drafter == null)
 				{
-					goto IL_184;
+					goto IL_17A;
 				}
 				enumerator2 = this.drafter.GetGizmos().GetEnumerator();
 				num = 4294967293u;
 				try
 				{
-					IL_10D:
+					IL_106:
 					switch (num)
 					{
 					}
@@ -3393,21 +3267,21 @@ namespace Verse
 						}
 					}
 				}
-				IL_184:
+				IL_17A:
 				enumerator3 = PawnAttackGizmoUtility.GetAttackGizmos(this).GetEnumerator();
 				num = 4294967293u;
 				goto Block_6;
-				IL_215:
+				IL_207:
 				if (this.equipment != null)
 				{
 					enumerator4 = this.equipment.GetGizmos().GetEnumerator();
 					num = 4294967293u;
 					goto Block_8;
 				}
-				IL_2BC:
+				IL_2A9:
 				if (!base.IsColonistPlayerControlled)
 				{
-					goto IL_41C;
+					goto IL_3FD;
 				}
 				if (this.apparel != null)
 				{
@@ -3415,15 +3289,14 @@ namespace Verse
 					num = 4294967293u;
 					goto Block_11;
 				}
-				IL_374:
+				IL_35B:
 				if (this.playerSettings != null)
 				{
 					enumerator6 = this.playerSettings.GetGizmos().GetEnumerator();
 					num = 4294967293u;
 					goto Block_13;
 				}
-				IL_41B:
-				IL_41C:
+				IL_3FD:
 				enumerator7 = this.mindState.GetGizmos().GetEnumerator();
 				num = 4294967293u;
 				goto Block_14;
@@ -3703,7 +3576,7 @@ namespace Verse
 						}
 					}
 				}
-				this.$current = new StatDrawEntry(StatCategoryDefOf.BasicsPawn, "BodySize".Translate(), base.BodySize.ToString("F2"), 0, "");
+				this.$current = new StatDrawEntry(StatCategoryDefOf.BasicsPawn, "BodySize".Translate(), base.BodySize.ToString("F2"), 0, string.Empty);
 				if (!this.$disposing)
 				{
 					this.$PC = 2;

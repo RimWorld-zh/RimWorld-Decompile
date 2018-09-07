@@ -39,7 +39,7 @@ namespace RimWorld
 				TendUtility.GetOptimalHediffsToTendWithSingleTreatment(pawn, true, Medicine.tmpHediffs, Medicine.tendableHediffsInTendPriorityOrder);
 				if (!Medicine.tmpHediffs.Any<Hediff>())
 				{
-					goto IL_102;
+					goto IL_F8;
 				}
 				num3++;
 				for (int j = 0; j < Medicine.tmpHediffs.Count; j++)
@@ -48,7 +48,7 @@ namespace RimWorld
 				}
 			}
 			Log.Error("Too many iterations.", false);
-			IL_102:
+			IL_F8:
 			Medicine.tmpHediffs.Clear();
 			Medicine.tendableHediffsInTendPriorityOrder.Clear();
 			return num3;

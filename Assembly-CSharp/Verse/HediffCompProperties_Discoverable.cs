@@ -4,15 +4,15 @@ namespace Verse
 {
 	public class HediffCompProperties_Discoverable : HediffCompProperties
 	{
-		public bool sendLetterWhenDiscovered = false;
+		public bool sendLetterWhenDiscovered;
 
-		public string discoverLetterLabel = null;
+		public string discoverLetterLabel;
 
-		public string discoverLetterText = null;
+		public string discoverLetterText;
 
-		public MessageTypeDef messageType = null;
+		public MessageTypeDef messageType;
 
-		public LetterDef letterType = null;
+		public LetterDef letterType;
 
 		public HediffCompProperties_Discoverable()
 		{

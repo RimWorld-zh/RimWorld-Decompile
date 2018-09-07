@@ -168,23 +168,18 @@ namespace RimWorld
 
 		public static bool CanBeMaster(Pawn master, Pawn animal, bool checkSpawned = true)
 		{
-			bool result;
 			if ((checkSpawned && !master.Spawned) || master.IsPrisoner)
 			{
-				result = false;
+				return false;
 			}
-			else
-			{
-				int level = master.skills.GetSkill(SkillDefOf.Animals).Level;
-				int num = TrainableUtility.MinimumHandlingSkill(animal);
-				result = (level >= num);
-			}
-			return result;
+			int level = master.skills.GetSkill(SkillDefOf.Animals).Level;
+			int num = TrainableUtility.MinimumHandlingSkill(animal);
+			return level >= num;
 		}
 
 		public static string GetIconTooltipText(Pawn pawn)
 		{
-			string text = "";
+			string text = string.Empty;
 			if (pawn.playerSettings.Master != null)
 			{
 				text += string.Format("{0}: {1}\n", "Master".Translate(), pawn.playerSettings.Master.LabelShort);

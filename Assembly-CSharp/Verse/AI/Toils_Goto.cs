@@ -68,19 +68,18 @@ namespace Verse.AI
 			{
 				Pawn actor = toil.actor;
 				Thing thing = actor.jobs.curJob.GetTarget(targetInd).Thing as Blueprint;
-				IntVec3 c;
 				if (thing == null || !actor.Position.IsInside(thing))
 				{
 					actor.jobs.curDriver.ReadyForNextToil();
+					return;
 				}
-				else if (RCellFinder.TryFindGoodAdjacentSpotToTouch(actor, thing, out c))
+				IntVec3 c;
+				if (RCellFinder.TryFindGoodAdjacentSpotToTouch(actor, thing, out c))
 				{
 					actor.pather.StartPath(c, PathEndMode.OnCell);
+					return;
 				}
-				else
-				{
-					actor.jobs.EndCurrentJob(JobCondition.Incompletable, true);
-				}
+				actor.jobs.EndCurrentJob(JobCondition.Incompletable, true);
 			};
 			toil.defaultCompleteMode = ToilCompleteMode.PatherArrival;
 			return toil;
@@ -179,19 +178,18 @@ namespace Verse.AI
 			{
 				Pawn actor = this.toil.actor;
 				Thing thing = actor.jobs.curJob.GetTarget(this.targetInd).Thing as Blueprint;
-				IntVec3 c;
 				if (thing == null || !actor.Position.IsInside(thing))
 				{
 					actor.jobs.curDriver.ReadyForNextToil();
+					return;
 				}
-				else if (RCellFinder.TryFindGoodAdjacentSpotToTouch(actor, thing, out c))
+				IntVec3 c;
+				if (RCellFinder.TryFindGoodAdjacentSpotToTouch(actor, thing, out c))
 				{
 					actor.pather.StartPath(c, PathEndMode.OnCell);
+					return;
 				}
-				else
-				{
-					actor.jobs.EndCurrentJob(JobCondition.Incompletable, true);
-				}
+				actor.jobs.EndCurrentJob(JobCondition.Incompletable, true);
 			}
 		}
 	}

@@ -10,7 +10,7 @@ namespace Verse
 	{
 		public string fileName = "NamelessPackage";
 
-		public string relFolder = "";
+		public string relFolder = string.Empty;
 
 		public List<Def> defs = new List<Def>();
 
@@ -27,6 +27,7 @@ namespace Verse
 
 		public void AddDef(Def def)
 		{
+			def.defPackage = this;
 			this.defs.Add(def);
 		}
 
@@ -48,6 +49,10 @@ namespace Verse
 				}));
 			}
 			this.defs.Remove(def);
+			if (def.defPackage == this)
+			{
+				def.defPackage = null;
+			}
 		}
 
 		public void SaveIn(ModContentPack mod)

@@ -21,20 +21,15 @@ namespace RimWorld
 
 		protected override List<Pawn> GeneratePawns(IncidentParms parms)
 		{
-			List<Pawn> result;
 			if (!PawnGroupMakerUtility.TryGetRandomFactionForCombatPawnGroup(parms.points, out parms.faction, null, false, false, false, true))
 			{
 				Log.Error("Could not find any valid faction for " + this.def + " incident.", false);
-				result = new List<Pawn>();
+				return new List<Pawn>();
 			}
-			else
-			{
-				PawnGroupMakerParms defaultPawnGroupMakerParms = IncidentParmsUtility.GetDefaultPawnGroupMakerParms(PawnGroupKindDefOf.Combat, parms, false);
-				defaultPawnGroupMakerParms.generateFightersOnly = true;
-				defaultPawnGroupMakerParms.dontUseSingleUseRocketLaunchers = true;
-				result = PawnGroupMakerUtility.GeneratePawns(defaultPawnGroupMakerParms, true).ToList<Pawn>();
-			}
-			return result;
+			PawnGroupMakerParms defaultPawnGroupMakerParms = IncidentParmsUtility.GetDefaultPawnGroupMakerParms(PawnGroupKindDefOf.Combat, parms, false);
+			defaultPawnGroupMakerParms.generateFightersOnly = true;
+			defaultPawnGroupMakerParms.dontUseSingleUseRocketLaunchers = true;
+			return PawnGroupMakerUtility.GeneratePawns(defaultPawnGroupMakerParms, true).ToList<Pawn>();
 		}
 
 		protected override LordJob CreateLordJob(List<Pawn> generatedPawns, IncidentParms parms)

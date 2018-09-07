@@ -33,27 +33,28 @@ namespace RimWorld
 		public override void PreApplyDamage(ref DamageInfo dinfo, out bool absorbed)
 		{
 			base.PreApplyDamage(ref dinfo, out absorbed);
-			if (!absorbed)
+			if (absorbed)
 			{
-				if (!this.contentsKnown && this.innerContainer.Count > 0 && dinfo.Def.harmsHealth && dinfo.Instigator != null && dinfo.Instigator.Faction != null)
+				return;
+			}
+			if (!this.contentsKnown && this.innerContainer.Count > 0 && dinfo.Def.harmsHealth && dinfo.Instigator != null && dinfo.Instigator.Faction != null)
+			{
+				bool flag = false;
+				foreach (Thing thing in ((IEnumerable<Thing>)this.innerContainer))
 				{
-					bool flag = false;
-					foreach (Thing thing in ((IEnumerable<Thing>)this.innerContainer))
+					Pawn pawn = thing as Pawn;
+					if (pawn != null)
 					{
-						Pawn pawn = thing as Pawn;
-						if (pawn != null)
-						{
-							flag = true;
-							break;
-						}
-					}
-					if (flag)
-					{
-						this.EjectContents();
+						flag = true;
+						break;
 					}
 				}
-				absorbed = false;
+				if (flag)
+				{
+					this.EjectContents();
+				}
 			}
+			absorbed = false;
 		}
 
 		public override void EjectContents()
@@ -154,7 +155,7 @@ namespace RimWorld
 				case 1u:
 					if (this.groupID == -1)
 					{
-						goto IL_131;
+						goto IL_12B;
 					}
 					enumerator = base.Map.listerThings.ThingsOfDef(ThingDefOf.AncientCryptosleepCasket).GetEnumerator();
 					num = 4294967293u;
@@ -168,11 +169,8 @@ namespace RimWorld
 				{
 					switch (num)
 					{
-					case 2u:
-						IL_104:
-						break;
 					}
-					if (enumerator.MoveNext())
+					while (enumerator.MoveNext())
 					{
 						t = enumerator.Current;
 						casket = (t as Building_AncientCryptosleepCasket);
@@ -186,7 +184,6 @@ namespace RimWorld
 							flag = true;
 							return true;
 						}
-						goto IL_104;
 					}
 				}
 				finally
@@ -196,7 +193,7 @@ namespace RimWorld
 						((IDisposable)enumerator).Dispose();
 					}
 				}
-				IL_131:
+				IL_12B:
 				this.$PC = -1;
 				return false;
 			}

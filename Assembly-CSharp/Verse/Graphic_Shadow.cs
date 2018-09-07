@@ -11,10 +11,10 @@ namespace Verse
 		private ShadowData shadowInfo;
 
 		[TweakValue("Graphics_Shadow", -5f, 5f)]
-		private static float GlobalShadowPosOffsetX = 0f;
+		private static float GlobalShadowPosOffsetX;
 
 		[TweakValue("Graphics_Shadow", -5f, 5f)]
-		private static float GlobalShadowPosOffsetZ = 0f;
+		private static float GlobalShadowPosOffsetZ;
 
 		public Graphic_Shadow(ShadowData shadowInfo)
 		{
@@ -28,14 +28,11 @@ namespace Verse
 
 		public override void DrawWorker(Vector3 loc, Rot4 rot, ThingDef thingDef, Thing thing, float extraRotation)
 		{
-			if (this.shadowMesh != null)
+			if (this.shadowMesh != null && thingDef != null && this.shadowInfo != null && (Find.CurrentMap == null || !loc.ToIntVec3().InBounds(Find.CurrentMap) || !Find.CurrentMap.roofGrid.Roofed(loc.ToIntVec3())) && DebugViewSettings.drawShadows)
 			{
-				if (thingDef != null && this.shadowInfo != null && (Find.CurrentMap == null || !loc.ToIntVec3().InBounds(Find.CurrentMap) || !Find.CurrentMap.roofGrid.Roofed(loc.ToIntVec3())) && DebugViewSettings.drawShadows)
-				{
-					Vector3 position = loc + this.shadowInfo.offset;
-					position.y = AltitudeLayer.Shadows.AltitudeFor();
-					Graphics.DrawMesh(this.shadowMesh, position, rot.AsQuat, MatBases.SunShadowFade, 0);
-				}
+				Vector3 position = loc + this.shadowInfo.offset;
+				position.y = AltitudeLayer.Shadows.AltitudeFor();
+				Graphics.DrawMesh(this.shadowMesh, position, rot.AsQuat, MatBases.SunShadowFade, 0);
 			}
 		}
 

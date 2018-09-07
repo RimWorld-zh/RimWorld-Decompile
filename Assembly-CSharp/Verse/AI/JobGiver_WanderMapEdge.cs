@@ -13,17 +13,12 @@ namespace Verse.AI
 
 		protected override IntVec3 GetWanderRoot(Pawn pawn)
 		{
-			IntVec3 intVec;
 			IntVec3 result;
-			if (RCellFinder.TryFindBestExitSpot(pawn, out intVec, TraverseMode.ByPawn))
+			if (RCellFinder.TryFindBestExitSpot(pawn, out result, TraverseMode.ByPawn))
 			{
-				result = intVec;
+				return result;
 			}
-			else
-			{
-				result = pawn.Position;
-			}
-			return result;
+			return pawn.Position;
 		}
 	}
 }

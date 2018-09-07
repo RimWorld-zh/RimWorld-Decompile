@@ -6,9 +6,9 @@ namespace Verse
 {
 	public abstract class SkyOverlay
 	{
-		public Material worldOverlayMat = null;
+		public Material worldOverlayMat;
 
-		public Material screenOverlayMat = null;
+		public Material screenOverlayMat;
 
 		protected float worldOverlayPanSpeed1;
 
@@ -74,20 +74,15 @@ namespace Verse
 
 		public override string ToString()
 		{
-			string result;
 			if (this.worldOverlayMat != null)
 			{
-				result = this.worldOverlayMat.name;
+				return this.worldOverlayMat.name;
 			}
-			else if (this.screenOverlayMat != null)
+			if (this.screenOverlayMat != null)
 			{
-				result = this.screenOverlayMat.name;
+				return this.screenOverlayMat.name;
 			}
-			else
-			{
-				result = "NoOverlayOverlay";
-			}
-			return result;
+			return "NoOverlayOverlay";
 		}
 
 		[CompilerGenerated]

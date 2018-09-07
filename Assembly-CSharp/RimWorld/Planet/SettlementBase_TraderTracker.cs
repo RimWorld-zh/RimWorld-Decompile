@@ -67,20 +67,15 @@ namespace RimWorld.Planet
 		{
 			get
 			{
-				string result;
 				if (this.settlement.Faction == null)
 				{
-					result = this.settlement.LabelCap;
+					return this.settlement.LabelCap;
 				}
-				else
+				return "SettlementTrader".Translate(new object[]
 				{
-					result = "SettlementTrader".Translate(new object[]
-					{
-						this.settlement.LabelCap,
-						this.settlement.Faction.Name
-					});
-				}
-				return result;
+					this.settlement.LabelCap,
+					this.settlement.Faction.Name
+				});
 			}
 		}
 
@@ -162,12 +157,13 @@ namespace RimWorld.Planet
 			if (pawn != null)
 			{
 				CaravanInventoryUtility.MoveAllInventoryToSomeoneElse(pawn, caravan.PawnsListForReading, null);
-				if (!pawn.RaceProps.Humanlike)
+				if (pawn.RaceProps.Humanlike)
 				{
-					if (!this.stock.TryAdd(pawn, false))
-					{
-						pawn.Destroy(DestroyMode.Vanish);
-					}
+					return;
+				}
+				if (!this.stock.TryAdd(pawn, false))
+				{
+					pawn.Destroy(DestroyMode.Vanish);
 				}
 			}
 			else if (!this.stock.TryAdd(thing, false))
@@ -335,9 +331,9 @@ namespace RimWorld.Planet
 				case 1u:
 					break;
 				case 2u:
-					IL_12E:
+					IL_129:
 					i++;
-					goto IL_13D;
+					goto IL_137;
 				default:
 					return false;
 				}
@@ -367,7 +363,7 @@ namespace RimWorld.Planet
 				}
 				pawns = caravan.PawnsListForReading;
 				i = 0;
-				IL_13D:
+				IL_137:
 				if (i >= pawns.Count)
 				{
 					this.$PC = -1;
@@ -383,7 +379,7 @@ namespace RimWorld.Planet
 						}
 						return true;
 					}
-					goto IL_12E;
+					goto IL_129;
 				}
 				return false;
 			}

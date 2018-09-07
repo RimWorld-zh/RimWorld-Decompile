@@ -10,7 +10,7 @@ namespace Verse.AI
 {
 	public class JobDriver_AttackMelee : JobDriver
 	{
-		private int numMeleeAttacksMade = 0;
+		private int numMeleeAttacksMade;
 
 		public JobDriver_AttackMelee()
 		{
@@ -22,7 +22,7 @@ namespace Verse.AI
 			Scribe_Values.Look<int>(ref this.numMeleeAttacksMade, "numMeleeAttacksMade", 0, false);
 		}
 
-		public override bool TryMakePreToilReservations()
+		public override bool TryMakePreToilReservations(bool errorOnFailed)
 		{
 			IAttackTarget attackTarget = this.job.targetA.Thing as IAttackTarget;
 			if (attackTarget != null)
@@ -48,13 +48,15 @@ namespace Verse.AI
 				Thing thing = this.job.GetTarget(TargetIndex.A).Thing;
 				if (this.pawn.meleeVerbs.TryMeleeAttack(thing, this.job.verbToUse, false))
 				{
-					if (this.pawn.CurJob != null && this.pawn.jobs.curDriver == this)
+					if (this.pawn.CurJob == null || this.pawn.jobs.curDriver != this)
 					{
-						this.numMeleeAttacksMade++;
-						if (this.numMeleeAttacksMade >= this.job.maxNumMeleeAttacks)
-						{
-							base.EndJobWith(JobCondition.Succeeded);
-						}
+						return;
+					}
+					this.numMeleeAttacksMade++;
+					if (this.numMeleeAttacksMade >= this.job.maxNumMeleeAttacks)
+					{
+						base.EndJobWith(JobCondition.Succeeded);
+						return;
 					}
 				}
 			}).FailOnDespawnedOrNull(TargetIndex.A);
@@ -140,13 +142,15 @@ namespace Verse.AI
 						Thing thing = this.job.GetTarget(TargetIndex.A).Thing;
 						if (this.pawn.meleeVerbs.TryMeleeAttack(thing, this.job.verbToUse, false))
 						{
-							if (this.pawn.CurJob != null && this.pawn.jobs.curDriver == this)
+							if (this.pawn.CurJob == null || this.pawn.jobs.curDriver != this)
 							{
-								this.numMeleeAttacksMade++;
-								if (this.numMeleeAttacksMade >= this.job.maxNumMeleeAttacks)
-								{
-									base.EndJobWith(JobCondition.Succeeded);
-								}
+								return;
+							}
+							this.numMeleeAttacksMade++;
+							if (this.numMeleeAttacksMade >= this.job.maxNumMeleeAttacks)
+							{
+								base.EndJobWith(JobCondition.Succeeded);
+								return;
 							}
 						}
 					}).FailOnDespawnedOrNull(TargetIndex.A);
@@ -225,13 +229,15 @@ namespace Verse.AI
 				Thing thing = this.job.GetTarget(TargetIndex.A).Thing;
 				if (this.pawn.meleeVerbs.TryMeleeAttack(thing, this.job.verbToUse, false))
 				{
-					if (this.pawn.CurJob != null && this.pawn.jobs.curDriver == this)
+					if (this.pawn.CurJob == null || this.pawn.jobs.curDriver != this)
 					{
-						this.numMeleeAttacksMade++;
-						if (this.numMeleeAttacksMade >= this.job.maxNumMeleeAttacks)
-						{
-							base.EndJobWith(JobCondition.Succeeded);
-						}
+						return;
+					}
+					this.numMeleeAttacksMade++;
+					if (this.numMeleeAttacksMade >= this.job.maxNumMeleeAttacks)
+					{
+						base.EndJobWith(JobCondition.Succeeded);
+						return;
 					}
 				}
 			}

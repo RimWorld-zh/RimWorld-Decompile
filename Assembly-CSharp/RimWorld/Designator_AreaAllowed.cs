@@ -57,18 +57,19 @@ namespace RimWorld
 
 		public override void ProcessInput(Event ev)
 		{
-			if (base.CheckCanInteract())
+			if (!base.CheckCanInteract())
 			{
-				if (Designator_AreaAllowed.selectedArea != null)
-				{
-					base.ProcessInput(ev);
-				}
-				AreaUtility.MakeAllowedAreaListFloatMenu(delegate(Area a)
-				{
-					Designator_AreaAllowed.selectedArea = a;
-					this.<ProcessInput>__BaseCallProxy0(ev);
-				}, false, true, base.Map);
+				return;
 			}
+			if (Designator_AreaAllowed.selectedArea != null)
+			{
+				base.ProcessInput(ev);
+			}
+			AreaUtility.MakeAllowedAreaListFloatMenu(delegate(Area a)
+			{
+				Designator_AreaAllowed.selectedArea = a;
+				this.<ProcessInput>__BaseCallProxy0(ev);
+			}, false, true, base.Map);
 		}
 
 		protected override void FinalizeDesignationSucceeded()

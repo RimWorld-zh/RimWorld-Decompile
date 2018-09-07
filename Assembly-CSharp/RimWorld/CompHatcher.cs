@@ -7,13 +7,13 @@ namespace RimWorld
 {
 	public class CompHatcher : ThingComp
 	{
-		private float gestateProgress = 0f;
+		private float gestateProgress;
 
-		public Pawn hatcheeParent = null;
+		public Pawn hatcheeParent;
 
-		public Pawn otherParent = null;
+		public Pawn otherParent;
 
-		public Faction hatcheeFaction = null;
+		public Faction hatcheeFaction;
 
 		public CompHatcher()
 		{
@@ -87,12 +87,9 @@ namespace RimWorld
 								pawn.relations.AddDirectRelation(PawnRelationDefOf.Parent, this.hatcheeParent);
 							}
 						}
-						if (this.otherParent != null && (this.hatcheeParent == null || this.hatcheeParent.gender != this.otherParent.gender))
+						if (this.otherParent != null && (this.hatcheeParent == null || this.hatcheeParent.gender != this.otherParent.gender) && pawn.RaceProps.IsFlesh)
 						{
-							if (pawn.RaceProps.IsFlesh)
-							{
-								pawn.relations.AddDirectRelation(PawnRelationDefOf.Parent, this.otherParent);
-							}
+							pawn.relations.AddDirectRelation(PawnRelationDefOf.Parent, this.otherParent);
 						}
 					}
 					if (this.parent.Spawned)
@@ -146,16 +143,11 @@ namespace RimWorld
 
 		public override string CompInspectStringExtra()
 		{
-			string result;
 			if (!this.TemperatureDamaged)
 			{
-				result = "EggProgress".Translate() + ": " + this.gestateProgress.ToStringPercent();
+				return "EggProgress".Translate() + ": " + this.gestateProgress.ToStringPercent();
 			}
-			else
-			{
-				result = null;
-			}
-			return result;
+			return null;
 		}
 	}
 }

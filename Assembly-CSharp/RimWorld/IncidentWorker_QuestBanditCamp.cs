@@ -25,36 +25,35 @@ namespace RimWorld
 		{
 			Faction faction;
 			Faction faction2;
-			bool result;
-			int tile;
 			if (!this.TryFindFactions(out faction, out faction2))
 			{
-				result = false;
+				return false;
 			}
-			else if (!this.TryFindTile(out tile))
+			int tile;
+			if (!this.TryFindTile(out tile))
 			{
-				result = false;
+				return false;
 			}
-			else
+			Site site = SiteMaker.MakeSite(SiteCoreDefOf.Nothing, SitePartDefOf.Outpost, tile, faction2, true, null);
+			site.sitePartsKnown = true;
+			List<Thing> list = this.GenerateRewards(faction, site.desiredThreatPoints);
+			site.GetComponent<DefeatAllEnemiesQuestComp>().StartQuest(faction, 18, list);
+			int randomInRange = SiteTuning.QuestSiteTimeoutDaysRange.RandomInRange;
+			site.GetComponent<TimeoutComp>().StartTimeout(randomInRange * 60000);
+			Find.WorldObjects.Add(site);
+			string text = string.Format(this.def.letterText, new object[]
 			{
-				Site site = SiteMaker.MakeSite(SiteCoreDefOf.Nothing, SitePartDefOf.Outpost, tile, faction2, true, null);
-				site.sitePartsKnown = true;
-				List<Thing> list = this.GenerateRewards(faction, site.desiredThreatPoints);
-				site.GetComponent<DefeatAllEnemiesQuestComp>().StartQuest(faction, 10, list);
-				int randomInRange = SiteTuning.QuestSiteTimeoutDaysRange.RandomInRange;
-				site.GetComponent<TimeoutComp>().StartTimeout(randomInRange * 60000);
-				Find.WorldObjects.Add(site);
-				base.SendStandardLetter(site, faction, new string[]
-				{
-					faction.leader.LabelShort,
-					faction.def.leaderTitle,
-					faction.Name,
-					GenLabel.ThingsLabel(list),
-					randomInRange.ToString()
-				});
-				result = true;
-			}
-			return result;
+				faction.leader.LabelShort,
+				faction.def.leaderTitle,
+				faction.Name,
+				GenLabel.ThingsLabel(list, string.Empty),
+				randomInRange.ToString(),
+				SitePartUtility.GetDescriptionDialogue(site, site.parts.FirstOrDefault<SitePart>()),
+				GenThing.GetMarketValue(list).ToStringMoney(null)
+			}).CapitalizeFirst();
+			GenThing.TryAppendSingleRewardInfo(ref text, list);
+			Find.LetterStack.ReceiveLetter(this.def.letterLabel, text, this.def.letterDef, site, faction, null);
+			return true;
 		}
 
 		private bool TryFindTile(out int tile)
@@ -65,29 +64,23 @@ namespace RimWorld
 
 		private List<Thing> GenerateRewards(Faction alliedFaction, float siteThreatPoints)
 		{
-			float val = SiteTuning.QuestRewardMarketValueThreatPointsFactor.Evaluate(siteThreatPoints);
 			ThingSetMakerParams parms = default(ThingSetMakerParams);
-			parms.totalMarketValueRange = new FloatRange?(SiteTuning.BanditCampQuestRewardMarketValueRange * val);
+			parms.totalMarketValueRange = new FloatRange?(SiteTuning.BanditCampQuestRewardMarketValueRange * SiteTuning.QuestRewardMarketValueThreatPointsFactor.Evaluate(siteThreatPoints));
 			return ThingSetMakerDefOf.Reward_StandardByDropPod.root.Generate(parms);
 		}
 
 		private bool TryFindFactions(out Faction alliedFaction, out Faction enemyFaction)
 		{
-			bool result;
 			if ((from x in Find.FactionManager.AllFactions
 			where !x.def.hidden && !x.defeated && !x.IsPlayer && !x.HostileTo(Faction.OfPlayer) && this.CommonHumanlikeEnemyFactionExists(Faction.OfPlayer, x) && !this.AnyQuestExistsFrom(x)
 			select x).TryRandomElement(out alliedFaction))
 			{
 				enemyFaction = this.CommonHumanlikeEnemyFaction(Faction.OfPlayer, alliedFaction);
-				result = true;
+				return true;
 			}
-			else
-			{
-				alliedFaction = null;
-				enemyFaction = null;
-				result = false;
-			}
-			return result;
+			alliedFaction = null;
+			enemyFaction = null;
+			return false;
 		}
 
 		private bool AnyQuestExistsFrom(Faction faction)
@@ -111,19 +104,14 @@ namespace RimWorld
 
 		private Faction CommonHumanlikeEnemyFaction(Faction f1, Faction f2)
 		{
-			Faction faction;
 			Faction result;
 			if ((from x in Find.FactionManager.AllFactions
 			where x != f1 && x != f2 && !x.def.hidden && x.def.humanlikeFaction && !x.defeated && x.HostileTo(f1) && x.HostileTo(f2)
-			select x).TryRandomElement(out faction))
+			select x).TryRandomElement(out result))
 			{
-				result = faction;
+				return result;
 			}
-			else
-			{
-				result = null;
-			}
-			return result;
+			return null;
 		}
 
 		[CompilerGenerated]

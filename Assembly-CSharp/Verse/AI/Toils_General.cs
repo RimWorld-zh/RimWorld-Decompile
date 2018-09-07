@@ -85,13 +85,10 @@ namespace Verse.AI
 			toil.initAction = delegate()
 			{
 				Pawn actor = toil.GetActor();
-				if (actor.carryTracker.CarriedThing != null)
+				if (actor.carryTracker.CarriedThing != null && !actor.carryTracker.innerContainer.TryTransferToContainer(actor.carryTracker.CarriedThing, actor.inventory.innerContainer, true))
 				{
-					if (!actor.carryTracker.innerContainer.TryTransferToContainer(actor.carryTracker.CarriedThing, actor.inventory.innerContainer, true))
-					{
-						Thing thing;
-						actor.carryTracker.TryDropCarriedThing(actor.Position, actor.carryTracker.CarriedThing.stackCount, ThingPlaceMode.Near, out thing, null);
-					}
+					Thing thing;
+					actor.carryTracker.TryDropCarriedThing(actor.Position, actor.carryTracker.CarriedThing.stackCount, ThingPlaceMode.Near, out thing, null);
 				}
 			};
 			return toil;
@@ -250,13 +247,10 @@ namespace Verse.AI
 			internal void <>m__0()
 			{
 				Pawn actor = this.toil.GetActor();
-				if (actor.carryTracker.CarriedThing != null)
+				if (actor.carryTracker.CarriedThing != null && !actor.carryTracker.innerContainer.TryTransferToContainer(actor.carryTracker.CarriedThing, actor.inventory.innerContainer, true))
 				{
-					if (!actor.carryTracker.innerContainer.TryTransferToContainer(actor.carryTracker.CarriedThing, actor.inventory.innerContainer, true))
-					{
-						Thing thing;
-						actor.carryTracker.TryDropCarriedThing(actor.Position, actor.carryTracker.CarriedThing.stackCount, ThingPlaceMode.Near, out thing, null);
-					}
+					Thing thing;
+					actor.carryTracker.TryDropCarriedThing(actor.Position, actor.carryTracker.CarriedThing.stackCount, ThingPlaceMode.Near, out thing, null);
 				}
 			}
 		}

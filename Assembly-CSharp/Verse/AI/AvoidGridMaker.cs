@@ -2,7 +2,6 @@
 using System.Collections.Generic;
 using RimWorld;
 using UnityEngine;
-using UnityEngine.Profiling;
 using Verse.AI.Group;
 
 namespace Verse.AI
@@ -13,36 +12,34 @@ namespace Verse.AI
 
 		public static void RegenerateAllAvoidGridsFor(Faction faction)
 		{
-			if (faction.def.canUseAvoidGrid)
+			if (!faction.def.canUseAvoidGrid)
 			{
-				Profiler.BeginSample("RegenerateAllAvoidGridsFor " + faction);
-				List<Map> maps = Find.Maps;
-				for (int i = 0; i < maps.Count; i++)
-				{
-					AvoidGridMaker.RegenerateAvoidGridsFor(faction, maps[i]);
-				}
-				Profiler.EndSample();
+				return;
+			}
+			List<Map> maps = Find.Maps;
+			for (int i = 0; i < maps.Count; i++)
+			{
+				AvoidGridMaker.RegenerateAvoidGridsFor(faction, maps[i]);
 			}
 		}
 
 		public static void RegenerateAvoidGridsFor(Faction faction, Map map)
 		{
-			if (faction.def.canUseAvoidGrid)
+			if (!faction.def.canUseAvoidGrid)
 			{
-				Profiler.BeginSample("RegenerateAvoidGridsFor " + faction);
-				ByteGrid byteGrid;
-				if (faction.avoidGridsSmart.TryGetValue(map, out byteGrid))
-				{
-					byteGrid.Clear(0);
-				}
-				else
-				{
-					byteGrid = new ByteGrid(map);
-					faction.avoidGridsSmart.Add(map, byteGrid);
-				}
-				AvoidGridMaker.GenerateAvoidGridInternal(byteGrid, faction, map, AvoidGridMode.Smart);
-				Profiler.EndSample();
+				return;
 			}
+			ByteGrid byteGrid;
+			if (faction.avoidGridsSmart.TryGetValue(map, out byteGrid))
+			{
+				byteGrid.Clear(0);
+			}
+			else
+			{
+				byteGrid = new ByteGrid(map);
+				faction.avoidGridsSmart.Add(map, byteGrid);
+			}
+			AvoidGridMaker.GenerateAvoidGridInternal(byteGrid, faction, map, AvoidGridMode.Smart);
 		}
 
 		public static void Notify_CombatDangerousBuildingDespawned(Building building, Map map)
@@ -63,12 +60,9 @@ namespace Verse.AI
 			{
 				for (int i = 0; i < allBuildingsColonist.Count; i++)
 				{
-					if (Rand.Chance(0.5f))
+					if (Rand.Chance(0.5f) && allBuildingsColonist[i].def.building.isTrap)
 					{
-						if (allBuildingsColonist[i].def.building.isTrap)
-						{
-							AvoidGridMaker.PrintAvoidGridAroundTrapLoc(allBuildingsColonist[i], grid);
-						}
+						AvoidGridMaker.PrintAvoidGridAroundTrapLoc(allBuildingsColonist[i], grid);
 					}
 					if (allBuildingsColonist[i].def.building.ai_combatDangerous)
 					{
@@ -101,10 +95,10 @@ namespace Verse.AI
 		private static void PrintAvoidGridAroundTurret(Building_TurretGun tur, ByteGrid avoidGrid)
 		{
 			float range = tur.GunCompEq.PrimaryVerb.verbProps.range;
-			float minRange = tur.GunCompEq.PrimaryVerb.verbProps.minRange;
-			int num = GenRadial.NumCellsInRadius(range + 4f);
-			int num2 = (minRange >= 1f) ? GenRadial.NumCellsInRadius(minRange) : 0;
-			for (int i = num2; i < num; i++)
+			float num = tur.GunCompEq.PrimaryVerb.verbProps.EffectiveMinRange(true);
+			int num2 = GenRadial.NumCellsInRadius(range + 4f);
+			int num3 = (num >= 1f) ? GenRadial.NumCellsInRadius(num) : 0;
+			for (int i = num3; i < num2; i++)
 			{
 				IntVec3 intVec = tur.Position + GenRadial.RadialPattern[i];
 				if (intVec.InBounds(tur.Map) && intVec.Walkable(tur.Map) && GenSight.LineOfSight(intVec, tur.Position, tur.Map, true, null, 0, 0))

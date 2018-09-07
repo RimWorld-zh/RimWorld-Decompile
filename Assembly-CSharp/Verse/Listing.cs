@@ -9,13 +9,15 @@ namespace Verse
 
 		protected Rect listingRect;
 
-		protected float curY = 0f;
+		protected float curY;
 
-		protected float curX = 0f;
+		protected float curX;
 
 		private float columnWidthInt;
 
 		private bool hasCustomColumnWidth;
+
+		public bool maxOneColumn;
 
 		public const float ColumnSpacing = 17f;
 
@@ -54,6 +56,10 @@ namespace Verse
 
 		protected void NewColumnIfNeeded(float neededHeight)
 		{
+			if (this.maxOneColumn)
+			{
+				return;
+			}
 			if (this.curY + neededHeight > this.listingRect.height)
 			{
 				this.NewColumn();

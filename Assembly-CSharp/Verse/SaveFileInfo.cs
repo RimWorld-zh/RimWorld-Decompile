@@ -39,16 +39,11 @@ namespace Verse
 		{
 			get
 			{
-				string result;
 				if (!this.Valid)
 				{
-					result = "???";
+					return "???";
 				}
-				else
-				{
-					result = this.gameVersion;
-				}
-				return result;
+				return this.gameVersion;
 			}
 		}
 
@@ -56,31 +51,26 @@ namespace Verse
 		{
 			get
 			{
-				Color result;
 				if (!this.Valid)
 				{
-					result = Color.red;
+					return Color.red;
 				}
-				else if (VersionControl.MajorFromVersionString(this.gameVersion) != VersionControl.CurrentMajor || VersionControl.MinorFromVersionString(this.gameVersion) != VersionControl.CurrentMinor)
+				if (VersionControl.MajorFromVersionString(this.gameVersion) != VersionControl.CurrentMajor || VersionControl.MinorFromVersionString(this.gameVersion) != VersionControl.CurrentMinor)
 				{
 					if (BackCompatibility.IsSaveCompatibleWith(this.gameVersion))
 					{
-						result = Color.yellow;
+						return Color.yellow;
 					}
-					else
-					{
-						result = Color.red;
-					}
-				}
-				else if (VersionControl.BuildFromVersionString(this.gameVersion) != VersionControl.CurrentBuild)
-				{
-					result = Color.yellow;
+					return Color.red;
 				}
 				else
 				{
-					result = SaveFileInfo.UnimportantTextColor;
+					if (VersionControl.BuildFromVersionString(this.gameVersion) != VersionControl.CurrentBuild)
+					{
+						return Color.yellow;
+					}
+					return SaveFileInfo.UnimportantTextColor;
 				}
-				return result;
 			}
 		}
 
@@ -88,32 +78,27 @@ namespace Verse
 		{
 			get
 			{
-				TipSignal result;
 				if (!this.Valid)
 				{
-					result = "SaveIsUnknownFormat".Translate();
+					return "SaveIsUnknownFormat".Translate();
 				}
-				else if (VersionControl.MajorFromVersionString(this.gameVersion) != VersionControl.CurrentMajor || VersionControl.MinorFromVersionString(this.gameVersion) != VersionControl.CurrentMinor)
+				if (VersionControl.MajorFromVersionString(this.gameVersion) != VersionControl.CurrentMajor || VersionControl.MinorFromVersionString(this.gameVersion) != VersionControl.CurrentMinor)
 				{
-					result = "SaveIsFromDifferentGameVersion".Translate(new object[]
+					return "SaveIsFromDifferentGameVersion".Translate(new object[]
 					{
 						VersionControl.CurrentVersionString,
 						this.gameVersion
 					});
 				}
-				else if (VersionControl.BuildFromVersionString(this.gameVersion) != VersionControl.CurrentBuild)
+				if (VersionControl.BuildFromVersionString(this.gameVersion) != VersionControl.CurrentBuild)
 				{
-					result = "SaveIsFromDifferentGameBuild".Translate(new object[]
+					return "SaveIsFromDifferentGameBuild".Translate(new object[]
 					{
 						VersionControl.CurrentVersionString,
 						this.gameVersion
 					});
 				}
-				else
-				{
-					result = "SaveIsFromThisGameBuild".Translate();
-				}
-				return result;
+				return "SaveIsFromThisGameBuild".Translate();
 			}
 		}
 

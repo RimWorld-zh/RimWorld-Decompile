@@ -5,9 +5,9 @@ namespace RimWorld
 {
 	public class StatCategoryDef : Def
 	{
-		public int displayOrder = 0;
+		public int displayOrder;
 
-		public bool displayAllByDefault = false;
+		public bool displayAllByDefault;
 
 		public StatCategoryDef()
 		{

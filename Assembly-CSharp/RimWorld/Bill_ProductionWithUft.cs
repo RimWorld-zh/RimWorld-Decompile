@@ -20,19 +20,14 @@ namespace RimWorld
 		{
 			get
 			{
-				string result;
 				if (this.BoundWorker == null)
 				{
-					result = ("" + base.StatusString).Trim();
+					return (string.Empty + base.StatusString).Trim();
 				}
-				else
+				return ("BoundWorkerIs".Translate(new object[]
 				{
-					result = ("BoundWorkerIs".Translate(new object[]
-					{
-						this.BoundWorker.LabelShort
-					}) + base.StatusString).Trim();
-				}
-				return result;
+					this.BoundWorker.LabelShort
+				}) + base.StatusString).Trim();
 			}
 		}
 
@@ -40,44 +35,36 @@ namespace RimWorld
 		{
 			get
 			{
-				Pawn result;
 				if (this.boundUftInt == null)
 				{
-					result = null;
+					return null;
 				}
-				else
+				Pawn creator = this.boundUftInt.Creator;
+				if (creator == null || creator.Downed || creator.HostFaction != null || creator.Destroyed || !creator.Spawned)
 				{
-					Pawn creator = this.boundUftInt.Creator;
-					if (creator == null || creator.Downed || creator.HostFaction != null || creator.Destroyed || !creator.Spawned)
+					this.boundUftInt = null;
+					return null;
+				}
+				Thing thing = this.billStack.billGiver as Thing;
+				if (thing != null)
+				{
+					WorkTypeDef workTypeDef = null;
+					List<WorkGiverDef> allDefsListForReading = DefDatabase<WorkGiverDef>.AllDefsListForReading;
+					for (int i = 0; i < allDefsListForReading.Count; i++)
+					{
+						if (allDefsListForReading[i].fixedBillGiverDefs != null && allDefsListForReading[i].fixedBillGiverDefs.Contains(thing.def))
+						{
+							workTypeDef = allDefsListForReading[i].workType;
+							break;
+						}
+					}
+					if (workTypeDef != null && !creator.workSettings.WorkIsActive(workTypeDef))
 					{
 						this.boundUftInt = null;
-						result = null;
-					}
-					else
-					{
-						Thing thing = this.billStack.billGiver as Thing;
-						if (thing != null)
-						{
-							WorkTypeDef workTypeDef = null;
-							List<WorkGiverDef> allDefsListForReading = DefDatabase<WorkGiverDef>.AllDefsListForReading;
-							for (int i = 0; i < allDefsListForReading.Count; i++)
-							{
-								if (allDefsListForReading[i].fixedBillGiverDefs != null && allDefsListForReading[i].fixedBillGiverDefs.Contains(thing.def))
-								{
-									workTypeDef = allDefsListForReading[i].workType;
-									break;
-								}
-							}
-							if (workTypeDef != null && !creator.workSettings.WorkIsActive(workTypeDef))
-							{
-								this.boundUftInt = null;
-								return null;
-							}
-						}
-						result = creator;
+						return null;
 					}
 				}
-				return result;
+				return creator;
 			}
 		}
 
@@ -91,20 +78,21 @@ namespace RimWorld
 
 		public void SetBoundUft(UnfinishedThing value, bool setOtherLink = true)
 		{
-			if (value != this.boundUftInt)
+			if (value == this.boundUftInt)
 			{
-				UnfinishedThing unfinishedThing = this.boundUftInt;
-				this.boundUftInt = value;
-				if (setOtherLink)
+				return;
+			}
+			UnfinishedThing unfinishedThing = this.boundUftInt;
+			this.boundUftInt = value;
+			if (setOtherLink)
+			{
+				if (unfinishedThing != null && unfinishedThing.BoundBill == this)
 				{
-					if (unfinishedThing != null && unfinishedThing.BoundBill == this)
-					{
-						unfinishedThing.BoundBill = null;
-					}
-					if (value != null && value.BoundBill != this)
-					{
-						this.boundUftInt.BoundBill = this;
-					}
+					unfinishedThing.BoundBill = null;
+				}
+				if (value != null && value.BoundBill != this)
+				{
+					this.boundUftInt.BoundBill = this;
 				}
 			}
 		}

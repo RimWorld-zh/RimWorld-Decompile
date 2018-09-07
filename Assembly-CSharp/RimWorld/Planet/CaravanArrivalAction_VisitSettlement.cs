@@ -43,20 +43,15 @@ namespace RimWorld.Planet
 		public override FloatMenuAcceptanceReport StillValid(Caravan caravan, int destinationTile)
 		{
 			FloatMenuAcceptanceReport floatMenuAcceptanceReport = base.StillValid(caravan, destinationTile);
-			FloatMenuAcceptanceReport result;
 			if (!floatMenuAcceptanceReport)
 			{
-				result = floatMenuAcceptanceReport;
+				return floatMenuAcceptanceReport;
 			}
-			else if (this.settlement != null && this.settlement.Tile != destinationTile)
+			if (this.settlement != null && this.settlement.Tile != destinationTile)
 			{
-				result = false;
+				return false;
 			}
-			else
-			{
-				result = CaravanArrivalAction_VisitSettlement.CanVisit(caravan, this.settlement);
-			}
-			return result;
+			return CaravanArrivalAction_VisitSettlement.CanVisit(caravan, this.settlement);
 		}
 
 		public override void Arrived(Caravan caravan)

@@ -70,31 +70,26 @@ namespace Verse
 		public static T TryResolveDef<T>(string defName, FailMode failReportMode, object debugWanterInfo = null)
 		{
 			T t = (T)((object)GenDefDatabase.GetDefSilentFail(typeof(T), defName, true));
-			T result;
 			if (t != null)
 			{
-				result = t;
+				return t;
 			}
-			else
+			if (failReportMode == FailMode.LogErrors)
 			{
-				if (failReportMode == FailMode.LogErrors)
+				string text = string.Concat(new object[]
 				{
-					string text = string.Concat(new object[]
-					{
-						"Could not resolve cross-reference to ",
-						typeof(T),
-						" named ",
-						defName
-					});
-					if (debugWanterInfo != null)
-					{
-						text = text + " (wanter=" + debugWanterInfo.ToStringSafe<object>() + ")";
-					}
-					Log.Error(text, false);
+					"Could not resolve cross-reference to ",
+					typeof(T),
+					" named ",
+					defName
+				});
+				if (debugWanterInfo != null)
+				{
+					text = text + " (wanter=" + debugWanterInfo.ToStringSafe<object>() + ")";
 				}
-				result = default(T);
+				Log.Error(text, false);
 			}
-			return result;
+			return default(T);
 		}
 
 		public static void Clear()
@@ -144,56 +139,48 @@ namespace Verse
 
 			public override bool TryResolve(FailMode failReportMode)
 			{
-				bool result;
 				if (this.fi == null)
 				{
 					Log.Error("Trying to resolve null field for def named " + this.defName.ToStringSafe<string>(), false);
-					result = false;
+					return false;
 				}
-				else
+				Def defSilentFail = GenDefDatabase.GetDefSilentFail(this.fi.FieldType, this.defName, true);
+				if (defSilentFail == null)
 				{
-					Def defSilentFail = GenDefDatabase.GetDefSilentFail(this.fi.FieldType, this.defName, true);
-					if (defSilentFail == null)
+					if (failReportMode == FailMode.LogErrors)
 					{
-						if (failReportMode == FailMode.LogErrors)
+						Log.Error(string.Concat(new object[]
 						{
-							Log.Error(string.Concat(new object[]
-							{
-								"Could not resolve cross-reference: No ",
-								this.fi.FieldType,
-								" named ",
-								this.defName.ToStringSafe<string>(),
-								" found to give to ",
-								this.wanter.GetType(),
-								" ",
-								this.wanter.ToStringSafe<object>()
-							}), false);
-						}
-						result = false;
+							"Could not resolve cross-reference: No ",
+							this.fi.FieldType,
+							" named ",
+							this.defName.ToStringSafe<string>(),
+							" found to give to ",
+							this.wanter.GetType(),
+							" ",
+							this.wanter.ToStringSafe<object>()
+						}), false);
 					}
-					else
-					{
-						SoundDef soundDef = defSilentFail as SoundDef;
-						if (soundDef != null && soundDef.isUndefined)
-						{
-							Log.Warning(string.Concat(new object[]
-							{
-								"Could not resolve cross-reference: No ",
-								this.fi.FieldType,
-								" named ",
-								this.defName.ToStringSafe<string>(),
-								" found to give to ",
-								this.wanter.GetType(),
-								" ",
-								this.wanter.ToStringSafe<object>(),
-								" (using undefined sound instead)"
-							}), false);
-						}
-						this.fi.SetValue(this.wanter, defSilentFail);
-						result = true;
-					}
+					return false;
 				}
-				return result;
+				SoundDef soundDef = defSilentFail as SoundDef;
+				if (soundDef != null && soundDef.isUndefined)
+				{
+					Log.Warning(string.Concat(new object[]
+					{
+						"Could not resolve cross-reference: No ",
+						this.fi.FieldType,
+						" named ",
+						this.defName.ToStringSafe<string>(),
+						" found to give to ",
+						this.wanter.GetType(),
+						" ",
+						this.wanter.ToStringSafe<object>(),
+						" (using undefined sound instead)"
+					}), false);
+				}
+				this.fi.SetValue(this.wanter, defSilentFail);
+				return true;
 			}
 		}
 

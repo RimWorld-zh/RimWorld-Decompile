@@ -17,7 +17,7 @@ namespace RimWorld
 		private const int SoonTicks = 30000;
 
 		[CompilerGenerated]
-		private static Func<IAttackTarget, bool> <>f__am$cache0;
+		private static Func<IAttackTarget, bool> <>f__mg$cache0;
 
 		public static bool CanNameFactionNow()
 		{
@@ -51,39 +51,33 @@ namespace RimWorld
 
 		private static bool CanNameAnythingNow()
 		{
-			bool result;
 			if (Find.AnyPlayerHomeMap == null || Find.CurrentMap == null || !Find.CurrentMap.IsPlayerHome || Find.GameEnder.gameEnding)
 			{
-				result = false;
+				return false;
 			}
-			else
+			bool flag = false;
+			bool flag2 = false;
+			List<Map> maps = Find.Maps;
+			for (int i = 0; i < maps.Count; i++)
 			{
-				bool flag = false;
-				bool flag2 = false;
-				List<Map> maps = Find.Maps;
-				for (int i = 0; i < maps.Count; i++)
+				if (maps[i].IsPlayerHome)
 				{
-					if (maps[i].IsPlayerHome)
+					if (maps[i].mapPawns.FreeColonistsSpawnedCount >= 2)
 					{
-						if (maps[i].mapPawns.FreeColonistsSpawnedCount >= 2)
-						{
-							flag = true;
-						}
-						if (!maps[i].attackTargetsCache.TargetsHostileToColony.Any((IAttackTarget x) => GenHostility.IsActiveThreatToPlayer(x)))
-						{
-							flag2 = true;
-						}
+						flag = true;
+					}
+					IEnumerable<IAttackTarget> targetsHostileToColony = maps[i].attackTargetsCache.TargetsHostileToColony;
+					if (NamePlayerFactionAndSettlementUtility.<>f__mg$cache0 == null)
+					{
+						NamePlayerFactionAndSettlementUtility.<>f__mg$cache0 = new Func<IAttackTarget, bool>(GenHostility.IsActiveThreatToPlayer);
+					}
+					if (!targetsHostileToColony.Any(NamePlayerFactionAndSettlementUtility.<>f__mg$cache0))
+					{
+						flag2 = true;
 					}
 				}
-				result = (flag && flag2);
 			}
-			return result;
-		}
-
-		[CompilerGenerated]
-		private static bool <CanNameAnythingNow>m__0(IAttackTarget x)
-		{
-			return GenHostility.IsActiveThreatToPlayer(x);
+			return flag && flag2;
 		}
 	}
 }

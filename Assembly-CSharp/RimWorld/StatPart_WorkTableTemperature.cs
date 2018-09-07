@@ -25,16 +25,11 @@ namespace RimWorld
 
 		public override string ExplanationPart(StatRequest req)
 		{
-			string result;
 			if (req.HasThing && StatPart_WorkTableTemperature.Applies(req.Thing))
 			{
-				result = "BadTemperature".Translate().CapitalizeFirst() + ": x" + 0.7f.ToStringPercent();
+				return "BadTemperature".Translate().CapitalizeFirst() + ": x" + 0.7f.ToStringPercent();
 			}
-			else
-			{
-				result = null;
-			}
-			return result;
+			return null;
 		}
 
 		public static bool Applies(Thing t)
@@ -44,21 +39,16 @@ namespace RimWorld
 
 		public static bool Applies(ThingDef tDef, Map map, IntVec3 c)
 		{
-			bool result;
 			if (map == null)
 			{
-				result = false;
+				return false;
 			}
-			else if (tDef.building == null || !tDef.building.workSpeedPenaltyTemperature)
+			if (tDef.building == null || !tDef.building.workSpeedPenaltyTemperature)
 			{
-				result = false;
+				return false;
 			}
-			else
-			{
-				float temperatureForCell = GenTemperature.GetTemperatureForCell(c, map);
-				result = (temperatureForCell < 9f || temperatureForCell > 35f);
-			}
-			return result;
+			float temperatureForCell = GenTemperature.GetTemperatureForCell(c, map);
+			return temperatureForCell < 9f || temperatureForCell > 35f;
 		}
 	}
 }

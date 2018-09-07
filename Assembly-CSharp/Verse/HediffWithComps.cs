@@ -178,20 +178,15 @@ namespace Verse
 
 		public override bool TryMergeWith(Hediff other)
 		{
-			bool result;
 			if (base.TryMergeWith(other))
 			{
 				for (int i = 0; i < this.comps.Count; i++)
 				{
 					this.comps[i].CompPostMerged(other);
 				}
-				result = true;
+				return true;
 			}
-			else
-			{
-				result = false;
-			}
-			return result;
+			return false;
 		}
 
 		public override void Notify_PawnDied()

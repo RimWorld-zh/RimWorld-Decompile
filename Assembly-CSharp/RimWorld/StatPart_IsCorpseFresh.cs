@@ -21,41 +21,28 @@ namespace RimWorld
 		public override string ExplanationPart(StatRequest req)
 		{
 			float num;
-			string result;
 			if (this.TryGetIsFreshFactor(req, out num) && num != 1f)
 			{
-				result = "StatsReport_NotFresh".Translate() + ": x" + num.ToStringPercent();
+				return "StatsReport_NotFresh".Translate() + ": x" + num.ToStringPercent();
 			}
-			else
-			{
-				result = null;
-			}
-			return result;
+			return null;
 		}
 
 		private bool TryGetIsFreshFactor(StatRequest req, out float factor)
 		{
-			bool result;
 			if (!req.HasThing)
 			{
 				factor = 1f;
-				result = false;
+				return false;
 			}
-			else
+			Corpse corpse = req.Thing as Corpse;
+			if (corpse == null)
 			{
-				Corpse corpse = req.Thing as Corpse;
-				if (corpse == null)
-				{
-					factor = 1f;
-					result = false;
-				}
-				else
-				{
-					factor = ((corpse.GetRotStage() != RotStage.Fresh) ? 0f : 1f);
-					result = true;
-				}
+				factor = 1f;
+				return false;
 			}
-			return result;
+			factor = ((corpse.GetRotStage() != RotStage.Fresh) ? 0f : 1f);
+			return true;
 		}
 	}
 }

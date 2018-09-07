@@ -183,6 +183,10 @@ namespace RimWorld.Planet
 				this.worldObjects.AddRange(WorldObjectsHolder.tmpUnsavedWorldObjects);
 				WorldObjectsHolder.tmpUnsavedWorldObjects.Clear();
 			}
+			if (Scribe.mode == LoadSaveMode.LoadingVars)
+			{
+				this.Recache();
+			}
 			if (Scribe.mode == LoadSaveMode.PostLoadInit)
 			{
 				this.worldObjects.RemoveAll((WorldObject wo) => wo == null);
@@ -190,7 +194,6 @@ namespace RimWorld.Planet
 				{
 					this.worldObjects[j].SpawnSetup();
 				}
-				this.Recache();
 			}
 		}
 
@@ -199,19 +202,17 @@ namespace RimWorld.Planet
 			if (this.worldObjects.Contains(o))
 			{
 				Log.Error("Tried to add world object " + o + " to world, but it's already here.", false);
+				return;
 			}
-			else
+			if (o.Tile < 0)
 			{
-				if (o.Tile < 0)
-				{
-					Log.Error("Tried to add world object " + o + " but its tile is not set. Setting to 0.", false);
-					o.Tile = 0;
-				}
-				this.worldObjects.Add(o);
-				this.AddToCache(o);
-				o.SpawnSetup();
-				o.PostAdd();
+				Log.Error("Tried to add world object " + o + " but its tile is not set. Setting to 0.", false);
+				o.Tile = 0;
 			}
+			this.worldObjects.Add(o);
+			this.AddToCache(o);
+			o.SpawnSetup();
+			o.PostAdd();
 		}
 
 		public void Remove(WorldObject o)
@@ -219,13 +220,11 @@ namespace RimWorld.Planet
 			if (!this.worldObjects.Contains(o))
 			{
 				Log.Error("Tried to remove world object " + o + " from world, but it's not here.", false);
+				return;
 			}
-			else
-			{
-				this.worldObjects.Remove(o);
-				this.RemoveFromCache(o);
-				o.PostRemove();
-			}
+			this.worldObjects.Remove(o);
+			this.RemoveFromCache(o);
+			o.PostRemove();
 		}
 
 		public void WorldObjectsHolderTick()
@@ -602,7 +601,7 @@ namespace RimWorld.Planet
 					i = 0;
 					break;
 				case 1u:
-					IL_96:
+					IL_94:
 					i++;
 					break;
 				default:
@@ -623,7 +622,7 @@ namespace RimWorld.Planet
 						}
 						return true;
 					}
-					goto IL_96;
+					goto IL_94;
 				}
 				return false;
 			}

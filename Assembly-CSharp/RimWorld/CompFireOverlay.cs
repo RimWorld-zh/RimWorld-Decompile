@@ -26,12 +26,13 @@ namespace RimWorld
 		public override void PostDraw()
 		{
 			base.PostDraw();
-			if (this.refuelableComp == null || this.refuelableComp.HasFuel)
+			if (this.refuelableComp != null && !this.refuelableComp.HasFuel)
 			{
-				Vector3 drawPos = this.parent.DrawPos;
-				drawPos.y += 0.046875f;
-				CompFireOverlay.FireGraphic.Draw(drawPos, Rot4.North, this.parent, 0f);
+				return;
 			}
+			Vector3 drawPos = this.parent.DrawPos;
+			drawPos.y += 0.046875f;
+			CompFireOverlay.FireGraphic.Draw(drawPos, Rot4.North, this.parent, 0f);
 		}
 
 		public override void PostSpawnSetup(bool respawningAfterLoad)

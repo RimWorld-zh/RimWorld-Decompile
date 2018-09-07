@@ -58,16 +58,17 @@ namespace Verse.Steam
 
 		private static void RebuildItemsList()
 		{
-			if (SteamManager.Initialized)
+			if (!SteamManager.Initialized)
 			{
-				WorkshopItems.subbedItems.Clear();
-				foreach (PublishedFileId_t pfid in Workshop.AllSubscribedItems())
-				{
-					WorkshopItems.subbedItems.Add(WorkshopItem.MakeFrom(pfid));
-				}
-				ModLister.RebuildModList();
-				ScenarioLister.MarkDirty();
+				return;
 			}
+			WorkshopItems.subbedItems.Clear();
+			foreach (PublishedFileId_t pfid in Workshop.AllSubscribedItems())
+			{
+				WorkshopItems.subbedItems.Add(WorkshopItem.MakeFrom(pfid));
+			}
+			ModLister.RebuildModList();
+			ScenarioLister.MarkDirty();
 		}
 
 		internal static void Notify_Subscribed(PublishedFileId_t pfid)

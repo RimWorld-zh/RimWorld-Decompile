@@ -20,16 +20,11 @@ namespace RimWorld
 		private float CalculateFertilityAt(IntVec3 loc)
 		{
 			Thing edifice = loc.GetEdifice(this.map);
-			float fertility;
 			if (edifice != null && edifice.def.fertility >= 0f)
 			{
-				fertility = edifice.def.fertility;
+				return edifice.def.fertility;
 			}
-			else
-			{
-				fertility = this.map.terrainGrid.TerrainAt(loc).fertility;
-			}
-			return fertility;
+			return this.map.terrainGrid.TerrainAt(loc).fertility;
 		}
 	}
 }

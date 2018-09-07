@@ -53,7 +53,7 @@ namespace RimWorld
 
 		public static TraitDef PsychicSensitivity;
 
-		public static TraitDef Indoorsman;
+		public static TraitDef Undergrounder;
 
 		public static TraitDef GreatMemory;
 

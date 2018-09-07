@@ -47,36 +47,26 @@ namespace RimWorld
 
 		public static bool GoodLayingStatusForTend(Pawn patient, Pawn doctor)
 		{
-			bool result;
 			if (patient == doctor)
 			{
-				result = true;
+				return true;
 			}
-			else if (patient.RaceProps.Humanlike)
+			if (patient.RaceProps.Humanlike)
 			{
-				result = patient.InBed();
+				return patient.InBed();
 			}
-			else
-			{
-				result = (patient.GetPosture() != PawnPosture.Standing);
-			}
-			return result;
+			return patient.GetPosture() != PawnPosture.Standing;
 		}
 
 		public override Job JobOnThing(Pawn pawn, Thing t, bool forced = false)
 		{
 			Pawn pawn2 = t as Pawn;
 			Thing thing = HealthAIUtility.FindBestMedicine(pawn, pawn2);
-			Job result;
 			if (thing != null)
 			{
-				result = new Job(JobDefOf.TendPatient, pawn2, thing);
+				return new Job(JobDefOf.TendPatient, pawn2, thing);
 			}
-			else
-			{
-				result = new Job(JobDefOf.TendPatient, pawn2);
-			}
-			return result;
+			return new Job(JobDefOf.TendPatient, pawn2);
 		}
 	}
 }

@@ -48,42 +48,42 @@ namespace RimWorld
 			if (this.alreadyLeft)
 			{
 				base.LeaveMap();
+				return;
 			}
-			else if (this.groupID < 0)
+			if (this.groupID < 0)
 			{
 				Log.Error("Drop pod left the map, but its group ID is " + this.groupID, false);
 				this.Destroy(DestroyMode.Vanish);
+				return;
 			}
-			else if (this.destinationTile < 0)
+			if (this.destinationTile < 0)
 			{
 				Log.Error("Drop pod left the map, but its destination tile is " + this.destinationTile, false);
 				this.Destroy(DestroyMode.Vanish);
+				return;
 			}
-			else
+			Lord lord = TransporterUtility.FindLord(this.groupID, base.Map);
+			if (lord != null)
 			{
-				Lord lord = TransporterUtility.FindLord(this.groupID, base.Map);
-				if (lord != null)
+				base.Map.lordManager.RemoveLord(lord);
+			}
+			TravelingTransportPods travelingTransportPods = (TravelingTransportPods)WorldObjectMaker.MakeWorldObject(WorldObjectDefOf.TravelingTransportPods);
+			travelingTransportPods.Tile = base.Map.Tile;
+			travelingTransportPods.SetFaction(Faction.OfPlayer);
+			travelingTransportPods.destinationTile = this.destinationTile;
+			travelingTransportPods.arrivalAction = this.arrivalAction;
+			Find.WorldObjects.Add(travelingTransportPods);
+			DropPodLeaving.tmpActiveDropPods.Clear();
+			DropPodLeaving.tmpActiveDropPods.AddRange(base.Map.listerThings.ThingsInGroup(ThingRequestGroup.ActiveDropPod));
+			for (int i = 0; i < DropPodLeaving.tmpActiveDropPods.Count; i++)
+			{
+				DropPodLeaving dropPodLeaving = DropPodLeaving.tmpActiveDropPods[i] as DropPodLeaving;
+				if (dropPodLeaving != null && dropPodLeaving.groupID == this.groupID)
 				{
-					base.Map.lordManager.RemoveLord(lord);
-				}
-				TravelingTransportPods travelingTransportPods = (TravelingTransportPods)WorldObjectMaker.MakeWorldObject(WorldObjectDefOf.TravelingTransportPods);
-				travelingTransportPods.Tile = base.Map.Tile;
-				travelingTransportPods.SetFaction(Faction.OfPlayer);
-				travelingTransportPods.destinationTile = this.destinationTile;
-				travelingTransportPods.arrivalAction = this.arrivalAction;
-				Find.WorldObjects.Add(travelingTransportPods);
-				DropPodLeaving.tmpActiveDropPods.Clear();
-				DropPodLeaving.tmpActiveDropPods.AddRange(base.Map.listerThings.ThingsInGroup(ThingRequestGroup.ActiveDropPod));
-				for (int i = 0; i < DropPodLeaving.tmpActiveDropPods.Count; i++)
-				{
-					DropPodLeaving dropPodLeaving = DropPodLeaving.tmpActiveDropPods[i] as DropPodLeaving;
-					if (dropPodLeaving != null && dropPodLeaving.groupID == this.groupID)
-					{
-						dropPodLeaving.alreadyLeft = true;
-						travelingTransportPods.AddPod(dropPodLeaving.Contents, true);
-						dropPodLeaving.Contents = null;
-						dropPodLeaving.Destroy(DestroyMode.Vanish);
-					}
+					dropPodLeaving.alreadyLeft = true;
+					travelingTransportPods.AddPod(dropPodLeaving.Contents, true);
+					dropPodLeaving.Contents = null;
+					dropPodLeaving.Destroy(DestroyMode.Vanish);
 				}
 			}
 		}

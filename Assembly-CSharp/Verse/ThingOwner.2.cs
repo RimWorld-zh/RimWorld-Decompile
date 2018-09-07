@@ -82,51 +82,46 @@ namespace Verse
 			get
 			{
 				int count = this.Count;
-				string result;
 				if (count == 0)
 				{
-					result = "NothingLower".Translate();
+					return "NothingLower".Translate();
 				}
-				else
+				StringBuilder stringBuilder = new StringBuilder();
+				bool flag = false;
+				for (int i = 0; i < count; i++)
 				{
-					StringBuilder stringBuilder = new StringBuilder();
-					bool flag = false;
-					for (int i = 0; i < count; i++)
-					{
-						Thing at = this.GetAt(i);
-						if (at.def.category == ThingCategory.Pawn)
-						{
-							if (flag)
-							{
-								stringBuilder.Append(", ");
-							}
-							stringBuilder.Append(this.GetAt(i).LabelShort);
-							flag = true;
-						}
-						else if (!ThingOwner.countedContents.ContainsKey(at.def))
-						{
-							ThingOwner.countedContents.Add(at.def, at.stackCount);
-						}
-						else
-						{
-							Dictionary<ThingDef, int> dictionary;
-							ThingDef def;
-							(dictionary = ThingOwner.countedContents)[def = at.def] = dictionary[def] + at.stackCount;
-						}
-					}
-					foreach (KeyValuePair<ThingDef, int> keyValuePair in ThingOwner.countedContents)
+					Thing at = this.GetAt(i);
+					if (at.def.category == ThingCategory.Pawn)
 					{
 						if (flag)
 						{
 							stringBuilder.Append(", ");
 						}
-						stringBuilder.Append(GenLabel.ThingLabel(keyValuePair.Key, null, keyValuePair.Value));
+						stringBuilder.Append(this.GetAt(i).LabelShort);
 						flag = true;
 					}
-					ThingOwner.countedContents.Clear();
-					result = stringBuilder.ToString();
+					else if (!ThingOwner.countedContents.ContainsKey(at.def))
+					{
+						ThingOwner.countedContents.Add(at.def, at.stackCount);
+					}
+					else
+					{
+						Dictionary<ThingDef, int> dictionary;
+						ThingDef def;
+						(dictionary = ThingOwner.countedContents)[def = at.def] = dictionary[def] + at.stackCount;
+					}
 				}
-				return result;
+				foreach (KeyValuePair<ThingDef, int> keyValuePair in ThingOwner.countedContents)
+				{
+					if (flag)
+					{
+						stringBuilder.Append(", ");
+					}
+					stringBuilder.Append(GenLabel.ThingLabel(keyValuePair.Key, null, keyValuePair.Value));
+					flag = true;
+				}
+				ThingOwner.countedContents.Clear();
+				return stringBuilder.ToString();
 			}
 		}
 
@@ -245,50 +240,42 @@ namespace Verse
 
 		public virtual int GetCountCanAccept(Thing item, bool canMergeWithExistingStacks = true)
 		{
-			int result;
 			if (item == null || item.stackCount <= 0)
 			{
-				result = 0;
+				return 0;
 			}
-			else if (this.maxStacks == 999999)
+			if (this.maxStacks == 999999)
 			{
-				result = item.stackCount;
+				return item.stackCount;
 			}
-			else
+			int num = 0;
+			if (this.Count < this.maxStacks)
 			{
-				int num = 0;
-				if (this.Count < this.maxStacks)
+				num += (this.maxStacks - this.Count) * item.def.stackLimit;
+			}
+			if (num >= item.stackCount)
+			{
+				return Mathf.Min(num, item.stackCount);
+			}
+			if (canMergeWithExistingStacks)
+			{
+				int i = 0;
+				int count = this.Count;
+				while (i < count)
 				{
-					num += (this.maxStacks - this.Count) * item.def.stackLimit;
-				}
-				if (num >= item.stackCount)
-				{
-					result = Mathf.Min(num, item.stackCount);
-				}
-				else
-				{
-					if (canMergeWithExistingStacks)
+					Thing at = this.GetAt(i);
+					if (at.stackCount < at.def.stackLimit && at.CanStackWith(item))
 					{
-						int i = 0;
-						int count = this.Count;
-						while (i < count)
+						num += at.def.stackLimit - at.stackCount;
+						if (num >= item.stackCount)
 						{
-							Thing at = this.GetAt(i);
-							if (at.stackCount < at.def.stackLimit && at.CanStackWith(item))
-							{
-								num += at.def.stackLimit - at.stackCount;
-								if (num >= item.stackCount)
-								{
-									return Mathf.Min(num, item.stackCount);
-								}
-							}
-							i++;
+							return Mathf.Min(num, item.stackCount);
 						}
 					}
-					result = Mathf.Min(num, item.stackCount);
+					i++;
 				}
 			}
-			return result;
+			return Mathf.Min(num, item.stackCount);
 		}
 
 		public abstract int TryAdd(Thing item, int count, bool canMergeWithExistingStacks = true);
@@ -317,76 +304,67 @@ namespace Verse
 
 		public int TryAddOrTransfer(Thing item, int count, bool canMergeWithExistingStacks = true)
 		{
-			int result;
 			if (item == null)
 			{
 				Log.Warning("Tried to add or transfer null item to ThingOwner.", false);
-				result = 0;
+				return 0;
 			}
-			else if (item.holdingOwner != null)
+			if (item.holdingOwner != null)
 			{
-				result = item.holdingOwner.TryTransferToContainer(item, this, count, canMergeWithExistingStacks);
+				return item.holdingOwner.TryTransferToContainer(item, this, count, canMergeWithExistingStacks);
 			}
-			else
-			{
-				result = this.TryAdd(item, count, canMergeWithExistingStacks);
-			}
-			return result;
+			return this.TryAdd(item, count, canMergeWithExistingStacks);
 		}
 
 		public bool TryAddOrTransfer(Thing item, bool canMergeWithExistingStacks = true)
 		{
-			bool result;
 			if (item == null)
 			{
 				Log.Warning("Tried to add or transfer null item to ThingOwner.", false);
-				result = false;
+				return false;
 			}
-			else if (item.holdingOwner != null)
+			if (item.holdingOwner != null)
 			{
-				result = item.holdingOwner.TryTransferToContainer(item, this, canMergeWithExistingStacks);
+				return item.holdingOwner.TryTransferToContainer(item, this, canMergeWithExistingStacks);
 			}
-			else
-			{
-				result = this.TryAdd(item, canMergeWithExistingStacks);
-			}
-			return result;
+			return this.TryAdd(item, canMergeWithExistingStacks);
 		}
 
 		public void TryAddRangeOrTransfer(IEnumerable<Thing> things, bool canMergeWithExistingStacks = true, bool destroyLeftover = false)
 		{
-			if (things != this)
+			if (things == this)
 			{
-				ThingOwner thingOwner = things as ThingOwner;
-				if (thingOwner != null)
+				return;
+			}
+			ThingOwner thingOwner = things as ThingOwner;
+			if (thingOwner != null)
+			{
+				thingOwner.TryTransferAllToContainer(this, canMergeWithExistingStacks);
+				if (destroyLeftover)
 				{
-					thingOwner.TryTransferAllToContainer(this, canMergeWithExistingStacks);
-					if (destroyLeftover)
+					thingOwner.ClearAndDestroyContents(DestroyMode.Vanish);
+				}
+			}
+			else
+			{
+				IList<Thing> list = things as IList<Thing>;
+				if (list != null)
+				{
+					for (int i = 0; i < list.Count; i++)
 					{
-						thingOwner.ClearAndDestroyContents(DestroyMode.Vanish);
+						if (!this.TryAddOrTransfer(list[i], canMergeWithExistingStacks) && destroyLeftover)
+						{
+							list[i].Destroy(DestroyMode.Vanish);
+						}
 					}
 				}
 				else
 				{
-					IList<Thing> list = things as IList<Thing>;
-					if (list != null)
+					foreach (Thing thing in things)
 					{
-						for (int i = 0; i < list.Count; i++)
+						if (!this.TryAddOrTransfer(thing, canMergeWithExistingStacks) && destroyLeftover)
 						{
-							if (!this.TryAddOrTransfer(list[i], canMergeWithExistingStacks) && destroyLeftover)
-							{
-								list[i].Destroy(DestroyMode.Vanish);
-							}
-						}
-					}
-					else
-					{
-						foreach (Thing thing in things)
-						{
-							if (!this.TryAddOrTransfer(thing, canMergeWithExistingStacks) && destroyLeftover)
-							{
-								thing.Destroy(DestroyMode.Vanish);
-							}
+							thing.Destroy(DestroyMode.Vanish);
 						}
 					}
 				}
@@ -420,7 +398,6 @@ namespace Verse
 
 		public int TryTransferToContainer(Thing item, ThingOwner otherContainer, int count, out Thing resultingTransferredItem, bool canMergeWithExistingStacks = true)
 		{
-			int result;
 			if (!this.Contains(item))
 			{
 				Log.Error(string.Concat(new object[]
@@ -431,66 +408,56 @@ namespace Verse
 					this.owner.ToStringSafe<IThingHolder>()
 				}), false);
 				resultingTransferredItem = null;
-				result = 0;
+				return 0;
 			}
-			else if (otherContainer == this && count > 0)
+			if (otherContainer == this && count > 0)
 			{
 				resultingTransferredItem = item;
-				result = item.stackCount;
+				return item.stackCount;
 			}
-			else if (!otherContainer.CanAcceptAnyOf(item, canMergeWithExistingStacks))
+			if (!otherContainer.CanAcceptAnyOf(item, canMergeWithExistingStacks))
 			{
 				resultingTransferredItem = null;
-				result = 0;
+				return 0;
 			}
-			else if (count <= 0)
+			if (count <= 0)
 			{
 				resultingTransferredItem = null;
-				result = 0;
+				return 0;
 			}
-			else if (this.owner is Map || otherContainer.owner is Map)
+			if (this.owner is Map || otherContainer.owner is Map)
 			{
 				Log.Warning("Can't transfer items to or from Maps directly. They must be spawned or despawned manually. Use TryAdd(item.SplitOff(count))", false);
 				resultingTransferredItem = null;
-				result = 0;
+				return 0;
 			}
-			else
+			int num = Mathf.Min(item.stackCount, count);
+			Thing thing = item.SplitOff(num);
+			if (this.Contains(thing))
 			{
-				int num = Mathf.Min(item.stackCount, count);
-				Thing thing = item.SplitOff(num);
-				if (this.Contains(thing))
+				this.Remove(thing);
+			}
+			bool flag = otherContainer.TryAdd(thing, canMergeWithExistingStacks);
+			if (flag)
+			{
+				resultingTransferredItem = thing;
+				return thing.stackCount;
+			}
+			resultingTransferredItem = null;
+			if (!otherContainer.Contains(thing) && thing.stackCount > 0 && !thing.Destroyed)
+			{
+				int result = num - thing.stackCount;
+				if (item != thing)
 				{
-					this.Remove(thing);
-				}
-				bool flag = otherContainer.TryAdd(thing, canMergeWithExistingStacks);
-				if (flag)
-				{
-					resultingTransferredItem = thing;
-					result = thing.stackCount;
+					item.TryAbsorbStack(thing, false);
 				}
 				else
 				{
-					resultingTransferredItem = null;
-					if (!otherContainer.Contains(thing) && thing.stackCount > 0 && !thing.Destroyed)
-					{
-						int num2 = num - thing.stackCount;
-						if (item != thing)
-						{
-							item.TryAbsorbStack(thing, false);
-						}
-						else
-						{
-							this.TryAdd(thing, false);
-						}
-						result = num2;
-					}
-					else
-					{
-						result = thing.stackCount;
-					}
+					this.TryAdd(thing, false);
 				}
+				return result;
 			}
-			return result;
+			return thing.stackCount;
 		}
 
 		public void TryTransferAllToContainer(ThingOwner other, bool canMergeWithExistingStacks = true)
@@ -503,40 +470,32 @@ namespace Verse
 
 		public Thing Take(Thing thing, int count)
 		{
-			Thing result;
 			if (!this.Contains(thing))
 			{
 				Log.Error("Tried to take " + thing.ToStringSafe<Thing>() + " but it's not here.", false);
-				result = null;
+				return null;
 			}
-			else
+			if (count > thing.stackCount)
 			{
-				if (count > thing.stackCount)
+				Log.Error(string.Concat(new object[]
 				{
-					Log.Error(string.Concat(new object[]
-					{
-						"Tried to get ",
-						count,
-						" of ",
-						thing.ToStringSafe<Thing>(),
-						" while only having ",
-						thing.stackCount
-					}), false);
-					count = thing.stackCount;
-				}
-				if (count == thing.stackCount)
-				{
-					this.Remove(thing);
-					result = thing;
-				}
-				else
-				{
-					Thing thing2 = thing.SplitOff(count);
-					thing2.holdingOwner = null;
-					result = thing2;
-				}
+					"Tried to get ",
+					count,
+					" of ",
+					thing.ToStringSafe<Thing>(),
+					" while only having ",
+					thing.stackCount
+				}), false);
+				count = thing.stackCount;
 			}
-			return result;
+			if (count == thing.stackCount)
+			{
+				this.Remove(thing);
+				return thing;
+			}
+			Thing thing2 = thing.SplitOff(count);
+			thing2.holdingOwner = null;
+			return thing2;
 		}
 
 		public Thing Take(Thing thing)
@@ -548,110 +507,84 @@ namespace Verse
 		{
 			Map rootMap = ThingOwnerUtility.GetRootMap(this.owner);
 			IntVec3 rootPosition = ThingOwnerUtility.GetRootPosition(this.owner);
-			bool result;
 			if (rootMap == null || !rootPosition.IsValid)
 			{
 				Log.Error("Cannot drop " + thing + " without a dropLoc and with an owner whose map is null.", false);
 				lastResultingThing = null;
-				result = false;
+				return false;
 			}
-			else
-			{
-				result = this.TryDrop(thing, rootPosition, rootMap, mode, count, out lastResultingThing, placedAction, nearPlaceValidator);
-			}
-			return result;
+			return this.TryDrop(thing, rootPosition, rootMap, mode, count, out lastResultingThing, placedAction, nearPlaceValidator);
 		}
 
 		public bool TryDrop(Thing thing, IntVec3 dropLoc, Map map, ThingPlaceMode mode, int count, out Thing resultingThing, Action<Thing, int> placedAction = null, Predicate<IntVec3> nearPlaceValidator = null)
 		{
-			bool result;
 			if (!this.Contains(thing))
 			{
 				Log.Error("Tried to drop " + thing.ToStringSafe<Thing>() + " but it's not here.", false);
 				resultingThing = null;
-				result = false;
+				return false;
+			}
+			if (thing.stackCount < count)
+			{
+				Log.Error(string.Concat(new object[]
+				{
+					"Tried to drop ",
+					count,
+					" of ",
+					thing,
+					" while only having ",
+					thing.stackCount
+				}), false);
+				count = thing.stackCount;
+			}
+			if (count == thing.stackCount)
+			{
+				if (GenDrop.TryDropSpawn(thing, dropLoc, map, mode, out resultingThing, placedAction, nearPlaceValidator))
+				{
+					this.Remove(thing);
+					return true;
+				}
+				return false;
 			}
 			else
 			{
-				if (thing.stackCount < count)
+				Thing thing2 = thing.SplitOff(count);
+				if (GenDrop.TryDropSpawn(thing2, dropLoc, map, mode, out resultingThing, placedAction, nearPlaceValidator))
 				{
-					Log.Error(string.Concat(new object[]
-					{
-						"Tried to drop ",
-						count,
-						" of ",
-						thing,
-						" while only having ",
-						thing.stackCount
-					}), false);
-					count = thing.stackCount;
+					return true;
 				}
-				if (count == thing.stackCount)
-				{
-					if (GenDrop.TryDropSpawn(thing, dropLoc, map, mode, out resultingThing, placedAction, nearPlaceValidator))
-					{
-						this.Remove(thing);
-						result = true;
-					}
-					else
-					{
-						result = false;
-					}
-				}
-				else
-				{
-					Thing thing2 = thing.SplitOff(count);
-					if (GenDrop.TryDropSpawn(thing2, dropLoc, map, mode, out resultingThing, placedAction, nearPlaceValidator))
-					{
-						result = true;
-					}
-					else
-					{
-						thing.TryAbsorbStack(thing2, false);
-						result = false;
-					}
-				}
+				thing.TryAbsorbStack(thing2, false);
+				return false;
 			}
-			return result;
 		}
 
 		public bool TryDrop(Thing thing, ThingPlaceMode mode, out Thing lastResultingThing, Action<Thing, int> placedAction = null, Predicate<IntVec3> nearPlaceValidator = null)
 		{
 			Map rootMap = ThingOwnerUtility.GetRootMap(this.owner);
 			IntVec3 rootPosition = ThingOwnerUtility.GetRootPosition(this.owner);
-			bool result;
 			if (rootMap == null || !rootPosition.IsValid)
 			{
 				Log.Error("Cannot drop " + thing + " without a dropLoc and with an owner whose map is null.", false);
 				lastResultingThing = null;
-				result = false;
+				return false;
 			}
-			else
-			{
-				result = this.TryDrop(thing, rootPosition, rootMap, mode, out lastResultingThing, placedAction, nearPlaceValidator);
-			}
-			return result;
+			return this.TryDrop(thing, rootPosition, rootMap, mode, out lastResultingThing, placedAction, nearPlaceValidator);
 		}
 
 		public bool TryDrop(Thing thing, IntVec3 dropLoc, Map map, ThingPlaceMode mode, out Thing lastResultingThing, Action<Thing, int> placedAction = null, Predicate<IntVec3> nearPlaceValidator = null)
 		{
-			bool result;
 			if (!this.Contains(thing))
 			{
 				Log.Error(this.owner.ToStringSafe<IThingHolder>() + " container tried to drop  " + thing.ToStringSafe<Thing>() + " which it didn't contain.", false);
 				lastResultingThing = null;
-				result = false;
+				return false;
 			}
-			else if (GenDrop.TryDropSpawn(thing, dropLoc, map, mode, out lastResultingThing, placedAction, nearPlaceValidator))
+			if (GenDrop.TryDropSpawn(thing, dropLoc, map, mode, out lastResultingThing, placedAction, nearPlaceValidator))
 			{
 				this.Remove(thing);
-				result = true;
+				return true;
 			}
-			else
-			{
-				result = false;
-			}
-			return result;
+			return false;
 		}
 
 		public bool TryDropAll(IntVec3 dropLoc, Map map, ThingPlaceMode mode, Action<Thing, int> placeAction = null, Predicate<IntVec3> nearPlaceValidator = null)
@@ -675,29 +608,24 @@ namespace Verse
 
 		public bool Contains(ThingDef def, int minCount)
 		{
-			bool result;
 			if (minCount <= 0)
 			{
-				result = true;
+				return true;
 			}
-			else
+			int num = 0;
+			int count = this.Count;
+			for (int i = 0; i < count; i++)
 			{
-				int num = 0;
-				int count = this.Count;
-				for (int i = 0; i < count; i++)
+				if (this.GetAt(i).def == def)
 				{
-					if (this.GetAt(i).def == def)
-					{
-						num += this.GetAt(i).stackCount;
-					}
-					if (num >= minCount)
-					{
-						return true;
-					}
+					num += this.GetAt(i).stackCount;
 				}
-				result = false;
+				if (num >= minCount)
+				{
+					return true;
+				}
 			}
-			return result;
+			return false;
 		}
 
 		public int TotalStackCountOfDef(ThingDef def)

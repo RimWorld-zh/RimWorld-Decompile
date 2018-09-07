@@ -11,7 +11,7 @@ namespace RimWorld
 {
 	public class Page_CreateWorldParams : Page
 	{
-		private bool initialized = false;
+		private bool initialized;
 
 		private string seedString;
 
@@ -133,31 +133,26 @@ namespace RimWorld
 
 		protected override bool CanDoNext()
 		{
-			bool result;
 			if (!base.CanDoNext())
 			{
-				result = false;
+				return false;
 			}
-			else
+			LongEventHandler.QueueLongEvent(delegate()
 			{
-				LongEventHandler.QueueLongEvent(delegate()
+				Find.GameInitData.ResetWorldRelatedMapInitData();
+				Current.Game.World = WorldGenerator.GenerateWorld(this.planetCoverage, this.seedString, this.rainfall, this.temperature);
+				LongEventHandler.ExecuteWhenFinished(delegate
 				{
-					Find.GameInitData.ResetWorldRelatedMapInitData();
-					Current.Game.World = WorldGenerator.GenerateWorld(this.planetCoverage, this.seedString, this.rainfall, this.temperature);
-					LongEventHandler.ExecuteWhenFinished(delegate
+					if (this.next != null)
 					{
-						if (this.next != null)
-						{
-							Find.WindowStack.Add(this.next);
-						}
-						MemoryUtility.UnloadUnusedUnityAssets();
-						Find.World.renderer.RegenerateAllLayersNow();
-						this.Close(true);
-					});
-				}, "GeneratingWorld", true, null);
-				result = false;
-			}
-			return result;
+						Find.WindowStack.Add(this.next);
+					}
+					MemoryUtility.UnloadUnusedUnityAssets();
+					Find.World.renderer.RegenerateAllLayersNow();
+					this.Close(true);
+				});
+			}, "GeneratingWorld", true, null);
+			return false;
 		}
 
 		// Note: this type is marked as 'beforefieldinit'.

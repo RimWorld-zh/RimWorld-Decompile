@@ -12,28 +12,23 @@ namespace RimWorld.Planet
 
 		private const int DownedPawnMoveTicks = 450;
 
-		public const float CellToTilesConversionRatio = 380f;
+		public const float CellToTilesConversionRatio = 340f;
 
-		public const int DefaultTicksPerMove = 3500;
+		public const int DefaultTicksPerMove = 3300;
 
-		private const float MoveSpeedFactorAtZeroMass = 1.6f;
+		private const float MoveSpeedFactorAtZeroMass = 2f;
 
 		public static int GetTicksPerMove(Caravan caravan, StringBuilder explanation = null)
 		{
-			int result;
 			if (caravan == null)
 			{
 				if (explanation != null)
 				{
 					CaravanTicksPerMoveUtility.AppendUsingDefaultTicksPerMoveInfo(explanation);
 				}
-				result = 3500;
+				return 3300;
 			}
-			else
-			{
-				result = CaravanTicksPerMoveUtility.GetTicksPerMove(new CaravanTicksPerMoveUtility.CaravanInfo(caravan), explanation);
-			}
-			return result;
+			return CaravanTicksPerMoveUtility.GetTicksPerMove(new CaravanTicksPerMoveUtility.CaravanInfo(caravan), explanation);
 		}
 
 		public static int GetTicksPerMove(CaravanTicksPerMoveUtility.CaravanInfo caravanInfo, StringBuilder explanation = null)
@@ -43,7 +38,6 @@ namespace RimWorld.Planet
 
 		public static int GetTicksPerMove(List<Pawn> pawns, float massUsage, float massCapacity, StringBuilder explanation = null)
 		{
-			int result;
 			if (pawns.Any<Pawn>())
 			{
 				if (explanation != null)
@@ -54,7 +48,7 @@ namespace RimWorld.Planet
 				for (int i = 0; i < pawns.Count; i++)
 				{
 					float num2 = (float)((!pawns[i].Downed && !pawns[i].CarriedByCaravan()) ? pawns[i].TicksPerMoveCardinal : 450);
-					num2 = Mathf.Min(num2, 150f) * 380f;
+					num2 = Mathf.Min(num2, 150f) * 340f;
 					float num3 = 60000f / num2;
 					if (explanation != null)
 					{
@@ -114,38 +108,29 @@ namespace RimWorld.Planet
 						"TilesPerDay".Translate()
 					}));
 				}
-				result = num5;
+				return num5;
 			}
-			else
+			if (explanation != null)
 			{
-				if (explanation != null)
-				{
-					CaravanTicksPerMoveUtility.AppendUsingDefaultTicksPerMoveInfo(explanation);
-				}
-				result = 3500;
+				CaravanTicksPerMoveUtility.AppendUsingDefaultTicksPerMoveInfo(explanation);
 			}
-			return result;
+			return 3300;
 		}
 
 		private static float GetMoveSpeedFactorFromMass(float massUsage, float massCapacity)
 		{
-			float result;
 			if (massCapacity <= 0f)
 			{
-				result = 1f;
+				return 1f;
 			}
-			else
-			{
-				float t = massUsage / massCapacity;
-				result = Mathf.Lerp(1.6f, 1f, t);
-			}
-			return result;
+			float t = massUsage / massCapacity;
+			return Mathf.Lerp(2f, 1f, t);
 		}
 
 		private static void AppendUsingDefaultTicksPerMoveInfo(StringBuilder sb)
 		{
 			sb.Append("CaravanMovementSpeedFull".Translate() + ":");
-			float num = 17.1428566f;
+			float num = 18.181818f;
 			sb.AppendLine();
 			sb.Append(string.Concat(new string[]
 			{

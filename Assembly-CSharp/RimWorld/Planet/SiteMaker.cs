@@ -55,46 +55,31 @@ namespace RimWorld.Planet
 		public static Site TryMakeSite_SingleSitePart(SiteCoreDef core, IEnumerable<SitePartDef> singleSitePartCandidates, int tile, Faction faction = null, bool disallowNonHostileFactions = true, Predicate<Faction> extraFactionValidator = null, bool ifHostileThenMustRemainHostile = true, float? threatPoints = null)
 		{
 			SitePartDef sitePart;
-			Site result;
 			if (!SiteMakerHelper.TryFindSiteParams_SingleSitePart(core, singleSitePartCandidates, out sitePart, out faction, faction, disallowNonHostileFactions, extraFactionValidator))
 			{
-				result = null;
+				return null;
 			}
-			else
-			{
-				result = SiteMaker.MakeSite(core, sitePart, tile, faction, ifHostileThenMustRemainHostile, threatPoints);
-			}
-			return result;
+			return SiteMaker.MakeSite(core, sitePart, tile, faction, ifHostileThenMustRemainHostile, threatPoints);
 		}
 
 		public static Site TryMakeSite_SingleSitePart(SiteCoreDef core, string singleSitePartTag, int tile, Faction faction = null, bool disallowNonHostileFactions = true, Predicate<Faction> extraFactionValidator = null, bool ifHostileThenMustRemainHostile = true, float? threatPoints = null)
 		{
 			SitePartDef sitePart;
-			Site result;
 			if (!SiteMakerHelper.TryFindSiteParams_SingleSitePart(core, singleSitePartTag, out sitePart, out faction, faction, disallowNonHostileFactions, extraFactionValidator))
 			{
-				result = null;
+				return null;
 			}
-			else
-			{
-				result = SiteMaker.MakeSite(core, sitePart, tile, faction, ifHostileThenMustRemainHostile, threatPoints);
-			}
-			return result;
+			return SiteMaker.MakeSite(core, sitePart, tile, faction, ifHostileThenMustRemainHostile, threatPoints);
 		}
 
 		public static Site TryMakeSite(SiteCoreDef core, IEnumerable<SitePartDef> siteParts, int tile, bool disallowNonHostileFactions = true, Predicate<Faction> extraFactionValidator = null, bool ifHostileThenMustRemainHostile = true, float? threatPoints = null)
 		{
 			Faction faction;
-			Site result;
 			if (!SiteMakerHelper.TryFindRandomFactionFor(core, siteParts, out faction, disallowNonHostileFactions, extraFactionValidator))
 			{
-				result = null;
+				return null;
 			}
-			else
-			{
-				result = SiteMaker.MakeSite(core, siteParts, tile, faction, ifHostileThenMustRemainHostile, threatPoints);
-			}
-			return result;
+			return SiteMaker.MakeSite(core, siteParts, tile, faction, ifHostileThenMustRemainHostile, threatPoints);
 		}
 	}
 }

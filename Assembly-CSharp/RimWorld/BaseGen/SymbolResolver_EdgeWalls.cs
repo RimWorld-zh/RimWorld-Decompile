@@ -23,24 +23,16 @@ namespace RimWorld.BaseGen
 		{
 			Map map = BaseGen.globalSettings.map;
 			List<Thing> thingList = c.GetThingList(map);
-			int i = 0;
-			while (i < thingList.Count)
+			for (int i = 0; i < thingList.Count; i++)
 			{
-				Thing result;
 				if (!thingList[i].def.destroyable)
 				{
-					result = null;
+					return null;
 				}
-				else
+				if (thingList[i] is Building_Door)
 				{
-					if (!(thingList[i] is Building_Door))
-					{
-						i++;
-						continue;
-					}
-					result = null;
+					return null;
 				}
-				return result;
 			}
 			for (int j = thingList.Count - 1; j >= 0; j--)
 			{

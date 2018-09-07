@@ -45,16 +45,11 @@ namespace Verse
 
 		public static IntVec3 GetFleeDest(Pawn pawn, List<Thing> threats, float distance = 23f)
 		{
-			IntVec3 result;
 			if (pawn.RaceProps.Animal)
 			{
-				result = CellFinderLoose.GetFleeDestAnimal(pawn, threats, distance);
+				return CellFinderLoose.GetFleeDestAnimal(pawn, threats, distance);
 			}
-			else
-			{
-				result = CellFinderLoose.GetFleeDestToolUser(pawn, threats, distance);
-			}
-			return result;
+			return CellFinderLoose.GetFleeDestToolUser(pawn, threats, distance);
 		}
 
 		public static IntVec3 GetFleeDestAnimal(Pawn pawn, List<Thing> threats, float distance = 23f)
@@ -84,21 +79,16 @@ namespace Verse
 
 		public static bool CanFleeToLocation(Pawn pawn, IntVec3 location)
 		{
-			bool result;
 			if (!location.Standable(pawn.Map))
 			{
-				result = false;
+				return false;
 			}
-			else if (!pawn.Map.pawnDestinationReservationManager.CanReserve(location, pawn, false))
+			if (!pawn.Map.pawnDestinationReservationManager.CanReserve(location, pawn, false))
 			{
-				result = false;
+				return false;
 			}
-			else
-			{
-				Region region = location.GetRegion(pawn.Map, RegionType.Set_Passable);
-				result = (region.type != RegionType.Portal && pawn.CanReach(location, PathEndMode.OnCell, Danger.Deadly, false, TraverseMode.ByPawn));
-			}
-			return result;
+			Region region = location.GetRegion(pawn.Map, RegionType.Set_Passable);
+			return region.type != RegionType.Portal && pawn.CanReach(location, PathEndMode.OnCell, Danger.Deadly, false, TraverseMode.ByPawn);
 		}
 
 		public static IntVec3 GetFleeDestToolUser(Pawn pawn, List<Thing> threats, float distance = 23f)
@@ -114,7 +104,7 @@ namespace Verse
 				{
 					if (intVec.Standable(map))
 					{
-						if (reg.portal == null)
+						if (!reg.IsDoorway)
 						{
 							Thing thing = null;
 							float num = 0f;
@@ -169,41 +159,33 @@ namespace Verse
 			int debug_numExtraValidator = 0;
 			Predicate<IntVec3> validator = delegate(IntVec3 c)
 			{
-				bool result2;
 				if (!c.Standable(map))
 				{
 					debug_numStand++;
-					result2 = false;
+					return false;
 				}
-				else
+				Room room = c.GetRoom(map, RegionType.Set_Passable);
+				if (room == null)
 				{
-					Room room = c.GetRoom(map, RegionType.Set_Passable);
-					if (room == null)
-					{
-						debug_numRoom++;
-						result2 = false;
-					}
-					else if (!room.TouchesMapEdge)
-					{
-						debug_numTouch++;
-						result2 = false;
-					}
-					else if (room.CellCount < minCellCount)
-					{
-						debug_numRoomCellCount++;
-						result2 = false;
-					}
-					else if (extraValidator != null && !extraValidator(c))
-					{
-						debug_numExtraValidator++;
-						result2 = false;
-					}
-					else
-					{
-						result2 = true;
-					}
+					debug_numRoom++;
+					return false;
 				}
-				return result2;
+				if (!room.TouchesMapEdge)
+				{
+					debug_numTouch++;
+					return false;
+				}
+				if (room.CellCount < minCellCount)
+				{
+					debug_numRoomCellCount++;
+					return false;
+				}
+				if (extraValidator != null && !extraValidator(c))
+				{
+					debug_numExtraValidator++;
+					return false;
+				}
+				return true;
 			};
 			for (int i = tightness; i >= 1; i--)
 			{
@@ -240,46 +222,35 @@ namespace Verse
 				while (!iterator.Done())
 				{
 					IntVec3 c = iterator.Current;
-					bool result2;
 					if (!c.InBounds(map) || c.Fogged(map) || !c.Standable(map) || (c.Roofed(map) && c.GetRoof(map).isThickRoof))
 					{
-						result2 = false;
+						return false;
 					}
-					else if (!allowRoofedCells && c.Roofed(map))
+					if (!allowRoofedCells && c.Roofed(map))
 					{
-						result2 = false;
+						return false;
 					}
-					else if (!allowCellsWithItems && c.GetFirstItem(map) != null)
+					if (!allowCellsWithItems && c.GetFirstItem(map) != null)
 					{
-						result2 = false;
+						return false;
 					}
-					else if (!allowCellsWithBuildings && c.GetFirstBuilding(map) != null)
+					if (!allowCellsWithBuildings && c.GetFirstBuilding(map) != null)
 					{
-						result2 = false;
+						return false;
 					}
-					else
+					if (c.GetFirstSkyfaller(map) != null)
 					{
-						if (c.GetFirstSkyfaller(map) == null)
-						{
-							iterator.MoveNext();
-							continue;
-						}
-						result2 = false;
+						return false;
 					}
-					return result2;
+					iterator.MoveNext();
 				}
 				return (!avoidColonists || !SkyfallerUtility.CanPossiblyFallOnColonist(skyfaller, x, map)) && (minDistToEdge <= 0 || x.DistanceToEdge(map) >= minDistToEdge) && (!colonyReachable || map.reachability.CanReachColony(x)) && (extraValidator == null || extraValidator(x));
 			};
-			bool result;
 			if (nearLocMaxDist > 0)
 			{
-				result = CellFinder.TryFindRandomCellNear(nearLoc, map, nearLocMaxDist, validator, out cell, -1);
+				return CellFinder.TryFindRandomCellNear(nearLoc, map, nearLocMaxDist, validator, out cell, -1);
 			}
-			else
-			{
-				result = CellFinderLoose.TryFindRandomNotEdgeCellWith(minDistToEdge, validator, map, out cell);
-			}
-			return result;
+			return CellFinderLoose.TryFindRandomNotEdgeCellWith(minDistToEdge, validator, map, out cell);
 		}
 
 		[CompilerGenerated]
@@ -314,7 +285,7 @@ namespace Verse
 				{
 					if (intVec.Standable(map))
 					{
-						if (reg.portal == null)
+						if (!reg.IsDoorway)
 						{
 							Thing thing = null;
 							float num = 0f;
@@ -384,41 +355,33 @@ namespace Verse
 
 			internal bool <>m__0(IntVec3 c)
 			{
-				bool result;
 				if (!c.Standable(this.map))
 				{
 					this.debug_numStand++;
-					result = false;
+					return false;
 				}
-				else
+				Room room = c.GetRoom(this.map, RegionType.Set_Passable);
+				if (room == null)
 				{
-					Room room = c.GetRoom(this.map, RegionType.Set_Passable);
-					if (room == null)
-					{
-						this.debug_numRoom++;
-						result = false;
-					}
-					else if (!room.TouchesMapEdge)
-					{
-						this.debug_numTouch++;
-						result = false;
-					}
-					else if (room.CellCount < this.minCellCount)
-					{
-						this.debug_numRoomCellCount++;
-						result = false;
-					}
-					else if (this.extraValidator != null && !this.extraValidator(c))
-					{
-						this.debug_numExtraValidator++;
-						result = false;
-					}
-					else
-					{
-						result = true;
-					}
+					this.debug_numRoom++;
+					return false;
 				}
-				return result;
+				if (!room.TouchesMapEdge)
+				{
+					this.debug_numTouch++;
+					return false;
+				}
+				if (room.CellCount < this.minCellCount)
+				{
+					this.debug_numRoomCellCount++;
+					return false;
+				}
+				if (this.extraValidator != null && !this.extraValidator(c))
+				{
+					this.debug_numExtraValidator++;
+					return false;
+				}
+				return true;
 			}
 
 			internal bool <>m__1(IntVec3 x)
@@ -458,33 +421,27 @@ namespace Verse
 				while (!iterator.Done())
 				{
 					IntVec3 c = iterator.Current;
-					bool result;
 					if (!c.InBounds(this.map) || c.Fogged(this.map) || !c.Standable(this.map) || (c.Roofed(this.map) && c.GetRoof(this.map).isThickRoof))
 					{
-						result = false;
+						return false;
 					}
-					else if (!this.allowRoofedCells && c.Roofed(this.map))
+					if (!this.allowRoofedCells && c.Roofed(this.map))
 					{
-						result = false;
+						return false;
 					}
-					else if (!this.allowCellsWithItems && c.GetFirstItem(this.map) != null)
+					if (!this.allowCellsWithItems && c.GetFirstItem(this.map) != null)
 					{
-						result = false;
+						return false;
 					}
-					else if (!this.allowCellsWithBuildings && c.GetFirstBuilding(this.map) != null)
+					if (!this.allowCellsWithBuildings && c.GetFirstBuilding(this.map) != null)
 					{
-						result = false;
+						return false;
 					}
-					else
+					if (c.GetFirstSkyfaller(this.map) != null)
 					{
-						if (c.GetFirstSkyfaller(this.map) == null)
-						{
-							iterator.MoveNext();
-							continue;
-						}
-						result = false;
+						return false;
 					}
-					return result;
+					iterator.MoveNext();
 				}
 				return (!this.avoidColonists || !SkyfallerUtility.CanPossiblyFallOnColonist(this.skyfaller, x, this.map)) && (this.minDistToEdge <= 0 || x.DistanceToEdge(this.map) >= this.minDistToEdge) && (!this.colonyReachable || this.map.reachability.CanReachColony(x)) && (this.extraValidator == null || this.extraValidator(x));
 			}

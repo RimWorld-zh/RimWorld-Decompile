@@ -112,7 +112,7 @@ namespace Ionic.Zlib
 					{
 						if (num2 == 0)
 						{
-							goto IL_AD;
+							goto IL_A7;
 						}
 						r = 0;
 						num2--;
@@ -150,7 +150,7 @@ namespace Ionic.Zlib
 						this.mode = InflateBlocks.InflateBlockMode.TABLE;
 						break;
 					case 3u:
-						goto IL_206;
+						goto IL_1F8;
 					}
 					continue;
 				case InflateBlocks.InflateBlockMode.LENS:
@@ -158,7 +158,7 @@ namespace Ionic.Zlib
 					{
 						if (num2 == 0)
 						{
-							goto IL_2A3;
+							goto IL_28C;
 						}
 						r = 0;
 						num2--;
@@ -228,7 +228,7 @@ namespace Ionic.Zlib
 					{
 						if (num2 == 0)
 						{
-							goto IL_64B;
+							goto IL_60C;
 						}
 						r = 0;
 						num2--;
@@ -238,7 +238,7 @@ namespace Ionic.Zlib
 					num6 = (this.table = (num3 & 16383));
 					if ((num6 & 31) > 29 || (num6 >> 5 & 31) > 29)
 					{
-						goto IL_702;
+						goto IL_6BB;
 					}
 					num6 = 258 + (num6 & 31) + (num6 >> 5 & 31);
 					if (this.blens == null || this.blens.Length < num6)
@@ -253,24 +253,24 @@ namespace Ionic.Zlib
 					i -= 14;
 					this.index = 0;
 					this.mode = InflateBlocks.InflateBlockMode.BTREE;
-					goto IL_7E6;
+					goto IL_794;
 				case InflateBlocks.InflateBlockMode.BTREE:
-					goto IL_7E6;
+					goto IL_794;
 				case InflateBlocks.InflateBlockMode.DTREE:
-					goto IL_9CF;
+					goto IL_965;
 				case InflateBlocks.InflateBlockMode.CODES:
-					goto IL_E42;
+					goto IL_DA6;
 				case InflateBlocks.InflateBlockMode.DRY:
-					goto IL_F34;
+					goto IL_E90;
 				case InflateBlocks.InflateBlockMode.DONE:
-					goto IL_FF0;
+					goto IL_F45;
 				case InflateBlocks.InflateBlockMode.BAD:
-					goto IL_1050;
+					goto IL_F9F;
 				}
 				break;
 				for (;;)
 				{
-					IL_9CF:
+					IL_965:
 					num6 = this.table;
 					if (this.index >= 258 + (num6 & 31) + (num6 >> 5 & 31))
 					{
@@ -281,7 +281,7 @@ namespace Ionic.Zlib
 					{
 						if (num2 == 0)
 						{
-							goto IL_A1A;
+							goto IL_9AA;
 						}
 						r = 0;
 						num2--;
@@ -304,7 +304,7 @@ namespace Ionic.Zlib
 						{
 							if (num2 == 0)
 							{
-								goto IL_B5E;
+								goto IL_AE0;
 							}
 							r = 0;
 							num2--;
@@ -320,7 +320,7 @@ namespace Ionic.Zlib
 						num6 = this.table;
 						if (num8 + num9 > 258 + (num6 & 31) + (num6 >> 5 & 31) || (num7 == 16 && num8 < 1))
 						{
-							goto IL_C52;
+							goto IL_BCC;
 						}
 						num7 = ((num7 != 16) ? 0 : this.blens[num8 - 1]);
 						do
@@ -350,9 +350,9 @@ namespace Ionic.Zlib
 				}
 				this.codes.Init(array5[0], array6[0], this.hufts, array7[0], this.hufts, array8[0]);
 				this.mode = InflateBlocks.InflateBlockMode.CODES;
-				goto IL_E42;
+				goto IL_DA6;
 				continue;
-				IL_E42:
+				IL_DA6:
 				this.bitb = num3;
 				this.bitk = i;
 				this._codec.AvailableBytesIn = num2;
@@ -376,15 +376,15 @@ namespace Ionic.Zlib
 					this.mode = InflateBlocks.InflateBlockMode.TYPE;
 					continue;
 				}
-				goto IL_F28;
-				IL_7E6:
+				goto IL_E84;
+				IL_794:
 				while (this.index < 4 + (this.table >> 10))
 				{
 					while (i < 3)
 					{
 						if (num2 == 0)
 						{
-							goto IL_803;
+							goto IL_7AD;
 						}
 						r = 0;
 						num2--;
@@ -407,7 +407,7 @@ namespace Ionic.Zlib
 				}
 				this.index = 0;
 				this.mode = InflateBlocks.InflateBlockMode.DTREE;
-				goto IL_9CF;
+				goto IL_965;
 			}
 			r = -2;
 			this.bitb = num3;
@@ -417,7 +417,7 @@ namespace Ionic.Zlib
 			this._codec.NextIn = num;
 			this.writeAt = num4;
 			return this.Flush(r);
-			IL_AD:
+			IL_A7:
 			this.bitb = num3;
 			this.bitk = i;
 			this._codec.AvailableBytesIn = num2;
@@ -425,7 +425,7 @@ namespace Ionic.Zlib
 			this._codec.NextIn = num;
 			this.writeAt = num4;
 			return this.Flush(r);
-			IL_206:
+			IL_1F8:
 			num3 >>= 3;
 			i -= 3;
 			this.mode = InflateBlocks.InflateBlockMode.BAD;
@@ -438,7 +438,7 @@ namespace Ionic.Zlib
 			this._codec.NextIn = num;
 			this.writeAt = num4;
 			return this.Flush(r);
-			IL_2A3:
+			IL_28C:
 			this.bitb = num3;
 			this.bitk = i;
 			this._codec.AvailableBytesIn = num2;
@@ -473,7 +473,7 @@ namespace Ionic.Zlib
 			this._codec.NextIn = num;
 			this.writeAt = num4;
 			return this.Flush(r);
-			IL_64B:
+			IL_60C:
 			this.bitb = num3;
 			this.bitk = i;
 			this._codec.AvailableBytesIn = num2;
@@ -481,7 +481,7 @@ namespace Ionic.Zlib
 			this._codec.NextIn = num;
 			this.writeAt = num4;
 			return this.Flush(r);
-			IL_702:
+			IL_6BB:
 			this.mode = InflateBlocks.InflateBlockMode.BAD;
 			this._codec.Message = "too many length or distance symbols";
 			r = -3;
@@ -492,7 +492,7 @@ namespace Ionic.Zlib
 			this._codec.NextIn = num;
 			this.writeAt = num4;
 			return this.Flush(r);
-			IL_803:
+			IL_7AD:
 			this.bitb = num3;
 			this.bitk = i;
 			this._codec.AvailableBytesIn = num2;
@@ -514,7 +514,7 @@ namespace Ionic.Zlib
 			this._codec.NextIn = num;
 			this.writeAt = num4;
 			return this.Flush(r);
-			IL_A1A:
+			IL_9AA:
 			this.bitb = num3;
 			this.bitk = i;
 			this._codec.AvailableBytesIn = num2;
@@ -522,7 +522,7 @@ namespace Ionic.Zlib
 			this._codec.NextIn = num;
 			this.writeAt = num4;
 			return this.Flush(r);
-			IL_B5E:
+			IL_AE0:
 			this.bitb = num3;
 			this.bitk = i;
 			this._codec.AvailableBytesIn = num2;
@@ -530,7 +530,7 @@ namespace Ionic.Zlib
 			this._codec.NextIn = num;
 			this.writeAt = num4;
 			return this.Flush(r);
-			IL_C52:
+			IL_BCC:
 			this.blens = null;
 			this.mode = InflateBlocks.InflateBlockMode.BAD;
 			this._codec.Message = "invalid bit length repeat";
@@ -558,9 +558,9 @@ namespace Ionic.Zlib
 			return this.Flush(r);
 			Block_50:
 			return this.Flush(r);
-			IL_F28:
+			IL_E84:
 			this.mode = InflateBlocks.InflateBlockMode.DRY;
-			IL_F34:
+			IL_E90:
 			this.writeAt = num4;
 			r = this.Flush(r);
 			num4 = this.writeAt;
@@ -576,7 +576,7 @@ namespace Ionic.Zlib
 				return this.Flush(r);
 			}
 			this.mode = InflateBlocks.InflateBlockMode.DONE;
-			IL_FF0:
+			IL_F45:
 			r = 1;
 			this.bitb = num3;
 			this.bitk = i;
@@ -585,7 +585,7 @@ namespace Ionic.Zlib
 			this._codec.NextIn = num;
 			this.writeAt = num4;
 			return this.Flush(r);
-			IL_1050:
+			IL_F9F:
 			r = -3;
 			this.bitb = num3;
 			this.bitk = i;

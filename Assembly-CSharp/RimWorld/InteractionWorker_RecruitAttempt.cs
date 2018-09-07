@@ -9,11 +9,97 @@ namespace RimWorld
 {
 	public class InteractionWorker_RecruitAttempt : InteractionWorker
 	{
-		private const float MinRecruitChance = 0.005f;
+		private const float BaseResistanceReductionPerInteraction = 1f;
 
-		private const float BondRelationChanceFactor = 4f;
+		private static readonly SimpleCurve ResistanceImpactFactorCurve_Mood = new SimpleCurve
+		{
+			{
+				new CurvePoint(0f, 0.2f),
+				true
+			},
+			{
+				new CurvePoint(0.5f, 1f),
+				true
+			},
+			{
+				new CurvePoint(1f, 1.5f),
+				true
+			}
+		};
 
-		private static readonly SimpleCurve RecruitChanceFactorCurve_Wildness = new SimpleCurve
+		private static readonly SimpleCurve ResistanceImpactFactorCurve_Opinion = new SimpleCurve
+		{
+			{
+				new CurvePoint(-100f, 0.5f),
+				true
+			},
+			{
+				new CurvePoint(0f, 1f),
+				true
+			},
+			{
+				new CurvePoint(100f, 1.5f),
+				true
+			}
+		};
+
+		private const float RecruitChancePerNegotiatingAbility = 0.5f;
+
+		private const float MaxMoodForWarning = 0.4f;
+
+		private static readonly SimpleCurve RecruitChanceFactorCurve_Mood = new SimpleCurve
+		{
+			{
+				new CurvePoint(0f, 0.2f),
+				true
+			},
+			{
+				new CurvePoint(0.5f, 1f),
+				true
+			},
+			{
+				new CurvePoint(1f, 2f),
+				true
+			}
+		};
+
+		private const float MaxOpinionForWarning = -0.01f;
+
+		private static readonly SimpleCurve RecruitChanceFactorCurve_Opinion = new SimpleCurve
+		{
+			{
+				new CurvePoint(-100f, 0.5f),
+				true
+			},
+			{
+				new CurvePoint(0f, 1f),
+				true
+			},
+			{
+				new CurvePoint(100f, 2f),
+				true
+			}
+		};
+
+		private static readonly SimpleCurve RecruitChanceFactorCurve_RecruitDifficulty = new SimpleCurve
+		{
+			{
+				new CurvePoint(0f, 2f),
+				true
+			},
+			{
+				new CurvePoint(0.5f, 1f),
+				true
+			},
+			{
+				new CurvePoint(1f, 0.02f),
+				true
+			}
+		};
+
+		private const float WildmanWildness = 0.2f;
+
+		private static readonly SimpleCurve TameChanceFactorCurve_Wildness = new SimpleCurve
 		{
 			{
 				new CurvePoint(1f, 0f),
@@ -29,49 +115,11 @@ namespace RimWorld
 			}
 		};
 
-		private static readonly SimpleCurve RecruitChanceFactorCurve_Opinion = new SimpleCurve
-		{
-			{
-				new CurvePoint(-50f, 0f),
-				true
-			},
-			{
-				new CurvePoint(50f, 1f),
-				true
-			},
-			{
-				new CurvePoint(100f, 2f),
-				true
-			}
-		};
+		private const float TameChanceFactor_Bonded = 4f;
 
-		private static readonly SimpleCurve RecruitChanceFactorCurve_Mood = new SimpleCurve
-		{
-			{
-				new CurvePoint(0f, 0.25f),
-				true
-			},
-			{
-				new CurvePoint(0.1f, 0.25f),
-				true
-			},
-			{
-				new CurvePoint(0.25f, 1f),
-				true
-			},
-			{
-				new CurvePoint(0.5f, 1f),
-				true
-			},
-			{
-				new CurvePoint(1f, 1.5f),
-				true
-			}
-		};
+		private const float ChanceToDevelopBondRelationOnTamed = 0.01f;
 
-		private const int MenagerieThreshold = 10;
-
-		private const float WildManTameChanceFactor = 2f;
+		private const int MenagerieTaleThreshold = 5;
 
 		public InteractionWorker_RecruitAttempt()
 		{
@@ -82,73 +130,109 @@ namespace RimWorld
 			letterText = null;
 			letterLabel = null;
 			letterDef = null;
-			if (!recipient.mindState.CheckStartMentalStateBecauseRecruitAttempted(initiator))
+			if (recipient.mindState.CheckStartMentalStateBecauseRecruitAttempted(initiator))
 			{
-				bool flag = recipient.NonHumanlikeOrWildMan() && !recipient.IsPrisoner;
-				bool flag2 = initiator.InspirationDef == InspirationDefOf.Inspired_Recruitment && recipient.RaceProps.Humanlike && !flag;
+				return;
+			}
+			bool flag = recipient.AnimalOrWildMan() && !recipient.IsPrisoner;
+			float x = (float)((recipient.relations == null) ? 0 : recipient.relations.OpinionOf(initiator));
+			bool flag2 = initiator.InspirationDef == InspirationDefOf.Inspired_Recruitment && !flag && recipient.guest.interactionMode != PrisonerInteractionModeDefOf.ReduceResistance;
+			if (!flag && recipient.guest.resistance > 0f && !flag2)
+			{
 				float num = 1f;
-				if (flag2 || DebugSettings.instantRecruit)
+				num *= initiator.GetStatValue(StatDefOf.NegotiationAbility, true);
+				num *= InteractionWorker_RecruitAttempt.ResistanceImpactFactorCurve_Mood.Evaluate(recipient.needs.mood.CurLevelPercentage);
+				num *= InteractionWorker_RecruitAttempt.ResistanceImpactFactorCurve_Opinion.Evaluate(x);
+				num = Mathf.Min(num, recipient.guest.resistance);
+				float resistance = recipient.guest.resistance;
+				recipient.guest.resistance = Mathf.Max(0f, recipient.guest.resistance - num);
+				string text = "TextMote_ResistanceReduced".Translate(new object[]
 				{
-					num = 1f;
+					resistance.ToString("F1"),
+					recipient.guest.resistance.ToString("F1")
+				});
+				if (recipient.needs.mood != null && recipient.needs.mood.CurLevelPercentage < 0.4f)
+				{
+					text = text + "\n(" + "lowMood".Translate() + ")";
+				}
+				if (recipient.relations != null && (float)recipient.relations.OpinionOf(initiator) < -0.01f)
+				{
+					text = text + "\n(" + "lowOpinion".Translate() + ")";
+				}
+				MoteMaker.ThrowText((initiator.DrawPos + recipient.DrawPos) / 2f, initiator.Map, text, 8f);
+				if (recipient.guest.resistance == 0f)
+				{
+					string text2 = "MessagePrisonerResistanceBroken".Translate(new object[]
+					{
+						recipient.LabelShort,
+						initiator.LabelShort
+					});
+					if (recipient.guest.interactionMode == PrisonerInteractionModeDefOf.AttemptRecruit)
+					{
+						text2 = text2 + " " + "MessagePrisonerResistanceBroken_RecruitAttempsWillBegin".Translate();
+					}
+					Messages.Message(text2, recipient, MessageTypeDefOf.PositiveEvent, true);
+				}
+			}
+			else
+			{
+				float num2;
+				if (flag)
+				{
+					num2 = initiator.GetStatValue(StatDefOf.TameAnimalChance, true);
+					float x2 = (!recipient.IsWildMan()) ? recipient.RaceProps.wildness : 0.2f;
+					num2 *= InteractionWorker_RecruitAttempt.TameChanceFactorCurve_Wildness.Evaluate(x2);
+					if (initiator.relations.DirectRelationExists(PawnRelationDefOf.Bond, recipient))
+					{
+						num2 *= 4f;
+					}
+				}
+				else if (flag2 || DebugSettings.instantRecruit)
+				{
+					num2 = 1f;
 				}
 				else
 				{
-					num *= ((!flag) ? initiator.GetStatValue(StatDefOf.RecruitPrisonerChance, true) : initiator.GetStatValue(StatDefOf.TameAnimalChance, true));
-					if (recipient.IsWildMan() && flag)
+					num2 = initiator.GetStatValue(StatDefOf.NegotiationAbility, true) * 0.5f;
+					float x3 = recipient.RecruitDifficulty(initiator.Faction);
+					num2 *= InteractionWorker_RecruitAttempt.RecruitChanceFactorCurve_RecruitDifficulty.Evaluate(x3);
+					num2 *= InteractionWorker_RecruitAttempt.RecruitChanceFactorCurve_Opinion.Evaluate(x);
+					if (recipient.needs.mood != null)
 					{
-						num *= 2f;
+						float curLevel = recipient.needs.mood.CurLevel;
+						num2 *= InteractionWorker_RecruitAttempt.RecruitChanceFactorCurve_Mood.Evaluate(curLevel);
 					}
-					else if (recipient.RaceProps.Humanlike)
-					{
-						num *= Mathf.Clamp01(1f - recipient.RecruitDifficulty(initiator.Faction, true));
-					}
-					else
-					{
-						num *= InteractionWorker_RecruitAttempt.RecruitChanceFactorCurve_Wildness.Evaluate(recipient.RaceProps.wildness);
-					}
-					if (!recipient.NonHumanlikeOrWildMan())
-					{
-						float x = (float)recipient.relations.OpinionOf(initiator);
-						num *= InteractionWorker_RecruitAttempt.RecruitChanceFactorCurve_Opinion.Evaluate(x);
-						if (recipient.needs.mood != null)
-						{
-							float curLevel = recipient.needs.mood.CurLevel;
-							num *= InteractionWorker_RecruitAttempt.RecruitChanceFactorCurve_Mood.Evaluate(curLevel);
-						}
-					}
-					if (initiator.relations.DirectRelationExists(PawnRelationDefOf.Bond, recipient))
-					{
-						num *= 4f;
-					}
-					num = Mathf.Clamp(num, 0.005f, 1f);
 				}
-				if (Rand.Chance(num))
+				if (Rand.Chance(num2))
 				{
-					InteractionWorker_RecruitAttempt.DoRecruit(initiator, recipient, num, true);
-					extraSentencePacks.Add(RulePackDefOf.Sentence_RecruitAttemptAccepted);
+					InteractionWorker_RecruitAttempt.DoRecruit(initiator, recipient, num2, true);
 					if (flag2)
 					{
 						initiator.mindState.inspirationHandler.EndInspiration(InspirationDefOf.Inspired_Recruitment);
 					}
+					extraSentencePacks.Add(RulePackDefOf.Sentence_RecruitAttemptAccepted);
 				}
 				else
 				{
-					string text;
-					if (flag)
+					string text3 = (!flag) ? "TextMote_RecruitFail".Translate(new object[]
 					{
-						text = "TextMote_TameFail".Translate(new object[]
-						{
-							num.ToStringPercent()
-						});
-					}
-					else
+						num2.ToStringPercent()
+					}) : "TextMote_TameFail".Translate(new object[]
 					{
-						text = "TextMote_RecruitFail".Translate(new object[]
+						num2.ToStringPercent()
+					});
+					if (!flag)
+					{
+						if (recipient.needs.mood != null && recipient.needs.mood.CurLevelPercentage < 0.4f)
 						{
-							num.ToStringPercent()
-						});
+							text3 = text3 + "\n(" + "lowMood".Translate() + ")";
+						}
+						if (recipient.relations != null && (float)recipient.relations.OpinionOf(initiator) < -0.01f)
+						{
+							text3 = text3 + "\n(" + "lowOpinion".Translate() + ")";
+						}
 					}
-					MoteMaker.ThrowText((initiator.DrawPos + recipient.DrawPos) / 2f, initiator.Map, text, 8f);
+					MoteMaker.ThrowText((initiator.DrawPos + recipient.DrawPos) / 2f, initiator.Map, text3, 8f);
 					extraSentencePacks.Add(RulePackDefOf.Sentence_RecruitAttemptRejected);
 				}
 			}
@@ -156,6 +240,7 @@ namespace RimWorld
 
 		public static void DoRecruit(Pawn recruiter, Pawn recruitee, float recruitChance, bool useAudiovisualEffects = true)
 		{
+			recruitChance = Mathf.Clamp01(recruitChance);
 			string text = recruitee.LabelIndefinite();
 			if (recruitee.guest != null)
 			{
@@ -227,7 +312,7 @@ namespace RimWorld
 						recruitee
 					});
 				}
-				if (PawnsFinder.AllMapsWorldAndTemporary_Alive.Count((Pawn p) => p.playerSettings != null && p.playerSettings.Master == recruiter) >= 10)
+				if (PawnsFinder.AllMapsWorldAndTemporary_Alive.Count((Pawn p) => p.playerSettings != null && p.playerSettings.Master == recruiter) >= 5)
 				{
 					TaleRecorder.RecordTale(TaleDefOf.IncreasedMenagerie, new object[]
 					{

@@ -15,13 +15,13 @@ namespace Verse.AI
 
 		public LocalTargetInfo targetC = LocalTargetInfo.Invalid;
 
-		public List<LocalTargetInfo> targetQueueA = null;
+		public List<LocalTargetInfo> targetQueueA;
 
-		public List<LocalTargetInfo> targetQueueB = null;
+		public List<LocalTargetInfo> targetQueueB;
 
 		public int count = -1;
 
-		public List<int> countQueue = null;
+		public List<int> countQueue;
 
 		public int loadID;
 
@@ -29,11 +29,11 @@ namespace Verse.AI
 
 		public int expiryInterval = -1;
 
-		public bool checkOverrideOnExpire = false;
+		public bool checkOverrideOnExpire;
 
-		public bool playerForced = false;
+		public bool playerForced;
 
-		public List<ThingCountClass> placedThings = null;
+		public List<ThingCountClass> placedThings;
 
 		public int maxNumMeleeAttacks = int.MaxValue;
 
@@ -41,45 +41,45 @@ namespace Verse.AI
 
 		public LocomotionUrgency locomotionUrgency = LocomotionUrgency.Jog;
 
-		public HaulMode haulMode = HaulMode.Undefined;
+		public HaulMode haulMode;
 
-		public Bill bill = null;
+		public Bill bill;
 
-		public ICommunicable commTarget = null;
+		public ICommunicable commTarget;
 
-		public ThingDef plantDefToSow = null;
+		public ThingDef plantDefToSow;
 
 		public Verb verbToUse;
 
-		public bool haulOpportunisticDuplicates = false;
+		public bool haulOpportunisticDuplicates;
 
-		public bool exitMapOnArrival = false;
+		public bool exitMapOnArrival;
 
-		public bool failIfCantJoinOrCreateCaravan = false;
+		public bool failIfCantJoinOrCreateCaravan;
 
-		public bool killIncappedTarget = false;
+		public bool killIncappedTarget;
 
-		public bool ignoreForbidden = false;
+		public bool ignoreForbidden;
 
-		public bool ignoreDesignations = false;
+		public bool ignoreDesignations;
 
-		public bool canBash = false;
+		public bool canBash;
 
-		public bool haulDroppedApparel = false;
+		public bool haulDroppedApparel;
 
-		public bool restUntilHealed = false;
+		public bool restUntilHealed;
 
-		public bool ignoreJoyTimeAssignment = false;
+		public bool ignoreJoyTimeAssignment;
 
-		public bool overeat = false;
+		public bool overeat;
 
-		public bool attackDoorIfTargetLost = false;
+		public bool attackDoorIfTargetLost;
 
-		public int takeExtraIngestibles = 0;
+		public int takeExtraIngestibles;
 
-		public bool expireRequiresEnemiesNearby = false;
+		public bool expireRequiresEnemiesNearby;
 
-		public Lord lord = null;
+		public Lord lord;
 
 		public bool collideWithPawns;
 
@@ -153,71 +153,57 @@ namespace Verse.AI
 
 		public LocalTargetInfo GetTarget(TargetIndex ind)
 		{
-			LocalTargetInfo result;
 			switch (ind)
 			{
 			case TargetIndex.A:
-				result = this.targetA;
-				break;
+				return this.targetA;
 			case TargetIndex.B:
-				result = this.targetB;
-				break;
+				return this.targetB;
 			case TargetIndex.C:
-				result = this.targetC;
-				break;
+				return this.targetC;
 			default:
 				throw new ArgumentException();
 			}
-			return result;
 		}
 
 		public List<LocalTargetInfo> GetTargetQueue(TargetIndex ind)
 		{
-			List<LocalTargetInfo> result;
-			if (ind != TargetIndex.A)
-			{
-				if (ind != TargetIndex.B)
-				{
-					throw new ArgumentException();
-				}
-				if (this.targetQueueB == null)
-				{
-					this.targetQueueB = new List<LocalTargetInfo>();
-				}
-				result = this.targetQueueB;
-			}
-			else
+			if (ind == TargetIndex.A)
 			{
 				if (this.targetQueueA == null)
 				{
 					this.targetQueueA = new List<LocalTargetInfo>();
 				}
-				result = this.targetQueueA;
+				return this.targetQueueA;
 			}
-			return result;
+			if (ind != TargetIndex.B)
+			{
+				throw new ArgumentException();
+			}
+			if (this.targetQueueB == null)
+			{
+				this.targetQueueB = new List<LocalTargetInfo>();
+			}
+			return this.targetQueueB;
 		}
 
 		public void SetTarget(TargetIndex ind, LocalTargetInfo pack)
 		{
-			if (ind != TargetIndex.A)
-			{
-				if (ind != TargetIndex.B)
-				{
-					if (ind != TargetIndex.C)
-					{
-						throw new ArgumentException();
-					}
-					this.targetC = pack;
-				}
-				else
-				{
-					this.targetB = pack;
-				}
-			}
-			else
+			if (ind == TargetIndex.A)
 			{
 				this.targetA = pack;
+				return;
 			}
+			if (ind == TargetIndex.B)
+			{
+				this.targetB = pack;
+				return;
+			}
+			if (ind != TargetIndex.C)
+			{
+				throw new ArgumentException();
+			}
+			this.targetC = pack;
 		}
 
 		public void AddQueuedTarget(TargetIndex ind, LocalTargetInfo target)
@@ -272,6 +258,11 @@ namespace Verse.AI
 			Scribe_Values.Look<bool>(ref this.checkEncumbrance, "checkEncumbrance", false, false);
 			Scribe_Values.Look<float>(ref this.followRadius, "followRadius", 0f, false);
 			Scribe_Values.Look<bool>(ref this.endAfterTendedOnce, "endAfterTendedOnce", false, false);
+			if (Scribe.mode == LoadSaveMode.PostLoadInit && this.verbToUse != null && this.verbToUse.BuggedAfterLoading)
+			{
+				this.verbToUse = null;
+				Log.Warning(base.GetType() + " had a bugged verbToUse after loading.", false);
+			}
 		}
 
 		public JobDriver MakeDriver(Pawn driverPawn)
@@ -303,9 +294,9 @@ namespace Verse.AI
 			return this.cachedDriver;
 		}
 
-		public bool TryMakePreToilReservations(Pawn driverPawn)
+		public bool TryMakePreToilReservations(Pawn driverPawn, bool errorOnFailed)
 		{
-			return this.GetCachedDriver(driverPawn).TryMakePreToilReservations();
+			return this.GetCachedDriver(driverPawn).TryMakePreToilReservations(errorOnFailed);
 		}
 
 		public string GetReport(Pawn driverPawn)

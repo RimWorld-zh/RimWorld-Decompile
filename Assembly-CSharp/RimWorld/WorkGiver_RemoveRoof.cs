@@ -35,26 +35,21 @@ namespace RimWorld
 
 		public override bool HasJobOnCell(Pawn pawn, IntVec3 c, bool forced = false)
 		{
-			bool result;
 			if (!pawn.Map.areaManager.NoRoof[c])
 			{
-				result = false;
+				return false;
 			}
-			else if (!c.Roofed(pawn.Map))
+			if (!c.Roofed(pawn.Map))
 			{
-				result = false;
+				return false;
 			}
-			else if (c.IsForbidden(pawn))
+			if (c.IsForbidden(pawn))
 			{
-				result = false;
+				return false;
 			}
-			else
-			{
-				LocalTargetInfo target = c;
-				ReservationLayerDef ceiling = ReservationLayerDefOf.Ceiling;
-				result = pawn.CanReserve(target, 1, -1, ceiling, forced);
-			}
-			return result;
+			LocalTargetInfo target = c;
+			ReservationLayerDef ceiling = ReservationLayerDefOf.Ceiling;
+			return pawn.CanReserve(target, 1, -1, ceiling, forced);
 		}
 
 		public override Job JobOnCell(Pawn pawn, IntVec3 c, bool forced = false)

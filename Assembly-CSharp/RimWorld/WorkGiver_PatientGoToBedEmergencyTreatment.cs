@@ -12,16 +12,11 @@ namespace RimWorld
 
 		public override Job NonScanJob(Pawn pawn)
 		{
-			Job result;
 			if (!HealthAIUtility.ShouldBeTendedNowByPlayerUrgent(pawn))
 			{
-				result = null;
+				return null;
 			}
-			else
-			{
-				result = base.NonScanJob(pawn);
-			}
-			return result;
+			return base.NonScanJob(pawn);
 		}
 	}
 }

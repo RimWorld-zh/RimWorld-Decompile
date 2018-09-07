@@ -7,9 +7,9 @@ namespace Verse.AI.Group
 	{
 		public float chance = 1f;
 
-		public bool requireInstigatorWithFaction = false;
+		public bool requireInstigatorWithFaction;
 
-		public Faction requireInstigatorWithSpecificFaction = null;
+		public Faction requireInstigatorWithSpecificFaction;
 
 		public Trigger_PawnHarmed(float chance = 1f, bool requireInstigatorWithFaction = false, Faction requireInstigatorWithSpecificFaction = null)
 		{
@@ -25,20 +25,15 @@ namespace Verse.AI.Group
 
 		public static bool SignalIsHarm(TriggerSignal signal)
 		{
-			bool result;
 			if (signal.type == TriggerSignalType.PawnDamaged)
 			{
-				result = signal.dinfo.Def.externalViolence;
+				return signal.dinfo.Def.ExternalViolenceFor(signal.Pawn);
 			}
-			else if (signal.type == TriggerSignalType.PawnLost)
+			if (signal.type == TriggerSignalType.PawnLost)
 			{
-				result = (signal.condition == PawnLostCondition.MadePrisoner || signal.condition == PawnLostCondition.IncappedOrKilled);
+				return signal.condition == PawnLostCondition.MadePrisoner || signal.condition == PawnLostCondition.IncappedOrKilled;
 			}
-			else
-			{
-				result = (signal.type == TriggerSignalType.PawnArrestAttempted);
-			}
-			return result;
+			return signal.type == TriggerSignalType.PawnArrestAttempted;
 		}
 	}
 }

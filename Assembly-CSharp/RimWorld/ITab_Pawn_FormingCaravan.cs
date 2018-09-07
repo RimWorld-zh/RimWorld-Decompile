@@ -70,7 +70,7 @@ namespace RimWorld
 			Widgets.EndScrollView();
 			if (this.thingsToSelect.Any<Thing>())
 			{
-				this.SelectNow(this.thingsToSelect);
+				ITab_Pawn_FormingCaravan.SelectNow(this.thingsToSelect);
 				this.thingsToSelect.Clear();
 			}
 		}
@@ -329,28 +329,29 @@ namespace RimWorld
 			this.thingsToSelect.AddRange(things);
 		}
 
-		private void SelectNow(List<Thing> things)
+		public static void SelectNow(List<Thing> things)
 		{
-			if (things.Any<Thing>())
+			if (!things.Any<Thing>())
 			{
-				Find.Selector.ClearSelection();
-				bool flag = false;
-				for (int i = 0; i < things.Count; i++)
+				return;
+			}
+			Find.Selector.ClearSelection();
+			bool flag = false;
+			for (int i = 0; i < things.Count; i++)
+			{
+				if (things[i].Spawned)
 				{
-					if (things[i].Spawned)
+					if (!flag)
 					{
-						if (!flag)
-						{
-							CameraJumper.TryJump(things[i]);
-						}
-						Find.Selector.Select(things[i], true, true);
-						flag = true;
+						CameraJumper.TryJump(things[i]);
 					}
+					Find.Selector.Select(things[i], true, true);
+					flag = true;
 				}
-				if (!flag)
-				{
-					CameraJumper.TryJumpAndSelect(things[0]);
-				}
+			}
+			if (!flag)
+			{
+				CameraJumper.TryJumpAndSelect(things[0]);
 			}
 		}
 

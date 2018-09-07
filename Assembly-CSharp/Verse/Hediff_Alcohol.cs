@@ -14,21 +14,18 @@ namespace Verse
 		public override void Tick()
 		{
 			base.Tick();
-			if (this.CurStageIndex >= 3)
+			if (this.CurStageIndex >= 3 && this.pawn.IsHashIntervalTick(300) && this.HangoverSusceptible(this.pawn))
 			{
-				if (this.pawn.IsHashIntervalTick(300) && this.HangoverSusceptible(this.pawn))
+				Hediff hediff = this.pawn.health.hediffSet.GetFirstHediffOfDef(HediffDefOf.Hangover, false);
+				if (hediff != null)
 				{
-					Hediff hediff = this.pawn.health.hediffSet.GetFirstHediffOfDef(HediffDefOf.Hangover, false);
-					if (hediff != null)
-					{
-						hediff.Severity = 1f;
-					}
-					else
-					{
-						hediff = HediffMaker.MakeHediff(HediffDefOf.Hangover, this.pawn, null);
-						hediff.Severity = 1f;
-						this.pawn.health.AddHediff(hediff, null, null, null);
-					}
+					hediff.Severity = 1f;
+				}
+				else
+				{
+					hediff = HediffMaker.MakeHediff(HediffDefOf.Hangover, this.pawn, null);
+					hediff.Severity = 1f;
+					this.pawn.health.AddHediff(hediff, null, null, null);
 				}
 			}
 		}

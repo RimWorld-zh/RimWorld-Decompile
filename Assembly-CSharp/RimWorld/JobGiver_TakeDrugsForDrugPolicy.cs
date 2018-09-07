@@ -1,6 +1,5 @@
 ﻿using System;
 using System.Runtime.CompilerServices;
-using UnityEngine.Profiling;
 using Verse;
 using Verse.AI;
 
@@ -27,7 +26,6 @@ namespace RimWorld
 
 		protected override Job TryGiveJob(Pawn pawn)
 		{
-			Profiler.BeginSample("DrugPolicy");
 			DrugPolicy currentPolicy = pawn.drugs.CurrentPolicy;
 			for (int i = 0; i < currentPolicy.Count; i++)
 			{
@@ -36,12 +34,10 @@ namespace RimWorld
 					Thing thing = this.FindDrugFor(pawn, currentPolicy[i].drug);
 					if (thing != null)
 					{
-						Profiler.EndSample();
 						return DrugAIUtility.IngestAndTakeToInventoryJob(thing, pawn, 1);
 					}
 				}
 			}
-			Profiler.EndSample();
 			return null;
 		}
 
@@ -60,31 +56,26 @@ namespace RimWorld
 
 		private bool DrugValidator(Pawn pawn, Thing drug)
 		{
-			bool result;
 			if (!drug.def.IsDrug)
 			{
-				result = false;
+				return false;
 			}
-			else
+			if (drug.Spawned)
 			{
-				if (drug.Spawned)
+				if (drug.IsForbidden(pawn))
 				{
-					if (drug.IsForbidden(pawn))
-					{
-						return false;
-					}
-					if (!pawn.CanReserve(drug, 1, -1, null, false))
-					{
-						return false;
-					}
-					if (!drug.IsSociallyProper(pawn))
-					{
-						return false;
-					}
+					return false;
 				}
-				result = true;
+				if (!pawn.CanReserve(drug, 1, -1, null, false))
+				{
+					return false;
+				}
+				if (!drug.IsSociallyProper(pawn))
+				{
+					return false;
+				}
 			}
-			return result;
+			return true;
 		}
 
 		[CompilerGenerated]

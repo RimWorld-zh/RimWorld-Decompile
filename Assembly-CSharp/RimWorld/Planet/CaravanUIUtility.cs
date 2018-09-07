@@ -106,67 +106,171 @@ namespace RimWorld.Planet
 
 		private static string GetDaysWorthOfFoodLabel(Pair<float, float> daysWorthOfFood, bool multiline)
 		{
-			string result;
 			if (daysWorthOfFood.First >= 600f)
 			{
-				result = "InfiniteDaysWorthOfFoodInfo".Translate();
+				return "InfiniteDaysWorthOfFoodInfo".Translate();
 			}
-			else
+			string text = daysWorthOfFood.First.ToString("0.#");
+			string str = (!multiline) ? " " : "\n";
+			if (daysWorthOfFood.Second < 600f && daysWorthOfFood.Second < daysWorthOfFood.First)
 			{
-				string text = daysWorthOfFood.First.ToString("0.#");
-				string str = (!multiline) ? " " : "\n";
-				if (daysWorthOfFood.Second < 600f && daysWorthOfFood.Second < daysWorthOfFood.First)
+				text = text + str + "(" + "DaysWorthOfFoodInfoRot".Translate(new object[]
 				{
-					text = text + str + "(" + "DaysWorthOfFoodInfoRot".Translate(new object[]
-					{
-						daysWorthOfFood.Second.ToString("0.#") + ")"
-					});
-				}
-				result = text;
+					daysWorthOfFood.Second.ToString("0.#") + ")"
+				});
 			}
-			return result;
+			return text;
 		}
 
 		private static Color GetDaysWorthOfFoodColor(Pair<float, float> daysWorthOfFood, int? ticksToArrive)
 		{
-			Color result;
 			if (daysWorthOfFood.First >= 600f)
 			{
-				result = Color.white;
+				return Color.white;
 			}
-			else
+			float num = Mathf.Min(daysWorthOfFood.First, daysWorthOfFood.Second);
+			if (ticksToArrive != null)
 			{
-				float num = Mathf.Min(daysWorthOfFood.First, daysWorthOfFood.Second);
-				if (ticksToArrive != null)
-				{
-					result = GenUI.LerpColor(CaravanUIUtility.DaysWorthOfFoodKnownRouteColor, num / ((float)ticksToArrive.Value / 60000f));
-				}
-				else
-				{
-					result = GenUI.LerpColor(CaravanUIUtility.DaysWorthOfFoodColor, num);
-				}
+				return GenUI.LerpColor(CaravanUIUtility.DaysWorthOfFoodKnownRouteColor, num / ((float)ticksToArrive.Value / 60000f));
 			}
-			return result;
+			return GenUI.LerpColor(CaravanUIUtility.DaysWorthOfFoodColor, num);
 		}
 
 		public static void DrawCaravanInfo(CaravanUIUtility.CaravanInfo info, CaravanUIUtility.CaravanInfo? info2, int currentTile, int? ticksToArrive, float lastMassFlashTime, Rect rect, bool lerpMassColor = true, string extraDaysWorthOfFoodTipInfo = null, bool multiline = false)
 		{
 			CaravanUIUtility.tmpInfo.Clear();
+			string value = string.Concat(new string[]
+			{
+				info.massUsage.ToStringEnsureThreshold(info.massCapacity, 0),
+				" / ",
+				info.massCapacity.ToString("F0"),
+				" ",
+				"kg".Translate()
+			});
+			string secondValue = (info2 == null) ? null : string.Concat(new string[]
+			{
+				info2.Value.massUsage.ToStringEnsureThreshold(info2.Value.massCapacity, 0),
+				" / ",
+				info2.Value.massCapacity.ToString("F0"),
+				" ",
+				"kg".Translate()
+			});
+			CaravanUIUtility.tmpInfo.Add(new TransferableUIUtility.ExtraInfo("Mass".Translate(), value, CaravanUIUtility.GetMassColor(info.massUsage, info.massCapacity, lerpMassColor), CaravanUIUtility.GetMassTip(info.massUsage, info.massCapacity, info.massCapacityExplanation, (info2 == null) ? null : new float?(info2.Value.massUsage), (info2 == null) ? null : new float?(info2.Value.massCapacity), (info2 == null) ? null : info2.Value.massCapacityExplanation), secondValue, (info2 == null) ? Color.white : CaravanUIUtility.GetMassColor(info2.Value.massUsage, info2.Value.massCapacity, lerpMassColor), lastMassFlashTime));
+			if (info.extraMassUsage != -1f)
+			{
+				string value2 = string.Concat(new string[]
+				{
+					info.extraMassUsage.ToStringEnsureThreshold(info.extraMassCapacity, 0),
+					" / ",
+					info.extraMassCapacity.ToString("F0"),
+					" ",
+					"kg".Translate()
+				});
+				string secondValue2 = (info2 == null) ? null : string.Concat(new string[]
+				{
+					info2.Value.extraMassUsage.ToStringEnsureThreshold(info2.Value.extraMassCapacity, 0),
+					" / ",
+					info2.Value.extraMassCapacity.ToString("F0"),
+					" ",
+					"kg".Translate()
+				});
+				CaravanUIUtility.tmpInfo.Add(new TransferableUIUtility.ExtraInfo("CaravanMass".Translate(), value2, CaravanUIUtility.GetMassColor(info.extraMassUsage, info.extraMassCapacity, true), CaravanUIUtility.GetMassTip(info.extraMassUsage, info.extraMassCapacity, info.extraMassCapacityExplanation, (info2 == null) ? null : new float?(info2.Value.extraMassUsage), (info2 == null) ? null : new float?(info2.Value.extraMassCapacity), (info2 == null) ? null : info2.Value.extraMassCapacityExplanation), secondValue2, (info2 == null) ? Color.white : CaravanUIUtility.GetMassColor(info2.Value.extraMassUsage, info2.Value.extraMassCapacity, true), -9999f));
+			}
+			string text = "CaravanMovementSpeedTip".Translate();
+			if (!info.tilesPerDayExplanation.NullOrEmpty())
+			{
+				text = text + "\n\n" + info.tilesPerDayExplanation;
+			}
+			if (info2 != null && !info2.Value.tilesPerDayExplanation.NullOrEmpty())
+			{
+				text = text + "\n\n-----\n\n" + info2.Value.tilesPerDayExplanation;
+			}
+			CaravanUIUtility.tmpInfo.Add(new TransferableUIUtility.ExtraInfo("CaravanMovementSpeed".Translate(), info.tilesPerDay.ToString("0.#") + " " + "TilesPerDay".Translate(), GenUI.LerpColor(CaravanUIUtility.TilesPerDayColor, info.tilesPerDay), text, (info2 == null) ? null : (info2.Value.tilesPerDay.ToString("0.#") + " " + "TilesPerDay".Translate()), (info2 == null) ? Color.white : GenUI.LerpColor(CaravanUIUtility.TilesPerDayColor, info2.Value.tilesPerDay), -9999f));
+			CaravanUIUtility.tmpInfo.Add(new TransferableUIUtility.ExtraInfo("DaysWorthOfFood".Translate(), CaravanUIUtility.GetDaysWorthOfFoodLabel(info.daysWorthOfFood, multiline), CaravanUIUtility.GetDaysWorthOfFoodColor(info.daysWorthOfFood, ticksToArrive), "DaysWorthOfFoodTooltip".Translate() + extraDaysWorthOfFoodTipInfo + "\n\n" + VirtualPlantsUtility.GetVirtualPlantsStatusExplanationAt(currentTile, Find.TickManager.TicksAbs), (info2 == null) ? null : CaravanUIUtility.GetDaysWorthOfFoodLabel(info2.Value.daysWorthOfFood, multiline), (info2 == null) ? Color.white : CaravanUIUtility.GetDaysWorthOfFoodColor(info2.Value.daysWorthOfFood, ticksToArrive), -9999f));
+			string text2 = info.foragedFoodPerDay.Second.ToString("0.#");
+			string text3 = (info2 == null) ? null : info2.Value.foragedFoodPerDay.Second.ToString("0.#");
+			string text4 = "ForagedFoodPerDayTip".Translate();
+			text4 = text4 + "\n\n" + info.foragedFoodPerDayExplanation;
+			if (info2 != null)
+			{
+				text4 = text4 + "\n\n-----\n\n" + info2.Value.foragedFoodPerDayExplanation;
+			}
+			if (info.foragedFoodPerDay.Second > 0f || (info2 != null && info2.Value.foragedFoodPerDay.Second > 0f))
+			{
+				string text5 = (!multiline) ? " " : "\n";
+				if (info2 == null)
+				{
+					string text6 = text2;
+					text2 = string.Concat(new string[]
+					{
+						text6,
+						text5,
+						"(",
+						info.foragedFoodPerDay.First.label,
+						")"
+					});
+				}
+				else
+				{
+					string text6 = text3;
+					text3 = string.Concat(new string[]
+					{
+						text6,
+						text5,
+						"(",
+						info2.Value.foragedFoodPerDay.First.label.Truncate(50f, null),
+						")"
+					});
+				}
+			}
+			CaravanUIUtility.tmpInfo.Add(new TransferableUIUtility.ExtraInfo("ForagedFoodPerDay".Translate(), text2, Color.white, text4, text3, Color.white, -9999f));
+			string text7 = "CaravanVisibilityTip".Translate();
+			if (!info.visibilityExplanation.NullOrEmpty())
+			{
+				text7 = text7 + "\n\n" + info.visibilityExplanation;
+			}
+			if (info2 != null && !info2.Value.visibilityExplanation.NullOrEmpty())
+			{
+				text7 = text7 + "\n\n-----\n\n" + info2.Value.visibilityExplanation;
+			}
+			CaravanUIUtility.tmpInfo.Add(new TransferableUIUtility.ExtraInfo("Visibility".Translate(), info.visibility.ToStringPercent(), GenUI.LerpColor(CaravanUIUtility.VisibilityColor, info.visibility), text7, (info2 == null) ? null : info2.Value.visibility.ToStringPercent(), (info2 == null) ? Color.white : GenUI.LerpColor(CaravanUIUtility.VisibilityColor, info2.Value.visibility), -9999f));
+			TransferableUIUtility.DrawExtraInfo(CaravanUIUtility.tmpInfo, rect);
+		}
+
+		private static Color GetMassColor(float massUsage, float massCapacity, bool lerpMassColor)
+		{
+			if (massCapacity == 0f)
+			{
+				return Color.white;
+			}
+			if (massUsage > massCapacity)
+			{
+				return Color.red;
+			}
+			if (lerpMassColor)
+			{
+				return GenUI.LerpColor(CaravanUIUtility.MassColor, massUsage / massCapacity);
+			}
+			return Color.white;
+		}
+
+		private static string GetMassTip(float massUsage, float massCapacity, string massCapacityExplanation, float? massUsage2, float? massCapacity2, string massCapacity2Explanation)
+		{
 			string text = string.Concat(new string[]
 			{
 				"MassCarriedSimple".Translate(),
 				": ",
-				info.massUsage.ToStringEnsureThreshold(info.massCapacity, 2),
+				massUsage.ToStringEnsureThreshold(massCapacity, 2),
 				" ",
 				"kg".Translate(),
 				"\n",
 				"MassCapacity".Translate(),
 				": ",
-				info.massCapacity.ToString("F2"),
+				massCapacity.ToString("F2"),
 				" ",
 				"kg".Translate()
 			});
-			if (info2 != null)
+			if (massUsage2 != null)
 			{
 				string text2 = text;
 				text = string.Concat(new string[]
@@ -175,19 +279,19 @@ namespace RimWorld.Planet
 					"\n <-> \n",
 					"MassCarriedSimple".Translate(),
 					": ",
-					info2.Value.massUsage.ToStringEnsureThreshold(info2.Value.massCapacity, 2),
+					massUsage2.Value.ToStringEnsureThreshold(massCapacity2.Value, 2),
 					" ",
 					"kg".Translate(),
 					"\n",
 					"MassCapacity".Translate(),
 					": ",
-					info2.Value.massCapacity.ToString("F2"),
+					massCapacity2.Value.ToString("F2"),
 					" ",
 					"kg".Translate()
 				});
 			}
 			text = text + "\n\n" + "CaravanMassUsageTooltip".Translate();
-			if (!info.massCapacityExplanation.NullOrEmpty())
+			if (!massCapacityExplanation.NullOrEmpty())
 			{
 				string text2 = text;
 				text = string.Concat(new string[]
@@ -196,10 +300,10 @@ namespace RimWorld.Planet
 					"\n\n",
 					"MassCapacity".Translate(),
 					":\n",
-					info.massCapacityExplanation
+					massCapacityExplanation
 				});
 			}
-			if (info2 != null && !info2.Value.massCapacityExplanation.NullOrEmpty())
+			if (!massCapacity2Explanation.NullOrEmpty())
 			{
 				string text2 = text;
 				text = string.Concat(new string[]
@@ -208,105 +312,10 @@ namespace RimWorld.Planet
 					"\n\n-----\n\n",
 					"MassCapacity".Translate(),
 					":\n",
-					info2.Value.massCapacityExplanation
+					massCapacity2Explanation
 				});
 			}
-			CaravanUIUtility.tmpInfo.Add(new TransferableUIUtility.ExtraInfo("Mass".Translate(), string.Concat(new string[]
-			{
-				info.massUsage.ToStringEnsureThreshold(info.massCapacity, 0),
-				" / ",
-				info.massCapacity.ToString("F0"),
-				" ",
-				"kg".Translate()
-			}), CaravanUIUtility.GetMassColor(info.massUsage, info.massCapacity, lerpMassColor), text, (info2 == null) ? null : string.Concat(new string[]
-			{
-				info2.Value.massUsage.ToStringEnsureThreshold(info2.Value.massCapacity, 0),
-				" / ",
-				info2.Value.massCapacity.ToString("F0"),
-				" ",
-				"kg".Translate()
-			}), (info2 == null) ? Color.white : CaravanUIUtility.GetMassColor(info2.Value.massUsage, info2.Value.massCapacity, lerpMassColor), lastMassFlashTime));
-			string text3 = "CaravanMovementSpeedTip".Translate();
-			if (!info.tilesPerDayExplanation.NullOrEmpty())
-			{
-				text3 = text3 + "\n\n" + info.tilesPerDayExplanation;
-			}
-			if (info2 != null && !info2.Value.tilesPerDayExplanation.NullOrEmpty())
-			{
-				text3 = text3 + "\n\n-----\n\n" + info2.Value.tilesPerDayExplanation;
-			}
-			CaravanUIUtility.tmpInfo.Add(new TransferableUIUtility.ExtraInfo("CaravanMovementSpeed".Translate(), info.tilesPerDay.ToString("0.#") + " " + "TilesPerDay".Translate(), GenUI.LerpColor(CaravanUIUtility.TilesPerDayColor, info.tilesPerDay), text3, (info2 == null) ? null : (info2.Value.tilesPerDay.ToString("0.#") + " " + "TilesPerDay".Translate()), (info2 == null) ? Color.white : GenUI.LerpColor(CaravanUIUtility.TilesPerDayColor, info2.Value.tilesPerDay), -9999f));
-			CaravanUIUtility.tmpInfo.Add(new TransferableUIUtility.ExtraInfo("DaysWorthOfFood".Translate(), CaravanUIUtility.GetDaysWorthOfFoodLabel(info.daysWorthOfFood, multiline), CaravanUIUtility.GetDaysWorthOfFoodColor(info.daysWorthOfFood, ticksToArrive), "DaysWorthOfFoodTooltip".Translate() + extraDaysWorthOfFoodTipInfo + "\n\n" + VirtualPlantsUtility.GetVirtualPlantsStatusExplanationAt(currentTile, Find.TickManager.TicksAbs), (info2 == null) ? null : CaravanUIUtility.GetDaysWorthOfFoodLabel(info2.Value.daysWorthOfFood, multiline), (info2 == null) ? Color.white : CaravanUIUtility.GetDaysWorthOfFoodColor(info2.Value.daysWorthOfFood, ticksToArrive), -9999f));
-			string text4 = info.foragedFoodPerDay.Second.ToString("0.#");
-			string text5 = (info2 == null) ? null : info2.Value.foragedFoodPerDay.Second.ToString("0.#");
-			string text6 = "ForagedFoodPerDayTip".Translate();
-			text6 = text6 + "\n\n" + info.foragedFoodPerDayExplanation;
-			if (info2 != null)
-			{
-				text6 = text6 + "\n\n-----\n\n" + info2.Value.foragedFoodPerDayExplanation;
-			}
-			if (info.foragedFoodPerDay.Second > 0f || (info2 != null && info2.Value.foragedFoodPerDay.Second > 0f))
-			{
-				string text7 = (!multiline) ? " " : "\n";
-				if (info2 == null)
-				{
-					string text2 = text4;
-					text4 = string.Concat(new string[]
-					{
-						text2,
-						text7,
-						"(",
-						info.foragedFoodPerDay.First.label,
-						")"
-					});
-				}
-				else
-				{
-					string text2 = text5;
-					text5 = string.Concat(new string[]
-					{
-						text2,
-						text7,
-						"(",
-						info2.Value.foragedFoodPerDay.First.label.Truncate(50f, null),
-						")"
-					});
-				}
-			}
-			CaravanUIUtility.tmpInfo.Add(new TransferableUIUtility.ExtraInfo("ForagedFoodPerDay".Translate(), text4, Color.white, text6, text5, Color.white, -9999f));
-			string text8 = "CaravanVisibilityTip".Translate();
-			if (!info.visibilityExplanation.NullOrEmpty())
-			{
-				text8 = text8 + "\n\n" + info.visibilityExplanation;
-			}
-			if (info2 != null && !info2.Value.visibilityExplanation.NullOrEmpty())
-			{
-				text8 = text8 + "\n\n-----\n\n" + info2.Value.visibilityExplanation;
-			}
-			CaravanUIUtility.tmpInfo.Add(new TransferableUIUtility.ExtraInfo("Visibility".Translate(), info.visibility.ToStringPercent(), GenUI.LerpColor(CaravanUIUtility.VisibilityColor, info.visibility), text8, (info2 == null) ? null : info2.Value.visibility.ToStringPercent(), (info2 == null) ? Color.white : GenUI.LerpColor(CaravanUIUtility.VisibilityColor, info2.Value.visibility), -9999f));
-			TransferableUIUtility.DrawExtraInfo(CaravanUIUtility.tmpInfo, rect);
-		}
-
-		private static Color GetMassColor(float massUsage, float massCapacity, bool lerpMassColor)
-		{
-			Color result;
-			if (massCapacity == 0f)
-			{
-				result = Color.white;
-			}
-			else if (massUsage > massCapacity)
-			{
-				result = Color.red;
-			}
-			else if (lerpMassColor)
-			{
-				result = GenUI.LerpColor(CaravanUIUtility.MassColor, massUsage / massCapacity);
-			}
-			else
-			{
-				result = Color.white;
-			}
-			return result;
+			return text;
 		}
 
 		// Note: this type is marked as 'beforefieldinit'.
@@ -372,7 +381,13 @@ namespace RimWorld.Planet
 
 			public string visibilityExplanation;
 
-			public CaravanInfo(float massUsage, float massCapacity, string massCapacityExplanation, float tilesPerDay, string tilesPerDayExplanation, Pair<float, float> daysWorthOfFood, Pair<ThingDef, float> foragedFoodPerDay, string foragedFoodPerDayExplanation, float visibility, string visibilityExplanation)
+			public float extraMassUsage;
+
+			public float extraMassCapacity;
+
+			public string extraMassCapacityExplanation;
+
+			public CaravanInfo(float massUsage, float massCapacity, string massCapacityExplanation, float tilesPerDay, string tilesPerDayExplanation, Pair<float, float> daysWorthOfFood, Pair<ThingDef, float> foragedFoodPerDay, string foragedFoodPerDayExplanation, float visibility, string visibilityExplanation, float extraMassUsage = -1f, float extraMassCapacity = -1f, string extraMassCapacityExplanation = null)
 			{
 				this.massUsage = massUsage;
 				this.massCapacity = massCapacity;
@@ -384,6 +399,9 @@ namespace RimWorld.Planet
 				this.foragedFoodPerDayExplanation = foragedFoodPerDayExplanation;
 				this.visibility = visibility;
 				this.visibilityExplanation = visibilityExplanation;
+				this.extraMassUsage = extraMassUsage;
+				this.extraMassCapacity = extraMassCapacity;
+				this.extraMassCapacityExplanation = extraMassCapacityExplanation;
 			}
 		}
 	}

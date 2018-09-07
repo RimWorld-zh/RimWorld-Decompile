@@ -15,10 +15,11 @@ namespace RimWorld
 		{
 			CellRect rectToDefend;
 			IntVec3 root;
-			if (SiteGenStepUtility.TryFindRootToSpawnAroundRectOfInterest(out rectToDefend, out root, map))
+			if (!SiteGenStepUtility.TryFindRootToSpawnAroundRectOfInterest(out rectToDefend, out root, map))
 			{
-				this.SpawnTrigger(rectToDefend, root, map, parms);
+				return;
 			}
+			this.SpawnTrigger(rectToDefend, root, map, parms);
 		}
 
 		private void SpawnTrigger(CellRect rectToDefend, IntVec3 root, Map map, GenStepParams parms)

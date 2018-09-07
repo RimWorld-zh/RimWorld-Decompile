@@ -30,49 +30,41 @@ namespace RimWorld
 		public override Job JobOnThing(Pawn pawn, Thing t, bool forced = false)
 		{
 			Pawn pawn2 = t as Pawn;
-			Job result;
 			if (pawn2 == null || !pawn2.RaceProps.Animal)
 			{
-				result = null;
+				return null;
 			}
-			else if (pawn2.Faction != pawn.Faction)
+			if (pawn2.Faction != pawn.Faction)
 			{
-				result = null;
+				return null;
 			}
-			else if (Find.TickManager.TicksGame < pawn2.mindState.lastAssignedInteractTime + 15000)
+			if (Find.TickManager.TicksGame < pawn2.mindState.lastAssignedInteractTime + 15000)
 			{
 				JobFailReason.Is(WorkGiver_InteractAnimal.AnimalInteractedTooRecentlyTrans, null);
-				result = null;
+				return null;
 			}
-			else if (pawn2.training == null)
+			if (pawn2.training == null)
 			{
-				result = null;
+				return null;
 			}
-			else if (pawn2.training.NextTrainableToTrain() == null)
+			if (pawn2.training.NextTrainableToTrain() == null)
 			{
-				result = null;
+				return null;
 			}
-			else if (!this.CanInteractWithAnimal(pawn, pawn2, forced))
+			if (!this.CanInteractWithAnimal(pawn, pawn2, forced))
 			{
-				result = null;
+				return null;
 			}
-			else
+			if (pawn2.RaceProps.EatsFood && !base.HasFoodToInteractAnimal(pawn, pawn2))
 			{
-				if (pawn2.RaceProps.EatsFood)
+				Job job = base.TakeFoodForAnimalInteractJob(pawn, pawn2);
+				if (job == null)
 				{
-					if (!base.HasFoodToInteractAnimal(pawn, pawn2))
-					{
-						Job job = base.TakeFoodForAnimalInteractJob(pawn, pawn2);
-						if (job == null)
-						{
-							JobFailReason.Is(WorkGiver_InteractAnimal.NoUsableFoodTrans, null);
-						}
-						return job;
-					}
+					JobFailReason.Is(WorkGiver_InteractAnimal.NoUsableFoodTrans, null);
 				}
-				result = new Job(JobDefOf.Train, t);
+				return job;
 			}
-			return result;
+			return new Job(JobDefOf.Train, t);
 		}
 
 		[CompilerGenerated]

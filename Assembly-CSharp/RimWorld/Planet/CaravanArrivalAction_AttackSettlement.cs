@@ -43,20 +43,15 @@ namespace RimWorld.Planet
 		public override FloatMenuAcceptanceReport StillValid(Caravan caravan, int destinationTile)
 		{
 			FloatMenuAcceptanceReport floatMenuAcceptanceReport = base.StillValid(caravan, destinationTile);
-			FloatMenuAcceptanceReport result;
 			if (!floatMenuAcceptanceReport)
 			{
-				result = floatMenuAcceptanceReport;
+				return floatMenuAcceptanceReport;
 			}
-			else if (this.settlement != null && this.settlement.Tile != destinationTile)
+			if (this.settlement != null && this.settlement.Tile != destinationTile)
 			{
-				result = false;
+				return false;
 			}
-			else
-			{
-				result = CaravanArrivalAction_AttackSettlement.CanAttack(caravan, this.settlement);
-			}
-			return result;
+			return CaravanArrivalAction_AttackSettlement.CanAttack(caravan, this.settlement);
 		}
 
 		public override void Arrived(Caravan caravan)
@@ -72,23 +67,18 @@ namespace RimWorld.Planet
 
 		public static FloatMenuAcceptanceReport CanAttack(Caravan caravan, SettlementBase settlement)
 		{
-			FloatMenuAcceptanceReport result;
 			if (settlement == null || !settlement.Spawned || !settlement.Attackable)
 			{
-				result = false;
+				return false;
 			}
-			else if (settlement.EnterCooldownBlocksEntering())
+			if (settlement.EnterCooldownBlocksEntering())
 			{
-				result = FloatMenuAcceptanceReport.WithFailMessage("MessageEnterCooldownBlocksEntering".Translate(new object[]
+				return FloatMenuAcceptanceReport.WithFailMessage("MessageEnterCooldownBlocksEntering".Translate(new object[]
 				{
 					settlement.EnterCooldownDaysLeft().ToString("0.#")
 				}));
 			}
-			else
-			{
-				result = true;
-			}
-			return result;
+			return true;
 		}
 
 		public static IEnumerable<FloatMenuOption> GetFloatMenuOptions(Caravan caravan, SettlementBase settlement)

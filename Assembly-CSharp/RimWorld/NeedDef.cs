@@ -12,40 +12,40 @@ namespace RimWorld
 	{
 		public Type needClass;
 
-		public Intelligence minIntelligence = Intelligence.Animal;
+		public Intelligence minIntelligence;
 
-		public bool colonistAndPrisonersOnly = false;
+		public bool colonistAndPrisonersOnly;
 
-		public bool colonistsOnly = false;
+		public bool colonistsOnly;
 
-		public bool onlyIfCausedByHediff = false;
+		public bool onlyIfCausedByHediff;
 
-		public bool neverOnPrisoner = false;
+		public bool neverOnPrisoner;
 
 		public bool showOnNeedList = true;
 
 		public float baseLevel = 0.5f;
 
-		public bool major = false;
+		public bool major;
 
-		public int listPriority = 0;
+		public int listPriority;
 
 		[NoTranslate]
-		public string tutorHighlightTag = null;
+		public string tutorHighlightTag;
 
-		public bool showForCaravanMembers = false;
+		public bool showForCaravanMembers;
 
-		public bool scaleBar = false;
+		public bool scaleBar;
 
 		public float fallPerDay = 0.5f;
 
-		public float seekerRisePerHour = 0f;
+		public float seekerRisePerHour;
 
-		public float seekerFallPerHour = 0f;
+		public float seekerFallPerHour;
 
-		public bool freezeWhileSleeping = false;
+		public bool freezeWhileSleeping;
 
-		public bool freezeInMentalState = false;
+		public bool freezeInMentalState;
 
 		public NeedDef()
 		{
@@ -53,7 +53,7 @@ namespace RimWorld
 
 		public override IEnumerable<string> ConfigErrors()
 		{
-			foreach (string e in this.<ConfigErrors>__BaseCallProxy0())
+			foreach (string e in base.ConfigErrors())
 			{
 				yield return e;
 			}
@@ -65,12 +65,9 @@ namespace RimWorld
 			{
 				yield return "needClass is null";
 			}
-			if (this.needClass == typeof(Need_Seeker))
+			if (this.needClass == typeof(Need_Seeker) && (this.seekerRisePerHour == 0f || this.seekerFallPerHour == 0f))
 			{
-				if (this.seekerRisePerHour == 0f || this.seekerFallPerHour == 0f)
-				{
-					yield return "seeker rise/fall rates not set";
-				}
+				yield return "seeker rise/fall rates not set";
 			}
 			yield break;
 		}
@@ -116,11 +113,11 @@ namespace RimWorld
 				case 1u:
 					break;
 				case 2u:
-					goto IL_104;
+					goto IL_100;
 				case 3u:
-					goto IL_133;
+					goto IL_12F;
 				case 4u:
-					goto IL_197;
+					goto IL_192;
 				default:
 					return false;
 				}
@@ -160,7 +157,7 @@ namespace RimWorld
 					}
 					return true;
 				}
-				IL_104:
+				IL_100:
 				if (this.needClass == null)
 				{
 					this.$current = "needClass is null";
@@ -170,20 +167,17 @@ namespace RimWorld
 					}
 					return true;
 				}
-				IL_133:
-				if (this.needClass == typeof(Need_Seeker))
+				IL_12F:
+				if (this.needClass == typeof(Need_Seeker) && (this.seekerRisePerHour == 0f || this.seekerFallPerHour == 0f))
 				{
-					if (this.seekerRisePerHour == 0f || this.seekerFallPerHour == 0f)
+					this.$current = "seeker rise/fall rates not set";
+					if (!this.$disposing)
 					{
-						this.$current = "seeker rise/fall rates not set";
-						if (!this.$disposing)
-						{
-							this.$PC = 4;
-						}
-						return true;
+						this.$PC = 4;
 					}
+					return true;
 				}
-				IL_197:
+				IL_192:
 				this.$PC = -1;
 				return false;
 			}

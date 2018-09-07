@@ -79,25 +79,20 @@ namespace RimWorld
 
 		public static float Capacity(Pawn p, StringBuilder explanation = null)
 		{
-			float result;
 			if (!MassUtility.CanEverCarryAnything(p))
 			{
-				result = 0f;
+				return 0f;
 			}
-			else
+			float num = p.BodySize * 35f;
+			if (explanation != null)
 			{
-				float num = p.BodySize * 35f;
-				if (explanation != null)
+				if (explanation.Length > 0)
 				{
-					if (explanation.Length > 0)
-					{
-						explanation.AppendLine();
-					}
-					explanation.Append("  - " + p.LabelShortCap + ": " + num.ToStringMassOffset());
+					explanation.AppendLine();
 				}
-				result = num;
+				explanation.Append("  - " + p.LabelShortCap + ": " + num.ToStringMassOffset());
 			}
-			return result;
+			return num;
 		}
 
 		public static bool CanEverCarryAnything(Pawn p)

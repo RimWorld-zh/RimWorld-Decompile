@@ -33,44 +33,47 @@ namespace RimWorld
 
 		public void ResourceReadoutOnGUI()
 		{
-			if (Event.current.type != EventType.Layout)
+			if (Event.current.type == EventType.Layout)
 			{
-				if (Current.ProgramState == ProgramState.Playing)
-				{
-					if (Find.MainTabsRoot.OpenTab != MainButtonDefOf.Menu)
-					{
-						GenUI.DrawTextWinterShadow(new Rect(256f, 512f, -256f, -512f));
-						Text.Font = GameFont.Small;
-						Rect rect = (!Prefs.ResourceReadoutCategorized) ? new Rect(7f, 7f, 110f, (float)(UI.screenHeight - 7) - 200f) : new Rect(2f, 7f, 124f, (float)(UI.screenHeight - 7) - 200f);
-						Rect rect2 = new Rect(0f, 0f, rect.width, this.lastDrawnHeight);
-						bool flag = rect2.height > rect.height;
-						if (flag)
-						{
-							Widgets.BeginScrollView(rect, ref this.scrollPosition, rect2, false);
-						}
-						else
-						{
-							this.scrollPosition = Vector2.zero;
-							GUI.BeginGroup(rect);
-						}
-						if (!Prefs.ResourceReadoutCategorized)
-						{
-							this.DoReadoutSimple(rect2, rect.height);
-						}
-						else
-						{
-							this.DoReadoutCategorized(rect2);
-						}
-						if (flag)
-						{
-							Widgets.EndScrollView();
-						}
-						else
-						{
-							GUI.EndGroup();
-						}
-					}
-				}
+				return;
+			}
+			if (Current.ProgramState != ProgramState.Playing)
+			{
+				return;
+			}
+			if (Find.MainTabsRoot.OpenTab == MainButtonDefOf.Menu)
+			{
+				return;
+			}
+			GenUI.DrawTextWinterShadow(new Rect(256f, 512f, -256f, -512f));
+			Text.Font = GameFont.Small;
+			Rect rect = (!Prefs.ResourceReadoutCategorized) ? new Rect(7f, 7f, 110f, (float)(UI.screenHeight - 7) - 200f) : new Rect(2f, 7f, 124f, (float)(UI.screenHeight - 7) - 200f);
+			Rect rect2 = new Rect(0f, 0f, rect.width, this.lastDrawnHeight);
+			bool flag = rect2.height > rect.height;
+			if (flag)
+			{
+				Widgets.BeginScrollView(rect, ref this.scrollPosition, rect2, false);
+			}
+			else
+			{
+				this.scrollPosition = Vector2.zero;
+				GUI.BeginGroup(rect);
+			}
+			if (!Prefs.ResourceReadoutCategorized)
+			{
+				this.DoReadoutSimple(rect2, rect.height);
+			}
+			else
+			{
+				this.DoReadoutCategorized(rect2);
+			}
+			if (flag)
+			{
+				Widgets.EndScrollView();
+			}
+			else
+			{
+				GUI.EndGroup();
 			}
 		}
 

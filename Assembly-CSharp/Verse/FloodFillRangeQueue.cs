@@ -10,9 +10,9 @@ namespace Verse
 
 		private int head;
 
-		private int debugNumTimesExpanded = 0;
+		private int debugNumTimesExpanded;
 
-		private int debugMaxUsedSpace = 0;
+		private int debugMaxUsedSpace;
 
 		public FloodFillRangeQueue(int initialSize)
 		{

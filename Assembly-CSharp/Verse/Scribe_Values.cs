@@ -11,20 +11,24 @@ namespace Verse
 				if (typeof(T) == typeof(TargetInfo))
 				{
 					Log.Error("Saving a TargetInfo " + label + " with Scribe_Values. TargetInfos must be saved with Scribe_TargetInfo.", false);
+					return;
 				}
-				else if (typeof(Thing).IsAssignableFrom(typeof(T)))
+				if (typeof(Thing).IsAssignableFrom(typeof(T)))
 				{
 					Log.Error("Using Scribe_Values with a Thing reference " + label + ". Use Scribe_References or Scribe_Deep instead.", false);
+					return;
 				}
-				else if (typeof(IExposable).IsAssignableFrom(typeof(T)))
+				if (typeof(IExposable).IsAssignableFrom(typeof(T)))
 				{
 					Log.Error("Using Scribe_Values with a IExposable reference " + label + ". Use Scribe_References or Scribe_Deep instead.", false);
+					return;
 				}
-				else if (typeof(Def).IsAssignableFrom(typeof(T)))
+				if (typeof(Def).IsAssignableFrom(typeof(T)))
 				{
 					Log.Error("Using Scribe_Values with a Def " + label + ". Use Scribe_Defs instead.", false);
+					return;
 				}
-				else if (forceSave || (value == null && defaultValue != null) || (value != null && !value.Equals(defaultValue)))
+				if (forceSave || (value == null && defaultValue != null) || (value != null && !value.Equals(defaultValue)))
 				{
 					Scribe.saver.WriteElement(label, value.ToString());
 				}

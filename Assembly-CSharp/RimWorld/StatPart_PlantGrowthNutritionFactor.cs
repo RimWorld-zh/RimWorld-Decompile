@@ -22,7 +22,6 @@ namespace RimWorld
 		public override string ExplanationPart(StatRequest req)
 		{
 			float f;
-			string result;
 			if (this.TryGetFactor(req, out f))
 			{
 				Plant plant = (Plant)req.Thing;
@@ -34,43 +33,31 @@ namespace RimWorld
 				{
 					text = text + " (" + "StatsReport_PlantGrowth_Wild".Translate() + ")";
 				}
-				result = text;
+				return text;
 			}
-			else
-			{
-				result = null;
-			}
-			return result;
+			return null;
 		}
 
 		private bool TryGetFactor(StatRequest req, out float factor)
 		{
-			bool result;
 			if (!req.HasThing)
 			{
 				factor = 1f;
-				result = false;
+				return false;
 			}
-			else
+			Plant plant = req.Thing as Plant;
+			if (plant == null)
 			{
-				Plant plant = req.Thing as Plant;
-				if (plant == null)
-				{
-					factor = 1f;
-					result = false;
-				}
-				else if (plant.def.plant.Sowable)
-				{
-					factor = plant.Growth;
-					result = true;
-				}
-				else
-				{
-					factor = Mathf.Lerp(0.5f, 1f, plant.Growth);
-					result = true;
-				}
+				factor = 1f;
+				return false;
 			}
-			return result;
+			if (plant.def.plant.Sowable)
+			{
+				factor = plant.Growth;
+				return true;
+			}
+			factor = Mathf.Lerp(0.5f, 1f, plant.Growth);
+			return true;
 		}
 	}
 }

@@ -88,68 +88,58 @@ namespace RimWorld
 			Alert_NeedWarmClothes.shirts.SortBy((Thing x) => x.GetStatValue(StatDefOf.Insulation_Cold, true));
 			Alert_NeedWarmClothes.pants.SortBy((Thing x) => x.GetStatValue(StatDefOf.Insulation_Cold, true));
 			float num = ThingDefOf.Human.GetStatValueAbstract(StatDefOf.ComfyTemperatureMin, null) - this.LowestTemperatureComing(map);
-			int result;
 			if (num <= 0f)
 			{
-				result = GenMath.Max(Alert_NeedWarmClothes.jackets.Count, Alert_NeedWarmClothes.shirts.Count, Alert_NeedWarmClothes.pants.Count);
+				return GenMath.Max(Alert_NeedWarmClothes.jackets.Count, Alert_NeedWarmClothes.shirts.Count, Alert_NeedWarmClothes.pants.Count);
 			}
-			else
+			int num2 = 0;
+			while (Alert_NeedWarmClothes.jackets.Any<Thing>() || Alert_NeedWarmClothes.shirts.Any<Thing>() || Alert_NeedWarmClothes.pants.Any<Thing>())
 			{
-				int num2 = 0;
-				while (Alert_NeedWarmClothes.jackets.Any<Thing>() || Alert_NeedWarmClothes.shirts.Any<Thing>() || Alert_NeedWarmClothes.pants.Any<Thing>())
+				float num3 = 0f;
+				if (Alert_NeedWarmClothes.jackets.Any<Thing>())
 				{
-					float num3 = 0f;
-					if (Alert_NeedWarmClothes.jackets.Any<Thing>())
+					Thing thing = Alert_NeedWarmClothes.jackets[Alert_NeedWarmClothes.jackets.Count - 1];
+					Alert_NeedWarmClothes.jackets.RemoveLast<Thing>();
+					num3 += thing.GetStatValue(StatDefOf.Insulation_Cold, true);
+				}
+				if (num3 < num && Alert_NeedWarmClothes.shirts.Any<Thing>())
+				{
+					Thing thing2 = Alert_NeedWarmClothes.shirts[Alert_NeedWarmClothes.shirts.Count - 1];
+					Alert_NeedWarmClothes.shirts.RemoveLast<Thing>();
+					num3 += thing2.GetStatValue(StatDefOf.Insulation_Cold, true);
+				}
+				if (num3 < num && Alert_NeedWarmClothes.pants.Any<Thing>())
+				{
+					for (int j = 0; j < Alert_NeedWarmClothes.pants.Count; j++)
 					{
-						Thing thing = Alert_NeedWarmClothes.jackets[Alert_NeedWarmClothes.jackets.Count - 1];
-						Alert_NeedWarmClothes.jackets.RemoveLast<Thing>();
-						num3 += thing.GetStatValue(StatDefOf.Insulation_Cold, true);
-					}
-					if (num3 < num && Alert_NeedWarmClothes.shirts.Any<Thing>())
-					{
-						Thing thing2 = Alert_NeedWarmClothes.shirts[Alert_NeedWarmClothes.shirts.Count - 1];
-						Alert_NeedWarmClothes.shirts.RemoveLast<Thing>();
-						num3 += thing2.GetStatValue(StatDefOf.Insulation_Cold, true);
-					}
-					if (num3 < num && Alert_NeedWarmClothes.pants.Any<Thing>())
-					{
-						for (int j = 0; j < Alert_NeedWarmClothes.pants.Count; j++)
+						float statValue = Alert_NeedWarmClothes.pants[j].GetStatValue(StatDefOf.Insulation_Cold, true);
+						if (statValue + num3 >= num)
 						{
-							float statValue = Alert_NeedWarmClothes.pants[j].GetStatValue(StatDefOf.Insulation_Cold, true);
-							if (statValue + num3 >= num)
-							{
-								num3 += statValue;
-								Alert_NeedWarmClothes.pants.RemoveAt(j);
-								break;
-							}
+							num3 += statValue;
+							Alert_NeedWarmClothes.pants.RemoveAt(j);
+							break;
 						}
 					}
-					if (num3 < num)
-					{
-						break;
-					}
-					num2++;
 				}
-				Alert_NeedWarmClothes.jackets.Clear();
-				Alert_NeedWarmClothes.shirts.Clear();
-				Alert_NeedWarmClothes.pants.Clear();
-				result = num2;
+				if (num3 < num)
+				{
+					break;
+				}
+				num2++;
 			}
-			return result;
+			Alert_NeedWarmClothes.jackets.Clear();
+			Alert_NeedWarmClothes.shirts.Clear();
+			Alert_NeedWarmClothes.pants.Clear();
+			return num2;
 		}
 
 		private int MissingWarmClothesCount(Map map)
 		{
-			int result;
 			if (this.LowestTemperatureComing(map) >= ThingDefOf.Human.GetStatValueAbstract(StatDefOf.ComfyTemperatureMin, null))
 			{
-				result = 0;
+				return 0;
 			}
-			else
-			{
-				result = Mathf.Max(this.NeededWarmClothesCount(map) - this.ColonistsWithWarmClothesCount(map) - this.FreeWarmClothesSetsCount(map), 0);
-			}
-			return result;
+			return Mathf.Max(this.NeededWarmClothesCount(map) - this.ColonistsWithWarmClothesCount(map) - this.FreeWarmClothesSetsCount(map), 0);
 		}
 
 		private float LowestTemperatureComing(Map map)
@@ -167,56 +157,43 @@ namespace RimWorld
 		public override string GetExplanation()
 		{
 			Map map = this.MapWithMissingWarmClothes();
-			string result;
 			if (map == null)
 			{
-				result = "";
+				return string.Empty;
 			}
-			else
+			int num = this.MissingWarmClothesCount(map);
+			if (num == this.NeededWarmClothesCount(map))
 			{
-				int num = this.MissingWarmClothesCount(map);
-				if (num == this.NeededWarmClothesCount(map))
+				return "NeedWarmClothesDesc1All".Translate() + "\n\n" + "NeedWarmClothesDesc2".Translate(new object[]
 				{
-					result = "NeedWarmClothesDesc1All".Translate() + "\n\n" + "NeedWarmClothesDesc2".Translate(new object[]
-					{
-						this.LowestTemperatureComing(map).ToStringTemperature("F0")
-					});
-				}
-				else
-				{
-					result = "NeedWarmClothesDesc1".Translate(new object[]
-					{
-						num
-					}) + "\n\n" + "NeedWarmClothesDesc2".Translate(new object[]
-					{
-						this.LowestTemperatureComing(map).ToStringTemperature("F0")
-					});
-				}
+					this.LowestTemperatureComing(map).ToStringTemperature("F0")
+				});
 			}
-			return result;
+			return "NeedWarmClothesDesc1".Translate(new object[]
+			{
+				num
+			}) + "\n\n" + "NeedWarmClothesDesc2".Translate(new object[]
+			{
+				this.LowestTemperatureComing(map).ToStringTemperature("F0")
+			});
 		}
 
 		public override AlertReport GetReport()
 		{
 			Map map = this.MapWithMissingWarmClothes();
-			AlertReport result;
 			if (map == null)
 			{
-				result = false;
+				return false;
 			}
-			else
+			float num = this.LowestTemperatureComing(map);
+			foreach (Pawn pawn in map.mapPawns.FreeColonistsSpawned)
 			{
-				float num = this.LowestTemperatureComing(map);
-				foreach (Pawn pawn in map.mapPawns.FreeColonistsSpawned)
+				if (pawn.GetStatValue(StatDefOf.ComfyTemperatureMin, true) > num)
 				{
-					if (pawn.GetStatValue(StatDefOf.ComfyTemperatureMin, true) > num)
-					{
-						return pawn;
-					}
+					return pawn;
 				}
-				result = true;
 			}
-			return result;
+			return true;
 		}
 
 		private Map MapWithMissingWarmClothes()

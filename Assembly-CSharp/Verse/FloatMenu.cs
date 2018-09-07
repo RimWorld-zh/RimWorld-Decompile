@@ -10,17 +10,17 @@ namespace Verse
 {
 	public class FloatMenu : Window
 	{
-		public bool givesColonistOrders = false;
+		public bool givesColonistOrders;
 
 		public bool vanishIfMouseDistant = true;
 
-		public Action onCloseCallback = null;
+		public Action onCloseCallback;
 
 		protected List<FloatMenuOption> options;
 
-		private string title = null;
+		private string title;
 
-		private bool needSelection = false;
+		private bool needSelection;
 
 		private Color baseColor = Color.white;
 
@@ -106,7 +106,6 @@ namespace Verse
 		{
 			get
 			{
-				float result;
 				if (this.UsingScrollbar)
 				{
 					float num = 0f;
@@ -122,13 +121,9 @@ namespace Verse
 					}
 					int columnCount = this.ColumnCount;
 					num2 += (float)columnCount * num;
-					result = num2 / (float)columnCount;
+					return num2 / (float)columnCount;
 				}
-				else
-				{
-					result = this.MaxWindowHeight;
-				}
-				return result;
+				return this.MaxWindowHeight;
 			}
 		}
 
@@ -221,33 +216,28 @@ namespace Verse
 		{
 			get
 			{
-				int result;
 				if (this.options == null)
 				{
-					result = 1;
+					return 1;
 				}
-				else
+				Text.Font = GameFont.Small;
+				int num = 1;
+				float num2 = 0f;
+				float maxWindowHeight = this.MaxWindowHeight;
+				for (int i = 0; i < this.options.Count; i++)
 				{
-					Text.Font = GameFont.Small;
-					int num = 1;
-					float num2 = 0f;
-					float maxWindowHeight = this.MaxWindowHeight;
-					for (int i = 0; i < this.options.Count; i++)
+					float requiredHeight = this.options[i].RequiredHeight;
+					if (num2 + requiredHeight + -1f > maxWindowHeight)
 					{
-						float requiredHeight = this.options[i].RequiredHeight;
-						if (num2 + requiredHeight + -1f > maxWindowHeight)
-						{
-							num2 = requiredHeight;
-							num++;
-						}
-						else
-						{
-							num2 += requiredHeight + -1f;
-						}
+						num2 = requiredHeight;
+						num++;
 					}
-					result = num;
+					else
+					{
+						num2 += requiredHeight + -1f;
+					}
 				}
-				return result;
+				return num;
 			}
 		}
 
@@ -255,16 +245,11 @@ namespace Verse
 		{
 			get
 			{
-				FloatMenuSizeMode result;
 				if (this.options.Count > 60)
 				{
-					result = FloatMenuSizeMode.Tiny;
+					return FloatMenuSizeMode.Tiny;
 				}
-				else
-				{
-					result = FloatMenuSizeMode.Normal;
-				}
-				return result;
+				return FloatMenuSizeMode.Normal;
 			}
 		}
 
@@ -312,50 +297,48 @@ namespace Verse
 			if (this.needSelection && Find.Selector.SingleSelectedThing == null)
 			{
 				Find.WindowStack.TryRemove(this, true);
+				return;
 			}
-			else
+			this.UpdateBaseColor();
+			bool usingScrollbar = this.UsingScrollbar;
+			GUI.color = this.baseColor;
+			Text.Font = GameFont.Small;
+			Vector2 zero = Vector2.zero;
+			float maxViewHeight = this.MaxViewHeight;
+			float columnWidth = this.ColumnWidth;
+			if (usingScrollbar)
 			{
-				this.UpdateBaseColor();
-				bool usingScrollbar = this.UsingScrollbar;
-				GUI.color = this.baseColor;
-				Text.Font = GameFont.Small;
-				Vector2 zero = Vector2.zero;
-				float maxViewHeight = this.MaxViewHeight;
-				float columnWidth = this.ColumnWidth;
-				if (usingScrollbar)
-				{
-					rect.width -= 10f;
-					Widgets.BeginScrollView(rect, ref this.scrollPosition, new Rect(0f, 0f, this.TotalWidth - 16f, this.TotalViewHeight), true);
-				}
-				for (int i = 0; i < this.options.Count; i++)
-				{
-					FloatMenuOption floatMenuOption = this.options[i];
-					float requiredHeight = floatMenuOption.RequiredHeight;
-					if (zero.y + requiredHeight + -1f > maxViewHeight)
-					{
-						zero.y = 0f;
-						zero.x += columnWidth + -1f;
-					}
-					Rect rect2 = new Rect(zero.x, zero.y, columnWidth, requiredHeight);
-					zero.y += requiredHeight + -1f;
-					bool flag = floatMenuOption.DoGUI(rect2, this.givesColonistOrders, this);
-					if (flag)
-					{
-						Find.WindowStack.TryRemove(this, true);
-						break;
-					}
-				}
-				if (usingScrollbar)
-				{
-					Widgets.EndScrollView();
-				}
-				if (Event.current.type == EventType.MouseDown)
-				{
-					Event.current.Use();
-					this.Close(true);
-				}
-				GUI.color = Color.white;
+				rect.width -= 10f;
+				Widgets.BeginScrollView(rect, ref this.scrollPosition, new Rect(0f, 0f, this.TotalWidth - 16f, this.TotalViewHeight), true);
 			}
+			for (int i = 0; i < this.options.Count; i++)
+			{
+				FloatMenuOption floatMenuOption = this.options[i];
+				float requiredHeight = floatMenuOption.RequiredHeight;
+				if (zero.y + requiredHeight + -1f > maxViewHeight)
+				{
+					zero.y = 0f;
+					zero.x += columnWidth + -1f;
+				}
+				Rect rect2 = new Rect(zero.x, zero.y, columnWidth, requiredHeight);
+				zero.y += requiredHeight + -1f;
+				bool flag = floatMenuOption.DoGUI(rect2, this.givesColonistOrders, this);
+				if (flag)
+				{
+					Find.WindowStack.TryRemove(this, true);
+					break;
+				}
+			}
+			if (usingScrollbar)
+			{
+				Widgets.EndScrollView();
+			}
+			if (Event.current.type == EventType.MouseDown)
+			{
+				Event.current.Use();
+				this.Close(true);
+			}
+			GUI.color = Color.white;
 		}
 
 		public override void PostClose()
@@ -391,6 +374,7 @@ namespace Verse
 					{
 						this.Close(false);
 						this.Cancel();
+						return;
 					}
 				}
 			}

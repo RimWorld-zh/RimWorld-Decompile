@@ -524,7 +524,7 @@ namespace RimWorld
 				case 1u:
 					break;
 				case 2u:
-					goto IL_DA;
+					goto IL_D4;
 				case 3u:
 					Block_5:
 					try
@@ -588,13 +588,13 @@ namespace RimWorld
 				}
 				if (Find.World == null)
 				{
-					goto IL_151;
+					goto IL_148;
 				}
 				enumerator2 = Find.WorldPawns.AllPawnsDead.GetEnumerator();
 				num = 4294967293u;
 				try
 				{
-					IL_DA:
+					IL_D4:
 					switch (num)
 					{
 					}
@@ -620,7 +620,7 @@ namespace RimWorld
 						}
 					}
 				}
-				IL_151:
+				IL_148:
 				enumerator3 = PawnsFinder.Temporary_Dead.GetEnumerator();
 				num = 4294967293u;
 				goto Block_5;
@@ -754,7 +754,7 @@ namespace RimWorld
 				case 1u:
 					break;
 				case 2u:
-					goto IL_DA;
+					goto IL_D4;
 				case 3u:
 					Block_5:
 					try
@@ -818,13 +818,13 @@ namespace RimWorld
 				}
 				if (Find.World == null)
 				{
-					goto IL_151;
+					goto IL_148;
 				}
 				enumerator2 = Find.WorldPawns.AllPawnsAlive.GetEnumerator();
 				num = 4294967293u;
 				try
 				{
-					IL_DA:
+					IL_D4:
 					switch (num)
 					{
 					}
@@ -850,7 +850,7 @@ namespace RimWorld
 						}
 					}
 				}
-				IL_151:
+				IL_148:
 				enumerator3 = PawnsFinder.Temporary_Alive.GetEnumerator();
 				num = 4294967293u;
 				goto Block_5;
@@ -976,7 +976,7 @@ namespace RimWorld
 				case 0u:
 					if (Current.ProgramState == ProgramState.Entry)
 					{
-						goto IL_10D;
+						goto IL_105;
 					}
 					maps = Find.Maps;
 					i = 0;
@@ -1021,7 +1021,7 @@ namespace RimWorld
 					num = 4294967293u;
 					goto Block_3;
 				}
-				IL_10D:
+				IL_105:
 				this.$PC = -1;
 				return false;
 			}
@@ -1123,16 +1123,16 @@ namespace RimWorld
 					{
 						maps = Find.Maps;
 						i = 0;
-						goto IL_D2;
+						goto IL_CC;
 					}
-					goto IL_E9;
+					goto IL_E2;
 				case 1u:
 					j++;
 					break;
 				default:
 					return false;
 				}
-				IL_AD:
+				IL_A8:
 				if (j < spawned.Count)
 				{
 					this.$current = spawned[j];
@@ -1143,14 +1143,14 @@ namespace RimWorld
 					return true;
 				}
 				i++;
-				IL_D2:
+				IL_CC:
 				if (i < maps.Count)
 				{
 					spawned = maps[i].mapPawns.AllPawnsSpawned;
 					j = 0;
-					goto IL_AD;
+					goto IL_A8;
 				}
-				IL_E9:
+				IL_E2:
 				this.$PC = -1;
 				return false;
 			}
@@ -1239,7 +1239,7 @@ namespace RimWorld
 				case 1u:
 					break;
 				case 2u:
-					goto IL_C6;
+					goto IL_C1;
 				default:
 					return false;
 				}
@@ -1274,7 +1274,7 @@ namespace RimWorld
 				num = 4294967293u;
 				try
 				{
-					IL_C6:
+					IL_C1:
 					switch (num)
 					{
 					}
@@ -1425,22 +1425,22 @@ namespace RimWorld
 				case 0u:
 					makingPawnsList = PawnGroupKindWorker.pawnsBeingGeneratedNow;
 					i = 0;
-					goto IL_C5;
+					goto IL_C0;
 				case 1u:
 					j++;
 					break;
 				case 2u:
-					IL_15E:
+					IL_157:
 					l++;
-					goto IL_16D;
+					goto IL_165;
 				case 3u:
-					IL_21C:
+					IL_211:
 					m++;
-					goto IL_22B;
+					goto IL_21F;
 				default:
 					return false;
 				}
-				IL_A0:
+				IL_9C:
 				if (j < makingPawns.Count)
 				{
 					this.$current = makingPawns[j];
@@ -1451,17 +1451,17 @@ namespace RimWorld
 					return true;
 				}
 				i++;
-				IL_C5:
+				IL_C0:
 				if (i >= makingPawnsList.Count)
 				{
 					makingThingsList = ThingSetMaker.thingsBeingGeneratedNow;
 					k = 0;
-					goto IL_192;
+					goto IL_189;
 				}
 				makingPawns = makingPawnsList[i];
 				j = 0;
-				goto IL_A0;
-				IL_16D:
+				goto IL_9C;
+				IL_165:
 				if (l >= makingThings.Count)
 				{
 					k++;
@@ -1478,22 +1478,22 @@ namespace RimWorld
 						}
 						return true;
 					}
-					goto IL_15E;
+					goto IL_157;
 				}
-				IL_192:
+				IL_189:
 				if (k < makingThingsList.Count)
 				{
 					makingThings = makingThingsList[k];
 					l = 0;
-					goto IL_16D;
+					goto IL_165;
 				}
 				if (Current.ProgramState == ProgramState.Playing || Find.GameInitData == null)
 				{
-					goto IL_242;
+					goto IL_235;
 				}
 				startingAndOptionalPawns = Find.GameInitData.startingAndOptionalPawns;
 				m = 0;
-				IL_22B:
+				IL_21F:
 				if (m < startingAndOptionalPawns.Count)
 				{
 					if (startingAndOptionalPawns[m] != null)
@@ -1505,9 +1505,9 @@ namespace RimWorld
 						}
 						return true;
 					}
-					goto IL_21C;
+					goto IL_211;
 				}
-				IL_242:
+				IL_235:
 				this.$PC = -1;
 				return false;
 			}
@@ -1598,11 +1598,8 @@ namespace RimWorld
 				{
 					switch (num)
 					{
-					case 1u:
-						IL_8D:
-						break;
 					}
-					if (enumerator.MoveNext())
+					while (enumerator.MoveNext())
 					{
 						p = enumerator.Current;
 						if (!p.Dead)
@@ -1615,7 +1612,6 @@ namespace RimWorld
 							flag = true;
 							return true;
 						}
-						goto IL_8D;
 					}
 				}
 				finally
@@ -1734,11 +1730,8 @@ namespace RimWorld
 				{
 					switch (num)
 					{
-					case 1u:
-						IL_8D:
-						break;
 					}
-					if (enumerator.MoveNext())
+					while (enumerator.MoveNext())
 					{
 						p = enumerator.Current;
 						if (p.Dead)
@@ -1751,7 +1744,6 @@ namespace RimWorld
 							flag = true;
 							return true;
 						}
-						goto IL_8D;
 					}
 				}
 				finally
@@ -1868,7 +1860,7 @@ namespace RimWorld
 				case 1u:
 					break;
 				case 2u:
-					goto IL_C6;
+					goto IL_C1;
 				default:
 					return false;
 				}
@@ -1903,7 +1895,7 @@ namespace RimWorld
 				num = 4294967293u;
 				try
 				{
-					IL_C6:
+					IL_C1:
 					switch (num)
 					{
 					}
@@ -2047,11 +2039,8 @@ namespace RimWorld
 				{
 					switch (num)
 					{
-					case 1u:
-						IL_8D:
-						break;
 					}
-					if (enumerator.MoveNext())
+					while (enumerator.MoveNext())
 					{
 						p = enumerator.Current;
 						if (!p.Dead)
@@ -2064,7 +2053,6 @@ namespace RimWorld
 							flag = true;
 							return true;
 						}
-						goto IL_8D;
 					}
 				}
 				finally
@@ -2187,9 +2175,9 @@ namespace RimWorld
 					{
 						caravans = Find.WorldObjects.Caravans;
 						i = 0;
-						goto IL_D8;
+						goto IL_D2;
 					}
-					goto IL_1CC;
+					goto IL_1C0;
 				case 1u:
 					j++;
 					break;
@@ -2223,11 +2211,11 @@ namespace RimWorld
 						}
 					}
 					k++;
-					goto IL_1B5;
+					goto IL_1AA;
 				default:
 					return false;
 				}
-				IL_B3:
+				IL_AE:
 				if (j < pawns.Count)
 				{
 					this.$current = pawns[j];
@@ -2238,23 +2226,23 @@ namespace RimWorld
 					return true;
 				}
 				i++;
-				IL_D8:
+				IL_D2:
 				if (i < caravans.Count)
 				{
 					pawns = caravans[i].PawnsListForReading;
 					j = 0;
-					goto IL_B3;
+					goto IL_AE;
 				}
 				travelingTransportPods = Find.WorldObjects.TravelingTransportPods;
 				k = 0;
-				IL_1B5:
+				IL_1AA:
 				if (k < travelingTransportPods.Count)
 				{
 					enumerator = travelingTransportPods[k].Pawns.GetEnumerator();
 					num = 4294967293u;
 					goto Block_6;
 				}
-				IL_1CC:
+				IL_1C0:
 				this.$PC = -1;
 				return false;
 			}
@@ -2361,11 +2349,8 @@ namespace RimWorld
 				{
 					switch (num)
 					{
-					case 1u:
-						IL_8D:
-						break;
 					}
-					if (enumerator.MoveNext())
+					while (enumerator.MoveNext())
 					{
 						p = enumerator.Current;
 						if (p.IsColonist)
@@ -2378,7 +2363,6 @@ namespace RimWorld
 							flag = true;
 							return true;
 						}
-						goto IL_8D;
 					}
 				}
 				finally
@@ -2497,11 +2481,8 @@ namespace RimWorld
 				{
 					switch (num)
 					{
-					case 1u:
-						IL_8D:
-						break;
 					}
-					if (enumerator.MoveNext())
+					while (enumerator.MoveNext())
 					{
 						p = enumerator.Current;
 						if (p.IsFreeColonist)
@@ -2514,7 +2495,6 @@ namespace RimWorld
 							flag = true;
 							return true;
 						}
-						goto IL_8D;
 					}
 				}
 				finally
@@ -2633,11 +2613,8 @@ namespace RimWorld
 				{
 					switch (num)
 					{
-					case 1u:
-						IL_9D:
-						break;
 					}
-					if (enumerator.MoveNext())
+					while (enumerator.MoveNext())
 					{
 						p = enumerator.Current;
 						if (p.IsFreeColonist && !p.Suspended)
@@ -2650,7 +2627,6 @@ namespace RimWorld
 							flag = true;
 							return true;
 						}
-						goto IL_9D;
 					}
 				}
 				finally
@@ -2772,11 +2748,8 @@ namespace RimWorld
 				{
 					switch (num)
 					{
-					case 1u:
-						IL_9E:
-						break;
 					}
-					if (enumerator.MoveNext())
+					while (enumerator.MoveNext())
 					{
 						p = enumerator.Current;
 						if (p.Faction == playerFaction)
@@ -2789,7 +2762,6 @@ namespace RimWorld
 							flag = true;
 							return true;
 						}
-						goto IL_9E;
 					}
 				}
 				finally
@@ -2911,11 +2883,8 @@ namespace RimWorld
 				{
 					switch (num)
 					{
-					case 1u:
-						IL_AE:
-						break;
 					}
-					if (enumerator.MoveNext())
+					while (enumerator.MoveNext())
 					{
 						p = enumerator.Current;
 						if (p.Faction == playerFaction && !p.Suspended)
@@ -2928,7 +2897,6 @@ namespace RimWorld
 							flag = true;
 							return true;
 						}
-						goto IL_AE;
 					}
 				}
 				finally
@@ -3047,11 +3015,8 @@ namespace RimWorld
 				{
 					switch (num)
 					{
-					case 1u:
-						IL_8D:
-						break;
 					}
-					if (enumerator.MoveNext())
+					while (enumerator.MoveNext())
 					{
 						p = enumerator.Current;
 						if (p.IsPrisonerOfColony)
@@ -3064,7 +3029,6 @@ namespace RimWorld
 							flag = true;
 							return true;
 						}
-						goto IL_8D;
 					}
 				}
 				finally
@@ -3183,11 +3147,8 @@ namespace RimWorld
 				{
 					switch (num)
 					{
-					case 1u:
-						IL_8D:
-						break;
 					}
-					if (enumerator.MoveNext())
+					while (enumerator.MoveNext())
 					{
 						p = enumerator.Current;
 						if (!p.Suspended)
@@ -3200,7 +3161,6 @@ namespace RimWorld
 							flag = true;
 							return true;
 						}
-						goto IL_8D;
 					}
 				}
 				finally
@@ -3314,16 +3274,16 @@ namespace RimWorld
 					{
 						maps = Find.Maps;
 						i = 0;
-						goto IL_D2;
+						goto IL_CC;
 					}
-					goto IL_E9;
+					goto IL_E2;
 				case 1u:
 					j++;
 					break;
 				default:
 					return false;
 				}
-				IL_AD:
+				IL_A8:
 				if (j < prisonersOfColonySpawned.Count)
 				{
 					this.$current = prisonersOfColonySpawned[j];
@@ -3334,14 +3294,14 @@ namespace RimWorld
 					return true;
 				}
 				i++;
-				IL_D2:
+				IL_CC:
 				if (i < maps.Count)
 				{
 					prisonersOfColonySpawned = maps[i].mapPawns.PrisonersOfColonySpawned;
 					j = 0;
-					goto IL_AD;
+					goto IL_A8;
 				}
-				IL_E9:
+				IL_E2:
 				this.$PC = -1;
 				return false;
 			}
@@ -3426,7 +3386,7 @@ namespace RimWorld
 				case 0u:
 					if (Current.ProgramState == ProgramState.Entry)
 					{
-						goto IL_10D;
+						goto IL_105;
 					}
 					maps = Find.Maps;
 					i = 0;
@@ -3471,7 +3431,7 @@ namespace RimWorld
 					num = 4294967293u;
 					goto Block_3;
 				}
-				IL_10D:
+				IL_105:
 				this.$PC = -1;
 				return false;
 			}
@@ -3572,7 +3532,7 @@ namespace RimWorld
 				case 0u:
 					if (Current.ProgramState == ProgramState.Entry)
 					{
-						goto IL_10D;
+						goto IL_105;
 					}
 					maps = Find.Maps;
 					i = 0;
@@ -3617,7 +3577,7 @@ namespace RimWorld
 					num = 4294967293u;
 					goto Block_3;
 				}
-				IL_10D:
+				IL_105:
 				this.$PC = -1;
 				return false;
 			}
@@ -3718,7 +3678,7 @@ namespace RimWorld
 				case 0u:
 					if (Current.ProgramState == ProgramState.Entry)
 					{
-						goto IL_10D;
+						goto IL_105;
 					}
 					maps = Find.Maps;
 					i = 0;
@@ -3763,7 +3723,7 @@ namespace RimWorld
 					num = 4294967293u;
 					goto Block_3;
 				}
-				IL_10D:
+				IL_105:
 				this.$PC = -1;
 				return false;
 			}
@@ -3864,7 +3824,7 @@ namespace RimWorld
 				case 0u:
 					if (Current.ProgramState == ProgramState.Entry)
 					{
-						goto IL_10D;
+						goto IL_105;
 					}
 					maps = Find.Maps;
 					i = 0;
@@ -3909,7 +3869,7 @@ namespace RimWorld
 					num = 4294967293u;
 					goto Block_3;
 				}
-				IL_10D:
+				IL_105:
 				this.$PC = -1;
 				return false;
 			}
@@ -4152,14 +4112,14 @@ namespace RimWorld
 				case 0u:
 					maps = Find.Maps;
 					i = 0;
-					goto IL_CD;
+					goto IL_C8;
 				case 1u:
 					j++;
 					break;
 				default:
 					return false;
 				}
-				IL_A8:
+				IL_A4:
 				if (j < spawnedPawnsInFaction.Count)
 				{
 					this.$current = spawnedPawnsInFaction[j];
@@ -4170,12 +4130,12 @@ namespace RimWorld
 					return true;
 				}
 				i++;
-				IL_CD:
+				IL_C8:
 				if (i < maps.Count)
 				{
 					spawnedPawnsInFaction = maps[i].mapPawns.SpawnedPawnsInFaction(faction);
 					j = 0;
-					goto IL_A8;
+					goto IL_A4;
 				}
 				this.$PC = -1;
 				return false;

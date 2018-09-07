@@ -16,7 +16,7 @@ namespace RimWorld
 
 		protected float curLevelInt;
 
-		protected List<float> threshPercents = null;
+		protected List<float> threshPercents;
 
 		public const float MaxDrawHeight = 70f;
 

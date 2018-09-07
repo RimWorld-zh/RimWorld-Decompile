@@ -10,20 +10,15 @@ namespace RimWorld.Planet
 		{
 			get
 			{
-				WorldRenderMode result;
 				if (Find.World == null)
 				{
-					result = WorldRenderMode.None;
+					return WorldRenderMode.None;
 				}
-				else if (Current.ProgramState == ProgramState.Playing && Find.CurrentMap == null)
+				if (Current.ProgramState == ProgramState.Playing && Find.CurrentMap == null)
 				{
-					result = WorldRenderMode.Planet;
+					return WorldRenderMode.Planet;
 				}
-				else
-				{
-					result = Find.World.renderer.wantedMode;
-				}
-				return result;
+				return Find.World.renderer.wantedMode;
 			}
 		}
 
@@ -99,32 +94,30 @@ namespace RimWorld.Planet
 			if (material == null)
 			{
 				Log.Warning("Tried to draw quad with null material.", false);
+				return;
+			}
+			Vector3 normalized = pos.normalized;
+			Vector3 vector;
+			if (counterClockwise)
+			{
+				vector = -normalized;
 			}
 			else
 			{
-				Vector3 normalized = pos.normalized;
-				Vector3 vector;
-				if (counterClockwise)
-				{
-					vector = -normalized;
-				}
-				else
-				{
-					vector = normalized;
-				}
-				Quaternion q = Quaternion.LookRotation(Vector3.Cross(vector, Vector3.up), vector);
-				Vector3 s = new Vector3(size, 1f, size);
-				Matrix4x4 matrix = default(Matrix4x4);
-				matrix.SetTRS(pos + normalized * altOffset, q, s);
-				int layer = (!useSkyboxLayer) ? WorldCameraManager.WorldLayer : WorldCameraManager.WorldSkyboxLayer;
-				if (propertyBlock != null)
-				{
-					Graphics.DrawMesh(MeshPool.plane10, matrix, material, layer, null, 0, propertyBlock);
-				}
-				else
-				{
-					Graphics.DrawMesh(MeshPool.plane10, matrix, material, layer);
-				}
+				vector = normalized;
+			}
+			Quaternion q = Quaternion.LookRotation(Vector3.Cross(vector, Vector3.up), vector);
+			Vector3 s = new Vector3(size, 1f, size);
+			Matrix4x4 matrix = default(Matrix4x4);
+			matrix.SetTRS(pos + normalized * altOffset, q, s);
+			int layer = (!useSkyboxLayer) ? WorldCameraManager.WorldLayer : WorldCameraManager.WorldSkyboxLayer;
+			if (propertyBlock != null)
+			{
+				Graphics.DrawMesh(MeshPool.plane10, matrix, material, layer, null, 0, propertyBlock);
+			}
+			else
+			{
+				Graphics.DrawMesh(MeshPool.plane10, matrix, material, layer);
 			}
 		}
 

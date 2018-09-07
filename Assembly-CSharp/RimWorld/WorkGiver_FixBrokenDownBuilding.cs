@@ -56,58 +56,50 @@ namespace RimWorld
 		public override bool HasJobOnThing(Pawn pawn, Thing t, bool forced = false)
 		{
 			Building building = t as Building;
-			bool result;
 			if (building == null)
 			{
-				result = false;
+				return false;
 			}
-			else if (!building.def.building.repairable)
+			if (!building.def.building.repairable)
 			{
-				result = false;
+				return false;
 			}
-			else if (t.Faction != pawn.Faction)
+			if (t.Faction != pawn.Faction)
 			{
-				result = false;
+				return false;
 			}
-			else if (t.IsForbidden(pawn))
+			if (t.IsForbidden(pawn))
 			{
-				result = false;
+				return false;
 			}
-			else if (!t.IsBrokenDown())
+			if (!t.IsBrokenDown())
 			{
-				result = false;
+				return false;
 			}
-			else if (pawn.Faction == Faction.OfPlayer && !pawn.Map.areaManager.Home[t.Position])
+			if (pawn.Faction == Faction.OfPlayer && !pawn.Map.areaManager.Home[t.Position])
 			{
 				JobFailReason.Is(WorkGiver_FixBrokenDownBuilding.NotInHomeAreaTrans, null);
-				result = false;
+				return false;
 			}
-			else
+			LocalTargetInfo target = building;
+			if (!pawn.CanReserve(target, 1, -1, null, forced))
 			{
-				LocalTargetInfo target = building;
-				if (!pawn.CanReserve(target, 1, -1, null, forced))
-				{
-					result = false;
-				}
-				else if (pawn.Map.designationManager.DesignationOn(building, DesignationDefOf.Deconstruct) != null)
-				{
-					result = false;
-				}
-				else if (building.IsBurning())
-				{
-					result = false;
-				}
-				else if (this.FindClosestComponent(pawn) == null)
-				{
-					JobFailReason.Is(WorkGiver_FixBrokenDownBuilding.NoComponentsToRepairTrans, null);
-					result = false;
-				}
-				else
-				{
-					result = true;
-				}
+				return false;
 			}
-			return result;
+			if (pawn.Map.designationManager.DesignationOn(building, DesignationDefOf.Deconstruct) != null)
+			{
+				return false;
+			}
+			if (building.IsBurning())
+			{
+				return false;
+			}
+			if (this.FindClosestComponent(pawn) == null)
+			{
+				JobFailReason.Is(WorkGiver_FixBrokenDownBuilding.NoComponentsToRepairTrans, null);
+				return false;
+			}
+			return true;
 		}
 
 		public override Job JobOnThing(Pawn pawn, Thing t, bool forced = false)

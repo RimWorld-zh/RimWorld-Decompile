@@ -6,9 +6,9 @@ namespace Verse
 	{
 		public float becomePermanentChanceFactor = 1f;
 
-		public string permanentLabel = null;
+		public string permanentLabel;
 
-		public string instantlyPermanentLabel = null;
+		public string instantlyPermanentLabel;
 
 		public HediffCompProperties_GetsPermanent()
 		{

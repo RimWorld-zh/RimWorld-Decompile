@@ -1,7 +1,6 @@
 ﻿using System;
 using System.Runtime.CompilerServices;
 using UnityEngine;
-using UnityEngine.Profiling;
 
 namespace Verse
 {
@@ -13,7 +12,7 @@ namespace Verse
 
 		public string tutorTag;
 
-		private string cachedTutorHighlightTagClosed = null;
+		private string cachedTutorHighlightTagClosed;
 
 		protected InspectTabBase()
 		{
@@ -35,20 +34,15 @@ namespace Verse
 		{
 			get
 			{
-				string result;
 				if (this.tutorTag == null)
 				{
-					result = null;
+					return null;
 				}
-				else
+				if (this.cachedTutorHighlightTagClosed == null)
 				{
-					if (this.cachedTutorHighlightTagClosed == null)
-					{
-						this.cachedTutorHighlightTagClosed = "ITab-" + this.tutorTag + "-Closed";
-					}
-					result = this.cachedTutorHighlightTagClosed;
+					this.cachedTutorHighlightTagClosed = "ITab-" + this.tutorTag + "-Closed";
 				}
-				return result;
+				return this.cachedTutorHighlightTagClosed;
 			}
 		}
 
@@ -64,34 +58,33 @@ namespace Verse
 
 		public void DoTabGUI()
 		{
-			Profiler.BeginSample("Inspect tab GUI");
 			Rect rect = this.TabRect;
 			Find.WindowStack.ImmediateWindow(235086, rect, WindowLayer.GameUI, delegate
 			{
-				if (this.StillValid && this.IsVisible)
+				if (!this.StillValid || !this.IsVisible)
 				{
-					if (Widgets.CloseButtonFor(rect.AtZero()))
+					return;
+				}
+				if (Widgets.CloseButtonFor(rect.AtZero()))
+				{
+					this.CloseTab();
+				}
+				try
+				{
+					this.FillTab();
+				}
+				catch (Exception ex)
+				{
+					Log.ErrorOnce(string.Concat(new object[]
 					{
-						this.CloseTab();
-					}
-					try
-					{
-						this.FillTab();
-					}
-					catch (Exception ex)
-					{
-						Log.ErrorOnce(string.Concat(new object[]
-						{
-							"Exception filling tab ",
-							this.GetType(),
-							": ",
-							ex
-						}), 49827, false);
-					}
+						"Exception filling tab ",
+						this.GetType(),
+						": ",
+						ex
+					}), 49827, false);
 				}
 			}, true, false, 1f);
 			this.ExtraOnGUI();
-			Profiler.EndSample();
 		}
 
 		protected abstract void CloseTab();
@@ -135,26 +128,27 @@ namespace Verse
 
 			internal void <>m__0()
 			{
-				if (this.$this.StillValid && this.$this.IsVisible)
+				if (!this.$this.StillValid || !this.$this.IsVisible)
 				{
-					if (Widgets.CloseButtonFor(this.rect.AtZero()))
+					return;
+				}
+				if (Widgets.CloseButtonFor(this.rect.AtZero()))
+				{
+					this.$this.CloseTab();
+				}
+				try
+				{
+					this.$this.FillTab();
+				}
+				catch (Exception ex)
+				{
+					Log.ErrorOnce(string.Concat(new object[]
 					{
-						this.$this.CloseTab();
-					}
-					try
-					{
-						this.$this.FillTab();
-					}
-					catch (Exception ex)
-					{
-						Log.ErrorOnce(string.Concat(new object[]
-						{
-							"Exception filling tab ",
-							this.$this.GetType(),
-							": ",
-							ex
-						}), 49827, false);
-					}
+						"Exception filling tab ",
+						this.$this.GetType(),
+						": ",
+						ex
+					}), 49827, false);
 				}
 			}
 		}

@@ -1,12 +1,13 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Linq;
 
 namespace Verse.Grammar
 {
 	public class Rule_File : Rule
 	{
 		[MayTranslate]
-		public string path = null;
+		public string path;
 
 		[MayTranslate]
 		[TranslationCanChangeCount]
@@ -25,6 +26,21 @@ namespace Verse.Grammar
 			{
 				return (float)this.cachedStrings.Count;
 			}
+		}
+
+		public override Rule DeepCopy()
+		{
+			Rule_File rule_File = (Rule_File)base.DeepCopy();
+			rule_File.path = this.path;
+			if (this.pathList != null)
+			{
+				rule_File.pathList = this.pathList.ToList<string>();
+			}
+			if (this.cachedStrings != null)
+			{
+				rule_File.cachedStrings = this.cachedStrings.ToList<string>();
+			}
+			return rule_File;
 		}
 
 		public override string Generate()
@@ -58,10 +74,9 @@ namespace Verse.Grammar
 
 		public override string ToString()
 		{
-			string result;
 			if (!this.path.NullOrEmpty())
 			{
-				result = string.Concat(new object[]
+				return string.Concat(new object[]
 				{
 					this.keyword,
 					"->(",
@@ -71,9 +86,9 @@ namespace Verse.Grammar
 					")"
 				});
 			}
-			else if (this.pathList.Count > 0)
+			if (this.pathList.Count > 0)
 			{
-				result = string.Concat(new object[]
+				return string.Concat(new object[]
 				{
 					this.keyword,
 					"->(",
@@ -83,11 +98,7 @@ namespace Verse.Grammar
 					" files)"
 				});
 			}
-			else
-			{
-				result = this.keyword + "->(Rule_File with no configuration)";
-			}
-			return result;
+			return this.keyword + "->(Rule_File with no configuration)";
 		}
 	}
 }

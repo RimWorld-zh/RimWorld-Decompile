@@ -29,13 +29,13 @@ namespace Verse.AI.Group
 
 		private bool initialized;
 
-		public int ticksInToil = 0;
+		public int ticksInToil;
 
-		public int numPawnsLostViolently = 0;
+		public int numPawnsLostViolently;
 
-		public int numPawnsEverGained = 0;
+		public int numPawnsEverGained;
 
-		public int initialColonyHealthTotal = 0;
+		public int initialColonyHealthTotal;
 
 		public int lastPawnHarmTick = -99999;
 
@@ -53,19 +53,22 @@ namespace Verse.AI.Group
 		private static Predicate<Thing> <>f__am$cache0;
 
 		[CompilerGenerated]
-		private static Func<Pawn, bool> <>f__am$cache1;
+		private static Predicate<Pawn> <>f__am$cache1;
 
 		[CompilerGenerated]
 		private static Func<Pawn, bool> <>f__am$cache2;
 
 		[CompilerGenerated]
-		private static Func<Pawn, float> <>f__am$cache3;
+		private static Func<Pawn, bool> <>f__am$cache3;
 
 		[CompilerGenerated]
-		private static Func<Pawn, bool> <>f__am$cache4;
+		private static Func<Pawn, float> <>f__am$cache4;
 
 		[CompilerGenerated]
-		private static Func<Pawn, float> <>f__am$cache5;
+		private static Func<Pawn, bool> <>f__am$cache5;
+
+		[CompilerGenerated]
+		private static Func<Pawn, float> <>f__am$cache6;
 
 		public Lord()
 		{
@@ -117,7 +120,7 @@ namespace Verse.AI.Group
 			{
 				for (int i = 0; i < this.ownedPawns.Count; i++)
 				{
-					if (!this.ownedPawns[i].Dead && this.ownedPawns[i].mindState.Active)
+					if (this.ownedPawns[i].mindState != null && this.ownedPawns[i].mindState.Active)
 					{
 						return true;
 					}
@@ -153,6 +156,7 @@ namespace Verse.AI.Group
 			if (Scribe.mode == LoadSaveMode.PostLoadInit)
 			{
 				this.extraForbiddenThings.RemoveAll((Thing x) => x == null);
+				this.ownedPawns.RemoveAll((Pawn x) => x == null);
 			}
 			this.ExposeData_StateGraph();
 		}
@@ -271,7 +275,7 @@ namespace Verse.AI.Group
 			this.graph = lordJob.CreateGraph();
 			Rand.PopState();
 			this.graph.ErrorCheck();
-			if (this.faction != null && !this.faction.IsPlayer && this.faction.def.autoFlee)
+			if (this.faction != null && !this.faction.IsPlayer && this.faction.def.autoFlee && lordJob.AddFleeToil)
 			{
 				LordToil_PanicFlee lordToil_PanicFlee = new LordToil_PanicFlee();
 				lordToil_PanicFlee.avoidGridMode = AvoidGridMode.Smart;
@@ -331,8 +335,9 @@ namespace Verse.AI.Group
 					p,
 					" whom it already controls."
 				}), false);
+				return;
 			}
-			else if (p.GetLord() != null)
+			if (p.GetLord() != null)
 			{
 				Log.Error(string.Concat(new object[]
 				{
@@ -344,15 +349,13 @@ namespace Verse.AI.Group
 					p.GetLord(),
 					". Pawns can't be members of more than one lord at the same time."
 				}), false);
+				return;
 			}
-			else
-			{
-				this.ownedPawns.Add(p);
-				this.numPawnsEverGained++;
-				this.Map.attackTargetsCache.UpdateTarget(p);
-				this.curLordToil.UpdateAllDuties();
-				this.curJob.Notify_PawnAdded(p);
-			}
+			this.ownedPawns.Add(p);
+			this.numPawnsEverGained++;
+			this.Map.attackTargetsCache.UpdateTarget(p);
+			this.curLordToil.UpdateAllDuties();
+			this.curJob.Notify_PawnAdded(p);
 		}
 
 		private void RemovePawn(Pawn p)
@@ -433,7 +436,7 @@ namespace Verse.AI.Group
 			});
 		}
 
-		public void Notify_PawnLost(Pawn pawn, PawnLostCondition cond)
+		public void Notify_PawnLost(Pawn pawn, PawnLostCondition cond, DamageInfo? dinfo = null)
 		{
 			if (this.ownedPawns.Contains(pawn))
 			{
@@ -452,25 +455,26 @@ namespace Verse.AI.Group
 					else
 					{
 						this.curLordToil.Notify_PawnLost(pawn, cond);
-						this.CheckTransitionOnSignal(new TriggerSignal
+						TriggerSignal signal = default(TriggerSignal);
+						signal.type = TriggerSignalType.PawnLost;
+						signal.thing = pawn;
+						signal.condition = cond;
+						if (dinfo != null)
 						{
-							type = TriggerSignalType.PawnLost,
-							thing = pawn,
-							condition = cond
-						});
+							signal.dinfo = dinfo.Value;
+						}
+						this.CheckTransitionOnSignal(signal);
 					}
 				}
+				return;
 			}
-			else
+			Log.Error(string.Concat(new object[]
 			{
-				Log.Error(string.Concat(new object[]
-				{
-					"Lord lost pawn ",
-					pawn,
-					" it didn't have. Condition=",
-					cond
-				}), false);
-			}
+				"Lord lost pawn ",
+				pawn,
+				" it didn't have. Condition=",
+				cond
+			}), false);
 		}
 
 		public void Notify_BuildingDamaged(Building building, DamageInfo dinfo)
@@ -524,12 +528,9 @@ namespace Verse.AI.Group
 			}
 			for (int i = 0; i < this.graph.transitions.Count; i++)
 			{
-				if (this.graph.transitions[i].sources.Contains(this.curLordToil))
+				if (this.graph.transitions[i].sources.Contains(this.curLordToil) && this.graph.transitions[i].CheckSignal(this, signal))
 				{
-					if (this.graph.transitions[i].CheckSignal(this, signal))
-					{
-						return true;
-					}
+					return true;
 				}
 			}
 			return false;
@@ -621,23 +622,18 @@ namespace Verse.AI.Group
 		{
 			IntVec3 a = UI.MouseCell();
 			IntVec3 flagLoc = this.curLordToil.FlagLoc;
-			bool result;
 			if (flagLoc.IsValid && a == flagLoc)
 			{
-				result = true;
+				return true;
 			}
-			else
+			for (int i = 0; i < this.ownedPawns.Count; i++)
 			{
-				for (int i = 0; i < this.ownedPawns.Count; i++)
+				if (a == this.ownedPawns[i].Position)
 				{
-					if (a == this.ownedPawns[i].Position)
-					{
-						return true;
-					}
+					return true;
 				}
-				result = false;
 			}
-			return result;
+			return false;
 		}
 
 		// Note: this type is marked as 'beforefieldinit'.
@@ -652,9 +648,9 @@ namespace Verse.AI.Group
 		}
 
 		[CompilerGenerated]
-		private static bool <DebugCenter>m__1(Pawn p)
+		private static bool <ExposeData>m__1(Pawn x)
 		{
-			return p.Spawned;
+			return x == null;
 		}
 
 		[CompilerGenerated]
@@ -664,19 +660,25 @@ namespace Verse.AI.Group
 		}
 
 		[CompilerGenerated]
-		private static float <DebugCenter>m__3(Pawn p)
-		{
-			return p.DrawPos.x;
-		}
-
-		[CompilerGenerated]
-		private static bool <DebugCenter>m__4(Pawn p)
+		private static bool <DebugCenter>m__3(Pawn p)
 		{
 			return p.Spawned;
 		}
 
 		[CompilerGenerated]
-		private static float <DebugCenter>m__5(Pawn p)
+		private static float <DebugCenter>m__4(Pawn p)
+		{
+			return p.DrawPos.x;
+		}
+
+		[CompilerGenerated]
+		private static bool <DebugCenter>m__5(Pawn p)
+		{
+			return p.Spawned;
+		}
+
+		[CompilerGenerated]
+		private static float <DebugCenter>m__6(Pawn p)
 		{
 			return p.DrawPos.z;
 		}

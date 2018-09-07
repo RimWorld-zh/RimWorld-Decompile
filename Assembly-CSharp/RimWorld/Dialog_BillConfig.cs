@@ -27,7 +27,7 @@ namespace RimWorld
 		private string unpauseCountEditBuffer;
 
 		[TweakValue("Interface", 0f, 400f)]
-		private static int RepeatModeSubdialogHeight = 300;
+		private static int RepeatModeSubdialogHeight = 324;
 
 		[TweakValue("Interface", 0f, 400f)]
 		private static int StoreModeSubdialogHeight = 30;
@@ -61,7 +61,7 @@ namespace RimWorld
 		{
 			get
 			{
-				return new Vector2(800f, 610f);
+				return new Vector2(800f, 634f);
 			}
 		}
 
@@ -165,8 +165,6 @@ namespace RimWorld
 			}
 			if (this.bill.repeatMode == BillRepeatModeDefOf.TargetCount)
 			{
-				listing_Standard2.Gap(12f);
-				listing_Standard2.Gap(12f);
 				listing_Standard2.CheckboxLabeled("PauseWhenSatisfied".Translate(), ref this.bill.pauseWhenSatisfied, null);
 				if (this.bill.pauseWhenSatisfied)
 				{
@@ -182,7 +180,7 @@ namespace RimWorld
 			listing_Standard.EndSection(listing_Standard2);
 			listing_Standard.Gap(12f);
 			Listing_Standard listing_Standard3 = listing_Standard.BeginSection((float)Dialog_BillConfig.StoreModeSubdialogHeight);
-			string text4 = string.Format(this.bill.GetStoreMode().LabelCap, (this.bill.GetStoreZone() == null) ? "" : this.bill.GetStoreZone().SlotYielderLabel());
+			string text4 = string.Format(this.bill.GetStoreMode().LabelCap, (this.bill.GetStoreZone() == null) ? string.Empty : this.bill.GetStoreZone().SlotYielderLabel());
 			if (this.bill.GetStoreZone() != null && !this.bill.recipe.WorkerCounter.CanPossiblyStoreInStockpile(this.bill, this.bill.GetStoreZone()))
 			{
 				text4 += string.Format(" ({0})", "IncompatibleLower".Translate());
@@ -935,7 +933,7 @@ namespace RimWorld
 					groupList = this.bill.billStack.billGiver.Map.haulDestinationManager.AllGroupsListInPriorityOrder;
 					groupCount = groupList.Count;
 					i = 0;
-					goto IL_272;
+					goto IL_26F;
 				case 2u:
 					break;
 				case 3u:
@@ -943,9 +941,9 @@ namespace RimWorld
 				default:
 					return false;
 				}
-				IL_264:
+				IL_261:
 				i++;
-				IL_272:
+				IL_26F:
 				if (i >= groupCount)
 				{
 					this.$PC = -1;
@@ -956,7 +954,7 @@ namespace RimWorld
 					Zone_Stockpile stockpile = group.parent as Zone_Stockpile;
 					if (stockpile == null)
 					{
-						goto IL_264;
+						goto IL_261;
 					}
 					if (!this.bill.recipe.WorkerCounter.CanPossiblyStoreInStockpile(this.bill, stockpile))
 					{

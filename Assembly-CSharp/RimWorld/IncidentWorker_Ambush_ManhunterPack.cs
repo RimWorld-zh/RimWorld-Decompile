@@ -7,6 +7,8 @@ namespace RimWorld
 {
 	public class IncidentWorker_Ambush_ManhunterPack : IncidentWorker_Ambush
 	{
+		private const float ManhunterAmbushPointsFactor = 0.75f;
+
 		public IncidentWorker_Ambush_ManhunterPack()
 		{
 		}
@@ -14,23 +16,18 @@ namespace RimWorld
 		protected override bool CanFireNowSub(IncidentParms parms)
 		{
 			PawnKindDef pawnKindDef;
-			return base.CanFireNowSub(parms) && ManhunterPackIncidentUtility.TryFindManhunterAnimalKind(parms.points, -1, out pawnKindDef);
+			return base.CanFireNowSub(parms) && ManhunterPackIncidentUtility.TryFindManhunterAnimalKind(this.AdjustedPoints(parms.points), -1, out pawnKindDef);
 		}
 
 		protected override List<Pawn> GeneratePawns(IncidentParms parms)
 		{
 			PawnKindDef animalKind;
-			List<Pawn> result;
-			if (!ManhunterPackIncidentUtility.TryFindManhunterAnimalKind(parms.points, parms.target.Tile, out animalKind) && !ManhunterPackIncidentUtility.TryFindManhunterAnimalKind(parms.points, -1, out animalKind))
+			if (!ManhunterPackIncidentUtility.TryFindManhunterAnimalKind(this.AdjustedPoints(parms.points), parms.target.Tile, out animalKind) && !ManhunterPackIncidentUtility.TryFindManhunterAnimalKind(this.AdjustedPoints(parms.points), -1, out animalKind))
 			{
 				Log.Error("Could not find any valid animal kind for " + this.def + " incident.", false);
-				result = new List<Pawn>();
+				return new List<Pawn>();
 			}
-			else
-			{
-				result = ManhunterPackIncidentUtility.GenerateAnimals(animalKind, parms.target.Tile, parms.points);
-			}
-			return result;
+			return ManhunterPackIncidentUtility.GenerateAnimals(animalKind, parms.target.Tile, this.AdjustedPoints(parms.points));
 		}
 
 		protected override void PostProcessGeneratedPawnsAfterSpawning(List<Pawn> generatedPawns)
@@ -39,6 +36,11 @@ namespace RimWorld
 			{
 				generatedPawns[i].mindState.mentalStateHandler.TryStartMentalState(MentalStateDefOf.ManhunterPermanent, null, false, false, null, false);
 			}
+		}
+
+		private float AdjustedPoints(float basePoints)
+		{
+			return basePoints * 0.75f;
 		}
 
 		protected override string GetLetterText(Pawn anyPawn, IncidentParms parms)

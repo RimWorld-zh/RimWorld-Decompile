@@ -10,7 +10,7 @@ namespace RimWorld
 {
 	public class StockGenerator_SingleDef : StockGenerator
 	{
-		private ThingDef thingDef = null;
+		private ThingDef thingDef;
 
 		public StockGenerator_SingleDef()
 		{
@@ -32,7 +32,7 @@ namespace RimWorld
 
 		public override IEnumerable<string> ConfigErrors(TraderKindDef parentDef)
 		{
-			foreach (string e in this.<ConfigErrors>__BaseCallProxy0(parentDef))
+			foreach (string e in base.ConfigErrors(parentDef))
 			{
 				yield return e;
 			}
@@ -219,7 +219,7 @@ namespace RimWorld
 				case 1u:
 					break;
 				case 2u:
-					goto IL_107;
+					goto IL_103;
 				default:
 					return false;
 				}
@@ -252,7 +252,7 @@ namespace RimWorld
 				}
 				if (this.thingDef.tradeability.TraderCanSell())
 				{
-					goto IL_107;
+					goto IL_103;
 				}
 				this.$current = this.thingDef + " tradeability doesn't allow traders to sell this thing";
 				if (!this.$disposing)
@@ -260,7 +260,7 @@ namespace RimWorld
 					this.$PC = 2;
 				}
 				return true;
-				IL_107:
+				IL_103:
 				this.$PC = -1;
 				return false;
 			}

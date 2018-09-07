@@ -85,12 +85,11 @@ namespace Verse.Sound
 		{
 			get
 			{
-				float result;
 				if (this.info.IsOnCamera)
 				{
-					result = 0f;
+					return 0f;
 				}
-				else if (this.worldRootObject == null)
+				if (this.worldRootObject == null)
 				{
 					if (Prefs.DevMode)
 					{
@@ -103,13 +102,9 @@ namespace Verse.Sound
 							" but its worldRootObject is null"
 						}), false);
 					}
-					result = 0f;
+					return 0f;
 				}
-				else
-				{
-					result = (float)(Find.CameraDriver.MapPosition - this.worldRootObject.transform.position.ToIntVec3()).LengthHorizontalSquared;
-				}
-				return result;
+				return (float)(Find.CameraDriver.MapPosition - this.worldRootObject.transform.position.ToIntVec3()).LengthHorizontalSquared;
 			}
 		}
 
@@ -125,13 +120,10 @@ namespace Verse.Sound
 						return;
 					}
 				}
-				else if (this.info.Maintenance == MaintenanceType.PerFrame)
+				else if (this.info.Maintenance == MaintenanceType.PerFrame && Time.frameCount > this.lastMaintainFrame + 1)
 				{
-					if (Time.frameCount > this.lastMaintainFrame + 1)
-					{
-						this.End();
-						return;
-					}
+					this.End();
+					return;
 				}
 			}
 			else if (this.TimeSinceEnd > this.def.sustainFadeoutTime)
@@ -165,8 +157,9 @@ namespace Verse.Sound
 			if (this.Ended)
 			{
 				Log.Error("Tried to maintain ended sustainer: " + this.def, false);
+				return;
 			}
-			else if (this.info.Maintenance == MaintenanceType.PerTick)
+			if (this.info.Maintenance == MaintenanceType.PerTick)
 			{
 				this.lastMaintainTick = Find.TickManager.TicksGame;
 			}

@@ -46,67 +46,72 @@ namespace Verse
 
 		public static void Message(string text, bool ignoreStopLoggingLimit = false)
 		{
-			if (ignoreStopLoggingLimit || !Log.ReachedMaxMessagesLimit)
+			if (!ignoreStopLoggingLimit && Log.ReachedMaxMessagesLimit)
 			{
-				Debug.Log(text);
-				Log.messageQueue.Enqueue(new LogMessage(LogMessageType.Message, text, StackTraceUtility.ExtractStackTrace()));
-				Log.PostMessage();
+				return;
 			}
+			Debug.Log(text);
+			Log.messageQueue.Enqueue(new LogMessage(LogMessageType.Message, text, StackTraceUtility.ExtractStackTrace()));
+			Log.PostMessage();
 		}
 
 		public static void Warning(string text, bool ignoreStopLoggingLimit = false)
 		{
-			if (ignoreStopLoggingLimit || !Log.ReachedMaxMessagesLimit)
+			if (!ignoreStopLoggingLimit && Log.ReachedMaxMessagesLimit)
 			{
-				Debug.LogWarning(text);
-				Log.messageQueue.Enqueue(new LogMessage(LogMessageType.Warning, text, StackTraceUtility.ExtractStackTrace()));
-				Log.PostMessage();
+				return;
 			}
+			Debug.LogWarning(text);
+			Log.messageQueue.Enqueue(new LogMessage(LogMessageType.Warning, text, StackTraceUtility.ExtractStackTrace()));
+			Log.PostMessage();
 		}
 
 		public static void Error(string text, bool ignoreStopLoggingLimit = false)
 		{
-			if (ignoreStopLoggingLimit || !Log.ReachedMaxMessagesLimit)
+			if (!ignoreStopLoggingLimit && Log.ReachedMaxMessagesLimit)
 			{
-				Debug.LogError(text);
-				if (!Log.currentlyLoggingError)
+				return;
+			}
+			Debug.LogError(text);
+			if (!Log.currentlyLoggingError)
+			{
+				Log.currentlyLoggingError = true;
+				try
 				{
-					Log.currentlyLoggingError = true;
-					try
+					if (Prefs.PauseOnError && Current.ProgramState == ProgramState.Playing)
 					{
-						if (Prefs.PauseOnError && Current.ProgramState == ProgramState.Playing)
-						{
-							Find.TickManager.CurTimeSpeed = TimeSpeed.Paused;
-						}
-						Log.messageQueue.Enqueue(new LogMessage(LogMessageType.Error, text, StackTraceUtility.ExtractStackTrace()));
-						Log.PostMessage();
-						if (!PlayDataLoader.Loaded || Prefs.DevMode)
-						{
-							Log.TryOpenLogWindow();
-						}
+						Find.TickManager.Pause();
 					}
-					catch (Exception arg)
+					Log.messageQueue.Enqueue(new LogMessage(LogMessageType.Error, text, StackTraceUtility.ExtractStackTrace()));
+					Log.PostMessage();
+					if (!PlayDataLoader.Loaded || Prefs.DevMode)
 					{
-						Debug.LogError("An error occurred while logging an error: " + arg);
+						Log.TryOpenLogWindow();
 					}
-					finally
-					{
-						Log.currentlyLoggingError = false;
-					}
+				}
+				catch (Exception arg)
+				{
+					Debug.LogError("An error occurred while logging an error: " + arg);
+				}
+				finally
+				{
+					Log.currentlyLoggingError = false;
 				}
 			}
 		}
 
 		public static void ErrorOnce(string text, int key, bool ignoreStopLoggingLimit = false)
 		{
-			if (ignoreStopLoggingLimit || !Log.ReachedMaxMessagesLimit)
+			if (!ignoreStopLoggingLimit && Log.ReachedMaxMessagesLimit)
 			{
-				if (!Log.usedKeys.Contains(key))
-				{
-					Log.usedKeys.Add(key);
-					Log.Error(text, ignoreStopLoggingLimit);
-				}
+				return;
 			}
+			if (Log.usedKeys.Contains(key))
+			{
+				return;
+			}
+			Log.usedKeys.Add(key);
+			Log.Error(text, ignoreStopLoggingLimit);
 		}
 
 		public static void Clear()

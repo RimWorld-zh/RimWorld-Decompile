@@ -33,63 +33,55 @@ namespace RimWorld
 
 		public static void DoTend(Pawn doctor, Pawn patient, Medicine medicine)
 		{
-			if (patient.health.HasHediffsNeedingTend(false))
+			if (!patient.health.HasHediffsNeedingTend(false))
 			{
-				if (medicine != null && medicine.Destroyed)
+				return;
+			}
+			if (medicine != null && medicine.Destroyed)
+			{
+				Log.Warning("Tried to use destroyed medicine.", false);
+				medicine = null;
+			}
+			float quality = TendUtility.CalculateBaseTendQuality(doctor, patient, (medicine == null) ? null : medicine.def);
+			TendUtility.GetOptimalHediffsToTendWithSingleTreatment(patient, medicine != null, TendUtility.tmpHediffsToTend, null);
+			for (int i = 0; i < TendUtility.tmpHediffsToTend.Count; i++)
+			{
+				TendUtility.tmpHediffsToTend[i].Tended(quality, i);
+			}
+			if (doctor != null && doctor.Faction == Faction.OfPlayer && patient.Faction != doctor.Faction && !patient.IsPrisoner && patient.Faction != null)
+			{
+				patient.mindState.timesGuestTendedToByPlayer++;
+			}
+			if (doctor != null && doctor.IsColonistPlayerControlled)
+			{
+				patient.records.AccumulateStoryEvent(StoryEventDefOf.TendedByPlayer);
+			}
+			if (doctor != null && doctor.RaceProps.Humanlike && patient.RaceProps.Animal && RelationsUtility.TryDevelopBondRelation(doctor, patient, 0.004f) && doctor.Faction != null && doctor.Faction != patient.Faction)
+			{
+				InteractionWorker_RecruitAttempt.DoRecruit(doctor, patient, 1f, false);
+			}
+			patient.records.Increment(RecordDefOf.TimesTendedTo);
+			if (doctor != null)
+			{
+				doctor.records.Increment(RecordDefOf.TimesTendedOther);
+			}
+			if (doctor == patient && !doctor.Dead)
+			{
+				doctor.mindState.Notify_SelfTended();
+			}
+			if (medicine != null)
+			{
+				if ((patient.Spawned || (doctor != null && doctor.Spawned)) && medicine != null && medicine.GetStatValue(StatDefOf.MedicalPotency, true) > ThingDefOf.MedicineIndustrial.GetStatValueAbstract(StatDefOf.MedicalPotency, null))
 				{
-					Log.Warning("Tried to use destroyed medicine.", false);
-					medicine = null;
+					SoundDefOf.TechMedicineUsed.PlayOneShot(new TargetInfo(patient.Position, patient.Map, false));
 				}
-				float quality = TendUtility.CalculateBaseTendQuality(doctor, patient, (medicine == null) ? null : medicine.def);
-				TendUtility.GetOptimalHediffsToTendWithSingleTreatment(patient, medicine != null, TendUtility.tmpHediffsToTend, null);
-				for (int i = 0; i < TendUtility.tmpHediffsToTend.Count; i++)
+				if (medicine.stackCount > 1)
 				{
-					TendUtility.tmpHediffsToTend[i].Tended(quality, i);
+					medicine.stackCount--;
 				}
-				if (doctor != null && doctor.Faction == Faction.OfPlayer && patient.Faction != doctor.Faction && !patient.IsPrisoner && patient.Faction != null)
+				else if (!medicine.Destroyed)
 				{
-					patient.mindState.timesGuestTendedToByPlayer++;
-				}
-				if (doctor != null && doctor.IsColonistPlayerControlled)
-				{
-					patient.records.AccumulateStoryEvent(StoryEventDefOf.TendedByPlayer);
-				}
-				if (doctor != null && doctor.RaceProps.Humanlike && patient.RaceProps.Animal)
-				{
-					if (RelationsUtility.TryDevelopBondRelation(doctor, patient, 0.004f))
-					{
-						if (doctor.Faction != null && doctor.Faction != patient.Faction)
-						{
-							InteractionWorker_RecruitAttempt.DoRecruit(doctor, patient, 1f, false);
-						}
-					}
-				}
-				patient.records.Increment(RecordDefOf.TimesTendedTo);
-				if (doctor != null)
-				{
-					doctor.records.Increment(RecordDefOf.TimesTendedOther);
-				}
-				if (doctor == patient && !doctor.Dead)
-				{
-					doctor.mindState.Notify_SelfTended();
-				}
-				if (medicine != null)
-				{
-					if (patient.Spawned || (doctor != null && doctor.Spawned))
-					{
-						if (medicine != null && medicine.GetStatValue(StatDefOf.MedicalPotency, true) > ThingDefOf.MedicineIndustrial.GetStatValueAbstract(StatDefOf.MedicalPotency, null))
-						{
-							SoundDefOf.TechMedicineUsed.PlayOneShot(new TargetInfo(patient.Position, patient.Map, false));
-						}
-					}
-					if (medicine.stackCount > 1)
-					{
-						medicine.stackCount--;
-					}
-					else if (!medicine.Destroyed)
-					{
-						medicine.Destroy(DestroyMode.Vanish);
-					}
+					medicine.Destroy(DestroyMode.Vanish);
 				}
 			}
 		}
@@ -145,62 +137,64 @@ namespace RimWorld
 				}
 				TendUtility.SortByTendPriority(TendUtility.tmpHediffs);
 			}
-			if (TendUtility.tmpHediffs.Any<Hediff>())
+			if (!TendUtility.tmpHediffs.Any<Hediff>())
 			{
-				Hediff hediff = TendUtility.tmpHediffs[0];
-				outHediffsToTend.Add(hediff);
-				HediffCompProperties_TendDuration hediffCompProperties_TendDuration = hediff.def.CompProps<HediffCompProperties_TendDuration>();
-				if (hediffCompProperties_TendDuration != null && hediffCompProperties_TendDuration.tendAllAtOnce)
+				return;
+			}
+			Hediff hediff = TendUtility.tmpHediffs[0];
+			outHediffsToTend.Add(hediff);
+			HediffCompProperties_TendDuration hediffCompProperties_TendDuration = hediff.def.CompProps<HediffCompProperties_TendDuration>();
+			if (hediffCompProperties_TendDuration != null && hediffCompProperties_TendDuration.tendAllAtOnce)
+			{
+				for (int j = 0; j < TendUtility.tmpHediffs.Count; j++)
 				{
-					for (int j = 0; j < TendUtility.tmpHediffs.Count; j++)
+					if (TendUtility.tmpHediffs[j] != hediff && TendUtility.tmpHediffs[j].def == hediff.def)
 					{
-						if (TendUtility.tmpHediffs[j] != hediff && TendUtility.tmpHediffs[j].def == hediff.def)
-						{
-							outHediffsToTend.Add(TendUtility.tmpHediffs[j]);
-						}
+						outHediffsToTend.Add(TendUtility.tmpHediffs[j]);
 					}
 				}
-				else if (hediff is Hediff_Injury && usingMedicine)
+			}
+			else if (hediff is Hediff_Injury && usingMedicine)
+			{
+				float num = hediff.Severity;
+				for (int k = 0; k < TendUtility.tmpHediffs.Count; k++)
 				{
-					float num = hediff.Severity;
-					for (int k = 0; k < TendUtility.tmpHediffs.Count; k++)
+					if (TendUtility.tmpHediffs[k] != hediff)
 					{
-						if (TendUtility.tmpHediffs[k] != hediff)
+						Hediff_Injury hediff_Injury = TendUtility.tmpHediffs[k] as Hediff_Injury;
+						if (hediff_Injury != null)
 						{
-							Hediff_Injury hediff_Injury = TendUtility.tmpHediffs[k] as Hediff_Injury;
-							if (hediff_Injury != null)
+							float severity = hediff_Injury.Severity;
+							if (num + severity <= 20f)
 							{
-								float severity = hediff_Injury.Severity;
-								if (num + severity <= 20f)
-								{
-									num += severity;
-									outHediffsToTend.Add(hediff_Injury);
-								}
+								num += severity;
+								outHediffsToTend.Add(hediff_Injury);
 							}
 						}
 					}
 				}
-				TendUtility.tmpHediffs.Clear();
 			}
+			TendUtility.tmpHediffs.Clear();
 		}
 
 		public static void SortByTendPriority(List<Hediff> hediffs)
 		{
-			if (hediffs.Count > 1)
+			if (hediffs.Count <= 1)
 			{
-				TendUtility.tmpHediffsWithTendPriority.Clear();
-				for (int i = 0; i < hediffs.Count; i++)
-				{
-					TendUtility.tmpHediffsWithTendPriority.Add(new Pair<Hediff, float>(hediffs[i], hediffs[i].TendPriority));
-				}
-				TendUtility.tmpHediffsWithTendPriority.SortByDescending((Pair<Hediff, float> x) => x.Second, (Pair<Hediff, float> x) => x.First.Severity);
-				hediffs.Clear();
-				for (int j = 0; j < TendUtility.tmpHediffsWithTendPriority.Count; j++)
-				{
-					hediffs.Add(TendUtility.tmpHediffsWithTendPriority[j].First);
-				}
-				TendUtility.tmpHediffsWithTendPriority.Clear();
+				return;
 			}
+			TendUtility.tmpHediffsWithTendPriority.Clear();
+			for (int i = 0; i < hediffs.Count; i++)
+			{
+				TendUtility.tmpHediffsWithTendPriority.Add(new Pair<Hediff, float>(hediffs[i], hediffs[i].TendPriority));
+			}
+			TendUtility.tmpHediffsWithTendPriority.SortByDescending((Pair<Hediff, float> x) => x.Second, (Pair<Hediff, float> x) => x.First.Severity);
+			hediffs.Clear();
+			for (int j = 0; j < TendUtility.tmpHediffsWithTendPriority.Count; j++)
+			{
+				hediffs.Add(TendUtility.tmpHediffsWithTendPriority[j].First);
+			}
+			TendUtility.tmpHediffsWithTendPriority.Clear();
 		}
 
 		// Note: this type is marked as 'beforefieldinit'.

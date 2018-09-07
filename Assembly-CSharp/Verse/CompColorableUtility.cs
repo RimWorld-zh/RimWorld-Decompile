@@ -14,21 +14,20 @@ namespace Verse
 				{
 					Log.Error("SetColor on non-ThingWithComps " + t, false);
 				}
+				return;
 			}
-			else
+			CompColorable comp = thingWithComps.GetComp<CompColorable>();
+			if (comp == null)
 			{
-				CompColorable comp = thingWithComps.GetComp<CompColorable>();
-				if (comp == null)
+				if (reportFailure)
 				{
-					if (reportFailure)
-					{
-						Log.Error("SetColor on Thing without CompColorable " + t, false);
-					}
+					Log.Error("SetColor on Thing without CompColorable " + t, false);
 				}
-				else if (comp.Color != newColor)
-				{
-					comp.Color = newColor;
-				}
+				return;
+			}
+			if (comp.Color != newColor)
+			{
+				comp.Color = newColor;
 			}
 		}
 	}

@@ -92,13 +92,14 @@ namespace RimWorld
 			rect2 = rect2.ContractedBy(4f);
 			int groupID = ReorderableWidget.NewGroup(delegate(int from, int to)
 			{
-				if (TutorSystem.AllowAction("ReorderPawn"))
+				if (!TutorSystem.AllowAction("ReorderPawn"))
 				{
-					Pawn item = Find.GameInitData.startingAndOptionalPawns[from];
-					Find.GameInitData.startingAndOptionalPawns.Insert(to, item);
-					Find.GameInitData.startingAndOptionalPawns.RemoveAt((from >= to) ? (from + 1) : from);
-					TutorSystem.Notify_Event("ReorderPawn");
+					return;
 				}
+				Pawn item = Find.GameInitData.startingAndOptionalPawns[from];
+				Find.GameInitData.startingAndOptionalPawns.Insert(to, item);
+				Find.GameInitData.startingAndOptionalPawns.RemoveAt((from >= to) ? (from + 1) : from);
+				TutorSystem.Notify_Event("ReorderPawn");
 			}, ReorderableDirection.Vertical, -1f, null);
 			rect2.y += 15f;
 			this.DrawPawnListLabelAbove(rect2, "StartingPawnsSelected".Translate());
@@ -244,53 +245,49 @@ namespace RimWorld
 
 		private void RandomizeCurPawn()
 		{
-			if (TutorSystem.AllowAction("RandomizePawn"))
+			if (!TutorSystem.AllowAction("RandomizePawn"))
 			{
-				int num = 0;
-				do
-				{
-					this.curPawn = StartingPawnUtility.RandomizeInPlace(this.curPawn);
-					num++;
-					if (num > 20)
-					{
-						break;
-					}
-				}
-				while (!StartingPawnUtility.WorkTypeRequirementsSatisfied());
-				TutorSystem.Notify_Event("RandomizePawn");
+				return;
 			}
+			int num = 0;
+			do
+			{
+				this.curPawn = StartingPawnUtility.RandomizeInPlace(this.curPawn);
+				num++;
+				if (num > 20)
+				{
+					break;
+				}
+			}
+			while (!StartingPawnUtility.WorkTypeRequirementsSatisfied());
+			TutorSystem.Notify_Event("RandomizePawn");
 		}
 
 		protected override bool CanDoNext()
 		{
-			bool result;
 			if (!base.CanDoNext())
 			{
-				result = false;
+				return false;
 			}
-			else
+			if (TutorSystem.TutorialMode)
 			{
-				if (TutorSystem.TutorialMode)
+				WorkTypeDef workTypeDef = StartingPawnUtility.RequiredWorkTypesDisabledForEveryone().FirstOrDefault<WorkTypeDef>();
+				if (workTypeDef != null)
 				{
-					WorkTypeDef workTypeDef = StartingPawnUtility.RequiredWorkTypesDisabledForEveryone().FirstOrDefault<WorkTypeDef>();
-					if (workTypeDef != null)
-					{
-						Messages.Message("RequiredWorkTypeDisabledForEveryone".Translate() + ": " + workTypeDef.gerundLabel.CapitalizeFirst() + ".", MessageTypeDefOf.RejectInput, false);
-						return false;
-					}
+					Messages.Message("RequiredWorkTypeDisabledForEveryone".Translate() + ": " + workTypeDef.gerundLabel.CapitalizeFirst() + ".", MessageTypeDefOf.RejectInput, false);
+					return false;
 				}
-				foreach (Pawn pawn in Find.GameInitData.startingAndOptionalPawns)
-				{
-					if (!pawn.Name.IsValid)
-					{
-						Messages.Message("EveryoneNeedsValidName".Translate(), MessageTypeDefOf.RejectInput, false);
-						return false;
-					}
-				}
-				PortraitsCache.Clear();
-				result = true;
 			}
-			return result;
+			foreach (Pawn pawn in Find.GameInitData.startingAndOptionalPawns)
+			{
+				if (!pawn.Name.IsValid)
+				{
+					Messages.Message("EveryoneNeedsValidName".Translate(), MessageTypeDefOf.RejectInput, false);
+					return false;
+				}
+			}
+			PortraitsCache.Clear();
+			return true;
 		}
 
 		protected override void DoNext()
@@ -351,13 +348,14 @@ namespace RimWorld
 		[CompilerGenerated]
 		private static void <DrawPawnList>m__0(int from, int to)
 		{
-			if (TutorSystem.AllowAction("ReorderPawn"))
+			if (!TutorSystem.AllowAction("ReorderPawn"))
 			{
-				Pawn item = Find.GameInitData.startingAndOptionalPawns[from];
-				Find.GameInitData.startingAndOptionalPawns.Insert(to, item);
-				Find.GameInitData.startingAndOptionalPawns.RemoveAt((from >= to) ? (from + 1) : from);
-				TutorSystem.Notify_Event("ReorderPawn");
+				return;
 			}
+			Pawn item = Find.GameInitData.startingAndOptionalPawns[from];
+			Find.GameInitData.startingAndOptionalPawns.Insert(to, item);
+			Find.GameInitData.startingAndOptionalPawns.RemoveAt((from >= to) ? (from + 1) : from);
+			TutorSystem.Notify_Event("ReorderPawn");
 		}
 
 		[CompilerGenerated]

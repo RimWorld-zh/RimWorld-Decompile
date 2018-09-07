@@ -15,7 +15,7 @@ namespace Verse
 
 		private IntVec3 prioritizedCell = IntVec3.Invalid;
 
-		private WorkTypeDef prioritizedWorkType = null;
+		private WorkTypeDef prioritizedWorkType;
 
 		private int prioritizeTick = Find.TickManager.TicksGame;
 

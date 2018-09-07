@@ -35,46 +35,35 @@ namespace RimWorld
 
 		protected override bool CanGenerateSub(ThingSetMakerParams parms)
 		{
-			bool result;
 			if (!this.AllowedThingDefs(parms).Any<ThingDef>())
 			{
-				result = false;
+				return false;
 			}
-			else
+			IntRange? countRange = parms.countRange;
+			if (countRange != null && parms.countRange.Value.max <= 0)
 			{
-				IntRange? countRange = parms.countRange;
-				if (countRange != null && parms.countRange.Value.max <= 0)
+				return false;
+			}
+			FloatRange? totalNutritionRange = parms.totalNutritionRange;
+			if (totalNutritionRange == null || parms.totalNutritionRange.Value.max <= 0f)
+			{
+				return false;
+			}
+			float? maxTotalMass = parms.maxTotalMass;
+			if (maxTotalMass != null && parms.maxTotalMass != 3.40282347E+38f)
+			{
+				IEnumerable<ThingDef> candidates = this.AllowedThingDefs(parms);
+				TechLevel? techLevel = parms.techLevel;
+				TechLevel stuffTechLevel = (techLevel == null) ? TechLevel.Undefined : techLevel.Value;
+				float value = parms.maxTotalMass.Value;
+				IntRange? countRange2 = parms.countRange;
+				if (!ThingSetMakerUtility.PossibleToWeighNoMoreThan(candidates, stuffTechLevel, value, (countRange2 == null) ? 1 : parms.countRange.Value.min))
 				{
-					result = false;
-				}
-				else
-				{
-					FloatRange? totalNutritionRange = parms.totalNutritionRange;
-					if (totalNutritionRange == null || parms.totalNutritionRange.Value.max <= 0f)
-					{
-						result = false;
-					}
-					else
-					{
-						float? maxTotalMass = parms.maxTotalMass;
-						if (maxTotalMass != null && parms.maxTotalMass != 3.40282347E+38f)
-						{
-							IEnumerable<ThingDef> candidates = this.AllowedThingDefs(parms);
-							TechLevel? techLevel = parms.techLevel;
-							TechLevel stuffTechLevel = (techLevel == null) ? TechLevel.Undefined : techLevel.Value;
-							float value = parms.maxTotalMass.Value;
-							IntRange? countRange2 = parms.countRange;
-							if (!ThingSetMakerUtility.PossibleToWeighNoMoreThan(candidates, stuffTechLevel, value, (countRange2 == null) ? 1 : parms.countRange.Value.min))
-							{
-								return false;
-							}
-						}
-						float num;
-						result = this.GeneratePossibleDefs(parms, out num, this.nextSeed).Any<ThingStuffPairWithQuality>();
-					}
+					return false;
 				}
 			}
-			return result;
+			float num;
+			return this.GeneratePossibleDefs(parms, out num, this.nextSeed).Any<ThingStuffPairWithQuality>();
 		}
 
 		protected override void Generate(ThingSetMakerParams parms, List<Thing> outThings)
@@ -107,40 +96,35 @@ namespace RimWorld
 		private List<ThingStuffPairWithQuality> GeneratePossibleDefs(ThingSetMakerParams parms, out float totalNutrition)
 		{
 			IEnumerable<ThingDef> enumerable = this.AllowedThingDefs(parms);
-			List<ThingStuffPairWithQuality> result;
 			if (!enumerable.Any<ThingDef>())
 			{
 				totalNutrition = 0f;
-				result = new List<ThingStuffPairWithQuality>();
+				return new List<ThingStuffPairWithQuality>();
 			}
-			else
-			{
-				IntRange? countRange = parms.countRange;
-				IntRange intRange = (countRange == null) ? new IntRange(1, int.MaxValue) : countRange.Value;
-				FloatRange? totalNutritionRange = parms.totalNutritionRange;
-				FloatRange floatRange = (totalNutritionRange == null) ? FloatRange.Zero : totalNutritionRange.Value;
-				TechLevel? techLevel = parms.techLevel;
-				TechLevel techLevel2 = (techLevel == null) ? TechLevel.Undefined : techLevel.Value;
-				float? maxTotalMass = parms.maxTotalMass;
-				float num = (maxTotalMass == null) ? float.MaxValue : maxTotalMass.Value;
-				QualityGenerator? qualityGenerator = parms.qualityGenerator;
-				QualityGenerator qualityGenerator2 = (qualityGenerator == null) ? QualityGenerator.BaseGen : qualityGenerator.Value;
-				totalNutrition = floatRange.RandomInRange;
-				int numMeats = enumerable.Count((ThingDef x) => x.IsMeat);
-				int numLeathers = enumerable.Count((ThingDef x) => x.IsLeather);
-				Func<ThingDef, float> func = (ThingDef x) => ThingSetMakerUtility.AdjustedBigCategoriesSelectionWeight(x, numMeats, numLeathers);
-				IntRange countRange2 = intRange;
-				float totalValue = totalNutrition;
-				IEnumerable<ThingDef> allowed = enumerable;
-				TechLevel techLevel3 = techLevel2;
-				QualityGenerator qualityGenerator3 = qualityGenerator2;
-				Func<ThingStuffPairWithQuality, float> getMinValue = (ThingStuffPairWithQuality x) => x.GetStatValue(StatDefOf.Nutrition);
-				Func<ThingStuffPairWithQuality, float> getMaxValue = (ThingStuffPairWithQuality x) => x.GetStatValue(StatDefOf.Nutrition) * (float)x.thing.stackLimit;
-				Func<ThingDef, float> weightSelector = func;
-				float maxMass = num;
-				result = ThingSetMakerByTotalStatUtility.GenerateDefsWithPossibleTotalValue(countRange2, totalValue, allowed, techLevel3, qualityGenerator3, getMinValue, getMaxValue, weightSelector, 100, maxMass);
-			}
-			return result;
+			IntRange? countRange = parms.countRange;
+			IntRange intRange = (countRange == null) ? new IntRange(1, int.MaxValue) : countRange.Value;
+			FloatRange? totalNutritionRange = parms.totalNutritionRange;
+			FloatRange floatRange = (totalNutritionRange == null) ? FloatRange.Zero : totalNutritionRange.Value;
+			TechLevel? techLevel = parms.techLevel;
+			TechLevel techLevel2 = (techLevel == null) ? TechLevel.Undefined : techLevel.Value;
+			float? maxTotalMass = parms.maxTotalMass;
+			float num = (maxTotalMass == null) ? float.MaxValue : maxTotalMass.Value;
+			QualityGenerator? qualityGenerator = parms.qualityGenerator;
+			QualityGenerator qualityGenerator2 = (qualityGenerator == null) ? QualityGenerator.BaseGen : qualityGenerator.Value;
+			totalNutrition = floatRange.RandomInRange;
+			int numMeats = enumerable.Count((ThingDef x) => x.IsMeat);
+			int numLeathers = enumerable.Count((ThingDef x) => x.IsLeather);
+			Func<ThingDef, float> func = (ThingDef x) => ThingSetMakerUtility.AdjustedBigCategoriesSelectionWeight(x, numMeats, numLeathers);
+			IntRange countRange2 = intRange;
+			float totalValue = totalNutrition;
+			IEnumerable<ThingDef> allowed = enumerable;
+			TechLevel techLevel3 = techLevel2;
+			QualityGenerator qualityGenerator3 = qualityGenerator2;
+			Func<ThingStuffPairWithQuality, float> getMinValue = (ThingStuffPairWithQuality x) => x.GetStatValue(StatDefOf.Nutrition);
+			Func<ThingStuffPairWithQuality, float> getMaxValue = (ThingStuffPairWithQuality x) => x.GetStatValue(StatDefOf.Nutrition) * (float)x.thing.stackLimit;
+			Func<ThingDef, float> weightSelector = func;
+			float maxMass = num;
+			return ThingSetMakerByTotalStatUtility.GenerateDefsWithPossibleTotalValue(countRange2, totalValue, allowed, techLevel3, qualityGenerator3, getMinValue, getMaxValue, weightSelector, 100, maxMass);
 		}
 
 		protected override IEnumerable<ThingDef> AllGeneratableThingsDebugSub(ThingSetMakerParams parms)

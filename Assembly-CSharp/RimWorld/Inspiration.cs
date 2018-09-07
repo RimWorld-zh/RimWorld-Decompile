@@ -80,26 +80,31 @@ namespace RimWorld
 
 		protected virtual void SendBeginLetter()
 		{
-			if (!this.def.beginLetter.NullOrEmpty())
+			if (this.def.beginLetter.NullOrEmpty())
 			{
-				if (PawnUtility.ShouldSendNotificationAbout(this.pawn))
-				{
-					string text = string.Format(this.def.beginLetter.AdjustedFor(this.pawn, "PAWN"), this.pawn.LabelCap);
-					Find.LetterStack.ReceiveLetter(this.def.beginLetterLabel, text, this.def.beginLetterDef, this.pawn, null, null);
-				}
+				return;
 			}
+			if (!PawnUtility.ShouldSendNotificationAbout(this.pawn))
+			{
+				return;
+			}
+			string text = string.Format(this.def.beginLetter.AdjustedFor(this.pawn, "PAWN"), this.pawn.LabelCap);
+			string label = (this.def.beginLetterLabel ?? this.def.LabelCap).CapitalizeFirst() + ": " + this.pawn.LabelShortCap;
+			Find.LetterStack.ReceiveLetter(label, text, this.def.beginLetterDef, this.pawn, null, null);
 		}
 
 		protected virtual void AddEndMessage()
 		{
-			if (!this.def.endMessage.NullOrEmpty())
+			if (this.def.endMessage.NullOrEmpty())
 			{
-				if (PawnUtility.ShouldSendNotificationAbout(this.pawn))
-				{
-					string text = string.Format(this.def.endMessage.AdjustedFor(this.pawn, "PAWN"), this.pawn.LabelCap);
-					Messages.Message(text, this.pawn, MessageTypeDefOf.NeutralEvent, true);
-				}
+				return;
 			}
+			if (!PawnUtility.ShouldSendNotificationAbout(this.pawn))
+			{
+				return;
+			}
+			string text = string.Format(this.def.endMessage.AdjustedFor(this.pawn, "PAWN"), this.pawn.LabelCap);
+			Messages.Message(text, this.pawn, MessageTypeDefOf.NeutralEvent, true);
 		}
 	}
 }

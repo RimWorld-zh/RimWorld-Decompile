@@ -87,9 +87,7 @@ namespace RimWorld
 					switch (num)
 					{
 					}
-					IL_11B:
-					IL_11C:
-					if (enumerator.MoveNext())
+					while (enumerator.MoveNext())
 					{
 						p = enumerator.Current;
 						if (p.equipment.Primary != null && p.equipment.Primary.def.IsRangedWeapon)
@@ -108,9 +106,7 @@ namespace RimWorld
 									return true;
 								}
 							}
-							goto IL_11B;
 						}
-						goto IL_11C;
 					}
 				}
 				finally

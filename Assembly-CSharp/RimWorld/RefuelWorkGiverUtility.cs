@@ -15,76 +15,60 @@ namespace RimWorld
 		public static bool CanRefuel(Pawn pawn, Thing t, bool forced = false)
 		{
 			CompRefuelable compRefuelable = t.TryGetComp<CompRefuelable>();
-			bool result;
 			if (compRefuelable == null || compRefuelable.IsFull)
 			{
-				result = false;
+				return false;
 			}
-			else
+			bool flag = !forced;
+			if (flag && !compRefuelable.ShouldAutoRefuelNow)
 			{
-				bool flag = !forced;
-				if (flag && !compRefuelable.ShouldAutoRefuelNow)
+				return false;
+			}
+			if (!t.IsForbidden(pawn))
+			{
+				LocalTargetInfo target = t;
+				if (pawn.CanReserve(target, 1, -1, null, forced))
 				{
-					result = false;
-				}
-				else
-				{
-					if (!t.IsForbidden(pawn))
+					if (t.Faction != pawn.Faction)
 					{
-						LocalTargetInfo target = t;
-						if (pawn.CanReserve(target, 1, -1, null, forced))
-						{
-							if (t.Faction != pawn.Faction)
-							{
-								return false;
-							}
-							if (RefuelWorkGiverUtility.FindBestFuel(pawn, t) == null)
-							{
-								ThingFilter fuelFilter = t.TryGetComp<CompRefuelable>().Props.fuelFilter;
-								JobFailReason.Is("NoFuelToRefuel".Translate(new object[]
-								{
-									fuelFilter.Summary
-								}), null);
-								return false;
-							}
-							if (t.TryGetComp<CompRefuelable>().Props.atomicFueling)
-							{
-								if (RefuelWorkGiverUtility.FindAllFuel(pawn, t) == null)
-								{
-									ThingFilter fuelFilter2 = t.TryGetComp<CompRefuelable>().Props.fuelFilter;
-									JobFailReason.Is("NoFuelToRefuel".Translate(new object[]
-									{
-										fuelFilter2.Summary
-									}), null);
-									return false;
-								}
-							}
-							return true;
-						}
+						return false;
 					}
-					result = false;
+					if (RefuelWorkGiverUtility.FindBestFuel(pawn, t) == null)
+					{
+						ThingFilter fuelFilter = t.TryGetComp<CompRefuelable>().Props.fuelFilter;
+						JobFailReason.Is("NoFuelToRefuel".Translate(new object[]
+						{
+							fuelFilter.Summary
+						}), null);
+						return false;
+					}
+					if (t.TryGetComp<CompRefuelable>().Props.atomicFueling && RefuelWorkGiverUtility.FindAllFuel(pawn, t) == null)
+					{
+						ThingFilter fuelFilter2 = t.TryGetComp<CompRefuelable>().Props.fuelFilter;
+						JobFailReason.Is("NoFuelToRefuel".Translate(new object[]
+						{
+							fuelFilter2.Summary
+						}), null);
+						return false;
+					}
+					return true;
 				}
 			}
-			return result;
+			return false;
 		}
 
 		public static Job RefuelJob(Pawn pawn, Thing t, bool forced = false, JobDef customRefuelJob = null, JobDef customAtomicRefuelJob = null)
 		{
-			Job result;
 			if (!t.TryGetComp<CompRefuelable>().Props.atomicFueling)
 			{
 				Thing t2 = RefuelWorkGiverUtility.FindBestFuel(pawn, t);
-				result = new Job(customRefuelJob ?? JobDefOf.Refuel, t, t2);
+				return new Job(customRefuelJob ?? JobDefOf.Refuel, t, t2);
 			}
-			else
-			{
-				List<Thing> source = RefuelWorkGiverUtility.FindAllFuel(pawn, t);
-				Job job = new Job(customAtomicRefuelJob ?? JobDefOf.RefuelAtomic, t);
-				job.targetQueueB = (from f in source
-				select new LocalTargetInfo(f)).ToList<LocalTargetInfo>();
-				result = job;
-			}
-			return result;
+			List<Thing> source = RefuelWorkGiverUtility.FindAllFuel(pawn, t);
+			Job job = new Job(customAtomicRefuelJob ?? JobDefOf.RefuelAtomic, t);
+			job.targetQueueB = (from f in source
+			select new LocalTargetInfo(f)).ToList<LocalTargetInfo>();
+			return job;
 		}
 
 		private static Thing FindBestFuel(Pawn pawn, Thing refuelable)
@@ -136,16 +120,11 @@ namespace RimWorld
 				return false;
 			};
 			RegionTraverser.BreadthFirstTraverse(region, entryCondition, regionProcessor, 99999, RegionType.Set_Passable);
-			List<Thing> result;
 			if (accumulatedQuantity >= quantity)
 			{
-				result = chosenThings;
+				return chosenThings;
 			}
-			else
-			{
-				result = null;
-			}
-			return result;
+			return null;
 		}
 
 		[CompilerGenerated]

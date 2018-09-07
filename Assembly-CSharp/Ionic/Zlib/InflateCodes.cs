@@ -30,7 +30,7 @@ namespace Ionic.Zlib
 
 		internal int[] tree;
 
-		internal int tree_index = 0;
+		internal int tree_index;
 
 		internal int need;
 
@@ -108,16 +108,16 @@ namespace Ionic.Zlib
 					this.tree = this.ltree;
 					this.tree_index = this.ltree_index;
 					this.mode = 1;
-					goto IL_1CA;
+					goto IL_1C4;
 				case 1:
-					goto IL_1CA;
+					goto IL_1C4;
 				case 2:
 					num6 = this.bitsToGet;
 					while (i < num6)
 					{
 						if (num2 == 0)
 						{
-							goto IL_3BC;
+							goto IL_3A2;
 						}
 						r = 0;
 						num2--;
@@ -131,16 +131,16 @@ namespace Ionic.Zlib
 					this.tree = this.dtree;
 					this.tree_index = this.dtree_index;
 					this.mode = 3;
-					goto IL_493;
+					goto IL_471;
 				case 3:
-					goto IL_493;
+					goto IL_471;
 				case 4:
 					num6 = this.bitsToGet;
 					while (i < num6)
 					{
 						if (num2 == 0)
 						{
-							goto IL_64C;
+							goto IL_618;
 						}
 						r = 0;
 						num2--;
@@ -151,9 +151,9 @@ namespace Ionic.Zlib
 					num3 >>= num6;
 					i -= num6;
 					this.mode = 5;
-					goto IL_6FF;
+					goto IL_6C3;
 				case 5:
-					goto IL_6FF;
+					goto IL_6C3;
 				case 6:
 					if (num5 == 0)
 					{
@@ -185,21 +185,21 @@ namespace Ionic.Zlib
 					this.mode = 0;
 					continue;
 				case 7:
-					goto IL_A16;
+					goto IL_9B8;
 				case 8:
-					goto IL_AE1;
+					goto IL_A7A;
 				case 9:
-					goto IL_B34;
+					goto IL_AC7;
 				}
 				break;
 				continue;
-				IL_1CA:
+				IL_1C4:
 				num6 = this.need;
 				while (i < num6)
 				{
 					if (num2 == 0)
 					{
-						goto IL_1E6;
+						goto IL_1DF;
 					}
 					r = 0;
 					num2--;
@@ -234,14 +234,14 @@ namespace Ionic.Zlib
 					this.mode = 7;
 					continue;
 				}
-				goto IL_338;
-				IL_493:
+				goto IL_325;
+				IL_471:
 				num6 = this.need;
 				while (i < num6)
 				{
 					if (num2 == 0)
 					{
-						goto IL_4AF;
+						goto IL_48C;
 					}
 					r = 0;
 					num2--;
@@ -265,8 +265,8 @@ namespace Ionic.Zlib
 					this.tree_index = num7 / 3 + this.tree[num7 + 2];
 					continue;
 				}
-				goto IL_5C8;
-				IL_6FF:
+				goto IL_59B;
+				IL_6C3:
 				int j;
 				for (j = num4 - this.dist; j < 0; j += blocks.end)
 				{
@@ -315,7 +315,7 @@ namespace Ionic.Zlib
 			codec.NextIn = num;
 			blocks.writeAt = num4;
 			return blocks.Flush(r);
-			IL_1E6:
+			IL_1DF:
 			blocks.bitb = num3;
 			blocks.bitk = i;
 			codec.AvailableBytesIn = num2;
@@ -323,7 +323,7 @@ namespace Ionic.Zlib
 			codec.NextIn = num;
 			blocks.writeAt = num4;
 			return blocks.Flush(r);
-			IL_338:
+			IL_325:
 			this.mode = 9;
 			codec.Message = "invalid literal/length code";
 			r = -3;
@@ -334,7 +334,7 @@ namespace Ionic.Zlib
 			codec.NextIn = num;
 			blocks.writeAt = num4;
 			return blocks.Flush(r);
-			IL_3BC:
+			IL_3A2:
 			blocks.bitb = num3;
 			blocks.bitk = i;
 			codec.AvailableBytesIn = num2;
@@ -342,7 +342,7 @@ namespace Ionic.Zlib
 			codec.NextIn = num;
 			blocks.writeAt = num4;
 			return blocks.Flush(r);
-			IL_4AF:
+			IL_48C:
 			blocks.bitb = num3;
 			blocks.bitk = i;
 			codec.AvailableBytesIn = num2;
@@ -350,7 +350,7 @@ namespace Ionic.Zlib
 			codec.NextIn = num;
 			blocks.writeAt = num4;
 			return blocks.Flush(r);
-			IL_5C8:
+			IL_59B:
 			this.mode = 9;
 			codec.Message = "invalid distance code";
 			r = -3;
@@ -361,7 +361,7 @@ namespace Ionic.Zlib
 			codec.NextIn = num;
 			blocks.writeAt = num4;
 			return blocks.Flush(r);
-			IL_64C:
+			IL_618:
 			blocks.bitb = num3;
 			blocks.bitk = i;
 			codec.AvailableBytesIn = num2;
@@ -385,7 +385,7 @@ namespace Ionic.Zlib
 			codec.NextIn = num;
 			blocks.writeAt = num4;
 			return blocks.Flush(r);
-			IL_A16:
+			IL_9B8:
 			if (i > 7)
 			{
 				i -= 8;
@@ -407,7 +407,7 @@ namespace Ionic.Zlib
 				return blocks.Flush(r);
 			}
 			this.mode = 8;
-			IL_AE1:
+			IL_A7A:
 			r = 1;
 			blocks.bitb = num3;
 			blocks.bitk = i;
@@ -416,7 +416,7 @@ namespace Ionic.Zlib
 			codec.NextIn = num;
 			blocks.writeAt = num4;
 			return blocks.Flush(r);
-			IL_B34:
+			IL_AC7:
 			r = -3;
 			blocks.bitb = num3;
 			blocks.bitk = i;
@@ -464,11 +464,11 @@ namespace Ionic.Zlib
 						i -= tl[num9 + 1];
 						if ((num10 & 16) != 0)
 						{
-							goto Block_4;
+							break;
 						}
 						if ((num10 & 64) != 0)
 						{
-							goto IL_53C;
+							goto IL_50A;
 						}
 						num8 += tl[num9 + 2];
 						num8 += (num3 & InternalInflateConstants.InflateMask[num10]);
@@ -478,15 +478,6 @@ namespace Ionic.Zlib
 							goto Block_20;
 						}
 					}
-					IL_66C:
-					goto IL_66D;
-					Block_20:
-					num3 >>= tl[num9 + 1];
-					i -= tl[num9 + 1];
-					s.window[num4++] = (byte)tl[num9 + 2];
-					num5--;
-					goto IL_66C;
-					Block_4:
 					num10 &= 15;
 					num11 = tl[num9 + 2] + (num3 & InternalInflateConstants.InflateMask[num10]);
 					num3 >>= num10;
@@ -508,7 +499,7 @@ namespace Ionic.Zlib
 						}
 						if ((num10 & 64) != 0)
 						{
-							goto IL_427;
+							goto IL_400;
 						}
 						num8 += td[num9 + 2];
 						num8 += (num3 & InternalInflateConstants.InflateMask[num10]);
@@ -587,14 +578,20 @@ namespace Ionic.Zlib
 						num4 += num11;
 						num13 += num11;
 					}
+					goto IL_62B;
+					Block_20:
+					num3 >>= tl[num9 + 1];
+					i -= tl[num9 + 1];
+					s.window[num4++] = (byte)tl[num9 + 2];
+					num5--;
 				}
-				IL_66D:
+				IL_62B:
 				if (num5 < 258 || num2 < 10)
 				{
-					goto IL_682;
+					goto IL_640;
 				}
 			}
-			IL_427:
+			IL_400:
 			z.Message = "invalid distance code";
 			num11 = z.AvailableBytesIn - num2;
 			num11 = ((i >> 3 >= num11) ? num11 : (i >> 3));
@@ -608,7 +605,7 @@ namespace Ionic.Zlib
 			z.NextIn = num;
 			s.writeAt = num4;
 			return -3;
-			IL_53C:
+			IL_50A:
 			if ((num10 & 32) != 0)
 			{
 				num11 = z.AvailableBytesIn - num2;
@@ -637,7 +634,7 @@ namespace Ionic.Zlib
 			z.NextIn = num;
 			s.writeAt = num4;
 			return -3;
-			IL_682:
+			IL_640:
 			num11 = z.AvailableBytesIn - num2;
 			num11 = ((i >> 3 >= num11) ? num11 : (i >> 3));
 			num2 += num11;

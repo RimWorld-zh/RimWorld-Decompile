@@ -57,20 +57,15 @@ namespace Verse
 		{
 			get
 			{
-				string result;
 				if (this.initiatorPawn != null)
 				{
-					result = this.initiatorPawn.LabelShort;
+					return this.initiatorPawn.LabelShort;
 				}
-				else if (this.initiatorThing != null)
+				if (this.initiatorThing != null)
 				{
-					result = this.initiatorThing.defName;
+					return this.initiatorThing.defName;
 				}
-				else
-				{
-					result = "null";
-				}
-				return result;
+				return "null";
 			}
 		}
 
@@ -78,20 +73,15 @@ namespace Verse
 		{
 			get
 			{
-				string result;
 				if (this.recipientPawn != null)
 				{
-					result = this.recipientPawn.LabelShort;
+					return this.recipientPawn.LabelShort;
 				}
-				else if (this.recipientThing != null)
+				if (this.recipientThing != null)
 				{
-					result = this.recipientThing.defName;
+					return this.recipientThing.defName;
 				}
-				else
-				{
-					result = "null";
-				}
-				return result;
+				return "null";
 			}
 		}
 
@@ -115,43 +105,39 @@ namespace Verse
 
 		public override void ClickedFromPOV(Thing pov)
 		{
-			if (this.recipientPawn != null)
+			if (this.recipientPawn == null)
 			{
-				if (pov == this.initiatorPawn)
+				return;
+			}
+			if (pov == this.initiatorPawn)
+			{
+				CameraJumper.TryJumpAndSelect(this.recipientPawn);
+			}
+			else
+			{
+				if (pov != this.recipientPawn)
 				{
-					CameraJumper.TryJumpAndSelect(this.recipientPawn);
+					throw new NotImplementedException();
 				}
-				else
-				{
-					if (pov != this.recipientPawn)
-					{
-						throw new NotImplementedException();
-					}
-					CameraJumper.TryJumpAndSelect(this.initiatorPawn);
-				}
+				CameraJumper.TryJumpAndSelect(this.initiatorPawn);
 			}
 		}
 
 		public override Texture2D IconFromPOV(Thing pov)
 		{
-			Texture2D result;
 			if (this.damagedParts.NullOrEmpty<BodyPartRecord>())
 			{
-				result = null;
+				return null;
 			}
-			else if (pov == null || pov == this.recipientPawn)
+			if (pov == null || pov == this.recipientPawn)
 			{
-				result = LogEntry.Blood;
+				return LogEntry.Blood;
 			}
-			else if (pov == this.initiatorPawn)
+			if (pov == this.initiatorPawn)
 			{
-				result = LogEntry.BloodTarget;
+				return LogEntry.BloodTarget;
 			}
-			else
-			{
-				result = null;
-			}
-			return result;
+			return null;
 		}
 
 		protected override BodyDef DamagedBody()
@@ -252,7 +238,7 @@ namespace Verse
 				case 1u:
 					break;
 				case 2u:
-					goto IL_90;
+					goto IL_8F;
 				default:
 					return false;
 				}
@@ -265,7 +251,7 @@ namespace Verse
 					}
 					return true;
 				}
-				IL_90:
+				IL_8F:
 				this.$PC = -1;
 				return false;
 			}

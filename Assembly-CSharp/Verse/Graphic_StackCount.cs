@@ -19,39 +19,25 @@ namespace Verse
 
 		public override Graphic GetColoredVersion(Shader newShader, Color newColor, Color newColorTwo)
 		{
-			if (newColorTwo != Color.white)
-			{
-				Log.ErrorOnce("Cannot use this GetColoredVersion with a non-white colorTwo.", 908251, false);
-			}
 			return GraphicDatabase.Get<Graphic_StackCount>(this.path, newShader, this.drawSize, newColor, newColorTwo, this.data);
 		}
 
 		public override Material MatAt(Rot4 rot, Thing thing = null)
 		{
-			Material result;
 			if (thing == null)
 			{
-				result = this.MatSingle;
+				return this.MatSingle;
 			}
-			else
-			{
-				result = this.MatSingleFor(thing);
-			}
-			return result;
+			return this.MatSingleFor(thing);
 		}
 
 		public override Material MatSingleFor(Thing thing)
 		{
-			Material matSingle;
 			if (thing == null)
 			{
-				matSingle = this.MatSingle;
+				return this.MatSingle;
 			}
-			else
-			{
-				matSingle = this.SubGraphicFor(thing).MatSingle;
-			}
-			return matSingle;
+			return this.SubGraphicFor(thing).MatSingle;
 		}
 
 		public Graphic SubGraphicFor(Thing thing)
@@ -75,53 +61,40 @@ namespace Verse
 
 		public Graphic SubGraphicForStackCount(int stackCount, ThingDef def)
 		{
-			Graphic result;
 			switch (this.subGraphics.Length)
 			{
 			case 1:
-				result = this.subGraphics[0];
-				break;
+				return this.subGraphics[0];
 			case 2:
 				if (stackCount == 1)
 				{
-					result = this.subGraphics[0];
+					return this.subGraphics[0];
 				}
-				else
-				{
-					result = this.subGraphics[1];
-				}
-				break;
+				return this.subGraphics[1];
 			case 3:
 				if (stackCount == 1)
 				{
-					result = this.subGraphics[0];
+					return this.subGraphics[0];
 				}
-				else if (stackCount == def.stackLimit)
+				if (stackCount == def.stackLimit)
 				{
-					result = this.subGraphics[2];
+					return this.subGraphics[2];
 				}
-				else
-				{
-					result = this.subGraphics[1];
-				}
-				break;
+				return this.subGraphics[1];
 			default:
+			{
 				if (stackCount == 1)
 				{
-					result = this.subGraphics[0];
+					return this.subGraphics[0];
 				}
-				else if (stackCount == def.stackLimit)
+				if (stackCount == def.stackLimit)
 				{
-					result = this.subGraphics[this.subGraphics.Length - 1];
+					return this.subGraphics[this.subGraphics.Length - 1];
 				}
-				else
-				{
-					int num = 1 + Mathf.RoundToInt(Mathf.InverseLerp(2f, (float)(def.stackLimit - 1), (float)(this.subGraphics.Length - 2)));
-					result = this.subGraphics[num];
-				}
-				break;
+				int num = Mathf.Min(1 + Mathf.RoundToInt((float)stackCount / (float)def.stackLimit * ((float)this.subGraphics.Length - 3f) + 1E-05f), this.subGraphics.Length - 2);
+				return this.subGraphics[num];
 			}
-			return result;
+			}
 		}
 
 		public override string ToString()

@@ -35,7 +35,6 @@ namespace RimWorld
 		private float CheapestSapperCost(Faction faction, PawnGroupKindDef groupKind)
 		{
 			IEnumerable<PawnGroupMaker> enumerable = this.PawnGenOptionsWithSappers(faction, groupKind);
-			float result;
 			if (!enumerable.Any<PawnGroupMaker>())
 			{
 				Log.Error(string.Concat(new object[]
@@ -47,76 +46,53 @@ namespace RimWorld
 					" but the faction has no groups with sappers. groupKind=",
 					groupKind
 				}), false);
-				result = 99999f;
+				return 99999f;
 			}
-			else
+			float num = 9999999f;
+			foreach (PawnGroupMaker pawnGroupMaker in enumerable)
 			{
-				float num = 9999999f;
-				foreach (PawnGroupMaker pawnGroupMaker in enumerable)
+				foreach (PawnGenOption pawnGenOption in from op in pawnGroupMaker.options
+				where op.kind.canBeSapper
+				select op)
 				{
-					foreach (PawnGenOption pawnGenOption in from op in pawnGroupMaker.options
-					where op.kind.canBeSapper
-					select op)
+					if (pawnGenOption.Cost < num)
 					{
-						if (pawnGenOption.Cost < num)
-						{
-							num = pawnGenOption.Cost;
-						}
+						num = pawnGenOption.Cost;
 					}
 				}
-				result = num;
 			}
-			return result;
+			return num;
 		}
 
 		public override bool CanUsePawnGenOption(PawnGenOption opt, List<PawnGenOption> chosenOpts)
 		{
-			if (chosenOpts.Count == 0)
-			{
-				if (!opt.kind.canBeSapper)
-				{
-					return false;
-				}
-			}
-			return true;
+			return chosenOpts.Count != 0 || opt.kind.canBeSapper;
 		}
 
 		public override bool CanUsePawn(Pawn p, List<Pawn> otherPawns)
 		{
-			if (otherPawns.Count == 0)
-			{
-				if (!SappersUtility.IsGoodSapper(p) && !SappersUtility.IsGoodBackupSapper(p))
-				{
-					return false;
-				}
-			}
-			return !p.kindDef.canBeSapper || !SappersUtility.HasBuildingDestroyerWeapon(p) || SappersUtility.IsGoodSapper(p);
+			return (otherPawns.Count != 0 || SappersUtility.IsGoodSapper(p) || SappersUtility.IsGoodBackupSapper(p)) && (!p.kindDef.canBeSapper || !SappersUtility.HasBuildingDestroyerWeapon(p) || SappersUtility.IsGoodSapper(p));
 		}
 
 		private IEnumerable<PawnGroupMaker> PawnGenOptionsWithSappers(Faction faction, PawnGroupKindDef groupKind)
 		{
-			IEnumerable<PawnGroupMaker> result;
 			if (faction.def.pawnGroupMakers == null)
 			{
-				result = Enumerable.Empty<PawnGroupMaker>();
+				return Enumerable.Empty<PawnGroupMaker>();
 			}
-			else
+			return faction.def.pawnGroupMakers.Where(delegate(PawnGroupMaker gm)
 			{
-				result = faction.def.pawnGroupMakers.Where(delegate(PawnGroupMaker gm)
+				bool result;
+				if (gm.kindDef == groupKind && gm.options != null)
 				{
-					bool result2;
-					if (gm.kindDef == groupKind && gm.options != null)
-					{
-						result2 = gm.options.Any((PawnGenOption op) => op.kind.canBeSapper);
-					}
-					else
-					{
-						result2 = false;
-					}
-					return result2;
-				});
-			}
-			return result;
+					result = gm.options.Any((PawnGenOption op) => op.kind.canBeSapper);
+				}
+				else
+				{
+					result = false;
+				}
+				return result;
+			});
 		}
 
 		protected override LordJob MakeLordJob(IncidentParms parms, Map map, List<Pawn> pawns, int raidSeed)

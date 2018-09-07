@@ -35,7 +35,7 @@ namespace RimWorld
 
 		protected override IEnumerable<Rule> SpecialTextGenerationRules()
 		{
-			foreach (Rule r in this.<SpecialTextGenerationRules>__BaseCallProxy0())
+			foreach (Rule r in base.SpecialTextGenerationRules())
 			{
 				yield return r;
 			}
@@ -97,7 +97,7 @@ namespace RimWorld
 				case 1u:
 					break;
 				case 2u:
-					goto IL_DC;
+					goto IL_D7;
 				default:
 					return false;
 				}
@@ -132,7 +132,7 @@ namespace RimWorld
 				num = 4294967293u;
 				try
 				{
-					IL_DC:
+					IL_D7:
 					switch (num)
 					{
 					}

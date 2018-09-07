@@ -13,16 +13,11 @@ namespace RimWorld.Planet
 		public static Building_Bed CurrentCaravanBed(this Pawn p)
 		{
 			Caravan caravan = p.GetCaravan();
-			Building_Bed result;
 			if (caravan == null)
 			{
-				result = null;
+				return null;
 			}
-			else
-			{
-				result = caravan.beds.GetBedUsedBy(p);
-			}
-			return result;
+			return caravan.beds.GetBedUsedBy(p);
 		}
 
 		public static bool WouldBenefitFromRestingInBed(Pawn p)

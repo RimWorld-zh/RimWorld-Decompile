@@ -32,54 +32,49 @@ namespace RimWorld
 		{
 			Map map = (Map)parms.target;
 			Pawn pawn = null;
-			bool result;
 			if (!this.Candidates(map).TryRandomElement(out pawn))
 			{
-				result = false;
+				return false;
 			}
-			else
+			if (pawn.guest != null)
 			{
-				if (pawn.guest != null)
+				pawn.guest.SetGuestStatus(null, false);
+			}
+			string text = pawn.LabelIndefinite();
+			bool flag = pawn.Name != null;
+			pawn.SetFaction(Faction.OfPlayer, null);
+			string text2;
+			if (!flag && pawn.Name != null)
+			{
+				if (pawn.Name.Numerical)
 				{
-					pawn.guest.SetGuestStatus(null, false);
-				}
-				string text = pawn.LabelIndefinite();
-				bool flag = pawn.Name != null;
-				pawn.SetFaction(Faction.OfPlayer, null);
-				string text2;
-				if (!flag && pawn.Name != null)
-				{
-					if (pawn.Name.Numerical)
+					text2 = "LetterAnimalSelfTameAndNameNumerical".Translate(new object[]
 					{
-						text2 = "LetterAnimalSelfTameAndNameNumerical".Translate(new object[]
-						{
-							text,
-							pawn.Name.ToStringFull
-						}).CapitalizeFirst();
-					}
-					else
-					{
-						text2 = "LetterAnimalSelfTameAndName".Translate(new object[]
-						{
-							text,
-							pawn.Name.ToStringFull
-						}).CapitalizeFirst();
-					}
+						text,
+						pawn.Name.ToStringFull
+					}).CapitalizeFirst();
 				}
 				else
 				{
-					text2 = "LetterAnimalSelfTame".Translate(new object[]
+					text2 = "LetterAnimalSelfTameAndName".Translate(new object[]
 					{
-						pawn.LabelIndefinite()
+						text,
+						pawn.Name.ToStringFull
 					}).CapitalizeFirst();
 				}
-				Find.LetterStack.ReceiveLetter("LetterLabelAnimalSelfTame".Translate(new object[]
-				{
-					pawn.KindLabel
-				}).CapitalizeFirst(), text2, LetterDefOf.PositiveEvent, pawn, null, null);
-				result = true;
 			}
-			return result;
+			else
+			{
+				text2 = "LetterAnimalSelfTame".Translate(new object[]
+				{
+					pawn.LabelIndefinite()
+				}).CapitalizeFirst();
+			}
+			Find.LetterStack.ReceiveLetter("LetterLabelAnimalSelfTame".Translate(new object[]
+			{
+				pawn.KindLabel
+			}).CapitalizeFirst(), text2, LetterDefOf.PositiveEvent, pawn, null, null);
+			return true;
 		}
 
 		[CompilerGenerated]

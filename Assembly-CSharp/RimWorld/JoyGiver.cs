@@ -21,18 +21,19 @@ namespace RimWorld
 		protected virtual void GetSearchSet(Pawn pawn, List<Thing> outCandidates)
 		{
 			outCandidates.Clear();
-			if (this.def.thingDefs != null)
+			if (this.def.thingDefs == null)
 			{
-				if (this.def.thingDefs.Count == 1)
+				return;
+			}
+			if (this.def.thingDefs.Count == 1)
+			{
+				outCandidates.AddRange(pawn.Map.listerThings.ThingsOfDef(this.def.thingDefs[0]));
+			}
+			else
+			{
+				for (int i = 0; i < this.def.thingDefs.Count; i++)
 				{
-					outCandidates.AddRange(pawn.Map.listerThings.ThingsOfDef(this.def.thingDefs[0]));
-				}
-				else
-				{
-					for (int i = 0; i < this.def.thingDefs.Count; i++)
-					{
-						outCandidates.AddRange(pawn.Map.listerThings.ThingsOfDef(this.def.thingDefs[i]));
-					}
+					outCandidates.AddRange(pawn.Map.listerThings.ThingsOfDef(this.def.thingDefs[i]));
 				}
 			}
 		}

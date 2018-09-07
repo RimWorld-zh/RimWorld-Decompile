@@ -146,58 +146,38 @@ namespace Verse
 			float value = Rand.Value;
 			float value2 = Rand.Value;
 			float num = Mathf.Sqrt(-2f * Mathf.Log(value)) * Mathf.Sin(6.28318548f * value2);
-			float result;
 			if (num <= 0f)
 			{
-				result = num * lowerWidthFactor + centerX;
+				return num * lowerWidthFactor + centerX;
 			}
-			else
-			{
-				result = num * upperWidthFactor + centerX;
-			}
-			return result;
+			return num * upperWidthFactor + centerX;
 		}
 
 		public static int Range(int min, int max)
 		{
-			int result;
 			if (max <= min)
 			{
-				result = min;
+				return min;
 			}
-			else
-			{
-				result = min + Mathf.Abs(Rand.Int % (max - min));
-			}
-			return result;
+			return min + Mathf.Abs(Rand.Int % (max - min));
 		}
 
 		public static int RangeInclusive(int min, int max)
 		{
-			int result;
 			if (max <= min)
 			{
-				result = min;
+				return min;
 			}
-			else
-			{
-				result = Rand.Range(min, max + 1);
-			}
-			return result;
+			return Rand.Range(min, max + 1);
 		}
 
 		public static float Range(float min, float max)
 		{
-			float result;
 			if (max <= min)
 			{
-				result = min;
+				return min;
 			}
-			else
-			{
-				result = Rand.Value * (max - min) + min;
-			}
-			return result;
+			return Rand.Value * (max - min) + min;
 		}
 
 		public static bool Chance(float chance)
@@ -253,101 +233,81 @@ namespace Verse
 		public static T Element<T>(T a, T b, T c)
 		{
 			float value = Rand.Value;
-			T result;
 			if (value < 0.33333f)
 			{
-				result = a;
+				return a;
 			}
-			else if (value < 0.66666f)
+			if (value < 0.66666f)
 			{
-				result = b;
+				return b;
 			}
-			else
-			{
-				result = c;
-			}
-			return result;
+			return c;
 		}
 
 		public static T Element<T>(T a, T b, T c, T d)
 		{
 			float value = Rand.Value;
-			T result;
 			if (value < 0.25f)
 			{
-				result = a;
+				return a;
 			}
-			else if (value < 0.5f)
+			if (value < 0.5f)
 			{
-				result = b;
+				return b;
 			}
-			else if (value < 0.75f)
+			if (value < 0.75f)
 			{
-				result = c;
+				return c;
 			}
-			else
-			{
-				result = d;
-			}
-			return result;
+			return d;
 		}
 
 		public static T Element<T>(T a, T b, T c, T d, T e)
 		{
 			float value = Rand.Value;
-			T result;
 			if (value < 0.2f)
 			{
-				result = a;
+				return a;
 			}
-			else if (value < 0.4f)
+			if (value < 0.4f)
 			{
-				result = b;
+				return b;
 			}
-			else if (value < 0.6f)
+			if (value < 0.6f)
 			{
-				result = c;
+				return c;
 			}
-			else if (value < 0.8f)
+			if (value < 0.8f)
 			{
-				result = d;
+				return d;
 			}
-			else
-			{
-				result = e;
-			}
-			return result;
+			return e;
 		}
 
 		public static T Element<T>(T a, T b, T c, T d, T e, T f)
 		{
 			float value = Rand.Value;
-			T result;
 			if (value < 0.16666f)
 			{
-				result = a;
+				return a;
 			}
-			else if (value < 0.33333f)
+			if (value < 0.33333f)
 			{
-				result = b;
+				return b;
 			}
-			else if (value < 0.5f)
+			if (value < 0.5f)
 			{
-				result = c;
+				return c;
 			}
-			else if (value < 0.66666f)
+			if (value < 0.66666f)
 			{
-				result = d;
+				return d;
 			}
-			else if (value < 0.83333f)
+			if (value < 0.83333f)
 			{
-				result = e;
+				return e;
 			}
-			else
-			{
-				result = f;
-			}
-			return result;
+			return f;
 		}
 
 		public static void PushState()
@@ -421,63 +381,55 @@ namespace Verse
 
 		public static bool MTBEventOccurs(float mtb, float mtbUnit, float checkDuration)
 		{
-			bool result;
 			if (mtb == float.PositiveInfinity)
 			{
-				result = false;
+				return false;
 			}
-			else if (mtb <= 0f)
+			if (mtb <= 0f)
 			{
 				Log.Error("MTBEventOccurs with mtb=" + mtb, false);
-				result = true;
+				return true;
 			}
-			else if (mtbUnit <= 0f)
+			if (mtbUnit <= 0f)
 			{
 				Log.Error("MTBEventOccurs with mtbUnit=" + mtbUnit, false);
-				result = false;
+				return false;
 			}
-			else if (checkDuration <= 0f)
+			if (checkDuration <= 0f)
 			{
 				Log.Error("MTBEventOccurs with checkDuration=" + checkDuration, false);
-				result = false;
+				return false;
 			}
-			else
+			double num = (double)checkDuration / ((double)mtb * (double)mtbUnit);
+			if (num <= 0.0)
 			{
-				double num = (double)checkDuration / ((double)mtb * (double)mtbUnit);
-				if (num <= 0.0)
+				Log.Error(string.Concat(new object[]
 				{
-					Log.Error(string.Concat(new object[]
-					{
-						"chancePerCheck is ",
-						num,
-						". mtb=",
-						mtb,
-						", mtbUnit=",
-						mtbUnit,
-						", checkDuration=",
-						checkDuration
-					}), false);
-					result = false;
+					"chancePerCheck is ",
+					num,
+					". mtb=",
+					mtb,
+					", mtbUnit=",
+					mtbUnit,
+					", checkDuration=",
+					checkDuration
+				}), false);
+				return false;
+			}
+			double num2 = 1.0;
+			if (num < 0.0001)
+			{
+				while (num < 0.0001)
+				{
+					num *= 8.0;
+					num2 /= 8.0;
 				}
-				else
+				if ((double)Rand.Value > num2)
 				{
-					double num2 = 1.0;
-					if (num < 0.0001)
-					{
-						while (num < 0.0001)
-						{
-							num *= 8.0;
-							num2 /= 8.0;
-						}
-						if ((double)Rand.Value > num2)
-						{
-							return false;
-						}
-					}
-					result = ((double)Rand.Value < num);
+					return false;
 				}
 			}
-			return result;
+			return (double)Rand.Value < num;
 		}
 
 		[Category("System")]
@@ -612,66 +564,56 @@ namespace Verse
 		public static bool TryRangeInclusiveWhere(int from, int to, Predicate<int> predicate, out int value)
 		{
 			int num = to - from + 1;
-			bool result;
 			if (num <= 0)
 			{
 				value = 0;
-				result = false;
+				return false;
 			}
-			else
+			int num2 = Mathf.Max(Mathf.RoundToInt(Mathf.Sqrt((float)num)), 5);
+			for (int i = 0; i < num2; i++)
 			{
-				int num2 = Mathf.Max(Mathf.RoundToInt(Mathf.Sqrt((float)num)), 5);
-				for (int i = 0; i < num2; i++)
+				int num3 = Rand.RangeInclusive(from, to);
+				if (predicate(num3))
 				{
-					int num3 = Rand.RangeInclusive(from, to);
-					if (predicate(num3))
-					{
-						value = num3;
-						return true;
-					}
+					value = num3;
+					return true;
 				}
-				Rand.tmpRange.Clear();
-				for (int j = from; j <= to; j++)
-				{
-					Rand.tmpRange.Add(j);
-				}
-				Rand.tmpRange.Shuffle<int>();
-				int k = 0;
-				int count = Rand.tmpRange.Count;
-				while (k < count)
-				{
-					if (predicate(Rand.tmpRange[k]))
-					{
-						value = Rand.tmpRange[k];
-						return true;
-					}
-					k++;
-				}
-				value = 0;
-				result = false;
 			}
-			return result;
+			Rand.tmpRange.Clear();
+			for (int j = from; j <= to; j++)
+			{
+				Rand.tmpRange.Add(j);
+			}
+			Rand.tmpRange.Shuffle<int>();
+			int k = 0;
+			int count = Rand.tmpRange.Count;
+			while (k < count)
+			{
+				if (predicate(Rand.tmpRange[k]))
+				{
+					value = Rand.tmpRange[k];
+					return true;
+				}
+				k++;
+			}
+			value = 0;
+			return false;
 		}
 
 		public static Vector3 PointOnSphereCap(Vector3 center, float angle)
 		{
-			Vector3 result;
 			if (angle <= 0f)
 			{
-				result = center;
+				return center;
 			}
-			else if (angle >= 180f)
+			if (angle >= 180f)
 			{
-				result = Rand.UnitVector3;
+				return Rand.UnitVector3;
 			}
-			else
-			{
-				float num = Rand.Range(Mathf.Cos(angle * 0.0174532924f), 1f);
-				float f = Rand.Range(0f, 6.28318548f);
-				Vector3 point = new Vector3(Mathf.Sqrt(1f - num * num) * Mathf.Cos(f), Mathf.Sqrt(1f - num * num) * Mathf.Sin(f), num);
-				result = Quaternion.FromToRotation(Vector3.forward, center) * point;
-			}
-			return result;
+			float num = Rand.Range(Mathf.Cos(angle * 0.0174532924f), 1f);
+			float f = Rand.Range(0f, 6.28318548f);
+			Vector3 point = new Vector3(Mathf.Sqrt(1f - num * num) * Mathf.Cos(f), Mathf.Sqrt(1f - num * num) * Mathf.Sin(f), num);
+			return Quaternion.FromToRotation(Vector3.forward, center) * point;
 		}
 	}
 }

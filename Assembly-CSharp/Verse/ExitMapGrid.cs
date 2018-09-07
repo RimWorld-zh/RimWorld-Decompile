@@ -25,25 +25,17 @@ namespace Verse
 		{
 			get
 			{
-				bool result;
 				if (this.map.IsPlayerHome)
 				{
-					result = false;
+					return false;
 				}
-				else
+				CaravansBattlefield caravansBattlefield = this.map.Parent as CaravansBattlefield;
+				if (caravansBattlefield != null && caravansBattlefield.def.blockExitGridUntilBattleIsWon && !caravansBattlefield.WonBattle)
 				{
-					CaravansBattlefield caravansBattlefield = this.map.Parent as CaravansBattlefield;
-					if (caravansBattlefield != null && caravansBattlefield.def.blockExitGridUntilBattleIsWon && !caravansBattlefield.WonBattle)
-					{
-						result = false;
-					}
-					else
-					{
-						FormCaravanComp component = this.map.Parent.GetComponent<FormCaravanComp>();
-						result = (component == null || !component.CanFormOrReformCaravanNow);
-					}
+					return false;
 				}
-				return result;
+				FormCaravanComp component = this.map.Parent.GetComponent<FormCaravanComp>();
+				return component == null || !component.CanFormOrReformCaravanNow;
 			}
 		}
 
@@ -51,24 +43,19 @@ namespace Verse
 		{
 			get
 			{
-				CellBoolDrawer result;
 				if (!this.MapUsesExitGrid)
 				{
-					result = null;
+					return null;
 				}
-				else
+				if (this.dirty)
 				{
-					if (this.dirty)
-					{
-						this.Rebuild();
-					}
-					if (this.drawerInt == null)
-					{
-						this.drawerInt = new CellBoolDrawer(this, this.map.Size.x, this.map.Size.z, 0.33f);
-					}
-					result = this.drawerInt;
+					this.Rebuild();
 				}
-				return result;
+				if (this.drawerInt == null)
+				{
+					this.drawerInt = new CellBoolDrawer(this, this.map.Size.x, this.map.Size.z, 0.33f);
+				}
+				return this.drawerInt;
 			}
 		}
 
@@ -76,20 +63,15 @@ namespace Verse
 		{
 			get
 			{
-				BoolGrid result;
 				if (!this.MapUsesExitGrid)
 				{
-					result = null;
+					return null;
 				}
-				else
+				if (this.dirty)
 				{
-					if (this.dirty)
-					{
-						this.Rebuild();
-					}
-					result = this.exitMapGrid;
+					this.Rebuild();
 				}
-				return result;
+				return this.exitMapGrid;
 			}
 		}
 
@@ -118,11 +100,12 @@ namespace Verse
 
 		public void ExitMapGridUpdate()
 		{
-			if (this.MapUsesExitGrid)
+			if (!this.MapUsesExitGrid)
 			{
-				this.Drawer.MarkForDraw();
-				this.Drawer.CellBoolDrawerUpdate();
+				return;
 			}
+			this.Drawer.MarkForDraw();
+			this.Drawer.CellBoolDrawerUpdate();
 		}
 
 		public void Notify_LOSBlockerSpawned()
@@ -170,25 +153,20 @@ namespace Verse
 
 		private bool IsGoodExitCell(IntVec3 cell)
 		{
-			bool result;
 			if (!cell.CanBeSeenOver(this.map))
 			{
-				result = false;
+				return false;
 			}
-			else
+			int num = GenRadial.NumCellsInRadius(2f);
+			for (int i = 0; i < num; i++)
 			{
-				int num = GenRadial.NumCellsInRadius(2f);
-				for (int i = 0; i < num; i++)
+				IntVec3 intVec = cell + GenRadial.RadialPattern[i];
+				if (intVec.InBounds(this.map) && intVec.OnEdge(this.map) && intVec.CanBeSeenOverFast(this.map) && GenSight.LineOfSight(cell, intVec, this.map, false, null, 0, 0))
 				{
-					IntVec3 intVec = cell + GenRadial.RadialPattern[i];
-					if (intVec.InBounds(this.map) && intVec.OnEdge(this.map) && intVec.CanBeSeenOverFast(this.map) && GenSight.LineOfSight(cell, intVec, this.map, false, null, 0, 0))
-					{
-						return true;
-					}
+					return true;
 				}
-				result = false;
 			}
-			return result;
+			return false;
 		}
 	}
 }

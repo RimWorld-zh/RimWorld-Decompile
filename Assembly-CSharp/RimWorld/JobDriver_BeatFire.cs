@@ -23,7 +23,7 @@ namespace RimWorld
 			}
 		}
 
-		public override bool TryMakePreToilReservations()
+		public override bool TryMakePreToilReservations(bool errorOnFailed)
 		{
 			return true;
 		}
@@ -37,7 +37,7 @@ namespace RimWorld
 			{
 				if (this.Map.reservationManager.CanReserve(this.pawn, this.TargetFire, 1, -1, null, false))
 				{
-					this.pawn.Reserve(this.TargetFire, this.job, 1, -1, null);
+					this.pawn.Reserve(this.TargetFire, this.job, 1, -1, null, true);
 				}
 				this.pawn.pather.StartPath(this.TargetFire, PathEndMode.Touch);
 			};
@@ -62,13 +62,18 @@ namespace RimWorld
 				{
 					this.JumpToToil(approach);
 				}
-				else if (!(this.pawn.Position != this.TargetFire.Position) || !this.StartBeatingFireIfAnyAt(this.pawn.Position, beat))
+				else
 				{
+					if (this.pawn.Position != this.TargetFire.Position && this.StartBeatingFireIfAnyAt(this.pawn.Position, beat))
+					{
+						return;
+					}
 					this.pawn.natives.TryBeatFire(this.TargetFire);
 					if (this.TargetFire.Destroyed)
 					{
 						this.pawn.records.Increment(RecordDefOf.FiresExtinguished);
 						this.pawn.jobs.EndCurrentJob(JobCondition.Succeeded, true);
+						return;
 					}
 				}
 			};
@@ -128,7 +133,7 @@ namespace RimWorld
 					{
 						if (this.Map.reservationManager.CanReserve(this.pawn, this.TargetFire, 1, -1, null, false))
 						{
-							this.pawn.Reserve(this.TargetFire, this.job, 1, -1, null);
+							this.pawn.Reserve(this.TargetFire, this.job, 1, -1, null, true);
 						}
 						this.pawn.pather.StartPath(this.TargetFire, PathEndMode.Touch);
 					};
@@ -160,13 +165,18 @@ namespace RimWorld
 						{
 							<MakeNewToils>c__AnonStorey.<>f__ref$0.$this.JumpToToil(<MakeNewToils>c__AnonStorey.approach);
 						}
-						else if (!(<MakeNewToils>c__AnonStorey.<>f__ref$0.$this.pawn.Position != <MakeNewToils>c__AnonStorey.<>f__ref$0.$this.TargetFire.Position) || !<MakeNewToils>c__AnonStorey.<>f__ref$0.$this.StartBeatingFireIfAnyAt(<MakeNewToils>c__AnonStorey.<>f__ref$0.$this.pawn.Position, <MakeNewToils>c__AnonStorey.beat))
+						else
 						{
+							if (<MakeNewToils>c__AnonStorey.<>f__ref$0.$this.pawn.Position != <MakeNewToils>c__AnonStorey.<>f__ref$0.$this.TargetFire.Position && <MakeNewToils>c__AnonStorey.<>f__ref$0.$this.StartBeatingFireIfAnyAt(<MakeNewToils>c__AnonStorey.<>f__ref$0.$this.pawn.Position, <MakeNewToils>c__AnonStorey.beat))
+							{
+								return;
+							}
 							<MakeNewToils>c__AnonStorey.<>f__ref$0.$this.pawn.natives.TryBeatFire(<MakeNewToils>c__AnonStorey.<>f__ref$0.$this.TargetFire);
 							if (<MakeNewToils>c__AnonStorey.<>f__ref$0.$this.TargetFire.Destroyed)
 							{
 								<MakeNewToils>c__AnonStorey.<>f__ref$0.$this.pawn.records.Increment(RecordDefOf.FiresExtinguished);
 								<MakeNewToils>c__AnonStorey.<>f__ref$0.$this.pawn.jobs.EndCurrentJob(JobCondition.Succeeded, true);
+								return;
 							}
 						}
 					};
@@ -250,7 +260,7 @@ namespace RimWorld
 				{
 					if (this.<>f__ref$0.$this.Map.reservationManager.CanReserve(this.<>f__ref$0.$this.pawn, this.<>f__ref$0.$this.TargetFire, 1, -1, null, false))
 					{
-						this.<>f__ref$0.$this.pawn.Reserve(this.<>f__ref$0.$this.TargetFire, this.<>f__ref$0.$this.job, 1, -1, null);
+						this.<>f__ref$0.$this.pawn.Reserve(this.<>f__ref$0.$this.TargetFire, this.<>f__ref$0.$this.job, 1, -1, null, true);
 					}
 					this.<>f__ref$0.$this.pawn.pather.StartPath(this.<>f__ref$0.$this.TargetFire, PathEndMode.Touch);
 				}
@@ -273,13 +283,18 @@ namespace RimWorld
 					{
 						this.<>f__ref$0.$this.JumpToToil(this.approach);
 					}
-					else if (!(this.<>f__ref$0.$this.pawn.Position != this.<>f__ref$0.$this.TargetFire.Position) || !this.<>f__ref$0.$this.StartBeatingFireIfAnyAt(this.<>f__ref$0.$this.pawn.Position, this.beat))
+					else
 					{
+						if (this.<>f__ref$0.$this.pawn.Position != this.<>f__ref$0.$this.TargetFire.Position && this.<>f__ref$0.$this.StartBeatingFireIfAnyAt(this.<>f__ref$0.$this.pawn.Position, this.beat))
+						{
+							return;
+						}
 						this.<>f__ref$0.$this.pawn.natives.TryBeatFire(this.<>f__ref$0.$this.TargetFire);
 						if (this.<>f__ref$0.$this.TargetFire.Destroyed)
 						{
 							this.<>f__ref$0.$this.pawn.records.Increment(RecordDefOf.FiresExtinguished);
 							this.<>f__ref$0.$this.pawn.jobs.EndCurrentJob(JobCondition.Succeeded, true);
+							return;
 						}
 					}
 				}

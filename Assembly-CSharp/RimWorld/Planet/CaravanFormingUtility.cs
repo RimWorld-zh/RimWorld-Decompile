@@ -38,36 +38,35 @@ namespace RimWorld.Planet
 			if (startingTile < 0)
 			{
 				Log.Error("Can't start forming caravan because startingTile is invalid.", false);
+				return;
 			}
-			else if (!pawns.Any<Pawn>())
+			if (!pawns.Any<Pawn>())
 			{
 				Log.Error("Can't start forming caravan with 0 pawns.", false);
+				return;
 			}
-			else
+			if (pawns.Any((Pawn x) => x.Downed))
 			{
-				if (pawns.Any((Pawn x) => x.Downed))
+				Log.Warning("Forming a caravan with a downed pawn. This shouldn't happen because we have to create a Lord.", false);
+			}
+			List<TransferableOneWay> list = transferables.ToList<TransferableOneWay>();
+			list.RemoveAll((TransferableOneWay x) => x.CountToTransfer <= 0 || !x.HasAnyThing || x.AnyThing is Pawn);
+			for (int i = 0; i < pawns.Count; i++)
+			{
+				Lord lord = pawns[i].GetLord();
+				if (lord != null)
 				{
-					Log.Warning("Forming a caravan with a downed pawn. This shouldn't happen because we have to create a Lord.", false);
+					lord.Notify_PawnLost(pawns[i], PawnLostCondition.ForcedToJoinOtherLord, null);
 				}
-				List<TransferableOneWay> list = transferables.ToList<TransferableOneWay>();
-				list.RemoveAll((TransferableOneWay x) => x.CountToTransfer <= 0 || !x.HasAnyThing || x.AnyThing is Pawn);
-				for (int i = 0; i < pawns.Count; i++)
+			}
+			LordJob_FormAndSendCaravan lordJob = new LordJob_FormAndSendCaravan(list, meetingPoint, exitSpot, startingTile, destinationTile);
+			LordMaker.MakeNewLord(Faction.OfPlayer, lordJob, pawns[0].MapHeld, pawns);
+			for (int j = 0; j < pawns.Count; j++)
+			{
+				Pawn pawn = pawns[j];
+				if (pawn.Spawned)
 				{
-					Lord lord = pawns[i].GetLord();
-					if (lord != null)
-					{
-						lord.Notify_PawnLost(pawns[i], PawnLostCondition.ForcedToJoinOtherLord);
-					}
-				}
-				LordJob_FormAndSendCaravan lordJob = new LordJob_FormAndSendCaravan(list, meetingPoint, exitSpot, startingTile, destinationTile);
-				LordMaker.MakeNewLord(Faction.OfPlayer, lordJob, pawns[0].MapHeld, pawns);
-				for (int j = 0; j < pawns.Count; j++)
-				{
-					Pawn pawn = pawns[j];
-					if (pawn.Spawned)
-					{
-						pawn.jobs.EndCurrentJob(JobCondition.InterruptForced, true);
-					}
+					pawn.jobs.EndCurrentJob(JobCondition.InterruptForced, true);
 				}
 			}
 		}
@@ -105,7 +104,7 @@ namespace RimWorld.Planet
 				pawn.inventory.UnloadEverything = true;
 				if (lord.ownedPawns.Contains(pawn))
 				{
-					lord.Notify_PawnLost(pawn, PawnLostCondition.ForcedByPlayerAction);
+					lord.Notify_PawnLost(pawn, PawnLostCondition.ForcedByPlayerAction, null);
 					flag2 = false;
 				}
 			}
@@ -167,7 +166,7 @@ namespace RimWorld.Planet
 
 		private static bool CanListAsAutoCapturable(Pawn p)
 		{
-			return p.Downed && !p.mindState.willJoinColonyIfRescued && CaravanUtility.ShouldAutoCapture(p, Faction.OfPlayer);
+			return p.Downed && !p.mindState.WillJoinColonyIfRescued && CaravanUtility.ShouldAutoCapture(p, Faction.OfPlayer);
 		}
 
 		public static IEnumerable<Gizmo> GetGizmos(Pawn pawn)
@@ -229,30 +228,31 @@ namespace RimWorld.Planet
 									list.Add(lord3);
 								}
 							}
-							if (list.Count != 0)
+							if (list.Count == 0)
 							{
-								if (list.Count == 1)
+								return;
+							}
+							if (list.Count == 1)
+							{
+								CaravanFormingUtility.LateJoinFormingCaravan(pawn, list[0]);
+								SoundDefOf.Click.PlayOneShotOnCamera(null);
+							}
+							else
+							{
+								List<FloatMenuOption> list2 = new List<FloatMenuOption>();
+								for (int k = 0; k < list.Count; k++)
 								{
-									CaravanFormingUtility.LateJoinFormingCaravan(pawn, list[0]);
-									SoundDefOf.Click.PlayOneShotOnCamera(null);
-								}
-								else
-								{
-									List<FloatMenuOption> list2 = new List<FloatMenuOption>();
-									for (int k = 0; k < list.Count; k++)
+									Lord caravanLocal = list[k];
+									string label = "Caravan".Translate() + " " + (k + 1);
+									list2.Add(new FloatMenuOption(label, delegate()
 									{
-										Lord caravanLocal = list[k];
-										string label = "Caravan".Translate() + " " + (k + 1);
-										list2.Add(new FloatMenuOption(label, delegate()
+										if (pawn.Spawned && pawn.Map.lordManager.lords.Contains(caravanLocal) && Dialog_FormCaravan.AllSendablePawns(pawn.Map, false).Contains(pawn))
 										{
-											if (pawn.Spawned && pawn.Map.lordManager.lords.Contains(caravanLocal) && Dialog_FormCaravan.AllSendablePawns(pawn.Map, false).Contains(pawn))
-											{
-												CaravanFormingUtility.LateJoinFormingCaravan(pawn, caravanLocal);
-											}
-										}, MenuOptionPriority.Default, null, null, 0f, null, null));
-									}
-									Find.WindowStack.Add(new FloatMenu(list2));
+											CaravanFormingUtility.LateJoinFormingCaravan(pawn, caravanLocal);
+										}
+									}, MenuOptionPriority.Default, null, null, 0f, null, null));
 								}
+								Find.WindowStack.Add(new FloatMenu(list2));
 							}
 						},
 						hotKey = KeyBindingDefOf.Misc7
@@ -267,7 +267,7 @@ namespace RimWorld.Planet
 			Lord lord2 = pawn.GetLord();
 			if (lord2 != null)
 			{
-				lord2.Notify_PawnLost(pawn, PawnLostCondition.ForcedToJoinOtherLord);
+				lord2.Notify_PawnLost(pawn, PawnLostCondition.ForcedToJoinOtherLord, null);
 			}
 			lord.AddPawn(pawn);
 			if (pawn.Spawned)
@@ -407,30 +407,31 @@ namespace RimWorld.Planet
 										list.Add(lord3);
 									}
 								}
-								if (list.Count != 0)
+								if (list.Count == 0)
 								{
-									if (list.Count == 1)
+									return;
+								}
+								if (list.Count == 1)
+								{
+									CaravanFormingUtility.LateJoinFormingCaravan(pawn, list[0]);
+									SoundDefOf.Click.PlayOneShotOnCamera(null);
+								}
+								else
+								{
+									List<FloatMenuOption> list2 = new List<FloatMenuOption>();
+									for (int k = 0; k < list.Count; k++)
 									{
-										CaravanFormingUtility.LateJoinFormingCaravan(pawn, list[0]);
-										SoundDefOf.Click.PlayOneShotOnCamera(null);
-									}
-									else
-									{
-										List<FloatMenuOption> list2 = new List<FloatMenuOption>();
-										for (int k = 0; k < list.Count; k++)
+										Lord caravanLocal = list[k];
+										string label = "Caravan".Translate() + " " + (k + 1);
+										list2.Add(new FloatMenuOption(label, delegate()
 										{
-											Lord caravanLocal = list[k];
-											string label = "Caravan".Translate() + " " + (k + 1);
-											list2.Add(new FloatMenuOption(label, delegate()
+											if (pawn.Spawned && pawn.Map.lordManager.lords.Contains(caravanLocal) && Dialog_FormCaravan.AllSendablePawns(pawn.Map, false).Contains(pawn))
 											{
-												if (pawn.Spawned && pawn.Map.lordManager.lords.Contains(caravanLocal) && Dialog_FormCaravan.AllSendablePawns(pawn.Map, false).Contains(pawn))
-												{
-													CaravanFormingUtility.LateJoinFormingCaravan(pawn, caravanLocal);
-												}
-											}, MenuOptionPriority.Default, null, null, 0f, null, null));
-										}
-										Find.WindowStack.Add(new FloatMenu(list2));
+												CaravanFormingUtility.LateJoinFormingCaravan(pawn, caravanLocal);
+											}
+										}, MenuOptionPriority.Default, null, null, 0f, null, null));
 									}
+									Find.WindowStack.Add(new FloatMenu(list2));
 								}
 							};
 							addToCaravan.hotKey = KeyBindingDefOf.Misc7;
@@ -540,30 +541,31 @@ namespace RimWorld.Planet
 							list.Add(lord);
 						}
 					}
-					if (list.Count != 0)
+					if (list.Count == 0)
 					{
-						if (list.Count == 1)
+						return;
+					}
+					if (list.Count == 1)
+					{
+						CaravanFormingUtility.LateJoinFormingCaravan(this.pawn, list[0]);
+						SoundDefOf.Click.PlayOneShotOnCamera(null);
+					}
+					else
+					{
+						List<FloatMenuOption> list2 = new List<FloatMenuOption>();
+						for (int j = 0; j < list.Count; j++)
 						{
-							CaravanFormingUtility.LateJoinFormingCaravan(this.pawn, list[0]);
-							SoundDefOf.Click.PlayOneShotOnCamera(null);
-						}
-						else
-						{
-							List<FloatMenuOption> list2 = new List<FloatMenuOption>();
-							for (int j = 0; j < list.Count; j++)
+							Lord caravanLocal = list[j];
+							string label = "Caravan".Translate() + " " + (j + 1);
+							list2.Add(new FloatMenuOption(label, delegate()
 							{
-								Lord caravanLocal = list[j];
-								string label = "Caravan".Translate() + " " + (j + 1);
-								list2.Add(new FloatMenuOption(label, delegate()
+								if (this.pawn.Spawned && this.pawn.Map.lordManager.lords.Contains(caravanLocal) && Dialog_FormCaravan.AllSendablePawns(this.pawn.Map, false).Contains(this.pawn))
 								{
-									if (this.pawn.Spawned && this.pawn.Map.lordManager.lords.Contains(caravanLocal) && Dialog_FormCaravan.AllSendablePawns(this.pawn.Map, false).Contains(this.pawn))
-									{
-										CaravanFormingUtility.LateJoinFormingCaravan(this.pawn, caravanLocal);
-									}
-								}, MenuOptionPriority.Default, null, null, 0f, null, null));
-							}
-							Find.WindowStack.Add(new FloatMenu(list2));
+									CaravanFormingUtility.LateJoinFormingCaravan(this.pawn, caravanLocal);
+								}
+							}, MenuOptionPriority.Default, null, null, 0f, null, null));
 						}
+						Find.WindowStack.Add(new FloatMenu(list2));
 					}
 				}
 

@@ -4,9 +4,9 @@ using Verse;
 
 namespace RimWorld
 {
-	public class IncidentWorker_RefugeePodCrash : IncidentWorker
+	public class IncidentWorker_TransportPodCrash : IncidentWorker
 	{
-		public IncidentWorker_RefugeePodCrash()
+		public IncidentWorker_TransportPodCrash()
 		{
 		}
 
@@ -19,23 +19,24 @@ namespace RimWorld
 			pawn.guest.getRescuedThoughtOnUndownedBecauseOfPlayer = true;
 			string label = "LetterLabelRefugeePodCrash".Translate();
 			string text = "RefugeePodCrash".Translate().AdjustedFor(pawn, "PAWN");
-			if (pawn.Faction == null || !pawn.Faction.HostileTo(Faction.OfPlayer))
+			text += "\n\n";
+			if (pawn.Faction == null)
 			{
-				text = text + "\n\n" + "RefugeePodCrash_NonHostileOrFactionless".Translate(new object[]
+				text += "RefugeePodCrash_Factionless".Translate(new object[]
 				{
 					pawn
 				}).AdjustedFor(pawn, "PAWN");
 			}
-			if (pawn.Faction != null && pawn.Faction.HostileTo(Faction.OfPlayer))
+			else if (pawn.Faction.HostileTo(Faction.OfPlayer))
 			{
-				text = text + "\n\n" + "RefugeePodCrash_Hostile".Translate(new object[]
+				text += "RefugeePodCrash_Hostile".Translate(new object[]
 				{
 					pawn
 				}).AdjustedFor(pawn, "PAWN");
 			}
-			if (pawn.Faction != null && !pawn.Faction.HostileTo(Faction.OfPlayer))
+			else
 			{
-				text = text + "\n\n" + "RefugeePodCrash_NonHostile".Translate(new object[]
+				text += "RefugeePodCrash_NonHostile".Translate(new object[]
 				{
 					pawn
 				}).AdjustedFor(pawn, "PAWN");
@@ -46,32 +47,24 @@ namespace RimWorld
 			activeDropPodInfo.innerContainer.TryAddRangeOrTransfer(things, true, false);
 			activeDropPodInfo.openDelay = 180;
 			activeDropPodInfo.leaveSlag = true;
-			DropPodUtility.MakeDropPodAt(intVec, map, activeDropPodInfo, true);
+			DropPodUtility.MakeDropPodAt(intVec, map, activeDropPodInfo);
 			return true;
 		}
 
 		private Pawn FindPawn(List<Thing> things)
 		{
-			int i = 0;
-			while (i < things.Count)
+			for (int i = 0; i < things.Count; i++)
 			{
 				Pawn pawn = things[i] as Pawn;
-				Pawn result;
 				if (pawn != null)
 				{
-					result = pawn;
+					return pawn;
 				}
-				else
+				Corpse corpse = things[i] as Corpse;
+				if (corpse != null)
 				{
-					Corpse corpse = things[i] as Corpse;
-					if (corpse == null)
-					{
-						i++;
-						continue;
-					}
-					result = corpse.InnerPawn;
+					return corpse.InnerPawn;
 				}
-				return result;
 			}
 			return null;
 		}

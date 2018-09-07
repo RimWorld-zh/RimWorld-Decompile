@@ -38,41 +38,48 @@ namespace Verse.AI
 			{
 				thing = base.TargetThingA;
 			}
-			string result;
 			if (thing == null)
 			{
-				result = "ReportHaulingUnknown".Translate();
+				return "ReportHaulingUnknown".Translate();
+			}
+			string text = null;
+			SlotGroup slotGroup = cell.GetSlotGroup(base.Map);
+			if (slotGroup != null)
+			{
+				text = slotGroup.parent.SlotYielderLabel();
+			}
+			if (text != null)
+			{
+				return "ReportHaulingTo".Translate(new object[]
+				{
+					thing.Label,
+					text
+				});
+			}
+			return "ReportHauling".Translate(new object[]
+			{
+				thing.Label
+			});
+		}
+
+		public override bool TryMakePreToilReservations(bool errorOnFailed)
+		{
+			Pawn pawn = this.pawn;
+			LocalTargetInfo target = this.job.GetTarget(TargetIndex.B);
+			Job job = this.job;
+			bool result;
+			if (pawn.Reserve(target, job, 1, -1, null, errorOnFailed))
+			{
+				pawn = this.pawn;
+				target = this.job.GetTarget(TargetIndex.A);
+				job = this.job;
+				result = pawn.Reserve(target, job, 1, -1, null, errorOnFailed);
 			}
 			else
 			{
-				string text = null;
-				SlotGroup slotGroup = cell.GetSlotGroup(base.Map);
-				if (slotGroup != null)
-				{
-					text = slotGroup.parent.SlotYielderLabel();
-				}
-				if (text != null)
-				{
-					result = "ReportHaulingTo".Translate(new object[]
-					{
-						thing.Label,
-						text
-					});
-				}
-				else
-				{
-					result = "ReportHauling".Translate(new object[]
-					{
-						thing.Label
-					});
-				}
+				result = false;
 			}
 			return result;
-		}
-
-		public override bool TryMakePreToilReservations()
-		{
-			return this.pawn.Reserve(this.job.GetTarget(TargetIndex.B), this.job, 1, -1, null) && this.pawn.Reserve(this.job.GetTarget(TargetIndex.A), this.job, 1, -1, null);
 		}
 
 		public override void Notify_Starting()

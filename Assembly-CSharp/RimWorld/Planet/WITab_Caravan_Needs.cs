@@ -27,16 +27,11 @@ namespace RimWorld.Planet
 		{
 			get
 			{
-				float result;
 				if (this.specificNeedsTabForPawn.DestroyedOrNull())
 				{
-					result = 0f;
+					return 0f;
 				}
-				else
-				{
-					result = NeedsCardUtility.GetSize(this.specificNeedsTabForPawn).x;
-				}
-				return result;
+				return NeedsCardUtility.GetSize(this.specificNeedsTabForPawn).x;
 			}
 		}
 
@@ -75,14 +70,15 @@ namespace RimWorld.Planet
 				Rect rect = new Rect(tabRect.xMax - 1f, tabRect.yMin, specificNeedsTabWidth, tabRect.height);
 				Find.WindowStack.ImmediateWindow(1439870015, rect, WindowLayer.GameUI, delegate
 				{
-					if (!localSpecificNeedsTabForPawn.DestroyedOrNull())
+					if (localSpecificNeedsTabForPawn.DestroyedOrNull())
 					{
-						NeedsCardUtility.DoNeedsMoodAndThoughts(rect.AtZero(), localSpecificNeedsTabForPawn, ref this.thoughtScrollPosition);
-						if (Widgets.CloseButtonFor(rect.AtZero()))
-						{
-							this.specificNeedsTabForPawn = null;
-							SoundDefOf.TabClose.PlayOneShotOnCamera(null);
-						}
+						return;
+					}
+					NeedsCardUtility.DoNeedsMoodAndThoughts(rect.AtZero(), localSpecificNeedsTabForPawn, ref this.thoughtScrollPosition);
+					if (Widgets.CloseButtonFor(rect.AtZero()))
+					{
+						this.specificNeedsTabForPawn = null;
+						SoundDefOf.TabClose.PlayOneShotOnCamera(null);
 					}
 				}, true, false, 1f);
 			}
@@ -127,14 +123,15 @@ namespace RimWorld.Planet
 
 			internal void <>m__0()
 			{
-				if (!this.<>f__ref$0.localSpecificNeedsTabForPawn.DestroyedOrNull())
+				if (this.<>f__ref$0.localSpecificNeedsTabForPawn.DestroyedOrNull())
 				{
-					NeedsCardUtility.DoNeedsMoodAndThoughts(this.rect.AtZero(), this.<>f__ref$0.localSpecificNeedsTabForPawn, ref this.<>f__ref$0.$this.thoughtScrollPosition);
-					if (Widgets.CloseButtonFor(this.rect.AtZero()))
-					{
-						this.<>f__ref$0.$this.specificNeedsTabForPawn = null;
-						SoundDefOf.TabClose.PlayOneShotOnCamera(null);
-					}
+					return;
+				}
+				NeedsCardUtility.DoNeedsMoodAndThoughts(this.rect.AtZero(), this.<>f__ref$0.localSpecificNeedsTabForPawn, ref this.<>f__ref$0.$this.thoughtScrollPosition);
+				if (Widgets.CloseButtonFor(this.rect.AtZero()))
+				{
+					this.<>f__ref$0.$this.specificNeedsTabForPawn = null;
+					SoundDefOf.TabClose.PlayOneShotOnCamera(null);
 				}
 			}
 		}

@@ -19,12 +19,10 @@ namespace RimWorld
 			if (xmlRoot.ChildNodes.Count != 1)
 			{
 				Log.Error("Misconfigured MTBByBiome: " + xmlRoot.OuterXml, false);
+				return;
 			}
-			else
-			{
-				DirectXmlCrossRefLoader.RegisterObjectWantsCrossRef(this, "biome", xmlRoot.Name);
-				this.mtbDays = (float)ParseHelper.FromString(xmlRoot.FirstChild.Value, typeof(float));
-			}
+			DirectXmlCrossRefLoader.RegisterObjectWantsCrossRef(this, "biome", xmlRoot.Name);
+			this.mtbDays = (float)ParseHelper.FromString(xmlRoot.FirstChild.Value, typeof(float));
 		}
 	}
 }

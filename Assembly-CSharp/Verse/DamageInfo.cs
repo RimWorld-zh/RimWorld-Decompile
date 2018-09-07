@@ -96,16 +96,11 @@ namespace Verse
 		{
 			get
 			{
-				float result;
 				if (!DebugSettings.enableDamage)
 				{
-					result = 0f;
+					return 0f;
 				}
-				else
-				{
-					result = this.amountInt;
-				}
-				return result;
+				return this.amountInt;
 			}
 		}
 

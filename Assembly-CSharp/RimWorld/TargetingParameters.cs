@@ -8,39 +8,39 @@ namespace RimWorld
 {
 	public class TargetingParameters
 	{
-		public bool canTargetLocations = false;
+		public bool canTargetLocations;
 
-		public bool canTargetSelf = false;
+		public bool canTargetSelf;
 
 		public bool canTargetPawns = true;
 
-		public bool canTargetFires = false;
+		public bool canTargetFires;
 
 		public bool canTargetBuildings = true;
 
-		public bool canTargetItems = false;
+		public bool canTargetItems;
 
-		public List<Faction> onlyTargetFactions = null;
+		public List<Faction> onlyTargetFactions;
 
-		public Predicate<TargetInfo> validator = null;
+		public Predicate<TargetInfo> validator;
 
-		public bool onlyTargetFlammables = false;
+		public bool onlyTargetFlammables;
 
-		public Thing targetSpecificThing = null;
+		public Thing targetSpecificThing;
 
-		public bool mustBeSelectable = false;
+		public bool mustBeSelectable;
 
-		public bool neverTargetDoors = false;
+		public bool neverTargetDoors;
 
-		public bool neverTargetIncapacitated = false;
+		public bool neverTargetIncapacitated;
 
-		public bool onlyTargetThingsAffectingRegions = false;
+		public bool onlyTargetThingsAffectingRegions;
 
-		public bool onlyTargetDamagedThings = false;
+		public bool onlyTargetDamagedThings;
 
 		public bool mapObjectTargetsMustBeAutoAttackable = true;
 
-		public bool onlyTargetIncapacitatedPawns = false;
+		public bool onlyTargetIncapacitatedPawns;
 
 		[CompilerGenerated]
 		private static Predicate<TargetInfo> <>f__am$cache0;
@@ -63,40 +63,39 @@ namespace RimWorld
 
 		public bool CanTarget(TargetInfo targ)
 		{
-			bool result;
 			if (this.validator != null && !this.validator(targ))
 			{
-				result = false;
+				return false;
 			}
-			else if (targ.Thing == null)
+			if (targ.Thing == null)
 			{
-				result = this.canTargetLocations;
+				return this.canTargetLocations;
 			}
-			else if (this.neverTargetDoors && targ.Thing.def.IsDoor)
+			if (this.neverTargetDoors && targ.Thing.def.IsDoor)
 			{
-				result = false;
+				return false;
 			}
-			else if (this.onlyTargetDamagedThings && targ.Thing.HitPoints == targ.Thing.MaxHitPoints)
+			if (this.onlyTargetDamagedThings && targ.Thing.HitPoints == targ.Thing.MaxHitPoints)
 			{
-				result = false;
+				return false;
 			}
-			else if (this.onlyTargetFlammables && !targ.Thing.FlammableNow)
+			if (this.onlyTargetFlammables && !targ.Thing.FlammableNow)
 			{
-				result = false;
+				return false;
 			}
-			else if (this.mustBeSelectable && !ThingSelectionUtility.SelectableByMapClick(targ.Thing))
+			if (this.mustBeSelectable && !ThingSelectionUtility.SelectableByMapClick(targ.Thing))
 			{
-				result = false;
+				return false;
 			}
-			else if (this.targetSpecificThing != null && targ.Thing == this.targetSpecificThing)
+			if (this.targetSpecificThing != null && targ.Thing == this.targetSpecificThing)
 			{
-				result = true;
+				return true;
 			}
-			else if (this.canTargetFires && targ.Thing.def == ThingDefOf.Fire)
+			if (this.canTargetFires && targ.Thing.def == ThingDefOf.Fire)
 			{
-				result = true;
+				return true;
 			}
-			else if (this.canTargetPawns && targ.Thing.def.category == ThingCategory.Pawn)
+			if (this.canTargetPawns && targ.Thing.def.category == ThingCategory.Pawn)
 			{
 				if (((Pawn)targ.Thing).Downed)
 				{
@@ -109,17 +108,13 @@ namespace RimWorld
 				{
 					return false;
 				}
-				result = (this.onlyTargetFactions == null || this.onlyTargetFactions.Contains(targ.Thing.Faction));
+				return this.onlyTargetFactions == null || this.onlyTargetFactions.Contains(targ.Thing.Faction);
 			}
-			else if (this.canTargetBuildings && targ.Thing.def.category == ThingCategory.Building)
+			if (this.canTargetBuildings && targ.Thing.def.category == ThingCategory.Building)
 			{
-				result = ((!this.onlyTargetThingsAffectingRegions || targ.Thing.def.AffectsRegions) && (this.onlyTargetFactions == null || this.onlyTargetFactions.Contains(targ.Thing.Faction)));
+				return (!this.onlyTargetThingsAffectingRegions || targ.Thing.def.AffectsRegions) && (this.onlyTargetFactions == null || this.onlyTargetFactions.Contains(targ.Thing.Faction));
 			}
-			else
-			{
-				result = (this.canTargetItems && (!this.mapObjectTargetsMustBeAutoAttackable || targ.Thing.def.isAutoAttackableMapObject));
-			}
-			return result;
+			return this.canTargetItems && (!this.mapObjectTargetsMustBeAutoAttackable || targ.Thing.def.isAutoAttackableMapObject);
 		}
 
 		public static TargetingParameters ForSelf(Pawn p)
@@ -142,17 +137,12 @@ namespace RimWorld
 				mapObjectTargetsMustBeAutoAttackable = false,
 				validator = delegate(TargetInfo targ)
 				{
-					bool result;
 					if (!targ.HasThing)
 					{
-						result = false;
+						return false;
 					}
-					else
-					{
-						Pawn pawn = targ.Thing as Pawn;
-						result = (pawn != null && pawn != arrester && pawn.CanBeArrestedBy(arrester) && !pawn.Downed);
-					}
-					return result;
+					Pawn pawn = targ.Thing as Pawn;
+					return pawn != null && pawn != arrester && pawn.CanBeArrestedBy(arrester) && !pawn.Downed;
 				}
 			};
 		}
@@ -166,21 +156,16 @@ namespace RimWorld
 			targetingParameters.mapObjectTargetsMustBeAutoAttackable = true;
 			targetingParameters.validator = delegate(TargetInfo targ)
 			{
-				bool result;
 				if (!targ.HasThing)
 				{
-					result = false;
+					return false;
 				}
-				else if (targ.Thing.HostileTo(Faction.OfPlayer))
+				if (targ.Thing.HostileTo(Faction.OfPlayer))
 				{
-					result = true;
+					return true;
 				}
-				else
-				{
-					Pawn pawn = targ.Thing as Pawn;
-					result = (pawn != null && pawn.NonHumanlikeOrWildMan());
-				}
-				return result;
+				Pawn pawn = targ.Thing as Pawn;
+				return pawn != null && pawn.NonHumanlikeOrWildMan();
 			};
 			return targetingParameters;
 		}
@@ -253,7 +238,7 @@ namespace RimWorld
 			targetingParameters.validator = delegate(TargetInfo x)
 			{
 				Pawn pawn = x.Thing as Pawn;
-				return pawn != null && !pawn.Dead && pawn.mindState.willJoinColonyIfRescued;
+				return pawn != null && !pawn.Dead && pawn.mindState.WillJoinColonyIfRescued;
 			};
 			return targetingParameters;
 		}
@@ -261,21 +246,16 @@ namespace RimWorld
 		[CompilerGenerated]
 		private static bool <ForAttackHostile>m__0(TargetInfo targ)
 		{
-			bool result;
 			if (!targ.HasThing)
 			{
-				result = false;
+				return false;
 			}
-			else if (targ.Thing.HostileTo(Faction.OfPlayer))
+			if (targ.Thing.HostileTo(Faction.OfPlayer))
 			{
-				result = true;
+				return true;
 			}
-			else
-			{
-				Pawn pawn = targ.Thing as Pawn;
-				result = (pawn != null && pawn.NonHumanlikeOrWildMan());
-			}
-			return result;
+			Pawn pawn = targ.Thing as Pawn;
+			return pawn != null && pawn.NonHumanlikeOrWildMan();
 		}
 
 		[CompilerGenerated]
@@ -301,7 +281,7 @@ namespace RimWorld
 		private static bool <ForQuestPawnsWhoWillJoinColony>m__4(TargetInfo x)
 		{
 			Pawn pawn = x.Thing as Pawn;
-			return pawn != null && !pawn.Dead && pawn.mindState.willJoinColonyIfRescued;
+			return pawn != null && !pawn.Dead && pawn.mindState.WillJoinColonyIfRescued;
 		}
 
 		[CompilerGenerated]
@@ -315,17 +295,12 @@ namespace RimWorld
 
 			internal bool <>m__0(TargetInfo targ)
 			{
-				bool result;
 				if (!targ.HasThing)
 				{
-					result = false;
+					return false;
 				}
-				else
-				{
-					Pawn pawn = targ.Thing as Pawn;
-					result = (pawn != null && pawn != this.arrester && pawn.CanBeArrestedBy(this.arrester) && !pawn.Downed);
-				}
-				return result;
+				Pawn pawn = targ.Thing as Pawn;
+				return pawn != null && pawn != this.arrester && pawn.CanBeArrestedBy(this.arrester) && !pawn.Downed;
 			}
 		}
 	}

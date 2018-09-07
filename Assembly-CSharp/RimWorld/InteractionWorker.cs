@@ -6,6 +6,8 @@ namespace RimWorld
 {
 	public class InteractionWorker
 	{
+		public InteractionDef interaction;
+
 		public InteractionWorker()
 		{
 		}

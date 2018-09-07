@@ -33,40 +33,32 @@ namespace RimWorld
 		protected override Job TryGiveJob(Pawn pawn)
 		{
 			pawn.mindState.nextMoveOrderIsWait = !pawn.mindState.nextMoveOrderIsWait;
-			Job result;
 			if (pawn.mindState.nextMoveOrderIsWait && !this.exactCell)
 			{
-				result = new Job(JobDefOf.Wait_Wander)
+				return new Job(JobDefOf.Wait_Wander)
 				{
 					expiryInterval = this.WaitTicks.RandomInRange
 				};
 			}
-			else
+			IntVec3 cell = pawn.mindState.duty.focus.Cell;
+			if (!pawn.CanReach(cell, PathEndMode.OnCell, PawnUtility.ResolveMaxDanger(pawn, this.maxDanger), false, TraverseMode.ByPawn))
 			{
-				IntVec3 cell = pawn.mindState.duty.focus.Cell;
-				if (!pawn.CanReach(cell, PathEndMode.OnCell, PawnUtility.ResolveMaxDanger(pawn, this.maxDanger), false, TraverseMode.ByPawn))
-				{
-					result = null;
-				}
-				else if (this.exactCell && pawn.Position == cell)
-				{
-					result = null;
-				}
-				else
-				{
-					IntVec3 c = cell;
-					if (!this.exactCell)
-					{
-						c = CellFinder.RandomClosewalkCellNear(cell, pawn.Map, 6, null);
-					}
-					result = new Job(JobDefOf.Goto, c)
-					{
-						locomotionUrgency = PawnUtility.ResolveLocomotion(pawn, this.locomotionUrgency),
-						expiryInterval = this.jobMaxDuration
-					};
-				}
+				return null;
 			}
-			return result;
+			if (this.exactCell && pawn.Position == cell)
+			{
+				return null;
+			}
+			IntVec3 c = cell;
+			if (!this.exactCell)
+			{
+				c = CellFinder.RandomClosewalkCellNear(cell, pawn.Map, 6, null);
+			}
+			return new Job(JobDefOf.Goto, c)
+			{
+				locomotionUrgency = PawnUtility.ResolveLocomotion(pawn, this.locomotionUrgency),
+				expiryInterval = this.jobMaxDuration
+			};
 		}
 	}
 }

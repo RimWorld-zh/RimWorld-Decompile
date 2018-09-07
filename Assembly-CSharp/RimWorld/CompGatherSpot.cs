@@ -24,19 +24,20 @@ namespace RimWorld
 			}
 			set
 			{
-				if (value != this.active)
+				if (value == this.active)
 				{
-					this.active = value;
-					if (this.parent.Spawned)
+					return;
+				}
+				this.active = value;
+				if (this.parent.Spawned)
+				{
+					if (this.active)
 					{
-						if (this.active)
-						{
-							this.parent.Map.gatherSpotLister.RegisterActivated(this);
-						}
-						else
-						{
-							this.parent.Map.gatherSpotLister.RegisterDeactivated(this);
-						}
+						this.parent.Map.gatherSpotLister.RegisterActivated(this);
+					}
+					else
+					{
+						this.parent.Map.gatherSpotLister.RegisterDeactivated(this);
 					}
 				}
 			}
@@ -71,7 +72,7 @@ namespace RimWorld
 			com.hotKey = KeyBindingDefOf.Command_TogglePower;
 			com.defaultLabel = "CommandGatherSpotToggleLabel".Translate();
 			com.icon = TexCommand.GatherSpotActive;
-			com.isActive = (() => this.Active);
+			com.isActive = new Func<bool>(this.get_Active);
 			com.toggleAction = delegate()
 			{
 				this.Active = !this.Active;
@@ -117,7 +118,7 @@ namespace RimWorld
 					com.hotKey = KeyBindingDefOf.Command_TogglePower;
 					com.defaultLabel = "CommandGatherSpotToggleLabel".Translate();
 					com.icon = TexCommand.GatherSpotActive;
-					com.isActive = (() => base.Active);
+					com.isActive = new Func<bool>(base.get_Active);
 					com.toggleAction = delegate()
 					{
 						base.Active = !base.Active;
@@ -192,12 +193,7 @@ namespace RimWorld
 				return <CompGetGizmosExtra>c__Iterator;
 			}
 
-			internal bool <>m__0()
-			{
-				return base.Active;
-			}
-
-			internal void <>m__1()
+			internal void <>m__0()
 			{
 				base.Active = !base.Active;
 			}

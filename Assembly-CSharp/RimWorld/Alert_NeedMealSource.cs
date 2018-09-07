@@ -18,42 +18,32 @@ namespace RimWorld
 
 		public override AlertReport GetReport()
 		{
-			AlertReport result;
 			if (GenDate.DaysPassed < 2)
 			{
-				result = false;
+				return false;
 			}
-			else
+			List<Map> maps = Find.Maps;
+			for (int i = 0; i < maps.Count; i++)
 			{
-				List<Map> maps = Find.Maps;
-				for (int i = 0; i < maps.Count; i++)
+				if (this.NeedMealSource(maps[i]))
 				{
-					if (this.NeedMealSource(maps[i]))
-					{
-						return true;
-					}
+					return true;
 				}
-				result = false;
 			}
-			return result;
+			return false;
 		}
 
 		private bool NeedMealSource(Map map)
 		{
-			bool result;
 			if (!map.IsPlayerHome)
 			{
-				result = false;
+				return false;
 			}
-			else if (!map.mapPawns.AnyColonistSpawned)
+			if (!map.mapPawns.AnyColonistSpawned)
 			{
-				result = false;
+				return false;
 			}
-			else
-			{
-				result = !map.listerBuildings.allBuildingsColonist.Any((Building b) => b.def.building.isMealSource);
-			}
-			return result;
+			return !map.listerBuildings.allBuildingsColonist.Any((Building b) => b.def.building.isMealSource);
 		}
 
 		[CompilerGenerated]

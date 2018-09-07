@@ -34,6 +34,8 @@ namespace RimWorld
 
 		public int widthPriority;
 
+		public int width = -1;
+
 		[Unsaved]
 		private PawnColumnWorker workerInt;
 
@@ -73,24 +75,16 @@ namespace RimWorld
 		{
 			get
 			{
-				Vector2 result;
 				if (this.headerIconSize != default(Vector2))
 				{
-					result = this.headerIconSize;
+					return this.headerIconSize;
 				}
-				else
+				Texture2D texture2D = this.HeaderIcon;
+				if (texture2D != null)
 				{
-					Texture2D texture2D = this.HeaderIcon;
-					if (texture2D != null)
-					{
-						result = new Vector2((float)texture2D.width, (float)texture2D.height);
-					}
-					else
-					{
-						result = Vector2.zero;
-					}
+					return new Vector2((float)texture2D.width, (float)texture2D.height);
 				}
-				return result;
+				return Vector2.zero;
 			}
 		}
 

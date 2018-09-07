@@ -24,30 +24,25 @@ namespace RimWorld.BaseGen
 
 		public override bool CanResolve(ResolveParams rp)
 		{
-			bool result;
 			if (!base.CanResolve(rp))
 			{
-				result = false;
+				return false;
 			}
-			else if (rp.singleThingToSpawn != null && rp.singleThingToSpawn.Spawned)
+			if (rp.singleThingToSpawn != null && rp.singleThingToSpawn.Spawned)
 			{
-				result = true;
+				return true;
 			}
-			else
+			IntVec3 intVec;
+			if (rp.singleThingToSpawn is Pawn)
 			{
-				IntVec3 intVec;
-				if (rp.singleThingToSpawn is Pawn)
+				ResolveParams rp2 = rp;
+				rp2.singlePawnToSpawn = (Pawn)rp.singleThingToSpawn;
+				if (!SymbolResolver_SinglePawn.TryFindSpawnCell(rp2, out intVec))
 				{
-					ResolveParams rp2 = rp;
-					rp2.singlePawnToSpawn = (Pawn)rp.singleThingToSpawn;
-					if (!SymbolResolver_SinglePawn.TryFindSpawnCell(rp2, out intVec))
-					{
-						return false;
-					}
+					return false;
 				}
-				result = (((rp.singleThingDef == null || rp.singleThingDef.category != ThingCategory.Item) && (rp.singleThingToSpawn == null || rp.singleThingToSpawn.def.category != ThingCategory.Item)) || this.TryFindSpawnCellForItem(rp.rect, out intVec));
 			}
-			return result;
+			return ((rp.singleThingDef == null || rp.singleThingDef.category != ThingCategory.Item) && (rp.singleThingToSpawn == null || rp.singleThingToSpawn.def.category != ThingCategory.Item)) || this.TryFindSpawnCellForItem(rp.rect, out intVec);
 		}
 
 		public override void Resolve(ResolveParams rp)
@@ -57,100 +52,106 @@ namespace RimWorld.BaseGen
 				ResolveParams resolveParams = rp;
 				resolveParams.singlePawnToSpawn = (Pawn)rp.singleThingToSpawn;
 				BaseGen.symbolStack.Push("pawn", resolveParams);
+				return;
 			}
-			else if (rp.singleThingToSpawn == null || !rp.singleThingToSpawn.Spawned)
+			if (rp.singleThingToSpawn != null && rp.singleThingToSpawn.Spawned)
 			{
-				ThingDef thingDef2;
-				if (rp.singleThingToSpawn == null)
+				return;
+			}
+			ThingDef thingDef2;
+			if (rp.singleThingToSpawn == null)
+			{
+				ThingDef thingDef;
+				if ((thingDef = rp.singleThingDef) == null)
 				{
-					ThingDef thingDef;
-					if ((thingDef = rp.singleThingDef) == null)
+					thingDef = (from x in ThingSetMakerUtility.allGeneratableItems
+					where x.IsWeapon || x.IsMedicine || x.IsDrug
+					select x).RandomElement<ThingDef>();
+				}
+				thingDef2 = thingDef;
+			}
+			else
+			{
+				thingDef2 = rp.singleThingToSpawn.def;
+			}
+			Rot4? rot = rp.thingRot;
+			IntVec3 intVec;
+			if (thingDef2.category == ThingCategory.Item)
+			{
+				rot = new Rot4?(Rot4.North);
+				if (!this.TryFindSpawnCellForItem(rp.rect, out intVec))
+				{
+					if (rp.singleThingToSpawn != null)
 					{
-						thingDef = (from x in ThingSetMakerUtility.allGeneratableItems
-						where x.IsWeapon || x.IsMedicine || x.IsDrug
-						select x).RandomElement<ThingDef>();
+						rp.singleThingToSpawn.Destroy(DestroyMode.Vanish);
 					}
-					thingDef2 = thingDef;
+					return;
+				}
+			}
+			else
+			{
+				bool flag;
+				bool flag2;
+				intVec = this.FindBestSpawnCellForNonItem(rp.rect, thingDef2, ref rot, out flag, out flag2);
+				if ((flag || flag2) && rp.skipSingleThingIfHasToWipeBuildingOrDoesntFit != null && rp.skipSingleThingIfHasToWipeBuildingOrDoesntFit.Value)
+				{
+					return;
+				}
+			}
+			if (rot == null)
+			{
+				Log.Error("Could not resolve rotation. Bug.", false);
+			}
+			Thing thing;
+			if (rp.singleThingToSpawn == null)
+			{
+				ThingDef stuff;
+				if (rp.singleThingStuff != null && rp.singleThingStuff.stuffProps.CanMake(thingDef2))
+				{
+					stuff = rp.singleThingStuff;
 				}
 				else
 				{
-					thingDef2 = rp.singleThingToSpawn.def;
+					stuff = GenStuff.RandomStuffInexpensiveFor(thingDef2, rp.faction);
 				}
-				Rot4? rot = rp.thingRot;
-				IntVec3 loc;
-				if (thingDef2.category == ThingCategory.Item)
+				thing = ThingMaker.MakeThing(thingDef2, stuff);
+				Thing thing2 = thing;
+				int? singleThingStackCount = rp.singleThingStackCount;
+				thing2.stackCount = ((singleThingStackCount == null) ? 1 : singleThingStackCount.Value);
+				if (thing.stackCount <= 0)
 				{
-					rot = new Rot4?(Rot4.North);
-					if (!this.TryFindSpawnCellForItem(rp.rect, out loc))
-					{
-						if (rp.singleThingToSpawn != null)
-						{
-							rp.singleThingToSpawn.Destroy(DestroyMode.Vanish);
-						}
-						return;
-					}
+					thing.stackCount = 1;
 				}
-				else
+				if (thing.def.CanHaveFaction && thing.Faction != rp.faction)
 				{
-					bool flag;
-					bool flag2;
-					loc = this.FindBestSpawnCellForNonItem(rp.rect, thingDef2, ref rot, out flag, out flag2);
-					if ((flag || flag2) && rp.skipSingleThingIfHasToWipeBuildingOrDoesntFit != null && rp.skipSingleThingIfHasToWipeBuildingOrDoesntFit.Value)
-					{
-						return;
-					}
+					thing.SetFaction(rp.faction, null);
 				}
-				if (rot == null)
+				CompQuality compQuality = thing.TryGetComp<CompQuality>();
+				if (compQuality != null)
 				{
-					Log.Error("Could not resolve rotation. Bug.", false);
+					compQuality.SetQuality(QualityUtility.GenerateQualityBaseGen(), ArtGenerationContext.Outsider);
 				}
-				Thing thing;
-				if (rp.singleThingToSpawn == null)
+				if (rp.postThingGenerate != null)
 				{
-					ThingDef stuff;
-					if (rp.singleThingStuff != null && rp.singleThingStuff.stuffProps.CanMake(thingDef2))
-					{
-						stuff = rp.singleThingStuff;
-					}
-					else
-					{
-						stuff = GenStuff.RandomStuffInexpensiveFor(thingDef2, rp.faction);
-					}
-					thing = ThingMaker.MakeThing(thingDef2, stuff);
-					Thing thing2 = thing;
-					int? singleThingStackCount = rp.singleThingStackCount;
-					thing2.stackCount = ((singleThingStackCount == null) ? 1 : singleThingStackCount.Value);
-					if (thing.stackCount <= 0)
-					{
-						thing.stackCount = 1;
-					}
-					if (thing.def.CanHaveFaction && thing.Faction != rp.faction)
-					{
-						thing.SetFaction(rp.faction, null);
-					}
-					CompQuality compQuality = thing.TryGetComp<CompQuality>();
-					if (compQuality != null)
-					{
-						compQuality.SetQuality(QualityUtility.GenerateQualityBaseGen(), ArtGenerationContext.Outsider);
-					}
-					if (rp.postThingGenerate != null)
-					{
-						rp.postThingGenerate(thing);
-					}
+					rp.postThingGenerate(thing);
 				}
-				else
-				{
-					thing = rp.singleThingToSpawn;
-				}
-				thing = GenSpawn.Spawn(thing, loc, BaseGen.globalSettings.map, rot.Value, WipeMode.Vanish, false);
-				if (thing != null && thing.def.category == ThingCategory.Item)
-				{
-					thing.SetForbidden(true, false);
-				}
-				if (rp.postThingSpawn != null)
-				{
-					rp.postThingSpawn(thing);
-				}
+			}
+			else
+			{
+				thing = rp.singleThingToSpawn;
+			}
+			if (rp.spawnBridgeIfTerrainCantSupportThing == null || rp.spawnBridgeIfTerrainCantSupportThing.Value)
+			{
+				BaseGenUtility.CheckSpawnBridgeUnder(thing.def, intVec, rot.Value);
+			}
+			thing = GenSpawn.Spawn(thing, intVec, BaseGen.globalSettings.map, rot.Value, WipeMode.Vanish, false);
+			if (thing != null && thing.def.category == ThingCategory.Item)
+			{
+				thing.SetForbidden(true, false);
+			}
+			if (rp.postThingSpawn != null)
+			{
+				rp.postThingSpawn(thing);
 			}
 		}
 
@@ -159,24 +160,19 @@ namespace RimWorld.BaseGen
 			Map map = BaseGen.globalSettings.map;
 			return CellFinder.TryFindRandomCellInsideWith(rect, delegate(IntVec3 c)
 			{
-				bool result2;
 				if (c.GetFirstItem(map) != null)
 				{
-					result2 = false;
+					return false;
 				}
-				else
+				if (!c.Standable(map))
 				{
-					if (!c.Standable(map))
+					SurfaceType surfaceType = c.GetSurfaceType(map);
+					if (surfaceType != SurfaceType.Item && surfaceType != SurfaceType.Eat)
 					{
-						SurfaceType surfaceType = c.GetSurfaceType(map);
-						if (surfaceType != SurfaceType.Item && surfaceType != SurfaceType.Eat)
-						{
-							return false;
-						}
+						return false;
 					}
-					result2 = true;
 				}
-				return result2;
+				return true;
 			}, out result);
 		}
 
@@ -186,7 +182,6 @@ namespace RimWorld.BaseGen
 			{
 				rot = new Rot4?(Rot4.North);
 			}
-			IntVec3 result3;
 			if (rot == null)
 			{
 				SymbolResolver_SingleThing.tmpRotations.Shuffle<Rot4>();
@@ -209,13 +204,9 @@ namespace RimWorld.BaseGen
 					}
 				}
 				rot = new Rot4?(Rot4.Random);
-				result3 = this.FindBestSpawnCellForNonItem(rect, thingDef, rot.Value, out hasToWipeBuilding, out doesntFit);
+				return this.FindBestSpawnCellForNonItem(rect, thingDef, rot.Value, out hasToWipeBuilding, out doesntFit);
 			}
-			else
-			{
-				result3 = this.FindBestSpawnCellForNonItem(rect, thingDef, rot.Value, out hasToWipeBuilding, out doesntFit);
-			}
-			return result3;
+			return this.FindBestSpawnCellForNonItem(rect, thingDef, rot.Value, out hasToWipeBuilding, out doesntFit);
 		}
 
 		private IntVec3 FindBestSpawnCellForNonItem(CellRect rect, ThingDef thingDef, Rot4 rot, out bool hasToWipeBuilding, out bool doesntFit)
@@ -292,21 +283,15 @@ namespace RimWorld.BaseGen
 			CellRect.CellRectIterator iterator = rect.GetIterator();
 			while (!iterator.Done())
 			{
-				bool result;
 				if (!iterator.Current.Standable(map))
 				{
-					result = true;
+					return true;
 				}
-				else
+				if (iterator.Current.GetEdifice(map) != null)
 				{
-					if (iterator.Current.GetEdifice(map) == null)
-					{
-						iterator.MoveNext();
-						continue;
-					}
-					result = true;
+					return true;
 				}
-				return result;
+				iterator.MoveNext();
 			}
 			return false;
 		}
@@ -333,24 +318,19 @@ namespace RimWorld.BaseGen
 
 			internal bool <>m__0(IntVec3 c)
 			{
-				bool result;
 				if (c.GetFirstItem(this.map) != null)
 				{
-					result = false;
+					return false;
 				}
-				else
+				if (!c.Standable(this.map))
 				{
-					if (!c.Standable(this.map))
+					SurfaceType surfaceType = c.GetSurfaceType(this.map);
+					if (surfaceType != SurfaceType.Item && surfaceType != SurfaceType.Eat)
 					{
-						SurfaceType surfaceType = c.GetSurfaceType(this.map);
-						if (surfaceType != SurfaceType.Item && surfaceType != SurfaceType.Eat)
-						{
-							return false;
-						}
+						return false;
 					}
-					result = true;
 				}
-				return result;
+				return true;
 			}
 		}
 	}

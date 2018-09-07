@@ -19,16 +19,11 @@ namespace RimWorld
 
 		public override string ExplanationPart(StatRequest req)
 		{
-			string result;
 			if (this.IsRotting(req))
 			{
-				result = "StatsReport_NotFresh".Translate() + ": " + 1f.ToStringPercent();
+				return "StatsReport_NotFresh".Translate() + ": " + 1f.ToStringPercent();
 			}
-			else
-			{
-				result = null;
-			}
-			return result;
+			return null;
 		}
 
 		private bool IsRotting(StatRequest req)

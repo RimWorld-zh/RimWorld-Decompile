@@ -12,11 +12,11 @@ namespace RimWorld.Planet
 
 		public float elevation = 100f;
 
-		public Hilliness hilliness = Hilliness.Undefined;
+		public Hilliness hilliness;
 
 		public float temperature = 20f;
 
-		public float rainfall = 0f;
+		public float rainfall;
 
 		public float swampiness;
 

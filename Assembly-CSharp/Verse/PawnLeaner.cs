@@ -9,7 +9,7 @@ namespace Verse
 
 		private IntVec3 shootSourceOffset = new IntVec3(0, 0, 0);
 
-		private float leanOffsetCurPct = 0f;
+		private float leanOffsetCurPct;
 
 		private const float LeanOffsetPctChangeRate = 0.075f;
 

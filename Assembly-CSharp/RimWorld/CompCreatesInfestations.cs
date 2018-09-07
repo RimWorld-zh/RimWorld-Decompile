@@ -37,27 +37,22 @@ namespace RimWorld
 		{
 			get
 			{
-				bool result;
 				if (!this.parent.Spawned)
 				{
-					result = false;
+					return false;
 				}
-				else
+				List<Thing> list = this.parent.Map.listerThings.ThingsInGroup(ThingRequestGroup.CreatesInfestations);
+				for (int i = 0; i < list.Count; i++)
 				{
-					List<Thing> list = this.parent.Map.listerThings.ThingsInGroup(ThingRequestGroup.CreatesInfestations);
-					for (int i = 0; i < list.Count; i++)
+					if (list[i] != this.parent)
 					{
-						if (list[i] != this.parent)
+						if (list[i].Position.InHorDistOf(this.parent.Position, 10f) && list[i].TryGetComp<CompCreatesInfestations>().CantFireBecauseCreatedInfestationRecently)
 						{
-							if (list[i].Position.InHorDistOf(this.parent.Position, 10f) && list[i].TryGetComp<CompCreatesInfestations>().CantFireBecauseCreatedInfestationRecently)
-							{
-								return true;
-							}
+							return true;
 						}
 					}
-					result = false;
 				}
-				return result;
+				return false;
 			}
 		}
 

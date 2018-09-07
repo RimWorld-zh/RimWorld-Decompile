@@ -11,24 +11,19 @@ namespace RimWorld
 
 		protected override ThoughtState CurrentSocialStateInternal(Pawn pawn, Pawn other)
 		{
-			ThoughtState result;
 			if (!other.RaceProps.Humanlike)
 			{
-				result = false;
+				return false;
 			}
-			else if (!RelationsUtility.PawnsKnowEachOther(pawn, other))
+			if (!RelationsUtility.PawnsKnowEachOther(pawn, other))
 			{
-				result = false;
+				return false;
 			}
-			else if (LovePartnerRelationUtility.IncestOpinionOffsetFor(other, pawn) == 0f)
+			if (LovePartnerRelationUtility.IncestOpinionOffsetFor(other, pawn) == 0f)
 			{
-				result = false;
+				return false;
 			}
-			else
-			{
-				result = true;
-			}
-			return result;
+			return true;
 		}
 	}
 }

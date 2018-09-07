@@ -2,7 +2,6 @@
 using System.Collections.Generic;
 using System.Linq;
 using Verse;
-using Verse.AI.Group;
 
 namespace RimWorld
 {
@@ -22,45 +21,23 @@ namespace RimWorld
 
 		protected override bool FactionCanBeGroupSource(Faction f, Map map, bool desperate = false)
 		{
-			return base.FactionCanBeGroupSource(f, map, desperate) && !f.def.hidden && !f.HostileTo(Faction.OfPlayer) && !this.AnyBlockingHostileLord(map, f);
+			return base.FactionCanBeGroupSource(f, map, desperate) && !f.def.hidden && !f.HostileTo(Faction.OfPlayer) && !NeutralGroupIncidentUtility.AnyBlockingHostileLord(map, f);
 		}
 
 		protected bool TryResolveParms(IncidentParms parms)
 		{
-			bool result;
 			if (!this.TryResolveParmsGeneral(parms))
 			{
-				result = false;
+				return false;
 			}
-			else
-			{
-				this.ResolveParmsPoints(parms);
-				result = true;
-			}
-			return result;
+			this.ResolveParmsPoints(parms);
+			return true;
 		}
 
 		protected virtual bool TryResolveParmsGeneral(IncidentParms parms)
 		{
 			Map map = (Map)parms.target;
-			if (!parms.spawnCenter.IsValid)
-			{
-				if (!RCellFinder.TryFindRandomPawnEntryCell(out parms.spawnCenter, map, CellFinder.EdgeRoadChance_Neutral, null))
-				{
-					return false;
-				}
-			}
-			if (parms.faction == null)
-			{
-				if (!base.CandidateFactions(map, false).TryRandomElement(out parms.faction))
-				{
-					if (!base.CandidateFactions(map, true).TryRandomElement(out parms.faction))
-					{
-						return false;
-					}
-				}
-			}
-			return true;
+			return (parms.spawnCenter.IsValid || RCellFinder.TryFindRandomPawnEntryCell(out parms.spawnCenter, map, CellFinder.EdgeRoadChance_Neutral, null)) && (parms.faction != null || base.CandidateFactions(map, false).TryRandomElement(out parms.faction) || base.CandidateFactions(map, true).TryRandomElement(out parms.faction));
 		}
 
 		protected abstract void ResolveParmsPoints(IncidentParms parms);
@@ -76,36 +53,6 @@ namespace RimWorld
 				GenSpawn.Spawn(newThing, loc, map, WipeMode.Vanish);
 			}
 			return list;
-		}
-
-		protected bool AnyBlockingHostileLord(Map map, Faction forFaction)
-		{
-			Faction faction = map.ParentFaction ?? Faction.OfPlayer;
-			List<Lord> lords = map.lordManager.lords;
-			for (int i = 0; i < lords.Count; i++)
-			{
-				if (lords[i].faction != null && lords[i].faction != forFaction && lords[i].faction != faction)
-				{
-					if (lords[i].AnyActivePawn)
-					{
-						LordJob lordJob = lords[i].LordJob;
-						if (lordJob == null || lordJob.CanBlockHostileVisitors)
-						{
-							if (!(lordJob is LordJob_VoluntarilyJoinable))
-							{
-								if (lords[i].faction.HostileTo(forFaction))
-								{
-									if (!lords[i].faction.HostileTo(faction))
-									{
-										return true;
-									}
-								}
-							}
-						}
-					}
-				}
-			}
-			return false;
 		}
 	}
 }

@@ -12,7 +12,7 @@ namespace Verse
 
 		public KeyCode defaultKeyCodeB;
 
-		public bool devModeOnly = false;
+		public bool devModeOnly;
 
 		[NoTranslate]
 		public List<string> extraConflictTags;
@@ -53,15 +53,8 @@ namespace Verse
 		{
 			get
 			{
-				if (Event.current.type == EventType.KeyDown && Event.current.keyCode != KeyCode.None)
-				{
-					KeyBindingData keyBindingData;
-					if (KeyPrefs.KeyPrefsData.keyPrefs.TryGetValue(this, out keyBindingData))
-					{
-						return (keyBindingData.keyBindingA == KeyCode.LeftCommand || keyBindingData.keyBindingA == KeyCode.RightCommand || keyBindingData.keyBindingB == KeyCode.LeftCommand || keyBindingData.keyBindingB == KeyCode.RightCommand || !Event.current.command) && (Event.current.keyCode == keyBindingData.keyBindingA || Event.current.keyCode == keyBindingData.keyBindingB);
-					}
-				}
-				return false;
+				KeyBindingData keyBindingData;
+				return Event.current.type == EventType.KeyDown && Event.current.keyCode != KeyCode.None && KeyPrefs.KeyPrefsData.keyPrefs.TryGetValue(this, out keyBindingData) && (keyBindingData.keyBindingA == KeyCode.LeftCommand || keyBindingData.keyBindingA == KeyCode.RightCommand || keyBindingData.keyBindingB == KeyCode.LeftCommand || keyBindingData.keyBindingB == KeyCode.RightCommand || !Event.current.command) && (Event.current.keyCode == keyBindingData.keyBindingA || Event.current.keyCode == keyBindingData.keyBindingB);
 			}
 		}
 
@@ -94,20 +87,15 @@ namespace Verse
 
 		public KeyCode GetDefaultKeyCode(KeyPrefs.BindingSlot slot)
 		{
-			KeyCode result;
 			if (slot == KeyPrefs.BindingSlot.A)
 			{
-				result = this.defaultKeyCodeA;
+				return this.defaultKeyCodeA;
 			}
-			else
+			if (slot == KeyPrefs.BindingSlot.B)
 			{
-				if (slot != KeyPrefs.BindingSlot.B)
-				{
-					throw new InvalidOperationException();
-				}
-				result = this.defaultKeyCodeB;
+				return this.defaultKeyCodeB;
 			}
-			return result;
+			throw new InvalidOperationException();
 		}
 
 		public static KeyBindingDef Named(string name)

@@ -1,10 +1,13 @@
 ﻿using System;
+using UnityEngine;
 using Verse;
 
 namespace RimWorld
 {
 	public class StatPart_Quality : StatPart
 	{
+		private bool applyToNegativeValues;
+
 		private float factorAwful = 1f;
 
 		private float factorPoor = 1f;
@@ -19,7 +22,19 @@ namespace RimWorld
 
 		private float factorLegendary = 1f;
 
-		private bool alsoAppliesToNegativeValues = false;
+		private float maxGainAwful = 9999999f;
+
+		private float maxGainPoor = 9999999f;
+
+		private float maxGainNormal = 9999999f;
+
+		private float maxGainGood = 9999999f;
+
+		private float maxGainExcellent = 9999999f;
+
+		private float maxGainMasterwork = 9999999f;
+
+		private float maxGainLegendary = 9999999f;
 
 		public StatPart_Quality()
 		{
@@ -27,64 +42,88 @@ namespace RimWorld
 
 		public override void TransformValue(StatRequest req, ref float val)
 		{
-			if (val > 0f || this.alsoAppliesToNegativeValues)
+			if (val <= 0f && !this.applyToNegativeValues)
 			{
-				val *= this.QualityMultiplier(req.QualityCategory);
+				return;
 			}
+			float num = val * this.QualityMultiplier(req.QualityCategory) - val;
+			num = Mathf.Min(num, this.MaxGain(req.QualityCategory));
+			val += num;
 		}
 
 		public override string ExplanationPart(StatRequest req)
 		{
-			string result;
-			if (req.HasThing && !this.alsoAppliesToNegativeValues && req.Thing.GetStatValue(this.parentStat, true) <= 0f)
+			if (req.HasThing && !this.applyToNegativeValues && req.Thing.GetStatValue(this.parentStat, true) <= 0f)
 			{
-				result = null;
+				return null;
 			}
-			else
+			QualityCategory qc;
+			if (req.HasThing && req.Thing.TryGetQuality(out qc))
 			{
-				if (req.HasThing)
+				string text = "StatsReport_QualityMultiplier".Translate() + ": x" + this.QualityMultiplier(qc).ToStringPercent();
+				float num = this.MaxGain(qc);
+				if (num < 999999f)
 				{
-					QualityCategory qc;
-					if (req.Thing.TryGetQuality(out qc))
+					string text2 = text;
+					text = string.Concat(new string[]
 					{
-						return "StatsReport_QualityMultiplier".Translate() + ": x" + this.QualityMultiplier(qc).ToStringPercent();
-					}
+						text2,
+						"\n    (",
+						"StatsReport_MaxGain".Translate(),
+						": ",
+						num.ToStringByStyle(this.parentStat.ToStringStyleUnfinalized, this.parentStat.toStringNumberSense),
+						")"
+					});
 				}
-				result = null;
+				return text;
 			}
-			return result;
+			return null;
 		}
 
 		private float QualityMultiplier(QualityCategory qc)
 		{
-			float result;
 			switch (qc)
 			{
 			case QualityCategory.Awful:
-				result = this.factorAwful;
-				break;
+				return this.factorAwful;
 			case QualityCategory.Poor:
-				result = this.factorPoor;
-				break;
+				return this.factorPoor;
 			case QualityCategory.Normal:
-				result = this.factorNormal;
-				break;
+				return this.factorNormal;
 			case QualityCategory.Good:
-				result = this.factorGood;
-				break;
+				return this.factorGood;
 			case QualityCategory.Excellent:
-				result = this.factorExcellent;
-				break;
+				return this.factorExcellent;
 			case QualityCategory.Masterwork:
-				result = this.factorMasterwork;
-				break;
+				return this.factorMasterwork;
 			case QualityCategory.Legendary:
-				result = this.factorLegendary;
-				break;
+				return this.factorLegendary;
 			default:
 				throw new ArgumentOutOfRangeException();
 			}
-			return result;
+		}
+
+		private float MaxGain(QualityCategory qc)
+		{
+			switch (qc)
+			{
+			case QualityCategory.Awful:
+				return this.maxGainAwful;
+			case QualityCategory.Poor:
+				return this.maxGainPoor;
+			case QualityCategory.Normal:
+				return this.maxGainNormal;
+			case QualityCategory.Good:
+				return this.maxGainGood;
+			case QualityCategory.Excellent:
+				return this.maxGainExcellent;
+			case QualityCategory.Masterwork:
+				return this.maxGainMasterwork;
+			case QualityCategory.Legendary:
+				return this.maxGainLegendary;
+			default:
+				throw new ArgumentOutOfRangeException();
+			}
 		}
 	}
 }

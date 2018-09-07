@@ -12,15 +12,10 @@ namespace RimWorld
 
 		protected override IntVec3 GetExactWanderDest(Pawn pawn)
 		{
-			IntVec3 intVec;
 			IntVec3 result;
-			if (!PartyUtility.TryFindRandomCellInPartyArea(pawn, out intVec))
+			if (!PartyUtility.TryFindRandomCellInPartyArea(pawn, out result))
 			{
-				result = IntVec3.Invalid;
-			}
-			else
-			{
-				result = intVec;
+				return IntVec3.Invalid;
 			}
 			return result;
 		}

@@ -76,8 +76,7 @@ namespace RimWorld
 					switch (num)
 					{
 					}
-					IL_B9:
-					if (enumerator.MoveNext())
+					while (enumerator.MoveNext())
 					{
 						p = enumerator.Current;
 						if (p.workSettings.WorkIsActive(WorkTypeDefOf.Hunting) && !WorkGiver_HunterHunt.HasHuntingWeapon(p) && !p.Downed)
@@ -90,7 +89,6 @@ namespace RimWorld
 							flag = true;
 							return true;
 						}
-						goto IL_B9;
 					}
 				}
 				finally

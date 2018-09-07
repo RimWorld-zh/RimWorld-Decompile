@@ -30,12 +30,12 @@ namespace RimWorld
 							Building edifice = c.GetEdifice(pawn.Map);
 							if (edifice == null || !edifice.def.building.isSittable || !pawn.CanReserve(edifice, 1, -1, null, false))
 							{
-								goto IL_D9;
+								goto IL_CE;
 							}
 						}
 						return new Job(this.def.jobDef, t, c);
 					}
-					IL_D9:;
+					IL_CE:;
 				}
 				if (this.def.requireChair)
 				{

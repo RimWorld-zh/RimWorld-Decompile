@@ -28,17 +28,12 @@ namespace RimWorld
 			get
 			{
 				Hive hive = this.parent as Hive;
-				bool result;
 				if (hive != null && !hive.active)
 				{
-					result = false;
+					return false;
 				}
-				else
-				{
-					RotStage? requiredRotStage = this.Props.requiredRotStage;
-					result = (requiredRotStage == null || !(this.parent.GetRotStage() != this.Props.requiredRotStage));
-				}
-				return result;
+				RotStage? requiredRotStage = this.Props.requiredRotStage;
+				return requiredRotStage == null || !(this.parent.GetRotStage() != this.Props.requiredRotStage);
 			}
 		}
 
@@ -81,14 +76,16 @@ namespace RimWorld
 
 		public void TrySpawnFilth()
 		{
-			if (this.parent.Map != null)
+			if (this.parent.Map == null)
 			{
-				IntVec3 c;
-				if (CellFinder.TryFindRandomReachableCellNear(this.parent.Position, this.parent.Map, this.Props.spawnRadius, TraverseParms.For(TraverseMode.NoPassClosedDoors, Danger.Deadly, false), (IntVec3 x) => x.Standable(this.parent.Map), (Region x) => true, out c, 999999))
-				{
-					FilthMaker.MakeFilth(c, this.parent.Map, this.Props.filthDef, 1);
-				}
+				return;
 			}
+			IntVec3 c;
+			if (!CellFinder.TryFindRandomReachableCellNear(this.parent.Position, this.parent.Map, this.Props.spawnRadius, TraverseParms.For(TraverseMode.NoPassClosedDoors, Danger.Deadly, false), (IntVec3 x) => x.Standable(this.parent.Map), (Region x) => true, out c, 999999))
+			{
+				return;
+			}
+			FilthMaker.MakeFilth(c, this.parent.Map, this.Props.filthDef, 1);
 		}
 
 		[CompilerGenerated]

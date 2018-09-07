@@ -2,7 +2,6 @@
 using System.Collections.Generic;
 using RimWorld.Planet;
 using UnityEngine;
-using UnityEngine.Profiling;
 
 namespace Verse
 {
@@ -23,28 +22,22 @@ namespace Verse
 			if (caravan == null)
 			{
 				Find.WindowStack.TryRemove(this, true);
+				return;
 			}
-			else
+			if (Time.frameCount % 3 == 0)
 			{
-				if (Time.frameCount % 3 == 0)
+				List<FloatMenuOption> list = FloatMenuMakerWorld.ChoicesAtFor(this.clickPos, caravan);
+				List<FloatMenuOption> list2 = list;
+				Vector2 vector = this.clickPos;
+				for (int i = 0; i < this.options.Count; i++)
 				{
-					Profiler.BeginSample("Float menu ChoicesAtFor()");
-					List<FloatMenuOption> list = FloatMenuMakerWorld.ChoicesAtFor(this.clickPos, caravan);
-					Profiler.EndSample();
-					List<FloatMenuOption> list2 = list;
-					Vector2 vector = this.clickPos;
-					Profiler.BeginSample("StillValid()");
-					for (int i = 0; i < this.options.Count; i++)
+					if (!this.options[i].Disabled && !FloatMenuWorld.StillValid(this.options[i], list, caravan, ref list2, ref vector))
 					{
-						if (!this.options[i].Disabled && !FloatMenuWorld.StillValid(this.options[i], list, caravan, ref list2, ref vector))
-						{
-							this.options[i].Disabled = true;
-						}
+						this.options[i].Disabled = true;
 					}
-					Profiler.EndSample();
 				}
-				base.DoWindowContents(inRect);
 			}
+			base.DoWindowContents(inRect);
 		}
 
 		private static bool StillValid(FloatMenuOption opt, List<FloatMenuOption> curOpts, Caravan forCaravan)

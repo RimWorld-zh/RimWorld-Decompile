@@ -66,8 +66,6 @@ namespace RimWorld
 
 		public static JobDef Flick;
 
-		public static JobDef RearmTrap;
-
 		public static JobDef DoBill;
 
 		public static JobDef Research;
@@ -154,6 +152,8 @@ namespace RimWorld
 
 		public static JobDef UnloadYourInventory;
 
+		public static JobDef HaulToTransporter;
+
 		public static JobDef Rescue;
 
 		public static JobDef Arrest;
@@ -193,8 +193,6 @@ namespace RimWorld
 		public static JobDef SmoothWall;
 
 		public static JobDef PrisonerAttemptRecruit;
-
-		public static JobDef PrisonerFriendlyChat;
 
 		public static JobDef PrisonerExecution;
 

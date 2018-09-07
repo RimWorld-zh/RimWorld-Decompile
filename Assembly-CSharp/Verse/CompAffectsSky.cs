@@ -31,7 +31,6 @@ namespace Verse
 		{
 			get
 			{
-				float result;
 				if (this.HasAutoAnimation)
 				{
 					int ticksGame = Find.TickManager.TicksGame;
@@ -48,13 +47,9 @@ namespace Verse
 					{
 						num = 1f - (float)(ticksGame - this.autoAnimationStartTick - this.fadeInDuration - this.holdDuration) / (float)this.fadeOutDuration;
 					}
-					result = Mathf.Clamp01(num * this.autoAnimationTarget);
+					return Mathf.Clamp01(num * this.autoAnimationTarget);
 				}
-				else
-				{
-					result = 0f;
-				}
-				return result;
+				return 0f;
 			}
 		}
 

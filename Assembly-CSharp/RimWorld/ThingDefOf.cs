@@ -88,8 +88,6 @@ namespace RimWorld
 
 		public static ThingDef DropPodIncoming;
 
-		public static ThingDef ExplosiveDropPodIncoming;
-
 		public static ThingDef DropPodLeaving;
 
 		public static ThingDef ShipChunkIncoming;
@@ -127,8 +125,6 @@ namespace RimWorld
 		public static ThingDef Filth_Vomit;
 
 		public static ThingDef Filth_AnimalFilth;
-
-		public static ThingDef Filth_HumanFilth;
 
 		public static ThingDef Filth_Trash;
 
@@ -232,7 +228,7 @@ namespace RimWorld
 
 		public static ThingDef RoyalBed;
 
-		public static ThingDef TrapDeadfall;
+		public static ThingDef TrapSpike;
 
 		public static ThingDef Cooler;
 

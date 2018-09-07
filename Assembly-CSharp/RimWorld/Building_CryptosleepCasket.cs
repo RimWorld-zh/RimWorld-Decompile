@@ -23,25 +23,20 @@ namespace RimWorld
 
 		public override bool TryAcceptThing(Thing thing, bool allowSpecialEffects = true)
 		{
-			bool result;
 			if (base.TryAcceptThing(thing, allowSpecialEffects))
 			{
 				if (allowSpecialEffects)
 				{
 					SoundDefOf.CryptosleepCasket_Accept.PlayOneShot(new TargetInfo(base.Position, base.Map, false));
 				}
-				result = true;
+				return true;
 			}
-			else
-			{
-				result = false;
-			}
-			return result;
+			return false;
 		}
 
 		public override IEnumerable<FloatMenuOption> GetFloatMenuOptions(Pawn myPawn)
 		{
-			foreach (FloatMenuOption o in this.<GetFloatMenuOptions>__BaseCallProxy0(myPawn))
+			foreach (FloatMenuOption o in base.GetFloatMenuOptions(myPawn))
 			{
 				yield return o;
 			}
@@ -69,7 +64,7 @@ namespace RimWorld
 
 		public override IEnumerable<Gizmo> GetGizmos()
 		{
-			foreach (Gizmo c in this.<GetGizmos>__BaseCallProxy1())
+			foreach (Gizmo c in base.GetGizmos())
 			{
 				yield return c;
 			}
@@ -210,9 +205,9 @@ namespace RimWorld
 				case 1u:
 					break;
 				case 2u:
-					goto IL_226;
+					goto IL_21D;
 				case 3u:
-					goto IL_226;
+					goto IL_21D;
 				default:
 					return false;
 				}
@@ -245,7 +240,7 @@ namespace RimWorld
 				}
 				if (this.innerContainer.Count != 0)
 				{
-					goto IL_227;
+					goto IL_21D;
 				}
 				if (!<GetFloatMenuOptions>c__AnonStorey.myPawn.CanReach(this, PathEndMode.InteractionCell, Danger.Deadly, false, TraverseMode.ByPawn))
 				{
@@ -272,8 +267,7 @@ namespace RimWorld
 					}
 				}
 				return true;
-				IL_226:
-				IL_227:
+				IL_21D:
 				this.$PC = -1;
 				return false;
 			}
@@ -411,7 +405,7 @@ namespace RimWorld
 				case 1u:
 					break;
 				case 2u:
-					goto IL_1C1;
+					goto IL_1BB;
 				default:
 					return false;
 				}
@@ -444,7 +438,7 @@ namespace RimWorld
 				}
 				if (base.Faction != Faction.OfPlayer || this.innerContainer.Count <= 0 || !this.def.building.isPlayerEjectable)
 				{
-					goto IL_1C1;
+					goto IL_1BB;
 				}
 				eject = new Command_Action();
 				eject.action = new Action(this.EjectContents);
@@ -462,7 +456,7 @@ namespace RimWorld
 					this.$PC = 2;
 				}
 				return true;
-				IL_1C1:
+				IL_1BB:
 				this.$PC = -1;
 				return false;
 			}

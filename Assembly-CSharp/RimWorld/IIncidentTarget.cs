@@ -18,6 +18,8 @@ namespace RimWorld
 
 		FloatRange IncidentPointsRandomFactorRange { get; }
 
-		IEnumerable<IncidentTargetTypeDef> AcceptedTypes();
+		int ConstantRandSeed { get; }
+
+		IEnumerable<IncidentTargetTagDef> IncidentTargetTags();
 	}
 }

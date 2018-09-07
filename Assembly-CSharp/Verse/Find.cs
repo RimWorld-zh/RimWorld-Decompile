@@ -30,7 +30,7 @@ namespace Verse
 		{
 			get
 			{
-				return Current.Root.uiRoot;
+				return (!(Current.Root != null)) ? null : Current.Root.uiRoot;
 			}
 		}
 
@@ -118,7 +118,7 @@ namespace Verse
 		{
 			get
 			{
-				return Find.UIRoot.windows;
+				return (Find.UIRoot == null) ? null : Find.UIRoot.windows;
 			}
 		}
 
@@ -214,28 +214,23 @@ namespace Verse
 		{
 			get
 			{
-				Scenario result;
 				if (Current.Game != null && Current.Game.Scenario != null)
 				{
-					result = Current.Game.Scenario;
+					return Current.Game.Scenario;
 				}
-				else if (ScenarioMaker.GeneratingScenario != null)
+				if (ScenarioMaker.GeneratingScenario != null)
 				{
-					result = ScenarioMaker.GeneratingScenario;
+					return ScenarioMaker.GeneratingScenario;
 				}
-				else
+				if (Find.UIRoot != null)
 				{
-					if (Find.UIRoot != null)
+					Page_ScenarioEditor page_ScenarioEditor = Find.WindowStack.WindowOfType<Page_ScenarioEditor>();
+					if (page_ScenarioEditor != null)
 					{
-						Page_ScenarioEditor page_ScenarioEditor = Find.WindowStack.WindowOfType<Page_ScenarioEditor>();
-						if (page_ScenarioEditor != null)
-						{
-							return page_ScenarioEditor.EditingScenario;
-						}
+						return page_ScenarioEditor.EditingScenario;
 					}
-					result = null;
 				}
-				return result;
+				return null;
 			}
 		}
 
@@ -251,16 +246,11 @@ namespace Verse
 		{
 			get
 			{
-				List<Map> result;
 				if (Current.Game == null)
 				{
-					result = null;
+					return null;
 				}
-				else
-				{
-					result = Current.Game.Maps;
-				}
-				return result;
+				return Current.Game.Maps;
 			}
 		}
 
@@ -268,16 +258,11 @@ namespace Verse
 		{
 			get
 			{
-				Map result;
 				if (Current.Game == null)
 				{
-					result = null;
+					return null;
 				}
-				else
-				{
-					result = Current.Game.CurrentMap;
-				}
-				return result;
+				return Current.Game.CurrentMap;
 			}
 		}
 
@@ -309,16 +294,11 @@ namespace Verse
 		{
 			get
 			{
-				Storyteller result;
 				if (Current.Game == null)
 				{
-					result = null;
+					return null;
 				}
-				else
-				{
-					result = Current.Game.storyteller;
-				}
-				return result;
+				return Current.Game.storyteller;
 			}
 		}
 
@@ -398,16 +378,11 @@ namespace Verse
 		{
 			get
 			{
-				Tutor result;
 				if (Current.Game == null)
 				{
-					result = null;
+					return null;
 				}
-				else
-				{
-					result = Current.Game.tutor;
-				}
-				return result;
+				return Current.Game.tutor;
 			}
 		}
 
@@ -423,16 +398,11 @@ namespace Verse
 		{
 			get
 			{
-				ActiveLessonHandler result;
 				if (Current.Game == null)
 				{
-					result = null;
+					return null;
 				}
-				else
-				{
-					result = Current.Game.tutor.activeLesson;
-				}
-				return result;
+				return Current.Game.tutor.activeLesson;
 			}
 		}
 

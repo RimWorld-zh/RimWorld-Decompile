@@ -18,7 +18,7 @@ namespace UnityStandardAssets.ImageEffects
 
 		private RenderTexture[] adaptRenderTex = new RenderTexture[2];
 
-		private int curAdaptIndex = 0;
+		private int curAdaptIndex;
 
 		public Shader shaderLum;
 
@@ -97,10 +97,12 @@ namespace UnityStandardAssets.ImageEffects
 			if (!SystemInfo.supportsImageEffects)
 			{
 				base.enabled = false;
+				return;
 			}
-			else if (!this.shaderAdapt.isSupported || !this.shaderApply.isSupported || !this.shaderLum.isSupported || !this.shaderReduce.isSupported)
+			if (!this.shaderAdapt.isSupported || !this.shaderApply.isSupported || !this.shaderLum.isSupported || !this.shaderReduce.isSupported)
 			{
 				base.enabled = false;
+				return;
 			}
 		}
 

@@ -125,32 +125,27 @@ namespace RimWorld
 
 		public override string ToString()
 		{
-			string result;
 			if (this.thing == null)
 			{
-				result = "(null)";
+				return "(null)";
+			}
+			string text;
+			if (this.stuff == null)
+			{
+				text = this.thing.label;
 			}
 			else
 			{
-				string text;
-				if (this.stuff == null)
-				{
-					text = this.thing.label;
-				}
-				else
-				{
-					text = this.thing.label + " " + this.stuff.LabelAsStuff;
-				}
-				result = string.Concat(new string[]
-				{
-					text,
-					" $",
-					this.Price.ToString("F0"),
-					" c=",
-					this.Commonality.ToString("F4")
-				});
+				text = this.thing.label + " " + this.stuff.LabelAsStuff;
 			}
-			return result;
+			return string.Concat(new string[]
+			{
+				text,
+				" $",
+				this.Price.ToString("F0"),
+				" c=",
+				this.Commonality.ToString("F4")
+			});
 		}
 
 		public static bool operator ==(ThingStuffPair a, ThingStuffPair b)

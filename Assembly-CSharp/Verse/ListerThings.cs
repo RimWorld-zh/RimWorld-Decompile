@@ -9,7 +9,7 @@ namespace Verse
 
 		private List<Thing>[] listsByGroup;
 
-		public ListerThingsUse use = ListerThingsUse.Undefined;
+		public ListerThingsUse use;
 
 		private static readonly List<Thing> EmptyList = new List<Thing>();
 
@@ -40,18 +40,14 @@ namespace Verse
 
 		public List<Thing> ThingsMatching(ThingRequest req)
 		{
-			List<Thing> result;
 			if (req.singleDef != null)
 			{
-				List<Thing> list;
-				if (!this.listsByDef.TryGetValue(req.singleDef, out list))
+				List<Thing> result;
+				if (!this.listsByDef.TryGetValue(req.singleDef, out result))
 				{
-					result = ListerThings.EmptyList;
+					return ListerThings.EmptyList;
 				}
-				else
-				{
-					result = list;
-				}
+				return result;
 			}
 			else
 			{
@@ -62,15 +58,11 @@ namespace Verse
 				if (this.use == ListerThingsUse.Region && !req.group.StoreInRegion())
 				{
 					Log.ErrorOnce("Tried to get things in group " + req.group + " in a region, but this group is never stored in regions. Most likely a global query should have been used.", 1968735132, false);
-					result = ListerThings.EmptyList;
+					return ListerThings.EmptyList;
 				}
-				else
-				{
-					List<Thing> list2 = this.listsByGroup[(int)req.group];
-					result = (list2 ?? ListerThings.EmptyList);
-				}
+				List<Thing> list = this.listsByGroup[(int)req.group];
+				return list ?? ListerThings.EmptyList;
 			}
-			return result;
 		}
 
 		public bool Contains(Thing t)
@@ -80,29 +72,30 @@ namespace Verse
 
 		public void Add(Thing t)
 		{
-			if (ListerThings.EverListable(t.def, this.use))
+			if (!ListerThings.EverListable(t.def, this.use))
 			{
-				List<Thing> list;
-				if (!this.listsByDef.TryGetValue(t.def, out list))
+				return;
+			}
+			List<Thing> list;
+			if (!this.listsByDef.TryGetValue(t.def, out list))
+			{
+				list = new List<Thing>();
+				this.listsByDef.Add(t.def, list);
+			}
+			list.Add(t);
+			foreach (ThingRequestGroup thingRequestGroup in ThingListGroupHelper.AllGroups)
+			{
+				if (this.use != ListerThingsUse.Region || thingRequestGroup.StoreInRegion())
 				{
-					list = new List<Thing>();
-					this.listsByDef.Add(t.def, list);
-				}
-				list.Add(t);
-				foreach (ThingRequestGroup thingRequestGroup in ThingListGroupHelper.AllGroups)
-				{
-					if (this.use != ListerThingsUse.Region || thingRequestGroup.StoreInRegion())
+					if (thingRequestGroup.Includes(t.def))
 					{
-						if (thingRequestGroup.Includes(t.def))
+						List<Thing> list2 = this.listsByGroup[(int)thingRequestGroup];
+						if (list2 == null)
 						{
-							List<Thing> list2 = this.listsByGroup[(int)thingRequestGroup];
-							if (list2 == null)
-							{
-								list2 = new List<Thing>();
-								this.listsByGroup[(int)thingRequestGroup] = list2;
-							}
-							list2.Add(t);
+							list2 = new List<Thing>();
+							this.listsByGroup[(int)thingRequestGroup] = list2;
 						}
+						list2.Add(t);
 					}
 				}
 			}
@@ -110,19 +103,20 @@ namespace Verse
 
 		public void Remove(Thing t)
 		{
-			if (ListerThings.EverListable(t.def, this.use))
+			if (!ListerThings.EverListable(t.def, this.use))
 			{
-				this.listsByDef[t.def].Remove(t);
-				ThingRequestGroup[] allGroups = ThingListGroupHelper.AllGroups;
-				for (int i = 0; i < allGroups.Length; i++)
+				return;
+			}
+			this.listsByDef[t.def].Remove(t);
+			ThingRequestGroup[] allGroups = ThingListGroupHelper.AllGroups;
+			for (int i = 0; i < allGroups.Length; i++)
+			{
+				ThingRequestGroup group = allGroups[i];
+				if (this.use != ListerThingsUse.Region || group.StoreInRegion())
 				{
-					ThingRequestGroup group = allGroups[i];
-					if (this.use != ListerThingsUse.Region || group.StoreInRegion())
+					if (group.Includes(t.def))
 					{
-						if (group.Includes(t.def))
-						{
-							this.listsByGroup[i].Remove(t);
-						}
+						this.listsByGroup[i].Remove(t);
 					}
 				}
 			}

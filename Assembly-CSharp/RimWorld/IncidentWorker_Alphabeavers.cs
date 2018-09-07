@@ -18,18 +18,13 @@ namespace RimWorld
 
 		protected override bool CanFireNowSub(IncidentParms parms)
 		{
-			bool result;
 			if (!base.CanFireNowSub(parms))
 			{
-				result = false;
+				return false;
 			}
-			else
-			{
-				Map map = (Map)parms.target;
-				IntVec3 intVec;
-				result = RCellFinder.TryFindRandomPawnEntryCell(out intVec, map, CellFinder.EdgeRoadChance_Animal, null);
-			}
-			return result;
+			Map map = (Map)parms.target;
+			IntVec3 intVec;
+			return RCellFinder.TryFindRandomPawnEntryCell(out intVec, map, CellFinder.EdgeRoadChance_Animal, null);
 		}
 
 		protected override bool TryExecuteWorker(IncidentParms parms)
@@ -37,28 +32,23 @@ namespace RimWorld
 			Map map = (Map)parms.target;
 			PawnKindDef alphabeaver = PawnKindDefOf.Alphabeaver;
 			IntVec3 intVec;
-			bool result;
 			if (!RCellFinder.TryFindRandomPawnEntryCell(out intVec, map, CellFinder.EdgeRoadChance_Animal, null))
 			{
-				result = false;
+				return false;
 			}
-			else
+			int freeColonistsCount = map.mapPawns.FreeColonistsCount;
+			float randomInRange = IncidentWorker_Alphabeavers.CountPerColonistRange.RandomInRange;
+			float f = (float)freeColonistsCount * randomInRange;
+			int num = Mathf.Clamp(GenMath.RoundRandom(f), 1, 10);
+			for (int i = 0; i < num; i++)
 			{
-				int freeColonistsCount = map.mapPawns.FreeColonistsCount;
-				float randomInRange = IncidentWorker_Alphabeavers.CountPerColonistRange.RandomInRange;
-				float f = (float)freeColonistsCount * randomInRange;
-				int num = Mathf.Clamp(GenMath.RoundRandom(f), 1, 10);
-				for (int i = 0; i < num; i++)
-				{
-					IntVec3 loc = CellFinder.RandomClosewalkCellNear(intVec, map, 10, null);
-					Pawn newThing = PawnGenerator.GeneratePawn(alphabeaver, null);
-					Pawn pawn = (Pawn)GenSpawn.Spawn(newThing, loc, map, WipeMode.Vanish);
-					pawn.needs.food.CurLevelPercentage = 1f;
-				}
-				Find.LetterStack.ReceiveLetter("LetterLabelBeaversArrived".Translate(), "BeaversArrived".Translate(), LetterDefOf.ThreatSmall, new TargetInfo(intVec, map, false), null, null);
-				result = true;
+				IntVec3 loc = CellFinder.RandomClosewalkCellNear(intVec, map, 10, null);
+				Pawn newThing = PawnGenerator.GeneratePawn(alphabeaver, null);
+				Pawn pawn = (Pawn)GenSpawn.Spawn(newThing, loc, map, WipeMode.Vanish);
+				pawn.needs.food.CurLevelPercentage = 1f;
 			}
-			return result;
+			Find.LetterStack.ReceiveLetter("LetterLabelBeaversArrived".Translate(), "BeaversArrived".Translate(), LetterDefOf.ThreatSmall, new TargetInfo(intVec, map, false), null, null);
+			return true;
 		}
 
 		// Note: this type is marked as 'beforefieldinit'.

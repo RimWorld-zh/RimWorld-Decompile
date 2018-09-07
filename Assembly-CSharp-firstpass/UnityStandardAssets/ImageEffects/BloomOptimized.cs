@@ -17,16 +17,16 @@ namespace UnityStandardAssets.ImageEffects
 		[Range(0.25f, 5.5f)]
 		public float blurSize = 1f;
 
-		private BloomOptimized.Resolution resolution = BloomOptimized.Resolution.Low;
+		private BloomOptimized.Resolution resolution;
 
 		[Range(1f, 4f)]
 		public int blurIterations = 1;
 
-		public BloomOptimized.BlurType blurType = BloomOptimized.BlurType.Standard;
+		public BloomOptimized.BlurType blurType;
 
-		public Shader fastBloomShader = null;
+		public Shader fastBloomShader;
 
-		private Material fastBloomMaterial = null;
+		private Material fastBloomMaterial;
 
 		public BloomOptimized()
 		{
@@ -56,37 +56,35 @@ namespace UnityStandardAssets.ImageEffects
 			if (!this.CheckResources())
 			{
 				Graphics.Blit(source, destination);
+				return;
 			}
-			else
+			int num = (this.resolution != BloomOptimized.Resolution.Low) ? 2 : 4;
+			float num2 = (this.resolution != BloomOptimized.Resolution.Low) ? 1f : 0.5f;
+			this.fastBloomMaterial.SetVector("_Parameter", new Vector4(this.blurSize * num2, 0f, this.threshold, this.intensity));
+			source.filterMode = FilterMode.Bilinear;
+			int width = source.width / num;
+			int height = source.height / num;
+			RenderTexture renderTexture = RenderTexture.GetTemporary(width, height, 0, source.format);
+			renderTexture.filterMode = FilterMode.Bilinear;
+			Graphics.Blit(source, renderTexture, this.fastBloomMaterial, 1);
+			int num3 = (this.blurType != BloomOptimized.BlurType.Standard) ? 2 : 0;
+			for (int i = 0; i < this.blurIterations; i++)
 			{
-				int num = (this.resolution != BloomOptimized.Resolution.Low) ? 2 : 4;
-				float num2 = (this.resolution != BloomOptimized.Resolution.Low) ? 1f : 0.5f;
-				this.fastBloomMaterial.SetVector("_Parameter", new Vector4(this.blurSize * num2, 0f, this.threshold, this.intensity));
-				source.filterMode = FilterMode.Bilinear;
-				int width = source.width / num;
-				int height = source.height / num;
-				RenderTexture renderTexture = RenderTexture.GetTemporary(width, height, 0, source.format);
-				renderTexture.filterMode = FilterMode.Bilinear;
-				Graphics.Blit(source, renderTexture, this.fastBloomMaterial, 1);
-				int num3 = (this.blurType != BloomOptimized.BlurType.Standard) ? 2 : 0;
-				for (int i = 0; i < this.blurIterations; i++)
-				{
-					this.fastBloomMaterial.SetVector("_Parameter", new Vector4(this.blurSize * num2 + (float)i * 1f, 0f, this.threshold, this.intensity));
-					RenderTexture temporary = RenderTexture.GetTemporary(width, height, 0, source.format);
-					temporary.filterMode = FilterMode.Bilinear;
-					Graphics.Blit(renderTexture, temporary, this.fastBloomMaterial, 2 + num3);
-					RenderTexture.ReleaseTemporary(renderTexture);
-					renderTexture = temporary;
-					temporary = RenderTexture.GetTemporary(width, height, 0, source.format);
-					temporary.filterMode = FilterMode.Bilinear;
-					Graphics.Blit(renderTexture, temporary, this.fastBloomMaterial, 3 + num3);
-					RenderTexture.ReleaseTemporary(renderTexture);
-					renderTexture = temporary;
-				}
-				this.fastBloomMaterial.SetTexture("_Bloom", renderTexture);
-				Graphics.Blit(source, destination, this.fastBloomMaterial, 0);
+				this.fastBloomMaterial.SetVector("_Parameter", new Vector4(this.blurSize * num2 + (float)i * 1f, 0f, this.threshold, this.intensity));
+				RenderTexture temporary = RenderTexture.GetTemporary(width, height, 0, source.format);
+				temporary.filterMode = FilterMode.Bilinear;
+				Graphics.Blit(renderTexture, temporary, this.fastBloomMaterial, 2 + num3);
 				RenderTexture.ReleaseTemporary(renderTexture);
+				renderTexture = temporary;
+				temporary = RenderTexture.GetTemporary(width, height, 0, source.format);
+				temporary.filterMode = FilterMode.Bilinear;
+				Graphics.Blit(renderTexture, temporary, this.fastBloomMaterial, 3 + num3);
+				RenderTexture.ReleaseTemporary(renderTexture);
+				renderTexture = temporary;
 			}
+			this.fastBloomMaterial.SetTexture("_Bloom", renderTexture);
+			Graphics.Blit(source, destination, this.fastBloomMaterial, 0);
+			RenderTexture.ReleaseTemporary(renderTexture);
 		}
 
 		public enum Resolution

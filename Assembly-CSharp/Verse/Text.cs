@@ -180,27 +180,19 @@ namespace Verse
 			get
 			{
 				GameFont gameFont = Text.fontInt;
-				GUIStyle result;
-				if (gameFont != GameFont.Tiny)
+				if (gameFont == GameFont.Tiny)
 				{
-					if (gameFont != GameFont.Small)
-					{
-						if (gameFont != GameFont.Medium)
-						{
-							throw new NotImplementedException();
-						}
-						result = Text.textFieldStyles[2];
-					}
-					else
-					{
-						result = Text.textFieldStyles[1];
-					}
+					return Text.textFieldStyles[0];
 				}
-				else
+				if (gameFont == GameFont.Small)
 				{
-					result = Text.textFieldStyles[0];
+					return Text.textFieldStyles[1];
 				}
-				return result;
+				if (gameFont != GameFont.Medium)
+				{
+					throw new NotImplementedException();
+				}
+				return Text.textFieldStyles[2];
 			}
 		}
 
@@ -209,27 +201,19 @@ namespace Verse
 			get
 			{
 				GameFont gameFont = Text.fontInt;
-				GUIStyle result;
-				if (gameFont != GameFont.Tiny)
+				if (gameFont == GameFont.Tiny)
 				{
-					if (gameFont != GameFont.Small)
-					{
-						if (gameFont != GameFont.Medium)
-						{
-							throw new NotImplementedException();
-						}
-						result = Text.textAreaStyles[2];
-					}
-					else
-					{
-						result = Text.textAreaStyles[1];
-					}
+					return Text.textAreaStyles[0];
 				}
-				else
+				if (gameFont == GameFont.Small)
 				{
-					result = Text.textAreaStyles[0];
+					return Text.textAreaStyles[1];
 				}
-				return result;
+				if (gameFont != GameFont.Medium)
+				{
+					throw new NotImplementedException();
+				}
+				return Text.textAreaStyles[2];
 			}
 		}
 
@@ -238,27 +222,19 @@ namespace Verse
 			get
 			{
 				GameFont gameFont = Text.fontInt;
-				GUIStyle result;
-				if (gameFont != GameFont.Tiny)
+				if (gameFont == GameFont.Tiny)
 				{
-					if (gameFont != GameFont.Small)
-					{
-						if (gameFont != GameFont.Medium)
-						{
-							throw new NotImplementedException();
-						}
-						result = Text.textAreaReadOnlyStyles[2];
-					}
-					else
-					{
-						result = Text.textAreaReadOnlyStyles[1];
-					}
+					return Text.textAreaReadOnlyStyles[0];
 				}
-				else
+				if (gameFont == GameFont.Small)
 				{
-					result = Text.textAreaReadOnlyStyles[0];
+					return Text.textAreaReadOnlyStyles[1];
 				}
-				return result;
+				if (gameFont != GameFont.Medium)
+				{
+					throw new NotImplementedException();
+				}
+				return Text.textAreaReadOnlyStyles[2];
 			}
 		}
 

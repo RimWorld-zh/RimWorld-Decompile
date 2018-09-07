@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Runtime.CompilerServices;
 using Verse;
 
 namespace RimWorld
@@ -12,16 +13,16 @@ namespace RimWorld
 
 		public SimpleCurveDrawerStyle curveDrawerStyle;
 
+		[CompilerGenerated]
+		private static Predicate<HistoryAutoRecorderGroup> <>f__am$cache0;
+
+		[CompilerGenerated]
+		private static Predicate<HistoryAutoRecorderGroup> <>f__am$cache1;
+
 		public History()
 		{
 			this.autoRecorderGroups = new List<HistoryAutoRecorderGroup>();
-			foreach (HistoryAutoRecorderGroupDef def in DefDatabase<HistoryAutoRecorderGroupDef>.AllDefs)
-			{
-				HistoryAutoRecorderGroup historyAutoRecorderGroup = new HistoryAutoRecorderGroup();
-				historyAutoRecorderGroup.def = def;
-				historyAutoRecorderGroup.CreateRecorders();
-				this.autoRecorderGroups.Add(historyAutoRecorderGroup);
-			}
+			this.AddOrRemoveHistoryRecorderGroups();
 			this.curveDrawerStyle = new SimpleCurveDrawerStyle();
 			this.curveDrawerStyle.DrawMeasures = true;
 			this.curveDrawerStyle.DrawPoints = false;
@@ -59,6 +60,60 @@ namespace RimWorld
 			if (Scribe.mode == LoadSaveMode.LoadingVars)
 			{
 				BackCompatibility.HistoryLoadingVars(this);
+			}
+			if (Scribe.mode == LoadSaveMode.PostLoadInit)
+			{
+				this.AddOrRemoveHistoryRecorderGroups();
+			}
+		}
+
+		private void AddOrRemoveHistoryRecorderGroups()
+		{
+			if (this.autoRecorderGroups.RemoveAll((HistoryAutoRecorderGroup x) => x == null) != 0)
+			{
+				Log.Warning("Some history auto recorder groups were null.", false);
+			}
+			using (IEnumerator<HistoryAutoRecorderGroupDef> enumerator = DefDatabase<HistoryAutoRecorderGroupDef>.AllDefs.GetEnumerator())
+			{
+				while (enumerator.MoveNext())
+				{
+					HistoryAutoRecorderGroupDef def = enumerator.Current;
+					if (!this.autoRecorderGroups.Any((HistoryAutoRecorderGroup x) => x.def == def))
+					{
+						HistoryAutoRecorderGroup historyAutoRecorderGroup = new HistoryAutoRecorderGroup();
+						historyAutoRecorderGroup.def = def;
+						historyAutoRecorderGroup.AddOrRemoveHistoryRecorders();
+						this.autoRecorderGroups.Add(historyAutoRecorderGroup);
+					}
+				}
+			}
+			this.autoRecorderGroups.RemoveAll((HistoryAutoRecorderGroup x) => x.def == null);
+		}
+
+		[CompilerGenerated]
+		private static bool <AddOrRemoveHistoryRecorderGroups>m__0(HistoryAutoRecorderGroup x)
+		{
+			return x == null;
+		}
+
+		[CompilerGenerated]
+		private static bool <AddOrRemoveHistoryRecorderGroups>m__1(HistoryAutoRecorderGroup x)
+		{
+			return x.def == null;
+		}
+
+		[CompilerGenerated]
+		private sealed class <AddOrRemoveHistoryRecorderGroups>c__AnonStorey0
+		{
+			internal HistoryAutoRecorderGroupDef def;
+
+			public <AddOrRemoveHistoryRecorderGroups>c__AnonStorey0()
+			{
+			}
+
+			internal bool <>m__0(HistoryAutoRecorderGroup x)
+			{
+				return x.def == this.def;
 			}
 		}
 	}

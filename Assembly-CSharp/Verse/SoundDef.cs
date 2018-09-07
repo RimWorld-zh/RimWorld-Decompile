@@ -13,11 +13,11 @@ namespace Verse
 	{
 		[DefaultValue(false)]
 		[Description("If checked, this sound is a sustainer.\n\nSustainers are used for sounds with a defined beginning and end (as opposed to OneShots, which just fire at a given instant).\n\nThis value must match what the game expects from the SubSoundDef with this name.")]
-		public bool sustain = false;
+		public bool sustain;
 
 		[DefaultValue(SoundContext.Any)]
 		[Description("When the sound is allowed to play: only when the map view is active, only when the world view is active, or always (map + world + main menu).")]
-		public SoundContext context = SoundContext.Any;
+		public SoundContext context;
 
 		[Description("Event names for this sound. \n\nThe code will look up sounds to play them according to their name. If the code finds the event name it wants in this list, it will trigger this sound.\n\nThe Def name is also used as an event name.")]
 		public List<string> eventNames = new List<string>();
@@ -32,34 +32,34 @@ namespace Verse
 
 		[DefaultValue(VoicePriorityMode.PrioritizeNewest)]
 		[Description("If the system has to not play some instances of this sound because of maxVoices, this determines which ones are ignored.\n\nYou should use PrioritizeNewest for things like gunshots, so older still-playing samples are overridden by newer, more important ones.\n\nSustained sounds should usually prioritize nearest, so if a new fire starts burning nearby it can override a more distant one.")]
-		public VoicePriorityMode priorityMode = VoicePriorityMode.PrioritizeNewest;
+		public VoicePriorityMode priorityMode;
 
 		[DefaultValue("")]
 		[Description("The special sound slot this sound takes. If a sound with this slot is playing, new sounds in this slot will not play.\n\nOnly works for on-camera sounds.")]
-		public string slot = "";
+		public string slot = string.Empty;
 
 		[DefaultValue("")]
 		[Description("The name of the SoundDef that will be played when this sustainer starts.")]
 		[LoadAlias("sustainerStartSound")]
-		public SoundDef sustainStartSound = null;
+		public SoundDef sustainStartSound;
 
 		[DefaultValue("")]
 		[Description("The name of the SoundDef that will be played when this sustainer ends.")]
 		[LoadAlias("sustainerStopSound")]
-		public SoundDef sustainStopSound = null;
+		public SoundDef sustainStopSound;
 
 		[DefaultValue(0f)]
 		[Description("After a sustainer is ended, the sound will fade out over this many real-time seconds.")]
-		public float sustainFadeoutTime = 0f;
+		public float sustainFadeoutTime;
 
 		[Description("All the sounds that will play when this set is triggered.")]
 		public List<SubSoundDef> subSounds = new List<SubSoundDef>();
 
 		[Unsaved]
-		public bool isUndefined = false;
+		public bool isUndefined;
 
 		[Unsaved]
-		public Sustainer testSustainer = null;
+		public Sustainer testSustainer;
 
 		private static Dictionary<string, SoundDef> undefinedSoundDefs = new Dictionary<string, SoundDef>();
 
@@ -116,7 +116,7 @@ namespace Verse
 
 		public override IEnumerable<string> ConfigErrors()
 		{
-			if (this.slot != "" && !this.HasSubSoundsOnCamera)
+			if (this.slot != string.Empty && !this.HasSubSoundsOnCamera)
 			{
 				yield return "Sound slots only work for on-camera sounds.";
 			}
@@ -209,41 +209,33 @@ namespace Verse
 		public static SoundDef Named(string defName)
 		{
 			SoundDef namedSilentFail = DefDatabase<SoundDef>.GetNamedSilentFail(defName);
-			SoundDef result;
 			if (namedSilentFail != null)
 			{
-				result = namedSilentFail;
+				return namedSilentFail;
 			}
-			else
+			if (!Prefs.DevMode && SoundDef.undefinedSoundDefs.ContainsKey(defName))
 			{
-				if (!Prefs.DevMode)
+				return SoundDef.UndefinedDefNamed(defName);
+			}
+			List<SoundDef> allDefsListForReading = DefDatabase<SoundDef>.AllDefsListForReading;
+			for (int i = 0; i < allDefsListForReading.Count; i++)
+			{
+				if (allDefsListForReading[i].eventNames.Count > 0)
 				{
-					if (SoundDef.undefinedSoundDefs.ContainsKey(defName))
+					for (int j = 0; j < allDefsListForReading[i].eventNames.Count; j++)
 					{
-						return SoundDef.UndefinedDefNamed(defName);
-					}
-				}
-				List<SoundDef> allDefsListForReading = DefDatabase<SoundDef>.AllDefsListForReading;
-				for (int i = 0; i < allDefsListForReading.Count; i++)
-				{
-					if (allDefsListForReading[i].eventNames.Count > 0)
-					{
-						for (int j = 0; j < allDefsListForReading[i].eventNames.Count; j++)
+						if (allDefsListForReading[i].eventNames[j] == defName)
 						{
-							if (allDefsListForReading[i].eventNames[j] == defName)
-							{
-								return allDefsListForReading[i];
-							}
+							return allDefsListForReading[i];
 						}
 					}
 				}
-				if (DefDatabase<SoundDef>.DefCount == 0)
-				{
-					Log.Warning("Tried to get SoundDef named " + defName + ", but sound defs aren't loaded yet (is it a static variable initialized before play data?).", false);
-				}
-				result = SoundDef.UndefinedDefNamed(defName);
 			}
-			return result;
+			if (DefDatabase<SoundDef>.DefCount == 0)
+			{
+				Log.Warning("Tried to get SoundDef named " + defName + ", but sound defs aren't loaded yet (is it a static variable initialized before play data?).", false);
+			}
+			return SoundDef.UndefinedDefNamed(defName);
 		}
 
 		private static SoundDef UndefinedDefNamed(string defName)
@@ -295,7 +287,7 @@ namespace Verse
 				switch (num)
 				{
 				case 0u:
-					if (this.slot != "" && !base.HasSubSoundsOnCamera)
+					if (this.slot != string.Empty && !base.HasSubSoundsOnCamera)
 					{
 						this.$current = "Sound slots only work for on-camera sounds.";
 						if (!this.$disposing)
@@ -308,19 +300,21 @@ namespace Verse
 				case 1u:
 					break;
 				case 2u:
-					goto IL_C3;
+					goto IL_C2;
 				case 3u:
-					goto IL_102;
+					goto IL_101;
 				case 4u:
-					goto IL_132;
+					goto IL_131;
 				case 5u:
-					goto IL_181;
+					goto IL_180;
 				case 6u:
-					goto IL_1EA;
+					IL_1E5:
+					i++;
+					goto IL_1F3;
 				case 7u:
-					IL_2D1:
+					IL_2C7:
 					k++;
-					goto IL_2E0;
+					goto IL_2D5;
 				default:
 					return false;
 				}
@@ -333,7 +327,7 @@ namespace Verse
 					}
 					return true;
 				}
-				IL_C3:
+				IL_C2:
 				if (this.priorityMode == VoicePriorityMode.PrioritizeNewest && this.sustain)
 				{
 					this.$current = "PrioritizeNewest is not supported with sustainers.";
@@ -343,7 +337,7 @@ namespace Verse
 					}
 					return true;
 				}
-				IL_102:
+				IL_101:
 				if (this.maxVoices < 1)
 				{
 					this.$current = "Max voices is less than 1.";
@@ -353,7 +347,7 @@ namespace Verse
 					}
 					return true;
 				}
-				IL_132:
+				IL_131:
 				if (!this.sustain && (this.sustainStartSound != null || this.sustainStopSound != null))
 				{
 					this.$current = "Sustainer start and end sounds only work with sounds defined as sustainers.";
@@ -363,16 +357,13 @@ namespace Verse
 					}
 					return true;
 				}
-				IL_181:
-				if (!this.sustain)
+				IL_180:
+				if (this.sustain)
 				{
-					i = 0;
-					goto IL_1F9;
+					goto IL_20E;
 				}
-				goto IL_215;
-				IL_1EA:
-				i++;
-				IL_1F9:
+				i = 0;
+				IL_1F3:
 				if (i < this.subSounds.Count)
 				{
 					if (this.subSounds[i].startDelayRange.TrueMax > 0.001f)
@@ -384,13 +375,13 @@ namespace Verse
 						}
 						return true;
 					}
-					goto IL_1EA;
+					goto IL_1E5;
 				}
-				IL_215:
+				IL_20E:
 				defs = DefDatabase<SoundDef>.AllDefsListForReading;
 				j = 0;
-				goto IL_316;
-				IL_2E0:
+				goto IL_309;
+				IL_2D5:
 				if (k < defs[j].eventNames.Count)
 				{
 					if (defs[j].eventNames[k] == this.defName)
@@ -402,11 +393,11 @@ namespace Verse
 						}
 						return true;
 					}
-					goto IL_2D1;
+					goto IL_2C7;
 				}
-				IL_307:
+				IL_2FB:
 				j++;
-				IL_316:
+				IL_309:
 				if (j >= defs.Count)
 				{
 					this.$PC = -1;
@@ -416,9 +407,9 @@ namespace Verse
 					if (!defs[j].eventNames.NullOrEmpty<string>())
 					{
 						k = 0;
-						goto IL_2E0;
+						goto IL_2D5;
 					}
-					goto IL_307;
+					goto IL_2FB;
 				}
 				return false;
 			}

@@ -23,24 +23,23 @@ namespace RimWorld
 		protected override Job TryGiveJob(Pawn pawn)
 		{
 			List<Building> allBuildingsColonist = pawn.Map.listerBuildings.allBuildingsColonist;
-			Job result;
 			if (allBuildingsColonist.Count == 0)
 			{
-				result = null;
+				return null;
 			}
-			else
+			for (int i = 0; i < 75; i++)
 			{
-				for (int i = 0; i < 75; i++)
+				Building building = allBuildingsColonist.RandomElement<Building>();
+				if (TrashUtility.ShouldTrashBuilding(pawn, building, this.attackAllInert))
 				{
-					Building building = allBuildingsColonist.RandomElement<Building>();
-					if (TrashUtility.ShouldTrashBuilding(pawn, building, this.attackAllInert))
+					Job job = TrashUtility.TrashJob(pawn, building, this.attackAllInert);
+					if (job != null)
 					{
-						return TrashUtility.TrashJob(pawn, building);
+						return job;
 					}
 				}
-				result = null;
 			}
-			return result;
+			return null;
 		}
 	}
 }

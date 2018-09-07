@@ -27,7 +27,7 @@ namespace RimWorld
 			Scribe_Values.Look<int>(ref this.ticksLeft, "ticksLeft", 0, false);
 		}
 
-		public override bool TryMakePreToilReservations()
+		public override bool TryMakePreToilReservations(bool errorOnFailed)
 		{
 			return true;
 		}
@@ -50,11 +50,11 @@ namespace RimWorld
 					}
 					if (c.InBounds(this.pawn.Map) && c.Standable(this.pawn.Map))
 					{
-						goto IL_A5;
+						goto IL_A1;
 					}
 				}
 				c = this.pawn.Position;
-				IL_A5:
+				IL_A1:
 				this.job.targetA = c;
 				this.pawn.pather.StopDead();
 			};
@@ -128,11 +128,11 @@ namespace RimWorld
 							}
 							if (c.InBounds(this.pawn.Map) && c.Standable(this.pawn.Map))
 							{
-								goto IL_A5;
+								goto IL_A1;
 							}
 						}
 						c = this.pawn.Position;
-						IL_A5:
+						IL_A1:
 						this.job.targetA = c;
 						this.pawn.pather.StopDead();
 					};
@@ -236,11 +236,11 @@ namespace RimWorld
 					}
 					if (c.InBounds(this.pawn.Map) && c.Standable(this.pawn.Map))
 					{
-						goto IL_A5;
+						goto IL_A1;
 					}
 				}
 				c = this.pawn.Position;
-				IL_A5:
+				IL_A1:
 				this.job.targetA = c;
 				this.pawn.pather.StopDead();
 			}

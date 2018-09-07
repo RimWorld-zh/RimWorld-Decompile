@@ -12,7 +12,7 @@ namespace RimWorld
 
 		public int openDelay = 110;
 
-		public bool leaveSlag = false;
+		public bool leaveSlag;
 
 		public bool savePawnsWithReferenceMode;
 
@@ -37,20 +37,15 @@ namespace RimWorld
 		{
 			get
 			{
-				Thing result;
 				if (this.innerContainer.Count == 0)
 				{
-					result = null;
+					return null;
 				}
-				else
+				if (this.innerContainer.Count > 1)
 				{
-					if (this.innerContainer.Count > 1)
-					{
-						Log.Error("ContainedThing used on a DropPodInfo holding > 1 thing.", false);
-					}
-					result = this.innerContainer[0];
+					Log.Error("ContainedThing used on a DropPodInfo holding > 1 thing.", false);
 				}
-				return result;
+				return this.innerContainer[0];
 			}
 			set
 			{

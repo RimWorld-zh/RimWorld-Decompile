@@ -16,7 +16,7 @@ namespace RimWorld
 
 		private DefMap<TrainableDef, bool> learned = new DefMap<TrainableDef, bool>();
 
-		private int countDecayFrom = 0;
+		private int countDecayFrom;
 
 		[CompilerGenerated]
 		private static Func<KeyValuePair<TrainableDef, int>, bool> <>f__am$cache0;
@@ -65,27 +65,22 @@ namespace RimWorld
 
 		public bool CanBeTrained(TrainableDef td)
 		{
-			bool result;
 			if (this.steps[td] >= td.steps)
 			{
-				result = false;
+				return false;
 			}
-			else
+			List<TrainableDef> prerequisites = td.prerequisites;
+			if (!prerequisites.NullOrEmpty<TrainableDef>())
 			{
-				List<TrainableDef> prerequisites = td.prerequisites;
-				if (!prerequisites.NullOrEmpty<TrainableDef>())
+				for (int i = 0; i < prerequisites.Count; i++)
 				{
-					for (int i = 0; i < prerequisites.Count; i++)
+					if (!this.HasLearned(prerequisites[i]) || this.CanBeTrained(prerequisites[i]))
 					{
-						if (!this.HasLearned(prerequisites[i]) || this.CanBeTrained(prerequisites[i]))
-						{
-							return false;
-						}
+						return false;
 					}
 				}
-				result = true;
 			}
-			return result;
+			return true;
 		}
 
 		public bool HasLearned(TrainableDef td)
@@ -136,34 +131,29 @@ namespace RimWorld
 					}
 				}
 			}
-			AcceptanceReport result;
 			if (!td.defaultTrainable)
 			{
 				visible = false;
-				result = false;
+				return false;
 			}
-			else if (this.pawn.BodySize < td.minBodySize)
+			if (this.pawn.BodySize < td.minBodySize)
 			{
 				visible = true;
-				result = new AcceptanceReport("CannotTrainTooSmall".Translate(new object[]
+				return new AcceptanceReport("CannotTrainTooSmall".Translate(new object[]
 				{
 					this.pawn.LabelCapNoCount
 				}));
 			}
-			else if (this.pawn.RaceProps.trainability.intelligenceOrder < td.requiredTrainability.intelligenceOrder)
+			if (this.pawn.RaceProps.trainability.intelligenceOrder < td.requiredTrainability.intelligenceOrder)
 			{
 				visible = true;
-				result = new AcceptanceReport("CannotTrainNotSmartEnough".Translate(new object[]
+				return new AcceptanceReport("CannotTrainNotSmartEnough".Translate(new object[]
 				{
 					td.requiredTrainability
 				}));
 			}
-			else
-			{
-				visible = true;
-				result = true;
-			}
-			return result;
+			visible = true;
+			return true;
 		}
 
 		public TrainableDef NextTrainableToTrain()
@@ -230,54 +220,56 @@ namespace RimWorld
 			if (this.pawn.Suspended)
 			{
 				this.countDecayFrom += 250;
+				return;
 			}
-			else if (!this.pawn.Spawned)
+			if (!this.pawn.Spawned)
 			{
 				this.countDecayFrom += 250;
+				return;
 			}
-			else if (this.steps[TrainableDefOf.Tameness] == 0)
+			if (this.steps[TrainableDefOf.Tameness] == 0)
 			{
 				this.countDecayFrom = Find.TickManager.TicksGame;
+				return;
 			}
-			else if (Find.TickManager.TicksGame >= this.countDecayFrom + TrainableUtility.DegradationPeriodTicks(this.pawn.def))
+			if (Find.TickManager.TicksGame < this.countDecayFrom + TrainableUtility.DegradationPeriodTicks(this.pawn.def))
 			{
-				TrainableDef trainableDef = (from kvp in this.steps
-				where kvp.Value > 0
-				select kvp.Key).Except((from kvp in this.steps
-				where kvp.Value > 0 && kvp.Key.prerequisites != null
-				select kvp).SelectMany((KeyValuePair<TrainableDef, int> kvp) => kvp.Key.prerequisites)).RandomElement<TrainableDef>();
-				if (trainableDef == TrainableDefOf.Tameness && !TrainableUtility.TamenessCanDecay(this.pawn.def))
+				return;
+			}
+			TrainableDef trainableDef = (from kvp in this.steps
+			where kvp.Value > 0
+			select kvp.Key).Except((from kvp in this.steps
+			where kvp.Value > 0 && kvp.Key.prerequisites != null
+			select kvp).SelectMany((KeyValuePair<TrainableDef, int> kvp) => kvp.Key.prerequisites)).RandomElement<TrainableDef>();
+			if (trainableDef == TrainableDefOf.Tameness && !TrainableUtility.TamenessCanDecay(this.pawn.def))
+			{
+				this.countDecayFrom = Find.TickManager.TicksGame;
+				return;
+			}
+			this.countDecayFrom = Find.TickManager.TicksGame;
+			DefMap<TrainableDef, int> defMap;
+			TrainableDef def;
+			(defMap = this.steps)[def = trainableDef] = defMap[def] - 1;
+			if (this.steps[trainableDef] <= 0 && this.learned[trainableDef])
+			{
+				this.learned[trainableDef] = false;
+				if (this.pawn.Faction == Faction.OfPlayer)
 				{
-					this.countDecayFrom = Find.TickManager.TicksGame;
-				}
-				else
-				{
-					this.countDecayFrom = Find.TickManager.TicksGame;
-					DefMap<TrainableDef, int> defMap;
-					TrainableDef def;
-					(defMap = this.steps)[def = trainableDef] = defMap[def] - 1;
-					if (this.steps[trainableDef] <= 0 && this.learned[trainableDef])
+					if (trainableDef == TrainableDefOf.Tameness)
 					{
-						this.learned[trainableDef] = false;
-						if (this.pawn.Faction == Faction.OfPlayer)
+						this.pawn.SetFaction(null, null);
+						Messages.Message("MessageAnimalReturnedWild".Translate(new object[]
 						{
-							if (trainableDef == TrainableDefOf.Tameness)
-							{
-								this.pawn.SetFaction(null, null);
-								Messages.Message("MessageAnimalReturnedWild".Translate(new object[]
-								{
-									this.pawn.LabelShort
-								}), this.pawn, MessageTypeDefOf.NegativeEvent, true);
-							}
-							else
-							{
-								Messages.Message("MessageAnimalLostSkill".Translate(new object[]
-								{
-									this.pawn.LabelShort,
-									trainableDef.LabelCap
-								}), this.pawn, MessageTypeDefOf.NegativeEvent, true);
-							}
-						}
+							this.pawn.LabelShort
+						}), this.pawn, MessageTypeDefOf.NegativeEvent, true);
+					}
+					else
+					{
+						Messages.Message("MessageAnimalLostSkill".Translate(new object[]
+						{
+							this.pawn.LabelShort,
+							trainableDef.LabelCap
+						}), this.pawn, MessageTypeDefOf.NegativeEvent, true);
 					}
 				}
 			}

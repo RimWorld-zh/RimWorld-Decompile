@@ -1,17 +1,21 @@
 ﻿using System;
+using System.Linq;
+using UnityEngine;
 using Verse;
 
 namespace RimWorld
 {
 	public class StatsRecord : IExposable
 	{
-		public int numRaidsEnemy = 0;
+		public int numRaidsEnemy;
 
-		public int numThreatBigs = 0;
+		public int numThreatBigs;
 
-		public int colonistsKilled = 0;
+		public int colonistsKilled;
 
-		public int colonistsLaunched = 0;
+		public int colonistsLaunched;
+
+		public int greatestPopulation;
 
 		public StatsRecord()
 		{
@@ -23,6 +27,22 @@ namespace RimWorld
 			Scribe_Values.Look<int>(ref this.numThreatBigs, "numThreatsQueued", 0, false);
 			Scribe_Values.Look<int>(ref this.colonistsKilled, "colonistsKilled", 0, false);
 			Scribe_Values.Look<int>(ref this.colonistsLaunched, "colonistsLaunched", 0, false);
+			Scribe_Values.Look<int>(ref this.greatestPopulation, "greatestPopulation", 3, false);
+			if (Scribe.mode == LoadSaveMode.PostLoadInit)
+			{
+				this.UpdateGreatestPopulation();
+			}
+		}
+
+		public void Notify_ColonistKilled()
+		{
+			this.colonistsKilled++;
+		}
+
+		public void UpdateGreatestPopulation()
+		{
+			int a = PawnsFinder.AllMapsCaravansAndTravelingTransportPods_Alive_Colonists.Count<Pawn>();
+			this.greatestPopulation = Mathf.Max(a, this.greatestPopulation);
 		}
 	}
 }

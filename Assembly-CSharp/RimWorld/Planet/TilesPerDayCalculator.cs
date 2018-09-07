@@ -21,16 +21,11 @@ namespace RimWorld.Planet
 			int end = nextTile;
 			float num = (float)Caravan_PathFollower.CostToMove(caravanTicksPerMove, tile, end, null, false, explanation, caravanTicksPerMoveExplanation);
 			int num2 = Mathf.CeilToInt(num / 1f);
-			float result;
 			if (num2 == 0)
 			{
-				result = 0f;
+				return 0f;
 			}
-			else
-			{
-				result = 60000f / (float)num2;
-			}
-			return result;
+			return 60000f / (float)num2;
 		}
 
 		public static float ApproxTilesPerDay(Caravan caravan, StringBuilder explanation = null)
@@ -52,19 +47,14 @@ namespace RimWorld.Planet
 					}
 				}
 			}
-			float result;
 			if (!TilesPerDayCalculator.tmpPawns.Any<Pawn>())
 			{
-				result = 0f;
+				return 0f;
 			}
-			else
-			{
-				StringBuilder stringBuilder = (explanation == null) ? null : new StringBuilder();
-				int ticksPerMove = CaravanTicksPerMoveUtility.GetTicksPerMove(TilesPerDayCalculator.tmpPawns, massUsage, massCapacity, stringBuilder);
-				float num = TilesPerDayCalculator.ApproxTilesPerDay(ticksPerMove, tile, nextTile, explanation, (stringBuilder == null) ? null : stringBuilder.ToString());
-				TilesPerDayCalculator.tmpPawns.Clear();
-				result = num;
-			}
+			StringBuilder stringBuilder = (explanation == null) ? null : new StringBuilder();
+			int ticksPerMove = CaravanTicksPerMoveUtility.GetTicksPerMove(TilesPerDayCalculator.tmpPawns, massUsage, massCapacity, stringBuilder);
+			float result = TilesPerDayCalculator.ApproxTilesPerDay(ticksPerMove, tile, nextTile, explanation, (stringBuilder == null) ? null : stringBuilder.ToString());
+			TilesPerDayCalculator.tmpPawns.Clear();
 			return result;
 		}
 
@@ -82,19 +72,14 @@ namespace RimWorld.Planet
 					}
 				}
 			}
-			float result;
 			if (!TilesPerDayCalculator.tmpPawns.Any<Pawn>())
 			{
-				result = 0f;
+				return 0f;
 			}
-			else
-			{
-				StringBuilder stringBuilder = (explanation == null) ? null : new StringBuilder();
-				int ticksPerMove = CaravanTicksPerMoveUtility.GetTicksPerMove(TilesPerDayCalculator.tmpPawns, massUsageLeftAfterTransfer, massCapacityLeftAfterTransfer, stringBuilder);
-				float num = TilesPerDayCalculator.ApproxTilesPerDay(ticksPerMove, tile, nextTile, explanation, (stringBuilder == null) ? null : stringBuilder.ToString());
-				TilesPerDayCalculator.tmpPawns.Clear();
-				result = num;
-			}
+			StringBuilder stringBuilder = (explanation == null) ? null : new StringBuilder();
+			int ticksPerMove = CaravanTicksPerMoveUtility.GetTicksPerMove(TilesPerDayCalculator.tmpPawns, massUsageLeftAfterTransfer, massCapacityLeftAfterTransfer, stringBuilder);
+			float result = TilesPerDayCalculator.ApproxTilesPerDay(ticksPerMove, tile, nextTile, explanation, (stringBuilder == null) ? null : stringBuilder.ToString());
+			TilesPerDayCalculator.tmpPawns.Clear();
 			return result;
 		}
 
@@ -121,19 +106,14 @@ namespace RimWorld.Planet
 					}
 				}
 			}
-			float result;
 			if (!TilesPerDayCalculator.tmpPawns.Any<Pawn>())
 			{
-				result = 0f;
+				return 0f;
 			}
-			else
-			{
-				StringBuilder stringBuilder = (explanation == null) ? null : new StringBuilder();
-				int ticksPerMove = CaravanTicksPerMoveUtility.GetTicksPerMove(TilesPerDayCalculator.tmpPawns, massUsage, massCapacity, stringBuilder);
-				float num = TilesPerDayCalculator.ApproxTilesPerDay(ticksPerMove, tile, nextTile, explanation, (stringBuilder == null) ? null : stringBuilder.ToString());
-				TilesPerDayCalculator.tmpPawns.Clear();
-				result = num;
-			}
+			StringBuilder stringBuilder = (explanation == null) ? null : new StringBuilder();
+			int ticksPerMove = CaravanTicksPerMoveUtility.GetTicksPerMove(TilesPerDayCalculator.tmpPawns, massUsage, massCapacity, stringBuilder);
+			float result = TilesPerDayCalculator.ApproxTilesPerDay(ticksPerMove, tile, nextTile, explanation, (stringBuilder == null) ? null : stringBuilder.ToString());
+			TilesPerDayCalculator.tmpPawns.Clear();
 			return result;
 		}
 

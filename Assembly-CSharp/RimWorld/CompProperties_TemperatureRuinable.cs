@@ -5,7 +5,7 @@ namespace RimWorld
 {
 	public class CompProperties_TemperatureRuinable : CompProperties
 	{
-		public float minSafeTemperature = 0f;
+		public float minSafeTemperature;
 
 		public float maxSafeTemperature = 100f;
 

@@ -25,24 +25,16 @@ namespace RimWorld
 		{
 			get
 			{
-				Pawn result;
 				if (base.SelPawn != null)
 				{
-					result = base.SelPawn;
+					return base.SelPawn;
 				}
-				else
+				Corpse corpse = base.SelThing as Corpse;
+				if (corpse != null)
 				{
-					Corpse corpse = base.SelThing as Corpse;
-					if (corpse != null)
-					{
-						result = corpse.InnerPawn;
-					}
-					else
-					{
-						result = null;
-					}
+					return corpse.InnerPawn;
 				}
-				return result;
+				return null;
 			}
 		}
 
@@ -52,29 +44,22 @@ namespace RimWorld
 			if (pawnForHealth == null)
 			{
 				Log.Error("Health tab found no selected pawn to display.", false);
+				return;
 			}
-			else
-			{
-				Corpse corpse = base.SelThing as Corpse;
-				bool showBloodLoss = corpse == null || corpse.Age < 60000;
-				Rect outRect = new Rect(0f, 20f, this.size.x, this.size.y - 20f);
-				HealthCardUtility.DrawPawnHealthCard(outRect, pawnForHealth, this.ShouldAllowOperations(), showBloodLoss, base.SelThing);
-			}
+			Corpse corpse = base.SelThing as Corpse;
+			bool showBloodLoss = corpse == null || corpse.Age < 60000;
+			Rect outRect = new Rect(0f, 20f, this.size.x, this.size.y - 20f);
+			HealthCardUtility.DrawPawnHealthCard(outRect, pawnForHealth, this.ShouldAllowOperations(), showBloodLoss, base.SelThing);
 		}
 
 		private bool ShouldAllowOperations()
 		{
 			Pawn pawnForHealth = this.PawnForHealth;
-			bool result;
 			if (pawnForHealth.Dead)
 			{
-				result = false;
+				return false;
 			}
-			else
-			{
-				result = (base.SelThing.def.AllRecipes.Any((RecipeDef x) => x.AvailableNow) && (pawnForHealth.Faction == Faction.OfPlayer || (pawnForHealth.IsPrisonerOfColony || (pawnForHealth.HostFaction == Faction.OfPlayer && !pawnForHealth.health.capacities.CapableOf(PawnCapacityDefOf.Moving))) || ((!pawnForHealth.RaceProps.IsFlesh || pawnForHealth.Faction == null || !pawnForHealth.Faction.HostileTo(Faction.OfPlayer)) && (!pawnForHealth.RaceProps.Humanlike && pawnForHealth.Downed))));
-			}
-			return result;
+			return base.SelThing.def.AllRecipes.Any((RecipeDef x) => x.AvailableNow) && (pawnForHealth.Faction == Faction.OfPlayer || (pawnForHealth.IsPrisonerOfColony || (pawnForHealth.HostFaction == Faction.OfPlayer && !pawnForHealth.health.capacities.CapableOf(PawnCapacityDefOf.Moving))) || ((!pawnForHealth.RaceProps.IsFlesh || pawnForHealth.Faction == null || !pawnForHealth.Faction.HostileTo(Faction.OfPlayer)) && (!pawnForHealth.RaceProps.Humanlike && pawnForHealth.Downed)));
 		}
 
 		[CompilerGenerated]

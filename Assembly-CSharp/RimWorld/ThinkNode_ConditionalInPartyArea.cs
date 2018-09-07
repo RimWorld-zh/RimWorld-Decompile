@@ -12,17 +12,12 @@ namespace RimWorld
 
 		protected override bool Satisfied(Pawn pawn)
 		{
-			bool result;
 			if (pawn.mindState.duty == null)
 			{
-				result = false;
+				return false;
 			}
-			else
-			{
-				IntVec3 cell = pawn.mindState.duty.focus.Cell;
-				result = PartyUtility.InPartyArea(pawn.Position, cell, pawn.Map);
-			}
-			return result;
+			IntVec3 cell = pawn.mindState.duty.focus.Cell;
+			return PartyUtility.InPartyArea(pawn.Position, cell, pawn.Map);
 		}
 	}
 }

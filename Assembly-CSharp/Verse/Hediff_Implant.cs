@@ -21,6 +21,7 @@ namespace Verse
 			if (base.Part == null)
 			{
 				Log.Error("Part is null. It should be set before PostAdd for " + this.def + ".", false);
+				return;
 			}
 		}
 
@@ -31,6 +32,7 @@ namespace Verse
 			{
 				Log.Error("Hediff_Implant has null part after loading.", false);
 				this.pawn.health.hediffSet.hediffs.Remove(this);
+				return;
 			}
 		}
 	}

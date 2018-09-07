@@ -30,107 +30,90 @@ namespace RimWorld
 			if (hediff != null)
 			{
 				this.Cure(hediff);
+				return;
 			}
-			else
+			if (HealthUtility.TicksUntilDeathDueToBloodLoss(usedBy) < 2500)
 			{
-				if (HealthUtility.TicksUntilDeathDueToBloodLoss(usedBy) < 2500)
+				Hediff hediff2 = this.FindMostBleedingHediff(usedBy);
+				if (hediff2 != null)
 				{
-					Hediff hediff2 = this.FindMostBleedingHediff(usedBy);
-					if (hediff2 != null)
-					{
-						this.Cure(hediff2);
-						return;
-					}
+					this.Cure(hediff2);
+					return;
 				}
-				if (usedBy.health.hediffSet.GetBrain() != null)
+			}
+			if (usedBy.health.hediffSet.GetBrain() != null)
+			{
+				Hediff_Injury hediff_Injury = this.FindPermanentInjury(usedBy, Gen.YieldSingle<BodyPartRecord>(usedBy.health.hediffSet.GetBrain()));
+				if (hediff_Injury != null)
 				{
-					Hediff_Injury hediff_Injury = this.FindPermanentInjury(usedBy, Gen.YieldSingle<BodyPartRecord>(usedBy.health.hediffSet.GetBrain()));
-					if (hediff_Injury != null)
-					{
-						this.Cure(hediff_Injury);
-						return;
-					}
+					this.Cure(hediff_Injury);
+					return;
 				}
-				BodyPartRecord bodyPartRecord = this.FindBiggestMissingBodyPart(usedBy, this.HandCoverageAbsWithChildren);
-				if (bodyPartRecord != null)
+			}
+			BodyPartRecord bodyPartRecord = this.FindBiggestMissingBodyPart(usedBy, this.HandCoverageAbsWithChildren);
+			if (bodyPartRecord != null)
+			{
+				this.Cure(bodyPartRecord, usedBy);
+				return;
+			}
+			Hediff_Injury hediff_Injury2 = this.FindPermanentInjury(usedBy, from x in usedBy.health.hediffSet.GetNotMissingParts(BodyPartHeight.Undefined, BodyPartDepth.Undefined, null, null)
+			where x.def == BodyPartDefOf.Eye
+			select x);
+			if (hediff_Injury2 != null)
+			{
+				this.Cure(hediff_Injury2);
+				return;
+			}
+			Hediff hediff3 = this.FindImmunizableHediffWhichCanKill(usedBy);
+			if (hediff3 != null)
+			{
+				this.Cure(hediff3);
+				return;
+			}
+			Hediff hediff4 = this.FindNonInjuryMiscBadHediff(usedBy, true);
+			if (hediff4 != null)
+			{
+				this.Cure(hediff4);
+				return;
+			}
+			Hediff hediff5 = this.FindNonInjuryMiscBadHediff(usedBy, false);
+			if (hediff5 != null)
+			{
+				this.Cure(hediff5);
+				return;
+			}
+			if (usedBy.health.hediffSet.GetBrain() != null)
+			{
+				Hediff_Injury hediff_Injury3 = this.FindInjury(usedBy, Gen.YieldSingle<BodyPartRecord>(usedBy.health.hediffSet.GetBrain()));
+				if (hediff_Injury3 != null)
 				{
-					this.Cure(bodyPartRecord, usedBy);
+					this.Cure(hediff_Injury3);
+					return;
 				}
-				else
-				{
-					Hediff_Injury hediff_Injury2 = this.FindPermanentInjury(usedBy, from x in usedBy.health.hediffSet.GetNotMissingParts(BodyPartHeight.Undefined, BodyPartDepth.Undefined, null)
-					where x.def == BodyPartDefOf.Eye
-					select x);
-					if (hediff_Injury2 != null)
-					{
-						this.Cure(hediff_Injury2);
-					}
-					else
-					{
-						Hediff hediff3 = this.FindImmunizableHediffWhichCanKill(usedBy);
-						if (hediff3 != null)
-						{
-							this.Cure(hediff3);
-						}
-						else
-						{
-							Hediff hediff4 = this.FindNonInjuryMiscBadHediff(usedBy, true);
-							if (hediff4 != null)
-							{
-								this.Cure(hediff4);
-							}
-							else
-							{
-								Hediff hediff5 = this.FindNonInjuryMiscBadHediff(usedBy, false);
-								if (hediff5 != null)
-								{
-									this.Cure(hediff5);
-								}
-								else
-								{
-									if (usedBy.health.hediffSet.GetBrain() != null)
-									{
-										Hediff_Injury hediff_Injury3 = this.FindInjury(usedBy, Gen.YieldSingle<BodyPartRecord>(usedBy.health.hediffSet.GetBrain()));
-										if (hediff_Injury3 != null)
-										{
-											this.Cure(hediff_Injury3);
-											return;
-										}
-									}
-									BodyPartRecord bodyPartRecord2 = this.FindBiggestMissingBodyPart(usedBy, 0f);
-									if (bodyPartRecord2 != null)
-									{
-										this.Cure(bodyPartRecord2, usedBy);
-									}
-									else
-									{
-										Hediff_Addiction hediff_Addiction = this.FindAddiction(usedBy);
-										if (hediff_Addiction != null)
-										{
-											this.Cure(hediff_Addiction);
-										}
-										else
-										{
-											Hediff_Injury hediff_Injury4 = this.FindPermanentInjury(usedBy, null);
-											if (hediff_Injury4 != null)
-											{
-												this.Cure(hediff_Injury4);
-											}
-											else
-											{
-												Hediff_Injury hediff_Injury5 = this.FindInjury(usedBy, null);
-												if (hediff_Injury5 != null)
-												{
-													this.Cure(hediff_Injury5);
-												}
-											}
-										}
-									}
-								}
-							}
-						}
-					}
-				}
+			}
+			BodyPartRecord bodyPartRecord2 = this.FindBiggestMissingBodyPart(usedBy, 0f);
+			if (bodyPartRecord2 != null)
+			{
+				this.Cure(bodyPartRecord2, usedBy);
+				return;
+			}
+			Hediff_Addiction hediff_Addiction = this.FindAddiction(usedBy);
+			if (hediff_Addiction != null)
+			{
+				this.Cure(hediff_Addiction);
+				return;
+			}
+			Hediff_Injury hediff_Injury4 = this.FindPermanentInjury(usedBy, null);
+			if (hediff_Injury4 != null)
+			{
+				this.Cure(hediff_Injury4);
+				return;
+			}
+			Hediff_Injury hediff_Injury5 = this.FindInjury(usedBy, null);
+			if (hediff_Injury5 != null)
+			{
+				this.Cure(hediff_Injury5);
+				return;
 			}
 		}
 

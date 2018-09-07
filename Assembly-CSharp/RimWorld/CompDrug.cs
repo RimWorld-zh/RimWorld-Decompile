@@ -30,24 +30,21 @@ namespace RimWorld
 				{
 					hediff_Addiction.Severity += this.Props.existingAddictionSeverityOffset;
 				}
-				else if (Rand.Value < this.Props.addictiveness)
+				else if (Rand.Value < this.Props.addictiveness && num >= this.Props.minToleranceToAddict)
 				{
-					if (num >= this.Props.minToleranceToAddict)
+					ingester.health.AddHediff(addictionHediffDef, null, null, null);
+					if (PawnUtility.ShouldSendNotificationAbout(ingester))
 					{
-						ingester.health.AddHediff(addictionHediffDef, null, null, null);
-						if (PawnUtility.ShouldSendNotificationAbout(ingester))
+						Find.LetterStack.ReceiveLetter("LetterLabelNewlyAddicted".Translate(new object[]
 						{
-							Find.LetterStack.ReceiveLetter("LetterLabelNewlyAddicted".Translate(new object[]
-							{
-								this.Props.chemical.label
-							}).CapitalizeFirst(), "LetterNewlyAddicted".Translate(new object[]
-							{
-								ingester.LabelShort,
-								this.Props.chemical.label
-							}).AdjustedFor(ingester, "PAWN").CapitalizeFirst(), LetterDefOf.NegativeEvent, ingester, null, null);
-						}
-						AddictionUtility.CheckDrugAddictionTeachOpportunity(ingester);
+							this.Props.chemical.label
+						}).CapitalizeFirst(), "LetterNewlyAddicted".Translate(new object[]
+						{
+							ingester.LabelShort,
+							this.Props.chemical.label
+						}).AdjustedFor(ingester, "PAWN").CapitalizeFirst(), LetterDefOf.NegativeEvent, ingester, null, null);
 					}
+					AddictionUtility.CheckDrugAddictionTeachOpportunity(ingester);
 				}
 				if (addictionHediffDef.causesNeed != null)
 				{

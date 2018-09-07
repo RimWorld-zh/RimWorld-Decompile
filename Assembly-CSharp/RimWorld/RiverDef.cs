@@ -10,9 +10,9 @@ namespace RimWorld
 
 		public float spawnChance = 1f;
 
-		public int degradeThreshold = 0;
+		public int degradeThreshold;
 
-		public RiverDef degradeChild = null;
+		public RiverDef degradeChild;
 
 		public List<RiverDef.Branch> branches;
 
@@ -20,7 +20,7 @@ namespace RimWorld
 
 		public float widthOnMap = 10f;
 
-		public float debugOpacity = 0f;
+		public float debugOpacity;
 
 		public RiverDef()
 		{
@@ -28,9 +28,9 @@ namespace RimWorld
 
 		public class Branch
 		{
-			public int minFlow = 0;
+			public int minFlow;
 
-			public RiverDef child = null;
+			public RiverDef child;
 
 			public float chance = 1f;
 

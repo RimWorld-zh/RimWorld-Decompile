@@ -231,17 +231,12 @@ namespace Verse
 		{
 			get
 			{
-				PawnKindLifeStage result;
 				if (this.pawn.RaceProps.Humanlike)
 				{
 					Log.ErrorOnce("Tried to get CurKindLifeStage from humanlike pawn " + this.pawn, 8888811, false);
-					result = null;
+					return null;
 				}
-				else
-				{
-					result = this.pawn.kindDef.lifeStages[this.CurLifeStageIndex];
-				}
-				return result;
+				return this.pawn.kindDef.lifeStages[this.CurLifeStageIndex];
 			}
 		}
 
@@ -336,18 +331,15 @@ namespace Verse
 					stringBuilder.Append("    - " + hediffGiver_Birthday.hediff.LabelCap);
 				}
 			}
-			if (this.pawn.RaceProps.Humanlike && PawnUtility.ShouldSendNotificationAbout(this.pawn))
+			if (this.pawn.RaceProps.Humanlike && PawnUtility.ShouldSendNotificationAbout(this.pawn) && stringBuilder.Length > 0)
 			{
-				if (stringBuilder.Length > 0)
+				string text = "BirthdayBiologicalAgeInjuries".Translate(new object[]
 				{
-					string text = "BirthdayBiologicalAgeInjuries".Translate(new object[]
-					{
-						this.pawn,
-						this.AgeBiologicalYears,
-						stringBuilder
-					}).AdjustedFor(this.pawn, "PAWN");
-					Find.LetterStack.ReceiveLetter("LetterLabelBirthday".Translate(), text, LetterDefOf.NegativeEvent, this.pawn, null, null);
-				}
+					this.pawn,
+					this.AgeBiologicalYears,
+					stringBuilder
+				}).AdjustedFor(this.pawn, "PAWN");
+				Find.LetterStack.ReceiveLetter("LetterLabelBirthday".Translate(), text, LetterDefOf.NegativeEvent, this.pawn, null, null);
 			}
 		}
 
@@ -359,23 +351,23 @@ namespace Verse
 		private void CheckChangePawnKindName()
 		{
 			NameSingle nameSingle = this.pawn.Name as NameSingle;
-			if (nameSingle != null && nameSingle.Numerical)
+			if (nameSingle == null || !nameSingle.Numerical)
 			{
-				string kindLabel = this.pawn.KindLabel;
-				if (!(nameSingle.NameWithoutNumber == kindLabel))
-				{
-					int number = nameSingle.Number;
-					string text = this.pawn.KindLabel + " " + number;
-					if (!NameUseChecker.NameSingleIsUsed(text))
-					{
-						this.pawn.Name = new NameSingle(text, true);
-					}
-					else
-					{
-						this.pawn.Name = PawnBioAndNameGenerator.GeneratePawnName(this.pawn, NameStyle.Numeric, null);
-					}
-				}
+				return;
 			}
+			string kindLabel = this.pawn.KindLabel;
+			if (nameSingle.NameWithoutNumber == kindLabel)
+			{
+				return;
+			}
+			int number = nameSingle.Number;
+			string text = this.pawn.KindLabel + " " + number;
+			if (!NameUseChecker.NameSingleIsUsed(text))
+			{
+				this.pawn.Name = new NameSingle(text, true);
+				return;
+			}
+			this.pawn.Name = PawnBioAndNameGenerator.GeneratePawnName(this.pawn, NameStyle.Numeric, null);
 		}
 
 		public void DebugMake1YearOlder()

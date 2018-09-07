@@ -7,20 +7,15 @@ namespace RimWorld
 	{
 		public static string PresetName(this StorageSettingsPreset preset)
 		{
-			string result;
 			if (preset == StorageSettingsPreset.DumpingStockpile)
 			{
-				result = "DumpingStockpile".Translate();
+				return "DumpingStockpile".Translate();
 			}
-			else if (preset == StorageSettingsPreset.DefaultStockpile)
+			if (preset == StorageSettingsPreset.DefaultStockpile)
 			{
-				result = "Stockpile".Translate();
+				return "Stockpile".Translate();
 			}
-			else
-			{
-				result = "Zone".Translate();
-			}
-			return result;
+			return "Zone".Translate();
 		}
 	}
 }

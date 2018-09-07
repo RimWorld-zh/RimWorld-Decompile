@@ -1,7 +1,10 @@
 ﻿using System;
+using System.Collections;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Linq;
 using System.Runtime.CompilerServices;
+using System.Threading;
 using UnityEngine;
 using Verse;
 
@@ -12,7 +15,7 @@ namespace RimWorld
 		public StorytellerCompProperties props;
 
 		[CompilerGenerated]
-		private static Func<IncidentTargetTypeDef, string> <>f__am$cache0;
+		private static Func<IncidentTargetTagDef, string> <>f__am$cache0;
 
 		[CompilerGenerated]
 		private static Func<IncidentDef, string> <>f__am$cache1;
@@ -33,7 +36,14 @@ namespace RimWorld
 		{
 		}
 
-		public abstract IEnumerable<FiringIncident> MakeIntervalIncidents(IIncidentTarget target);
+		public virtual IEnumerable<FiringIncident> MakeIntervalIncidents(IIncidentTarget target)
+		{
+			yield break;
+		}
+
+		public virtual void Notify_PawnEvent(Pawn p, AdaptationEvent ev, DamageInfo? dinfo = null)
+		{
+		}
 
 		public virtual IncidentParms GenerateParms(IncidentCategoryDef incCat, IIncidentTarget target)
 		{
@@ -59,36 +69,37 @@ namespace RimWorld
 
 		protected float IncidentChanceFactor_CurrentPopulation(IncidentDef def)
 		{
-			float result;
 			if (def.chanceFactorByPopulationCurve == null)
 			{
-				result = 1f;
+				return 1f;
 			}
-			else
-			{
-				int num = PawnsFinder.AllMapsCaravansAndTravelingTransportPods_Alive_Colonists.Count<Pawn>();
-				result = def.chanceFactorByPopulationCurve.Evaluate((float)num);
-			}
-			return result;
+			int num = PawnsFinder.AllMapsCaravansAndTravelingTransportPods_Alive_Colonists.Count<Pawn>();
+			return def.chanceFactorByPopulationCurve.Evaluate((float)num);
 		}
 
 		protected float IncidentChanceFactor_PopulationIntent(IncidentDef def)
 		{
-			IncidentPopulationEffect populationEffect = def.populationEffect;
-			float result;
-			if (populationEffect != IncidentPopulationEffect.None)
+			if (def.populationEffect == IncidentPopulationEffect.None)
 			{
-				if (populationEffect != IncidentPopulationEffect.Increase)
-				{
-					throw new NotImplementedException();
-				}
-				result = Mathf.Max(Find.Storyteller.intenderPopulation.PopulationIntent, this.props.minIncChancePopulationIntentFactor);
+				return 1f;
 			}
-			else
+			float num;
+			switch (def.populationEffect)
 			{
-				result = 1f;
+			case IncidentPopulationEffect.IncreaseHard:
+				num = 0.4f;
+				break;
+			case IncidentPopulationEffect.IncreaseMedium:
+				num = 0f;
+				break;
+			case IncidentPopulationEffect.IncreaseEasy:
+				num = -0.4f;
+				break;
+			default:
+				throw new Exception();
 			}
-			return result;
+			float a = StorytellerUtilityPopulation.PopulationIntent + num;
+			return Mathf.Max(a, this.props.minIncChancePopulationIntentFactor);
 		}
 
 		protected float IncidentChanceFinal(IncidentDef def)
@@ -107,9 +118,9 @@ namespace RimWorld
 			{
 				text = text.Substring(text2.Length);
 			}
-			if (!this.props.allowedTargetTypes.NullOrEmpty<IncidentTargetTypeDef>())
+			if (!this.props.allowedTargetTags.NullOrEmpty<IncidentTargetTagDef>())
 			{
-				text = text + " (" + (from x in this.props.allowedTargetTypes
+				text = text + " (" + (from x in this.props.allowedTargetTags
 				select x.ToString()).ToCommaList(false) + ")";
 			}
 			return text;
@@ -128,15 +139,15 @@ namespace RimWorld
 			array[3] = new TableDataGetter<IncidentDef>("Factor-PopCurrent", (IncidentDef d) => this.IncidentChanceFactor_CurrentPopulation(d).ToString());
 			array[4] = new TableDataGetter<IncidentDef>("Factor-PopIntent", (IncidentDef d) => this.IncidentChanceFactor_PopulationIntent(d).ToString());
 			array[5] = new TableDataGetter<IncidentDef>("final chance", (IncidentDef d) => this.IncidentChanceFinal(d).ToString());
-			array[6] = new TableDataGetter<IncidentDef>("vismap-usable", (IncidentDef d) => (Find.CurrentMap != null) ? ((!this.UsableIncidentsInCategory(cat, Find.CurrentMap).Contains(d)) ? "" : "V") : "-");
-			array[7] = new TableDataGetter<IncidentDef>("world-usable", (IncidentDef d) => (!this.UsableIncidentsInCategory(cat, Find.World).Contains(d)) ? "" : "W");
+			array[6] = new TableDataGetter<IncidentDef>("vismap-usable", (IncidentDef d) => (Find.CurrentMap != null) ? ((!this.UsableIncidentsInCategory(cat, Find.CurrentMap).Contains(d)) ? string.Empty : "V") : "-");
+			array[7] = new TableDataGetter<IncidentDef>("world-usable", (IncidentDef d) => (!this.UsableIncidentsInCategory(cat, Find.World).Contains(d)) ? string.Empty : "W");
 			array[8] = new TableDataGetter<IncidentDef>("pop-current", (IncidentDef d) => PawnsFinder.AllMapsCaravansAndTravelingTransportPods_Alive_Colonists.Count<Pawn>().ToString());
-			array[9] = new TableDataGetter<IncidentDef>("pop-intent", (IncidentDef d) => Find.Storyteller.intenderPopulation.PopulationIntent.ToString("F3"));
+			array[9] = new TableDataGetter<IncidentDef>("pop-intent", (IncidentDef d) => StorytellerUtilityPopulation.PopulationIntent.ToString("F3"));
 			DebugTables.MakeTablesDialog<IncidentDef>(dataSources, array);
 		}
 
 		[CompilerGenerated]
-		private static string <ToString>m__0(IncidentTargetTypeDef x)
+		private static string <ToString>m__0(IncidentTargetTagDef x)
 		{
 			return x.ToString();
 		}
@@ -168,11 +179,81 @@ namespace RimWorld
 		[CompilerGenerated]
 		private static string <DebugTablesIncidentChances>m__5(IncidentDef d)
 		{
-			return Find.Storyteller.intenderPopulation.PopulationIntent.ToString("F3");
+			return StorytellerUtilityPopulation.PopulationIntent.ToString("F3");
 		}
 
 		[CompilerGenerated]
-		private sealed class <UsableIncidentsInCategory>c__AnonStorey0
+		private sealed class <MakeIntervalIncidents>c__Iterator0 : IEnumerable, IEnumerable<FiringIncident>, IEnumerator, IDisposable, IEnumerator<FiringIncident>
+		{
+			internal FiringIncident $current;
+
+			internal bool $disposing;
+
+			internal int $PC;
+
+			[DebuggerHidden]
+			public <MakeIntervalIncidents>c__Iterator0()
+			{
+			}
+
+			public bool MoveNext()
+			{
+				bool flag = this.$PC != 0;
+				this.$PC = -1;
+				if (!flag)
+				{
+				}
+				return false;
+			}
+
+			FiringIncident IEnumerator<FiringIncident>.Current
+			{
+				[DebuggerHidden]
+				get
+				{
+					return this.$current;
+				}
+			}
+
+			object IEnumerator.Current
+			{
+				[DebuggerHidden]
+				get
+				{
+					return this.$current;
+				}
+			}
+
+			[DebuggerHidden]
+			public void Dispose()
+			{
+			}
+
+			[DebuggerHidden]
+			public void Reset()
+			{
+				throw new NotSupportedException();
+			}
+
+			[DebuggerHidden]
+			IEnumerator IEnumerable.GetEnumerator()
+			{
+				return this.System.Collections.Generic.IEnumerable<RimWorld.FiringIncident>.GetEnumerator();
+			}
+
+			[DebuggerHidden]
+			IEnumerator<FiringIncident> IEnumerable<FiringIncident>.GetEnumerator()
+			{
+				if (Interlocked.CompareExchange(ref this.$PC, 0, -2) == -2)
+				{
+					return this;
+				}
+				return new StorytellerComp.<MakeIntervalIncidents>c__Iterator0();
+			}
+		}
+
+		[CompilerGenerated]
+		private sealed class <UsableIncidentsInCategory>c__AnonStorey1
 		{
 			internal IncidentCategoryDef cat;
 
@@ -180,7 +261,7 @@ namespace RimWorld
 
 			internal StorytellerComp $this;
 
-			public <UsableIncidentsInCategory>c__AnonStorey0()
+			public <UsableIncidentsInCategory>c__AnonStorey1()
 			{
 			}
 
@@ -191,11 +272,11 @@ namespace RimWorld
 		}
 
 		[CompilerGenerated]
-		private sealed class <UsableIncidentsInCategory>c__AnonStorey1
+		private sealed class <UsableIncidentsInCategory>c__AnonStorey2
 		{
 			internal IncidentParms parms;
 
-			public <UsableIncidentsInCategory>c__AnonStorey1()
+			public <UsableIncidentsInCategory>c__AnonStorey2()
 			{
 			}
 
@@ -206,13 +287,13 @@ namespace RimWorld
 		}
 
 		[CompilerGenerated]
-		private sealed class <UsableIncidentsInCategory>c__AnonStorey2
+		private sealed class <UsableIncidentsInCategory>c__AnonStorey3
 		{
 			internal IncidentCategoryDef cat;
 
 			internal Func<IncidentDef, IncidentParms> parmsGetter;
 
-			public <UsableIncidentsInCategory>c__AnonStorey2()
+			public <UsableIncidentsInCategory>c__AnonStorey3()
 			{
 			}
 
@@ -223,13 +304,13 @@ namespace RimWorld
 		}
 
 		[CompilerGenerated]
-		private sealed class <DebugTablesIncidentChances>c__AnonStorey3
+		private sealed class <DebugTablesIncidentChances>c__AnonStorey4
 		{
 			internal IncidentCategoryDef cat;
 
 			internal StorytellerComp $this;
 
-			public <DebugTablesIncidentChances>c__AnonStorey3()
+			public <DebugTablesIncidentChances>c__AnonStorey4()
 			{
 			}
 
@@ -260,12 +341,12 @@ namespace RimWorld
 
 			internal string <>m__5(IncidentDef d)
 			{
-				return (Find.CurrentMap != null) ? ((!this.$this.UsableIncidentsInCategory(this.cat, Find.CurrentMap).Contains(d)) ? "" : "V") : "-";
+				return (Find.CurrentMap != null) ? ((!this.$this.UsableIncidentsInCategory(this.cat, Find.CurrentMap).Contains(d)) ? string.Empty : "V") : "-";
 			}
 
 			internal string <>m__6(IncidentDef d)
 			{
-				return (!this.$this.UsableIncidentsInCategory(this.cat, Find.World).Contains(d)) ? "" : "W";
+				return (!this.$this.UsableIncidentsInCategory(this.cat, Find.World).Contains(d)) ? string.Empty : "W";
 			}
 		}
 	}

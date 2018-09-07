@@ -119,20 +119,15 @@ namespace Verse
 		{
 			get
 			{
-				float result;
 				if (this.gameStartDialogOpen)
 				{
-					result = 0f;
+					return 0f;
 				}
-				else if (this.timeGameStartDialogClosed < 0f)
+				if (this.timeGameStartDialogClosed < 0f)
 				{
-					result = 9999999f;
+					return 9999999f;
 				}
-				else
-				{
-					result = Time.time - this.timeGameStartDialogClosed;
-				}
-				return result;
+				return Time.time - this.timeGameStartDialogClosed;
 			}
 		}
 
@@ -194,12 +189,9 @@ namespace Verse
 			{
 				this.Notify_PressedAccept();
 			}
-			if (Event.current.type == EventType.MouseDown || Event.current.type == EventType.KeyDown)
+			if ((Event.current.type == EventType.MouseDown || Event.current.type == EventType.KeyDown) && !this.GetsInput(null))
 			{
-				if (!this.GetsInput(null))
-				{
-					Event.current.Use();
-				}
+				Event.current.Use();
 			}
 		}
 
@@ -331,24 +323,16 @@ namespace Verse
 
 		public bool GetsInput(Window window)
 		{
-			int i = this.windows.Count - 1;
-			while (i >= 0)
+			for (int i = this.windows.Count - 1; i >= 0; i--)
 			{
-				bool result;
 				if (this.windows[i] == window)
 				{
-					result = true;
+					return true;
 				}
-				else
+				if (this.windows[i].absorbInputAroundWindow)
 				{
-					if (!this.windows[i].absorbInputAroundWindow)
-					{
-						i--;
-						continue;
-					}
-					result = false;
+					return false;
 				}
-				return result;
 			}
 			return true;
 		}
@@ -366,38 +350,37 @@ namespace Verse
 
 		public void ImmediateWindow(int ID, Rect rect, WindowLayer layer, Action doWindowFunc, bool doBackground = true, bool absorbInputAroundWindow = false, float shadowAlpha = 1f)
 		{
-			if (Event.current.type == EventType.Repaint)
+			if (Event.current.type != EventType.Repaint)
 			{
-				if (ID == 0)
+				return;
+			}
+			if (ID == 0)
+			{
+				Log.Warning("Used 0 as immediate window ID.", false);
+				return;
+			}
+			ID = -Math.Abs(ID);
+			bool flag = false;
+			for (int i = 0; i < this.windows.Count; i++)
+			{
+				if (this.windows[i].ID == ID)
 				{
-					Log.Warning("Used 0 as immediate window ID.", false);
-				}
-				else
-				{
-					ID = -Math.Abs(ID);
-					bool flag = false;
-					for (int i = 0; i < this.windows.Count; i++)
-					{
-						if (this.windows[i].ID == ID)
-						{
-							ImmediateWindow immediateWindow = (ImmediateWindow)this.windows[i];
-							immediateWindow.windowRect = rect;
-							immediateWindow.doWindowFunc = doWindowFunc;
-							immediateWindow.layer = layer;
-							immediateWindow.doWindowBackground = doBackground;
-							immediateWindow.absorbInputAroundWindow = absorbInputAroundWindow;
-							immediateWindow.shadowAlpha = shadowAlpha;
-							flag = true;
-							break;
-						}
-					}
-					if (!flag)
-					{
-						this.AddNewImmediateWindow(ID, rect, layer, doWindowFunc, doBackground, absorbInputAroundWindow, shadowAlpha);
-					}
-					this.immediateWindowsRequests.Add(ID);
+					ImmediateWindow immediateWindow = (ImmediateWindow)this.windows[i];
+					immediateWindow.windowRect = rect;
+					immediateWindow.doWindowFunc = doWindowFunc;
+					immediateWindow.layer = layer;
+					immediateWindow.doWindowBackground = doBackground;
+					immediateWindow.absorbInputAroundWindow = absorbInputAroundWindow;
+					immediateWindow.shadowAlpha = shadowAlpha;
+					flag = true;
+					break;
 				}
 			}
+			if (!flag)
+			{
+				this.AddNewImmediateWindow(ID, rect, layer, doWindowFunc, doBackground, absorbInputAroundWindow, shadowAlpha);
+			}
+			this.immediateWindowsRequests.Add(ID);
 		}
 
 		public bool TryRemove(Type windowType, bool doCloseSound = true)
@@ -435,35 +418,30 @@ namespace Verse
 					break;
 				}
 			}
-			bool result;
 			if (!flag)
 			{
-				result = false;
+				return false;
 			}
-			else
+			if (doCloseSound && window.soundClose != null)
 			{
-				if (doCloseSound && window.soundClose != null)
-				{
-					window.soundClose.PlayOneShotOnCamera(null);
-				}
-				window.PreClose();
-				this.windows.Remove(window);
-				window.PostClose();
-				if (this.focusedWindow == window)
-				{
-					if (this.windows.Count > 0)
-					{
-						this.focusedWindow = this.windows[this.windows.Count - 1];
-					}
-					else
-					{
-						this.focusedWindow = null;
-					}
-					this.updateInternalWindowsOrderLater = true;
-				}
-				result = true;
+				window.soundClose.PlayOneShotOnCamera(null);
 			}
-			return result;
+			window.PreClose();
+			this.windows.Remove(window);
+			window.PostClose();
+			if (this.focusedWindow == window)
+			{
+				if (this.windows.Count > 0)
+				{
+					this.focusedWindow = this.windows[this.windows.Count - 1];
+				}
+				else
+				{
+					this.focusedWindow = null;
+				}
+				this.updateInternalWindowsOrderLater = true;
+			}
+			return true;
 		}
 
 		public Window GetWindowAt(Vector2 pos)
@@ -483,52 +461,51 @@ namespace Verse
 			if (ID >= 0)
 			{
 				Log.Error("Invalid immediate window ID.", false);
+				return;
 			}
-			else
-			{
-				ImmediateWindow immediateWindow = new ImmediateWindow();
-				immediateWindow.ID = ID;
-				immediateWindow.layer = layer;
-				immediateWindow.doWindowFunc = doWindowFunc;
-				immediateWindow.doWindowBackground = doBackground;
-				immediateWindow.absorbInputAroundWindow = absorbInputAroundWindow;
-				immediateWindow.shadowAlpha = shadowAlpha;
-				immediateWindow.PreOpen();
-				immediateWindow.windowRect = rect;
-				this.InsertAtCorrectPositionInList(immediateWindow);
-				this.FocusAfterInsertIfShould(immediateWindow);
-				this.updateInternalWindowsOrderLater = true;
-				immediateWindow.PostOpen();
-			}
+			ImmediateWindow immediateWindow = new ImmediateWindow();
+			immediateWindow.ID = ID;
+			immediateWindow.layer = layer;
+			immediateWindow.doWindowFunc = doWindowFunc;
+			immediateWindow.doWindowBackground = doBackground;
+			immediateWindow.absorbInputAroundWindow = absorbInputAroundWindow;
+			immediateWindow.shadowAlpha = shadowAlpha;
+			immediateWindow.PreOpen();
+			immediateWindow.windowRect = rect;
+			this.InsertAtCorrectPositionInList(immediateWindow);
+			this.FocusAfterInsertIfShould(immediateWindow);
+			this.updateInternalWindowsOrderLater = true;
+			immediateWindow.PostOpen();
 		}
 
 		private void UpdateImmediateWindowsList()
 		{
-			if (Event.current.type == EventType.Repaint)
+			if (Event.current.type != EventType.Repaint)
 			{
-				this.updateImmediateWindowsListTmpList.Clear();
-				this.updateImmediateWindowsListTmpList.AddRange(this.windows);
-				for (int i = 0; i < this.updateImmediateWindowsListTmpList.Count; i++)
+				return;
+			}
+			this.updateImmediateWindowsListTmpList.Clear();
+			this.updateImmediateWindowsListTmpList.AddRange(this.windows);
+			for (int i = 0; i < this.updateImmediateWindowsListTmpList.Count; i++)
+			{
+				if (this.IsImmediateWindow(this.updateImmediateWindowsListTmpList[i]))
 				{
-					if (this.IsImmediateWindow(this.updateImmediateWindowsListTmpList[i]))
+					bool flag = false;
+					for (int j = 0; j < this.immediateWindowsRequests.Count; j++)
 					{
-						bool flag = false;
-						for (int j = 0; j < this.immediateWindowsRequests.Count; j++)
+						if (this.immediateWindowsRequests[j] == this.updateImmediateWindowsListTmpList[i].ID)
 						{
-							if (this.immediateWindowsRequests[j] == this.updateImmediateWindowsListTmpList[i].ID)
-							{
-								flag = true;
-								break;
-							}
-						}
-						if (!flag)
-						{
-							this.TryRemove(this.updateImmediateWindowsListTmpList[i], true);
+							flag = true;
+							break;
 						}
 					}
+					if (!flag)
+					{
+						this.TryRemove(this.updateImmediateWindowsListTmpList[i], true);
+					}
 				}
-				this.immediateWindowsRequests.Clear();
 			}
+			this.immediateWindowsRequests.Clear();
 		}
 
 		private void InsertAtCorrectPositionInList(Window window)
@@ -547,20 +524,21 @@ namespace Verse
 
 		private void FocusAfterInsertIfShould(Window window)
 		{
-			if (window.focusWhenOpened)
+			if (!window.focusWhenOpened)
 			{
-				for (int i = this.windows.Count - 1; i >= 0; i--)
+				return;
+			}
+			for (int i = this.windows.Count - 1; i >= 0; i--)
+			{
+				if (this.windows[i] == window)
 				{
-					if (this.windows[i] == window)
-					{
-						this.focusedWindow = this.windows[i];
-						this.updateInternalWindowsOrderLater = true;
-						break;
-					}
-					if (this.windows[i] == this.focusedWindow)
-					{
-						break;
-					}
+					this.focusedWindow = this.windows[i];
+					this.updateInternalWindowsOrderLater = true;
+					break;
+				}
+				if (this.windows[i] == this.focusedWindow)
+				{
+					break;
 				}
 			}
 		}

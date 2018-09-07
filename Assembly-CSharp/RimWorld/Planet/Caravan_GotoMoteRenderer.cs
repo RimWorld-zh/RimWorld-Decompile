@@ -28,23 +28,24 @@ namespace RimWorld.Planet
 		public void RenderMote()
 		{
 			float num = (Time.time - this.lastOrderedToTileTime) / 0.5f;
-			if (num <= 1f)
+			if (num > 1f)
 			{
-				if (Caravan_GotoMoteRenderer.cachedMaterial == null)
-				{
-					Caravan_GotoMoteRenderer.cachedMaterial = MaterialPool.MatFrom((Texture2D)Caravan_GotoMoteRenderer.FeedbackGoto.mainTexture, Caravan_GotoMoteRenderer.FeedbackGoto.shader, Color.white, WorldMaterials.DynamicObjectRenderQueue);
-				}
-				WorldGrid worldGrid = Find.WorldGrid;
-				Vector3 tileCenter = worldGrid.GetTileCenter(this.tile);
-				Color value = new Color(1f, 1f, 1f, 1f - num);
-				Caravan_GotoMoteRenderer.propertyBlock.SetColor(ShaderPropertyIDs.Color, value);
-				Vector3 pos = tileCenter;
-				float size = 0.8f * worldGrid.averageTileSize;
-				float altOffset = 0.018f;
-				Material material = Caravan_GotoMoteRenderer.cachedMaterial;
-				MaterialPropertyBlock materialPropertyBlock = Caravan_GotoMoteRenderer.propertyBlock;
-				WorldRendererUtility.DrawQuadTangentialToPlanet(pos, size, altOffset, material, false, false, materialPropertyBlock);
+				return;
 			}
+			if (Caravan_GotoMoteRenderer.cachedMaterial == null)
+			{
+				Caravan_GotoMoteRenderer.cachedMaterial = MaterialPool.MatFrom((Texture2D)Caravan_GotoMoteRenderer.FeedbackGoto.mainTexture, Caravan_GotoMoteRenderer.FeedbackGoto.shader, Color.white, WorldMaterials.DynamicObjectRenderQueue);
+			}
+			WorldGrid worldGrid = Find.WorldGrid;
+			Vector3 tileCenter = worldGrid.GetTileCenter(this.tile);
+			Color value = new Color(1f, 1f, 1f, 1f - num);
+			Caravan_GotoMoteRenderer.propertyBlock.SetColor(ShaderPropertyIDs.Color, value);
+			Vector3 pos = tileCenter;
+			float size = 0.8f * worldGrid.averageTileSize;
+			float altOffset = 0.018f;
+			Material material = Caravan_GotoMoteRenderer.cachedMaterial;
+			MaterialPropertyBlock materialPropertyBlock = Caravan_GotoMoteRenderer.propertyBlock;
+			WorldRendererUtility.DrawQuadTangentialToPlanet(pos, size, altOffset, material, false, false, materialPropertyBlock);
 		}
 
 		public void OrderedToTile(int tile)

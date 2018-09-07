@@ -12,28 +12,23 @@ namespace RimWorld
 				Log.Error("Getting apparel graphic with undefined body type.", false);
 				bodyType = BodyTypeDefOf.Male;
 			}
-			bool result;
 			if (apparel.def.apparel.wornGraphicPath.NullOrEmpty())
 			{
 				rec = new ApparelGraphicRecord(null, null);
-				result = false;
+				return false;
+			}
+			string path;
+			if (apparel.def.apparel.LastLayer == ApparelLayerDefOf.Overhead)
+			{
+				path = apparel.def.apparel.wornGraphicPath;
 			}
 			else
 			{
-				string path;
-				if (apparel.def.apparel.LastLayer == ApparelLayerDefOf.Overhead)
-				{
-					path = apparel.def.apparel.wornGraphicPath;
-				}
-				else
-				{
-					path = apparel.def.apparel.wornGraphicPath + "_" + bodyType.defName;
-				}
-				Graphic graphic = GraphicDatabase.Get<Graphic_Multi>(path, ShaderDatabase.Cutout, apparel.def.graphicData.drawSize, apparel.DrawColor);
-				rec = new ApparelGraphicRecord(graphic, apparel);
-				result = true;
+				path = apparel.def.apparel.wornGraphicPath + "_" + bodyType.defName;
 			}
-			return result;
+			Graphic graphic = GraphicDatabase.Get<Graphic_Multi>(path, ShaderDatabase.Cutout, apparel.def.graphicData.drawSize, apparel.DrawColor);
+			rec = new ApparelGraphicRecord(graphic, apparel);
+			return true;
 		}
 	}
 }

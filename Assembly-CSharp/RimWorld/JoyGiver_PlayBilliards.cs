@@ -20,16 +20,11 @@ namespace RimWorld
 
 		protected override Job TryGivePlayJob(Pawn pawn, Thing t)
 		{
-			Job result;
 			if (!JoyGiver_PlayBilliards.ThingHasStandableSpaceOnAllSides(t))
 			{
-				result = null;
+				return null;
 			}
-			else
-			{
-				result = new Job(this.def.jobDef, t);
-			}
-			return result;
+			return new Job(this.def.jobDef, t);
 		}
 
 		public static bool ThingHasStandableSpaceOnAllSides(Thing t)

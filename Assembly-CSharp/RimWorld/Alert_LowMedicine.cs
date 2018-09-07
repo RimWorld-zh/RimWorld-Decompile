@@ -17,38 +17,25 @@ namespace RimWorld
 		public override string GetExplanation()
 		{
 			Map map = this.MapWithLowMedicine();
-			string result;
 			if (map == null)
 			{
-				result = "";
+				return string.Empty;
 			}
-			else
+			int num = this.MedicineCount(map);
+			if (num == 0)
 			{
-				int num = this.MedicineCount(map);
-				if (num == 0)
-				{
-					result = string.Format("NoMedicineDesc".Translate(), new object[0]);
-				}
-				else
-				{
-					result = string.Format("LowMedicineDesc".Translate(), num);
-				}
+				return string.Format("NoMedicineDesc".Translate(), new object[0]);
 			}
-			return result;
+			return string.Format("LowMedicineDesc".Translate(), num);
 		}
 
 		public override AlertReport GetReport()
 		{
-			AlertReport result;
 			if (Find.TickManager.TicksGame < 150000)
 			{
-				result = false;
+				return false;
 			}
-			else
-			{
-				result = (this.MapWithLowMedicine() != null);
-			}
-			return result;
+			return this.MapWithLowMedicine() != null;
 		}
 
 		private Map MapWithLowMedicine()

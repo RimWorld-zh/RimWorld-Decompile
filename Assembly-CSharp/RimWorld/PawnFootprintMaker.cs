@@ -10,7 +10,7 @@ namespace RimWorld
 
 		private Vector3 lastFootprintPlacePos;
 
-		private bool lastFootprintRight = false;
+		private bool lastFootprintRight;
 
 		private const float FootprintIntervalDist = 0.632f;
 

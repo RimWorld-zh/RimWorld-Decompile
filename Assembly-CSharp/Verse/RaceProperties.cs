@@ -11,11 +11,11 @@ namespace Verse
 {
 	public class RaceProperties
 	{
-		public Intelligence intelligence = Intelligence.Animal;
+		public Intelligence intelligence;
 
-		private FleshTypeDef fleshType = null;
+		private FleshTypeDef fleshType;
 
-		private ThingDef bloodDef = null;
+		private ThingDef bloodDef;
 
 		public bool hasGenders = true;
 
@@ -25,43 +25,43 @@ namespace Verse
 
 		public ThinkTreeDef thinkTreeConstant;
 
-		public PawnNameCategory nameCategory = PawnNameCategory.NoName;
+		public PawnNameCategory nameCategory;
 
-		public FoodTypeFlags foodType = FoodTypeFlags.None;
+		public FoodTypeFlags foodType;
 
-		public BodyDef body = null;
+		public BodyDef body;
 
 		public Type deathActionWorkerClass;
 
-		public List<AnimalBiomeRecord> wildBiomes = null;
+		public List<AnimalBiomeRecord> wildBiomes;
 
-		public SimpleCurve ageGenerationCurve = null;
+		public SimpleCurve ageGenerationCurve;
 
-		public bool makesFootprints = false;
+		public bool makesFootprints;
 
 		public int executionRange = 2;
 
 		public float lifeExpectancy = 10f;
 
-		public List<HediffGiverSetDef> hediffGiverSets = null;
+		public List<HediffGiverSetDef> hediffGiverSets;
 
-		public bool herdAnimal = false;
+		public bool herdAnimal;
 
-		public bool packAnimal = false;
+		public bool packAnimal;
 
-		public bool predator = false;
+		public bool predator;
 
 		public float maxPreyBodySize = 99999f;
 
-		public float wildness = 0f;
+		public float wildness;
 
-		public float petness = 0f;
+		public float petness;
 
 		public float nuzzleMtbHours = -1f;
 
-		public float manhunterOnDamageChance = 0f;
+		public float manhunterOnDamageChance;
 
-		public float manhunterOnTameFailChance = 0f;
+		public float manhunterOnTameFailChance;
 
 		public bool canBePredatorPrey = true;
 
@@ -69,25 +69,25 @@ namespace Verse
 
 		public float gestationPeriodDays = 10f;
 
-		public SimpleCurve litterSizeCurve = null;
+		public SimpleCurve litterSizeCurve;
 
 		public float mateMtbHours = 12f;
 
 		[NoTranslate]
-		public List<string> untrainableTags = null;
+		public List<string> untrainableTags;
 
 		[NoTranslate]
-		public List<string> trainableTags = null;
+		public List<string> trainableTags;
 
-		public TrainabilityDef trainability = null;
+		public TrainabilityDef trainability;
 
 		private RulePackDef nameGenerator;
 
 		private RulePackDef nameGeneratorFemale;
 
-		public float nameOnTameChance = 0f;
+		public float nameOnTameChance;
 
-		public float nameOnNuzzleChance = 0f;
+		public float nameOnNuzzleChance;
 
 		public float baseBodySize = 1f;
 
@@ -98,11 +98,11 @@ namespace Verse
 		public List<LifeStageAge> lifeStageAges = new List<LifeStageAge>();
 
 		[MustTranslate]
-		public string meatLabel = null;
+		public string meatLabel;
 
-		public Color meatColor;
+		public Color meatColor = Color.white;
 
-		public float meatMarketValue;
+		public float meatMarketValue = 2f;
 
 		public ThingDef useMeatFrom;
 
@@ -112,7 +112,7 @@ namespace Verse
 
 		public ShadowData specialShadowData;
 
-		public IntRange soundCallIntervalRange;
+		public IntRange soundCallIntervalRange = new IntRange(2000, 4000);
 
 		public SoundDef soundMeleeHitPawn;
 
@@ -134,21 +134,6 @@ namespace Verse
 
 		public RaceProperties()
 		{
-			ColorInt colorInt = new ColorInt(141, 56, 52);
-			this.meatColor = colorInt.ToColor;
-			this.meatMarketValue = 2f;
-			this.useMeatFrom = null;
-			this.useLeatherFrom = null;
-			this.leatherDef = null;
-			this.specialShadowData = null;
-			this.soundCallIntervalRange = new IntRange(2000, 4000);
-			this.soundMeleeHitPawn = null;
-			this.soundMeleeHitBuilding = null;
-			this.soundMeleeMiss = null;
-			this.deathActionWorkerInt = null;
-			this.meatDef = null;
-			this.corpseDef = null;
-			base..ctor();
 		}
 
 		public bool Humanlike
@@ -187,31 +172,23 @@ namespace Verse
 		{
 			get
 			{
-				float result;
 				switch (this.ResolvedDietCategory)
 				{
 				case DietCategory.NeverEats:
-					result = 0.3f;
-					break;
+					return 0.3f;
 				case DietCategory.Herbivorous:
-					result = 0.45f;
-					break;
+					return 0.45f;
 				case DietCategory.Dendrovorous:
-					result = 0.45f;
-					break;
+					return 0.45f;
 				case DietCategory.Ovivorous:
-					result = 0.4f;
-					break;
+					return 0.4f;
 				case DietCategory.Omnivorous:
-					result = 0.3f;
-					break;
+					return 0.3f;
 				case DietCategory.Carnivorous:
-					result = 0.3f;
-					break;
+					return 0.3f;
 				default:
 					throw new InvalidOperationException();
 				}
-				return result;
 			}
 		}
 
@@ -219,35 +196,30 @@ namespace Verse
 		{
 			get
 			{
-				DietCategory result;
 				if (!this.EatsFood)
 				{
-					result = DietCategory.NeverEats;
+					return DietCategory.NeverEats;
 				}
-				else if (this.Eats(FoodTypeFlags.Tree))
+				if (this.Eats(FoodTypeFlags.Tree))
 				{
-					result = DietCategory.Dendrovorous;
+					return DietCategory.Dendrovorous;
 				}
-				else if (this.Eats(FoodTypeFlags.Meat))
+				if (this.Eats(FoodTypeFlags.Meat))
 				{
 					if (this.Eats(FoodTypeFlags.VegetableOrFruit) || this.Eats(FoodTypeFlags.Plant))
 					{
-						result = DietCategory.Omnivorous;
+						return DietCategory.Omnivorous;
 					}
-					else
-					{
-						result = DietCategory.Carnivorous;
-					}
-				}
-				else if (this.Eats(FoodTypeFlags.AnimalProduct))
-				{
-					result = DietCategory.Ovivorous;
+					return DietCategory.Carnivorous;
 				}
 				else
 				{
-					result = DietCategory.Herbivorous;
+					if (this.Eats(FoodTypeFlags.AnimalProduct))
+					{
+						return DietCategory.Ovivorous;
+					}
+					return DietCategory.Herbivorous;
 				}
-				return result;
 			}
 		}
 
@@ -274,16 +246,11 @@ namespace Verse
 		{
 			get
 			{
-				FleshTypeDef normal;
 				if (this.fleshType != null)
 				{
-					normal = this.fleshType;
+					return this.fleshType;
 				}
-				else
-				{
-					normal = FleshTypeDefOf.Normal;
-				}
-				return normal;
+				return FleshTypeDefOf.Normal;
 			}
 		}
 
@@ -307,20 +274,15 @@ namespace Verse
 		{
 			get
 			{
-				ThingDef result;
 				if (this.bloodDef != null)
 				{
-					result = this.bloodDef;
+					return this.bloodDef;
 				}
-				else if (this.IsFlesh)
+				if (this.IsFlesh)
 				{
-					result = ThingDefOf.Filth_Blood;
+					return ThingDefOf.Filth_Blood;
 				}
-				else
-				{
-					result = null;
-				}
-				return result;
+				return null;
 			}
 		}
 
@@ -354,16 +316,11 @@ namespace Verse
 
 		public RulePackDef GetNameGenerator(Gender gender)
 		{
-			RulePackDef result;
 			if (gender == Gender.Female && this.nameGeneratorFemale != null)
 			{
-				result = this.nameGeneratorFemale;
+				return this.nameGeneratorFemale;
 			}
-			else
-			{
-				result = this.nameGenerator;
-			}
-			return result;
+			return this.nameGenerator;
 		}
 
 		public bool WillAutomaticallyEat(Thing t)
@@ -478,32 +435,32 @@ namespace Verse
 
 		public IEnumerable<StatDrawEntry> SpecialDisplayStats(ThingDef parentDef)
 		{
-			yield return new StatDrawEntry(StatCategoryDefOf.Basics, "Race".Translate(), parentDef.LabelCap, 2000, "");
-			yield return new StatDrawEntry(StatCategoryDefOf.Basics, "Diet".Translate(), this.foodType.ToHumanString().CapitalizeFirst(), 0, "");
+			yield return new StatDrawEntry(StatCategoryDefOf.Basics, "Race".Translate(), parentDef.LabelCap, 2000, string.Empty);
+			yield return new StatDrawEntry(StatCategoryDefOf.Basics, "Diet".Translate(), this.foodType.ToHumanString().CapitalizeFirst(), 0, string.Empty);
 			if (parentDef.race.leatherDef != null)
 			{
-				yield return new StatDrawEntry(StatCategoryDefOf.Basics, "LeatherType".Translate(), parentDef.race.leatherDef.LabelCap, 0, "");
+				yield return new StatDrawEntry(StatCategoryDefOf.Basics, "LeatherType".Translate(), parentDef.race.leatherDef.LabelCap, 0, string.Empty);
 			}
 			if (parentDef.race.Animal || this.wildness > 0f)
 			{
-				yield return new StatDrawEntry(StatCategoryDefOf.Basics, "Wildness".Translate(), this.wildness.ToStringPercent(), 0, "")
+				yield return new StatDrawEntry(StatCategoryDefOf.Basics, "Wildness".Translate(), this.wildness.ToStringPercent(), 0, string.Empty)
 				{
 					overrideReportText = TrainableUtility.GetWildnessExplanation(parentDef)
 				};
 			}
-			yield return new StatDrawEntry(StatCategoryDefOf.Basics, "HarmedRevengeChance".Translate(), PawnUtility.GetManhunterOnDamageChance(parentDef.race).ToStringPercent(), 0, "")
+			yield return new StatDrawEntry(StatCategoryDefOf.Basics, "HarmedRevengeChance".Translate(), PawnUtility.GetManhunterOnDamageChance(parentDef.race).ToStringPercent(), 0, string.Empty)
 			{
 				overrideReportText = "HarmedRevengeChanceExplanation".Translate()
 			};
-			yield return new StatDrawEntry(StatCategoryDefOf.Basics, "TameFailedRevengeChance".Translate(), parentDef.race.manhunterOnTameFailChance.ToStringPercent(), 0, "");
+			yield return new StatDrawEntry(StatCategoryDefOf.Basics, "TameFailedRevengeChance".Translate(), parentDef.race.manhunterOnTameFailChance.ToStringPercent(), 0, string.Empty);
 			if (this.intelligence < Intelligence.Humanlike && this.trainability != null)
 			{
-				yield return new StatDrawEntry(StatCategoryDefOf.Basics, "Trainability".Translate(), this.trainability.LabelCap, 0, "");
+				yield return new StatDrawEntry(StatCategoryDefOf.Basics, "Trainability".Translate(), this.trainability.LabelCap, 0, string.Empty);
 			}
-			yield return new StatDrawEntry(StatCategoryDefOf.Basics, "StatsReport_LifeExpectancy".Translate(), this.lifeExpectancy.ToStringByStyle(ToStringStyle.Integer, ToStringNumberSense.Absolute), 0, "");
+			yield return new StatDrawEntry(StatCategoryDefOf.Basics, "StatsReport_LifeExpectancy".Translate(), this.lifeExpectancy.ToStringByStyle(ToStringStyle.Integer, ToStringNumberSense.Absolute), 0, string.Empty);
 			if (this.intelligence < Intelligence.Humanlike)
 			{
-				yield return new StatDrawEntry(StatCategoryDefOf.Basics, "AnimalFilthRate".Translate(), (PawnUtility.AnimalFilthChancePerCell(parentDef, parentDef.race.baseBodySize) * 1000f).ToString("F2"), 0, "")
+				yield return new StatDrawEntry(StatCategoryDefOf.Basics, "AnimalFilthRate".Translate(), (PawnUtility.AnimalFilthChancePerCell(parentDef, parentDef.race.baseBodySize) * 1000f).ToString("F2"), 0, string.Empty)
 				{
 					overrideReportText = "AnimalFilthRateExplanation".Translate(new object[]
 					{
@@ -511,16 +468,13 @@ namespace Verse
 					})
 				};
 			}
-			if (this.packAnimal)
+			yield return new StatDrawEntry(StatCategoryDefOf.Basics, "PackAnimal".Translate(), (!this.packAnimal) ? "No".Translate() : "Yes".Translate(), 0, string.Empty)
 			{
-				yield return new StatDrawEntry(StatCategoryDefOf.Basics, "PackAnimal".Translate(), "Yes".Translate(), 0, "")
-				{
-					overrideReportText = "PackAnimalExplanation".Translate()
-				};
-			}
+				overrideReportText = "PackAnimalExplanation".Translate()
+			};
 			if (parentDef.race.nuzzleMtbHours > 0f)
 			{
-				yield return new StatDrawEntry(StatCategoryDefOf.PawnSocial, "NuzzleInterval".Translate(), Mathf.RoundToInt(parentDef.race.nuzzleMtbHours * 2500f).ToStringTicksToPeriod(), 0, "")
+				yield return new StatDrawEntry(StatCategoryDefOf.PawnSocial, "NuzzleInterval".Translate(), Mathf.RoundToInt(parentDef.race.nuzzleMtbHours * 2500f).ToStringTicksToPeriod(), 0, string.Empty)
 				{
 					overrideReportText = "NuzzleIntervalExplanation".Translate()
 				};
@@ -573,15 +527,15 @@ namespace Verse
 				case 1u:
 					break;
 				case 2u:
-					goto IL_B2;
+					goto IL_B1;
 				case 3u:
-					goto IL_E1;
+					goto IL_E0;
 				case 4u:
-					goto IL_121;
+					goto IL_120;
 				case 5u:
-					IL_195:
+					IL_192:
 					j++;
-					goto IL_1A4;
+					goto IL_1A0;
 				case 6u:
 					Block_16:
 					try
@@ -611,9 +565,9 @@ namespace Verse
 							}
 						}
 					}
-					goto IL_28B;
+					goto IL_281;
 				case 7u:
-					IL_2CF:
+					IL_2C5:
 					if (base.Animal && this.wildness < 0f)
 					{
 						this.$current = "is animal but wildness is not defined";
@@ -623,19 +577,19 @@ namespace Verse
 						}
 						return true;
 					}
-					goto IL_313;
+					goto IL_309;
 				case 8u:
-					goto IL_313;
+					goto IL_309;
 				case 9u:
-					goto IL_369;
+					goto IL_35F;
 				case 10u:
-					goto IL_3EF;
+					goto IL_3E5;
 				case 11u:
-					goto IL_445;
+					goto IL_43B;
 				case 12u:
-					goto IL_4CB;
+					goto IL_4C1;
 				case 13u:
-					goto IL_50B;
+					goto IL_501;
 				default:
 					return false;
 				}
@@ -648,7 +602,7 @@ namespace Verse
 					}
 					return true;
 				}
-				IL_B2:
+				IL_B1:
 				if (this.soundMeleeMiss == null)
 				{
 					this.$current = "soundMeleeMiss is null";
@@ -658,7 +612,7 @@ namespace Verse
 					}
 					return true;
 				}
-				IL_E1:
+				IL_E0:
 				if (this.predator && !base.Eats(FoodTypeFlags.Meat))
 				{
 					this.$current = "predator but doesn't eat meat";
@@ -668,10 +622,10 @@ namespace Verse
 					}
 					return true;
 				}
-				IL_121:
+				IL_120:
 				i = 0;
-				goto IL_1C4;
-				IL_1A4:
+				goto IL_1BF;
+				IL_1A0:
 				if (j >= i)
 				{
 					i++;
@@ -687,13 +641,13 @@ namespace Verse
 						}
 						return true;
 					}
-					goto IL_195;
+					goto IL_192;
 				}
-				IL_1C4:
+				IL_1BF:
 				if (i < this.lifeStageAges.Count)
 				{
 					j = 0;
-					goto IL_1A4;
+					goto IL_1A0;
 				}
 				if (this.litterSizeCurve != null)
 				{
@@ -701,7 +655,7 @@ namespace Verse
 					num = 4294967293u;
 					goto Block_16;
 				}
-				IL_28B:
+				IL_281:
 				if (this.nameOnTameChance > 0f && this.nameGenerator == null)
 				{
 					this.$current = "can be named, but has no nameGenerator";
@@ -711,8 +665,8 @@ namespace Verse
 					}
 					return true;
 				}
-				goto IL_2CF;
-				IL_313:
+				goto IL_2C5;
+				IL_309:
 				if (this.useMeatFrom != null && this.useMeatFrom.category != ThingCategory.Pawn)
 				{
 					this.$current = "tries to use meat from non-pawn " + this.useMeatFrom;
@@ -722,7 +676,7 @@ namespace Verse
 					}
 					return true;
 				}
-				IL_369:
+				IL_35F:
 				if (this.useMeatFrom != null && this.useMeatFrom.race.useMeatFrom != null)
 				{
 					this.$current = string.Concat(new object[]
@@ -738,7 +692,7 @@ namespace Verse
 					}
 					return true;
 				}
-				IL_3EF:
+				IL_3E5:
 				if (this.useLeatherFrom != null && this.useLeatherFrom.category != ThingCategory.Pawn)
 				{
 					this.$current = "tries to use leather from non-pawn " + this.useLeatherFrom;
@@ -748,7 +702,7 @@ namespace Verse
 					}
 					return true;
 				}
-				IL_445:
+				IL_43B:
 				if (this.useLeatherFrom != null && this.useLeatherFrom.race.useLeatherFrom != null)
 				{
 					this.$current = string.Concat(new object[]
@@ -764,7 +718,7 @@ namespace Verse
 					}
 					return true;
 				}
-				IL_4CB:
+				IL_4C1:
 				if (base.Animal && this.trainability == null)
 				{
 					this.$current = "animal has trainability = null";
@@ -774,7 +728,7 @@ namespace Verse
 					}
 					return true;
 				}
-				IL_50B:
+				IL_501:
 				this.$PC = -1;
 				return false;
 			}
@@ -856,9 +810,9 @@ namespace Verse
 
 			internal StatDrawEntry <af>__3;
 
-			internal StatDrawEntry <pa>__4;
+			internal StatDrawEntry <pa>__0;
 
-			internal StatDrawEntry <nuzzle>__5;
+			internal StatDrawEntry <nuzzle>__4;
 
 			internal RaceProperties $this;
 
@@ -880,14 +834,14 @@ namespace Verse
 				switch (num)
 				{
 				case 0u:
-					this.$current = new StatDrawEntry(StatCategoryDefOf.Basics, "Race".Translate(), parentDef.LabelCap, 2000, "");
+					this.$current = new StatDrawEntry(StatCategoryDefOf.Basics, "Race".Translate(), parentDef.LabelCap, 2000, string.Empty);
 					if (!this.$disposing)
 					{
 						this.$PC = 1;
 					}
 					return true;
 				case 1u:
-					this.$current = new StatDrawEntry(StatCategoryDefOf.Basics, "Diet".Translate(), this.foodType.ToHumanString().CapitalizeFirst(), 0, "");
+					this.$current = new StatDrawEntry(StatCategoryDefOf.Basics, "Diet".Translate(), this.foodType.ToHumanString().CapitalizeFirst(), 0, string.Empty);
 					if (!this.$disposing)
 					{
 						this.$PC = 2;
@@ -896,7 +850,7 @@ namespace Verse
 				case 2u:
 					if (parentDef.race.leatherDef != null)
 					{
-						this.$current = new StatDrawEntry(StatCategoryDefOf.Basics, "LeatherType".Translate(), parentDef.race.leatherDef.LabelCap, 0, "");
+						this.$current = new StatDrawEntry(StatCategoryDefOf.Basics, "LeatherType".Translate(), parentDef.race.leatherDef.LabelCap, 0, string.Empty);
 						if (!this.$disposing)
 						{
 							this.$PC = 3;
@@ -907,9 +861,9 @@ namespace Verse
 				case 3u:
 					break;
 				case 4u:
-					goto IL_1C8;
+					goto IL_1C3;
 				case 5u:
-					this.$current = new StatDrawEntry(StatCategoryDefOf.Basics, "TameFailedRevengeChance".Translate(), parentDef.race.manhunterOnTameFailChance.ToStringPercent(), 0, "");
+					this.$current = new StatDrawEntry(StatCategoryDefOf.Basics, "TameFailedRevengeChance".Translate(), parentDef.race.manhunterOnTameFailChance.ToStringPercent(), 0, string.Empty);
 					if (!this.$disposing)
 					{
 						this.$PC = 6;
@@ -918,20 +872,20 @@ namespace Verse
 				case 6u:
 					if (this.intelligence < Intelligence.Humanlike && this.trainability != null)
 					{
-						this.$current = new StatDrawEntry(StatCategoryDefOf.Basics, "Trainability".Translate(), this.trainability.LabelCap, 0, "");
+						this.$current = new StatDrawEntry(StatCategoryDefOf.Basics, "Trainability".Translate(), this.trainability.LabelCap, 0, string.Empty);
 						if (!this.$disposing)
 						{
 							this.$PC = 7;
 						}
 						return true;
 					}
-					goto IL_2E2;
+					goto IL_2DB;
 				case 7u:
-					goto IL_2E2;
+					goto IL_2DB;
 				case 8u:
 					if (this.intelligence < Intelligence.Humanlike)
 					{
-						StatDrawEntry af = new StatDrawEntry(StatCategoryDefOf.Basics, "AnimalFilthRate".Translate(), (PawnUtility.AnimalFilthChancePerCell(parentDef, parentDef.race.baseBodySize) * 1000f).ToString("F2"), 0, "");
+						StatDrawEntry af = new StatDrawEntry(StatCategoryDefOf.Basics, "AnimalFilthRate".Translate(), (PawnUtility.AnimalFilthChancePerCell(parentDef, parentDef.race.baseBodySize) * 1000f).ToString("F2"), 0, string.Empty);
 						af.overrideReportText = "AnimalFilthRateExplanation".Translate(new object[]
 						{
 							1000.ToString()
@@ -943,19 +897,30 @@ namespace Verse
 						}
 						return true;
 					}
-					goto IL_3DB;
+					goto IL_3D2;
 				case 9u:
-					goto IL_3DB;
+					goto IL_3D2;
 				case 10u:
-					goto IL_44D;
+					if (parentDef.race.nuzzleMtbHours > 0f)
+					{
+						StatDrawEntry nuzzle = new StatDrawEntry(StatCategoryDefOf.PawnSocial, "NuzzleInterval".Translate(), Mathf.RoundToInt(parentDef.race.nuzzleMtbHours * 2500f).ToStringTicksToPeriod(), 0, string.Empty);
+						nuzzle.overrideReportText = "NuzzleIntervalExplanation".Translate();
+						this.$current = nuzzle;
+						if (!this.$disposing)
+						{
+							this.$PC = 11;
+						}
+						return true;
+					}
+					goto IL_4E1;
 				case 11u:
-					goto IL_4DF;
+					goto IL_4E1;
 				default:
 					return false;
 				}
 				if (parentDef.race.Animal || this.wildness > 0f)
 				{
-					StatDrawEntry we = new StatDrawEntry(StatCategoryDefOf.Basics, "Wildness".Translate(), this.wildness.ToStringPercent(), 0, "");
+					StatDrawEntry we = new StatDrawEntry(StatCategoryDefOf.Basics, "Wildness".Translate(), this.wildness.ToStringPercent(), 0, string.Empty);
 					we.overrideReportText = TrainableUtility.GetWildnessExplanation(parentDef);
 					this.$current = we;
 					if (!this.$disposing)
@@ -964,8 +929,8 @@ namespace Verse
 					}
 					return true;
 				}
-				IL_1C8:
-				StatDrawEntry hrc = new StatDrawEntry(StatCategoryDefOf.Basics, "HarmedRevengeChance".Translate(), PawnUtility.GetManhunterOnDamageChance(parentDef.race).ToStringPercent(), 0, "");
+				IL_1C3:
+				StatDrawEntry hrc = new StatDrawEntry(StatCategoryDefOf.Basics, "HarmedRevengeChance".Translate(), PawnUtility.GetManhunterOnDamageChance(parentDef.race).ToStringPercent(), 0, string.Empty);
 				hrc.overrideReportText = "HarmedRevengeChanceExplanation".Translate();
 				this.$current = hrc;
 				if (!this.$disposing)
@@ -973,38 +938,23 @@ namespace Verse
 					this.$PC = 5;
 				}
 				return true;
-				IL_2E2:
-				this.$current = new StatDrawEntry(StatCategoryDefOf.Basics, "StatsReport_LifeExpectancy".Translate(), this.lifeExpectancy.ToStringByStyle(ToStringStyle.Integer, ToStringNumberSense.Absolute), 0, "");
+				IL_2DB:
+				this.$current = new StatDrawEntry(StatCategoryDefOf.Basics, "StatsReport_LifeExpectancy".Translate(), this.lifeExpectancy.ToStringByStyle(ToStringStyle.Integer, ToStringNumberSense.Absolute), 0, string.Empty);
 				if (!this.$disposing)
 				{
 					this.$PC = 8;
 				}
 				return true;
-				IL_3DB:
-				if (this.packAnimal)
+				IL_3D2:
+				StatDrawEntry pa = new StatDrawEntry(StatCategoryDefOf.Basics, "PackAnimal".Translate(), (!this.packAnimal) ? "No".Translate() : "Yes".Translate(), 0, string.Empty);
+				pa.overrideReportText = "PackAnimalExplanation".Translate();
+				this.$current = pa;
+				if (!this.$disposing)
 				{
-					StatDrawEntry pa = new StatDrawEntry(StatCategoryDefOf.Basics, "PackAnimal".Translate(), "Yes".Translate(), 0, "");
-					pa.overrideReportText = "PackAnimalExplanation".Translate();
-					this.$current = pa;
-					if (!this.$disposing)
-					{
-						this.$PC = 10;
-					}
-					return true;
+					this.$PC = 10;
 				}
-				IL_44D:
-				if (parentDef.race.nuzzleMtbHours > 0f)
-				{
-					StatDrawEntry nuzzle = new StatDrawEntry(StatCategoryDefOf.PawnSocial, "NuzzleInterval".Translate(), Mathf.RoundToInt(parentDef.race.nuzzleMtbHours * 2500f).ToStringTicksToPeriod(), 0, "");
-					nuzzle.overrideReportText = "NuzzleIntervalExplanation".Translate();
-					this.$current = nuzzle;
-					if (!this.$disposing)
-					{
-						this.$PC = 11;
-					}
-					return true;
-				}
-				IL_4DF:
+				return true;
+				IL_4E1:
 				this.$PC = -1;
 				return false;
 			}

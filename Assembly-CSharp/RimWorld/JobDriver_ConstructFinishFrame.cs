@@ -26,9 +26,12 @@ namespace RimWorld
 			}
 		}
 
-		public override bool TryMakePreToilReservations()
+		public override bool TryMakePreToilReservations(bool errorOnFailed)
 		{
-			return this.pawn.Reserve(this.job.targetA, this.job, 1, -1, null);
+			Pawn pawn = this.pawn;
+			LocalTargetInfo targetA = this.job.targetA;
+			Job job = this.job;
+			return pawn.Reserve(targetA, job, 1, -1, null, errorOnFailed);
 		}
 
 		protected override IEnumerable<Toil> MakeNewToils()
@@ -45,18 +48,18 @@ namespace RimWorld
 				Frame frame = this.Frame;
 				if (frame.resourceContainer.Count > 0)
 				{
-					actor.skills.Learn(SkillDefOf.Construction, 0.275f, false);
+					actor.skills.Learn(SkillDefOf.Construction, 0.25f, false);
 				}
 				float num = actor.GetStatValue(StatDefOf.ConstructionSpeed, true);
 				if (frame.Stuff != null)
 				{
 					num *= frame.Stuff.GetStatValueAbstract(StatDefOf.ConstructionSpeedFactor, null);
 				}
-				float workToMake = frame.WorkToMake;
+				float workToBuild = frame.WorkToBuild;
 				if (actor.Faction == Faction.OfPlayer)
 				{
 					float statValue = actor.GetStatValue(StatDefOf.ConstructSuccessChance, true);
-					if (Rand.Value < 1f - Mathf.Pow(statValue, num / workToMake))
+					if (Rand.Value < 1f - Mathf.Pow(statValue, num / workToBuild))
 					{
 						frame.FailConstruction(actor);
 						this.ReadyForNextToil();
@@ -68,10 +71,11 @@ namespace RimWorld
 					this.Map.snowGrid.SetDepth(frame.Position, 0f);
 				}
 				frame.workDone += num;
-				if (frame.workDone >= workToMake)
+				if (frame.workDone >= workToBuild)
 				{
 					frame.CompleteConstruction(actor);
 					this.ReadyForNextToil();
+					return;
 				}
 			};
 			build.WithEffect(() => ((Frame)build.actor.jobs.curJob.GetTarget(TargetIndex.A).Thing).ConstructionEffect, TargetIndex.A);
@@ -130,18 +134,18 @@ namespace RimWorld
 						Frame frame = <MakeNewToils>c__AnonStorey.<>f__ref$0.$this.Frame;
 						if (frame.resourceContainer.Count > 0)
 						{
-							actor.skills.Learn(SkillDefOf.Construction, 0.275f, false);
+							actor.skills.Learn(SkillDefOf.Construction, 0.25f, false);
 						}
 						float num2 = actor.GetStatValue(StatDefOf.ConstructionSpeed, true);
 						if (frame.Stuff != null)
 						{
 							num2 *= frame.Stuff.GetStatValueAbstract(StatDefOf.ConstructionSpeedFactor, null);
 						}
-						float workToMake = frame.WorkToMake;
+						float workToBuild = frame.WorkToBuild;
 						if (actor.Faction == Faction.OfPlayer)
 						{
 							float statValue = actor.GetStatValue(StatDefOf.ConstructSuccessChance, true);
-							if (Rand.Value < 1f - Mathf.Pow(statValue, num2 / workToMake))
+							if (Rand.Value < 1f - Mathf.Pow(statValue, num2 / workToBuild))
 							{
 								frame.FailConstruction(actor);
 								<MakeNewToils>c__AnonStorey.<>f__ref$0.$this.ReadyForNextToil();
@@ -153,10 +157,11 @@ namespace RimWorld
 							<MakeNewToils>c__AnonStorey.<>f__ref$0.$this.Map.snowGrid.SetDepth(frame.Position, 0f);
 						}
 						frame.workDone += num2;
-						if (frame.workDone >= workToMake)
+						if (frame.workDone >= workToBuild)
 						{
 							frame.CompleteConstruction(actor);
 							<MakeNewToils>c__AnonStorey.<>f__ref$0.$this.ReadyForNextToil();
+							return;
 						}
 					};
 					<MakeNewToils>c__AnonStorey.build.WithEffect(() => ((Frame)<MakeNewToils>c__AnonStorey.build.actor.jobs.curJob.GetTarget(TargetIndex.A).Thing).ConstructionEffect, TargetIndex.A);
@@ -254,18 +259,18 @@ namespace RimWorld
 					Frame frame = this.<>f__ref$0.$this.Frame;
 					if (frame.resourceContainer.Count > 0)
 					{
-						actor.skills.Learn(SkillDefOf.Construction, 0.275f, false);
+						actor.skills.Learn(SkillDefOf.Construction, 0.25f, false);
 					}
 					float num = actor.GetStatValue(StatDefOf.ConstructionSpeed, true);
 					if (frame.Stuff != null)
 					{
 						num *= frame.Stuff.GetStatValueAbstract(StatDefOf.ConstructionSpeedFactor, null);
 					}
-					float workToMake = frame.WorkToMake;
+					float workToBuild = frame.WorkToBuild;
 					if (actor.Faction == Faction.OfPlayer)
 					{
 						float statValue = actor.GetStatValue(StatDefOf.ConstructSuccessChance, true);
-						if (Rand.Value < 1f - Mathf.Pow(statValue, num / workToMake))
+						if (Rand.Value < 1f - Mathf.Pow(statValue, num / workToBuild))
 						{
 							frame.FailConstruction(actor);
 							this.<>f__ref$0.$this.ReadyForNextToil();
@@ -277,10 +282,11 @@ namespace RimWorld
 						this.<>f__ref$0.$this.Map.snowGrid.SetDepth(frame.Position, 0f);
 					}
 					frame.workDone += num;
-					if (frame.workDone >= workToMake)
+					if (frame.workDone >= workToBuild)
 					{
 						frame.CompleteConstruction(actor);
 						this.<>f__ref$0.$this.ReadyForNextToil();
+						return;
 					}
 				}
 

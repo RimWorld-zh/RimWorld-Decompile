@@ -47,30 +47,20 @@ namespace Verse
 
 		public static string AreaAllowedLabel(Pawn pawn)
 		{
-			string result;
 			if (pawn.playerSettings != null)
 			{
-				result = AreaUtility.AreaAllowedLabel_Area(pawn.playerSettings.EffectiveAreaRestriction);
+				return AreaUtility.AreaAllowedLabel_Area(pawn.playerSettings.EffectiveAreaRestriction);
 			}
-			else
-			{
-				result = AreaUtility.AreaAllowedLabel_Area(null);
-			}
-			return result;
+			return AreaUtility.AreaAllowedLabel_Area(null);
 		}
 
 		public static string AreaAllowedLabel_Area(Area area)
 		{
-			string result;
 			if (area != null)
 			{
-				result = area.Label;
+				return area.Label;
 			}
-			else
-			{
-				result = "NoAreaAllowed".Translate();
-			}
-			return result;
+			return "NoAreaAllowed".Translate();
 		}
 
 		[CompilerGenerated]

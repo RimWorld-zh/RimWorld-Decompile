@@ -44,47 +44,39 @@ namespace RimWorld
 
 		public override Job JobOnThing(Pawn pawn, Thing t, bool forced = false)
 		{
-			Job result;
 			if (t.def.category != ThingCategory.Plant)
 			{
-				result = null;
+				return null;
 			}
-			else
+			LocalTargetInfo target = t;
+			if (!pawn.CanReserve(target, 1, -1, null, forced))
 			{
-				LocalTargetInfo target = t;
-				if (!pawn.CanReserve(target, 1, -1, null, forced))
+				return null;
+			}
+			if (t.IsForbidden(pawn))
+			{
+				return null;
+			}
+			if (t.IsBurning())
+			{
+				return null;
+			}
+			foreach (Designation designation in pawn.Map.designationManager.AllDesignationsOn(t))
+			{
+				if (designation.def == DesignationDefOf.HarvestPlant)
 				{
-					result = null;
-				}
-				else if (t.IsForbidden(pawn))
-				{
-					result = null;
-				}
-				else if (t.IsBurning())
-				{
-					result = null;
-				}
-				else
-				{
-					foreach (Designation designation in pawn.Map.designationManager.AllDesignationsOn(t))
+					if (!((Plant)t).HarvestableNow)
 					{
-						if (designation.def == DesignationDefOf.HarvestPlant)
-						{
-							if (!((Plant)t).HarvestableNow)
-							{
-								return null;
-							}
-							return new Job(JobDefOf.HarvestDesignated, t);
-						}
-						else if (designation.def == DesignationDefOf.CutPlant)
-						{
-							return new Job(JobDefOf.CutPlantDesignated, t);
-						}
+						return null;
 					}
-					result = null;
+					return new Job(JobDefOf.HarvestDesignated, t);
+				}
+				else if (designation.def == DesignationDefOf.CutPlant)
+				{
+					return new Job(JobDefOf.CutPlantDesignated, t);
 				}
 			}
-			return result;
+			return null;
 		}
 
 		[CompilerGenerated]
@@ -120,7 +112,7 @@ namespace RimWorld
 					i = 0;
 					break;
 				case 1u:
-					IL_B5:
+					IL_B3:
 					i++;
 					break;
 				default:
@@ -142,7 +134,7 @@ namespace RimWorld
 						}
 						return true;
 					}
-					goto IL_B5;
+					goto IL_B3;
 				}
 				return false;
 			}

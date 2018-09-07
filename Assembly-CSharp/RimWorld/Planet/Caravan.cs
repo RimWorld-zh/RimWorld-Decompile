@@ -14,6 +14,8 @@ namespace RimWorld.Planet
 	[StaticConstructorOnStartup]
 	public class Caravan : WorldObject, IThingHolder, IIncidentTarget, ITrader, ILoadReferenceable
 	{
+		private int uniqueId = -1;
+
 		private string nameInt;
 
 		public ThingOwner<Pawn> pawns;
@@ -143,18 +145,13 @@ namespace RimWorld.Planet
 		{
 			get
 			{
-				bool result;
 				if (Find.TickManager.TicksGame - this.cachedImmobilizedForTicks < 60)
 				{
-					result = this.cachedImmobilized;
+					return this.cachedImmobilized;
 				}
-				else
-				{
-					this.cachedImmobilized = (this.MassUsage > this.MassCapacity);
-					this.cachedImmobilizedForTicks = Find.TickManager.TicksGame;
-					result = this.cachedImmobilized;
-				}
-				return result;
+				this.cachedImmobilized = (this.MassUsage > this.MassCapacity);
+				this.cachedImmobilizedForTicks = Find.TickManager.TicksGame;
+				return this.cachedImmobilized;
 			}
 		}
 
@@ -162,18 +159,13 @@ namespace RimWorld.Planet
 		{
 			get
 			{
-				Pair<float, float> result;
 				if (Find.TickManager.TicksGame - this.cachedDaysWorthOfFoodForTicks < 3000)
 				{
-					result = this.cachedDaysWorthOfFood;
+					return this.cachedDaysWorthOfFood;
 				}
-				else
-				{
-					this.cachedDaysWorthOfFood = new Pair<float, float>(DaysWorthOfFoodCalculator.ApproxDaysWorthOfFood(this), DaysUntilRotCalculator.ApproxDaysUntilRot(this));
-					this.cachedDaysWorthOfFoodForTicks = Find.TickManager.TicksGame;
-					result = this.cachedDaysWorthOfFood;
-				}
-				return result;
+				this.cachedDaysWorthOfFood = new Pair<float, float>(DaysWorthOfFoodCalculator.ApproxDaysWorthOfFood(this), DaysUntilRotCalculator.ApproxDaysUntilRot(this));
+				this.cachedDaysWorthOfFoodForTicks = Find.TickManager.TicksGame;
+				return this.cachedDaysWorthOfFood;
 			}
 		}
 
@@ -245,7 +237,7 @@ namespace RimWorld.Planet
 		{
 			get
 			{
-				return base.Spawned && (!this.pather.Moving || this.pather.nextTile != this.pather.Destination || !Caravan_PathFollower.IsValidFinalPushDestination(this.pather.Destination) || Mathf.CeilToInt(this.pather.nextTileCostLeft / 1f) > 10000) && CaravanRestUtility.RestingNowAt(base.Tile);
+				return base.Spawned && (!this.pather.Moving || this.pather.nextTile != this.pather.Destination || !Caravan_PathFollower.IsValidFinalPushDestination(this.pather.Destination) || Mathf.CeilToInt(this.pather.nextTileCostLeft / 1f) > 10000) && CaravanNightRestUtility.RestingNowAt(base.Tile);
 			}
 		}
 
@@ -253,16 +245,11 @@ namespace RimWorld.Planet
 		{
 			get
 			{
-				int result;
 				if (!this.NightResting)
 				{
-					result = 0;
+					return 0;
 				}
-				else
-				{
-					result = CaravanRestUtility.LeftRestTicksAt(base.Tile);
-				}
-				return result;
+				return CaravanNightRestUtility.LeftRestTicksAt(base.Tile);
 			}
 		}
 
@@ -270,16 +257,11 @@ namespace RimWorld.Planet
 		{
 			get
 			{
-				int result;
 				if (this.NightResting)
 				{
-					result = 0;
+					return 0;
 				}
-				else
-				{
-					result = CaravanRestUtility.LeftNonRestTicksAt(base.Tile);
-				}
-				return result;
+				return CaravanNightRestUtility.LeftNonRestTicksAt(base.Tile);
 			}
 		}
 
@@ -287,16 +269,11 @@ namespace RimWorld.Planet
 		{
 			get
 			{
-				string label;
 				if (this.nameInt != null)
 				{
-					label = this.nameInt;
+					return this.nameInt;
 				}
-				else
-				{
-					label = base.Label;
-				}
-				return label;
+				return base.Label;
 			}
 		}
 
@@ -352,6 +329,14 @@ namespace RimWorld.Planet
 			}
 		}
 
+		public int ConstantRandSeed
+		{
+			get
+			{
+				return this.uniqueId ^ 728241121;
+			}
+		}
+
 		public StoryState StoryState
 		{
 			get
@@ -373,25 +358,20 @@ namespace RimWorld.Planet
 		{
 			get
 			{
-				float result;
 				if (!this.IsPlayerControlled)
 				{
-					result = 0f;
+					return 0f;
 				}
-				else
+				float num = 0f;
+				for (int i = 0; i < this.pawns.Count; i++)
 				{
-					float num = 0f;
-					for (int i = 0; i < this.pawns.Count; i++)
+					num += WealthWatcher.GetEquipmentApparelAndInventoryWealth(this.pawns[i]);
+					if (this.pawns[i].Faction == Faction.OfPlayer)
 					{
-						num += WealthWatcher.GetEquipmentApparelAndInventoryWealth(this.pawns[i]);
-						if (this.pawns[i].RaceProps.Animal && this.pawns[i].Faction == Faction.OfPlayer)
-						{
-							num += this.pawns[i].MarketValue;
-						}
+						num += this.pawns[i].MarketValue;
 					}
-					result = num * 0.5f;
 				}
-				return result;
+				return num * 0.7f;
 			}
 		}
 
@@ -399,18 +379,13 @@ namespace RimWorld.Planet
 		{
 			get
 			{
-				IEnumerable<Pawn> result;
 				if (!this.IsPlayerControlled)
 				{
-					result = Enumerable.Empty<Pawn>();
+					return Enumerable.Empty<Pawn>();
 				}
-				else
-				{
-					result = from x in this.PawnsListForReading
-					where x.Faction == Faction.OfPlayer
-					select x;
-				}
-				return result;
+				return from x in this.PawnsListForReading
+				where x.Faction == Faction.OfPlayer
+				select x;
 			}
 		}
 
@@ -420,6 +395,21 @@ namespace RimWorld.Planet
 			{
 				return StorytellerUtility.CaravanPointsRandomFactorRange;
 			}
+		}
+
+		public void SetUniqueId(int newId)
+		{
+			if (this.uniqueId != -1 || newId < 0)
+			{
+				Log.Error(string.Concat(new object[]
+				{
+					"Tried to set caravan with uniqueId ",
+					this.uniqueId,
+					" to have uniqueId ",
+					newId
+				}), false);
+			}
+			this.uniqueId = newId;
 		}
 
 		public TraderKindDef TraderKind
@@ -492,6 +482,7 @@ namespace RimWorld.Planet
 			{
 				this.pawns.RemoveAll((Pawn x) => x.Destroyed);
 			}
+			Scribe_Values.Look<int>(ref this.uniqueId, "uniqueId", 0, false);
 			Scribe_Values.Look<string>(ref this.nameInt, "name", null, false);
 			Scribe_Deep.Look<ThingOwner<Pawn>>(ref this.pawns, "pawns", new object[]
 			{
@@ -582,8 +573,9 @@ namespace RimWorld.Planet
 			if (p == null)
 			{
 				Log.Warning("Tried to add a null pawn to " + this, false);
+				return;
 			}
-			else if (p.Dead)
+			if (p.Dead)
 			{
 				Log.Warning(string.Concat(new object[]
 				{
@@ -593,41 +585,39 @@ namespace RimWorld.Planet
 					this,
 					", but this pawn is dead."
 				}), false);
+				return;
+			}
+			Pawn pawn = p.carryTracker.CarriedThing as Pawn;
+			if (pawn != null)
+			{
+				p.carryTracker.innerContainer.Remove(pawn);
+			}
+			if (p.Spawned)
+			{
+				p.DeSpawn(DestroyMode.Vanish);
+			}
+			if (this.pawns.TryAdd(p, true))
+			{
+				if (this.ShouldAutoCapture(p))
+				{
+					p.guest.CapturedBy(base.Faction, null);
+				}
+				if (pawn != null)
+				{
+					if (this.ShouldAutoCapture(pawn))
+					{
+						pawn.guest.CapturedBy(base.Faction, p);
+					}
+					this.AddPawn(pawn, addCarriedPawnToWorldPawnsIfAny);
+					if (addCarriedPawnToWorldPawnsIfAny)
+					{
+						Find.WorldPawns.PassToWorld(pawn, PawnDiscardDecideMode.Decide);
+					}
+				}
 			}
 			else
 			{
-				Pawn pawn = p.carryTracker.CarriedThing as Pawn;
-				if (pawn != null)
-				{
-					p.carryTracker.innerContainer.Remove(pawn);
-				}
-				if (p.Spawned)
-				{
-					p.DeSpawn(DestroyMode.Vanish);
-				}
-				if (this.pawns.TryAdd(p, true))
-				{
-					if (this.ShouldAutoCapture(p))
-					{
-						p.guest.CapturedBy(base.Faction, null);
-					}
-					if (pawn != null)
-					{
-						if (this.ShouldAutoCapture(pawn))
-						{
-							pawn.guest.CapturedBy(base.Faction, p);
-						}
-						this.AddPawn(pawn, addCarriedPawnToWorldPawnsIfAny);
-						if (addCarriedPawnToWorldPawnsIfAny)
-						{
-							Find.WorldPawns.PassToWorld(pawn, PawnDiscardDecideMode.Decide);
-						}
-					}
-				}
-				else
-				{
-					Log.Error("Couldn't add pawn " + p + " to caravan.", false);
-				}
+				Log.Error("Couldn't add pawn " + p + " to caravan.", false);
 			}
 		}
 
@@ -636,18 +626,16 @@ namespace RimWorld.Planet
 			if (thing == null)
 			{
 				Log.Warning("Tried to add a null thing to " + this, false);
+				return;
+			}
+			Pawn pawn = thing as Pawn;
+			if (pawn != null)
+			{
+				this.AddPawn(pawn, addCarriedPawnToWorldPawnsIfAny);
 			}
 			else
 			{
-				Pawn pawn = thing as Pawn;
-				if (pawn != null)
-				{
-					this.AddPawn(pawn, addCarriedPawnToWorldPawnsIfAny);
-				}
-				else
-				{
-					CaravanInventoryUtility.GiveThing(this, thing);
-				}
+				CaravanInventoryUtility.GiveThing(this, thing);
 			}
 		}
 
@@ -819,7 +807,7 @@ namespace RimWorld.Planet
 					stringBuilder.Append(".");
 				}
 			}
-			if (this.NightResting)
+			if (!this.pather.MovingNow)
 			{
 				int usedBedCount = this.beds.GetUsedBedCount();
 				stringBuilder.AppendLine();
@@ -827,11 +815,6 @@ namespace RimWorld.Planet
 			}
 			else
 			{
-				if (this.pather.Paused)
-				{
-					stringBuilder.AppendLine();
-					stringBuilder.Append("CaravanPaused".Translate());
-				}
 				string inspectStringLine = this.carryTracker.GetInspectStringLine();
 				if (!inspectStringLine.NullOrEmpty())
 				{
@@ -854,7 +837,7 @@ namespace RimWorld.Planet
 			{
 				yield return new Gizmo_CaravanInfo(this);
 			}
-			foreach (Gizmo g in this.<GetGizmos>__BaseCallProxy0())
+			foreach (Gizmo g in base.GetGizmos())
 			{
 				yield return g;
 			}
@@ -888,10 +871,11 @@ namespace RimWorld.Planet
 						isActive = (() => this.pather.Paused),
 						toggleAction = delegate()
 						{
-							if (this.pather.Moving)
+							if (!this.pather.Moving)
 							{
-								this.pather.Paused = !this.pather.Paused;
+								return;
 							}
+							this.pather.Paused = !this.pather.Paused;
 						},
 						defaultDesc = "CommandToggleCaravanPauseDesc".Translate(new object[]
 						{
@@ -1021,7 +1005,7 @@ namespace RimWorld.Planet
 
 		public override IEnumerable<FloatMenuOption> GetTransportPodsFloatMenuOptions(IEnumerable<IThingHolder> pods, CompLaunchable representative)
 		{
-			foreach (FloatMenuOption o in this.<GetTransportPodsFloatMenuOptions>__BaseCallProxy1(pods, representative))
+			foreach (FloatMenuOption o in base.GetTransportPodsFloatMenuOptions(pods, representative))
 			{
 				yield return o;
 			}
@@ -1244,22 +1228,19 @@ namespace RimWorld.Planet
 				case 1u:
 					break;
 				case 2u:
-					goto IL_B0;
+					goto IL_AE;
 				case 3u:
-					goto IL_171;
+					goto IL_16C;
 				case 4u:
-					goto IL_237;
+					goto IL_230;
 				case 5u:
-					goto IL_319;
+					goto IL_310;
 				case 6u:
-					IL_348:
-					enumerator2 = this.forage.GetGizmos().GetEnumerator();
-					num = 4294967293u;
-					goto Block_16;
+					goto IL_33F;
 				case 7u:
-					goto IL_367;
+					goto IL_35D;
 				case 8u:
-					goto IL_401;
+					goto IL_3F4;
 				case 9u:
 				{
 					Command_Action makeHungry = new Command_Action();
@@ -1384,7 +1365,9 @@ namespace RimWorld.Planet
 					return true;
 				}
 				case 15u:
-					goto IL_74B;
+					IL_728:
+					this.$PC = -1;
+					return false;
 				default:
 					return false;
 				}
@@ -1392,7 +1375,7 @@ namespace RimWorld.Planet
 				num = 4294967293u;
 				try
 				{
-					IL_B0:
+					IL_AE:
 					switch (num)
 					{
 					}
@@ -1420,7 +1403,7 @@ namespace RimWorld.Planet
 				}
 				if (!base.IsPlayerControlled)
 				{
-					goto IL_4EC;
+					goto IL_4D9;
 				}
 				if (Find.WorldSelector.SingleSelectedObject == this)
 				{
@@ -1431,7 +1414,7 @@ namespace RimWorld.Planet
 					}
 					return true;
 				}
-				IL_171:
+				IL_16C:
 				if (Find.WorldSelector.SingleSelectedObject == this)
 				{
 					if (base.PawnsListForReading.Count((Pawn x) => x.IsColonist) >= 2)
@@ -1452,7 +1435,7 @@ namespace RimWorld.Planet
 						return true;
 					}
 				}
-				IL_237:
+				IL_230:
 				if (this.pather.Moving)
 				{
 					Command_Toggle pause = new Command_Toggle();
@@ -1460,10 +1443,11 @@ namespace RimWorld.Planet
 					pause.isActive = (() => this.pather.Paused);
 					pause.toggleAction = delegate()
 					{
-						if (this.pather.Moving)
+						if (!this.pather.Moving)
 						{
-							this.pather.Paused = !this.pather.Paused;
+							return;
 						}
+						this.pather.Paused = !this.pather.Paused;
 					};
 					pause.defaultDesc = "CommandToggleCaravanPauseDesc".Translate(new object[]
 					{
@@ -1479,7 +1463,7 @@ namespace RimWorld.Planet
 					}
 					return true;
 				}
-				IL_319:
+				IL_310:
 				if (CaravanMergeUtility.ShouldShowMergeCommand)
 				{
 					this.$current = CaravanMergeUtility.MergeCommand(this);
@@ -1489,11 +1473,12 @@ namespace RimWorld.Planet
 					}
 					return true;
 				}
-				goto IL_348;
-				Block_16:
+				IL_33F:
+				enumerator2 = this.forage.GetGizmos().GetEnumerator();
+				num = 4294967293u;
 				try
 				{
-					IL_367:
+					IL_35D:
 					switch (num)
 					{
 					}
@@ -1523,7 +1508,7 @@ namespace RimWorld.Planet
 				num = 4294967293u;
 				try
 				{
-					IL_401:
+					IL_3F4:
 					switch (num)
 					{
 					case 8u:
@@ -1575,7 +1560,7 @@ namespace RimWorld.Planet
 						}
 					}
 				}
-				IL_4EC:
+				IL_4D9:
 				if (Prefs.DevMode)
 				{
 					Command_Action mentalBreak = new Command_Action();
@@ -1597,9 +1582,7 @@ namespace RimWorld.Planet
 					}
 					return true;
 				}
-				IL_74B:
-				this.$PC = -1;
-				return false;
+				goto IL_728;
 			}
 
 			Gizmo IEnumerator<Gizmo>.Current
@@ -1718,10 +1701,11 @@ namespace RimWorld.Planet
 
 			internal void <>m__3()
 			{
-				if (this.pather.Moving)
+				if (!this.pather.Moving)
 				{
-					this.pather.Paused = !this.pather.Paused;
+					return;
 				}
+				this.pather.Paused = !this.pather.Paused;
 			}
 
 			internal void <>m__4()
@@ -1861,7 +1845,7 @@ namespace RimWorld.Planet
 				case 1u:
 					break;
 				case 2u:
-					goto IL_EA;
+					goto IL_E5;
 				default:
 					return false;
 				}
@@ -1896,7 +1880,7 @@ namespace RimWorld.Planet
 				num = 4294967293u;
 				try
 				{
-					IL_EA:
+					IL_E5:
 					switch (num)
 					{
 					}

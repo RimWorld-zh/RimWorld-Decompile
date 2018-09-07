@@ -19,7 +19,7 @@ namespace RimWorld
 
 		public Backstory adulthood;
 
-		public bool pirateKing = false;
+		public bool pirateKing;
 
 		public PawnBio()
 		{
@@ -29,20 +29,15 @@ namespace RimWorld
 		{
 			get
 			{
-				PawnBioType result;
 				if (this.pirateKing)
 				{
-					result = PawnBioType.PirateKing;
+					return PawnBioType.PirateKing;
 				}
-				else if (this.adulthood != null)
+				if (this.adulthood != null)
 				{
-					result = PawnBioType.BackstoryInGame;
+					return PawnBioType.BackstoryInGame;
 				}
-				else
-				{
-					result = PawnBioType.Undefined;
-				}
-				return result;
+				return PawnBioType.Undefined;
 			}
 		}
 
@@ -146,7 +141,7 @@ namespace RimWorld
 				case 0u:
 					if (this.childhood == null)
 					{
-						goto IL_10F;
+						goto IL_109;
 					}
 					enumerator = this.childhood.ConfigErrors(true).GetEnumerator();
 					num = 4294967293u;
@@ -189,7 +184,7 @@ namespace RimWorld
 							}
 						}
 					}
-					goto IL_1F6;
+					goto IL_1EB;
 				default:
 					return false;
 				}
@@ -227,14 +222,14 @@ namespace RimWorld
 						}
 					}
 				}
-				IL_10F:
+				IL_109:
 				if (this.adulthood != null)
 				{
 					enumerator2 = this.adulthood.ConfigErrors(false).GetEnumerator();
 					num = 4294967293u;
 					goto Block_5;
 				}
-				IL_1F6:
+				IL_1EB:
 				this.$PC = -1;
 				return false;
 			}

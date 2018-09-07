@@ -18,40 +18,35 @@ namespace Verse
 
 		public float Evaluate(float x, float y)
 		{
-			float result;
 			if (this.columns.Count == 0)
 			{
 				Log.Error("Evaluating a SimpleCurve2D with no columns.", false);
-				result = 0f;
+				return 0f;
 			}
-			else if (x <= this.columns[0].x)
+			if (x <= this.columns[0].x)
 			{
-				result = this.columns[0].y.Evaluate(y);
+				return this.columns[0].y.Evaluate(y);
 			}
-			else if (x >= this.columns[this.columns.Count - 1].x)
+			if (x >= this.columns[this.columns.Count - 1].x)
 			{
-				result = this.columns[this.columns.Count - 1].y.Evaluate(y);
+				return this.columns[this.columns.Count - 1].y.Evaluate(y);
 			}
-			else
+			SurfaceColumn surfaceColumn = this.columns[0];
+			SurfaceColumn surfaceColumn2 = this.columns[this.columns.Count - 1];
+			for (int i = 0; i < this.columns.Count; i++)
 			{
-				SurfaceColumn surfaceColumn = this.columns[0];
-				SurfaceColumn surfaceColumn2 = this.columns[this.columns.Count - 1];
-				for (int i = 0; i < this.columns.Count; i++)
+				if (x <= this.columns[i].x)
 				{
-					if (x <= this.columns[i].x)
+					surfaceColumn2 = this.columns[i];
+					if (i > 0)
 					{
-						surfaceColumn2 = this.columns[i];
-						if (i > 0)
-						{
-							surfaceColumn = this.columns[i - 1];
-						}
-						break;
+						surfaceColumn = this.columns[i - 1];
 					}
+					break;
 				}
-				float t = (x - surfaceColumn.x) / (surfaceColumn2.x - surfaceColumn.x);
-				result = Mathf.Lerp(surfaceColumn.y.Evaluate(y), surfaceColumn2.y.Evaluate(y), t);
 			}
-			return result;
+			float t = (x - surfaceColumn.x) / (surfaceColumn2.x - surfaceColumn.x);
+			return Mathf.Lerp(surfaceColumn.y.Evaluate(y), surfaceColumn2.y.Evaluate(y), t);
 		}
 
 		public void Add(SurfaceColumn newColumn)

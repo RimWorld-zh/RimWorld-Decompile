@@ -29,66 +29,55 @@ namespace RimWorld
 
 		public override float RandomSelectionWeight(Pawn initiator, Pawn recipient)
 		{
-			float result;
 			if (LovePartnerRelationUtility.LovePartnerRelationExists(initiator, recipient))
 			{
-				result = 0f;
+				return 0f;
 			}
-			else
+			float num = initiator.relations.SecondaryRomanceChanceFactor(recipient);
+			if (num < 0.25f)
 			{
-				float num = initiator.relations.SecondaryRomanceChanceFactor(recipient);
-				if (num < 0.25f)
+				return 0f;
+			}
+			int num2 = initiator.relations.OpinionOf(recipient);
+			if (num2 < 5)
+			{
+				return 0f;
+			}
+			if (recipient.relations.OpinionOf(initiator) < 5)
+			{
+				return 0f;
+			}
+			float num3 = 1f;
+			Pawn pawn = LovePartnerRelationUtility.ExistingMostLikedLovePartner(initiator, false);
+			if (pawn != null)
+			{
+				float value = (float)initiator.relations.OpinionOf(pawn);
+				num3 = Mathf.InverseLerp(50f, -50f, value);
+			}
+			float num4 = (!initiator.story.traits.HasTrait(TraitDefOf.Gay)) ? ((initiator.gender != Gender.Female) ? 1f : 0.15f) : 1f;
+			float num5 = Mathf.InverseLerp(0.25f, 1f, num);
+			float num6 = Mathf.InverseLerp(5f, 100f, (float)num2);
+			float num7;
+			if (initiator.gender == recipient.gender)
+			{
+				if (initiator.story.traits.HasTrait(TraitDefOf.Gay) && recipient.story.traits.HasTrait(TraitDefOf.Gay))
 				{
-					result = 0f;
+					num7 = 1f;
 				}
 				else
 				{
-					int num2 = initiator.relations.OpinionOf(recipient);
-					if (num2 < 5)
-					{
-						result = 0f;
-					}
-					else if (recipient.relations.OpinionOf(initiator) < 5)
-					{
-						result = 0f;
-					}
-					else
-					{
-						float num3 = 1f;
-						Pawn pawn = LovePartnerRelationUtility.ExistingMostLikedLovePartner(initiator, false);
-						if (pawn != null)
-						{
-							float value = (float)initiator.relations.OpinionOf(pawn);
-							num3 = Mathf.InverseLerp(50f, -50f, value);
-						}
-						float num4 = (!initiator.story.traits.HasTrait(TraitDefOf.Gay)) ? ((initiator.gender != Gender.Female) ? 1f : 0.15f) : 1f;
-						float num5 = Mathf.InverseLerp(0.25f, 1f, num);
-						float num6 = Mathf.InverseLerp(5f, 100f, (float)num2);
-						float num7;
-						if (initiator.gender == recipient.gender)
-						{
-							if (initiator.story.traits.HasTrait(TraitDefOf.Gay) && recipient.story.traits.HasTrait(TraitDefOf.Gay))
-							{
-								num7 = 1f;
-							}
-							else
-							{
-								num7 = 0.15f;
-							}
-						}
-						else if (!initiator.story.traits.HasTrait(TraitDefOf.Gay) && !recipient.story.traits.HasTrait(TraitDefOf.Gay))
-						{
-							num7 = 1f;
-						}
-						else
-						{
-							num7 = 0.15f;
-						}
-						result = 1.15f * num4 * num5 * num6 * num3 * num7;
-					}
+					num7 = 0.15f;
 				}
 			}
-			return result;
+			else if (!initiator.story.traits.HasTrait(TraitDefOf.Gay) && !recipient.story.traits.HasTrait(TraitDefOf.Gay))
+			{
+				num7 = 1f;
+			}
+			else
+			{
+				num7 = 0.15f;
+			}
+			return 1.15f * num4 * num5 * num6 * num3 * num7;
 		}
 
 		public float SuccessChance(Pawn initiator, Pawn recipient)
@@ -207,10 +196,11 @@ namespace RimWorld
 
 		private void TryAddCheaterThought(Pawn pawn, Pawn cheater)
 		{
-			if (!pawn.Dead)
+			if (pawn.Dead)
 			{
-				pawn.needs.mood.thoughts.memories.TryGainMemory(ThoughtDefOf.CheatedOnMe, cheater);
+				return;
 			}
+			pawn.needs.mood.thoughts.memories.TryGainMemory(ThoughtDefOf.CheatedOnMe, cheater);
 		}
 
 		private void GetNewLoversLetter(Pawn initiator, Pawn recipient, List<Pawn> initiatorOldLoversAndFiances, List<Pawn> recipientOldLoversAndFiances, out string letterText, out string letterLabel, out LetterDef letterDef)

@@ -9,6 +9,15 @@ namespace RimWorld
 {
 	public class StatWorker_MeleeAverageDPS : StatWorker
 	{
+		[CompilerGenerated]
+		private static Func<VerbUtility.VerbPropertiesWithSource, bool> <>f__am$cache0;
+
+		[CompilerGenerated]
+		private static Func<VerbUtility.VerbPropertiesWithSource, bool> <>f__am$cache1;
+
+		[CompilerGenerated]
+		private static Func<VerbUtility.VerbPropertiesWithSource, bool> <>f__am$cache2;
+
 		public StatWorker_MeleeAverageDPS()
 		{
 		}
@@ -21,68 +30,87 @@ namespace RimWorld
 
 		public override float GetValueUnfinalized(StatRequest req, bool applyPostProcess = true)
 		{
-			Thing thing = req.Thing;
-			Pawn_EquipmentTracker pawn_EquipmentTracker = (thing == null) ? null : (thing.ParentHolder as Pawn_EquipmentTracker);
-			Pawn_ApparelTracker pawn_ApparelTracker = (thing == null) ? null : (thing.ParentHolder as Pawn_ApparelTracker);
-			Pawn attacker;
-			if (pawn_EquipmentTracker != null)
+			ThingDef thingDef = req.Def as ThingDef;
+			if (thingDef == null)
 			{
-				attacker = pawn_EquipmentTracker.pawn;
+				return 0f;
 			}
-			else if (pawn_ApparelTracker != null)
-			{
-				attacker = pawn_ApparelTracker.pawn;
-			}
-			else
-			{
-				attacker = null;
-			}
-			IEnumerable<Verb_MeleeAttack> enumerable = null;
-			if (req.HasThing && req.Thing.TryGetComp<CompEquippable>() != null)
-			{
-				enumerable = req.Thing.TryGetComp<CompEquippable>().AllVerbs.OfType<Verb_MeleeAttack>();
-			}
-			if (enumerable == null && req.Def is ThingDef)
-			{
-				enumerable = ((ThingDef)req.Def).GetConcreteExample(req.StuffDef).TryGetComp<CompEquippable>().AllVerbs.OfType<Verb_MeleeAttack>();
-			}
-			float num = enumerable.AverageWeighted((Verb_MeleeAttack verb) => verb.verbProps.AdjustedMeleeSelectionWeight(verb, attacker), (Verb_MeleeAttack verb) => verb.verbProps.AdjustedMeleeDamageAmount(verb, attacker));
-			float num2 = enumerable.AverageWeighted((Verb_MeleeAttack verb) => verb.verbProps.AdjustedMeleeSelectionWeight(verb, attacker), (Verb_MeleeAttack verb) => verb.verbProps.AdjustedCooldown(verb, attacker));
+			Pawn attacker = StatWorker_MeleeAverageDPS.GetCurrentWeaponUser(req.Thing);
+			float num = (from x in VerbUtility.GetAllVerbProperties(thingDef.Verbs, thingDef.tools)
+			where x.verbProps.IsMeleeAttack
+			select x).AverageWeighted((VerbUtility.VerbPropertiesWithSource x) => x.verbProps.AdjustedMeleeSelectionWeight(x.tool, attacker, req.Thing, null, false), (VerbUtility.VerbPropertiesWithSource x) => x.verbProps.AdjustedMeleeDamageAmount(x.tool, attacker, req.Thing, null));
+			float num2 = (from x in VerbUtility.GetAllVerbProperties(thingDef.Verbs, thingDef.tools)
+			where x.verbProps.IsMeleeAttack
+			select x).AverageWeighted((VerbUtility.VerbPropertiesWithSource x) => x.verbProps.AdjustedMeleeSelectionWeight(x.tool, attacker, req.Thing, null, false), (VerbUtility.VerbPropertiesWithSource x) => x.verbProps.AdjustedCooldown(x.tool, attacker, req.Thing));
 			return num / num2;
 		}
 
 		public override string GetExplanationUnfinalized(StatRequest req, ToStringNumberSense numberSense)
 		{
-			StringBuilder stringBuilder = new StringBuilder();
 			ThingDef thingDef = req.Def as ThingDef;
-			for (int i = 0; i < thingDef.tools.Count; i++)
+			if (thingDef == null)
 			{
-				Tool tool = thingDef.tools[i];
-				for (int j = 0; j < tool.capacities.Count; j++)
+				return null;
+			}
+			Pawn currentWeaponUser = StatWorker_MeleeAverageDPS.GetCurrentWeaponUser(req.Thing);
+			IEnumerable<VerbUtility.VerbPropertiesWithSource> enumerable = from x in VerbUtility.GetAllVerbProperties(thingDef.Verbs, thingDef.tools)
+			where x.verbProps.IsMeleeAttack
+			select x;
+			StringBuilder stringBuilder = new StringBuilder();
+			foreach (VerbUtility.VerbPropertiesWithSource verbPropertiesWithSource in enumerable)
+			{
+				float num = verbPropertiesWithSource.verbProps.AdjustedMeleeDamageAmount(verbPropertiesWithSource.tool, currentWeaponUser, req.Thing, null);
+				float num2 = verbPropertiesWithSource.verbProps.AdjustedCooldown(verbPropertiesWithSource.tool, currentWeaponUser, req.Thing);
+				if (verbPropertiesWithSource.tool != null)
 				{
-					ToolCapacityDef toolCapacityDef = tool.capacities[j];
-					IEnumerable<ManeuverDef> maneuvers = toolCapacityDef.Maneuvers;
-					if (maneuvers.Count<ManeuverDef>() != 1)
-					{
-						Log.ErrorOnce(string.Format("{0} maneuvers when trying to get dps for weapon {1} tool {2} capacity {3}; average DPS explanation may be incorrect", new object[]
-						{
-							maneuvers.Count<ManeuverDef>(),
-							thingDef.label,
-							tool.id,
-							toolCapacityDef.defName
-						}), 40417826, false);
-					}
-					ManeuverDef maneuverDef = maneuvers.FirstOrDefault<ManeuverDef>();
-					if (maneuverDef != null)
-					{
-						stringBuilder.AppendLine(string.Format("  {0}: {1} ({2})", "Tool".Translate(), tool.LabelCap, toolCapacityDef.defName));
-						stringBuilder.AppendLine(string.Format("    {0} {1}", tool.AdjustedBaseMeleeDamageAmount(req.Thing, maneuverDef.verb.meleeDamageDef).ToString("F1"), "DamageLower".Translate()));
-						stringBuilder.AppendLine(string.Format("    {0} {1}", tool.AdjustedCooldown(req.Thing).ToString("F2"), "SecondsPerAttackLower".Translate()));
-						stringBuilder.AppendLine();
-					}
+					stringBuilder.AppendLine(string.Format("  {0}: {1} ({2})", "Tool".Translate(), verbPropertiesWithSource.tool.LabelCap, verbPropertiesWithSource.ToolCapacity.defName));
 				}
+				else
+				{
+					stringBuilder.AppendLine(string.Format("  {0}:", "StatsReport_NonToolAttack".Translate()));
+				}
+				stringBuilder.AppendLine(string.Format("    {0} {1}", num.ToString("F1"), "DamageLower".Translate()));
+				stringBuilder.AppendLine(string.Format("    {0} {1}", num2.ToString("F2"), "SecondsPerAttackLower".Translate()));
+				stringBuilder.AppendLine();
 			}
 			return stringBuilder.ToString();
+		}
+
+		public static Pawn GetCurrentWeaponUser(Thing weapon)
+		{
+			if (weapon == null)
+			{
+				return null;
+			}
+			Pawn_EquipmentTracker pawn_EquipmentTracker = weapon.ParentHolder as Pawn_EquipmentTracker;
+			if (pawn_EquipmentTracker != null)
+			{
+				return pawn_EquipmentTracker.pawn;
+			}
+			Pawn_ApparelTracker pawn_ApparelTracker = weapon.ParentHolder as Pawn_ApparelTracker;
+			if (pawn_ApparelTracker != null)
+			{
+				return pawn_ApparelTracker.pawn;
+			}
+			return null;
+		}
+
+		[CompilerGenerated]
+		private static bool <GetValueUnfinalized>m__0(VerbUtility.VerbPropertiesWithSource x)
+		{
+			return x.verbProps.IsMeleeAttack;
+		}
+
+		[CompilerGenerated]
+		private static bool <GetValueUnfinalized>m__1(VerbUtility.VerbPropertiesWithSource x)
+		{
+			return x.verbProps.IsMeleeAttack;
+		}
+
+		[CompilerGenerated]
+		private static bool <GetExplanationUnfinalized>m__2(VerbUtility.VerbPropertiesWithSource x)
+		{
+			return x.verbProps.IsMeleeAttack;
 		}
 
 		[CompilerGenerated]
@@ -90,28 +118,30 @@ namespace RimWorld
 		{
 			internal Pawn attacker;
 
+			internal StatRequest req;
+
 			public <GetValueUnfinalized>c__AnonStorey0()
 			{
 			}
 
-			internal float <>m__0(Verb_MeleeAttack verb)
+			internal float <>m__0(VerbUtility.VerbPropertiesWithSource x)
 			{
-				return verb.verbProps.AdjustedMeleeSelectionWeight(verb, this.attacker);
+				return x.verbProps.AdjustedMeleeSelectionWeight(x.tool, this.attacker, this.req.Thing, null, false);
 			}
 
-			internal float <>m__1(Verb_MeleeAttack verb)
+			internal float <>m__1(VerbUtility.VerbPropertiesWithSource x)
 			{
-				return verb.verbProps.AdjustedMeleeDamageAmount(verb, this.attacker);
+				return x.verbProps.AdjustedMeleeDamageAmount(x.tool, this.attacker, this.req.Thing, null);
 			}
 
-			internal float <>m__2(Verb_MeleeAttack verb)
+			internal float <>m__2(VerbUtility.VerbPropertiesWithSource x)
 			{
-				return verb.verbProps.AdjustedMeleeSelectionWeight(verb, this.attacker);
+				return x.verbProps.AdjustedMeleeSelectionWeight(x.tool, this.attacker, this.req.Thing, null, false);
 			}
 
-			internal float <>m__3(Verb_MeleeAttack verb)
+			internal float <>m__3(VerbUtility.VerbPropertiesWithSource x)
 			{
-				return verb.verbProps.AdjustedCooldown(verb, this.attacker);
+				return x.verbProps.AdjustedCooldown(x.tool, this.attacker, this.req.Thing);
 			}
 		}
 	}

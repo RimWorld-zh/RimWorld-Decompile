@@ -28,12 +28,12 @@ namespace RimWorld
 							if (thingDef.IsNutritionGivingIngestible && thingDef.ingestible.HumanEdible)
 							{
 								num++;
-								goto IL_CE;
+								goto IL_C7;
 							}
 						}
 					}
-					IL_CE:;
 				}
+				IL_C7:;
 			}
 			return (float)num * 14f;
 		}

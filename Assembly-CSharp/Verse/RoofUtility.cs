@@ -22,50 +22,40 @@ namespace Verse
 
 		public static bool CanHandleBlockingThing(Thing blocker, Pawn worker, bool forced = false)
 		{
-			bool result;
 			if (blocker == null)
 			{
-				result = true;
+				return true;
 			}
-			else
+			if (blocker.def.category == ThingCategory.Plant)
 			{
-				if (blocker.def.category == ThingCategory.Plant)
+				LocalTargetInfo target = blocker;
+				PathEndMode peMode = PathEndMode.ClosestTouch;
+				Danger maxDanger = worker.NormalMaxDanger();
+				if (worker.CanReserveAndReach(target, peMode, maxDanger, 1, -1, null, forced))
 				{
-					LocalTargetInfo target = blocker;
-					PathEndMode peMode = PathEndMode.ClosestTouch;
-					Danger maxDanger = worker.NormalMaxDanger();
-					if (worker.CanReserveAndReach(target, peMode, maxDanger, 1, -1, null, forced))
-					{
-						return true;
-					}
+					return true;
 				}
-				result = false;
 			}
-			return result;
+			return false;
 		}
 
 		public static Job HandleBlockingThingJob(Thing blocker, Pawn worker, bool forced = false)
 		{
-			Job result;
 			if (blocker == null)
 			{
-				result = null;
+				return null;
 			}
-			else
+			if (blocker.def.category == ThingCategory.Plant)
 			{
-				if (blocker.def.category == ThingCategory.Plant)
+				LocalTargetInfo target = blocker;
+				PathEndMode peMode = PathEndMode.ClosestTouch;
+				Danger maxDanger = worker.NormalMaxDanger();
+				if (worker.CanReserveAndReach(target, peMode, maxDanger, 1, -1, null, forced))
 				{
-					LocalTargetInfo target = blocker;
-					PathEndMode peMode = PathEndMode.ClosestTouch;
-					Danger maxDanger = worker.NormalMaxDanger();
-					if (worker.CanReserveAndReach(target, peMode, maxDanger, 1, -1, null, forced))
-					{
-						return new Job(JobDefOf.CutPlant, blocker);
-					}
+					return new Job(JobDefOf.CutPlant, blocker);
 				}
-				result = null;
 			}
-			return result;
+			return null;
 		}
 	}
 }

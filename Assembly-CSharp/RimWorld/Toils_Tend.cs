@@ -23,7 +23,7 @@ namespace RimWorld
 				Job curJob = actor.jobs.curJob;
 				Thing thing = curJob.GetTarget(ind).Thing;
 				int num = actor.Map.reservationManager.CanReserveStack(actor, thing, 10, null, false);
-				if (num <= 0 || !actor.Reserve(thing, curJob, 10, Mathf.Min(num, Medicine.GetMedicineCountToFullyHeal(injured)), null))
+				if (num <= 0 || !actor.Reserve(thing, curJob, 10, Mathf.Min(num, Medicine.GetMedicineCountToFullyHeal(injured)), null, true))
 				{
 					toil.actor.jobs.EndCurrentJob(JobCondition.Incompletable, true);
 				}
@@ -105,7 +105,7 @@ namespace RimWorld
 				Job curJob = actor.jobs.curJob;
 				Thing thing = curJob.GetTarget(this.ind).Thing;
 				int num = actor.Map.reservationManager.CanReserveStack(actor, thing, 10, null, false);
-				if (num <= 0 || !actor.Reserve(thing, curJob, 10, Mathf.Min(num, Medicine.GetMedicineCountToFullyHeal(this.injured)), null))
+				if (num <= 0 || !actor.Reserve(thing, curJob, 10, Mathf.Min(num, Medicine.GetMedicineCountToFullyHeal(this.injured)), null, true))
 				{
 					this.toil.actor.jobs.EndCurrentJob(JobCondition.Incompletable, true);
 				}

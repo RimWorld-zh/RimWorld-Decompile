@@ -1,5 +1,4 @@
 ﻿using System;
-using System.Diagnostics;
 
 namespace Verse.Noise
 {
@@ -51,14 +50,12 @@ namespace Verse.Noise
 
 		public void SetBounds(double min, double max)
 		{
-			Debug.Assert(min < max);
 			this.m_min = min;
 			this.m_max = max;
 		}
 
 		public override double GetValue(double x, double y, double z)
 		{
-			Debug.Assert(this.modules[0] != null);
 			if (this.m_min > this.m_max)
 			{
 				double min = this.m_min;
@@ -66,20 +63,15 @@ namespace Verse.Noise
 				this.m_max = min;
 			}
 			double value = this.modules[0].GetValue(x, y, z);
-			double result;
 			if (value < this.m_min)
 			{
-				result = this.m_min;
+				return this.m_min;
 			}
-			else if (value > this.m_max)
+			if (value > this.m_max)
 			{
-				result = this.m_max;
+				return this.m_max;
 			}
-			else
-			{
-				result = value;
-			}
-			return result;
+			return value;
 		}
 	}
 }

@@ -66,34 +66,23 @@ namespace RimWorld
 
 		public override float VoluntaryJoinPriorityFor(Pawn p)
 		{
-			float result;
-			if (this.IsInvited(p))
+			if (!this.IsInvited(p))
 			{
-				if (!PartyUtility.ShouldPawnKeepPartying(p))
-				{
-					result = 0f;
-				}
-				else if (this.spot.IsForbidden(p))
-				{
-					result = 0f;
-				}
-				else
-				{
-					if (!this.lord.ownedPawns.Contains(p))
-					{
-						if (this.IsPartyAboutToEnd())
-						{
-							return 0f;
-						}
-					}
-					result = VoluntarilyJoinableLordJobJoinPriorities.PartyGuest;
-				}
+				return 0f;
 			}
-			else
+			if (!PartyUtility.ShouldPawnKeepPartying(p))
 			{
-				result = 0f;
+				return 0f;
 			}
-			return result;
+			if (this.spot.IsForbidden(p))
+			{
+				return 0f;
+			}
+			if (!this.lord.ownedPawns.Contains(p) && this.IsPartyAboutToEnd())
+			{
+				return 0f;
+			}
+			return VoluntarilyJoinableLordJobJoinPriorities.PartyGuest;
 		}
 
 		public override void ExposeData()

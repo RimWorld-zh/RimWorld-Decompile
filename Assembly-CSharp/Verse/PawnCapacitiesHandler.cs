@@ -7,7 +7,7 @@ namespace Verse
 	{
 		private Pawn pawn;
 
-		private DefMap<PawnCapacityDef, PawnCapacitiesHandler.CacheElement> cachedCapacityLevels = null;
+		private DefMap<PawnCapacityDef, PawnCapacitiesHandler.CacheElement> cachedCapacityLevels;
 
 		public PawnCapacitiesHandler(Pawn pawn)
 		{
@@ -29,41 +29,33 @@ namespace Verse
 
 		public float GetLevel(PawnCapacityDef capacity)
 		{
-			float result;
 			if (this.pawn.health.Dead)
 			{
-				result = 0f;
+				return 0f;
 			}
-			else
+			if (this.cachedCapacityLevels == null)
 			{
-				if (this.cachedCapacityLevels == null)
+				this.Notify_CapacityLevelsDirty();
+			}
+			PawnCapacitiesHandler.CacheElement cacheElement = this.cachedCapacityLevels[capacity];
+			if (cacheElement.status == PawnCapacitiesHandler.CacheStatus.Caching)
+			{
+				Log.Error(string.Format("Detected infinite stat recursion when evaluating {0}", capacity), false);
+				return 0f;
+			}
+			if (cacheElement.status == PawnCapacitiesHandler.CacheStatus.Uncached)
+			{
+				cacheElement.status = PawnCapacitiesHandler.CacheStatus.Caching;
+				try
 				{
-					this.Notify_CapacityLevelsDirty();
+					cacheElement.value = PawnCapacityUtility.CalculateCapacityLevel(this.pawn.health.hediffSet, capacity, null);
 				}
-				PawnCapacitiesHandler.CacheElement cacheElement = this.cachedCapacityLevels[capacity];
-				if (cacheElement.status == PawnCapacitiesHandler.CacheStatus.Caching)
+				finally
 				{
-					Log.Error(string.Format("Detected infinite stat recursion when evaluating {0}", capacity), false);
-					result = 0f;
-				}
-				else
-				{
-					if (cacheElement.status == PawnCapacitiesHandler.CacheStatus.Uncached)
-					{
-						cacheElement.status = PawnCapacitiesHandler.CacheStatus.Caching;
-						try
-						{
-							cacheElement.value = PawnCapacityUtility.CalculateCapacityLevel(this.pawn.health.hediffSet, capacity, null);
-						}
-						finally
-						{
-							cacheElement.status = PawnCapacitiesHandler.CacheStatus.Cached;
-						}
-					}
-					result = cacheElement.value;
+					cacheElement.status = PawnCapacitiesHandler.CacheStatus.Cached;
 				}
 			}
-			return result;
+			return cacheElement.value;
 		}
 
 		public bool CapableOf(PawnCapacityDef capacity)

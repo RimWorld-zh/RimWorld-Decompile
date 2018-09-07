@@ -25,17 +25,12 @@ namespace RimWorld.Planet
 			{
 				Settlement settlement = this.Settlement;
 				List<TraderKindDef> baseTraderKinds = settlement.Faction.def.baseTraderKinds;
-				TraderKindDef result;
 				if (baseTraderKinds.NullOrEmpty<TraderKindDef>())
 				{
-					result = null;
+					return null;
 				}
-				else
-				{
-					int index = Mathf.Abs(settlement.HashOffset()) % baseTraderKinds.Count;
-					result = baseTraderKinds[index];
-				}
-				return result;
+				int index = Mathf.Abs(settlement.HashOffset()) % baseTraderKinds.Count;
+				return baseTraderKinds[index];
 			}
 		}
 	}

@@ -29,34 +29,29 @@ namespace RimWorld
 					break;
 				}
 			}
-			bool result;
 			if (!flag)
 			{
-				result = true;
+				return true;
 			}
-			else
+			List<BodyPartGroupDef> bodyPartGroups = A.apparel.bodyPartGroups;
+			List<BodyPartGroupDef> bodyPartGroups2 = B.apparel.bodyPartGroups;
+			BodyPartGroupDef[] interferingBodyPartGroups = A.apparel.GetInterferingBodyPartGroups(body);
+			BodyPartGroupDef[] interferingBodyPartGroups2 = B.apparel.GetInterferingBodyPartGroups(body);
+			for (int k = 0; k < bodyPartGroups.Count; k++)
 			{
-				List<BodyPartGroupDef> bodyPartGroups = A.apparel.bodyPartGroups;
-				List<BodyPartGroupDef> bodyPartGroups2 = B.apparel.bodyPartGroups;
-				BodyPartGroupDef[] interferingBodyPartGroups = A.apparel.GetInterferingBodyPartGroups(body);
-				BodyPartGroupDef[] interferingBodyPartGroups2 = B.apparel.GetInterferingBodyPartGroups(body);
-				for (int k = 0; k < bodyPartGroups.Count; k++)
+				if (interferingBodyPartGroups2.Contains(bodyPartGroups[k]))
 				{
-					if (interferingBodyPartGroups2.Contains(bodyPartGroups[k]))
-					{
-						return false;
-					}
+					return false;
 				}
-				for (int l = 0; l < bodyPartGroups2.Count; l++)
-				{
-					if (interferingBodyPartGroups.Contains(bodyPartGroups2[l]))
-					{
-						return false;
-					}
-				}
-				result = true;
 			}
-			return result;
+			for (int l = 0; l < bodyPartGroups2.Count; l++)
+			{
+				if (interferingBodyPartGroups.Contains(bodyPartGroups2[l]))
+				{
+					return false;
+				}
+			}
+			return true;
 		}
 
 		public static void GenerateLayerGroupPairs(BodyDef body, ThingDef td, Action<ApparelUtility.LayerGroupPair> callback)
@@ -74,6 +69,7 @@ namespace RimWorld
 
 		public static bool HasPartsToWear(Pawn p, ThingDef apparel)
 		{
+			ApparelUtility.<HasPartsToWear>c__AnonStorey0 <HasPartsToWear>c__AnonStorey = new ApparelUtility.<HasPartsToWear>c__AnonStorey0();
 			List<Hediff> hediffs = p.health.hediffSet.hediffs;
 			bool flag = false;
 			for (int j = 0; j < hediffs.Count; j++)
@@ -84,26 +80,21 @@ namespace RimWorld
 					break;
 				}
 			}
-			bool result;
 			if (!flag)
 			{
-				result = true;
+				return true;
 			}
-			else
+			IEnumerable<BodyPartRecord> notMissingParts = p.health.hediffSet.GetNotMissingParts(BodyPartHeight.Undefined, BodyPartDepth.Undefined, null, null);
+			<HasPartsToWear>c__AnonStorey.groups = apparel.apparel.bodyPartGroups;
+			int i;
+			for (i = 0; i < <HasPartsToWear>c__AnonStorey.groups.Count; i++)
 			{
-				IEnumerable<BodyPartRecord> notMissingParts = p.health.hediffSet.GetNotMissingParts(BodyPartHeight.Undefined, BodyPartDepth.Undefined, null);
-				List<BodyPartGroupDef> groups = apparel.apparel.bodyPartGroups;
-				int i;
-				for (i = 0; i < groups.Count; i++)
+				if (notMissingParts.Any((BodyPartRecord x) => x.IsInGroup(<HasPartsToWear>c__AnonStorey.groups[i])))
 				{
-					if (notMissingParts.Any((BodyPartRecord x) => x.IsInGroup(groups[i])))
-					{
-						return true;
-					}
+					return true;
 				}
-				result = false;
 			}
-			return result;
+			return false;
 		}
 
 		public struct LayerGroupPair
@@ -120,17 +111,12 @@ namespace RimWorld
 
 			public override bool Equals(object rhs)
 			{
-				bool result;
 				if (!(rhs is ApparelUtility.LayerGroupPair))
 				{
-					result = false;
+					return false;
 				}
-				else
-				{
-					ApparelUtility.LayerGroupPair layerGroupPair = (ApparelUtility.LayerGroupPair)rhs;
-					result = (layerGroupPair.layer == this.layer && layerGroupPair.group == this.group);
-				}
-				return result;
+				ApparelUtility.LayerGroupPair layerGroupPair = (ApparelUtility.LayerGroupPair)rhs;
+				return layerGroupPair.layer == this.layer && layerGroupPair.group == this.group;
 			}
 
 			public override int GetHashCode()

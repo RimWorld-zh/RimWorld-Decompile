@@ -20,24 +20,19 @@ namespace Verse
 
 		public static Material GetDamageFlashMat(Material baseMat, float damPct)
 		{
-			Material result;
 			if (damPct < 0.01f)
 			{
-				result = baseMat;
+				return baseMat;
 			}
-			else
+			Material material;
+			if (!DamagedMatPool.damagedMats.TryGetValue(baseMat, out material))
 			{
-				Material material;
-				if (!DamagedMatPool.damagedMats.TryGetValue(baseMat, out material))
-				{
-					material = MaterialAllocator.Create(baseMat);
-					DamagedMatPool.damagedMats.Add(baseMat, material);
-				}
-				Color color = Color.Lerp(baseMat.color, DamagedMatPool.DamagedMatStartingColor, damPct);
-				material.color = color;
-				result = material;
+				material = MaterialAllocator.Create(baseMat);
+				DamagedMatPool.damagedMats.Add(baseMat, material);
 			}
-			return result;
+			Color color = Color.Lerp(baseMat.color, DamagedMatPool.DamagedMatStartingColor, damPct);
+			material.color = color;
+			return material;
 		}
 
 		// Note: this type is marked as 'beforefieldinit'.

@@ -47,20 +47,15 @@ namespace RimWorld
 
 		public override AcceptanceReport CanDesignateCell(IntVec3 c)
 		{
-			AcceptanceReport result;
 			if (!c.InBounds(base.Map))
 			{
-				result = false;
+				return false;
 			}
-			else if (!this.HuntablesInCell(c).Any<Pawn>())
+			if (!this.HuntablesInCell(c).Any<Pawn>())
 			{
-				result = "MessageMustDesignateHuntable".Translate();
+				return "MessageMustDesignateHuntable".Translate();
 			}
-			else
-			{
-				result = true;
-			}
-			return result;
+			return true;
 		}
 
 		public override void DesignateSingleCell(IntVec3 loc)
@@ -74,16 +69,11 @@ namespace RimWorld
 		public override AcceptanceReport CanDesignateThing(Thing t)
 		{
 			Pawn pawn = t as Pawn;
-			AcceptanceReport result;
 			if (pawn != null && pawn.AnimalOrWildMan() && pawn.Faction == null && base.Map.designationManager.DesignationOn(pawn, this.Designation) == null)
 			{
-				result = true;
+				return true;
 			}
-			else
-			{
-				result = false;
-			}
-			return result;
+			return false;
 		}
 
 		public override void DesignateThing(Thing t)
@@ -102,7 +92,7 @@ namespace RimWorld
 				while (enumerator.MoveNext())
 				{
 					PawnKindDef kind = enumerator.Current;
-					HuntUtility.ShowDesignationWarnings(this.justDesignated.First((Pawn x) => x.kindDef == kind));
+					this.ShowDesignationWarnings(this.justDesignated.First((Pawn x) => x.kindDef == kind));
 				}
 			}
 			this.justDesignated.Clear();
@@ -123,6 +113,21 @@ namespace RimWorld
 				}
 			}
 			yield break;
+		}
+
+		private void ShowDesignationWarnings(Pawn pawn)
+		{
+			float manhunterOnDamageChance = pawn.RaceProps.manhunterOnDamageChance;
+			float manhunterOnDamageChance2 = PawnUtility.GetManhunterOnDamageChance(pawn.kindDef);
+			if (manhunterOnDamageChance >= 0.015f)
+			{
+				string text = "MessageAnimalsGoPsychoHunted".Translate(new object[]
+				{
+					pawn.kindDef.GetLabelPlural(-1).CapitalizeFirst(),
+					manhunterOnDamageChance2.ToStringPercent()
+				}).CapitalizeFirst();
+				Messages.Message(text, pawn, MessageTypeDefOf.CautionInput, false);
+			}
 		}
 
 		[CompilerGenerated]
@@ -183,7 +188,7 @@ namespace RimWorld
 					i = 0;
 					break;
 				case 1u:
-					IL_C4:
+					IL_C2:
 					i++;
 					break;
 				default:
@@ -204,7 +209,7 @@ namespace RimWorld
 						}
 						return true;
 					}
-					goto IL_C4;
+					goto IL_C2;
 				}
 				return false;
 			}

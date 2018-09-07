@@ -22,16 +22,11 @@ namespace RimWorld
 
 		public override float OpinionOffset()
 		{
-			float result;
 			if (this.ShouldDiscard)
 			{
-				result = 0f;
+				return 0f;
 			}
-			else
-			{
-				result = Mathf.Min(this.opinionOffset, this.def.maxCumulatedOpinionOffset);
-			}
-			return result;
+			return Mathf.Min(this.opinionOffset, this.def.maxCumulatedOpinionOffset);
 		}
 
 		public override void ThoughtInterval()

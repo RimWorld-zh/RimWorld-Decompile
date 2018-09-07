@@ -14,27 +14,27 @@ namespace RimWorld
 
 		private BillStoreModeDef storeMode = BillStoreModeDefOf.BestStockpile;
 
-		private Zone_Stockpile storeZone = null;
+		private Zone_Stockpile storeZone;
 
 		public int targetCount = 10;
 
-		public bool pauseWhenSatisfied = false;
+		public bool pauseWhenSatisfied;
 
 		public int unpauseWhenYouHave = 5;
 
-		public bool includeEquipped = false;
+		public bool includeEquipped;
 
-		public bool includeTainted = false;
+		public bool includeTainted;
 
-		public Zone_Stockpile includeFromZone = null;
+		public Zone_Stockpile includeFromZone;
 
 		public FloatRange hpRange = FloatRange.ZeroToOne;
 
 		public QualityRange qualityRange = QualityRange.All;
 
-		public bool limitToAllowedStuff = false;
+		public bool limitToAllowedStuff;
 
-		public bool paused = false;
+		public bool paused;
 
 		public Bill_Production()
 		{
@@ -48,16 +48,11 @@ namespace RimWorld
 		{
 			get
 			{
-				string result;
 				if (this.paused)
 				{
-					result = " " + "Paused".Translate();
+					return " " + "Paused".Translate();
 				}
-				else
-				{
-					result = "";
-				}
-				return result;
+				return string.Empty;
 			}
 		}
 
@@ -73,24 +68,19 @@ namespace RimWorld
 		{
 			get
 			{
-				string result;
 				if (this.repeatMode == BillRepeatModeDefOf.Forever)
 				{
-					result = "Forever".Translate();
+					return "Forever".Translate();
 				}
-				else if (this.repeatMode == BillRepeatModeDefOf.RepeatCount)
+				if (this.repeatMode == BillRepeatModeDefOf.RepeatCount)
 				{
-					result = this.repeatCount.ToString() + "x";
+					return this.repeatCount.ToString() + "x";
 				}
-				else
+				if (this.repeatMode == BillRepeatModeDefOf.TargetCount)
 				{
-					if (this.repeatMode != BillRepeatModeDefOf.TargetCount)
-					{
-						throw new InvalidOperationException();
-					}
-					result = this.recipe.WorkerCounter.CountProducts(this).ToString() + "/" + this.targetCount.ToString();
+					return this.recipe.WorkerCounter.CountProducts(this).ToString() + "/" + this.targetCount.ToString();
 				}
-				return result;
+				throw new InvalidOperationException();
 			}
 		}
 
@@ -147,25 +137,20 @@ namespace RimWorld
 			{
 				this.paused = false;
 			}
-			bool result;
 			if (this.suspended)
 			{
-				result = false;
+				return false;
 			}
-			else if (this.repeatMode == BillRepeatModeDefOf.Forever)
+			if (this.repeatMode == BillRepeatModeDefOf.Forever)
 			{
-				result = true;
+				return true;
 			}
-			else if (this.repeatMode == BillRepeatModeDefOf.RepeatCount)
+			if (this.repeatMode == BillRepeatModeDefOf.RepeatCount)
 			{
-				result = (this.repeatCount > 0);
+				return this.repeatCount > 0;
 			}
-			else
+			if (this.repeatMode == BillRepeatModeDefOf.TargetCount)
 			{
-				if (this.repeatMode != BillRepeatModeDefOf.TargetCount)
-				{
-					throw new InvalidOperationException();
-				}
 				int num = this.recipe.WorkerCounter.CountProducts(this);
 				if (this.pauseWhenSatisfied && num >= this.targetCount)
 				{
@@ -175,9 +160,9 @@ namespace RimWorld
 				{
 					this.paused = false;
 				}
-				result = (!this.paused && num < this.targetCount);
+				return !this.paused && num < this.targetCount;
 			}
-			return result;
+			throw new InvalidOperationException();
 		}
 
 		public override void Notify_IterationCompleted(Pawn billDoer, List<Thing> ingredients)

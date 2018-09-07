@@ -13,19 +13,19 @@ namespace Verse
 	{
 		public float baseCost = 100f;
 
-		public List<ResearchProjectDef> prerequisites = null;
+		public List<ResearchProjectDef> prerequisites;
 
-		public TechLevel techLevel = TechLevel.Undefined;
+		public TechLevel techLevel;
 
-		public List<ResearchProjectDef> requiredByThis = null;
+		public List<ResearchProjectDef> requiredByThis;
 
-		private List<ResearchMod> researchMods = null;
+		private List<ResearchMod> researchMods;
 
-		public ThingDef requiredResearchBuilding = null;
+		public ThingDef requiredResearchBuilding;
 
-		public List<ThingDef> requiredResearchFacilities = null;
+		public List<ThingDef> requiredResearchFacilities;
 
-		public List<ResearchProjectTagDef> tags = null;
+		public List<ResearchProjectTagDef> tags;
 
 		public ResearchTabDef tab;
 
@@ -39,7 +39,9 @@ namespace Verse
 		[MustTranslate]
 		public string discoveredLetterText;
 
-		public int discoveredLetterMinDifficulty = 0;
+		public int discoveredLetterMinDifficulty;
+
+		public bool unlockExtremeDifficulty;
 
 		[Unsaved]
 		private float x = 1f;
@@ -48,7 +50,7 @@ namespace Verse
 		private float y = 1f;
 
 		[Unsaved]
-		private bool positionModified = false;
+		private bool positionModified;
 
 		public const TechLevel MaxEffectiveTechLevel = TechLevel.Industrial;
 
@@ -171,7 +173,7 @@ namespace Verse
 
 		public override IEnumerable<string> ConfigErrors()
 		{
-			foreach (string e in this.<ConfigErrors>__BaseCallProxy0())
+			foreach (string e in base.ConfigErrors())
 			{
 				yield return e;
 			}
@@ -208,17 +210,12 @@ namespace Verse
 		public float CostFactor(TechLevel researcherTechLevel)
 		{
 			TechLevel techLevel = (TechLevel)Mathf.Min((int)this.techLevel, 4);
-			float result;
 			if (researcherTechLevel >= techLevel)
 			{
-				result = 1f;
+				return 1f;
 			}
-			else
-			{
-				int num = (int)(techLevel - researcherTechLevel);
-				result = 1f + (float)num * 0.5f;
-			}
-			return result;
+			int num = (int)(techLevel - researcherTechLevel);
+			return 1f + (float)num * 0.5f;
 		}
 
 		public bool HasTag(ResearchProjectTagDef tag)
@@ -228,43 +225,38 @@ namespace Verse
 
 		public bool CanBeResearchedAt(Building_ResearchBench bench, bool ignoreResearchBenchPowerStatus)
 		{
-			bool result;
 			if (this.requiredResearchBuilding != null && bench.def != this.requiredResearchBuilding)
 			{
-				result = false;
+				return false;
 			}
-			else
+			if (!ignoreResearchBenchPowerStatus)
 			{
-				if (!ignoreResearchBenchPowerStatus)
+				CompPowerTrader comp = bench.GetComp<CompPowerTrader>();
+				if (comp != null && !comp.PowerOn)
 				{
-					CompPowerTrader comp = bench.GetComp<CompPowerTrader>();
-					if (comp != null && !comp.PowerOn)
-					{
-						return false;
-					}
+					return false;
 				}
-				if (!this.requiredResearchFacilities.NullOrEmpty<ThingDef>())
-				{
-					ResearchProjectDef.<CanBeResearchedAt>c__AnonStorey2 <CanBeResearchedAt>c__AnonStorey = new ResearchProjectDef.<CanBeResearchedAt>c__AnonStorey2();
-					<CanBeResearchedAt>c__AnonStorey.$this = this;
-					<CanBeResearchedAt>c__AnonStorey.affectedByFacilities = bench.TryGetComp<CompAffectedByFacilities>();
-					if (<CanBeResearchedAt>c__AnonStorey.affectedByFacilities == null)
-					{
-						return false;
-					}
-					List<Thing> linkedFacilitiesListForReading = <CanBeResearchedAt>c__AnonStorey.affectedByFacilities.LinkedFacilitiesListForReading;
-					int i;
-					for (i = 0; i < this.requiredResearchFacilities.Count; i++)
-					{
-						if (linkedFacilitiesListForReading.Find((Thing x) => x.def == <CanBeResearchedAt>c__AnonStorey.$this.requiredResearchFacilities[i] && <CanBeResearchedAt>c__AnonStorey.affectedByFacilities.IsFacilityActive(x)) == null)
-						{
-							return false;
-						}
-					}
-				}
-				result = true;
 			}
-			return result;
+			if (!this.requiredResearchFacilities.NullOrEmpty<ThingDef>())
+			{
+				ResearchProjectDef.<CanBeResearchedAt>c__AnonStorey2 <CanBeResearchedAt>c__AnonStorey = new ResearchProjectDef.<CanBeResearchedAt>c__AnonStorey2();
+				<CanBeResearchedAt>c__AnonStorey.$this = this;
+				<CanBeResearchedAt>c__AnonStorey.affectedByFacilities = bench.TryGetComp<CompAffectedByFacilities>();
+				if (<CanBeResearchedAt>c__AnonStorey.affectedByFacilities == null)
+				{
+					return false;
+				}
+				List<Thing> linkedFacilitiesListForReading = <CanBeResearchedAt>c__AnonStorey.affectedByFacilities.LinkedFacilitiesListForReading;
+				int i;
+				for (i = 0; i < this.requiredResearchFacilities.Count; i++)
+				{
+					if (linkedFacilitiesListForReading.Find((Thing x) => x.def == <CanBeResearchedAt>c__AnonStorey.$this.requiredResearchFacilities[i] && <CanBeResearchedAt>c__AnonStorey.affectedByFacilities.IsFacilityActive(x)) == null)
+					{
+						return false;
+					}
+				}
+			}
+			return true;
 		}
 
 		public void ReapplyAllMods()
@@ -436,13 +428,13 @@ namespace Verse
 				case 1u:
 					break;
 				case 2u:
-					goto IL_EF;
+					goto IL_EB;
 				case 3u:
-					goto IL_138;
+					goto IL_134;
 				case 4u:
-					IL_274:
+					IL_26F:
 					i++;
-					goto IL_283;
+					goto IL_27D;
 				default:
 					return false;
 				}
@@ -482,7 +474,7 @@ namespace Verse
 					}
 					return true;
 				}
-				IL_EF:
+				IL_EB:
 				if (base.ResearchViewX < 0f || base.ResearchViewY < 0f)
 				{
 					this.$current = "researchViewX and/or researchViewY not set";
@@ -492,10 +484,10 @@ namespace Verse
 					}
 					return true;
 				}
-				IL_138:
+				IL_134:
 				rpDefs = DefDatabase<ResearchProjectDef>.AllDefsListForReading;
 				i = 0;
-				IL_283:
+				IL_27D:
 				if (i >= rpDefs.Count)
 				{
 					this.$PC = -1;
@@ -522,7 +514,7 @@ namespace Verse
 						}
 						return true;
 					}
-					goto IL_274;
+					goto IL_26F;
 				}
 				return false;
 			}

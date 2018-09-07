@@ -58,18 +58,15 @@ namespace RimWorld
 					};
 				}
 			}
-			if (this.IntervalsPassed == 264)
+			IncidentDef incDef2;
+			if (this.IntervalsPassed == 264 && (from def in DefDatabase<IncidentDef>.AllDefs
+			where def.TargetAllowed(target) && def.category == IncidentCategoryDefOf.Misc
+			select def).TryRandomElementByWeight(new Func<IncidentDef, float>(base.IncidentChanceFinal), out incDef2))
 			{
-				IncidentDef incDef2;
-				if ((from def in DefDatabase<IncidentDef>.AllDefs
-				where def.TargetAllowed(target) && def.category == IncidentCategoryDefOf.Misc
-				select def).TryRandomElementByWeight(new Func<IncidentDef, float>(base.IncidentChanceFinal), out incDef2))
+				yield return new FiringIncident(incDef2, this, null)
 				{
-					yield return new FiringIncident(incDef2, this, null)
-					{
-						parms = StorytellerUtility.DefaultParmsNow(incDef2.category, target)
-					};
-				}
+					parms = StorytellerUtility.DefaultParmsNow(incDef2.category, target)
+				};
 			}
 			if (this.IntervalsPassed == 324)
 			{
@@ -84,7 +81,13 @@ namespace RimWorld
 				{
 					yield return new FiringIncident(inc2, this, null)
 					{
-						parms = this.GenerateParms(inc2.category, target)
+						parms = this.GenerateParms(inc2.category, target),
+						parms = 
+						{
+							points = 40f,
+							raidForceOneIncap = true,
+							raidNeverFleeIndividual = true
+						}
 					};
 				}
 			}
@@ -110,7 +113,7 @@ namespace RimWorld
 
 			internal IncidentDef <inc>__7;
 
-			internal FiringIncident <qi>__8;
+			internal FiringIncident <fi>__8;
 
 			internal StorytellerComp_ClassicIntro $this;
 
@@ -162,11 +165,11 @@ namespace RimWorld
 				case 1u:
 					break;
 				case 2u:
-					goto IL_247;
+					goto IL_23E;
 				case 3u:
-					goto IL_2FA;
+					goto IL_2ED;
 				case 4u:
-					goto IL_3F4;
+					goto IL_41A;
 				default:
 					return false;
 				}
@@ -187,24 +190,21 @@ namespace RimWorld
 						return true;
 					}
 				}
-				IL_247:
-				if (base.IntervalsPassed == 264)
+				IL_23E:
+				if (base.IntervalsPassed == 264 && (from def in DefDatabase<IncidentDef>.AllDefs
+				where def.TargetAllowed(<MakeIntervalIncidents>c__AnonStorey.target) && def.category == IncidentCategoryDefOf.Misc
+				select def).TryRandomElementByWeight(new Func<IncidentDef, float>(base.IncidentChanceFinal), out incDef2))
 				{
-					if ((from def in DefDatabase<IncidentDef>.AllDefs
-					where def.TargetAllowed(<MakeIntervalIncidents>c__AnonStorey.target) && def.category == IncidentCategoryDefOf.Misc
-					select def).TryRandomElementByWeight(new Func<IncidentDef, float>(base.IncidentChanceFinal), out incDef2))
+					FiringIncident qi3 = new FiringIncident(incDef2, this, null);
+					qi3.parms = StorytellerUtility.DefaultParmsNow(incDef2.category, <MakeIntervalIncidents>c__AnonStorey.target);
+					this.$current = qi3;
+					if (!this.$disposing)
 					{
-						FiringIncident qi3 = new FiringIncident(incDef2, this, null);
-						qi3.parms = StorytellerUtility.DefaultParmsNow(incDef2.category, <MakeIntervalIncidents>c__AnonStorey.target);
-						this.$current = qi3;
-						if (!this.$disposing)
-						{
-							this.$PC = 3;
-						}
-						return true;
+						this.$PC = 3;
 					}
+					return true;
 				}
-				IL_2FA:
+				IL_2ED:
 				if (base.IntervalsPassed == 324)
 				{
 					inc2 = IncidentDefOf.RaidEnemy;
@@ -216,9 +216,12 @@ namespace RimWorld
 					}
 					if (inc2 != null && inc2.TargetAllowed(<MakeIntervalIncidents>c__AnonStorey.target))
 					{
-						FiringIncident qi4 = new FiringIncident(inc2, this, null);
-						qi4.parms = this.GenerateParms(inc2.category, <MakeIntervalIncidents>c__AnonStorey.target);
-						this.$current = qi4;
+						FiringIncident fi = new FiringIncident(inc2, this, null);
+						fi.parms = this.GenerateParms(inc2.category, <MakeIntervalIncidents>c__AnonStorey.target);
+						fi.parms.points = 40f;
+						fi.parms.raidForceOneIncap = true;
+						fi.parms.raidNeverFleeIndividual = true;
+						this.$current = fi;
 						if (!this.$disposing)
 						{
 							this.$PC = 4;
@@ -226,7 +229,7 @@ namespace RimWorld
 						return true;
 					}
 				}
-				IL_3F4:
+				IL_41A:
 				this.$PC = -1;
 				return false;
 			}

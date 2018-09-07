@@ -11,24 +11,19 @@ namespace RimWorld
 
 		protected override ThoughtState CurrentSocialStateInternal(Pawn pawn, Pawn other)
 		{
-			ThoughtState result;
 			if (!other.RaceProps.Humanlike || !RelationsUtility.PawnsKnowEachOther(pawn, other))
 			{
-				result = false;
+				return false;
 			}
-			else if (!other.story.traits.HasTrait(TraitDefOf.CreepyBreathing))
+			if (!other.story.traits.HasTrait(TraitDefOf.CreepyBreathing))
 			{
-				result = false;
+				return false;
 			}
-			else if (!pawn.health.capacities.CapableOf(PawnCapacityDefOf.Hearing))
+			if (!pawn.health.capacities.CapableOf(PawnCapacityDefOf.Hearing))
 			{
-				result = false;
+				return false;
 			}
-			else
-			{
-				result = true;
-			}
-			return result;
+			return true;
 		}
 	}
 }

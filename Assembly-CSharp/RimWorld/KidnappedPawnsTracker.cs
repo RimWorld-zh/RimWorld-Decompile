@@ -47,32 +47,31 @@ namespace RimWorld
 			if (this.kidnappedPawns.Contains(pawn))
 			{
 				Log.Error("Tried to kidnap already kidnapped pawn " + pawn, false);
+				return;
 			}
-			else if (pawn.Faction == this.faction)
+			if (pawn.Faction == this.faction)
 			{
 				Log.Error("Tried to kidnap pawn with the same faction: " + pawn, false);
+				return;
 			}
-			else
+			pawn.PreKidnapped(kidnapper);
+			if (pawn.Spawned)
 			{
-				pawn.PreKidnapped(kidnapper);
-				if (pawn.Spawned)
-				{
-					pawn.DeSpawn(DestroyMode.Vanish);
-				}
-				this.kidnappedPawns.Add(pawn);
+				pawn.DeSpawn(DestroyMode.Vanish);
+			}
+			this.kidnappedPawns.Add(pawn);
+			if (!Find.WorldPawns.Contains(pawn))
+			{
+				Find.WorldPawns.PassToWorld(pawn, PawnDiscardDecideMode.Decide);
 				if (!Find.WorldPawns.Contains(pawn))
 				{
-					Find.WorldPawns.PassToWorld(pawn, PawnDiscardDecideMode.Decide);
-					if (!Find.WorldPawns.Contains(pawn))
-					{
-						Log.Error("WorldPawns discarded kidnapped pawn.", false);
-						this.kidnappedPawns.Remove(pawn);
-					}
+					Log.Error("WorldPawns discarded kidnapped pawn.", false);
+					this.kidnappedPawns.Remove(pawn);
 				}
-				if (pawn.Faction == Faction.OfPlayer)
-				{
-					BillUtility.Notify_ColonistUnavailable(pawn);
-				}
+			}
+			if (pawn.Faction == Faction.OfPlayer)
+			{
+				BillUtility.Notify_ColonistUnavailable(pawn);
 			}
 		}
 

@@ -7,7 +7,7 @@ namespace Verse.Sound
 	{
 		private Dictionary<string, float> storedParams = new Dictionary<string, float>();
 
-		public SoundSizeAggregator sizeAggregator = null;
+		public SoundSizeAggregator sizeAggregator;
 
 		public SoundParams()
 		{

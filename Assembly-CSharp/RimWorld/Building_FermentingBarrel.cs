@@ -45,11 +45,12 @@ namespace RimWorld
 			}
 			set
 			{
-				if (value != this.progressInt)
+				if (value == this.progressInt)
 				{
-					this.progressInt = value;
-					this.barFilledCachedMat = null;
+					return;
 				}
+				this.progressInt = value;
+				this.barFilledCachedMat = null;
 			}
 		}
 
@@ -69,16 +70,11 @@ namespace RimWorld
 		{
 			get
 			{
-				int result;
 				if (this.Fermented)
 				{
-					result = 0;
+					return 0;
 				}
-				else
-				{
-					result = 25 - this.wortCount;
-				}
-				return result;
+				return 25 - this.wortCount;
 			}
 		}
 
@@ -104,20 +100,15 @@ namespace RimWorld
 			{
 				CompProperties_TemperatureRuinable compProperties = this.def.GetCompProperties<CompProperties_TemperatureRuinable>();
 				float ambientTemperature = base.AmbientTemperature;
-				float result;
 				if (ambientTemperature < compProperties.minSafeTemperature)
 				{
-					result = 0.1f;
+					return 0.1f;
 				}
-				else if (ambientTemperature < 7f)
+				if (ambientTemperature < 7f)
 				{
-					result = GenMath.LerpDouble(compProperties.minSafeTemperature, 7f, 0.1f, 1f, ambientTemperature);
+					return GenMath.LerpDouble(compProperties.minSafeTemperature, 7f, 0.1f, 1f, ambientTemperature);
 				}
-				else
-				{
-					result = 1f;
-				}
-				return result;
+				return 1f;
 			}
 		}
 
@@ -159,16 +150,15 @@ namespace RimWorld
 			if (this.Fermented)
 			{
 				Log.Warning("Tried to add wort to a barrel full of beer. Colonists should take the beer first.", false);
+				return;
 			}
-			else
+			int num = Mathf.Min(count, 25 - this.wortCount);
+			if (num <= 0)
 			{
-				int num = Mathf.Min(count, 25 - this.wortCount);
-				if (num > 0)
-				{
-					this.Progress = GenMath.WeightedAverage(0f, (float)num, this.Progress, (float)this.wortCount);
-					this.wortCount += num;
-				}
+				return;
 			}
+			this.Progress = GenMath.WeightedAverage(0f, (float)num, this.Progress, (float)this.wortCount);
+			this.wortCount += num;
 		}
 
 		protected override void ReceiveCompSignal(string signal)
@@ -259,20 +249,15 @@ namespace RimWorld
 
 		public Thing TakeOutBeer()
 		{
-			Thing result;
 			if (!this.Fermented)
 			{
 				Log.Warning("Tried to get beer but it's not yet fermented.", false);
-				result = null;
+				return null;
 			}
-			else
-			{
-				Thing thing = ThingMaker.MakeThing(ThingDefOf.Beer, null);
-				thing.stackCount = this.wortCount;
-				this.Reset();
-				result = thing;
-			}
-			return result;
+			Thing thing = ThingMaker.MakeThing(ThingDefOf.Beer, null);
+			thing.stackCount = this.wortCount;
+			this.Reset();
+			return thing;
 		}
 
 		public override void Draw()
@@ -298,7 +283,7 @@ namespace RimWorld
 
 		public override IEnumerable<Gizmo> GetGizmos()
 		{
-			foreach (Gizmo g in this.<GetGizmos>__BaseCallProxy0())
+			foreach (Gizmo g in base.GetGizmos())
 			{
 				yield return g;
 			}
@@ -364,7 +349,7 @@ namespace RimWorld
 				case 1u:
 					break;
 				case 2u:
-					goto IL_126;
+					goto IL_120;
 				default:
 					return false;
 				}
@@ -397,7 +382,7 @@ namespace RimWorld
 				}
 				if (!Prefs.DevMode || base.Empty)
 				{
-					goto IL_126;
+					goto IL_120;
 				}
 				Command_Action setProgress = new Command_Action();
 				setProgress.defaultLabel = "Debug: Set progress to 1";
@@ -411,7 +396,7 @@ namespace RimWorld
 					this.$PC = 2;
 				}
 				return true;
-				IL_126:
+				IL_120:
 				this.$PC = -1;
 				return false;
 			}

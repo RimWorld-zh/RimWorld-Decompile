@@ -105,11 +105,9 @@ namespace RimWorld
 				if (!Building_OrbitalTradeBeacon.AllPowered(this.Map).Any<Building_OrbitalTradeBeacon>())
 				{
 					Messages.Message("MessageNeedBeaconToTradeWithShip".Translate(), console, MessageTypeDefOf.RejectInput, false);
+					return;
 				}
-				else
-				{
-					console.GiveUseCommsJob(negotiator, this);
-				}
+				console.GiveUseCommsJob(negotiator, this);
 			};
 			return FloatMenuUtility.DecoratePrioritizedTask(new FloatMenuOption(label, action, MenuOptionPriority.InitiateSocial, null, null, 0f, null, null), negotiator, console, "ReservedBy");
 		}
@@ -143,11 +141,9 @@ namespace RimWorld
 				if (!Building_OrbitalTradeBeacon.AllPowered(this.$this.Map).Any<Building_OrbitalTradeBeacon>())
 				{
 					Messages.Message("MessageNeedBeaconToTradeWithShip".Translate(), this.console, MessageTypeDefOf.RejectInput, false);
+					return;
 				}
-				else
-				{
-					this.console.GiveUseCommsJob(this.negotiator, this.$this);
-				}
+				this.console.GiveUseCommsJob(this.negotiator, this.$this);
 			}
 		}
 	}

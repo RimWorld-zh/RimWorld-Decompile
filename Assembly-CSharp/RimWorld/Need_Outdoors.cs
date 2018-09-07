@@ -15,15 +15,15 @@ namespace RimWorld
 
 		private const float Minimum_IndoorsThinRoof = 0.2f;
 
-		private const float Delta_OutdoorsThinRoof = 0.6f;
+		private const float Delta_OutdoorsThinRoof = 1f;
 
-		private const float Delta_IndoorsNoRoof = 2f;
+		private const float Delta_IndoorsNoRoof = 5f;
 
-		private const float Delta_OutdoorsNoRoof = 4f;
+		private const float Delta_OutdoorsNoRoof = 8f;
 
-		private const float DeltaFactor_InBed = 0.25f;
+		private const float DeltaFactor_InBed = 0.2f;
 
-		private float lastEffectiveDelta = 0f;
+		private float lastEffectiveDelta;
 
 		public Need_Outdoors(Pawn pawn) : base(pawn)
 		{
@@ -39,16 +39,11 @@ namespace RimWorld
 		{
 			get
 			{
-				int result;
 				if (base.IsFrozen)
 				{
-					result = 0;
+					return 0;
 				}
-				else
-				{
-					result = Math.Sign(this.lastEffectiveDelta);
-				}
-				return result;
+				return Math.Sign(this.lastEffectiveDelta);
 			}
 		}
 
@@ -56,32 +51,27 @@ namespace RimWorld
 		{
 			get
 			{
-				OutdoorsCategory result;
 				if (this.CurLevel > 0.8f)
 				{
-					result = OutdoorsCategory.Free;
+					return OutdoorsCategory.Free;
 				}
-				else if (this.CurLevel > 0.6f)
+				if (this.CurLevel > 0.6f)
 				{
-					result = OutdoorsCategory.NeedFreshAir;
+					return OutdoorsCategory.NeedFreshAir;
 				}
-				else if (this.CurLevel > 0.4f)
+				if (this.CurLevel > 0.4f)
 				{
-					result = OutdoorsCategory.CabinFeverLight;
+					return OutdoorsCategory.CabinFeverLight;
 				}
-				else if (this.CurLevel > 0.2f)
+				if (this.CurLevel > 0.2f)
 				{
-					result = OutdoorsCategory.CabinFeverSevere;
+					return OutdoorsCategory.CabinFeverSevere;
 				}
-				else if (this.CurLevel > 0.05f)
+				if (this.CurLevel > 0.05f)
 				{
-					result = OutdoorsCategory.Trapped;
+					return OutdoorsCategory.Trapped;
 				}
-				else
-				{
-					result = OutdoorsCategory.Entombed;
-				}
-				return result;
+				return OutdoorsCategory.Entombed;
 			}
 		}
 
@@ -97,7 +87,7 @@ namespace RimWorld
 		{
 			get
 			{
-				return this.pawn.story.traits.HasTrait(TraitDefOf.Indoorsman);
+				return this.pawn.story.traits.HasTrait(TraitDefOf.Undergrounder);
 			}
 		}
 
@@ -111,57 +101,59 @@ namespace RimWorld
 			if (this.Disabled)
 			{
 				this.CurLevel = 1f;
+				return;
 			}
-			else if (!base.IsFrozen)
+			if (base.IsFrozen)
 			{
-				float b = 0.2f;
-				bool flag = !this.pawn.Spawned || this.pawn.Position.UsesOutdoorTemperature(this.pawn.Map);
-				RoofDef roofDef = (!this.pawn.Spawned) ? null : this.pawn.Position.GetRoof(this.pawn.Map);
-				float num;
-				if (!flag)
-				{
-					if (roofDef == null)
-					{
-						num = 2f;
-					}
-					else if (!roofDef.isThickRoof)
-					{
-						num = -0.32f;
-					}
-					else
-					{
-						num = -0.45f;
-						b = 0f;
-					}
-				}
-				else if (roofDef == null)
-				{
-					num = 4f;
-				}
-				else if (roofDef.isThickRoof)
-				{
-					num = -0.4f;
-				}
-				else
-				{
-					num = 0.6f;
-				}
-				if (this.pawn.InBed() && num < 0f)
-				{
-					num *= 0.25f;
-				}
-				num *= 0.0025f;
-				float curLevel = this.CurLevel;
-				if (num < 0f)
-				{
-					this.CurLevel = Mathf.Min(this.CurLevel, Mathf.Max(this.CurLevel + num, b));
-				}
-				else
-				{
-					this.CurLevel = Mathf.Min(this.CurLevel + num, 1f);
-				}
-				this.lastEffectiveDelta = this.CurLevel - curLevel;
+				return;
 			}
+			float b = 0.2f;
+			bool flag = !this.pawn.Spawned || this.pawn.Position.UsesOutdoorTemperature(this.pawn.Map);
+			RoofDef roofDef = (!this.pawn.Spawned) ? null : this.pawn.Position.GetRoof(this.pawn.Map);
+			float num;
+			if (!flag)
+			{
+				if (roofDef == null)
+				{
+					num = 5f;
+				}
+				else if (!roofDef.isThickRoof)
+				{
+					num = -0.32f;
+				}
+				else
+				{
+					num = -0.45f;
+					b = 0f;
+				}
+			}
+			else if (roofDef == null)
+			{
+				num = 8f;
+			}
+			else if (roofDef.isThickRoof)
+			{
+				num = -0.4f;
+			}
+			else
+			{
+				num = 1f;
+			}
+			if (this.pawn.InBed() && num < 0f)
+			{
+				num *= 0.2f;
+			}
+			num *= 0.0025f;
+			float curLevel = this.CurLevel;
+			if (num < 0f)
+			{
+				this.CurLevel = Mathf.Min(this.CurLevel, Mathf.Max(this.CurLevel + num, b));
+			}
+			else
+			{
+				this.CurLevel = Mathf.Min(this.CurLevel + num, 1f);
+			}
+			this.lastEffectiveDelta = this.CurLevel - curLevel;
 		}
 	}
 }

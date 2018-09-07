@@ -139,17 +139,17 @@ namespace RimWorld
 						rectB.maxX = (rectA.maxX = center.x + 3);
 					}
 					z = rectA.minZ;
-					goto IL_2F6;
+					goto IL_2E9;
 				case 1u:
 					x++;
 					break;
 				case 2u:
 					x2++;
-					goto IL_375;
+					goto IL_365;
 				default:
 					return false;
 				}
-				IL_2D1:
+				IL_2C5:
 				if (x <= rectA.maxX)
 				{
 					this.$current = new IntVec3(x, 0, z);
@@ -160,15 +160,15 @@ namespace RimWorld
 					return true;
 				}
 				z++;
-				IL_2F6:
+				IL_2E9:
 				if (z > rectA.maxZ)
 				{
 					z2 = rectB.minZ;
-					goto IL_39A;
+					goto IL_389;
 				}
 				x = rectA.minX;
-				goto IL_2D1;
-				IL_375:
+				goto IL_2C5;
+				IL_365:
 				if (x2 <= rectB.maxX)
 				{
 					this.$current = new IntVec3(x2, 0, z2);
@@ -179,11 +179,11 @@ namespace RimWorld
 					return true;
 				}
 				z2++;
-				IL_39A:
+				IL_389:
 				if (z2 <= rectB.maxZ)
 				{
 					x2 = rectB.minX;
-					goto IL_375;
+					goto IL_365;
 				}
 				this.$PC = -1;
 				return false;

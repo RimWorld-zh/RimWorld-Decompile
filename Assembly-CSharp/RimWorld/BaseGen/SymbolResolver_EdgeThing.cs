@@ -25,54 +25,49 @@ namespace RimWorld.BaseGen
 
 		public override bool CanResolve(ResolveParams rp)
 		{
-			bool result;
 			if (!base.CanResolve(rp))
 			{
-				result = false;
+				return false;
 			}
-			else
+			if (rp.singleThingDef != null)
 			{
-				if (rp.singleThingDef != null)
+				bool? edgeThingAvoidOtherEdgeThings = rp.edgeThingAvoidOtherEdgeThings;
+				bool avoidOtherEdgeThings = edgeThingAvoidOtherEdgeThings != null && edgeThingAvoidOtherEdgeThings.Value;
+				if (rp.thingRot != null)
 				{
-					bool? edgeThingAvoidOtherEdgeThings = rp.edgeThingAvoidOtherEdgeThings;
-					bool avoidOtherEdgeThings = edgeThingAvoidOtherEdgeThings != null && edgeThingAvoidOtherEdgeThings.Value;
-					if (rp.thingRot != null)
+					IntVec3 intVec;
+					if (!this.TryFindSpawnCell(rp.rect, rp.singleThingDef, rp.thingRot.Value, avoidOtherEdgeThings, out intVec))
 					{
-						IntVec3 intVec;
-						if (!this.TryFindSpawnCell(rp.rect, rp.singleThingDef, rp.thingRot.Value, avoidOtherEdgeThings, out intVec))
-						{
-							return false;
-						}
-					}
-					else if (!rp.singleThingDef.rotatable)
-					{
-						IntVec3 intVec;
-						if (!this.TryFindSpawnCell(rp.rect, rp.singleThingDef, Rot4.North, avoidOtherEdgeThings, out intVec))
-						{
-							return false;
-						}
-					}
-					else
-					{
-						bool flag = false;
-						for (int i = 0; i < 4; i++)
-						{
-							IntVec3 intVec;
-							if (this.TryFindSpawnCell(rp.rect, rp.singleThingDef, new Rot4(i), avoidOtherEdgeThings, out intVec))
-							{
-								flag = true;
-								break;
-							}
-						}
-						if (!flag)
-						{
-							return false;
-						}
+						return false;
 					}
 				}
-				result = true;
+				else if (!rp.singleThingDef.rotatable)
+				{
+					IntVec3 intVec;
+					if (!this.TryFindSpawnCell(rp.rect, rp.singleThingDef, Rot4.North, avoidOtherEdgeThings, out intVec))
+					{
+						return false;
+					}
+				}
+				else
+				{
+					bool flag = false;
+					for (int i = 0; i < 4; i++)
+					{
+						IntVec3 intVec;
+						if (this.TryFindSpawnCell(rp.rect, rp.singleThingDef, new Rot4(i), avoidOtherEdgeThings, out intVec))
+						{
+							flag = true;
+							break;
+						}
+					}
+					if (!flag)
+					{
+						return false;
+					}
+				}
 			}
-			return result;
+			return true;
 		}
 
 		public override void Resolve(ResolveParams rp)
@@ -127,7 +122,6 @@ namespace RimWorld.BaseGen
 
 		private bool TryFindSpawnCell(CellRect rect, ThingDef thingDef, Rot4 rot, bool avoidOtherEdgeThings, out IntVec3 spawnCell)
 		{
-			bool result;
 			if (avoidOtherEdgeThings)
 			{
 				spawnCell = IntVec3.Invalid;
@@ -149,13 +143,9 @@ namespace RimWorld.BaseGen
 						}
 					}
 				}
-				result = spawnCell.IsValid;
+				return spawnCell.IsValid;
 			}
-			else
-			{
-				result = this.TryFindSpawnCell(rect, thingDef, rot, out spawnCell);
-			}
-			return result;
+			return this.TryFindSpawnCell(rect, thingDef, rot, out spawnCell);
 		}
 
 		private bool TryFindSpawnCell(CellRect rect, ThingDef thingDef, Rot4 rot, out IntVec3 spawnCell)
@@ -185,29 +175,24 @@ namespace RimWorld.BaseGen
 					flag = rect.TryFindRandomInnerRectTouchingEdge(size, out empty, (CellRect x) => basePredicate(x) && !BaseGenUtility.AnyDoorAdjacentCardinalTo(x, map));
 				}
 			}
-			bool result;
 			if (!flag && !rect.TryFindRandomInnerRectTouchingEdge(size, out empty, basePredicate))
 			{
 				spawnCell = IntVec3.Invalid;
-				result = false;
+				return false;
 			}
-			else
+			CellRect.CellRectIterator iterator = empty.GetIterator();
+			while (!iterator.Done())
 			{
-				CellRect.CellRectIterator iterator = empty.GetIterator();
-				while (!iterator.Done())
+				if (GenAdj.OccupiedRect(iterator.Current, rot, thingDef.size) == empty)
 				{
-					if (GenAdj.OccupiedRect(iterator.Current, rot, thingDef.size) == empty)
-					{
-						spawnCell = iterator.Current;
-						return true;
-					}
-					iterator.MoveNext();
+					spawnCell = iterator.Current;
+					return true;
 				}
-				Log.Error("We found a valid rect but we couldn't find the root position. This should never happen.", false);
-				spawnCell = IntVec3.Invalid;
-				result = false;
+				iterator.MoveNext();
 			}
-			return result;
+			Log.Error("We found a valid rect but we couldn't find the root position. This should never happen.", false);
+			spawnCell = IntVec3.Invalid;
+			return false;
 		}
 
 		private int GetDistanceSquaredToExistingEdgeThing(IntVec3 cell, CellRect rect, ThingDef thingDef)

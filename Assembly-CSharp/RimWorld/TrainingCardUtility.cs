@@ -70,42 +70,37 @@ namespace RimWorld
 			bool flag = pawn.training.HasLearned(td);
 			bool flag2;
 			AcceptanceReport canTrain = pawn.training.CanAssignToTrain(td, out flag2);
-			bool result;
 			if (!flag2)
 			{
-				result = false;
+				return false;
 			}
-			else
+			Widgets.DrawHighlightIfMouseover(rect);
+			Rect rect2 = rect;
+			rect2.width -= 50f;
+			rect2.xMin += (float)td.indent * 10f;
+			Rect rect3 = rect;
+			rect3.xMin = rect3.xMax - 50f + 17f;
+			TrainingCardUtility.DoTrainableCheckbox(rect2, pawn, td, canTrain, true, false);
+			if (flag)
 			{
-				Widgets.DrawHighlightIfMouseover(rect);
-				Rect rect2 = rect;
-				rect2.width -= 50f;
-				rect2.xMin += (float)td.indent * 10f;
-				Rect rect3 = rect;
-				rect3.xMin = rect3.xMax - 50f + 17f;
-				TrainingCardUtility.DoTrainableCheckbox(rect2, pawn, td, canTrain, true, false);
-				if (flag)
-				{
-					GUI.color = Color.green;
-				}
-				Text.Anchor = TextAnchor.MiddleLeft;
-				Widgets.Label(rect3, pawn.training.GetSteps(td) + " / " + td.steps);
-				Text.Anchor = TextAnchor.UpperLeft;
-				if (DebugSettings.godMode && !pawn.training.HasLearned(td))
-				{
-					Rect rect4 = rect3;
-					rect4.yMin = rect4.yMax - 10f;
-					rect4.xMin = rect4.xMax - 10f;
-					if (Widgets.ButtonText(rect4, "+", true, false, true))
-					{
-						pawn.training.Train(td, pawn.Map.mapPawns.FreeColonistsSpawned.RandomElement<Pawn>(), false);
-					}
-				}
-				TrainingCardUtility.DoTrainableTooltip(rect, pawn, td, canTrain);
-				GUI.color = Color.white;
-				result = true;
+				GUI.color = Color.green;
 			}
-			return result;
+			Text.Anchor = TextAnchor.MiddleLeft;
+			Widgets.Label(rect3, pawn.training.GetSteps(td) + " / " + td.steps);
+			Text.Anchor = TextAnchor.UpperLeft;
+			if (DebugSettings.godMode && !pawn.training.HasLearned(td))
+			{
+				Rect rect4 = rect3;
+				rect4.yMin = rect4.yMax - 10f;
+				rect4.xMin = rect4.xMax - 10f;
+				if (Widgets.ButtonText(rect4, "+", true, false, true))
+				{
+					pawn.training.Train(td, pawn.Map.mapPawns.FreeColonistsSpawned.RandomElement<Pawn>(), false);
+				}
+			}
+			TrainingCardUtility.DoTrainableTooltip(rect, pawn, td, canTrain);
+			GUI.color = Color.white;
+			return true;
 		}
 
 		public static void DoTrainableCheckbox(Rect rect, Pawn pawn, TrainableDef td, AcceptanceReport canTrain, bool drawLabel, bool doTooltip)

@@ -52,16 +52,11 @@ namespace RimWorld
 				}
 			}
 			RoomStatWorker_Beauty.countedThings.Clear();
-			float result;
 			if (num2 == 0)
 			{
-				result = 0f;
+				return 0f;
 			}
-			else
-			{
-				result = num / RoomStatWorker_Beauty.CellCountCurve.Evaluate((float)num2);
-			}
-			return result;
+			return num / RoomStatWorker_Beauty.CellCountCurve.Evaluate((float)num2);
 		}
 
 		// Note: this type is marked as 'beforefieldinit'.

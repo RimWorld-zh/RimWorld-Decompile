@@ -13,40 +13,32 @@ namespace RimWorld
 		protected override ThoughtState CurrentStateInternal(Pawn p)
 		{
 			JobDriver curDriver = p.jobs.curDriver;
-			ThoughtState result;
 			if (curDriver == null)
 			{
-				result = ThoughtState.Inactive;
+				return ThoughtState.Inactive;
 			}
-			else if (p.skills == null)
+			if (p.skills == null)
 			{
-				result = ThoughtState.Inactive;
+				return ThoughtState.Inactive;
 			}
-			else if (curDriver.ActiveSkill == null)
+			if (curDriver.ActiveSkill == null)
 			{
-				result = ThoughtState.Inactive;
+				return ThoughtState.Inactive;
 			}
-			else
+			SkillRecord skill = p.skills.GetSkill(curDriver.ActiveSkill);
+			if (skill == null)
 			{
-				SkillRecord skill = p.skills.GetSkill(curDriver.ActiveSkill);
-				if (skill == null)
-				{
-					result = ThoughtState.Inactive;
-				}
-				else if (skill.passion == Passion.Minor)
-				{
-					result = ThoughtState.ActiveAtStage(0);
-				}
-				else if (skill.passion == Passion.Major)
-				{
-					result = ThoughtState.ActiveAtStage(1);
-				}
-				else
-				{
-					result = ThoughtState.Inactive;
-				}
+				return ThoughtState.Inactive;
 			}
-			return result;
+			if (skill.passion == Passion.Minor)
+			{
+				return ThoughtState.ActiveAtStage(0);
+			}
+			if (skill.passion == Passion.Major)
+			{
+				return ThoughtState.ActiveAtStage(1);
+			}
+			return ThoughtState.Inactive;
 		}
 	}
 }

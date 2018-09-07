@@ -52,12 +52,11 @@ namespace RimWorld
 		{
 			float value = this.generator.GetValue(loc);
 			float num = this.surfaceLevel - Mathf.Abs(value);
-			TerrainDef result;
 			if (num > 2f && this.shallowizer.GetValue(loc) > this.shallowFactor)
 			{
-				result = TerrainDefOf.WaterMovingChestDeep;
+				return TerrainDefOf.WaterMovingChestDeep;
 			}
-			else if (num > 0f)
+			if (num > 0f)
 			{
 				if (recordForValidation)
 				{
@@ -70,13 +69,9 @@ namespace RimWorld
 						this.rhs.Add(loc);
 					}
 				}
-				result = TerrainDefOf.WaterMovingShallow;
+				return TerrainDefOf.WaterMovingShallow;
 			}
-			else
-			{
-				result = null;
-			}
-			return result;
+			return null;
 		}
 
 		public Vector3 WaterCoordinateAt(IntVec3 loc)
@@ -95,23 +90,21 @@ namespace RimWorld
 			if (intVec == IntVec3.Invalid || intVec2 == IntVec3.Invalid)
 			{
 				Log.Error("Failed to find river edges in order to verify passability", false);
+				return;
 			}
-			else
+			while (!map.reachability.CanReach(intVec, intVec2, PathEndMode.OnCell, TraverseMode.PassAllDestroyableThings))
 			{
-				while (!map.reachability.CanReach(intVec, intVec2, PathEndMode.OnCell, TraverseMode.PassAllDestroyableThings))
+				if (this.shallowFactor > 1f)
 				{
-					if (this.shallowFactor > 1f)
+					Log.Error("Failed to make river shallow enough for passability", false);
+					return;
+				}
+				this.shallowFactor += 0.1f;
+				foreach (IntVec3 intVec3 in map.AllCells)
+				{
+					if (intVec3.GetTerrain(map) == TerrainDefOf.WaterMovingChestDeep && this.shallowizer.GetValue(intVec3) <= this.shallowFactor)
 					{
-						Log.Error("Failed to make river shallow enough for passability", false);
-						break;
-					}
-					this.shallowFactor += 0.1f;
-					foreach (IntVec3 intVec3 in map.AllCells)
-					{
-						if (intVec3.GetTerrain(map) == TerrainDefOf.WaterMovingChestDeep && this.shallowizer.GetValue(intVec3) <= this.shallowFactor)
-						{
-							map.terrainGrid.SetTerrain(intVec3, TerrainDefOf.WaterMovingShallow);
-						}
+						map.terrainGrid.SetTerrain(intVec3, TerrainDefOf.WaterMovingShallow);
 					}
 				}
 			}

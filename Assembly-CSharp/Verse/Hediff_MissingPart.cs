@@ -5,9 +5,9 @@ namespace Verse
 {
 	public class Hediff_MissingPart : HediffWithComps
 	{
-		public HediffDef lastInjury = null;
+		public HediffDef lastInjury;
 
-		private bool isFreshInt = false;
+		private bool isFreshInt;
 
 		public Hediff_MissingPart()
 		{
@@ -17,20 +17,15 @@ namespace Verse
 		{
 			get
 			{
-				float result;
 				if (!this.IsFreshNonSolidExtremity)
 				{
-					result = 0f;
+					return 0f;
 				}
-				else if (base.Part.def.tags.NullOrEmpty<BodyPartTagDef>() && base.Part.parts.NullOrEmpty<BodyPartRecord>() && !base.Bleeding)
+				if (base.Part.def.tags.NullOrEmpty<BodyPartTagDef>() && base.Part.parts.NullOrEmpty<BodyPartRecord>() && !base.Bleeding)
 				{
-					result = 0f;
+					return 0f;
 				}
-				else
-				{
-					result = (float)base.Part.def.hitPoints / (75f * this.pawn.HealthScale);
-				}
-				return result;
+				return (float)base.Part.def.hitPoints / (75f * this.pawn.HealthScale);
 			}
 		}
 
@@ -46,25 +41,20 @@ namespace Verse
 		{
 			get
 			{
-				string result;
 				if (this.lastInjury != null && this.lastInjury.injuryProps.useRemovedLabel)
 				{
-					result = "RemovedBodyPart".Translate();
+					return "RemovedBodyPart".Translate();
 				}
-				else if (this.lastInjury == null || base.Part.depth == BodyPartDepth.Inside)
+				if (this.lastInjury == null || base.Part.depth == BodyPartDepth.Inside)
 				{
 					bool solid = base.Part.def.IsSolid(base.Part, this.pawn.health.hediffSet.hediffs);
-					result = HealthUtility.GetGeneralDestroyedPartLabel(base.Part, this.IsFreshNonSolidExtremity, solid);
+					return HealthUtility.GetGeneralDestroyedPartLabel(base.Part, this.IsFreshNonSolidExtremity, solid);
 				}
-				else if (base.Part.def.socketed && !this.lastInjury.injuryProps.destroyedOutLabel.NullOrEmpty())
+				if (base.Part.def.socketed && !this.lastInjury.injuryProps.destroyedOutLabel.NullOrEmpty())
 				{
-					result = this.lastInjury.injuryProps.destroyedOutLabel;
+					return this.lastInjury.injuryProps.destroyedOutLabel;
 				}
-				else
-				{
-					result = this.lastInjury.injuryProps.destroyedLabel;
-				}
-				return result;
+				return this.lastInjury.injuryProps.destroyedLabel;
 			}
 		}
 
@@ -90,16 +80,11 @@ namespace Verse
 		{
 			get
 			{
-				float result;
 				if (this.pawn.Dead || !this.IsFreshNonSolidExtremity || this.ParentIsMissing)
 				{
-					result = 0f;
+					return 0f;
 				}
-				else
-				{
-					result = base.Part.def.GetMaxHealth(this.pawn) * this.def.injuryProps.bleedRate * base.Part.def.bleedRate;
-				}
-				return result;
+				return base.Part.def.GetMaxHealth(this.pawn) * this.def.injuryProps.bleedRate * base.Part.def.bleedRate;
 			}
 		}
 
@@ -107,16 +92,11 @@ namespace Verse
 		{
 			get
 			{
-				float result;
 				if (this.pawn.Dead || this.causesNoPain || !this.IsFreshNonSolidExtremity || this.ParentIsMissing)
 				{
-					result = 0f;
+					return 0f;
 				}
-				else
-				{
-					result = base.Part.def.GetMaxHealth(this.pawn) * this.def.injuryProps.painPerSeverity;
-				}
-				return result;
+				return base.Part.def.GetMaxHealth(this.pawn) * this.def.injuryProps.painPerSeverity;
 			}
 		}
 
@@ -213,6 +193,7 @@ namespace Verse
 			{
 				Log.Error("Hediff_MissingPart has null part after loading.", false);
 				this.pawn.health.hediffSet.hediffs.Remove(this);
+				return;
 			}
 		}
 	}

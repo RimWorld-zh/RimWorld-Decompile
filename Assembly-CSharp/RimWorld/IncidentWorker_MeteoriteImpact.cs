@@ -23,21 +23,16 @@ namespace RimWorld
 		{
 			Map map = (Map)parms.target;
 			IntVec3 intVec;
-			bool result;
 			if (!this.TryFindCell(out intVec, map))
 			{
-				result = false;
+				return false;
 			}
-			else
-			{
-				List<Thing> list = ThingSetMakerDefOf.Meteorite.root.Generate();
-				SkyfallerMaker.SpawnSkyfaller(ThingDefOf.MeteoriteIncoming, list, intVec, map);
-				LetterDef textLetterDef = (!list[0].def.building.isResourceRock) ? LetterDefOf.NeutralEvent : LetterDefOf.PositiveEvent;
-				string text = string.Format(this.def.letterText, list[0].def.label).CapitalizeFirst();
-				Find.LetterStack.ReceiveLetter(this.def.letterLabel, text, textLetterDef, new TargetInfo(intVec, map, false), null, null);
-				result = true;
-			}
-			return result;
+			List<Thing> list = ThingSetMakerDefOf.Meteorite.root.Generate();
+			SkyfallerMaker.SpawnSkyfaller(ThingDefOf.MeteoriteIncoming, list, intVec, map);
+			LetterDef textLetterDef = (!list[0].def.building.isResourceRock) ? LetterDefOf.NeutralEvent : LetterDefOf.PositiveEvent;
+			string text = string.Format(this.def.letterText, list[0].def.label).CapitalizeFirst();
+			Find.LetterStack.ReceiveLetter(this.def.letterLabel, text, textLetterDef, new TargetInfo(intVec, map, false), null, null);
+			return true;
 		}
 
 		private bool TryFindCell(out IntVec3 cell, Map map)

@@ -4,7 +4,6 @@ using System.Collections.Generic;
 using System.Diagnostics;
 using System.Runtime.CompilerServices;
 using System.Threading;
-using UnityEngine.Profiling;
 using Verse;
 using Verse.AI;
 
@@ -12,7 +11,7 @@ namespace RimWorld
 {
 	public abstract class WorkGiver_Grower : WorkGiver_Scanner
 	{
-		protected static ThingDef wantedPlantDef = null;
+		protected static ThingDef wantedPlantDef;
 
 		protected WorkGiver_Grower()
 		{
@@ -33,7 +32,6 @@ namespace RimWorld
 
 		public override IEnumerable<IntVec3> PotentialWorkCellsGlobal(Pawn pawn)
 		{
-			Profiler.BeginSample("Grow find cell");
 			Danger maxDanger = pawn.NormalMaxDanger();
 			List<Building> bList = pawn.Map.listerBuildings.allBuildingsColonist;
 			for (int i = 0; i < bList.Count; i++)
@@ -90,23 +88,17 @@ namespace RimWorld
 				}
 			}
 			WorkGiver_Grower.wantedPlantDef = null;
-			Profiler.EndSample();
 			yield break;
 		}
 
 		public static ThingDef CalculateWantedPlantDef(IntVec3 c, Map map)
 		{
 			IPlantToGrowSettable plantToGrowSettable = c.GetPlantToGrowSettable(map);
-			ThingDef result;
 			if (plantToGrowSettable == null)
 			{
-				result = null;
+				return null;
 			}
-			else
-			{
-				result = plantToGrowSettable.GetPlantDefToGrow();
-			}
-			return result;
+			return plantToGrowSettable.GetPlantDefToGrow();
 		}
 
 		// Note: this type is marked as 'beforefieldinit'.
@@ -157,21 +149,20 @@ namespace RimWorld
 				switch (num)
 				{
 				case 0u:
-					Profiler.BeginSample("Grow find cell");
 					maxDanger = pawn.NormalMaxDanger();
 					bList = pawn.Map.listerBuildings.allBuildingsColonist;
 					i = 0;
-					goto IL_184;
+					goto IL_175;
 				case 1u:
 					cri.MoveNext();
 					break;
 				case 2u:
 					k++;
-					goto IL_2E0;
+					goto IL_2CD;
 				default:
 					return false;
 				}
-				IL_15F:
+				IL_151:
 				if (!cri.Done())
 				{
 					this.$current = cri.Current;
@@ -182,40 +173,40 @@ namespace RimWorld
 					return true;
 				}
 				WorkGiver_Grower.wantedPlantDef = null;
-				IL_176:
+				IL_167:
 				i++;
-				IL_184:
+				IL_175:
 				if (i >= bList.Count)
 				{
 					WorkGiver_Grower.wantedPlantDef = null;
 					zonesList = pawn.Map.zoneManager.AllZones;
 					j = 0;
-					goto IL_310;
+					goto IL_2FC;
 				}
 				b = (bList[i] as Building_PlantGrower);
 				if (b == null)
 				{
-					goto IL_176;
+					goto IL_167;
 				}
 				if (!this.ExtraRequirements(b, pawn))
 				{
-					goto IL_176;
+					goto IL_167;
 				}
 				if (b.IsForbidden(pawn))
 				{
-					goto IL_176;
+					goto IL_167;
 				}
 				if (!pawn.CanReach(b, PathEndMode.OnCell, maxDanger, false, TraverseMode.ByPawn))
 				{
-					goto IL_176;
+					goto IL_167;
 				}
 				if (b.IsBurning())
 				{
-					goto IL_176;
+					goto IL_167;
 				}
 				cri = b.OccupiedRect().GetIterator();
-				goto IL_15F;
-				IL_2E0:
+				goto IL_151;
+				IL_2CD:
 				if (k < growZone.cells.Count)
 				{
 					this.$current = growZone.cells[k];
@@ -226,13 +217,12 @@ namespace RimWorld
 					return true;
 				}
 				WorkGiver_Grower.wantedPlantDef = null;
-				IL_302:
+				IL_2EE:
 				j++;
-				IL_310:
+				IL_2FC:
 				if (j >= zonesList.Count)
 				{
 					WorkGiver_Grower.wantedPlantDef = null;
-					Profiler.EndSample();
 					this.$PC = -1;
 				}
 				else
@@ -240,27 +230,27 @@ namespace RimWorld
 					growZone = (zonesList[j] as Zone_Growing);
 					if (growZone == null)
 					{
-						goto IL_302;
+						goto IL_2EE;
 					}
 					if (growZone.cells.Count == 0)
 					{
 						Log.ErrorOnce("Grow zone has 0 cells: " + growZone, -563487, false);
-						goto IL_302;
+						goto IL_2EE;
 					}
 					if (!this.ExtraRequirements(growZone, pawn))
 					{
-						goto IL_302;
+						goto IL_2EE;
 					}
 					if (growZone.ContainsStaticFire)
 					{
-						goto IL_302;
+						goto IL_2EE;
 					}
 					if (!pawn.CanReach(growZone.Cells[0], PathEndMode.OnCell, maxDanger, false, TraverseMode.ByPawn))
 					{
-						goto IL_302;
+						goto IL_2EE;
 					}
 					k = 0;
-					goto IL_2E0;
+					goto IL_2CD;
 				}
 				return false;
 			}

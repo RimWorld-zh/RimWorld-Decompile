@@ -48,26 +48,33 @@ namespace RimWorld
 			this.usesMedicine = (this.MedicineUsed != null);
 		}
 
-		public override bool TryMakePreToilReservations()
+		public override bool TryMakePreToilReservations(bool errorOnFailed)
 		{
-			bool result;
-			if (!this.pawn.Reserve(this.Deliveree, this.job, 1, -1, null))
+			Pawn pawn = this.pawn;
+			LocalTargetInfo target = this.Deliveree;
+			Job job = this.job;
+			if (!pawn.Reserve(target, job, 1, -1, null, errorOnFailed))
 			{
-				result = false;
+				return false;
 			}
-			else
+			if (this.usesMedicine)
 			{
-				if (this.usesMedicine)
+				int num = this.pawn.Map.reservationManager.CanReserveStack(this.pawn, this.MedicineUsed, 10, null, false);
+				if (num > 0)
 				{
-					int num = this.pawn.Map.reservationManager.CanReserveStack(this.pawn, this.MedicineUsed, 10, null, false);
-					if (num <= 0 || !this.pawn.Reserve(this.MedicineUsed, this.job, 10, Mathf.Min(num, Medicine.GetMedicineCountToFullyHeal(this.Deliveree)), null))
+					pawn = this.pawn;
+					target = this.MedicineUsed;
+					job = this.job;
+					int maxPawns = 10;
+					int stackCount = Mathf.Min(num, Medicine.GetMedicineCountToFullyHeal(this.Deliveree));
+					if (pawn.Reserve(target, job, maxPawns, stackCount, null, errorOnFailed))
 					{
-						return false;
+						return true;
 					}
 				}
-				result = true;
+				return false;
 			}
-			return result;
+			return true;
 		}
 
 		protected override IEnumerable<Toil> MakeNewToils()
@@ -75,44 +82,34 @@ namespace RimWorld
 			this.FailOnDespawnedNullOrForbidden(TargetIndex.A);
 			this.FailOn(delegate()
 			{
-				bool result;
 				if (!WorkGiver_Tend.GoodLayingStatusForTend(this.Deliveree, this.pawn))
 				{
-					result = true;
+					return true;
 				}
-				else
+				if (this.MedicineUsed != null && this.pawn.Faction == Faction.OfPlayer)
 				{
-					if (this.MedicineUsed != null && this.pawn.Faction == Faction.OfPlayer)
+					if (this.Deliveree.playerSettings == null)
 					{
-						if (this.Deliveree.playerSettings == null)
-						{
-							return true;
-						}
-						if (!this.Deliveree.playerSettings.medCare.AllowsMedicine(this.MedicineUsed.def))
-						{
-							return true;
-						}
+						return true;
 					}
-					result = (this.pawn == this.Deliveree && this.pawn.Faction == Faction.OfPlayer && !this.pawn.playerSettings.selfTend);
+					if (!this.Deliveree.playerSettings.medCare.AllowsMedicine(this.MedicineUsed.def))
+					{
+						return true;
+					}
 				}
-				return result;
+				return this.pawn == this.Deliveree && this.pawn.Faction == Faction.OfPlayer && !this.pawn.playerSettings.selfTend;
 			});
 			base.AddEndCondition(delegate
 			{
-				JobCondition result;
 				if (this.pawn.Faction == Faction.OfPlayer && HealthAIUtility.ShouldBeTendedNowByPlayer(this.Deliveree))
 				{
-					result = JobCondition.Ongoing;
+					return JobCondition.Ongoing;
 				}
-				else if (this.pawn.Faction != Faction.OfPlayer && this.Deliveree.health.HasHediffsNeedingTend(false))
+				if (this.pawn.Faction != Faction.OfPlayer && this.Deliveree.health.HasHediffsNeedingTend(false))
 				{
-					result = JobCondition.Ongoing;
+					return JobCondition.Ongoing;
 				}
-				else
-				{
-					result = JobCondition.Succeeded;
-				}
-				return result;
+				return JobCondition.Succeeded;
 			});
 			this.FailOnAggroMentalState(TargetIndex.A);
 			Toil reserveMedicine = null;
@@ -155,7 +152,7 @@ namespace RimWorld
 		public override void Notify_DamageTaken(DamageInfo dinfo)
 		{
 			base.Notify_DamageTaken(dinfo);
-			if (dinfo.Def.externalViolence && this.pawn.Faction != Faction.OfPlayer && this.pawn == this.Deliveree)
+			if (dinfo.Def.ExternalViolenceFor(this.pawn) && this.pawn.Faction != Faction.OfPlayer && this.pawn == this.Deliveree)
 			{
 				this.pawn.jobs.CheckForJobOverride();
 			}
@@ -198,44 +195,34 @@ namespace RimWorld
 					this.FailOnDespawnedNullOrForbidden(TargetIndex.A);
 					this.FailOn(delegate()
 					{
-						bool result;
 						if (!WorkGiver_Tend.GoodLayingStatusForTend(this.Deliveree, this.pawn))
 						{
-							result = true;
+							return true;
 						}
-						else
+						if (this.MedicineUsed != null && this.pawn.Faction == Faction.OfPlayer)
 						{
-							if (this.MedicineUsed != null && this.pawn.Faction == Faction.OfPlayer)
+							if (this.Deliveree.playerSettings == null)
 							{
-								if (this.Deliveree.playerSettings == null)
-								{
-									return true;
-								}
-								if (!this.Deliveree.playerSettings.medCare.AllowsMedicine(this.MedicineUsed.def))
-								{
-									return true;
-								}
+								return true;
 							}
-							result = (this.pawn == this.Deliveree && this.pawn.Faction == Faction.OfPlayer && !this.pawn.playerSettings.selfTend);
+							if (!this.Deliveree.playerSettings.medCare.AllowsMedicine(this.MedicineUsed.def))
+							{
+								return true;
+							}
 						}
-						return result;
+						return this.pawn == this.Deliveree && this.pawn.Faction == Faction.OfPlayer && !this.pawn.playerSettings.selfTend;
 					});
 					base.AddEndCondition(delegate
 					{
-						JobCondition result;
 						if (this.pawn.Faction == Faction.OfPlayer && HealthAIUtility.ShouldBeTendedNowByPlayer(this.Deliveree))
 						{
-							result = JobCondition.Ongoing;
+							return JobCondition.Ongoing;
 						}
-						else if (this.pawn.Faction != Faction.OfPlayer && this.Deliveree.health.HasHediffsNeedingTend(false))
+						if (this.pawn.Faction != Faction.OfPlayer && this.Deliveree.health.HasHediffsNeedingTend(false))
 						{
-							result = JobCondition.Ongoing;
+							return JobCondition.Ongoing;
 						}
-						else
-						{
-							result = JobCondition.Succeeded;
-						}
-						return result;
+						return JobCondition.Succeeded;
 					});
 					this.FailOnAggroMentalState(TargetIndex.A);
 					Toil reserveMedicine = null;
@@ -312,9 +299,9 @@ namespace RimWorld
 						}
 						return true;
 					}
-					goto IL_2E5;
+					goto IL_2E0;
 				case 8u:
-					goto IL_2E5;
+					goto IL_2E0;
 				case 9u:
 					this.$PC = -1;
 					return false;
@@ -329,7 +316,7 @@ namespace RimWorld
 					this.$PC = 5;
 				}
 				return true;
-				IL_2E5:
+				IL_2E0:
 				this.$current = Toils_Jump.Jump(gotoToil);
 				if (!this.$disposing)
 				{
@@ -399,45 +386,35 @@ namespace RimWorld
 
 				internal bool <>m__0()
 				{
-					bool result;
 					if (!WorkGiver_Tend.GoodLayingStatusForTend(this.<>f__ref$0.$this.Deliveree, this.<>f__ref$0.$this.pawn))
 					{
-						result = true;
+						return true;
 					}
-					else
+					if (this.<>f__ref$0.$this.MedicineUsed != null && this.<>f__ref$0.$this.pawn.Faction == Faction.OfPlayer)
 					{
-						if (this.<>f__ref$0.$this.MedicineUsed != null && this.<>f__ref$0.$this.pawn.Faction == Faction.OfPlayer)
+						if (this.<>f__ref$0.$this.Deliveree.playerSettings == null)
 						{
-							if (this.<>f__ref$0.$this.Deliveree.playerSettings == null)
-							{
-								return true;
-							}
-							if (!this.<>f__ref$0.$this.Deliveree.playerSettings.medCare.AllowsMedicine(this.<>f__ref$0.$this.MedicineUsed.def))
-							{
-								return true;
-							}
+							return true;
 						}
-						result = (this.<>f__ref$0.$this.pawn == this.<>f__ref$0.$this.Deliveree && this.<>f__ref$0.$this.pawn.Faction == Faction.OfPlayer && !this.<>f__ref$0.$this.pawn.playerSettings.selfTend);
+						if (!this.<>f__ref$0.$this.Deliveree.playerSettings.medCare.AllowsMedicine(this.<>f__ref$0.$this.MedicineUsed.def))
+						{
+							return true;
+						}
 					}
-					return result;
+					return this.<>f__ref$0.$this.pawn == this.<>f__ref$0.$this.Deliveree && this.<>f__ref$0.$this.pawn.Faction == Faction.OfPlayer && !this.<>f__ref$0.$this.pawn.playerSettings.selfTend;
 				}
 
 				internal JobCondition <>m__1()
 				{
-					JobCondition result;
 					if (this.<>f__ref$0.$this.pawn.Faction == Faction.OfPlayer && HealthAIUtility.ShouldBeTendedNowByPlayer(this.<>f__ref$0.$this.Deliveree))
 					{
-						result = JobCondition.Ongoing;
+						return JobCondition.Ongoing;
 					}
-					else if (this.<>f__ref$0.$this.pawn.Faction != Faction.OfPlayer && this.<>f__ref$0.$this.Deliveree.health.HasHediffsNeedingTend(false))
+					if (this.<>f__ref$0.$this.pawn.Faction != Faction.OfPlayer && this.<>f__ref$0.$this.Deliveree.health.HasHediffsNeedingTend(false))
 					{
-						result = JobCondition.Ongoing;
+						return JobCondition.Ongoing;
 					}
-					else
-					{
-						result = JobCondition.Succeeded;
-					}
-					return result;
+					return JobCondition.Succeeded;
 				}
 
 				internal void <>m__2()

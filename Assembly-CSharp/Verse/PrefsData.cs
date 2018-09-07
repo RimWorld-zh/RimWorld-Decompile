@@ -16,44 +16,46 @@ namespace Verse
 
 		public bool customCursorEnabled = true;
 
-		public bool hatsOnlyOnMap = false;
+		public bool hatsOnlyOnMap;
 
 		public bool plantWindSway = true;
 
-		public bool showRealtimeClock = false;
+		public bool showRealtimeClock;
 
-		public AnimalNameDisplayMode animalNameMode = AnimalNameDisplayMode.None;
+		public AnimalNameDisplayMode animalNameMode;
+
+		public bool extremeDifficultyUnlocked;
 
 		public bool adaptiveTrainingEnabled = true;
 
 		public List<string> preferredNames = new List<string>();
 
-		public bool resourceReadoutCategorized = false;
+		public bool resourceReadoutCategorized;
 
-		public bool runInBackground = false;
+		public bool runInBackground;
 
 		public bool edgeScreenScroll = true;
 
-		public TemperatureDisplayMode temperatureMode = TemperatureDisplayMode.Celsius;
+		public TemperatureDisplayMode temperatureMode;
 
 		public float autosaveIntervalDays = 1f;
 
-		public bool testMapSizes = false;
+		public bool testMapSizes;
 
 		[LoadAlias("maxNumberOfPlayerHomes")]
 		public int maxNumberOfPlayerSettlements = 1;
 
-		public bool pauseOnLoad = false;
+		public bool pauseOnLoad;
 
-		public bool pauseOnUrgentLetter = false;
+		public bool pauseOnUrgentLetter;
 
-		public bool devMode = false;
+		public bool devMode;
 
 		public string langFolderName = "unknown";
 
-		public bool logVerbose = false;
+		public bool logVerbose;
 
-		public bool pauseOnError = false;
+		public bool pauseOnError;
 
 		public bool resetModsConfigOnCrash = true;
 

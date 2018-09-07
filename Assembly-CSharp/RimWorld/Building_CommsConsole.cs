@@ -44,22 +44,21 @@ namespace RimWorld
 
 		private FloatMenuOption GetFailureReason(Pawn myPawn)
 		{
-			FloatMenuOption result;
 			if (!myPawn.CanReach(this, PathEndMode.InteractionCell, Danger.Some, false, TraverseMode.ByPawn))
 			{
-				result = new FloatMenuOption("CannotUseNoPath".Translate(), null, MenuOptionPriority.Default, null, null, 0f, null, null);
+				return new FloatMenuOption("CannotUseNoPath".Translate(), null, MenuOptionPriority.Default, null, null, 0f, null, null);
 			}
-			else if (base.Spawned && base.Map.gameConditionManager.ConditionIsActive(GameConditionDefOf.SolarFlare))
+			if (base.Spawned && base.Map.gameConditionManager.ConditionIsActive(GameConditionDefOf.SolarFlare))
 			{
-				result = new FloatMenuOption("CannotUseSolarFlare".Translate(), null, MenuOptionPriority.Default, null, null, 0f, null, null);
+				return new FloatMenuOption("CannotUseSolarFlare".Translate(), null, MenuOptionPriority.Default, null, null, 0f, null, null);
 			}
-			else if (!this.powerComp.PowerOn)
+			if (!this.powerComp.PowerOn)
 			{
-				result = new FloatMenuOption("CannotUseNoPower".Translate(), null, MenuOptionPriority.Default, null, null, 0f, null, null);
+				return new FloatMenuOption("CannotUseNoPower".Translate(), null, MenuOptionPriority.Default, null, null, 0f, null, null);
 			}
-			else if (!myPawn.health.capacities.CapableOf(PawnCapacityDefOf.Talking))
+			if (!myPawn.health.capacities.CapableOf(PawnCapacityDefOf.Talking))
 			{
-				result = new FloatMenuOption("CannotUseReason".Translate(new object[]
+				return new FloatMenuOption("CannotUseReason".Translate(new object[]
 				{
 					"IncapableOfCapacity".Translate(new object[]
 					{
@@ -67,23 +66,19 @@ namespace RimWorld
 					})
 				}), null, MenuOptionPriority.Default, null, null, 0f, null, null);
 			}
-			else if (myPawn.skills.GetSkill(SkillDefOf.Social).TotallyDisabled)
+			if (myPawn.skills.GetSkill(SkillDefOf.Social).TotallyDisabled)
 			{
-				result = new FloatMenuOption("CannotPrioritizeWorkTypeDisabled".Translate(new object[]
+				return new FloatMenuOption("CannotPrioritizeWorkTypeDisabled".Translate(new object[]
 				{
 					SkillDefOf.Social.LabelCap
 				}), null, MenuOptionPriority.Default, null, null, 0f, null, null);
 			}
-			else if (!this.CanUseCommsNow)
+			if (!this.CanUseCommsNow)
 			{
 				Log.Error(myPawn + " could not use comm console for unknown reason.", false);
-				result = new FloatMenuOption("Cannot use now", null, MenuOptionPriority.Default, null, null, 0f, null, null);
+				return new FloatMenuOption("Cannot use now", null, MenuOptionPriority.Default, null, null, 0f, null, null);
 			}
-			else
-			{
-				result = null;
-			}
-			return result;
+			return null;
 		}
 
 		public IEnumerable<ICommunicable> GetCommTargets(Pawn myPawn)
@@ -176,11 +171,8 @@ namespace RimWorld
 				{
 					switch (num)
 					{
-					case 2u:
-						IL_FF:
-						break;
 					}
-					if (enumerator.MoveNext())
+					while (enumerator.MoveNext())
 					{
 						commTarget = enumerator.Current;
 						option = commTarget.CommFloatMenuOption(this, myPawn);
@@ -194,7 +186,6 @@ namespace RimWorld
 							flag = true;
 							return true;
 						}
-						goto IL_FF;
 					}
 				}
 				finally

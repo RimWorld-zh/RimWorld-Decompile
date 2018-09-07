@@ -44,31 +44,23 @@ namespace RuntimeAudioClipLoader
 
 		public static AudioClip Load(string filePath, bool doStream = false, bool loadInBackground = true, bool useCache = true)
 		{
-			AudioClip result;
 			if (!Manager.IsSupportedFormat(filePath))
 			{
 				Debug.LogError("Could not load AudioClip at path '" + filePath + "' it's extensions marks unsupported format, supported formats are: " + string.Join(", ", Enum.GetNames(typeof(AudioFormat))));
-				result = null;
+				return null;
 			}
-			else
+			AudioClip audioClip = null;
+			if (useCache && Manager.cache.TryGetValue(filePath, out audioClip) && audioClip)
 			{
-				AudioClip audioClip = null;
-				if (useCache && Manager.cache.TryGetValue(filePath, out audioClip) && audioClip)
-				{
-					result = audioClip;
-				}
-				else
-				{
-					StreamReader streamReader = new StreamReader(filePath);
-					audioClip = Manager.Load(streamReader.BaseStream, Manager.GetAudioFormat(filePath), filePath, doStream, loadInBackground, true);
-					if (useCache)
-					{
-						Manager.cache[filePath] = audioClip;
-					}
-					result = audioClip;
-				}
+				return audioClip;
 			}
-			return result;
+			StreamReader streamReader = new StreamReader(filePath);
+			audioClip = Manager.Load(streamReader.BaseStream, Manager.GetAudioFormat(filePath), filePath, doStream, loadInBackground, true);
+			if (useCache)
+			{
+				Manager.cache[filePath] = audioClip;
+			}
+			return audioClip;
 		}
 
 		public static AudioClip Load(Stream dataStream, AudioFormat audioFormat, string unityAudioClipName, bool doStream = false, bool loadInBackground = true, bool diposeDataStreamIfNotNeeded = true)

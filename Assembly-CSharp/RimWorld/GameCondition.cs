@@ -71,17 +71,12 @@ namespace RimWorld
 		{
 			get
 			{
-				int result;
 				if (this.Permanent)
 				{
 					Log.ErrorOnce("Trying to get ticks left of a permanent condition.", 384767654, false);
-					result = 360000000;
+					return 360000000;
 				}
-				else
-				{
-					result = this.Duration - this.TicksPassed;
-				}
-				return result;
+				return this.Duration - this.TicksPassed;
 			}
 			set
 			{
@@ -109,17 +104,12 @@ namespace RimWorld
 		{
 			get
 			{
-				int result;
 				if (this.Permanent)
 				{
 					Log.ErrorOnce("Trying to get duration of a permanent condition.", 100394867, false);
-					result = 360000000;
+					return 360000000;
 				}
-				else
-				{
-					result = this.duration;
-				}
-				return result;
+				return this.duration;
 			}
 			set
 			{

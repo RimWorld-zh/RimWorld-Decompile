@@ -10,17 +10,12 @@ namespace RimWorld.Planet
 	{
 		public static bool IsOwner(Pawn pawn, Faction caravanFaction)
 		{
-			bool result;
 			if (caravanFaction == null)
 			{
 				Log.Warning("Called IsOwner with null faction.", false);
-				result = false;
+				return false;
 			}
-			else
-			{
-				result = (!pawn.NonHumanlikeOrWildMan() && pawn.Faction == caravanFaction && pawn.HostFaction == null);
-			}
-			return result;
+			return !pawn.NonHumanlikeOrWildMan() && pawn.Faction == caravanFaction && pawn.HostFaction == null;
 		}
 
 		public static Caravan GetCaravan(this Pawn pawn)
@@ -42,17 +37,12 @@ namespace RimWorld.Planet
 		public static int BestGotoDestNear(int tile, Caravan c)
 		{
 			Predicate<int> predicate = (int t) => !Find.World.Impassable(t) && c.CanReach(t);
-			int result;
 			if (predicate(tile))
 			{
-				result = tile;
+				return tile;
 			}
-			else
-			{
-				int num;
-				GenWorldClosest.TryFindClosestTile(tile, predicate, out num, 50, true);
-				result = num;
-			}
+			int result;
+			GenWorldClosest.TryFindClosestTile(tile, predicate, out result, 50, true);
 			return result;
 		}
 

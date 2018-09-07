@@ -94,11 +94,11 @@ namespace RimWorld
 
 		public class LogDrawData
 		{
-			public bool alternatingBackground = false;
+			public bool alternatingBackground;
 
-			public LogEntry highlightEntry = null;
+			public LogEntry highlightEntry;
 
-			public float highlightIntensity = 0f;
+			public float highlightIntensity;
 
 			public LogDrawData()
 			{
@@ -318,7 +318,7 @@ namespace RimWorld
 					currentBattle = null;
 					if (!showCombat)
 					{
-						goto IL_39A;
+						goto IL_38B;
 					}
 					atTop = true;
 					enumerator = Find.BattleLog.Battles.GetEnumerator();
@@ -332,9 +332,24 @@ namespace RimWorld
 					break;
 				case 6u:
 					currentBattle = null;
-					goto IL_3D8;
+					goto IL_3C6;
 				case 7u:
-					goto IL_41B;
+					IL_408:
+					if (nonCombatIndex >= nonCombatLines.Length)
+					{
+						this.$PC = -1;
+						return false;
+					}
+					if (currentBattle != null)
+					{
+						this.$current = new ITab_Pawn_Log_Utility.LogLineDisplayableGap(ITab_Pawn_Log_Utility.BattleBottomPadding);
+						if (!this.$disposing)
+						{
+							this.$PC = 6;
+						}
+						return true;
+					}
+					goto IL_3C6;
 				default:
 					return false;
 				}
@@ -354,12 +369,12 @@ namespace RimWorld
 							{
 							case 1u:
 								currentBattle = null;
-								goto IL_20B;
+								goto IL_202;
 							case 2u:
 								atTop = false;
-								goto IL_257;
+								goto IL_24D;
 							case 3u:
-								IL_2CF:
+								IL_2C4:
 								this.$current = new ITab_Pawn_Log_Utility.LogLineDisplayableHeader(battle.GetName());
 								if (!this.$disposing)
 								{
@@ -370,18 +385,18 @@ namespace RimWorld
 							case 4u:
 								currentBattle = battle;
 								atTop = false;
-								goto IL_30F;
+								goto IL_303;
 							}
 							while (enumerator2.MoveNext())
 							{
 								entry = enumerator2.Current;
 								if (entry.Concerns(<GenerateLogLinesFor>c__AnonStorey.pawn) && (showAll || entry.ShowInCompactView()))
 								{
-									goto IL_257;
+									goto IL_24D;
 								}
 							}
 							break;
-							IL_20B:
+							IL_202:
 							this.$current = new ITab_Pawn_Log_Utility.LogLineDisplayableLog(nonCombatLines[nonCombatIndex++], <GenerateLogLinesFor>c__AnonStorey.pawn);
 							if (!this.$disposing)
 							{
@@ -389,7 +404,7 @@ namespace RimWorld
 							}
 							flag = true;
 							return true;
-							IL_257:
+							IL_24D:
 							if (nonCombatIndex >= nonCombatLines.Length || nonCombatLines[nonCombatIndex].Age >= entry.Age)
 							{
 								if (currentBattle != battle)
@@ -404,7 +419,7 @@ namespace RimWorld
 										flag = true;
 										return true;
 									}
-									goto IL_2CF;
+									goto IL_2C4;
 								}
 							}
 							else
@@ -419,9 +434,9 @@ namespace RimWorld
 									flag = true;
 									return true;
 								}
-								goto IL_20B;
+								goto IL_202;
 							}
-							IL_30F:
+							IL_303:
 							this.$current = new ITab_Pawn_Log_Utility.LogLineDisplayableLog(entry, <GenerateLogLinesFor>c__AnonStorey.pawn);
 							if (!this.$disposing)
 							{
@@ -457,34 +472,15 @@ namespace RimWorld
 						((IDisposable)enumerator).Dispose();
 					}
 				}
-				IL_39A:
-				goto IL_41B;
-				IL_3D8:
+				IL_38B:
+				goto IL_408;
+				IL_3C6:
 				this.$current = new ITab_Pawn_Log_Utility.LogLineDisplayableLog(nonCombatLines[nonCombatIndex++], <GenerateLogLinesFor>c__AnonStorey.pawn);
 				if (!this.$disposing)
 				{
 					this.$PC = 7;
 				}
 				return true;
-				IL_41B:
-				if (nonCombatIndex >= nonCombatLines.Length)
-				{
-					this.$PC = -1;
-				}
-				else
-				{
-					if (currentBattle != null)
-					{
-						this.$current = new ITab_Pawn_Log_Utility.LogLineDisplayableGap(ITab_Pawn_Log_Utility.BattleBottomPadding);
-						if (!this.$disposing)
-						{
-							this.$PC = 6;
-						}
-						return true;
-					}
-					goto IL_3D8;
-				}
-				return false;
 			}
 
 			ITab_Pawn_Log_Utility.LogLineDisplayable IEnumerator<ITab_Pawn_Log_Utility.LogLineDisplayable>.Current

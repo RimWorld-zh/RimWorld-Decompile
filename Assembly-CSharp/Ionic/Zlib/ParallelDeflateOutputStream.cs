@@ -189,63 +189,65 @@ namespace Ionic.Zlib
 				this._pendingException = null;
 				throw pendingException;
 			}
-			if (count != 0)
+			if (count == 0)
 			{
-				if (!this._firstWriteDone)
-				{
-					this._InitializePoolOfWorkItems();
-					this._firstWriteDone = true;
-				}
-				for (;;)
-				{
-					this.EmitPendingBuffers(false, mustWait);
-					mustWait = false;
-					int num;
-					if (this._currentlyFilling >= 0)
-					{
-						num = this._currentlyFilling;
-						goto IL_BD;
-					}
-					if (this._toFill.Count != 0)
-					{
-						num = this._toFill.Dequeue();
-						this._lastFilled++;
-						goto IL_BD;
-					}
-					mustWait = true;
-					IL_184:
-					if (count <= 0)
-					{
-						return;
-					}
-					continue;
-					IL_BD:
-					WorkItem workItem = this._pool[num];
-					int num2 = (workItem.buffer.Length - workItem.inputBytesAvailable <= count) ? (workItem.buffer.Length - workItem.inputBytesAvailable) : count;
-					workItem.ordinal = this._lastFilled;
-					Buffer.BlockCopy(buffer, offset, workItem.buffer, workItem.inputBytesAvailable, num2);
-					count -= num2;
-					offset += num2;
-					workItem.inputBytesAvailable += num2;
-					if (workItem.inputBytesAvailable == workItem.buffer.Length)
-					{
-						if (!ThreadPool.QueueUserWorkItem(new WaitCallback(this._DeflateOne), workItem))
-						{
-							break;
-						}
-						this._currentlyFilling = -1;
-					}
-					else
-					{
-						this._currentlyFilling = num;
-					}
-					if (count > 0)
-					{
-					}
-					goto IL_184;
-				}
-				throw new Exception("Cannot enqueue workitem");
+				return;
 			}
+			if (!this._firstWriteDone)
+			{
+				this._InitializePoolOfWorkItems();
+				this._firstWriteDone = true;
+			}
+			for (;;)
+			{
+				this.EmitPendingBuffers(false, mustWait);
+				mustWait = false;
+				int num;
+				if (this._currentlyFilling >= 0)
+				{
+					num = this._currentlyFilling;
+					goto IL_AF;
+				}
+				if (this._toFill.Count != 0)
+				{
+					num = this._toFill.Dequeue();
+					this._lastFilled++;
+					goto IL_AF;
+				}
+				mustWait = true;
+				IL_173:
+				if (count <= 0)
+				{
+					return;
+				}
+				continue;
+				IL_AF:
+				WorkItem workItem = this._pool[num];
+				int num2 = (workItem.buffer.Length - workItem.inputBytesAvailable <= count) ? (workItem.buffer.Length - workItem.inputBytesAvailable) : count;
+				workItem.ordinal = this._lastFilled;
+				Buffer.BlockCopy(buffer, offset, workItem.buffer, workItem.inputBytesAvailable, num2);
+				count -= num2;
+				offset += num2;
+				workItem.inputBytesAvailable += num2;
+				if (workItem.inputBytesAvailable == workItem.buffer.Length)
+				{
+					if (!ThreadPool.QueueUserWorkItem(new WaitCallback(this._DeflateOne), workItem))
+					{
+						break;
+					}
+					this._currentlyFilling = -1;
+				}
+				else
+				{
+					this._currentlyFilling = num;
+				}
+				if (count > 0)
+				{
+					goto IL_173;
+				}
+				goto IL_173;
+			}
+			throw new Exception("Cannot enqueue workitem");
 		}
 
 		private void _FlushFinish()
@@ -278,23 +280,24 @@ namespace Ionic.Zlib
 			{
 				throw new InvalidOperationException();
 			}
-			if (!this.emitting)
+			if (this.emitting)
 			{
-				if (this._currentlyFilling >= 0)
-				{
-					WorkItem wi = this._pool[this._currentlyFilling];
-					this._DeflateOne(wi);
-					this._currentlyFilling = -1;
-				}
-				if (lastInput)
-				{
-					this.EmitPendingBuffers(true, false);
-					this._FlushFinish();
-				}
-				else
-				{
-					this.EmitPendingBuffers(false, false);
-				}
+				return;
+			}
+			if (this._currentlyFilling >= 0)
+			{
+				WorkItem wi = this._pool[this._currentlyFilling];
+				this._DeflateOne(wi);
+				this._currentlyFilling = -1;
+			}
+			if (lastInput)
+			{
+				this.EmitPendingBuffers(true, false);
+				this._FlushFinish();
+			}
+			else
+			{
+				this.EmitPendingBuffers(false, false);
 			}
 		}
 
@@ -307,10 +310,11 @@ namespace Ionic.Zlib
 				this._pendingException = null;
 				throw pendingException;
 			}
-			if (!this._handlingException)
+			if (this._handlingException)
 			{
-				this._Flush(false);
+				return;
 			}
+			this._Flush(false);
 		}
 
 		public override void Close()
@@ -322,18 +326,20 @@ namespace Ionic.Zlib
 				this._pendingException = null;
 				throw pendingException;
 			}
-			if (!this._handlingException)
+			if (this._handlingException)
 			{
-				if (!this._isClosed)
-				{
-					this._Flush(true);
-					if (!this._leaveOpen)
-					{
-						this._outStream.Close();
-					}
-					this._isClosed = true;
-				}
+				return;
 			}
+			if (this._isClosed)
+			{
+				return;
+			}
+			this._Flush(true);
+			if (!this._leaveOpen)
+			{
+				this._outStream.Close();
+			}
+			this._isClosed = true;
 		}
 
 		public new void Dispose()
@@ -350,109 +356,105 @@ namespace Ionic.Zlib
 
 		public void Reset(Stream stream)
 		{
-			if (this._firstWriteDone)
+			if (!this._firstWriteDone)
 			{
-				this._toWrite.Clear();
-				this._toFill.Clear();
-				foreach (WorkItem workItem in this._pool)
-				{
-					this._toFill.Enqueue(workItem.index);
-					workItem.ordinal = -1;
-				}
-				this._firstWriteDone = false;
-				this._totalBytesProcessed = 0L;
-				this._runningCrc = new CRC32();
-				this._isClosed = false;
-				this._currentlyFilling = -1;
-				this._lastFilled = -1;
-				this._lastWritten = -1;
-				this._latestCompressed = -1;
-				this._outStream = stream;
+				return;
 			}
+			this._toWrite.Clear();
+			this._toFill.Clear();
+			foreach (WorkItem workItem in this._pool)
+			{
+				this._toFill.Enqueue(workItem.index);
+				workItem.ordinal = -1;
+			}
+			this._firstWriteDone = false;
+			this._totalBytesProcessed = 0L;
+			this._runningCrc = new CRC32();
+			this._isClosed = false;
+			this._currentlyFilling = -1;
+			this._lastFilled = -1;
+			this._lastWritten = -1;
+			this._latestCompressed = -1;
+			this._outStream = stream;
 		}
 
 		private void EmitPendingBuffers(bool doAll, bool mustWait)
 		{
-			if (!this.emitting)
+			if (this.emitting)
 			{
-				this.emitting = true;
-				if (doAll || mustWait)
-				{
-					this._newlyCompressedBlob.WaitOne();
-				}
+				return;
+			}
+			this.emitting = true;
+			if (doAll || mustWait)
+			{
+				this._newlyCompressedBlob.WaitOne();
+			}
+			do
+			{
+				int num = -1;
+				int num2 = (!doAll) ? ((!mustWait) ? 0 : -1) : 200;
+				int num3 = -1;
 				do
 				{
-					int num = -1;
-					int num2 = (!doAll) ? ((!mustWait) ? 0 : -1) : 200;
-					int num3 = -1;
-					for (;;)
+					if (Monitor.TryEnter(this._toWrite, num2))
 					{
-						if (Monitor.TryEnter(this._toWrite, num2))
+						num3 = -1;
+						try
 						{
-							num3 = -1;
-							try
+							if (this._toWrite.Count > 0)
 							{
-								if (this._toWrite.Count > 0)
-								{
-									num3 = this._toWrite.Dequeue();
-								}
+								num3 = this._toWrite.Dequeue();
 							}
-							finally
+						}
+						finally
+						{
+							Monitor.Exit(this._toWrite);
+						}
+						if (num3 >= 0)
+						{
+							WorkItem workItem = this._pool[num3];
+							if (workItem.ordinal != this._lastWritten + 1)
 							{
-								Monitor.Exit(this._toWrite);
-							}
-							if (num3 >= 0)
-							{
-								WorkItem workItem = this._pool[num3];
-								if (workItem.ordinal != this._lastWritten + 1)
+								object toWrite = this._toWrite;
+								lock (toWrite)
 								{
-									object toWrite = this._toWrite;
-									lock (toWrite)
-									{
-										this._toWrite.Enqueue(num3);
-									}
-									if (num == num3)
-									{
-										this._newlyCompressedBlob.WaitOne();
-										num = -1;
-									}
-									else if (num == -1)
-									{
-										num = num3;
-									}
+									this._toWrite.Enqueue(num3);
 								}
-								else
+								if (num == num3)
 								{
+									this._newlyCompressedBlob.WaitOne();
 									num = -1;
-									this._outStream.Write(workItem.compressed, 0, workItem.compressedBytesAvailable);
-									this._runningCrc.Combine(workItem.crc, workItem.inputBytesAvailable);
-									this._totalBytesProcessed += (long)workItem.inputBytesAvailable;
-									workItem.inputBytesAvailable = 0;
-									this._lastWritten = workItem.ordinal;
-									this._toFill.Enqueue(workItem.index);
-									if (num2 == -1)
-									{
-										num2 = 0;
-									}
+								}
+								else if (num == -1)
+								{
+									num = num3;
+								}
+							}
+							else
+							{
+								num = -1;
+								this._outStream.Write(workItem.compressed, 0, workItem.compressedBytesAvailable);
+								this._runningCrc.Combine(workItem.crc, workItem.inputBytesAvailable);
+								this._totalBytesProcessed += (long)workItem.inputBytesAvailable;
+								workItem.inputBytesAvailable = 0;
+								this._lastWritten = workItem.ordinal;
+								this._toFill.Enqueue(workItem.index);
+								if (num2 == -1)
+								{
+									num2 = 0;
 								}
 							}
 						}
-						else
-						{
-							num3 = -1;
-						}
-						IL_193:
-						if (num3 < 0)
-						{
-							break;
-						}
-						continue;
-						goto IL_193;
+					}
+					else
+					{
+						num3 = -1;
 					}
 				}
-				while (doAll && this._lastWritten != this._latestCompressed);
-				this.emitting = false;
+				while (num3 >= 0);
 			}
+			while (doAll && this._lastWritten != this._latestCompressed);
+			this.emitting = false;
 		}
 
 		private void _DeflateOne(object wi)

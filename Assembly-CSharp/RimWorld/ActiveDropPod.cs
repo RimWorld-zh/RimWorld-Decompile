@@ -8,7 +8,7 @@ namespace RimWorld
 {
 	public class ActiveDropPod : Thing, IActiveDropPod, IThingHolder
 	{
-		public int age = 0;
+		public int age;
 
 		private ActiveDropPodInfo contents;
 
@@ -65,16 +65,17 @@ namespace RimWorld
 
 		public override void Tick()
 		{
-			if (this.contents != null)
+			if (this.contents == null)
 			{
-				this.contents.innerContainer.ThingOwnerTick(true);
-				if (base.Spawned)
+				return;
+			}
+			this.contents.innerContainer.ThingOwnerTick(true);
+			if (base.Spawned)
+			{
+				this.age++;
+				if (this.age > this.contents.openDelay)
 				{
-					this.age++;
-					if (this.age > this.contents.openDelay)
-					{
-						this.PodOpen();
-					}
+					this.PodOpen();
 				}
 			}
 		}

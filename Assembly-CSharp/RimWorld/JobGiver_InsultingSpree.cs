@@ -13,16 +13,11 @@ namespace RimWorld
 		protected override Job TryGiveJob(Pawn pawn)
 		{
 			MentalState_InsultingSpree mentalState_InsultingSpree = pawn.MentalState as MentalState_InsultingSpree;
-			Job result;
 			if (mentalState_InsultingSpree == null || mentalState_InsultingSpree.target == null || !pawn.CanReach(mentalState_InsultingSpree.target, PathEndMode.Touch, Danger.Deadly, false, TraverseMode.ByPawn))
 			{
-				result = null;
+				return null;
 			}
-			else
-			{
-				result = new Job(JobDefOf.Insult, mentalState_InsultingSpree.target);
-			}
-			return result;
+			return new Job(JobDefOf.Insult, mentalState_InsultingSpree.target);
 		}
 	}
 }

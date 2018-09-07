@@ -41,16 +41,11 @@ namespace RimWorld
 			get
 			{
 				Thing ingestibleSource = this.IngestibleSource;
-				float result;
 				if (ingestibleSource.def.ingestible != null && !ingestibleSource.def.ingestible.useEatingSpeedStat)
 				{
-					result = 1f;
+					return 1f;
 				}
-				else
-				{
-					result = 1f / this.pawn.GetStatValue(StatDefOf.EatingSpeed, true);
-				}
-				return result;
+				return 1f / this.pawn.GetStatValue(StatDefOf.EatingSpeed, true);
 			}
 		}
 
@@ -63,28 +58,23 @@ namespace RimWorld
 
 		public override string GetReport()
 		{
-			string result;
 			if (this.usingNutrientPasteDispenser)
 			{
-				result = this.job.def.reportString.Replace("TargetA", ThingDefOf.MealNutrientPaste.label);
+				return this.job.def.reportString.Replace("TargetA", ThingDefOf.MealNutrientPaste.label);
 			}
-			else
+			Thing thing = this.job.targetA.Thing;
+			if (thing != null && thing.def.ingestible != null)
 			{
-				Thing thing = this.job.targetA.Thing;
-				if (thing != null && thing.def.ingestible != null)
+				if (!thing.def.ingestible.ingestReportStringEat.NullOrEmpty() && (thing.def.ingestible.ingestReportString.NullOrEmpty() || this.pawn.RaceProps.intelligence < Intelligence.ToolUser))
 				{
-					if (!thing.def.ingestible.ingestReportStringEat.NullOrEmpty() && (thing.def.ingestible.ingestReportString.NullOrEmpty() || this.pawn.RaceProps.intelligence < Intelligence.ToolUser))
-					{
-						return string.Format(thing.def.ingestible.ingestReportStringEat, this.job.targetA.Thing.LabelShort);
-					}
-					if (!thing.def.ingestible.ingestReportString.NullOrEmpty())
-					{
-						return string.Format(thing.def.ingestible.ingestReportString, this.job.targetA.Thing.LabelShort);
-					}
+					return string.Format(thing.def.ingestible.ingestReportStringEat, this.job.targetA.Thing.LabelShort);
 				}
-				result = base.GetReport();
+				if (!thing.def.ingestible.ingestReportString.NullOrEmpty())
+				{
+					return string.Format(thing.def.ingestible.ingestReportString, this.job.targetA.Thing.LabelShort);
+				}
 			}
-			return result;
+			return base.GetReport();
 		}
 
 		public override void Notify_Starting()
@@ -94,7 +84,7 @@ namespace RimWorld
 			this.eatingFromInventory = (this.pawn.inventory != null && this.pawn.inventory.Contains(this.IngestibleSource));
 		}
 
-		public override bool TryMakePreToilReservations()
+		public override bool TryMakePreToilReservations(bool errorOnFailed)
 		{
 			if (this.pawn.Faction != null && !(this.IngestibleSource is Building_NutrientPasteDispenser))
 			{
@@ -102,7 +92,10 @@ namespace RimWorld
 				int num = FoodUtility.WillIngestStackCountOf(this.pawn, ingestibleSource.def, ingestibleSource.GetStatValue(StatDefOf.Nutrition, true));
 				if (num >= ingestibleSource.stackCount && ingestibleSource.Spawned)
 				{
-					if (!this.pawn.Reserve(ingestibleSource, this.job, 1, -1, null))
+					Pawn pawn = this.pawn;
+					LocalTargetInfo target = ingestibleSource;
+					Job job = this.job;
+					if (!pawn.Reserve(target, job, 1, -1, null, errorOnFailed))
 					{
 						return false;
 					}
@@ -130,20 +123,15 @@ namespace RimWorld
 
 		private IEnumerable<Toil> PrepareToIngestToils(Toil chewToil)
 		{
-			IEnumerable<Toil> result;
 			if (this.usingNutrientPasteDispenser)
 			{
-				result = this.PrepareToIngestToils_Dispenser();
+				return this.PrepareToIngestToils_Dispenser();
 			}
-			else if (this.pawn.RaceProps.ToolUser)
+			if (this.pawn.RaceProps.ToolUser)
 			{
-				result = this.PrepareToIngestToils_ToolUser(chewToil);
+				return this.PrepareToIngestToils_ToolUser(chewToil);
 			}
-			else
-			{
-				result = this.PrepareToIngestToils_NonToolUser();
-			}
-			return result;
+			return this.PrepareToIngestToils_NonToolUser();
 		}
 
 		private IEnumerable<Toil> PrepareToIngestToils_Dispenser()
@@ -209,24 +197,24 @@ namespace RimWorld
 			{
 				initAction = delegate()
 				{
-					if (this.pawn.Faction != null)
+					if (this.pawn.Faction == null)
 					{
-						Thing thing = this.job.GetTarget(TargetIndex.A).Thing;
-						if (this.pawn.carryTracker.CarriedThing != thing)
+						return;
+					}
+					Thing thing = this.job.GetTarget(TargetIndex.A).Thing;
+					if (this.pawn.carryTracker.CarriedThing == thing)
+					{
+						return;
+					}
+					int num = FoodUtility.WillIngestStackCountOf(this.pawn, thing.def, thing.GetStatValue(StatDefOf.Nutrition, true));
+					if (num >= thing.stackCount)
+					{
+						if (!thing.Spawned)
 						{
-							int num = FoodUtility.WillIngestStackCountOf(this.pawn, thing.def, thing.GetStatValue(StatDefOf.Nutrition, true));
-							if (num >= thing.stackCount)
-							{
-								if (!thing.Spawned)
-								{
-									this.pawn.jobs.EndCurrentJob(JobCondition.Incompletable, true);
-								}
-								else
-								{
-									this.pawn.Reserve(thing, this.job, 1, -1, null);
-								}
-							}
+							this.pawn.jobs.EndCurrentJob(JobCondition.Incompletable, true);
+							return;
 						}
+						this.pawn.Reserve(thing, this.job, 1, -1, null, true);
 					}
 				},
 				defaultCompleteMode = ToilCompleteMode.Instant,
@@ -242,63 +230,55 @@ namespace RimWorld
 
 		public static bool ModifyCarriedThingDrawPosWorker(ref Vector3 drawPos, ref bool behind, ref bool flip, IntVec3 placeCell, Pawn pawn)
 		{
-			bool result;
 			if (pawn.pather.Moving)
 			{
-				result = false;
+				return false;
 			}
-			else
+			Thing carriedThing = pawn.carryTracker.CarriedThing;
+			if (carriedThing == null || !carriedThing.IngestibleNow)
 			{
-				Thing carriedThing = pawn.carryTracker.CarriedThing;
-				if (carriedThing == null || !carriedThing.IngestibleNow)
+				return false;
+			}
+			if (placeCell.IsValid && placeCell.AdjacentToCardinal(pawn.Position) && placeCell.HasEatSurface(pawn.Map) && carriedThing.def.ingestible.ingestHoldUsesTable)
+			{
+				drawPos = new Vector3((float)placeCell.x + 0.5f, drawPos.y, (float)placeCell.z + 0.5f);
+				return true;
+			}
+			if (carriedThing.def.ingestible.ingestHoldOffsetStanding != null)
+			{
+				HoldOffset holdOffset = carriedThing.def.ingestible.ingestHoldOffsetStanding.Pick(pawn.Rotation);
+				if (holdOffset != null)
 				{
-					result = false;
-				}
-				else if (placeCell.IsValid && placeCell.AdjacentToCardinal(pawn.Position) && placeCell.HasEatSurface(pawn.Map) && carriedThing.def.ingestible.ingestHoldUsesTable)
-				{
-					drawPos = new Vector3((float)placeCell.x + 0.5f, drawPos.y, (float)placeCell.z + 0.5f);
-					result = true;
-				}
-				else
-				{
-					if (carriedThing.def.ingestible.ingestHoldOffsetStanding != null)
-					{
-						HoldOffset holdOffset = carriedThing.def.ingestible.ingestHoldOffsetStanding.Pick(pawn.Rotation);
-						if (holdOffset != null)
-						{
-							drawPos += holdOffset.offset;
-							behind = holdOffset.behind;
-							flip = holdOffset.flip;
-							return true;
-						}
-					}
-					result = false;
+					drawPos += holdOffset.offset;
+					behind = holdOffset.behind;
+					flip = holdOffset.flip;
+					return true;
 				}
 			}
-			return result;
+			return false;
 		}
 
 		[CompilerGenerated]
 		private void <ReserveFoodIfWillIngestWholeStack>m__0()
 		{
-			if (this.pawn.Faction != null)
+			if (this.pawn.Faction == null)
 			{
-				Thing thing = this.job.GetTarget(TargetIndex.A).Thing;
-				if (this.pawn.carryTracker.CarriedThing != thing)
+				return;
+			}
+			Thing thing = this.job.GetTarget(TargetIndex.A).Thing;
+			if (this.pawn.carryTracker.CarriedThing == thing)
+			{
+				return;
+			}
+			int num = FoodUtility.WillIngestStackCountOf(this.pawn, thing.def, thing.GetStatValue(StatDefOf.Nutrition, true));
+			if (num >= thing.stackCount)
+			{
+				if (!thing.Spawned)
 				{
-					int num = FoodUtility.WillIngestStackCountOf(this.pawn, thing.def, thing.GetStatValue(StatDefOf.Nutrition, true));
-					if (num >= thing.stackCount)
-					{
-						if (!thing.Spawned)
-						{
-							this.pawn.jobs.EndCurrentJob(JobCondition.Incompletable, true);
-						}
-						else
-						{
-							this.pawn.Reserve(thing, this.job, 1, -1, null);
-						}
-					}
+					this.pawn.jobs.EndCurrentJob(JobCondition.Incompletable, true);
+					return;
 				}
+				this.pawn.Reserve(thing, this.job, 1, -1, null, true);
 			}
 		}
 

@@ -76,15 +76,15 @@ namespace RimWorld
 					maps = Find.Maps;
 					ofPlayer = Faction.OfPlayer;
 					i = 0;
-					goto IL_113;
+					goto IL_10E;
 				case 1u:
-					IL_DF:
+					IL_DC:
 					j++;
 					break;
 				default:
 					return false;
 				}
-				IL_EE:
+				IL_EA:
 				if (j >= bList.Count)
 				{
 					i++;
@@ -100,14 +100,14 @@ namespace RimWorld
 						}
 						return true;
 					}
-					goto IL_DF;
+					goto IL_DC;
 				}
-				IL_113:
+				IL_10E:
 				if (i < maps.Count)
 				{
 					bList = maps[i].listerThings.ThingsOfDef(ThingDefOf.BilliardsTable);
 					j = 0;
-					goto IL_EE;
+					goto IL_EA;
 				}
 				this.$PC = -1;
 				return false;

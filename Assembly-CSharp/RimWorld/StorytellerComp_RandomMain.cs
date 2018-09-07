@@ -30,42 +30,41 @@ namespace RimWorld
 		{
 			if (Rand.MTBEventOccurs(this.Props.mtbDays, 60000f, 1000f))
 			{
+				bool targetIsRaidBeacon = target.IncidentTargetTags().Contains(IncidentTargetTagDefOf.Map_RaidBeacon);
 				List<IncidentCategoryDef> triedCategories = new List<IncidentCategoryDef>();
-				IEnumerable<IncidentDef> options;
+				IncidentDef incDef;
 				for (;;)
 				{
-					if (triedCategories.Count >= this.Props.categoryWeights.Count)
+					IncidentCategoryDef category = this.ChooseRandomCategory(target, triedCategories);
+					IncidentParms parms = this.GenerateParms(category, target);
+					IEnumerable<IncidentDef> options = from d in base.UsableIncidentsInCategory(category, target)
+					where !d.NeedsParmsPoints || parms.points >= d.minThreatPoints
+					select d;
+					if (options.TryRandomElementByWeight(new Func<IncidentDef, float>(base.IncidentChanceFinal), out incDef))
 					{
 						break;
 					}
-					IncidentCategoryDef incidentCategoryDef = this.DecideCategory(target, triedCategories);
-					triedCategories.Add(incidentCategoryDef);
-					IncidentParms parms = this.GenerateParms(incidentCategoryDef, target);
-					options = from d in base.UsableIncidentsInCategory(incidentCategoryDef, target)
-					where !d.NeedsParmsPoints || d.minThreatPoints <= parms.points
-					select d;
-					if (options.Any<IncidentDef>())
+					triedCategories.Add(category);
+					if (triedCategories.Count >= this.Props.categoryWeights.Count)
 					{
-						goto Block_3;
+						goto Block_6;
 					}
 				}
-				yield break;
-				Block_3:
-				IncidentDef incDef;
-				if (options.TryRandomElementByWeight(new Func<IncidentDef, float>(base.IncidentChanceFinal), out incDef))
+				if (!this.Props.skipThreatBigIfRaidBeacon || !targetIsRaidBeacon || incDef.category != IncidentCategoryDefOf.ThreatBig)
 				{
-					yield return new FiringIncident(incDef, this, this.GenerateParms(incDef.category, target));
+					yield return new FiringIncident(incDef, this, <MakeIntervalIncidents>c__AnonStorey.parms);
 				}
+				Block_6:;
 			}
 			yield break;
 		}
 
-		private IncidentCategoryDef DecideCategory(IIncidentTarget target, List<IncidentCategoryDef> skipCategories)
+		private IncidentCategoryDef ChooseRandomCategory(IIncidentTarget target, List<IncidentCategoryDef> skipCategories)
 		{
 			if (!skipCategories.Contains(IncidentCategoryDefOf.ThreatBig))
 			{
 				int num = Find.TickManager.TicksGame - target.StoryState.LastThreatBigTick;
-				if ((float)num > 60000f * this.Props.maxThreatBigIntervalDays)
+				if (target.StoryState.LastThreatBigTick >= 0 && (float)num > 60000f * this.Props.maxThreatBigIntervalDays)
 				{
 					return IncidentCategoryDefOf.ThreatBig;
 				}
@@ -78,12 +77,12 @@ namespace RimWorld
 		public override IncidentParms GenerateParms(IncidentCategoryDef incCat, IIncidentTarget target)
 		{
 			IncidentParms incidentParms = StorytellerUtility.DefaultParmsNow(incCat, target);
-			incidentParms.points *= Rand.Range(0.5f, 1.5f);
+			incidentParms.points *= this.Props.randomPointsFactorRange.RandomInRange;
 			return incidentParms;
 		}
 
 		[CompilerGenerated]
-		private static float <DecideCategory>m__0(IncidentCategoryEntry cw)
+		private static float <ChooseRandomCategory>m__0(IncidentCategoryEntry cw)
 		{
 			return cw.weight;
 		}
@@ -91,13 +90,17 @@ namespace RimWorld
 		[CompilerGenerated]
 		private sealed class <MakeIntervalIncidents>c__Iterator0 : IEnumerable, IEnumerable<FiringIncident>, IEnumerator, IDisposable, IEnumerator<FiringIncident>
 		{
+			internal IIncidentTarget target;
+
+			internal bool <targetIsRaidBeacon>__1;
+
 			internal List<IncidentCategoryDef> <triedCategories>__1;
 
-			internal IIncidentTarget target;
+			internal IncidentCategoryDef <category>__2;
 
 			internal IEnumerable<IncidentDef> <options>__2;
 
-			internal IncidentDef <incDef>__1;
+			internal IncidentDef <incDef>__2;
 
 			internal StorytellerComp_RandomMain $this;
 
@@ -106,6 +109,8 @@ namespace RimWorld
 			internal bool $disposing;
 
 			internal int $PC;
+
+			private StorytellerComp_RandomMain.<MakeIntervalIncidents>c__Iterator0.<MakeIntervalIncidents>c__AnonStorey1 $locvar0;
 
 			[DebuggerHidden]
 			public <MakeIntervalIncidents>c__Iterator0()
@@ -121,35 +126,35 @@ namespace RimWorld
 				case 0u:
 					if (Rand.MTBEventOccurs(base.Props.mtbDays, 60000f, 1000f))
 					{
+						targetIsRaidBeacon = target.IncidentTargetTags().Contains(IncidentTargetTagDefOf.Map_RaidBeacon);
 						triedCategories = new List<IncidentCategoryDef>();
 						for (;;)
 						{
-							if (triedCategories.Count >= base.Props.categoryWeights.Count)
+							category = base.ChooseRandomCategory(target, triedCategories);
+							IncidentParms parms = this.GenerateParms(category, target);
+							options = from d in base.UsableIncidentsInCategory(category, target)
+							where !d.NeedsParmsPoints || parms.points >= d.minThreatPoints
+							select d;
+							if (options.TryRandomElementByWeight(new Func<IncidentDef, float>(base.IncidentChanceFinal), out incDef))
 							{
 								break;
 							}
-							IncidentCategoryDef incidentCategoryDef = base.DecideCategory(target, triedCategories);
-							triedCategories.Add(incidentCategoryDef);
-							IncidentParms parms = this.GenerateParms(incidentCategoryDef, target);
-							options = from d in base.UsableIncidentsInCategory(incidentCategoryDef, target)
-							where !d.NeedsParmsPoints || d.minThreatPoints <= parms.points
-							select d;
-							if (options.Any<IncidentDef>())
+							triedCategories.Add(category);
+							if (triedCategories.Count >= base.Props.categoryWeights.Count)
 							{
-								goto Block_4;
+								goto Block_8;
 							}
 						}
-						return false;
-						Block_4:
-						if (options.TryRandomElementByWeight(new Func<IncidentDef, float>(base.IncidentChanceFinal), out incDef))
+						if (!base.Props.skipThreatBigIfRaidBeacon || !targetIsRaidBeacon || incDef.category != IncidentCategoryDefOf.ThreatBig)
 						{
-							this.$current = new FiringIncident(incDef, this, this.GenerateParms(incDef.category, target));
+							this.$current = new FiringIncident(incDef, this, <MakeIntervalIncidents>c__AnonStorey.parms);
 							if (!this.$disposing)
 							{
 								this.$PC = 1;
 							}
 							return true;
 						}
+						Block_8:;
 					}
 					break;
 				case 1u:
@@ -223,17 +228,17 @@ namespace RimWorld
 
 				internal bool <>m__0(IncidentDef d)
 				{
-					return !d.NeedsParmsPoints || d.minThreatPoints <= this.parms.points;
+					return !d.NeedsParmsPoints || this.parms.points >= d.minThreatPoints;
 				}
 			}
 		}
 
 		[CompilerGenerated]
-		private sealed class <DecideCategory>c__AnonStorey2
+		private sealed class <ChooseRandomCategory>c__AnonStorey2
 		{
 			internal List<IncidentCategoryDef> skipCategories;
 
-			public <DecideCategory>c__AnonStorey2()
+			public <ChooseRandomCategory>c__AnonStorey2()
 			{
 			}
 

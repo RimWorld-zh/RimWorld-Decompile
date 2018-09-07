@@ -19,12 +19,9 @@ namespace RimWorld
 		{
 			base.PostExposeData();
 			Scribe_Collections.Look<ThingDef>(ref this.ingredients, "ingredients", LookMode.Def, new object[0]);
-			if (Scribe.mode == LoadSaveMode.PostLoadInit)
+			if (Scribe.mode == LoadSaveMode.PostLoadInit && this.ingredients == null)
 			{
-				if (this.ingredients == null)
-				{
-					this.ingredients = new List<ThingDef>();
-				}
+				this.ingredients = new List<ThingDef>();
 			}
 		}
 
@@ -79,7 +76,7 @@ namespace RimWorld
 				stringBuilder.Append("Ingredients".Translate() + ": ");
 				for (int i = 0; i < this.ingredients.Count; i++)
 				{
-					stringBuilder.Append(this.ingredients[i].label);
+					stringBuilder.Append((i != 0) ? this.ingredients[i].label : this.ingredients[i].LabelCap);
 					if (i < this.ingredients.Count - 1)
 					{
 						stringBuilder.Append(", ");

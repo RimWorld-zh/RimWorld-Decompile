@@ -8,7 +8,7 @@ namespace RimWorld
 	public class BillStack : IExposable
 	{
 		[Unsaved]
-		public IBillGiver billGiver = null;
+		public IBillGiver billGiver;
 
 		private List<Bill> bills = new List<Bill>();
 

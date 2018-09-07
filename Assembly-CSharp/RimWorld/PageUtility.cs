@@ -14,27 +14,22 @@ namespace RimWorld
 		public static Page StitchedPages(IEnumerable<Page> pages)
 		{
 			List<Page> list = pages.ToList<Page>();
-			Page result;
 			if (list.Count == 0)
 			{
-				result = null;
+				return null;
 			}
-			else
+			for (int i = 0; i < list.Count; i++)
 			{
-				for (int i = 0; i < list.Count; i++)
+				if (i > 0)
 				{
-					if (i > 0)
-					{
-						list[i].prev = list[i - 1];
-					}
-					if (i < list.Count - 1)
-					{
-						list[i].next = list[i + 1];
-					}
+					list[i].prev = list[i - 1];
 				}
-				result = list[0];
+				if (i < list.Count - 1)
+				{
+					list[i].next = list[i + 1];
+				}
 			}
-			return result;
+			return list[0];
 		}
 
 		public static void InitGameStart()

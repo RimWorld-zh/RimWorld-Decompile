@@ -7,30 +7,22 @@ namespace RimWorld.Planet
 	{
 		public static string GetLabel(this Hilliness h)
 		{
-			string result;
 			switch (h)
 			{
 			case Hilliness.Flat:
-				result = "Hilliness_Flat".Translate();
-				break;
+				return "Hilliness_Flat".Translate();
 			case Hilliness.SmallHills:
-				result = "Hilliness_SmallHills".Translate();
-				break;
+				return "Hilliness_SmallHills".Translate();
 			case Hilliness.LargeHills:
-				result = "Hilliness_LargeHills".Translate();
-				break;
+				return "Hilliness_LargeHills".Translate();
 			case Hilliness.Mountainous:
-				result = "Hilliness_Mountainous".Translate();
-				break;
+				return "Hilliness_Mountainous".Translate();
 			case Hilliness.Impassable:
-				result = "Hilliness_Impassable".Translate();
-				break;
+				return "Hilliness_Impassable".Translate();
 			default:
 				Log.ErrorOnce("Hilliness label unknown: " + h.ToString(), 694362, false);
-				result = h.ToString();
-				break;
+				return h.ToString();
 			}
-			return result;
 		}
 
 		public static string GetLabelCap(this Hilliness h)

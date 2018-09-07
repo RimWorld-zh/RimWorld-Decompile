@@ -66,32 +66,27 @@ namespace RimWorld.Planet
 		{
 			get
 			{
-				MapGeneratorDef result;
 				if (base.Faction == Faction.OfPlayer)
 				{
-					result = MapGeneratorDefOf.Base_Player;
+					return MapGeneratorDefOf.Base_Player;
 				}
-				else
-				{
-					result = MapGeneratorDefOf.Base_Faction;
-				}
-				return result;
+				return MapGeneratorDefOf.Base_Faction;
 			}
 		}
 
-		public override IEnumerable<IncidentTargetTypeDef> AcceptedTypes()
+		public override IEnumerable<IncidentTargetTagDef> IncidentTargetTags()
 		{
-			foreach (IncidentTargetTypeDef type in this.<AcceptedTypes>__BaseCallProxy0())
+			foreach (IncidentTargetTagDef type in base.IncidentTargetTags())
 			{
 				yield return type;
 			}
 			if (base.Faction == Faction.OfPlayer)
 			{
-				yield return IncidentTargetTypeDefOf.Map_PlayerHome;
+				yield return IncidentTargetTagDefOf.Map_PlayerHome;
 			}
 			else
 			{
-				yield return IncidentTargetTypeDefOf.Map_Misc;
+				yield return IncidentTargetTagDefOf.Map_Misc;
 			}
 			yield break;
 		}
@@ -111,28 +106,28 @@ namespace RimWorld.Planet
 
 		[DebuggerHidden]
 		[CompilerGenerated]
-		private IEnumerable<IncidentTargetTypeDef> <AcceptedTypes>__BaseCallProxy0()
+		private IEnumerable<IncidentTargetTagDef> <IncidentTargetTags>__BaseCallProxy0()
 		{
-			return base.AcceptedTypes();
+			return base.IncidentTargetTags();
 		}
 
 		[CompilerGenerated]
-		private sealed class <AcceptedTypes>c__Iterator0 : IEnumerable, IEnumerable<IncidentTargetTypeDef>, IEnumerator, IDisposable, IEnumerator<IncidentTargetTypeDef>
+		private sealed class <IncidentTargetTags>c__Iterator0 : IEnumerable, IEnumerable<IncidentTargetTagDef>, IEnumerator, IDisposable, IEnumerator<IncidentTargetTagDef>
 		{
-			internal IEnumerator<IncidentTargetTypeDef> $locvar0;
+			internal IEnumerator<IncidentTargetTagDef> $locvar0;
 
-			internal IncidentTargetTypeDef <type>__1;
+			internal IncidentTargetTagDef <type>__1;
 
 			internal Settlement $this;
 
-			internal IncidentTargetTypeDef $current;
+			internal IncidentTargetTagDef $current;
 
 			internal bool $disposing;
 
 			internal int $PC;
 
 			[DebuggerHidden]
-			public <AcceptedTypes>c__Iterator0()
+			public <IncidentTargetTags>c__Iterator0()
 			{
 			}
 
@@ -144,15 +139,15 @@ namespace RimWorld.Planet
 				switch (num)
 				{
 				case 0u:
-					enumerator = base.<AcceptedTypes>__BaseCallProxy0().GetEnumerator();
+					enumerator = base.<IncidentTargetTags>__BaseCallProxy0().GetEnumerator();
 					num = 4294967293u;
 					break;
 				case 1u:
 					break;
 				case 2u:
-					goto IL_118;
+					goto IL_110;
 				case 3u:
-					goto IL_118;
+					goto IL_110;
 				default:
 					return false;
 				}
@@ -185,7 +180,7 @@ namespace RimWorld.Planet
 				}
 				if (base.Faction == Faction.OfPlayer)
 				{
-					this.$current = IncidentTargetTypeDefOf.Map_PlayerHome;
+					this.$current = IncidentTargetTagDefOf.Map_PlayerHome;
 					if (!this.$disposing)
 					{
 						this.$PC = 2;
@@ -193,19 +188,19 @@ namespace RimWorld.Planet
 				}
 				else
 				{
-					this.$current = IncidentTargetTypeDefOf.Map_Misc;
+					this.$current = IncidentTargetTagDefOf.Map_Misc;
 					if (!this.$disposing)
 					{
 						this.$PC = 3;
 					}
 				}
 				return true;
-				IL_118:
+				IL_110:
 				this.$PC = -1;
 				return false;
 			}
 
-			IncidentTargetTypeDef IEnumerator<IncidentTargetTypeDef>.Current
+			IncidentTargetTagDef IEnumerator<IncidentTargetTagDef>.Current
 			{
 				[DebuggerHidden]
 				get
@@ -255,19 +250,19 @@ namespace RimWorld.Planet
 			[DebuggerHidden]
 			IEnumerator IEnumerable.GetEnumerator()
 			{
-				return this.System.Collections.Generic.IEnumerable<RimWorld.IncidentTargetTypeDef>.GetEnumerator();
+				return this.System.Collections.Generic.IEnumerable<RimWorld.IncidentTargetTagDef>.GetEnumerator();
 			}
 
 			[DebuggerHidden]
-			IEnumerator<IncidentTargetTypeDef> IEnumerable<IncidentTargetTypeDef>.GetEnumerator()
+			IEnumerator<IncidentTargetTagDef> IEnumerable<IncidentTargetTagDef>.GetEnumerator()
 			{
 				if (Interlocked.CompareExchange(ref this.$PC, 0, -2) == -2)
 				{
 					return this;
 				}
-				Settlement.<AcceptedTypes>c__Iterator0 <AcceptedTypes>c__Iterator = new Settlement.<AcceptedTypes>c__Iterator0();
-				<AcceptedTypes>c__Iterator.$this = this;
-				return <AcceptedTypes>c__Iterator;
+				Settlement.<IncidentTargetTags>c__Iterator0 <IncidentTargetTags>c__Iterator = new Settlement.<IncidentTargetTags>c__Iterator0();
+				<IncidentTargetTags>c__Iterator.$this = this;
+				return <IncidentTargetTags>c__Iterator;
 			}
 		}
 	}

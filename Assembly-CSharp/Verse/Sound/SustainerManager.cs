@@ -2,7 +2,6 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Runtime.CompilerServices;
-using UnityEngine.Profiling;
 
 namespace Verse.Sound
 {
@@ -51,12 +50,10 @@ namespace Verse.Sound
 
 		public void SustainerManagerUpdate()
 		{
-			Profiler.BeginSample("Updating sustainers");
 			for (int i = this.allSustainers.Count - 1; i >= 0; i--)
 			{
 				this.allSustainers[i].SustainerUpdate();
 			}
-			Profiler.EndSample();
 			this.UpdateAllSustainerScopes();
 		}
 

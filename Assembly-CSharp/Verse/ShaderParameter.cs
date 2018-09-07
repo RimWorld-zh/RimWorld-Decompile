@@ -52,32 +52,30 @@ namespace Verse
 			if (xmlRoot.ChildNodes.Count != 1)
 			{
 				Log.Error("Misconfigured ShaderParameter: " + xmlRoot.OuterXml, false);
+				return;
+			}
+			this.name = xmlRoot.Name;
+			string valstr = xmlRoot.FirstChild.Value;
+			if (!valstr.NullOrEmpty() && valstr[0] == '(')
+			{
+				this.value = ParseHelper.FromStringVector4Adaptive(valstr);
+				this.type = ShaderParameter.Type.Vector;
+			}
+			else if (!valstr.NullOrEmpty() && valstr[0] == '/')
+			{
+				LongEventHandler.ExecuteWhenFinished(delegate
+				{
+					this.valueTex = ContentFinder<Texture2D>.Get(valstr.TrimStart(new char[]
+					{
+						'/'
+					}), true);
+				});
+				this.type = ShaderParameter.Type.Texture;
 			}
 			else
 			{
-				this.name = xmlRoot.Name;
-				string valstr = xmlRoot.FirstChild.Value;
-				if (!valstr.NullOrEmpty() && valstr[0] == '(')
-				{
-					this.value = ParseHelper.FromStringVector4Adaptive(valstr);
-					this.type = ShaderParameter.Type.Vector;
-				}
-				else if (!valstr.NullOrEmpty() && valstr[0] == '/')
-				{
-					LongEventHandler.ExecuteWhenFinished(delegate
-					{
-						this.valueTex = ContentFinder<Texture2D>.Get(valstr.TrimStart(new char[]
-						{
-							'/'
-						}), true);
-					});
-					this.type = ShaderParameter.Type.Texture;
-				}
-				else
-				{
-					this.value = Vector4.one * (float)ParseHelper.FromString(valstr, typeof(float));
-					this.type = ShaderParameter.Type.Float;
-				}
+				this.value = Vector4.one * (float)ParseHelper.FromString(valstr, typeof(float));
+				this.type = ShaderParameter.Type.Float;
 			}
 		}
 

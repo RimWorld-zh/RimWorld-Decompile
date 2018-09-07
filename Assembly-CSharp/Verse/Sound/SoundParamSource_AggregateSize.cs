@@ -18,16 +18,11 @@ namespace Verse.Sound
 
 		public override float ValueFor(Sample samp)
 		{
-			float result;
 			if (samp.ExternalParams.sizeAggregator == null)
 			{
-				result = 0f;
+				return 0f;
 			}
-			else
-			{
-				result = samp.ExternalParams.sizeAggregator.AggregateSize;
-			}
-			return result;
+			return samp.ExternalParams.sizeAggregator.AggregateSize;
 		}
 	}
 }

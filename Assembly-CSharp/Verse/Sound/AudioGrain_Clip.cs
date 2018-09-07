@@ -10,7 +10,8 @@ namespace Verse.Sound
 {
 	public class AudioGrain_Clip : AudioGrain
 	{
-		public string clipPath = "";
+		[NoTranslate]
+		public string clipPath = string.Empty;
 
 		public AudioGrain_Clip()
 		{

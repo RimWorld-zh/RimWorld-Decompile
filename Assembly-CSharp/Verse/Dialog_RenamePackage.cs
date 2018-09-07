@@ -39,34 +39,26 @@ namespace Verse
 		{
 			Text.Font = GameFont.Small;
 			this.proposedName = Widgets.TextField(new Rect(0f, 0f, 200f, 32f), this.proposedName);
-			if (Widgets.ButtonText(new Rect(0f, 40f, 100f, 32f), "Rename", true, false, true))
+			if (Widgets.ButtonText(new Rect(0f, 40f, 100f, 32f), "Rename", true, false, true) && this.TrySave())
 			{
-				if (this.TrySave())
-				{
-					this.Close(true);
-				}
+				this.Close(true);
 			}
 		}
 
 		private bool TrySave()
 		{
-			bool result;
 			if (string.IsNullOrEmpty(this.proposedName) || this.proposedName.IndexOfAny(Path.GetInvalidFileNameChars()) >= 0)
 			{
 				Messages.Message("Invalid filename.", MessageTypeDefOf.RejectInput, false);
-				result = false;
+				return false;
 			}
-			else if (Path.GetExtension(this.proposedName) != ".xml")
+			if (Path.GetExtension(this.proposedName) != ".xml")
 			{
 				Messages.Message("Data package file names must end with .xml", MessageTypeDefOf.RejectInput, false);
-				result = false;
+				return false;
 			}
-			else
-			{
-				this.renamingPackage.fileName = this.proposedName;
-				result = true;
-			}
-			return result;
+			this.renamingPackage.fileName = this.proposedName;
+			return true;
 		}
 	}
 }

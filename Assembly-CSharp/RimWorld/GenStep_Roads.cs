@@ -44,55 +44,57 @@ namespace RimWorld
 
 		public override void Generate(Map map, GenStepParams parms)
 		{
-			List<GenStep_Roads.NeededRoad> neededRoads = this.CalculateNeededRoads(map);
-			if (neededRoads.Count != 0)
+			GenStep_Roads.<Generate>c__AnonStorey0 <Generate>c__AnonStorey = new GenStep_Roads.<Generate>c__AnonStorey0();
+			<Generate>c__AnonStorey.neededRoads = this.CalculateNeededRoads(map);
+			if (<Generate>c__AnonStorey.neededRoads.Count == 0)
 			{
-				List<GenStep_Roads.DrawCommand> list = new List<GenStep_Roads.DrawCommand>();
-				DeepProfiler.Start("RebuildAllRegions");
-				map.regionAndRoomUpdater.RebuildAllRegionsAndRooms();
-				DeepProfiler.End();
-				TerrainDef rockDef = BaseGenUtility.RegionalRockTerrainDef(map.Tile, false);
-				IntVec3 intVec = CellFinderLoose.TryFindCentralCell(map, 3, 10, null);
-				RoadDef bestRoadType = (from rd in DefDatabase<RoadDef>.AllDefs
-				where neededRoads.Count((GenStep_Roads.NeededRoad nr) => nr.road == rd) >= 2
-				select rd).MaxByWithFallback((RoadDef rd) => rd.priority, null);
-				if (bestRoadType != null)
+				return;
+			}
+			List<GenStep_Roads.DrawCommand> list = new List<GenStep_Roads.DrawCommand>();
+			DeepProfiler.Start("RebuildAllRegions");
+			map.regionAndRoomUpdater.RebuildAllRegionsAndRooms();
+			DeepProfiler.End();
+			TerrainDef rockDef = BaseGenUtility.RegionalRockTerrainDef(map.Tile, false);
+			IntVec3 intVec = CellFinderLoose.TryFindCentralCell(map, 3, 10, null);
+			RoadDef bestRoadType = (from rd in DefDatabase<RoadDef>.AllDefs
+			where <Generate>c__AnonStorey.neededRoads.Count((GenStep_Roads.NeededRoad nr) => nr.road == rd) >= 2
+			select rd).MaxByWithFallback((RoadDef rd) => rd.priority, null);
+			if (bestRoadType != null)
+			{
+				GenStep_Roads.NeededRoad neededRoad = <Generate>c__AnonStorey.neededRoads[<Generate>c__AnonStorey.neededRoads.FindIndex((GenStep_Roads.NeededRoad nr) => nr.road == bestRoadType)];
+				<Generate>c__AnonStorey.neededRoads.RemoveAt(<Generate>c__AnonStorey.neededRoads.FindIndex((GenStep_Roads.NeededRoad nr) => nr.road == bestRoadType));
+				GenStep_Roads.NeededRoad neededRoad2 = <Generate>c__AnonStorey.neededRoads[<Generate>c__AnonStorey.neededRoads.FindIndex((GenStep_Roads.NeededRoad nr) => nr.road == bestRoadType)];
+				<Generate>c__AnonStorey.neededRoads.RemoveAt(<Generate>c__AnonStorey.neededRoads.FindIndex((GenStep_Roads.NeededRoad nr) => nr.road == bestRoadType));
+				RoadPathingDef pathingMode = neededRoad.road.pathingMode;
+				IntVec3 intVec2 = this.FindRoadExitCell(map, neededRoad.angle, intVec, ref pathingMode);
+				IntVec3 end = this.FindRoadExitCell(map, neededRoad2.angle, intVec2, ref pathingMode);
+				Action action = this.PrepDrawRoad(map, rockDef, intVec2, end, neededRoad.road, pathingMode, out intVec);
+				list.Add(new GenStep_Roads.DrawCommand
 				{
-					GenStep_Roads.NeededRoad neededRoad = neededRoads[neededRoads.FindIndex((GenStep_Roads.NeededRoad nr) => nr.road == bestRoadType)];
-					neededRoads.RemoveAt(neededRoads.FindIndex((GenStep_Roads.NeededRoad nr) => nr.road == bestRoadType));
-					GenStep_Roads.NeededRoad neededRoad2 = neededRoads[neededRoads.FindIndex((GenStep_Roads.NeededRoad nr) => nr.road == bestRoadType)];
-					neededRoads.RemoveAt(neededRoads.FindIndex((GenStep_Roads.NeededRoad nr) => nr.road == bestRoadType));
-					RoadPathingDef pathingMode = neededRoad.road.pathingMode;
-					IntVec3 intVec2 = this.FindRoadExitCell(map, neededRoad.angle, intVec, ref pathingMode);
-					IntVec3 end = this.FindRoadExitCell(map, neededRoad2.angle, intVec2, ref pathingMode);
-					Action action = this.PrepDrawRoad(map, rockDef, intVec2, end, neededRoad.road, pathingMode, out intVec);
+					action = action,
+					roadDef = bestRoadType
+				});
+			}
+			foreach (GenStep_Roads.NeededRoad neededRoad3 in <Generate>c__AnonStorey.neededRoads)
+			{
+				RoadPathingDef pathingMode2 = neededRoad3.road.pathingMode;
+				IntVec3 intVec3 = this.FindRoadExitCell(map, neededRoad3.angle, intVec, ref pathingMode2);
+				if (!(intVec3 == IntVec3.Invalid))
+				{
 					list.Add(new GenStep_Roads.DrawCommand
 					{
-						action = action,
-						roadDef = bestRoadType
+						action = this.PrepDrawRoad(map, rockDef, intVec, intVec3, neededRoad3.road, pathingMode2),
+						roadDef = neededRoad3.road
 					});
 				}
-				foreach (GenStep_Roads.NeededRoad neededRoad3 in neededRoads)
+			}
+			foreach (GenStep_Roads.DrawCommand drawCommand in from dc in list
+			orderby dc.roadDef.priority
+			select dc)
+			{
+				if (drawCommand.action != null)
 				{
-					RoadPathingDef pathingMode2 = neededRoad3.road.pathingMode;
-					IntVec3 intVec3 = this.FindRoadExitCell(map, neededRoad3.angle, intVec, ref pathingMode2);
-					if (!(intVec3 == IntVec3.Invalid))
-					{
-						list.Add(new GenStep_Roads.DrawCommand
-						{
-							action = this.PrepDrawRoad(map, rockDef, intVec, intVec3, neededRoad3.road, pathingMode2),
-							roadDef = neededRoad3.road
-						});
-					}
-				}
-				foreach (GenStep_Roads.DrawCommand drawCommand in from dc in list
-				orderby dc.roadDef.priority
-				select dc)
-				{
-					if (drawCommand.action != null)
-					{
-						drawCommand.action();
-					}
+					drawCommand.action();
 				}
 			}
 		}
@@ -199,38 +201,33 @@ namespace RimWorld
 			{
 				pawnPath = map.pathFinder.FindPath(start, end, TraverseParms.For(TraverseMode.PassAllDestroyableThings, Danger.Deadly, false), PathEndMode.OnCell);
 			}
-			Action result;
 			if (pawnPath == PawnPath.NotFound)
 			{
-				result = null;
+				return null;
 			}
-			else
+			List<IntVec3> list = this.RefinePath(pawnPath.NodesReversed, map);
+			pawnPath.ReleaseToPool();
+			GenStep_Roads.DistanceElement[,] distance = new GenStep_Roads.DistanceElement[map.Size.x, map.Size.z];
+			for (int i = 0; i < distance.GetLength(0); i++)
 			{
-				List<IntVec3> list = this.RefinePath(pawnPath.NodesReversed, map);
-				pawnPath.ReleaseToPool();
-				GenStep_Roads.DistanceElement[,] distance = new GenStep_Roads.DistanceElement[map.Size.x, map.Size.z];
-				for (int i = 0; i < distance.GetLength(0); i++)
+				for (int j = 0; j < distance.GetLength(1); j++)
 				{
-					for (int j = 0; j < distance.GetLength(1); j++)
-					{
-						distance[i, j].origin = IntVec3.Invalid;
-					}
+					distance[i, j].origin = IntVec3.Invalid;
 				}
-				int count = list.Count;
-				int centerpointIndex = Mathf.RoundToInt(Rand.Range(0.3f, 0.7f) * (float)count);
-				int num = Mathf.Max(1, GenMath.RoundRandom((float)count / (float)roadDef.tilesPerSegment));
-				for (int k = 0; k < num; k++)
-				{
-					int pathStartIndex = Mathf.RoundToInt((float)(count - 1) / (float)num * (float)k);
-					int pathEndIndex = Mathf.RoundToInt((float)(count - 1) / (float)num * (float)(k + 1));
-					this.DrawCurveSegment(distance, list, pathStartIndex, pathEndIndex, pathingDef, map, centerpointIndex, ref centerpoint);
-				}
-				result = delegate()
-				{
-					this.ApplyDistanceField(distance, map, rockDef, roadDef, pathingDef);
-				};
 			}
-			return result;
+			int count = list.Count;
+			int centerpointIndex = Mathf.RoundToInt(Rand.Range(0.3f, 0.7f) * (float)count);
+			int num = Mathf.Max(1, GenMath.RoundRandom((float)count / (float)roadDef.tilesPerSegment));
+			for (int k = 0; k < num; k++)
+			{
+				int pathStartIndex = Mathf.RoundToInt((float)(count - 1) / (float)num * (float)k);
+				int pathEndIndex = Mathf.RoundToInt((float)(count - 1) / (float)num * (float)(k + 1));
+				this.DrawCurveSegment(distance, list, pathStartIndex, pathEndIndex, pathingDef, map, centerpointIndex, ref centerpoint);
+			}
+			return delegate()
+			{
+				this.ApplyDistanceField(distance, map, rockDef, roadDef, pathingDef);
+			};
 		}
 
 		private void DrawCurveSegment(GenStep_Roads.DistanceElement[,] distance, List<IntVec3> path, int pathStartIndex, int pathEndIndex, RoadPathingDef pathing, Map map, int centerpointIndex, ref IntVec3 centerpoint)
@@ -238,66 +235,64 @@ namespace RimWorld
 			if (pathStartIndex == pathEndIndex)
 			{
 				Log.ErrorOnce("Zero-length segment drawn in road routine", 78187971, false);
+				return;
 			}
-			else
+			GenMath.BezierCubicControls bcc = this.GenerateBezierControls(path, pathStartIndex, pathEndIndex);
+			List<Vector3> list = new List<Vector3>();
+			int num = (pathEndIndex - pathStartIndex) * 4;
+			for (int i = 0; i <= num; i++)
 			{
-				GenMath.BezierCubicControls bcc = this.GenerateBezierControls(path, pathStartIndex, pathEndIndex);
-				List<Vector3> list = new List<Vector3>();
-				int num = (pathEndIndex - pathStartIndex) * 4;
-				for (int i = 0; i <= num; i++)
+				list.Add(GenMath.BezierCubicEvaluate((float)i / (float)num, bcc));
+			}
+			int num2 = 0;
+			for (int j = pathStartIndex; j <= pathEndIndex; j++)
+			{
+				if (j > 0 && j < path.Count && path[j].InBounds(map) && path[j].GetTerrain(map).IsWater)
 				{
-					list.Add(GenMath.BezierCubicEvaluate((float)i / (float)num, bcc));
+					num2++;
 				}
-				int num2 = 0;
-				for (int j = pathStartIndex; j <= pathEndIndex; j++)
+			}
+			if (pathStartIndex + 1 < pathEndIndex)
+			{
+				for (int k = 0; k < list.Count; k++)
 				{
-					if (j > 0 && j < path.Count && path[j].InBounds(map) && path[j].GetTerrain(map).IsWater)
+					IntVec3 intVec = list[k].ToIntVec3();
+					bool flag = intVec.InBounds(map) && intVec.Impassable(map);
+					int num3 = 0;
+					int num4 = 0;
+					while (num4 < GenAdj.CardinalDirections.Length && !flag)
 					{
-						num2++;
-					}
-				}
-				if (pathStartIndex + 1 < pathEndIndex)
-				{
-					for (int k = 0; k < list.Count; k++)
-					{
-						IntVec3 intVec = list[k].ToIntVec3();
-						bool flag = intVec.InBounds(map) && intVec.Impassable(map);
-						int num3 = 0;
-						int num4 = 0;
-						while (num4 < GenAdj.CardinalDirections.Length && !flag)
+						IntVec3 c = intVec + GenAdj.CardinalDirections[num4];
+						if (c.InBounds(map))
 						{
-							IntVec3 c = intVec + GenAdj.CardinalDirections[num4];
-							if (c.InBounds(map))
+							flag |= (pathing == RoadPathingDefOf.Avoid && c.Impassable(map));
+							if (c.GetTerrain(map).IsWater)
 							{
-								flag |= (pathing == RoadPathingDefOf.Avoid && c.Impassable(map));
-								if (c.GetTerrain(map).IsWater)
-								{
-									num3++;
-								}
-								if (flag)
-								{
-									break;
-								}
+								num3++;
 							}
-							num4++;
+							if (flag)
+							{
+								break;
+							}
 						}
-						if (flag || (float)num3 > (float)num2 * 1.5f + 2f)
-						{
-							this.DrawCurveSegment(distance, path, pathStartIndex, (pathStartIndex + pathEndIndex) / 2, pathing, map, centerpointIndex, ref centerpoint);
-							this.DrawCurveSegment(distance, path, (pathStartIndex + pathEndIndex) / 2, pathEndIndex, pathing, map, centerpointIndex, ref centerpoint);
-							return;
-						}
+						num4++;
+					}
+					if (flag || (float)num3 > (float)num2 * 1.5f + 2f)
+					{
+						this.DrawCurveSegment(distance, path, pathStartIndex, (pathStartIndex + pathEndIndex) / 2, pathing, map, centerpointIndex, ref centerpoint);
+						this.DrawCurveSegment(distance, path, (pathStartIndex + pathEndIndex) / 2, pathEndIndex, pathing, map, centerpointIndex, ref centerpoint);
+						return;
 					}
 				}
-				for (int l = 0; l < list.Count; l++)
-				{
-					this.FillDistanceField(distance, list[l].x, list[l].z, GenMath.LerpDouble(0f, (float)(list.Count - 1), (float)pathStartIndex, (float)pathEndIndex, (float)l), 10f, map);
-				}
-				if (centerpointIndex >= pathStartIndex && centerpointIndex < pathEndIndex)
-				{
-					centerpointIndex = Mathf.Clamp(Mathf.RoundToInt(GenMath.LerpDouble((float)pathStartIndex, (float)pathEndIndex, 0f, (float)list.Count, (float)centerpointIndex)), 0, list.Count - 1);
-					centerpoint = list[centerpointIndex].ToIntVec3();
-				}
+			}
+			for (int l = 0; l < list.Count; l++)
+			{
+				this.FillDistanceField(distance, list[l].x, list[l].z, GenMath.LerpDouble(0f, (float)(list.Count - 1), (float)pathStartIndex, (float)pathEndIndex, (float)l), 10f, map);
+			}
+			if (centerpointIndex >= pathStartIndex && centerpointIndex < pathEndIndex)
+			{
+				centerpointIndex = Mathf.Clamp(Mathf.RoundToInt(GenMath.LerpDouble((float)pathStartIndex, (float)pathEndIndex, 0f, (float)list.Count, (float)centerpointIndex)), 0, list.Count - 1);
+				centerpoint = list[centerpointIndex].ToIntVec3();
 			}
 		}
 

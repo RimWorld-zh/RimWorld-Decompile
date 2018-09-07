@@ -30,17 +30,12 @@ namespace RimWorld
 
 		public static bool AnyBuildingBlockingFloorRemoval(IntVec3 c, Map map)
 		{
-			bool result;
 			if (!map.terrainGrid.CanRemoveTopLayerAt(c))
 			{
-				result = false;
+				return false;
 			}
-			else
-			{
-				Building firstBuilding = c.GetFirstBuilding(map);
-				result = (firstBuilding != null && firstBuilding.def.terrainAffordanceNeeded != null && !map.terrainGrid.UnderTerrainAt(c).affordances.Contains(firstBuilding.def.terrainAffordanceNeeded));
-			}
-			return result;
+			Building firstBuilding = c.GetFirstBuilding(map);
+			return firstBuilding != null && firstBuilding.def.terrainAffordanceNeeded != null && !map.terrainGrid.UnderTerrainAt(c).affordances.Contains(firstBuilding.def.terrainAffordanceNeeded);
 		}
 	}
 }

@@ -4,9 +4,9 @@ namespace Verse
 {
 	public class HediffCompProperties_GrowthMode : HediffCompProperties
 	{
-		public float severityPerDayGrowing = 0f;
+		public float severityPerDayGrowing;
 
-		public float severityPerDayRemission = 0f;
+		public float severityPerDayRemission;
 
 		public FloatRange severityPerDayGrowingRandomFactor = new FloatRange(1f, 1f);
 

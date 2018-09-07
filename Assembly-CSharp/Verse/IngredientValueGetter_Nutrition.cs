@@ -11,16 +11,11 @@ namespace Verse
 
 		public override float ValuePerUnitOf(ThingDef t)
 		{
-			float result;
 			if (!t.IsNutritionGivingIngestible)
 			{
-				result = 0f;
+				return 0f;
 			}
-			else
-			{
-				result = t.GetStatValueAbstract(StatDefOf.Nutrition, null);
-			}
-			return result;
+			return t.GetStatValueAbstract(StatDefOf.Nutrition, null);
 		}
 
 		public override string BillRequirementsDescription(RecipeDef r, IngredientCount ing)

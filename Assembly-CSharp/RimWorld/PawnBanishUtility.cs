@@ -18,87 +18,80 @@ namespace RimWorld
 			if (pawn.Faction != Faction.OfPlayer && pawn.HostFaction != Faction.OfPlayer)
 			{
 				Log.Warning("Tried to banish " + pawn + " but he's neither a colonist, tame animal, nor prisoner.", false);
+				return;
 			}
-			else
+			if (tile == -1)
 			{
-				if (tile == -1)
+				tile = pawn.Tile;
+			}
+			bool flag = PawnBanishUtility.WouldBeLeftToDie(pawn, tile);
+			PawnDiedOrDownedThoughtsUtility.TryGiveThoughts(pawn, null, (!flag) ? PawnDiedOrDownedThoughtsKind.Banished : PawnDiedOrDownedThoughtsKind.BanishedToDie);
+			Caravan caravan = pawn.GetCaravan();
+			if (caravan != null)
+			{
+				CaravanInventoryUtility.MoveAllInventoryToSomeoneElse(pawn, caravan.PawnsListForReading, null);
+				caravan.RemovePawn(pawn);
+				if (flag)
 				{
-					tile = pawn.Tile;
-				}
-				bool flag = PawnBanishUtility.WouldBeLeftToDie(pawn, tile);
-				PawnDiedOrDownedThoughtsUtility.TryGiveThoughts(pawn, null, (!flag) ? PawnDiedOrDownedThoughtsKind.Banished : PawnDiedOrDownedThoughtsKind.BanishedToDie);
-				Caravan caravan = pawn.GetCaravan();
-				if (caravan != null)
-				{
-					CaravanInventoryUtility.MoveAllInventoryToSomeoneElse(pawn, caravan.PawnsListForReading, null);
-					caravan.RemovePawn(pawn);
-					if (flag)
+					if (Rand.Value < 0.8f)
 					{
-						if (Rand.Value < 0.8f)
-						{
-							pawn.Kill(null, null);
-						}
-						else
-						{
-							PawnBanishUtility.HealIfPossible(pawn);
-						}
+						pawn.Kill(null, null);
+					}
+					else
+					{
+						PawnBanishUtility.HealIfPossible(pawn);
 					}
 				}
-				if (pawn.guest != null)
+			}
+			if (pawn.guest != null)
+			{
+				pawn.guest.SetGuestStatus(null, false);
+			}
+			if (pawn.Faction == Faction.OfPlayer)
+			{
+				Faction faction;
+				if (!pawn.Spawned && Find.FactionManager.TryGetRandomNonColonyHumanlikeFaction(out faction, pawn.Faction != null && pawn.Faction.def.techLevel >= TechLevel.Medieval, false, TechLevel.Undefined))
 				{
-					pawn.guest.SetGuestStatus(null, false);
+					if (pawn.Faction != faction)
+					{
+						pawn.SetFaction(faction, null);
+					}
 				}
-				if (pawn.Faction == Faction.OfPlayer)
+				else if (pawn.Faction != null)
 				{
-					Faction faction;
-					if (!pawn.Spawned && Find.FactionManager.TryGetRandomNonColonyHumanlikeFaction(out faction, pawn.Faction != null && pawn.Faction.def.techLevel >= TechLevel.Medieval, false, TechLevel.Undefined))
-					{
-						if (pawn.Faction != faction)
-						{
-							pawn.SetFaction(faction, null);
-						}
-					}
-					else if (pawn.Faction != null)
-					{
-						pawn.SetFaction(null, null);
-					}
+					pawn.SetFaction(null, null);
 				}
 			}
 		}
 
 		public static bool WouldBeLeftToDie(Pawn p, int tile)
 		{
-			bool result;
 			if (p.Downed)
 			{
-				result = true;
+				return true;
 			}
-			else if (p.health.hediffSet.BleedRateTotal > 0.4f)
+			if (p.health.hediffSet.BleedRateTotal > 0.4f)
 			{
-				result = true;
+				return true;
 			}
-			else
+			if (tile != -1)
 			{
-				if (tile != -1)
+				float f = GenTemperature.AverageTemperatureAtTileForTwelfth(tile, GenLocalDate.Twelfth(p));
+				if (!p.SafeTemperatureRange().Includes(f))
 				{
-					float f = GenTemperature.AverageTemperatureAtTileForTwelfth(tile, GenLocalDate.Twelfth(p));
-					if (!p.SafeTemperatureRange().Includes(f))
-					{
-						return true;
-					}
+					return true;
 				}
-				List<Hediff> hediffs = p.health.hediffSet.hediffs;
-				for (int i = 0; i < hediffs.Count; i++)
-				{
-					HediffStage curStage = hediffs[i].CurStage;
-					if (curStage != null && curStage.lifeThreatening)
-					{
-						return true;
-					}
-				}
-				result = false;
 			}
-			return result;
+			List<Hediff> hediffs = p.health.hediffSet.hediffs;
+			for (int i = 0; i < hediffs.Count; i++)
+			{
+				HediffStage curStage = hediffs[i].CurStage;
+				if (curStage != null && curStage.lifeThreatening)
+				{
+					return true;
+				}
+			}
+			return false;
 		}
 
 		public static string GetBanishPawnDialogText(Pawn banishedPawn)
@@ -173,19 +166,14 @@ namespace RimWorld
 
 		public static string GetBanishButtonTip(Pawn pawn)
 		{
-			string result;
 			if (PawnBanishUtility.WouldBeLeftToDie(pawn, pawn.Tile))
 			{
-				result = "BanishTip".Translate() + "\n\n" + "BanishTipWillDie".Translate(new object[]
+				return "BanishTip".Translate() + "\n\n" + "BanishTipWillDie".Translate(new object[]
 				{
 					pawn.LabelShort
 				}).CapitalizeFirst();
 			}
-			else
-			{
-				result = "BanishTip".Translate();
-			}
-			return result;
+			return "BanishTip".Translate();
 		}
 
 		private static void HealIfPossible(Pawn p)

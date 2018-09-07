@@ -50,9 +50,12 @@ namespace RimWorld
 
 		protected abstract Toil FinalInteractToil();
 
-		public override bool TryMakePreToilReservations()
+		public override bool TryMakePreToilReservations(bool errorOnFailed)
 		{
-			return this.pawn.Reserve(this.Animal, this.job, 1, -1, null);
+			Pawn pawn = this.pawn;
+			LocalTargetInfo target = this.Animal;
+			Job job = this.job;
+			return pawn.Reserve(target, job, 1, -1, null, errorOnFailed);
 		}
 
 		protected override IEnumerable<Toil> MakeNewToils()
@@ -139,28 +142,26 @@ namespace RimWorld
 				if (thing == null)
 				{
 					actor.jobs.EndCurrentJob(JobCondition.Incompletable, true);
+					return;
+				}
+				actor.mindState.lastInventoryRawFoodUseTick = Find.TickManager.TicksGame;
+				int num = FoodUtility.StackCountForNutrition(this.feedNutritionLeft, thing.GetStatValue(StatDefOf.Nutrition, true));
+				int stackCount = thing.stackCount;
+				Thing thing2 = actor.inventory.innerContainer.Take(thing, Mathf.Min(num, stackCount));
+				actor.carryTracker.TryStartCarry(thing2);
+				actor.CurJob.SetTarget(TargetIndex.B, thing2);
+				float num2 = (float)thing2.stackCount * thing2.GetStatValue(StatDefOf.Nutrition, true);
+				this.ticksLeftThisToil = Mathf.CeilToInt(270f * (num2 / JobDriver_InteractAnimal.RequiredNutritionPerFeed(pawn)));
+				if (num <= stackCount)
+				{
+					this.feedNutritionLeft = 0f;
 				}
 				else
 				{
-					actor.mindState.lastInventoryRawFoodUseTick = Find.TickManager.TicksGame;
-					int num = FoodUtility.StackCountForNutrition(this.feedNutritionLeft, thing.GetStatValue(StatDefOf.Nutrition, true));
-					int stackCount = thing.stackCount;
-					Thing thing2 = actor.inventory.innerContainer.Take(thing, Mathf.Min(num, stackCount));
-					actor.carryTracker.TryStartCarry(thing2);
-					actor.CurJob.SetTarget(TargetIndex.B, thing2);
-					float num2 = (float)thing2.stackCount * thing2.GetStatValue(StatDefOf.Nutrition, true);
-					this.ticksLeftThisToil = Mathf.CeilToInt(270f * (num2 / JobDriver_InteractAnimal.RequiredNutritionPerFeed(pawn)));
-					if (num <= stackCount)
+					this.feedNutritionLeft -= num2;
+					if (this.feedNutritionLeft < 0.001f)
 					{
 						this.feedNutritionLeft = 0f;
-					}
-					else
-					{
-						this.feedNutritionLeft -= num2;
-						if (this.feedNutritionLeft < 0.001f)
-						{
-							this.feedNutritionLeft = 0f;
-						}
 					}
 				}
 			};
@@ -290,7 +291,7 @@ namespace RimWorld
 					num = 4294967293u;
 					goto Block_15;
 				case 14u:
-					goto IL_2E4;
+					goto IL_2DF;
 				case 15u:
 					this.$current = Toils_Interpersonal.SetLastInteractTime(TargetIndex.A);
 					if (!this.$disposing)
@@ -361,7 +362,7 @@ namespace RimWorld
 				Block_15:
 				try
 				{
-					IL_2E4:
+					IL_2DF:
 					switch (num)
 					{
 					}
@@ -665,28 +666,26 @@ namespace RimWorld
 				if (thing == null)
 				{
 					actor.jobs.EndCurrentJob(JobCondition.Incompletable, true);
+					return;
+				}
+				actor.mindState.lastInventoryRawFoodUseTick = Find.TickManager.TicksGame;
+				int num = FoodUtility.StackCountForNutrition(this.$this.feedNutritionLeft, thing.GetStatValue(StatDefOf.Nutrition, true));
+				int stackCount = thing.stackCount;
+				Thing thing2 = actor.inventory.innerContainer.Take(thing, Mathf.Min(num, stackCount));
+				actor.carryTracker.TryStartCarry(thing2);
+				actor.CurJob.SetTarget(TargetIndex.B, thing2);
+				float num2 = (float)thing2.stackCount * thing2.GetStatValue(StatDefOf.Nutrition, true);
+				this.$this.ticksLeftThisToil = Mathf.CeilToInt(270f * (num2 / JobDriver_InteractAnimal.RequiredNutritionPerFeed(pawn)));
+				if (num <= stackCount)
+				{
+					this.$this.feedNutritionLeft = 0f;
 				}
 				else
 				{
-					actor.mindState.lastInventoryRawFoodUseTick = Find.TickManager.TicksGame;
-					int num = FoodUtility.StackCountForNutrition(this.$this.feedNutritionLeft, thing.GetStatValue(StatDefOf.Nutrition, true));
-					int stackCount = thing.stackCount;
-					Thing thing2 = actor.inventory.innerContainer.Take(thing, Mathf.Min(num, stackCount));
-					actor.carryTracker.TryStartCarry(thing2);
-					actor.CurJob.SetTarget(TargetIndex.B, thing2);
-					float num2 = (float)thing2.stackCount * thing2.GetStatValue(StatDefOf.Nutrition, true);
-					this.$this.ticksLeftThisToil = Mathf.CeilToInt(270f * (num2 / JobDriver_InteractAnimal.RequiredNutritionPerFeed(pawn)));
-					if (num <= stackCount)
+					this.$this.feedNutritionLeft -= num2;
+					if (this.$this.feedNutritionLeft < 0.001f)
 					{
 						this.$this.feedNutritionLeft = 0f;
-					}
-					else
-					{
-						this.$this.feedNutritionLeft -= num2;
-						if (this.$this.feedNutritionLeft < 0.001f)
-						{
-							this.$this.feedNutritionLeft = 0f;
-						}
 					}
 				}
 			}

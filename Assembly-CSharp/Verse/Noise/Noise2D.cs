@@ -26,27 +26,27 @@ namespace Verse.Noise
 
 		public static readonly double Bottom = 1.0;
 
-		private int m_width = 0;
+		private int m_width;
 
-		private int m_height = 0;
+		private int m_height;
 
-		private float[,] m_data = null;
+		private float[,] m_data;
 
-		private int m_ucWidth = 0;
+		private int m_ucWidth;
 
-		private int m_ucHeight = 0;
+		private int m_ucHeight;
 
 		private int m_ucBorder = 1;
 
-		private float[,] m_ucData = null;
+		private float[,] m_ucData;
 
 		private float m_borderValue = float.NaN;
 
-		private ModuleBase m_generator = null;
+		private ModuleBase m_generator;
 
 		[XmlIgnore]
 		[NonSerialized]
-		private bool m_disposed = false;
+		private bool m_disposed;
 
 		protected Noise2D()
 		{
@@ -79,7 +79,6 @@ namespace Verse.Noise
 		{
 			get
 			{
-				float result;
 				if (isCropped)
 				{
 					if (x < 0 && x >= this.m_width)
@@ -90,7 +89,7 @@ namespace Verse.Noise
 					{
 						throw new ArgumentOutOfRangeException("Inavlid y position");
 					}
-					result = this.m_data[x, y];
+					return this.m_data[x, y];
 				}
 				else
 				{
@@ -102,9 +101,8 @@ namespace Verse.Noise
 					{
 						throw new ArgumentOutOfRangeException("Inavlid y position");
 					}
-					result = this.m_ucData[x, y];
+					return this.m_ucData[x, y];
 				}
-				return result;
 			}
 			set
 			{

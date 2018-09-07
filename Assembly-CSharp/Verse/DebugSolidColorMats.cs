@@ -11,18 +11,13 @@ namespace Verse
 		public static Material MaterialOf(Color col)
 		{
 			Material material;
-			Material result;
 			if (DebugSolidColorMats.colorMatDict.TryGetValue(col, out material))
 			{
-				result = material;
+				return material;
 			}
-			else
-			{
-				material = SolidColorMaterials.SimpleSolidColorMaterial(col, false);
-				DebugSolidColorMats.colorMatDict.Add(col, material);
-				result = material;
-			}
-			return result;
+			material = SolidColorMaterials.SimpleSolidColorMaterial(col, false);
+			DebugSolidColorMats.colorMatDict.Add(col, material);
+			return material;
 		}
 
 		// Note: this type is marked as 'beforefieldinit'.

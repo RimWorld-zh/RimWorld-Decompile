@@ -11,7 +11,7 @@ namespace RimWorld
 
 		private Vector2 shadowVector;
 
-		private int age = 0;
+		private int age;
 
 		private const int FlashFadeInTicks = 3;
 
@@ -65,16 +65,11 @@ namespace RimWorld
 		{
 			get
 			{
-				float result;
 				if (this.age <= 3)
 				{
-					result = (float)this.age / 3f;
+					return (float)this.age / 3f;
 				}
-				else
-				{
-					result = 1f - (float)this.age / (float)this.duration;
-				}
-				return result;
+				return 1f - (float)this.age / (float)this.duration;
 			}
 		}
 

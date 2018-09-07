@@ -8,28 +8,23 @@ namespace RimWorld
 	{
 		public static TraderCaravanRole GetTraderCaravanRole(this Pawn p)
 		{
-			TraderCaravanRole result;
 			if (p.kindDef == PawnKindDefOf.Slave)
 			{
-				result = TraderCaravanRole.Chattel;
+				return TraderCaravanRole.Chattel;
 			}
-			else if (p.kindDef.trader)
+			if (p.kindDef.trader)
 			{
-				result = TraderCaravanRole.Trader;
+				return TraderCaravanRole.Trader;
 			}
-			else if (p.kindDef.RaceProps.packAnimal && p.inventory.innerContainer.Any)
+			if (p.kindDef.RaceProps.packAnimal && p.inventory.innerContainer.Any)
 			{
-				result = TraderCaravanRole.Carrier;
+				return TraderCaravanRole.Carrier;
 			}
-			else if (p.RaceProps.Animal)
+			if (p.RaceProps.Animal)
 			{
-				result = TraderCaravanRole.Chattel;
+				return TraderCaravanRole.Chattel;
 			}
-			else
-			{
-				result = TraderCaravanRole.Guard;
-			}
-			return result;
+			return TraderCaravanRole.Guard;
 		}
 
 		public static Pawn FindTrader(Lord lord)

@@ -22,20 +22,21 @@ namespace RimWorld
 
 		protected override void SetValue(Pawn pawn, bool value)
 		{
-			if (value != this.GetValue(pawn))
+			if (value == this.GetValue(pawn))
 			{
-				if (value)
+				return;
+			}
+			if (value)
+			{
+				pawn.MapHeld.designationManager.AddDesignation(new Designation(pawn, this.DesignationType));
+				this.Notify_DesignationAdded(pawn);
+			}
+			else
+			{
+				Designation designation = this.GetDesignation(pawn);
+				if (designation != null)
 				{
-					pawn.MapHeld.designationManager.AddDesignation(new Designation(pawn, this.DesignationType));
-					this.Notify_DesignationAdded(pawn);
-				}
-				else
-				{
-					Designation designation = this.GetDesignation(pawn);
-					if (designation != null)
-					{
-						pawn.MapHeld.designationManager.RemoveDesignation(designation);
-					}
+					pawn.MapHeld.designationManager.RemoveDesignation(designation);
 				}
 			}
 		}
@@ -43,16 +44,11 @@ namespace RimWorld
 		private Designation GetDesignation(Pawn pawn)
 		{
 			Map mapHeld = pawn.MapHeld;
-			Designation result;
 			if (mapHeld == null)
 			{
-				result = null;
+				return null;
 			}
-			else
-			{
-				result = mapHeld.designationManager.DesignationOn(pawn, this.DesignationType);
-			}
-			return result;
+			return mapHeld.designationManager.DesignationOn(pawn, this.DesignationType);
 		}
 	}
 }

@@ -20,7 +20,7 @@ namespace Verse
 				{
 					'_'
 				});
-				string assetName = "";
+				string assetName = string.Empty;
 				if (pieces.Length <= 2)
 				{
 					assetName = pieces[0];
@@ -93,15 +93,14 @@ namespace Verse
 					loadedAssetNames = new HashSet<string>();
 					array = Resources.LoadAll<Texture2D>("Textures/" + folderPath);
 					i = 0;
-					goto IL_1B1;
+					break;
 				case 1u:
+					IL_19F:
+					i++;
 					break;
 				default:
 					return false;
 				}
-				IL_1A3:
-				i++;
-				IL_1B1:
 				if (i >= array.Length)
 				{
 					this.$PC = -1;
@@ -114,7 +113,7 @@ namespace Verse
 					{
 						'_'
 					});
-					assetName = "";
+					assetName = string.Empty;
 					if (pieces.Length <= 2)
 					{
 						assetName = pieces[0];
@@ -140,7 +139,7 @@ namespace Verse
 					}
 					if (loadedAssetNames.Contains(assetName))
 					{
-						goto IL_1A3;
+						goto IL_19F;
 					}
 					loadedAssetNames.Add(assetName);
 					this.$current = assetName;

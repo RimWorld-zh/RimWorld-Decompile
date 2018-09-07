@@ -1,5 +1,9 @@
 ﻿using System;
+using System.Collections.Generic;
+using System.Linq;
 using System.Reflection;
+using System.Runtime.CompilerServices;
+using System.Text;
 using System.Text.RegularExpressions;
 
 namespace Verse
@@ -9,6 +13,11 @@ namespace Verse
 		public const char HandleIndexCharacter = '-';
 
 		private static Regex StringFormatSymbolsRegex = new Regex("{[0-9]*}");
+
+		private static StringBuilder tmpStringBuilder = new StringBuilder();
+
+		[CompilerGenerated]
+		private static Func<char, bool> <>f__mg$cache0;
 
 		public static int GetElementIndexByHandle(object list, string handle, int handleIndex)
 		{
@@ -112,218 +121,202 @@ namespace Verse
 
 		public static string GetBestHandleWithIndexForListElement(object list, object element)
 		{
-			string result;
 			if (list == null || element == null)
 			{
-				result = null;
+				return null;
 			}
-			else
+			PropertyInfo property = list.GetType().GetProperty("Count");
+			if (property == null)
 			{
-				PropertyInfo property = list.GetType().GetProperty("Count");
-				if (property == null)
+				return null;
+			}
+			PropertyInfo property2 = list.GetType().GetProperty("Item");
+			if (property2 == null)
+			{
+				return null;
+			}
+			FieldInfo fieldInfo = null;
+			string handle = null;
+			int num = 0;
+			FieldInfo[] fields = element.GetType().GetFields(BindingFlags.IgnoreCase | BindingFlags.Instance | BindingFlags.Static | BindingFlags.Public | BindingFlags.NonPublic);
+			foreach (FieldInfo fieldInfo2 in fields)
+			{
+				TranslationHandleAttribute translationHandleAttribute = fieldInfo2.TryGetAttribute<TranslationHandleAttribute>();
+				if (translationHandleAttribute != null)
 				{
-					result = null;
-				}
-				else
-				{
-					PropertyInfo property2 = list.GetType().GetProperty("Item");
-					if (property2 == null)
+					object value = fieldInfo2.GetValue(element);
+					if (value != null)
 					{
-						result = null;
-					}
-					else
-					{
-						FieldInfo fieldInfo = null;
-						string handle = null;
-						int num = 0;
-						FieldInfo[] fields = element.GetType().GetFields(BindingFlags.IgnoreCase | BindingFlags.Instance | BindingFlags.Static | BindingFlags.Public | BindingFlags.NonPublic);
-						foreach (FieldInfo fieldInfo2 in fields)
+						Type type = value as Type;
+						string text;
+						if (type != null)
 						{
-							TranslationHandleAttribute translationHandleAttribute = fieldInfo2.TryGetAttribute<TranslationHandleAttribute>();
-							if (translationHandleAttribute != null)
-							{
-								object value = fieldInfo2.GetValue(element);
-								if (value != null)
-								{
-									Type type = value as Type;
-									string text;
-									if (type != null)
-									{
-										text = type.Name;
-									}
-									else
-									{
-										try
-										{
-											text = value.ToString();
-										}
-										catch
-										{
-											return null;
-										}
-									}
-									if (!text.NullOrEmpty())
-									{
-										int priority = translationHandleAttribute.Priority;
-										if (fieldInfo == null || priority > num)
-										{
-											fieldInfo = fieldInfo2;
-											handle = text;
-											num = priority;
-										}
-									}
-								}
-							}
-						}
-						if (fieldInfo == null)
-						{
-							result = null;
+							text = type.Name;
 						}
 						else
 						{
-							int num2 = 0;
-							int num3 = -1;
-							int num4 = (int)property.GetValue(list, null);
-							for (int j = 0; j < num4; j++)
+							try
 							{
-								object value2 = property2.GetValue(list, new object[]
+								text = value.ToString();
+							}
+							catch
+							{
+								return null;
+							}
+						}
+						if (!text.NullOrEmpty())
+						{
+							int priority = translationHandleAttribute.Priority;
+							if (fieldInfo == null || priority > num)
+							{
+								fieldInfo = fieldInfo2;
+								handle = text;
+								num = priority;
+							}
+						}
+					}
+				}
+			}
+			if (fieldInfo == null)
+			{
+				return null;
+			}
+			int num2 = 0;
+			int num3 = -1;
+			int num4 = (int)property.GetValue(list, null);
+			for (int j = 0; j < num4; j++)
+			{
+				object value2 = property2.GetValue(list, new object[]
+				{
+					j
+				});
+				if (value2 != null)
+				{
+					if (value2 == element)
+					{
+						num3 = num2;
+						num2++;
+					}
+					else
+					{
+						FieldInfo[] fields2 = value2.GetType().GetFields(BindingFlags.IgnoreCase | BindingFlags.Instance | BindingFlags.Static | BindingFlags.Public | BindingFlags.NonPublic);
+						foreach (FieldInfo fieldInfo3 in fields2)
+						{
+							if (TranslationHandleUtility.FieldInfosEqual(fieldInfo3, fieldInfo))
+							{
+								object value3 = fieldInfo3.GetValue(value2);
+								if (value3 != null)
 								{
-									j
-								});
-								if (value2 != null)
-								{
-									if (value2 == element)
+									if (TranslationHandleUtility.HandlesMatch(value3, handle))
 									{
-										num3 = num2;
 										num2++;
+										break;
 									}
-									else
-									{
-										FieldInfo[] fields2 = value2.GetType().GetFields(BindingFlags.IgnoreCase | BindingFlags.Instance | BindingFlags.Static | BindingFlags.Public | BindingFlags.NonPublic);
-										foreach (FieldInfo fieldInfo3 in fields2)
-										{
-											if (TranslationHandleUtility.FieldInfosEqual(fieldInfo3, fieldInfo))
-											{
-												object value3 = fieldInfo3.GetValue(value2);
-												if (value3 != null)
-												{
-													if (TranslationHandleUtility.HandlesMatch(value3, handle))
-													{
-														num2++;
-														break;
-													}
-												}
-											}
-										}
-									}
-								}
-							}
-							if (num3 < 0)
-							{
-								result = null;
-							}
-							else
-							{
-								string text2 = TranslationHandleUtility.NormalizedHandle(handle);
-								if (num2 <= 1)
-								{
-									result = text2;
-								}
-								else
-								{
-									result = text2 + '-' + num3;
 								}
 							}
 						}
 					}
 				}
 			}
-			return result;
+			if (num3 < 0)
+			{
+				return null;
+			}
+			string text2 = TranslationHandleUtility.NormalizedHandle(handle);
+			if (num2 <= 1)
+			{
+				return text2;
+			}
+			return text2 + '-' + num3;
 		}
 
 		public static bool HandlesMatch(object item, string handle)
 		{
-			bool result;
 			if (item == null)
 			{
-				result = false;
+				return false;
 			}
-			else if (handle.NullOrEmpty())
+			if (handle.NullOrEmpty())
 			{
-				result = false;
+				return false;
 			}
-			else
+			handle = TranslationHandleUtility.NormalizedHandle(handle);
+			if (handle.NullOrEmpty())
 			{
-				handle = TranslationHandleUtility.NormalizedHandle(handle);
-				if (handle.NullOrEmpty())
-				{
-					result = false;
-				}
-				else
-				{
-					Type type = item as Type;
-					if (type != null)
-					{
-						result = (TranslationHandleUtility.NormalizedHandle(type.Name) == handle || TranslationHandleUtility.NormalizedHandle(type.FullName) == handle || TranslationHandleUtility.NormalizedHandle(type.ToString()) == handle);
-					}
-					else
-					{
-						string text;
-						try
-						{
-							text = item.ToString();
-						}
-						catch (Exception arg)
-						{
-							throw new InvalidOperationException("Could not get element by handle because one of the elements threw an exception in its ToString(): " + arg);
-						}
-						result = (!text.NullOrEmpty() && TranslationHandleUtility.NormalizedHandle(text) == handle);
-					}
-				}
+				return false;
 			}
-			return result;
+			Type type = item as Type;
+			if (type != null)
+			{
+				return TranslationHandleUtility.NormalizedHandle(type.Name) == handle || TranslationHandleUtility.NormalizedHandle(type.FullName) == handle || TranslationHandleUtility.NormalizedHandle(type.ToString()) == handle;
+			}
+			string text;
+			try
+			{
+				text = item.ToString();
+			}
+			catch (Exception arg)
+			{
+				throw new InvalidOperationException("Could not get element by handle because one of the elements threw an exception in its ToString(): " + arg);
+			}
+			return !text.NullOrEmpty() && TranslationHandleUtility.NormalizedHandle(text) == handle;
 		}
 
 		private static string NormalizedHandle(string handle)
 		{
-			string result;
 			if (handle.NullOrEmpty())
 			{
-				result = handle;
+				return handle;
 			}
-			else
+			handle = handle.Trim();
+			handle = handle.Replace(' ', '_');
+			handle = handle.Replace('\n', '_');
+			handle = handle.Replace("\r", string.Empty);
+			handle = handle.Replace('\t', '_');
+			handle = handle.Replace(".", string.Empty);
+			if (handle.IndexOf('-') >= 0)
 			{
-				handle = handle.Trim();
-				handle = handle.Replace(' ', '_');
-				handle = handle.Replace('\n', '_');
-				handle = handle.Replace("\r", "");
-				handle = handle.Replace('\t', '_');
-				handle = handle.Replace(".", "");
-				if (handle.IndexOf('-') >= 0)
-				{
-					handle = handle.Replace('-'.ToString(), "");
-				}
-				if (handle.IndexOf("{") >= 0)
-				{
-					handle = TranslationHandleUtility.StringFormatSymbolsRegex.Replace(handle, "");
-				}
-				string text = "(){}[]<>,/?;:'’\"„”‘’‛’|\\+=`~!@#$%^&* \t\r\n";
-				for (int i = 0; i < text.Length; i++)
-				{
-					if (handle.IndexOf(text[i]) >= 0)
-					{
-						handle = handle.Replace(text[i].ToString(), "");
-					}
-				}
-				handle = handle.Replace("___", "_");
-				handle = handle.Replace("__", "_");
-				handle = handle.Trim(new char[]
-				{
-					'_'
-				});
-				result = handle;
+				handle = handle.Replace('-'.ToString(), string.Empty);
 			}
-			return result;
+			if (handle.IndexOf("{") >= 0)
+			{
+				handle = TranslationHandleUtility.StringFormatSymbolsRegex.Replace(handle, string.Empty);
+			}
+			TranslationHandleUtility.tmpStringBuilder.Length = 0;
+			for (int i = 0; i < handle.Length; i++)
+			{
+				if ("qwertyuiopasdfghjklzxcvbnmQWERTYUIOPASDFGHJKLZXCVBNM1234567890-_".IndexOf(handle[i]) >= 0)
+				{
+					TranslationHandleUtility.tmpStringBuilder.Append(handle[i]);
+				}
+			}
+			handle = TranslationHandleUtility.tmpStringBuilder.ToString();
+			TranslationHandleUtility.tmpStringBuilder.Length = 0;
+			for (int j = 0; j < handle.Length; j++)
+			{
+				if (j == 0 || handle[j] != '_' || handle[j - 1] != '_')
+				{
+					TranslationHandleUtility.tmpStringBuilder.Append(handle[j]);
+				}
+			}
+			handle = TranslationHandleUtility.tmpStringBuilder.ToString();
+			handle = handle.Trim(new char[]
+			{
+				'_'
+			});
+			if (!handle.NullOrEmpty())
+			{
+				IEnumerable<char> source = handle;
+				if (TranslationHandleUtility.<>f__mg$cache0 == null)
+				{
+					TranslationHandleUtility.<>f__mg$cache0 = new Func<char, bool>(char.IsDigit);
+				}
+				if (source.All(TranslationHandleUtility.<>f__mg$cache0))
+				{
+					handle = "_" + handle;
+				}
+			}
+			return handle;
 		}
 
 		private static bool FieldInfosEqual(FieldInfo lhs, FieldInfo rhs)

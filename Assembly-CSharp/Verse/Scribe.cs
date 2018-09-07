@@ -19,20 +19,15 @@ namespace Verse
 
 		public static bool EnterNode(string nodeName)
 		{
-			bool result;
 			if (Scribe.mode == LoadSaveMode.Inactive)
 			{
-				result = false;
+				return false;
 			}
-			else if (Scribe.mode == LoadSaveMode.Saving)
+			if (Scribe.mode == LoadSaveMode.Saving)
 			{
-				result = Scribe.saver.EnterNode(nodeName);
+				return Scribe.saver.EnterNode(nodeName);
 			}
-			else
-			{
-				result = ((Scribe.mode != LoadSaveMode.LoadingVars && Scribe.mode != LoadSaveMode.ResolvingCrossRefs && Scribe.mode != LoadSaveMode.PostLoadInit) || Scribe.loader.EnterNode(nodeName));
-			}
-			return result;
+			return (Scribe.mode != LoadSaveMode.LoadingVars && Scribe.mode != LoadSaveMode.ResolvingCrossRefs && Scribe.mode != LoadSaveMode.PostLoadInit) || Scribe.loader.EnterNode(nodeName);
 		}
 
 		public static void ExitNode()

@@ -73,20 +73,15 @@ namespace RimWorld.Planet
 
 		private static IntVec3 GetEnterCell(Caravan caravan, Map map, CaravanEnterMode enterMode, Predicate<IntVec3> extraCellValidator)
 		{
-			IntVec3 result;
-			if (enterMode != CaravanEnterMode.Edge)
+			if (enterMode == CaravanEnterMode.Edge)
 			{
-				if (enterMode != CaravanEnterMode.Center)
-				{
-					throw new NotImplementedException("CaravanEnterMode");
-				}
-				result = CaravanEnterMapUtility.FindCenterCell(map, extraCellValidator);
+				return CaravanEnterMapUtility.FindNearEdgeCell(map, extraCellValidator);
 			}
-			else
+			if (enterMode != CaravanEnterMode.Center)
 			{
-				result = CaravanEnterMapUtility.FindNearEdgeCell(map, extraCellValidator);
+				throw new NotImplementedException("CaravanEnterMode");
 			}
-			return result;
+			return CaravanEnterMapUtility.FindCenterCell(map, extraCellValidator);
 		}
 
 		private static IntVec3 FindNearEdgeCell(Map map, Predicate<IntVec3> extraCellValidator)
@@ -94,47 +89,37 @@ namespace RimWorld.Planet
 			Predicate<IntVec3> baseValidator = (IntVec3 x) => x.Standable(map) && !x.Fogged(map);
 			Faction hostFaction = map.ParentFaction;
 			IntVec3 root;
-			IntVec3 result;
 			if (CellFinder.TryFindRandomEdgeCellWith((IntVec3 x) => baseValidator(x) && (extraCellValidator == null || extraCellValidator(x)) && ((hostFaction != null && map.reachability.CanReachFactionBase(x, hostFaction)) || (hostFaction == null && map.reachability.CanReachBiggestMapEdgeRoom(x))), map, CellFinder.EdgeRoadChance_Neutral, out root))
 			{
-				result = CellFinder.RandomClosewalkCellNear(root, map, 5, null);
+				return CellFinder.RandomClosewalkCellNear(root, map, 5, null);
 			}
-			else if (extraCellValidator != null && CellFinder.TryFindRandomEdgeCellWith((IntVec3 x) => baseValidator(x) && extraCellValidator(x), map, CellFinder.EdgeRoadChance_Neutral, out root))
+			if (extraCellValidator != null && CellFinder.TryFindRandomEdgeCellWith((IntVec3 x) => baseValidator(x) && extraCellValidator(x), map, CellFinder.EdgeRoadChance_Neutral, out root))
 			{
-				result = CellFinder.RandomClosewalkCellNear(root, map, 5, null);
+				return CellFinder.RandomClosewalkCellNear(root, map, 5, null);
 			}
-			else if (CellFinder.TryFindRandomEdgeCellWith(baseValidator, map, CellFinder.EdgeRoadChance_Neutral, out root))
+			if (CellFinder.TryFindRandomEdgeCellWith(baseValidator, map, CellFinder.EdgeRoadChance_Neutral, out root))
 			{
-				result = CellFinder.RandomClosewalkCellNear(root, map, 5, null);
+				return CellFinder.RandomClosewalkCellNear(root, map, 5, null);
 			}
-			else
-			{
-				Log.Warning("Could not find any valid edge cell.", false);
-				result = CellFinder.RandomCell(map);
-			}
-			return result;
+			Log.Warning("Could not find any valid edge cell.", false);
+			return CellFinder.RandomCell(map);
 		}
 
 		private static IntVec3 FindCenterCell(Map map, Predicate<IntVec3> extraCellValidator)
 		{
 			TraverseParms traverseParms = TraverseParms.For(TraverseMode.NoPassClosedDoors, Danger.Deadly, false);
 			Predicate<IntVec3> baseValidator = (IntVec3 x) => x.Standable(map) && !x.Fogged(map) && map.reachability.CanReachMapEdge(x, traverseParms);
-			IntVec3 intVec;
 			IntVec3 result;
-			if (extraCellValidator != null && RCellFinder.TryFindRandomCellNearTheCenterOfTheMapWith((IntVec3 x) => baseValidator(x) && extraCellValidator(x), map, out intVec))
+			if (extraCellValidator != null && RCellFinder.TryFindRandomCellNearTheCenterOfTheMapWith((IntVec3 x) => baseValidator(x) && extraCellValidator(x), map, out result))
 			{
-				result = intVec;
+				return result;
 			}
-			else if (RCellFinder.TryFindRandomCellNearTheCenterOfTheMapWith(baseValidator, map, out intVec))
+			if (RCellFinder.TryFindRandomCellNearTheCenterOfTheMapWith(baseValidator, map, out result))
 			{
-				result = intVec;
+				return result;
 			}
-			else
-			{
-				Log.Warning("Could not find any valid cell.", false);
-				result = CellFinder.RandomCell(map);
-			}
-			return result;
+			Log.Warning("Could not find any valid cell.", false);
+			return CellFinder.RandomCell(map);
 		}
 
 		public static void DropAllInventory(List<Pawn> pawns)

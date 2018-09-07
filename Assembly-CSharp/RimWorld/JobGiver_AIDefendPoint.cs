@@ -14,26 +14,21 @@ namespace RimWorld
 		{
 			Thing enemyTarget = pawn.mindState.enemyTarget;
 			Verb verb = pawn.TryGetAttackVerb(enemyTarget, !pawn.IsColonist);
-			bool result;
 			if (verb == null)
 			{
 				dest = IntVec3.Invalid;
-				result = false;
+				return false;
 			}
-			else
+			return CastPositionFinder.TryFindCastPosition(new CastPositionRequest
 			{
-				result = CastPositionFinder.TryFindCastPosition(new CastPositionRequest
-				{
-					caster = pawn,
-					target = enemyTarget,
-					verb = verb,
-					maxRangeFromTarget = 9999f,
-					locus = (IntVec3)pawn.mindState.duty.focus,
-					maxRangeFromLocus = pawn.mindState.duty.radius,
-					wantCoverFromTarget = (verb.verbProps.range > 7f)
-				}, out dest);
-			}
-			return result;
+				caster = pawn,
+				target = enemyTarget,
+				verb = verb,
+				maxRangeFromTarget = 9999f,
+				locus = (IntVec3)pawn.mindState.duty.focus,
+				maxRangeFromLocus = pawn.mindState.duty.radius,
+				wantCoverFromTarget = (verb.verbProps.range > 7f)
+			}, out dest);
 		}
 	}
 }

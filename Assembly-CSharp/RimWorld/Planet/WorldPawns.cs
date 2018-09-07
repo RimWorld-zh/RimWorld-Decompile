@@ -3,7 +3,6 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Runtime.CompilerServices;
 using System.Text;
-using UnityEngine.Profiling;
 using Verse;
 
 namespace RimWorld.Planet
@@ -140,7 +139,6 @@ namespace RimWorld.Planet
 				this.pawnsDead.Remove(WorldPawns.tmpPawnsToRemove[j]);
 			}
 			WorldPawns.tmpPawnsToRemove.Clear();
-			Profiler.BeginSample("WorldPawnGCTick");
 			try
 			{
 				this.gc.WorldPawnGCTick();
@@ -149,7 +147,6 @@ namespace RimWorld.Planet
 			{
 				Log.Error("Error in WorldPawnGCTick(): " + arg2, false);
 			}
-			Profiler.EndSample();
 		}
 
 		public void ExposeData()
@@ -203,41 +200,40 @@ namespace RimWorld.Planet
 			if (pawn.Spawned)
 			{
 				Log.Error("Tried to call PassToWorld with spawned pawn: " + pawn + ". Despawn him first.", false);
+				return;
 			}
-			else if (this.Contains(pawn))
+			if (this.Contains(pawn))
 			{
 				Log.Error("Tried to pass pawn " + pawn + " to world, but it's already here.", false);
+				return;
 			}
-			else
+			if (discardMode == PawnDiscardDecideMode.KeepForever && pawn.Discarded)
 			{
-				if (discardMode == PawnDiscardDecideMode.KeepForever && pawn.Discarded)
+				Log.Error("Tried to pass a discarded pawn " + pawn + " to world with discardMode=Keep. Discarded pawns should never be stored in WorldPawns.", false);
+				discardMode = PawnDiscardDecideMode.Decide;
+			}
+			if (PawnComponentsUtility.HasSpawnedComponents(pawn))
+			{
+				PawnComponentsUtility.RemoveComponentsOnDespawned(pawn);
+			}
+			if (discardMode != PawnDiscardDecideMode.Decide)
+			{
+				if (discardMode != PawnDiscardDecideMode.KeepForever)
 				{
-					Log.Error("Tried to pass a discarded pawn " + pawn + " to world with discardMode=Keep. Discarded pawns should never be stored in WorldPawns.", false);
-					discardMode = PawnDiscardDecideMode.Decide;
-				}
-				if (PawnComponentsUtility.HasSpawnedComponents(pawn))
-				{
-					PawnComponentsUtility.RemoveComponentsOnDespawned(pawn);
-				}
-				if (discardMode != PawnDiscardDecideMode.Decide)
-				{
-					if (discardMode != PawnDiscardDecideMode.KeepForever)
+					if (discardMode == PawnDiscardDecideMode.Discard)
 					{
-						if (discardMode == PawnDiscardDecideMode.Discard)
-						{
-							this.DiscardPawn(pawn, false);
-						}
-					}
-					else
-					{
-						this.pawnsForcefullyKeptAsWorldPawns.Add(pawn);
-						this.AddPawn(pawn);
+						this.DiscardPawn(pawn, false);
 					}
 				}
 				else
 				{
+					this.pawnsForcefullyKeptAsWorldPawns.Add(pawn);
 					this.AddPawn(pawn);
 				}
+			}
+			else
+			{
+				this.AddPawn(pawn);
 			}
 		}
 
@@ -284,40 +280,35 @@ namespace RimWorld.Planet
 
 		public WorldPawnSituation GetSituation(Pawn p)
 		{
-			WorldPawnSituation result;
 			if (!this.Contains(p))
 			{
-				result = WorldPawnSituation.None;
+				return WorldPawnSituation.None;
 			}
-			else if (p.Dead || p.Destroyed)
+			if (p.Dead || p.Destroyed)
 			{
-				result = WorldPawnSituation.Dead;
+				return WorldPawnSituation.Dead;
 			}
-			else if (PawnUtility.IsFactionLeader(p))
+			if (PawnUtility.IsFactionLeader(p))
 			{
-				result = WorldPawnSituation.FactionLeader;
+				return WorldPawnSituation.FactionLeader;
 			}
-			else if (PawnUtility.IsKidnappedPawn(p))
+			if (PawnUtility.IsKidnappedPawn(p))
 			{
-				result = WorldPawnSituation.Kidnapped;
+				return WorldPawnSituation.Kidnapped;
 			}
-			else if (p.IsCaravanMember())
+			if (p.IsCaravanMember())
 			{
-				result = WorldPawnSituation.CaravanMember;
+				return WorldPawnSituation.CaravanMember;
 			}
-			else if (PawnUtility.IsTravelingInTransportPodWorldObject(p))
+			if (PawnUtility.IsTravelingInTransportPodWorldObject(p))
 			{
-				result = WorldPawnSituation.InTravelingTransportPod;
+				return WorldPawnSituation.InTravelingTransportPod;
 			}
-			else if (PawnUtility.ForSaleBySettlement(p))
+			if (PawnUtility.ForSaleBySettlement(p))
 			{
-				result = WorldPawnSituation.ForSaleBySettlement;
+				return WorldPawnSituation.ForSaleBySettlement;
 			}
-			else
-			{
-				result = WorldPawnSituation.Free;
-			}
-			return result;
+			return WorldPawnSituation.Free;
 		}
 
 		public IEnumerable<Pawn> GetPawnsBySituation(WorldPawnSituation situation)

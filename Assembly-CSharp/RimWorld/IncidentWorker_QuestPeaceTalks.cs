@@ -23,29 +23,24 @@ namespace RimWorld
 		protected override bool TryExecuteWorker(IncidentParms parms)
 		{
 			Faction faction;
-			bool result;
-			int tile;
 			if (!this.TryFindFaction(out faction))
 			{
-				result = false;
+				return false;
 			}
-			else if (!this.TryFindTile(out tile))
+			int tile;
+			if (!this.TryFindTile(out tile))
 			{
-				result = false;
+				return false;
 			}
-			else
-			{
-				PeaceTalks peaceTalks = (PeaceTalks)WorldObjectMaker.MakeWorldObject(WorldObjectDefOf.PeaceTalks);
-				peaceTalks.Tile = tile;
-				peaceTalks.SetFaction(faction);
-				int randomInRange = SiteTuning.QuestSiteTimeoutDaysRange.RandomInRange;
-				peaceTalks.GetComponent<TimeoutComp>().StartTimeout(randomInRange * 60000);
-				Find.WorldObjects.Add(peaceTalks);
-				string text = string.Format(this.def.letterText.AdjustedFor(faction.leader, "PAWN"), faction.def.leaderTitle, faction.Name, randomInRange).CapitalizeFirst();
-				Find.LetterStack.ReceiveLetter(this.def.letterLabel, text, this.def.letterDef, peaceTalks, faction, null);
-				result = true;
-			}
-			return result;
+			PeaceTalks peaceTalks = (PeaceTalks)WorldObjectMaker.MakeWorldObject(WorldObjectDefOf.PeaceTalks);
+			peaceTalks.Tile = tile;
+			peaceTalks.SetFaction(faction);
+			int randomInRange = SiteTuning.QuestSiteTimeoutDaysRange.RandomInRange;
+			peaceTalks.GetComponent<TimeoutComp>().StartTimeout(randomInRange * 60000);
+			Find.WorldObjects.Add(peaceTalks);
+			string text = string.Format(this.def.letterText.AdjustedFor(faction.leader, "PAWN"), faction.def.leaderTitle, faction.Name, randomInRange).CapitalizeFirst();
+			Find.LetterStack.ReceiveLetter(this.def.letterLabel, text, this.def.letterDef, peaceTalks, faction, null);
+			return true;
 		}
 
 		private bool TryFindFaction(out Faction faction)

@@ -20,16 +20,11 @@ namespace RimWorld
 
 		public override float ValueFor(Sample samp)
 		{
-			float result;
 			if (Find.CurrentMap == null)
 			{
-				result = 0f;
+				return 0f;
 			}
-			else
-			{
-				result = GenLocalDate.HourFloat(Find.CurrentMap);
-			}
-			return result;
+			return GenLocalDate.HourFloat(Find.CurrentMap);
 		}
 	}
 }

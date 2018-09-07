@@ -25,16 +25,11 @@ namespace RimWorld
 
 		public float GetSelectionWeight(Thing target)
 		{
-			float result;
 			if (!this.verb.IsUsableOn(target))
 			{
-				result = 0f;
+				return 0f;
 			}
-			else
-			{
-				result = this.cachedSelectionWeight;
-			}
-			return result;
+			return this.cachedSelectionWeight;
 		}
 
 		public override string ToString()

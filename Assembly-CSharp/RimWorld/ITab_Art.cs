@@ -31,16 +31,11 @@ namespace RimWorld
 				{
 					thing = minifiedThing.InnerThing;
 				}
-				CompArt result;
 				if (thing == null)
 				{
-					result = null;
+					return null;
 				}
-				else
-				{
-					result = thing.TryGetComp<CompArt>();
-				}
-				return result;
+				return thing.TryGetComp<CompArt>();
 			}
 		}
 

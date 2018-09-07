@@ -12,51 +12,41 @@ namespace RimWorld
 
 		protected override bool CanFireNowSub(IncidentParms parms)
 		{
-			bool result;
-			Faction faction;
 			if (!base.CanFireNowSub(parms))
 			{
-				result = false;
+				return false;
 			}
-			else if (!this.TryFindFormerFaction(out faction))
+			Faction faction;
+			if (!this.TryFindFormerFaction(out faction))
 			{
-				result = false;
+				return false;
 			}
-			else
-			{
-				Map map = (Map)parms.target;
-				IntVec3 intVec;
-				result = (!map.GameConditionManager.ConditionIsActive(GameConditionDefOf.ToxicFallout) && map.mapTemperature.SeasonAcceptableFor(ThingDefOf.Human) && this.TryFindEntryCell(map, out intVec));
-			}
-			return result;
+			Map map = (Map)parms.target;
+			IntVec3 intVec;
+			return !map.GameConditionManager.ConditionIsActive(GameConditionDefOf.ToxicFallout) && map.mapTemperature.SeasonAcceptableFor(ThingDefOf.Human) && this.TryFindEntryCell(map, out intVec);
 		}
 
 		protected override bool TryExecuteWorker(IncidentParms parms)
 		{
 			Map map = (Map)parms.target;
 			IntVec3 loc;
-			bool result;
-			Faction faction;
 			if (!this.TryFindEntryCell(map, out loc))
 			{
-				result = false;
+				return false;
 			}
-			else if (!this.TryFindFormerFaction(out faction))
+			Faction faction;
+			if (!this.TryFindFormerFaction(out faction))
 			{
-				result = false;
+				return false;
 			}
-			else
-			{
-				Pawn pawn = PawnGenerator.GeneratePawn(PawnKindDefOf.WildMan, faction);
-				pawn.SetFaction(null, null);
-				GenSpawn.Spawn(pawn, loc, map, WipeMode.Vanish);
-				string letterLabel = this.def.letterLabel;
-				string text = string.Format(this.def.letterText.AdjustedFor(pawn, "PAWN"), pawn.LabelShort).CapitalizeFirst();
-				PawnRelationUtility.TryAppendRelationsWithColonistsInfo(ref text, ref letterLabel, pawn);
-				Find.LetterStack.ReceiveLetter(letterLabel, text, this.def.letterDef, pawn, null, null);
-				result = true;
-			}
-			return result;
+			Pawn pawn = PawnGenerator.GeneratePawn(PawnKindDefOf.WildMan, faction);
+			pawn.SetFaction(null, null);
+			GenSpawn.Spawn(pawn, loc, map, WipeMode.Vanish);
+			string letterLabel = this.def.letterLabel;
+			string text = string.Format(this.def.letterText.AdjustedFor(pawn, "PAWN"), pawn.LabelShort).CapitalizeFirst();
+			PawnRelationUtility.TryAppendRelationsWithColonistsInfo(ref text, ref letterLabel, pawn);
+			Find.LetterStack.ReceiveLetter(letterLabel, text, this.def.letterDef, pawn, null, null);
+			return true;
 		}
 
 		private bool TryFindEntryCell(Map map, out IntVec3 cell)

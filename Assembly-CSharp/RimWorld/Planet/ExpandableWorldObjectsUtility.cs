@@ -32,16 +32,11 @@ namespace RimWorld.Planet
 		{
 			get
 			{
-				float result;
 				if (!Find.PlaySettings.showExpandingIcons)
 				{
-					result = 0f;
+					return 0f;
 				}
-				else
-				{
-					result = ExpandableWorldObjectsUtility.transitionPct;
-				}
-				return result;
+				return ExpandableWorldObjectsUtility.transitionPct;
 			}
 		}
 
@@ -49,16 +44,11 @@ namespace RimWorld.Planet
 		{
 			get
 			{
-				float result;
 				if (!Find.PlaySettings.showExpandingIcons)
 				{
-					result = 0f;
+					return 0f;
 				}
-				else
-				{
-					result = ExpandableWorldObjectsUtility.expandMoreTransitionPct;
-				}
-				return result;
+				return ExpandableWorldObjectsUtility.expandMoreTransitionPct;
 			}
 		}
 
@@ -88,41 +78,42 @@ namespace RimWorld.Planet
 
 		public static void ExpandableWorldObjectsOnGUI()
 		{
-			if (ExpandableWorldObjectsUtility.TransitionPct != 0f)
+			if (ExpandableWorldObjectsUtility.TransitionPct == 0f)
 			{
-				ExpandableWorldObjectsUtility.tmpWorldObjects.Clear();
-				ExpandableWorldObjectsUtility.tmpWorldObjects.AddRange(Find.WorldObjects.AllWorldObjects);
-				ExpandableWorldObjectsUtility.SortByExpandingIconPriority(ExpandableWorldObjectsUtility.tmpWorldObjects);
-				WorldTargeter worldTargeter = Find.WorldTargeter;
-				List<WorldObject> worldObjectsUnderMouse = null;
-				if (worldTargeter.IsTargeting)
+				return;
+			}
+			ExpandableWorldObjectsUtility.tmpWorldObjects.Clear();
+			ExpandableWorldObjectsUtility.tmpWorldObjects.AddRange(Find.WorldObjects.AllWorldObjects);
+			ExpandableWorldObjectsUtility.SortByExpandingIconPriority(ExpandableWorldObjectsUtility.tmpWorldObjects);
+			WorldTargeter worldTargeter = Find.WorldTargeter;
+			List<WorldObject> worldObjectsUnderMouse = null;
+			if (worldTargeter.IsTargeting)
+			{
+				worldObjectsUnderMouse = GenWorldUI.WorldObjectsUnderMouse(UI.MousePositionOnUI);
+			}
+			for (int i = 0; i < ExpandableWorldObjectsUtility.tmpWorldObjects.Count; i++)
+			{
+				WorldObject worldObject = ExpandableWorldObjectsUtility.tmpWorldObjects[i];
+				if (worldObject.def.expandingIcon)
 				{
-					worldObjectsUnderMouse = GenWorldUI.WorldObjectsUnderMouse(UI.MousePositionOnUI);
-				}
-				for (int i = 0; i < ExpandableWorldObjectsUtility.tmpWorldObjects.Count; i++)
-				{
-					WorldObject worldObject = ExpandableWorldObjectsUtility.tmpWorldObjects[i];
-					if (worldObject.def.expandingIcon)
+					if (!worldObject.HiddenBehindTerrainNow())
 					{
-						if (!worldObject.HiddenBehindTerrainNow())
+						Color expandingIconColor = worldObject.ExpandingIconColor;
+						expandingIconColor.a = ExpandableWorldObjectsUtility.TransitionPct;
+						if (worldTargeter.IsTargetedNow(worldObject, worldObjectsUnderMouse))
 						{
-							Color expandingIconColor = worldObject.ExpandingIconColor;
-							expandingIconColor.a = ExpandableWorldObjectsUtility.TransitionPct;
-							if (worldTargeter.IsTargetedNow(worldObject, worldObjectsUnderMouse))
-							{
-								float num = GenMath.LerpDouble(-1f, 1f, 0.7f, 1f, Mathf.Sin(Time.time * 8f));
-								expandingIconColor.r *= num;
-								expandingIconColor.g *= num;
-								expandingIconColor.b *= num;
-							}
-							GUI.color = expandingIconColor;
-							GUI.DrawTexture(ExpandableWorldObjectsUtility.ExpandedIconScreenRect(worldObject), worldObject.ExpandingIcon);
+							float num = GenMath.LerpDouble(-1f, 1f, 0.7f, 1f, Mathf.Sin(Time.time * 8f));
+							expandingIconColor.r *= num;
+							expandingIconColor.g *= num;
+							expandingIconColor.b *= num;
 						}
+						GUI.color = expandingIconColor;
+						GUI.DrawTexture(ExpandableWorldObjectsUtility.ExpandedIconScreenRect(worldObject), worldObject.ExpandingIcon);
 					}
 				}
-				ExpandableWorldObjectsUtility.tmpWorldObjects.Clear();
-				GUI.color = Color.white;
 			}
+			ExpandableWorldObjectsUtility.tmpWorldObjects.Clear();
+			GUI.color = Color.white;
 		}
 
 		public static Rect ExpandedIconScreenRect(WorldObject o)

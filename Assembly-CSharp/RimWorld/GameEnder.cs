@@ -7,7 +7,7 @@ namespace RimWorld
 {
 	public sealed class GameEnder : IExposable
 	{
-		public bool gameEnding = false;
+		public bool gameEnding;
 
 		private int ticksToGameOver = -1;
 
@@ -25,57 +25,59 @@ namespace RimWorld
 
 		public void CheckOrUpdateGameOver()
 		{
-			if (Find.TickManager.TicksGame >= 300)
+			if (Find.TickManager.TicksGame < 300)
 			{
-				List<Map> maps = Find.Maps;
-				for (int i = 0; i < maps.Count; i++)
+				return;
+			}
+			List<Map> maps = Find.Maps;
+			for (int i = 0; i < maps.Count; i++)
+			{
+				if (maps[i].mapPawns.FreeColonistsSpawnedOrInPlayerEjectablePodsCount >= 1)
 				{
-					if (maps[i].mapPawns.FreeColonistsSpawnedOrInPlayerEjectablePodsCount >= 1)
-					{
-						this.gameEnding = false;
-						return;
-					}
+					this.gameEnding = false;
+					return;
 				}
-				for (int j = 0; j < maps.Count; j++)
+			}
+			for (int j = 0; j < maps.Count; j++)
+			{
+				List<Pawn> allPawnsSpawned = maps[j].mapPawns.AllPawnsSpawned;
+				for (int k = 0; k < allPawnsSpawned.Count; k++)
 				{
-					List<Pawn> allPawnsSpawned = maps[j].mapPawns.AllPawnsSpawned;
-					for (int k = 0; k < allPawnsSpawned.Count; k++)
+					if (allPawnsSpawned[k].carryTracker != null)
 					{
-						if (allPawnsSpawned[k].carryTracker != null)
+						Pawn pawn = allPawnsSpawned[k].carryTracker.CarriedThing as Pawn;
+						if (pawn != null && pawn.IsFreeColonist)
 						{
-							Pawn pawn = allPawnsSpawned[k].carryTracker.CarriedThing as Pawn;
-							if (pawn != null && pawn.IsFreeColonist)
-							{
-								this.gameEnding = false;
-								return;
-							}
+							this.gameEnding = false;
+							return;
 						}
 					}
 				}
-				List<Caravan> caravans = Find.WorldObjects.Caravans;
-				for (int l = 0; l < caravans.Count; l++)
+			}
+			List<Caravan> caravans = Find.WorldObjects.Caravans;
+			for (int l = 0; l < caravans.Count; l++)
+			{
+				if (this.IsPlayerControlledWithFreeColonist(caravans[l]))
 				{
-					if (this.IsPlayerControlledWithFreeColonist(caravans[l]))
-					{
-						this.gameEnding = false;
-						return;
-					}
-				}
-				List<TravelingTransportPods> travelingTransportPods = Find.WorldObjects.TravelingTransportPods;
-				for (int m = 0; m < travelingTransportPods.Count; m++)
-				{
-					if (travelingTransportPods[m].PodsHaveAnyFreeColonist)
-					{
-						this.gameEnding = false;
-						return;
-					}
-				}
-				if (!this.gameEnding)
-				{
-					this.gameEnding = true;
-					this.ticksToGameOver = 400;
+					this.gameEnding = false;
+					return;
 				}
 			}
+			List<TravelingTransportPods> travelingTransportPods = Find.WorldObjects.TravelingTransportPods;
+			for (int m = 0; m < travelingTransportPods.Count; m++)
+			{
+				if (travelingTransportPods[m].PodsHaveAnyFreeColonist)
+				{
+					this.gameEnding = false;
+					return;
+				}
+			}
+			if (this.gameEnding)
+			{
+				return;
+			}
+			this.gameEnding = true;
+			this.ticksToGameOver = 400;
 		}
 
 		public void GameEndTick()
@@ -92,25 +94,20 @@ namespace RimWorld
 
 		private bool IsPlayerControlledWithFreeColonist(Caravan caravan)
 		{
-			bool result;
 			if (!caravan.IsPlayerControlled)
 			{
-				result = false;
+				return false;
 			}
-			else
+			List<Pawn> pawnsListForReading = caravan.PawnsListForReading;
+			for (int i = 0; i < pawnsListForReading.Count; i++)
 			{
-				List<Pawn> pawnsListForReading = caravan.PawnsListForReading;
-				for (int i = 0; i < pawnsListForReading.Count; i++)
+				Pawn pawn = pawnsListForReading[i];
+				if (pawn.IsColonist && pawn.HostFaction == null)
 				{
-					Pawn pawn = pawnsListForReading[i];
-					if (pawn.IsColonist && pawn.HostFaction == null)
-					{
-						return true;
-					}
+					return true;
 				}
-				result = false;
 			}
-			return result;
+			return false;
 		}
 	}
 }

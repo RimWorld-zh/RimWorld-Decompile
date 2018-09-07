@@ -44,24 +44,19 @@ namespace RimWorld
 		private bool AnyThingWithQualityHere()
 		{
 			IntVec3 c = this.exactPosition.ToIntVec3();
-			bool result;
 			if (!c.InBounds(base.Map))
 			{
-				result = false;
+				return false;
 			}
-			else
+			List<Thing> thingList = c.GetThingList(base.Map);
+			for (int i = 0; i < thingList.Count; i++)
 			{
-				List<Thing> thingList = c.GetThingList(base.Map);
-				for (int i = 0; i < thingList.Count; i++)
+				if (thingList[i].TryGetComp<CompQuality>() != null && (thingList[i].DrawPos - this.exactPosition).MagnitudeHorizontalSquared() < 0.0001f)
 				{
-					if (thingList[i].TryGetComp<CompQuality>() != null && (thingList[i].DrawPos - this.exactPosition).MagnitudeHorizontalSquared() < 0.0001f)
-					{
-						return true;
-					}
+					return true;
 				}
-				result = false;
 			}
-			return result;
+			return false;
 		}
 
 		// Note: this type is marked as 'beforefieldinit'.

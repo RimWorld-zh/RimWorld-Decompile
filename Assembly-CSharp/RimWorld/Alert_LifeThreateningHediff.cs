@@ -56,16 +56,11 @@ namespace RimWorld
 					}
 				}
 			}
-			string result;
 			if (flag)
 			{
-				result = string.Format("PawnsWithLifeThreateningDiseaseAmputationDesc".Translate(), stringBuilder.ToString());
+				return string.Format("PawnsWithLifeThreateningDiseaseAmputationDesc".Translate(), stringBuilder.ToString());
 			}
-			else
-			{
-				result = string.Format("PawnsWithLifeThreateningDiseaseDesc".Translate(), stringBuilder.ToString());
-			}
-			return result;
+			return string.Format("PawnsWithLifeThreateningDiseaseDesc".Translate(), stringBuilder.ToString());
 		}
 
 		public override AlertReport GetReport()
@@ -116,8 +111,7 @@ namespace RimWorld
 					switch (num)
 					{
 					}
-					IL_11F:
-					if (enumerator.MoveNext())
+					while (enumerator.MoveNext())
 					{
 						p = enumerator.Current;
 						for (i = 0; i < p.health.hediffSet.hediffs.Count; i++)
@@ -134,7 +128,6 @@ namespace RimWorld
 								return true;
 							}
 						}
-						goto IL_11F;
 					}
 				}
 				finally

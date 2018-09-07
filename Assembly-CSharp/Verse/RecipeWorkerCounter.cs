@@ -21,74 +21,69 @@ namespace Verse
 		{
 			ThingDefCountClass thingDefCountClass = this.recipe.products[0];
 			ThingDef thingDef = thingDefCountClass.thingDef;
-			int result;
 			if (thingDefCountClass.thingDef.CountAsResource && !bill.includeEquipped && (bill.includeTainted || !thingDefCountClass.thingDef.IsApparel || !thingDefCountClass.thingDef.apparel.careIfWornByCorpse) && bill.includeFromZone == null && bill.hpRange.min == 0f && bill.hpRange.max == 1f && bill.qualityRange.min == QualityCategory.Awful && bill.qualityRange.max == QualityCategory.Legendary && !bill.limitToAllowedStuff)
 			{
-				result = bill.Map.resourceCounter.GetCount(thingDefCountClass.thingDef);
+				return bill.Map.resourceCounter.GetCount(thingDefCountClass.thingDef);
+			}
+			int num = 0;
+			if (bill.includeFromZone == null)
+			{
+				num = this.CountValidThings(bill.Map.listerThings.ThingsOfDef(thingDefCountClass.thingDef), bill, thingDef);
+				if (thingDefCountClass.thingDef.Minifiable)
+				{
+					List<Thing> list = bill.Map.listerThings.ThingsInGroup(ThingRequestGroup.MinifiedThing);
+					for (int i = 0; i < list.Count; i++)
+					{
+						MinifiedThing minifiedThing = (MinifiedThing)list[i];
+						if (this.CountValidThing(minifiedThing.InnerThing, bill, thingDef))
+						{
+							num += minifiedThing.stackCount * minifiedThing.InnerThing.stackCount;
+						}
+					}
+				}
 			}
 			else
 			{
-				int num = 0;
-				if (bill.includeFromZone == null)
+				foreach (Thing outerThing in bill.includeFromZone.AllContainedThings)
 				{
-					num = this.CountValidThings(bill.Map.listerThings.ThingsOfDef(thingDefCountClass.thingDef), bill, thingDef);
-					if (thingDefCountClass.thingDef.Minifiable)
+					Thing innerIfMinified = outerThing.GetInnerIfMinified();
+					if (this.CountValidThing(innerIfMinified, bill, thingDef))
 					{
-						List<Thing> list = bill.Map.listerThings.ThingsInGroup(ThingRequestGroup.MinifiedThing);
-						for (int i = 0; i < list.Count; i++)
-						{
-							MinifiedThing minifiedThing = (MinifiedThing)list[i];
-							if (this.CountValidThing(minifiedThing.InnerThing, bill, thingDef))
-							{
-								num += minifiedThing.stackCount * minifiedThing.InnerThing.stackCount;
-							}
-						}
+						num += innerIfMinified.stackCount;
 					}
 				}
-				else
-				{
-					foreach (Thing outerThing in bill.includeFromZone.AllContainedThings)
-					{
-						Thing innerIfMinified = outerThing.GetInnerIfMinified();
-						if (this.CountValidThing(innerIfMinified, bill, thingDef))
-						{
-							num += innerIfMinified.stackCount;
-						}
-					}
-				}
-				if (bill.includeEquipped)
-				{
-					foreach (Pawn pawn in bill.Map.mapPawns.FreeColonistsSpawned)
-					{
-						List<ThingWithComps> allEquipmentListForReading = pawn.equipment.AllEquipmentListForReading;
-						for (int j = 0; j < allEquipmentListForReading.Count; j++)
-						{
-							if (this.CountValidThing(allEquipmentListForReading[j], bill, thingDef))
-							{
-								num += allEquipmentListForReading[j].stackCount;
-							}
-						}
-						List<Apparel> wornApparel = pawn.apparel.WornApparel;
-						for (int k = 0; k < wornApparel.Count; k++)
-						{
-							if (this.CountValidThing(wornApparel[k], bill, thingDef))
-							{
-								num += wornApparel[k].stackCount;
-							}
-						}
-						ThingOwner directlyHeldThings = pawn.inventory.GetDirectlyHeldThings();
-						for (int l = 0; l < directlyHeldThings.Count; l++)
-						{
-							if (this.CountValidThing(directlyHeldThings[l], bill, thingDef))
-							{
-								num += directlyHeldThings[l].stackCount;
-							}
-						}
-					}
-				}
-				result = num;
 			}
-			return result;
+			if (bill.includeEquipped)
+			{
+				foreach (Pawn pawn in bill.Map.mapPawns.FreeColonistsSpawned)
+				{
+					List<ThingWithComps> allEquipmentListForReading = pawn.equipment.AllEquipmentListForReading;
+					for (int j = 0; j < allEquipmentListForReading.Count; j++)
+					{
+						if (this.CountValidThing(allEquipmentListForReading[j], bill, thingDef))
+						{
+							num += allEquipmentListForReading[j].stackCount;
+						}
+					}
+					List<Apparel> wornApparel = pawn.apparel.WornApparel;
+					for (int k = 0; k < wornApparel.Count; k++)
+					{
+						if (this.CountValidThing(wornApparel[k], bill, thingDef))
+						{
+							num += wornApparel[k].stackCount;
+						}
+					}
+					ThingOwner directlyHeldThings = pawn.inventory.GetDirectlyHeldThings();
+					for (int l = 0; l < directlyHeldThings.Count; l++)
+					{
+						if (this.CountValidThing(directlyHeldThings[l], bill, thingDef))
+						{
+							num += directlyHeldThings[l].stackCount;
+						}
+					}
+				}
+			}
+			return num;
 		}
 
 		public int CountValidThings(List<Thing> things, Bill_Production bill, ThingDef def)
@@ -107,25 +102,20 @@ namespace Verse
 		public bool CountValidThing(Thing thing, Bill_Production bill, ThingDef def)
 		{
 			ThingDef def2 = thing.def;
-			bool result;
 			if (def2 != def)
 			{
-				result = false;
+				return false;
 			}
-			else if (!bill.includeTainted && def2.IsApparel && ((Apparel)thing).WornByCorpse)
+			if (!bill.includeTainted && def2.IsApparel && ((Apparel)thing).WornByCorpse)
 			{
-				result = false;
+				return false;
 			}
-			else if (!bill.hpRange.IncludesEpsilon((float)thing.HitPoints / (float)thing.MaxHitPoints))
+			if (!bill.hpRange.IncludesEpsilon((float)thing.HitPoints / (float)thing.MaxHitPoints))
 			{
-				result = false;
+				return false;
 			}
-			else
-			{
-				CompQuality compQuality = thing.TryGetComp<CompQuality>();
-				result = ((compQuality == null || bill.qualityRange.Includes(compQuality.Quality)) && (!bill.limitToAllowedStuff || bill.ingredientFilter.Allows(thing.Stuff)));
-			}
-			return result;
+			CompQuality compQuality = thing.TryGetComp<CompQuality>();
+			return (compQuality == null || bill.qualityRange.Includes(compQuality.Quality)) && (!bill.limitToAllowedStuff || bill.ingredientFilter.Allows(thing.Stuff));
 		}
 
 		public virtual string ProductsDescription(Bill_Production bill)

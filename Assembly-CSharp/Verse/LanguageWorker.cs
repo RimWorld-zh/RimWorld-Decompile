@@ -13,21 +13,16 @@ namespace Verse
 		{
 			if (str.NullOrEmpty())
 			{
-				throw new ArgumentException();
+				return string.Empty;
 			}
-			string result;
 			if ("IndefiniteForm".CanTranslate())
 			{
-				result = "IndefiniteForm".Translate(new object[]
+				return "IndefiniteForm".Translate(new object[]
 				{
 					str
 				});
 			}
-			else
-			{
-				result = "IndefiniteArticle".Translate() + " " + str;
-			}
-			return result;
+			return "IndefiniteArticle".Translate() + " " + str;
 		}
 
 		public string WithIndefiniteArticlePostProcessed(string str)
@@ -39,21 +34,16 @@ namespace Verse
 		{
 			if (str.NullOrEmpty())
 			{
-				throw new ArgumentException();
+				return string.Empty;
 			}
-			string result;
 			if ("DefiniteForm".CanTranslate())
 			{
-				result = "DefiniteForm".Translate(new object[]
+				return "DefiniteForm".Translate(new object[]
 				{
 					str
 				});
 			}
-			else
-			{
-				result = "DefiniteArticle".Translate() + " " + str;
-			}
-			return result;
+			return "DefiniteArticle".Translate() + " " + str;
 		}
 
 		public string WithDefiniteArticlePostProcessed(string str)
@@ -74,21 +64,26 @@ namespace Verse
 
 		public virtual string ToTitleCase(string str)
 		{
-			string result;
 			if (str.NullOrEmpty())
 			{
-				result = str;
+				return str;
 			}
-			else
-			{
-				result = CultureInfo.CurrentCulture.TextInfo.ToTitleCase(str);
-			}
-			return result;
+			return CultureInfo.CurrentCulture.TextInfo.ToTitleCase(str);
 		}
 
 		public virtual string Pluralize(string str, int count = -1)
 		{
 			return str;
+		}
+
+		public virtual string PostProcessedBackstoryDescription(string desc)
+		{
+			return desc;
+		}
+
+		public virtual string PostProcessedKeyedTranslation(string translation, string key, params object[] args)
+		{
+			return translation;
 		}
 	}
 }

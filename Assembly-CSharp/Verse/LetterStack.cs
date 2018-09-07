@@ -56,20 +56,25 @@ namespace Verse
 
 		public void ReceiveLetter(Letter let, string debugInfo = null)
 		{
-			if (let.CanShowInLetterStack)
+			if (!let.CanShowInLetterStack)
 			{
-				let.def.arriveSound.PlayOneShotOnCamera(null);
-				if (let.def.pauseIfPauseOnUrgentLetter && Prefs.PauseOnUrgentLetter && !Find.TickManager.Paused)
-				{
-					Find.TickManager.TogglePaused();
-				}
-				let.arrivalTime = Time.time;
-				let.arrivalTick = Find.TickManager.TicksGame;
-				let.debugInfo = debugInfo;
-				this.letters.Add(let);
-				Find.Archive.Add(let);
-				let.Received();
+				return;
 			}
+			let.def.arriveSound.PlayOneShotOnCamera(null);
+			if (let.def.pauseIfPauseOnUrgentLetter && Prefs.PauseOnUrgentLetter)
+			{
+				Find.TickManager.Pause();
+			}
+			else if (let.def.forcedSlowdown)
+			{
+				Find.TickManager.slower.SignalForceNormalSpeedShort();
+			}
+			let.arrivalTime = Time.time;
+			let.arrivalTick = Find.TickManager.TicksGame;
+			let.debugInfo = debugInfo;
+			this.letters.Add(let);
+			Find.Archive.Add(let);
+			let.Received();
 		}
 
 		public void RemoveLetter(Letter let)

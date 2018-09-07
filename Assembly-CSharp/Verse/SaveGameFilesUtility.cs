@@ -33,8 +33,8 @@ namespace Verse
 
 		public static string UnusedDefaultFileName(string factionLabel)
 		{
+			string text = string.Empty;
 			int num = 1;
-			string text;
 			do
 			{
 				text = factionLabel + num.ToString();
@@ -46,16 +46,11 @@ namespace Verse
 
 		public static FileInfo GetAutostartSaveFile()
 		{
-			FileInfo result;
 			if (!Prefs.DevMode)
 			{
-				result = null;
+				return null;
 			}
-			else
-			{
-				result = GenFilePaths.AllSavedGameFiles.FirstOrDefault((FileInfo x) => Path.GetFileNameWithoutExtension(x.Name).ToLower() == "autostart".ToLower());
-			}
-			return result;
+			return GenFilePaths.AllSavedGameFiles.FirstOrDefault((FileInfo x) => Path.GetFileNameWithoutExtension(x.Name).ToLower() == "autostart".ToLower());
 		}
 
 		[CompilerGenerated]

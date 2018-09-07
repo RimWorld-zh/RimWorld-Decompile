@@ -133,27 +133,21 @@ namespace Verse
 
 		public static int NewGroup(Action<int, int> reorderedAction, ReorderableDirection direction, float drawLineExactlyBetween_space = -1f, Action<int, Vector2> extraDraggedItemOnGUI = null)
 		{
-			int result;
 			if (Event.current.type != EventType.Repaint)
 			{
-				result = -1;
+				return -1;
 			}
-			else
-			{
-				ReorderableWidget.ReorderableGroup item = default(ReorderableWidget.ReorderableGroup);
-				item.reorderedAction = reorderedAction;
-				item.direction = direction;
-				item.drawLineExactlyBetween_space = drawLineExactlyBetween_space;
-				item.extraDraggedItemOnGUI = extraDraggedItemOnGUI;
-				ReorderableWidget.groups.Add(item);
-				result = ReorderableWidget.groups.Count - 1;
-			}
-			return result;
+			ReorderableWidget.ReorderableGroup item = default(ReorderableWidget.ReorderableGroup);
+			item.reorderedAction = reorderedAction;
+			item.direction = direction;
+			item.drawLineExactlyBetween_space = drawLineExactlyBetween_space;
+			item.extraDraggedItemOnGUI = extraDraggedItemOnGUI;
+			ReorderableWidget.groups.Add(item);
+			return ReorderableWidget.groups.Count - 1;
 		}
 
 		public static bool Reorderable(int groupID, Rect rect, bool useRightButton = false)
 		{
-			bool result;
 			if (Event.current.type == EventType.Repaint)
 			{
 				ReorderableWidget.ReorderableInstance item = default(ReorderableWidget.ReorderableInstance);
@@ -215,93 +209,76 @@ namespace Verse
 						GUI.color = Color.white;
 					}
 				}
-				result = (ReorderableWidget.draggingReorderable == num && ReorderableWidget.dragBegun);
+				return ReorderableWidget.draggingReorderable == num && ReorderableWidget.dragBegun;
 			}
-			else
+			if (Event.current.rawType == EventType.MouseUp)
 			{
-				if (Event.current.rawType == EventType.MouseUp)
-				{
-					ReorderableWidget.released = true;
-				}
-				if (Event.current.type == EventType.MouseDown && ((useRightButton && Event.current.button == 1) || (!useRightButton && Event.current.button == 0)) && Mouse.IsOver(rect))
-				{
-					ReorderableWidget.clicked = true;
-					ReorderableWidget.clickedAt = Event.current.mousePosition;
-					ReorderableWidget.clickedInRect = rect;
-				}
-				result = false;
+				ReorderableWidget.released = true;
 			}
-			return result;
+			if (Event.current.type == EventType.MouseDown && ((useRightButton && Event.current.button == 1) || (!useRightButton && Event.current.button == 0)) && Mouse.IsOver(rect))
+			{
+				ReorderableWidget.clicked = true;
+				ReorderableWidget.clickedAt = Event.current.mousePosition;
+				ReorderableWidget.clickedInRect = rect;
+			}
+			return false;
 		}
 
 		private static int CurrentInsertNear(out bool toTheLeft)
 		{
 			toTheLeft = false;
-			int result;
 			if (ReorderableWidget.draggingReorderable < 0)
 			{
-				result = -1;
+				return -1;
 			}
-			else
+			int groupID = ReorderableWidget.reorderables[ReorderableWidget.draggingReorderable].groupID;
+			if (groupID < 0 || groupID >= ReorderableWidget.groups.Count)
 			{
-				int groupID = ReorderableWidget.reorderables[ReorderableWidget.draggingReorderable].groupID;
-				if (groupID < 0 || groupID >= ReorderableWidget.groups.Count)
+				Log.ErrorOnce("Reorderable used invalid group.", 1968375560, false);
+				return -1;
+			}
+			int num = -1;
+			for (int i = 0; i < ReorderableWidget.reorderables.Count; i++)
+			{
+				ReorderableWidget.ReorderableInstance reorderableInstance = ReorderableWidget.reorderables[i];
+				if (reorderableInstance.groupID == groupID)
 				{
-					Log.ErrorOnce("Reorderable used invalid group.", 1968375560, false);
-					result = -1;
+					if (num == -1 || Event.current.mousePosition.DistanceToRect(reorderableInstance.absRect) < Event.current.mousePosition.DistanceToRect(ReorderableWidget.reorderables[num].absRect))
+					{
+						num = i;
+					}
+				}
+			}
+			if (num >= 0)
+			{
+				ReorderableWidget.ReorderableInstance reorderableInstance2 = ReorderableWidget.reorderables[num];
+				if (ReorderableWidget.groups[reorderableInstance2.groupID].direction == ReorderableDirection.Horizontal)
+				{
+					toTheLeft = (Event.current.mousePosition.x < reorderableInstance2.absRect.center.x);
 				}
 				else
 				{
-					int num = -1;
-					for (int i = 0; i < ReorderableWidget.reorderables.Count; i++)
-					{
-						ReorderableWidget.ReorderableInstance reorderableInstance = ReorderableWidget.reorderables[i];
-						if (reorderableInstance.groupID == groupID)
-						{
-							if (num == -1 || Event.current.mousePosition.DistanceToRect(reorderableInstance.absRect) < Event.current.mousePosition.DistanceToRect(ReorderableWidget.reorderables[num].absRect))
-							{
-								num = i;
-							}
-						}
-					}
-					if (num >= 0)
-					{
-						ReorderableWidget.ReorderableInstance reorderableInstance2 = ReorderableWidget.reorderables[num];
-						if (ReorderableWidget.groups[reorderableInstance2.groupID].direction == ReorderableDirection.Horizontal)
-						{
-							toTheLeft = (Event.current.mousePosition.x < reorderableInstance2.absRect.center.x);
-						}
-						else
-						{
-							toTheLeft = (Event.current.mousePosition.y < reorderableInstance2.absRect.center.y);
-						}
-					}
-					result = num;
+					toTheLeft = (Event.current.mousePosition.y < reorderableInstance2.absRect.center.y);
 				}
 			}
-			return result;
+			return num;
 		}
 
 		private static int GetIndexWithinGroup(int index)
 		{
-			int result;
 			if (index < 0 || index >= ReorderableWidget.reorderables.Count)
 			{
-				result = -1;
+				return -1;
 			}
-			else
+			int num = -1;
+			for (int i = 0; i <= index; i++)
 			{
-				int num = -1;
-				for (int i = 0; i <= index; i++)
+				if (ReorderableWidget.reorderables[i].groupID == ReorderableWidget.reorderables[index].groupID)
 				{
-					if (ReorderableWidget.reorderables[i].groupID == ReorderableWidget.reorderables[index].groupID)
-					{
-						num++;
-					}
+					num++;
 				}
-				result = num;
 			}
-			return result;
+			return num;
 		}
 
 		private static void StopDragging()

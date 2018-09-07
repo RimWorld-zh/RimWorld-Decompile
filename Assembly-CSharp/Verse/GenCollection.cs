@@ -58,32 +58,22 @@ namespace Verse
 			{
 				list = source.ToList<T>();
 			}
-			T result;
 			if (list.Count == 0)
 			{
 				Log.Warning("Getting random element from empty collection.", false);
-				result = default(T);
+				return default(T);
 			}
-			else
-			{
-				result = list[Rand.Range(0, list.Count)];
-			}
-			return result;
+			return list[Rand.Range(0, list.Count)];
 		}
 
 		public static T RandomElementWithFallback<T>(this IEnumerable<T> source, T fallback = default(T))
 		{
-			T t;
 			T result;
-			if (source.TryRandomElement(out t))
+			if (source.TryRandomElement(out result))
 			{
-				result = t;
+				return result;
 			}
-			else
-			{
-				result = fallback;
-			}
-			return result;
+			return fallback;
 		}
 
 		public static bool TryRandomElement<T>(this IEnumerable<T> source, out T result)
@@ -166,64 +156,54 @@ namespace Verse
 					return source.First<T>();
 				}
 			}
-			T result;
 			if (num <= 0f)
 			{
 				Log.Error("RandomElementByWeight with totalWeight=" + num + " - use TryRandomElementByWeight.", false);
-				result = default(T);
+				return default(T);
+			}
+			float num5 = Rand.Value * num;
+			float num6 = 0f;
+			if (list != null)
+			{
+				for (int j = 0; j < list.Count; j++)
+				{
+					float num7 = weightSelector(list[j]);
+					if (num7 > 0f)
+					{
+						num6 += num7;
+						if (num6 >= num5)
+						{
+							return list[j];
+						}
+					}
+				}
 			}
 			else
 			{
-				float num5 = Rand.Value * num;
-				float num6 = 0f;
-				if (list != null)
+				foreach (T t2 in source)
 				{
-					for (int j = 0; j < list.Count; j++)
+					float num8 = weightSelector(t2);
+					if (num8 > 0f)
 					{
-						float num7 = weightSelector(list[j]);
-						if (num7 > 0f)
+						num6 += num8;
+						if (num6 >= num5)
 						{
-							num6 += num7;
-							if (num6 >= num5)
-							{
-								return list[j];
-							}
+							return t2;
 						}
 					}
 				}
-				else
-				{
-					foreach (T t2 in source)
-					{
-						float num8 = weightSelector(t2);
-						if (num8 > 0f)
-						{
-							num6 += num8;
-							if (num6 >= num5)
-							{
-								return t2;
-							}
-						}
-					}
-				}
-				result = default(T);
 			}
-			return result;
+			return default(T);
 		}
 
 		public static T RandomElementByWeightWithFallback<T>(this IEnumerable<T> source, Func<T, float> weightSelector, T fallback = default(T))
 		{
-			T t;
 			T result;
-			if (source.TryRandomElementByWeight(weightSelector, out t))
+			if (source.TryRandomElementByWeight(weightSelector, out result))
 			{
-				result = t;
+				return result;
 			}
-			else
-			{
-				result = fallback;
-			}
-			return result;
+			return fallback;
 		}
 
 		public static bool TryRandomElementByWeight<T>(this IEnumerable<T> source, Func<T, float> weightSelector, out T result)
@@ -292,38 +272,33 @@ namespace Verse
 					num4 = 0f;
 				}
 			}
-			bool result2;
 			if (num4 == 0f)
 			{
 				result = default(T);
-				result2 = false;
+				return false;
 			}
-			else
+			while (enumerator.MoveNext())
 			{
-				while (enumerator.MoveNext())
+				T t = enumerator.Current;
+				float num5 = weightSelector(t);
+				if (num5 < 0f)
 				{
-					T t = enumerator.Current;
-					float num5 = weightSelector(t);
-					if (num5 < 0f)
+					Log.Error(string.Concat(new object[]
 					{
-						Log.Error(string.Concat(new object[]
-						{
-							"Negative weight in selector: ",
-							num5,
-							" from ",
-							t
-						}), false);
-						num5 = 0f;
-					}
-					if (Rand.Range(0f, num4 + num5) >= num4)
-					{
-						result = t;
-					}
-					num4 += num5;
+						"Negative weight in selector: ",
+						num5,
+						" from ",
+						t
+					}), false);
+					num5 = 0f;
 				}
-				result2 = true;
+				if (Rand.Range(0f, num4 + num5) >= num4)
+				{
+					result = t;
+				}
+				num4 += num5;
 			}
-			return result2;
+			return true;
 		}
 
 		public static T RandomElementByWeightWithDefault<T>(this IEnumerable<T> source, Func<T, float> weightSelector, float defaultValueWeight)
@@ -351,21 +326,16 @@ namespace Verse
 				num += num2;
 			}
 			float num3 = defaultValueWeight + num;
-			T result;
 			if (num3 <= 0f)
 			{
 				Log.Error("RandomElementByWeightWithDefault with totalWeight=" + num3, false);
-				result = default(T);
+				return default(T);
 			}
-			else if (Rand.Value < defaultValueWeight / num3 || num == 0f)
+			if (Rand.Value < defaultValueWeight / num3 || num == 0f)
 			{
-				result = default(T);
+				return default(T);
 			}
-			else
-			{
-				result = source.RandomElementByWeight(weightSelector);
-			}
-			return result;
+			return source.RandomElementByWeight(weightSelector);
 		}
 
 		public static T FirstOrFallback<T>(this IEnumerable<T> source, T fallback = default(T))
@@ -615,125 +585,115 @@ namespace Verse
 
 		public static void SortBy<T, TSortBy>(this List<T> list, Func<T, TSortBy> selector) where TSortBy : IComparable<TSortBy>
 		{
-			if (list.Count > 1)
+			if (list.Count <= 1)
 			{
-				list.Sort(delegate(T a, T b)
-				{
-					TSortBy tsortBy = selector(a);
-					return tsortBy.CompareTo(selector(b));
-				});
+				return;
 			}
+			list.Sort(delegate(T a, T b)
+			{
+				TSortBy tsortBy = selector(a);
+				return tsortBy.CompareTo(selector(b));
+			});
 		}
 
 		public static void SortBy<T, TSortBy, TThenBy>(this List<T> list, Func<T, TSortBy> selector, Func<T, TThenBy> thenBySelector) where TSortBy : IComparable<TSortBy>, IEquatable<TSortBy> where TThenBy : IComparable<TThenBy>
 		{
-			if (list.Count > 1)
+			if (list.Count <= 1)
 			{
-				list.Sort(delegate(T a, T b)
-				{
-					TSortBy tsortBy = selector(a);
-					TSortBy other = selector(b);
-					int result;
-					if (!tsortBy.Equals(other))
-					{
-						result = tsortBy.CompareTo(other);
-					}
-					else
-					{
-						TThenBy tthenBy = thenBySelector(a);
-						result = tthenBy.CompareTo(thenBySelector(b));
-					}
-					return result;
-				});
+				return;
 			}
+			list.Sort(delegate(T a, T b)
+			{
+				TSortBy tsortBy = selector(a);
+				TSortBy other = selector(b);
+				if (!tsortBy.Equals(other))
+				{
+					return tsortBy.CompareTo(other);
+				}
+				TThenBy tthenBy = thenBySelector(a);
+				return tthenBy.CompareTo(thenBySelector(b));
+			});
 		}
 
 		public static void SortByDescending<T, TSortByDescending>(this List<T> list, Func<T, TSortByDescending> selector) where TSortByDescending : IComparable<TSortByDescending>
 		{
-			if (list.Count > 1)
+			if (list.Count <= 1)
 			{
-				list.Sort(delegate(T a, T b)
-				{
-					TSortByDescending tsortByDescending = selector(b);
-					return tsortByDescending.CompareTo(selector(a));
-				});
+				return;
 			}
+			list.Sort(delegate(T a, T b)
+			{
+				TSortByDescending tsortByDescending = selector(b);
+				return tsortByDescending.CompareTo(selector(a));
+			});
 		}
 
 		public static void SortByDescending<T, TSortByDescending, TThenByDescending>(this List<T> list, Func<T, TSortByDescending> selector, Func<T, TThenByDescending> thenByDescendingSelector) where TSortByDescending : IComparable<TSortByDescending>, IEquatable<TSortByDescending> where TThenByDescending : IComparable<TThenByDescending>
 		{
-			if (list.Count > 1)
+			if (list.Count <= 1)
 			{
-				list.Sort(delegate(T a, T b)
-				{
-					TSortByDescending other = selector(a);
-					TSortByDescending other2 = selector(b);
-					int result;
-					if (!other.Equals(other2))
-					{
-						result = other2.CompareTo(other);
-					}
-					else
-					{
-						TThenByDescending tthenByDescending = thenByDescendingSelector(b);
-						result = tthenByDescending.CompareTo(thenByDescendingSelector(a));
-					}
-					return result;
-				});
+				return;
 			}
+			list.Sort(delegate(T a, T b)
+			{
+				TSortByDescending other = selector(a);
+				TSortByDescending other2 = selector(b);
+				if (!other.Equals(other2))
+				{
+					return other2.CompareTo(other);
+				}
+				TThenByDescending tthenByDescending = thenByDescendingSelector(b);
+				return tthenByDescending.CompareTo(thenByDescendingSelector(a));
+			});
 		}
 
 		public static void SortStable<T>(this IList<T> list, Func<T, T, int> comparator)
 		{
-			if (list.Count > 1)
+			if (list.Count <= 1)
 			{
-				List<Pair<T, int>> list2;
-				bool flag;
-				if (GenCollection.SortStableTempList<T>.working)
+				return;
+			}
+			List<Pair<T, int>> list2;
+			bool flag;
+			if (GenCollection.SortStableTempList<T>.working)
+			{
+				list2 = new List<Pair<T, int>>();
+				flag = false;
+			}
+			else
+			{
+				list2 = GenCollection.SortStableTempList<T>.list;
+				GenCollection.SortStableTempList<T>.working = true;
+				flag = true;
+			}
+			try
+			{
+				list2.Clear();
+				for (int i = 0; i < list.Count; i++)
 				{
-					list2 = new List<Pair<T, int>>();
-					flag = false;
+					list2.Add(new Pair<T, int>(list[i], i));
 				}
-				else
+				list2.Sort(delegate(Pair<T, int> lhs, Pair<T, int> rhs)
 				{
-					list2 = GenCollection.SortStableTempList<T>.list;
-					GenCollection.SortStableTempList<T>.working = true;
-					flag = true;
+					int num = comparator(lhs.First, rhs.First);
+					if (num != 0)
+					{
+						return num;
+					}
+					return lhs.Second.CompareTo(rhs.Second);
+				});
+				list.Clear();
+				for (int j = 0; j < list2.Count; j++)
+				{
+					list.Add(list2[j].First);
 				}
-				try
+				list2.Clear();
+			}
+			finally
+			{
+				if (flag)
 				{
-					list2.Clear();
-					for (int i = 0; i < list.Count; i++)
-					{
-						list2.Add(new Pair<T, int>(list[i], i));
-					}
-					list2.Sort(delegate(Pair<T, int> lhs, Pair<T, int> rhs)
-					{
-						int num = comparator(lhs.First, rhs.First);
-						int result;
-						if (num != 0)
-						{
-							result = num;
-						}
-						else
-						{
-							result = lhs.Second.CompareTo(rhs.Second);
-						}
-						return result;
-					});
-					list.Clear();
-					for (int j = 0; j < list2.Count; j++)
-					{
-						list.Add(list2[j].First);
-					}
-					list2.Clear();
-				}
-				finally
-				{
-					if (flag)
-					{
-						GenCollection.SortStableTempList<T>.working = false;
-					}
+					GenCollection.SortStableTempList<T>.working = false;
 				}
 			}
 		}
@@ -790,19 +750,20 @@ namespace Verse
 			{
 				num++;
 			}
-			if (num < count)
+			if (num >= count)
 			{
-				int i = num + 1;
-				while (i < count)
+				return;
+			}
+			int i = num + 1;
+			while (i < count)
+			{
+				while (i < count && predicate(list[i], i))
 				{
-					while (i < count && predicate(list[i], i))
-					{
-						i++;
-					}
-					if (i < count)
-					{
-						list[num++] = list[i++];
-					}
+					i++;
+				}
+				if (i < count)
+				{
+					list[num++] = list[i++];
 				}
 			}
 		}
@@ -928,23 +889,18 @@ namespace Verse
 
 		public static LocalTargetInfo FirstValid(this List<LocalTargetInfo> source)
 		{
-			LocalTargetInfo invalid;
 			if (source == null)
 			{
-				invalid = LocalTargetInfo.Invalid;
+				return LocalTargetInfo.Invalid;
 			}
-			else
+			for (int i = 0; i < source.Count; i++)
 			{
-				for (int i = 0; i < source.Count; i++)
+				if (source[i].IsValid)
 				{
-					if (source[i].IsValid)
-					{
-						return source[i];
-					}
+					return source[i];
 				}
-				invalid = LocalTargetInfo.Invalid;
 			}
-			return invalid;
+			return LocalTargetInfo.Invalid;
 		}
 
 		public static IEnumerable<T> Except<T>(this IEnumerable<T> lhs, T rhs) where T : class
@@ -961,39 +917,39 @@ namespace Verse
 
 		public static bool ListsEqual<T>(List<T> a, List<T> b) where T : class
 		{
-			bool result;
 			if (a == b)
 			{
-				result = true;
+				return true;
 			}
-			else if (a.NullOrEmpty<T>() && b.NullOrEmpty<T>())
+			if (a.NullOrEmpty<T>() && b.NullOrEmpty<T>())
 			{
-				result = true;
+				return true;
 			}
-			else if (a.NullOrEmpty<T>() || b.NullOrEmpty<T>())
+			if (a.NullOrEmpty<T>() || b.NullOrEmpty<T>())
 			{
-				result = false;
+				return false;
 			}
-			else if (a.Count != b.Count)
+			if (a.Count != b.Count)
 			{
-				result = false;
+				return false;
 			}
-			else
+			EqualityComparer<T> @default = EqualityComparer<T>.Default;
+			for (int i = 0; i < a.Count; i++)
 			{
-				for (int i = 0; i < a.Count; i++)
+				if (!@default.Equals(a[i], b[i]))
 				{
-					if (a[i] != b[i])
-					{
-						return false;
-					}
+					return false;
 				}
-				result = true;
 			}
-			return result;
+			return true;
 		}
 
 		public static IEnumerable<T> TakeRandom<T>(this List<T> list, int count)
 		{
+			if (list.NullOrEmpty<T>())
+			{
+				yield break;
+			}
 			for (int i = 0; i < count; i++)
 			{
 				yield return list[Rand.Range(0, list.Count)];
@@ -1197,17 +1153,12 @@ namespace Verse
 			{
 				TSortBy tsortBy = this.selector(a);
 				TSortBy other = this.selector(b);
-				int result;
 				if (!tsortBy.Equals(other))
 				{
-					result = tsortBy.CompareTo(other);
+					return tsortBy.CompareTo(other);
 				}
-				else
-				{
-					TThenBy tthenBy = this.thenBySelector(a);
-					result = tthenBy.CompareTo(this.thenBySelector(b));
-				}
-				return result;
+				TThenBy tthenBy = this.thenBySelector(a);
+				return tthenBy.CompareTo(this.thenBySelector(b));
 			}
 		}
 
@@ -1242,17 +1193,12 @@ namespace Verse
 			{
 				TSortByDescending other = this.selector(a);
 				TSortByDescending other2 = this.selector(b);
-				int result;
 				if (!other.Equals(other2))
 				{
-					result = other2.CompareTo(other);
+					return other2.CompareTo(other);
 				}
-				else
-				{
-					TThenByDescending tthenByDescending = this.thenByDescendingSelector(b);
-					result = tthenByDescending.CompareTo(this.thenByDescendingSelector(a));
-				}
-				return result;
+				TThenByDescending tthenByDescending = this.thenByDescendingSelector(b);
+				return tthenByDescending.CompareTo(this.thenByDescendingSelector(a));
 			}
 		}
 
@@ -1268,16 +1214,11 @@ namespace Verse
 			internal int <>m__0(Pair<T, int> lhs, Pair<T, int> rhs)
 			{
 				int num = this.comparator(lhs.First, rhs.First);
-				int result;
 				if (num != 0)
 				{
-					result = num;
+					return num;
 				}
-				else
-				{
-					result = lhs.Second.CompareTo(rhs.Second);
-				}
-				return result;
+				return lhs.Second.CompareTo(rhs.Second);
 			}
 		}
 
@@ -1317,14 +1258,14 @@ namespace Verse
 					lhsv = lhs.ToArray<T>();
 					rhsv = rhs.ToArray<V>();
 					i = 0;
-					goto IL_D0;
+					goto IL_CB;
 				case 1u:
 					j++;
 					break;
 				default:
 					return false;
 				}
-				IL_AE:
+				IL_AA:
 				if (j < rhsv.Length)
 				{
 					this.$current = new Pair<T, V>(lhsv[i], rhsv[j]);
@@ -1335,11 +1276,11 @@ namespace Verse
 					return true;
 				}
 				i++;
-				IL_D0:
+				IL_CB:
 				if (i < lhsv.Length)
 				{
 					j = 0;
-					goto IL_AE;
+					goto IL_AA;
 				}
 				this.$PC = -1;
 				return false;
@@ -1581,11 +1522,8 @@ namespace Verse
 				{
 					switch (num)
 					{
-					case 1u:
-						IL_99:
-						break;
 					}
-					if (enumerator.MoveNext())
+					while (enumerator.MoveNext())
 					{
 						t = enumerator.Current;
 						if (t != rhs)
@@ -1598,7 +1536,6 @@ namespace Verse
 							flag = true;
 							return true;
 						}
-						goto IL_99;
 					}
 				}
 				finally
@@ -1685,11 +1622,11 @@ namespace Verse
 		[CompilerGenerated]
 		private sealed class <TakeRandom>c__Iterator4<T> : IEnumerable, IEnumerable<T>, IEnumerator, IDisposable, IEnumerator<T>
 		{
+			internal List<T> list;
+
 			internal int <i>__1;
 
 			internal int count;
-
-			internal List<T> list;
 
 			internal T $current;
 
@@ -1709,6 +1646,10 @@ namespace Verse
 				switch (num)
 				{
 				case 0u:
+					if (list.NullOrEmpty<T>())
+					{
+						return false;
+					}
 					i = 0;
 					break;
 				case 1u:
@@ -1775,8 +1716,8 @@ namespace Verse
 					return this;
 				}
 				GenCollection.<TakeRandom>c__Iterator4<T> <TakeRandom>c__Iterator = new GenCollection.<TakeRandom>c__Iterator4<T>();
-				<TakeRandom>c__Iterator.count = count;
 				<TakeRandom>c__Iterator.list = list;
+				<TakeRandom>c__Iterator.count = count;
 				return <TakeRandom>c__Iterator;
 			}
 		}

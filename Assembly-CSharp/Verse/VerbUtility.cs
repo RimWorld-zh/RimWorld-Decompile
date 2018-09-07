@@ -1,5 +1,9 @@
 ﻿using System;
+using System.Collections;
 using System.Collections.Generic;
+using System.Diagnostics;
+using System.Runtime.CompilerServices;
+using System.Threading;
 using RimWorld;
 using UnityEngine;
 
@@ -15,24 +19,16 @@ namespace Verse
 
 		public static DamageDef GetDamageDef(this Verb verb)
 		{
-			DamageDef result;
-			if (verb.verbProps.LaunchesProjectile)
+			if (!verb.verbProps.LaunchesProjectile)
 			{
-				ThingDef projectile = verb.GetProjectile();
-				if (projectile != null)
-				{
-					result = projectile.projectile.damageDef;
-				}
-				else
-				{
-					result = null;
-				}
+				return verb.verbProps.meleeDamageDef;
 			}
-			else
+			ThingDef projectile = verb.GetProjectile();
+			if (projectile != null)
 			{
-				result = verb.verbProps.meleeDamageDef;
+				return projectile.projectile.damageDef;
 			}
-			return result;
+			return null;
 		}
 
 		public static bool IsIncendiary(this Verb verb)
@@ -96,43 +92,263 @@ namespace Verse
 		public static float CalculateAdjustedForcedMiss(float forcedMiss, IntVec3 vector)
 		{
 			float num = (float)vector.LengthHorizontalSquared;
-			float result;
 			if (num < 9f)
 			{
-				result = 0f;
+				return 0f;
 			}
-			else if (num < 25f)
+			if (num < 25f)
 			{
-				result = forcedMiss * 0.5f;
+				return forcedMiss * 0.5f;
 			}
-			else if (num < 49f)
+			if (num < 49f)
 			{
-				result = forcedMiss * 0.8f;
+				return forcedMiss * 0.8f;
 			}
-			else
-			{
-				result = forcedMiss;
-			}
-			return result;
+			return forcedMiss;
 		}
 
 		public static float InterceptChanceFactorFromDistance(Vector3 origin, IntVec3 c)
 		{
 			float num = (c.ToVector3Shifted() - origin).MagnitudeHorizontalSquared();
-			float result;
 			if (num <= 25f)
 			{
-				result = 0f;
+				return 0f;
 			}
-			else if (num >= 144f)
+			if (num >= 144f)
 			{
-				result = 1f;
+				return 1f;
 			}
-			else
+			return Mathf.InverseLerp(25f, 144f, num);
+		}
+
+		public static IEnumerable<VerbUtility.VerbPropertiesWithSource> GetAllVerbProperties(List<VerbProperties> verbProps, List<Tool> tools)
+		{
+			if (verbProps != null)
 			{
-				result = Mathf.InverseLerp(25f, 144f, num);
+				for (int i = 0; i < verbProps.Count; i++)
+				{
+					yield return new VerbUtility.VerbPropertiesWithSource(verbProps[i]);
+				}
 			}
-			return result;
+			if (tools != null)
+			{
+				for (int j = 0; j < tools.Count; j++)
+				{
+					foreach (ManeuverDef k in tools[j].Maneuvers)
+					{
+						yield return new VerbUtility.VerbPropertiesWithSource(k.verb, tools[j], k);
+					}
+				}
+			}
+			yield break;
+		}
+
+		public static bool AllowAdjacentShot(LocalTargetInfo target, Thing caster)
+		{
+			Pawn pawn = target.Thing as Pawn;
+			return pawn == null || !pawn.HostileTo(caster) || pawn.Downed;
+		}
+
+		public struct VerbPropertiesWithSource
+		{
+			public VerbProperties verbProps;
+
+			public Tool tool;
+
+			public ManeuverDef maneuver;
+
+			public VerbPropertiesWithSource(VerbProperties verbProps)
+			{
+				this.verbProps = verbProps;
+				this.tool = null;
+				this.maneuver = null;
+			}
+
+			public VerbPropertiesWithSource(VerbProperties verbProps, Tool tool, ManeuverDef maneuver)
+			{
+				this.verbProps = verbProps;
+				this.tool = tool;
+				this.maneuver = maneuver;
+			}
+
+			public ToolCapacityDef ToolCapacity
+			{
+				get
+				{
+					return (this.maneuver == null) ? null : this.maneuver.requiredCapacity;
+				}
+			}
+		}
+
+		[CompilerGenerated]
+		private sealed class <GetAllVerbProperties>c__Iterator0 : IEnumerable, IEnumerable<VerbUtility.VerbPropertiesWithSource>, IEnumerator, IDisposable, IEnumerator<VerbUtility.VerbPropertiesWithSource>
+		{
+			internal List<VerbProperties> verbProps;
+
+			internal int <i>__1;
+
+			internal List<Tool> tools;
+
+			internal int <i>__2;
+
+			internal IEnumerator<ManeuverDef> $locvar0;
+
+			internal ManeuverDef <m>__3;
+
+			internal VerbUtility.VerbPropertiesWithSource $current;
+
+			internal bool $disposing;
+
+			internal int $PC;
+
+			[DebuggerHidden]
+			public <GetAllVerbProperties>c__Iterator0()
+			{
+			}
+
+			public bool MoveNext()
+			{
+				uint num = (uint)this.$PC;
+				this.$PC = -1;
+				bool flag = false;
+				switch (num)
+				{
+				case 0u:
+					if (verbProps == null)
+					{
+						goto IL_92;
+					}
+					i = 0;
+					break;
+				case 1u:
+					i++;
+					break;
+				case 2u:
+					Block_5:
+					try
+					{
+						switch (num)
+						{
+						}
+						if (enumerator.MoveNext())
+						{
+							k = enumerator.Current;
+							this.$current = new VerbUtility.VerbPropertiesWithSource(k.verb, tools[j], k);
+							if (!this.$disposing)
+							{
+								this.$PC = 2;
+							}
+							flag = true;
+							return true;
+						}
+					}
+					finally
+					{
+						if (!flag)
+						{
+							if (enumerator != null)
+							{
+								enumerator.Dispose();
+							}
+						}
+					}
+					j++;
+					goto IL_170;
+				default:
+					return false;
+				}
+				if (i < verbProps.Count)
+				{
+					this.$current = new VerbUtility.VerbPropertiesWithSource(verbProps[i]);
+					if (!this.$disposing)
+					{
+						this.$PC = 1;
+					}
+					return true;
+				}
+				IL_92:
+				if (tools == null)
+				{
+					goto IL_186;
+				}
+				j = 0;
+				IL_170:
+				if (j < tools.Count)
+				{
+					enumerator = tools[j].Maneuvers.GetEnumerator();
+					num = 4294967293u;
+					goto Block_5;
+				}
+				IL_186:
+				this.$PC = -1;
+				return false;
+			}
+
+			VerbUtility.VerbPropertiesWithSource IEnumerator<VerbUtility.VerbPropertiesWithSource>.Current
+			{
+				[DebuggerHidden]
+				get
+				{
+					return this.$current;
+				}
+			}
+
+			object IEnumerator.Current
+			{
+				[DebuggerHidden]
+				get
+				{
+					return this.$current;
+				}
+			}
+
+			[DebuggerHidden]
+			public void Dispose()
+			{
+				uint num = (uint)this.$PC;
+				this.$disposing = true;
+				this.$PC = -1;
+				switch (num)
+				{
+				case 2u:
+					try
+					{
+					}
+					finally
+					{
+						if (enumerator != null)
+						{
+							enumerator.Dispose();
+						}
+					}
+					break;
+				}
+			}
+
+			[DebuggerHidden]
+			public void Reset()
+			{
+				throw new NotSupportedException();
+			}
+
+			[DebuggerHidden]
+			IEnumerator IEnumerable.GetEnumerator()
+			{
+				return this.System.Collections.Generic.IEnumerable<Verse.VerbUtility.VerbPropertiesWithSource>.GetEnumerator();
+			}
+
+			[DebuggerHidden]
+			IEnumerator<VerbUtility.VerbPropertiesWithSource> IEnumerable<VerbUtility.VerbPropertiesWithSource>.GetEnumerator()
+			{
+				if (Interlocked.CompareExchange(ref this.$PC, 0, -2) == -2)
+				{
+					return this;
+				}
+				VerbUtility.<GetAllVerbProperties>c__Iterator0 <GetAllVerbProperties>c__Iterator = new VerbUtility.<GetAllVerbProperties>c__Iterator0();
+				<GetAllVerbProperties>c__Iterator.verbProps = verbProps;
+				<GetAllVerbProperties>c__Iterator.tools = tools;
+				return <GetAllVerbProperties>c__Iterator;
+			}
 		}
 	}
 }

@@ -1,7 +1,6 @@
 ﻿using System;
 using System.Text;
 using UnityEngine;
-using UnityEngine.Profiling;
 using Verse;
 using Verse.Sound;
 
@@ -38,110 +37,102 @@ namespace RimWorld
 
 		private static Color ColorOfPriority(int prio)
 		{
-			Color result;
 			switch (prio)
 			{
 			case 1:
-				result = new Color(0f, 1f, 0f);
-				break;
+				return new Color(0f, 1f, 0f);
 			case 2:
-				result = new Color(1f, 0.9f, 0.5f);
-				break;
+				return new Color(1f, 0.9f, 0.5f);
 			case 3:
-				result = new Color(0.8f, 0.7f, 0.5f);
-				break;
+				return new Color(0.8f, 0.7f, 0.5f);
 			case 4:
-				result = new Color(0.74f, 0.74f, 0.74f);
-				break;
+				return new Color(0.74f, 0.74f, 0.74f);
 			default:
-				result = Color.grey;
-				break;
+				return Color.grey;
 			}
-			return result;
 		}
 
 		public static void DrawWorkBoxFor(float x, float y, Pawn p, WorkTypeDef wType, bool incapableBecauseOfCapacities)
 		{
-			if (p.story != null && !p.story.WorkTypeIsDisabled(wType))
+			if (p.story == null || p.story.WorkTypeIsDisabled(wType))
 			{
-				Rect rect = new Rect(x, y, 25f, 25f);
-				Profiler.BeginSample("DrawWorkBoxFor - Background");
-				if (incapableBecauseOfCapacities)
+				return;
+			}
+			Rect rect = new Rect(x, y, 25f, 25f);
+			if (incapableBecauseOfCapacities)
+			{
+				GUI.color = new Color(1f, 0.3f, 0.3f);
+			}
+			WidgetsWork.DrawWorkBoxBackground(rect, p, wType);
+			GUI.color = Color.white;
+			if (Find.PlaySettings.useWorkPriorities)
+			{
+				int priority = p.workSettings.GetPriority(wType);
+				if (priority > 0)
 				{
-					GUI.color = new Color(1f, 0.3f, 0.3f);
+					Text.Anchor = TextAnchor.MiddleCenter;
+					GUI.color = WidgetsWork.ColorOfPriority(priority);
+					Rect rect2 = rect.ContractedBy(-3f);
+					Widgets.Label(rect2, priority.ToStringCached());
+					GUI.color = Color.white;
+					Text.Anchor = TextAnchor.UpperLeft;
 				}
-				WidgetsWork.DrawWorkBoxBackground(rect, p, wType);
-				GUI.color = Color.white;
-				Profiler.EndSample();
-				if (Find.PlaySettings.useWorkPriorities)
+				if (Event.current.type == EventType.MouseDown && Mouse.IsOver(rect))
 				{
-					int priority = p.workSettings.GetPriority(wType);
-					if (priority > 0)
+					bool flag = p.workSettings.WorkIsActive(wType);
+					if (Event.current.button == 0)
 					{
-						Text.Anchor = TextAnchor.MiddleCenter;
-						GUI.color = WidgetsWork.ColorOfPriority(priority);
-						Rect rect2 = rect.ContractedBy(-3f);
-						Widgets.Label(rect2, priority.ToStringCached());
-						GUI.color = Color.white;
-						Text.Anchor = TextAnchor.UpperLeft;
+						int num = p.workSettings.GetPriority(wType) - 1;
+						if (num < 0)
+						{
+							num = 4;
+						}
+						p.workSettings.SetPriority(wType, num);
+						SoundDefOf.AmountIncrement.PlayOneShotOnCamera(null);
 					}
-					if (Event.current.type == EventType.MouseDown && Mouse.IsOver(rect))
+					if (Event.current.button == 1)
 					{
-						bool flag = p.workSettings.WorkIsActive(wType);
-						if (Event.current.button == 0)
+						int num2 = p.workSettings.GetPriority(wType) + 1;
+						if (num2 > 4)
 						{
-							int num = p.workSettings.GetPriority(wType) - 1;
-							if (num < 0)
-							{
-								num = 4;
-							}
-							p.workSettings.SetPriority(wType, num);
-							SoundDefOf.AmountIncrement.PlayOneShotOnCamera(null);
+							num2 = 0;
 						}
-						if (Event.current.button == 1)
-						{
-							int num2 = p.workSettings.GetPriority(wType) + 1;
-							if (num2 > 4)
-							{
-								num2 = 0;
-							}
-							p.workSettings.SetPriority(wType, num2);
-							SoundDefOf.AmountDecrement.PlayOneShotOnCamera(null);
-						}
-						if (!flag && p.workSettings.WorkIsActive(wType) && wType.relevantSkills.Any<SkillDef>() && p.skills.AverageOfRelevantSkillsFor(wType) <= 2f)
+						p.workSettings.SetPriority(wType, num2);
+						SoundDefOf.AmountDecrement.PlayOneShotOnCamera(null);
+					}
+					if (!flag && p.workSettings.WorkIsActive(wType) && wType.relevantSkills.Any<SkillDef>() && p.skills.AverageOfRelevantSkillsFor(wType) <= 2f)
+					{
+						SoundDefOf.Crunch.PlayOneShotOnCamera(null);
+					}
+					Event.current.Use();
+					PlayerKnowledgeDatabase.KnowledgeDemonstrated(ConceptDefOf.WorkTab, KnowledgeAmount.SpecificInteraction);
+					PlayerKnowledgeDatabase.KnowledgeDemonstrated(ConceptDefOf.ManualWorkPriorities, KnowledgeAmount.SmallInteraction);
+				}
+			}
+			else
+			{
+				int priority2 = p.workSettings.GetPriority(wType);
+				if (priority2 > 0)
+				{
+					GUI.DrawTexture(rect, WidgetsWork.WorkBoxCheckTex);
+				}
+				if (Widgets.ButtonInvisible(rect, false))
+				{
+					if (p.workSettings.GetPriority(wType) > 0)
+					{
+						p.workSettings.SetPriority(wType, 0);
+						SoundDefOf.Checkbox_TurnedOff.PlayOneShotOnCamera(null);
+					}
+					else
+					{
+						p.workSettings.SetPriority(wType, 3);
+						SoundDefOf.Checkbox_TurnedOn.PlayOneShotOnCamera(null);
+						if (wType.relevantSkills.Any<SkillDef>() && p.skills.AverageOfRelevantSkillsFor(wType) <= 2f)
 						{
 							SoundDefOf.Crunch.PlayOneShotOnCamera(null);
 						}
-						Event.current.Use();
-						PlayerKnowledgeDatabase.KnowledgeDemonstrated(ConceptDefOf.WorkTab, KnowledgeAmount.SpecificInteraction);
-						PlayerKnowledgeDatabase.KnowledgeDemonstrated(ConceptDefOf.ManualWorkPriorities, KnowledgeAmount.SmallInteraction);
 					}
-				}
-				else
-				{
-					int priority2 = p.workSettings.GetPriority(wType);
-					if (priority2 > 0)
-					{
-						GUI.DrawTexture(rect, WidgetsWork.WorkBoxCheckTex);
-					}
-					if (Widgets.ButtonInvisible(rect, false))
-					{
-						if (p.workSettings.GetPriority(wType) > 0)
-						{
-							p.workSettings.SetPriority(wType, 0);
-							SoundDefOf.Checkbox_TurnedOff.PlayOneShotOnCamera(null);
-						}
-						else
-						{
-							p.workSettings.SetPriority(wType, 3);
-							SoundDefOf.Checkbox_TurnedOn.PlayOneShotOnCamera(null);
-							if (wType.relevantSkills.Any<SkillDef>() && p.skills.AverageOfRelevantSkillsFor(wType) <= 2f)
-							{
-								SoundDefOf.Crunch.PlayOneShotOnCamera(null);
-							}
-						}
-						PlayerKnowledgeDatabase.KnowledgeDemonstrated(ConceptDefOf.WorkTab, KnowledgeAmount.SpecificInteraction);
-					}
+					PlayerKnowledgeDatabase.KnowledgeDemonstrated(ConceptDefOf.WorkTab, KnowledgeAmount.SpecificInteraction);
 				}
 			}
 		}
@@ -162,7 +153,7 @@ namespace RimWorld
 				float num = p.skills.AverageOfRelevantSkillsFor(wDef);
 				if (wDef.relevantSkills.Any<SkillDef>())
 				{
-					string text = "";
+					string text = string.Empty;
 					foreach (SkillDef skillDef in wDef.relevantSkills)
 					{
 						text = text + skillDef.skillLabel.CapitalizeFirst() + ", ";
@@ -195,9 +186,7 @@ namespace RimWorld
 
 		private static void DrawWorkBoxBackground(Rect rect, Pawn p, WorkTypeDef workDef)
 		{
-			Profiler.BeginSample("AverageOfRelevantSkillsFor");
 			float num = p.skills.AverageOfRelevantSkillsFor(workDef);
-			Profiler.EndSample();
 			Texture2D image;
 			Texture2D image2;
 			float a;

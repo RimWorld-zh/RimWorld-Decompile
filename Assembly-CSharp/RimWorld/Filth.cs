@@ -9,7 +9,7 @@ namespace RimWorld
 	{
 		public int thickness = 1;
 
-		public List<string> sources = null;
+		public List<string> sources;
 
 		private int growTick;
 
@@ -123,12 +123,13 @@ namespace RimWorld
 
 		public void AddSources(IEnumerable<string> sources)
 		{
-			if (sources != null)
+			if (sources == null)
 			{
-				foreach (string newSource in sources)
-				{
-					this.AddSource(newSource);
-				}
+				return;
+			}
+			foreach (string newSource in sources)
+			{
+				this.AddSource(newSource);
 			}
 		}
 

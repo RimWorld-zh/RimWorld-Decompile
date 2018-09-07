@@ -19,97 +19,95 @@ namespace Verse
 		[MustTranslate]
 		public string jobString = "Doing an unknown recipe.";
 
-		public WorkTypeDef requiredGiverWorkType = null;
+		public WorkTypeDef requiredGiverWorkType;
 
 		public float workAmount = -1f;
 
-		public StatDef workSpeedStat = null;
+		public StatDef workSpeedStat;
 
-		public StatDef efficiencyStat = null;
+		public StatDef efficiencyStat;
 
-		public StatDef workTableEfficiencyStat = null;
+		public StatDef workTableEfficiencyStat;
 
-		public StatDef workTableSpeedStat = null;
+		public StatDef workTableSpeedStat;
 
 		public List<IngredientCount> ingredients = new List<IngredientCount>();
 
 		public ThingFilter fixedIngredientFilter = new ThingFilter();
 
-		public ThingFilter defaultIngredientFilter = null;
+		public ThingFilter defaultIngredientFilter;
 
-		public bool allowMixingIngredients = false;
+		public bool allowMixingIngredients;
 
 		private Type ingredientValueGetterClass = typeof(IngredientValueGetter_Volume);
 
-		public List<SpecialThingFilterDef> forceHiddenSpecialFilters = null;
+		public List<SpecialThingFilterDef> forceHiddenSpecialFilters;
 
 		public bool autoStripCorpses = true;
 
 		public List<ThingDefCountClass> products = new List<ThingDefCountClass>();
 
-		public List<SpecialProductType> specialProducts = null;
+		public List<SpecialProductType> specialProducts;
 
-		public bool productHasIngredientStuff = false;
+		public bool productHasIngredientStuff;
 
 		public int targetCountAdjustment = 1;
 
-		public ThingDef unfinishedThingDef = null;
+		public ThingDef unfinishedThingDef;
 
-		public List<SkillRequirement> skillRequirements = null;
+		public List<SkillRequirement> skillRequirements;
 
-		public SkillDef workSkill = null;
+		public SkillDef workSkill;
 
 		public float workSkillLearnFactor = 1f;
 
-		public EffecterDef effectWorking = null;
+		public EffecterDef effectWorking;
 
-		public SoundDef soundWorking = null;
+		public SoundDef soundWorking;
 
-		public List<ThingDef> recipeUsers = null;
+		public List<ThingDef> recipeUsers;
 
 		public List<BodyPartDef> appliedOnFixedBodyParts = new List<BodyPartDef>();
 
-		public HediffDef addsHediff = null;
+		public HediffDef addsHediff;
 
-		public HediffDef removesHediff = null;
+		public HediffDef removesHediff;
 
-		public bool hideBodyPartNames = false;
+		public bool hideBodyPartNames;
 
-		public bool isViolation = false;
+		public bool isViolation;
 
 		[MustTranslate]
-		public string successfullyRemovedHediffMessage = null;
+		public string successfullyRemovedHediffMessage;
 
 		public float surgerySuccessChanceFactor = 1f;
 
-		public float deathOnFailedSurgeryChance = 0f;
+		public float deathOnFailedSurgeryChance;
 
 		public bool targetsBodyPart = true;
 
 		public bool anesthetize = true;
 
-		public bool requireBed = true;
-
-		public ResearchProjectDef researchPrerequisite = null;
+		public ResearchProjectDef researchPrerequisite;
 
 		[NoTranslate]
-		public List<string> factionPrerequisiteTags = null;
+		public List<string> factionPrerequisiteTags;
 
-		public ConceptDef conceptLearned = null;
+		public ConceptDef conceptLearned;
 
 		public bool dontShowIfAnyIngredientMissing;
 
 		[Unsaved]
-		private RecipeWorker workerInt = null;
+		private RecipeWorker workerInt;
 
 		[Unsaved]
-		private RecipeWorkerCounter workerCounterInt = null;
+		private RecipeWorkerCounter workerCounterInt;
 
 		[Unsaved]
-		private IngredientValueGetter ingredientValueGetterInt = null;
+		private IngredientValueGetter ingredientValueGetterInt;
 
 		[Unsaved]
-		private List<ThingDef> premultipliedSmallIngredients = null;
+		private List<ThingDef> premultipliedSmallIngredients;
 
 		[CompilerGenerated]
 		private static Predicate<string> <>f__am$cache0;
@@ -166,23 +164,18 @@ namespace Verse
 		{
 			get
 			{
-				bool result;
 				if (this.researchPrerequisite != null && !this.researchPrerequisite.IsFinished)
 				{
-					result = false;
+					return false;
 				}
-				else
+				if (this.factionPrerequisiteTags != null)
 				{
-					if (this.factionPrerequisiteTags != null)
+					if (this.factionPrerequisiteTags.Any((string tag) => Faction.OfPlayer.def.recipePrerequisiteTags == null || !Faction.OfPlayer.def.recipePrerequisiteTags.Contains(tag)))
 					{
-						if (this.factionPrerequisiteTags.Any((string tag) => Faction.OfPlayer.def.recipePrerequisiteTags == null || !Faction.OfPlayer.def.recipePrerequisiteTags.Contains(tag)))
-						{
-							return false;
-						}
+						return false;
 					}
-					result = true;
 				}
-				return result;
+				return true;
 			}
 		}
 
@@ -229,12 +222,9 @@ namespace Verse
 				List<ThingDef> thingDefs = DefDatabase<ThingDef>.AllDefsListForReading;
 				for (int j = 0; j < thingDefs.Count; j++)
 				{
-					if (thingDefs[j].recipes != null)
+					if (thingDefs[j].recipes != null && thingDefs[j].recipes.Contains(this))
 					{
-						if (thingDefs[j].recipes.Contains(this))
-						{
-							yield return thingDefs[j];
-						}
+						yield return thingDefs[j];
 					}
 				}
 				yield break;
@@ -268,35 +258,25 @@ namespace Verse
 		{
 			get
 			{
-				ThingDef result;
 				if (this.specialProducts != null)
 				{
-					result = null;
+					return null;
 				}
-				else if (this.products == null || this.products.Count != 1)
+				if (this.products == null || this.products.Count != 1)
 				{
-					result = null;
+					return null;
 				}
-				else
-				{
-					result = this.products[0].thingDef;
-				}
-				return result;
+				return this.products[0].thingDef;
 			}
 		}
 
 		public float WorkAmountTotal(ThingDef stuffDef)
 		{
-			float statValueAbstract;
 			if (this.workAmount >= 0f)
 			{
-				statValueAbstract = this.workAmount;
+				return this.workAmount;
 			}
-			else
-			{
-				statValueAbstract = this.products[0].thingDef.GetStatValueAbstract(StatDefOf.WorkToMake, stuffDef);
-			}
-			return statValueAbstract;
+			return this.products[0].thingDef.GetStatValueAbstract(StatDefOf.WorkToMake, stuffDef);
 		}
 
 		public IEnumerable<ThingDef> PotentiallyMissingIngredients(Pawn billDoer, Map map)
@@ -350,17 +330,13 @@ namespace Verse
 
 		public override IEnumerable<string> ConfigErrors()
 		{
-			foreach (string e in this.<ConfigErrors>__BaseCallProxy0())
+			foreach (string e in base.ConfigErrors())
 			{
 				yield return e;
 			}
 			if (this.workerClass == null)
 			{
 				yield return "workerClass is null.";
-			}
-			if (this.surgerySuccessChanceFactor < 99999f && !this.requireBed)
-			{
-				yield return "failable surgery does not require bed";
 			}
 			yield break;
 		}
@@ -402,98 +378,87 @@ namespace Verse
 
 		public SkillRequirement FirstSkillRequirementPawnDoesntSatisfy(Pawn pawn)
 		{
-			SkillRequirement result;
 			if (this.skillRequirements == null)
 			{
-				result = null;
+				return null;
 			}
-			else
+			for (int i = 0; i < this.skillRequirements.Count; i++)
 			{
-				for (int i = 0; i < this.skillRequirements.Count; i++)
+				if (!this.skillRequirements[i].PawnSatisfies(pawn))
 				{
-					if (!this.skillRequirements[i].PawnSatisfies(pawn))
-					{
-						return this.skillRequirements[i];
-					}
+					return this.skillRequirements[i];
 				}
-				result = null;
 			}
-			return result;
+			return null;
 		}
 
 		public List<ThingDef> GetPremultipliedSmallIngredients()
 		{
-			List<ThingDef> result;
 			if (this.premultipliedSmallIngredients != null)
 			{
-				result = this.premultipliedSmallIngredients;
+				return this.premultipliedSmallIngredients;
 			}
-			else
+			this.premultipliedSmallIngredients = (from td in this.ingredients.SelectMany((IngredientCount ingredient) => ingredient.filter.AllowedThingDefs)
+			where td.smallVolume
+			select td).Distinct<ThingDef>().ToList<ThingDef>();
+			bool flag = true;
+			while (flag)
 			{
-				this.premultipliedSmallIngredients = (from td in this.ingredients.SelectMany((IngredientCount ingredient) => ingredient.filter.AllowedThingDefs)
-				where td.smallVolume
-				select td).Distinct<ThingDef>().ToList<ThingDef>();
-				bool flag = true;
-				while (flag)
+				flag = false;
+				for (int i = 0; i < this.ingredients.Count; i++)
 				{
-					flag = false;
-					for (int i = 0; i < this.ingredients.Count; i++)
+					bool flag2 = this.ingredients[i].filter.AllowedThingDefs.Any((ThingDef td) => !this.premultipliedSmallIngredients.Contains(td));
+					if (flag2)
 					{
-						bool flag2 = this.ingredients[i].filter.AllowedThingDefs.Any((ThingDef td) => !this.premultipliedSmallIngredients.Contains(td));
-						if (flag2)
+						foreach (ThingDef item in this.ingredients[i].filter.AllowedThingDefs)
 						{
-							foreach (ThingDef item in this.ingredients[i].filter.AllowedThingDefs)
-							{
-								flag |= this.premultipliedSmallIngredients.Remove(item);
-							}
+							flag |= this.premultipliedSmallIngredients.Remove(item);
 						}
 					}
 				}
-				result = this.premultipliedSmallIngredients;
 			}
-			return result;
+			return this.premultipliedSmallIngredients;
 		}
 
 		public override IEnumerable<StatDrawEntry> SpecialDisplayStats(StatRequest req)
 		{
 			if (this.workSkill != null)
 			{
-				yield return new StatDrawEntry(StatCategoryDefOf.Basics, "Skill".Translate(), this.workSkill.LabelCap, 0, "");
+				yield return new StatDrawEntry(StatCategoryDefOf.Basics, "Skill".Translate(), this.workSkill.LabelCap, 0, string.Empty);
 			}
 			if (this.ingredients != null && this.ingredients.Count > 0)
 			{
 				yield return new StatDrawEntry(StatCategoryDefOf.Basics, "Ingredients".Translate(), (from ic in this.ingredients
-				select ic.Summary).ToCommaList(true), 0, "");
+				select ic.Summary).ToCommaList(true), 0, string.Empty);
 			}
 			if (this.skillRequirements != null && this.skillRequirements.Count > 0)
 			{
 				yield return new StatDrawEntry(StatCategoryDefOf.Basics, "SkillRequirements".Translate(), (from sr in this.skillRequirements
-				select sr.Summary).ToCommaList(true), 0, "");
+				select sr.Summary).ToCommaList(true), 0, string.Empty);
 			}
 			if (this.products != null && this.products.Count > 0)
 			{
 				yield return new StatDrawEntry(StatCategoryDefOf.Basics, "Products".Translate(), (from pr in this.products
-				select pr.Summary).ToCommaList(true), 0, "");
+				select pr.Summary).ToCommaList(true), 0, string.Empty);
 			}
 			if (this.workSpeedStat != null)
 			{
-				yield return new StatDrawEntry(StatCategoryDefOf.Basics, "WorkSpeedStat".Translate(), this.workSpeedStat.LabelCap, 0, "");
+				yield return new StatDrawEntry(StatCategoryDefOf.Basics, "WorkSpeedStat".Translate(), this.workSpeedStat.LabelCap, 0, string.Empty);
 			}
 			if (this.efficiencyStat != null)
 			{
-				yield return new StatDrawEntry(StatCategoryDefOf.Basics, "EfficiencyStat".Translate(), this.efficiencyStat.LabelCap, 0, "");
+				yield return new StatDrawEntry(StatCategoryDefOf.Basics, "EfficiencyStat".Translate(), this.efficiencyStat.LabelCap, 0, string.Empty);
 			}
 			if (this.IsSurgery)
 			{
 				if (this.surgerySuccessChanceFactor >= 99999f)
 				{
-					yield return new StatDrawEntry(StatCategoryDefOf.Surgery, "SurgerySuccessChanceFactor".Translate(), "Always", 0, "");
+					yield return new StatDrawEntry(StatCategoryDefOf.Surgery, "SurgerySuccessChanceFactor".Translate(), "Always", 0, string.Empty);
 				}
 				else
 				{
-					yield return new StatDrawEntry(StatCategoryDefOf.Surgery, "SurgerySuccessChanceFactor".Translate(), this.surgerySuccessChanceFactor.ToStringPercent(), 0, "");
+					yield return new StatDrawEntry(StatCategoryDefOf.Surgery, "SurgerySuccessChanceFactor".Translate(), this.surgerySuccessChanceFactor.ToStringPercent(), 0, string.Empty);
 				}
-				yield return new StatDrawEntry(StatCategoryDefOf.Surgery, "SurgeryRequireBed".Translate(), this.requireBed.ToStringYesNo(), 0, "");
 			}
 			yield break;
 		}
@@ -560,7 +525,7 @@ namespace Verse
 				case 0u:
 					if (this.recipeUsers == null)
 					{
-						goto IL_9F;
+						goto IL_9A;
 					}
 					i = 0;
 					break;
@@ -568,8 +533,9 @@ namespace Verse
 					i++;
 					break;
 				case 2u:
-					IL_124:
-					goto IL_125;
+					IL_11D:
+					j++;
+					goto IL_12B;
 				default:
 					return false;
 				}
@@ -582,24 +548,17 @@ namespace Verse
 					}
 					return true;
 				}
-				IL_9F:
+				IL_9A:
 				thingDefs = DefDatabase<ThingDef>.AllDefsListForReading;
 				j = 0;
-				goto IL_134;
-				IL_125:
-				j++;
-				IL_134:
+				IL_12B:
 				if (j >= thingDefs.Count)
 				{
 					this.$PC = -1;
 				}
 				else
 				{
-					if (thingDefs[j].recipes == null)
-					{
-						goto IL_125;
-					}
-					if (thingDefs[j].recipes.Contains(this))
+					if (thingDefs[j].recipes != null && thingDefs[j].recipes.Contains(this))
 					{
 						this.$current = thingDefs[j];
 						if (!this.$disposing)
@@ -608,7 +567,7 @@ namespace Verse
 						}
 						return true;
 					}
-					goto IL_124;
+					goto IL_11D;
 				}
 				return false;
 			}
@@ -703,18 +662,17 @@ namespace Verse
 				{
 				case 0u:
 					i = 0;
-					goto IL_1E9;
+					goto IL_1DF;
 				case 1u:
 					break;
 				case 2u:
-					IL_1D8:
 					break;
 				default:
 					return false;
 				}
-				IL_1DA:
+				IL_1D1:
 				i++;
-				IL_1E9:
+				IL_1DF:
 				if (i >= this.ingredients.Count)
 				{
 					this.$PC = -1;
@@ -750,7 +708,7 @@ namespace Verse
 							select x).FirstOrDefault((ThingDef x) => this.fixedIngredientFilter.Allows(x));
 							if (def == null)
 							{
-								goto IL_1D8;
+								goto IL_1D1;
 							}
 							this.$current = def;
 							if (!this.$disposing)
@@ -760,7 +718,7 @@ namespace Verse
 						}
 						return true;
 					}
-					goto IL_1DA;
+					goto IL_1D1;
 				}
 				return false;
 			}
@@ -861,9 +819,7 @@ namespace Verse
 				case 1u:
 					break;
 				case 2u:
-					goto IL_EB;
-				case 3u:
-					goto IL_12F;
+					goto IL_E3;
 				default:
 					return false;
 				}
@@ -894,26 +850,17 @@ namespace Verse
 						}
 					}
 				}
-				if (this.workerClass == null)
+				if (this.workerClass != null)
 				{
-					this.$current = "workerClass is null.";
-					if (!this.$disposing)
-					{
-						this.$PC = 2;
-					}
-					return true;
+					goto IL_E3;
 				}
-				IL_EB:
-				if (this.surgerySuccessChanceFactor < 99999f && !this.requireBed)
+				this.$current = "workerClass is null.";
+				if (!this.$disposing)
 				{
-					this.$current = "failable surgery does not require bed";
-					if (!this.$disposing)
-					{
-						this.$PC = 3;
-					}
-					return true;
+					this.$PC = 2;
 				}
-				IL_12F:
+				return true;
+				IL_E3:
 				this.$PC = -1;
 				return false;
 			}
@@ -1015,7 +962,7 @@ namespace Verse
 				case 0u:
 					if (this.workSkill != null)
 					{
-						this.$current = new StatDrawEntry(StatCategoryDefOf.Basics, "Skill".Translate(), this.workSkill.LabelCap, 0, "");
+						this.$current = new StatDrawEntry(StatCategoryDefOf.Basics, "Skill".Translate(), this.workSkill.LabelCap, 0, string.Empty);
 						if (!this.$disposing)
 						{
 							this.$PC = 1;
@@ -1026,104 +973,94 @@ namespace Verse
 				case 1u:
 					break;
 				case 2u:
-					goto IL_123;
+					goto IL_11E;
 				case 3u:
-					goto IL_1B0;
+					goto IL_1AB;
 				case 4u:
-					goto IL_23D;
+					goto IL_238;
 				case 5u:
-					goto IL_291;
+					goto IL_28C;
 				case 6u:
-					goto IL_2E5;
+					goto IL_2E0;
 				case 7u:
-					goto IL_38D;
+					goto IL_387;
 				case 8u:
-					goto IL_38D;
-				case 9u:
-					goto IL_3D3;
+					goto IL_387;
 				default:
 					return false;
 				}
 				if (this.ingredients != null && this.ingredients.Count > 0)
 				{
 					this.$current = new StatDrawEntry(StatCategoryDefOf.Basics, "Ingredients".Translate(), (from ic in this.ingredients
-					select ic.Summary).ToCommaList(true), 0, "");
+					select ic.Summary).ToCommaList(true), 0, string.Empty);
 					if (!this.$disposing)
 					{
 						this.$PC = 2;
 					}
 					return true;
 				}
-				IL_123:
+				IL_11E:
 				if (this.skillRequirements != null && this.skillRequirements.Count > 0)
 				{
 					this.$current = new StatDrawEntry(StatCategoryDefOf.Basics, "SkillRequirements".Translate(), (from sr in this.skillRequirements
-					select sr.Summary).ToCommaList(true), 0, "");
+					select sr.Summary).ToCommaList(true), 0, string.Empty);
 					if (!this.$disposing)
 					{
 						this.$PC = 3;
 					}
 					return true;
 				}
-				IL_1B0:
+				IL_1AB:
 				if (this.products != null && this.products.Count > 0)
 				{
 					this.$current = new StatDrawEntry(StatCategoryDefOf.Basics, "Products".Translate(), (from pr in this.products
-					select pr.Summary).ToCommaList(true), 0, "");
+					select pr.Summary).ToCommaList(true), 0, string.Empty);
 					if (!this.$disposing)
 					{
 						this.$PC = 4;
 					}
 					return true;
 				}
-				IL_23D:
+				IL_238:
 				if (this.workSpeedStat != null)
 				{
-					this.$current = new StatDrawEntry(StatCategoryDefOf.Basics, "WorkSpeedStat".Translate(), this.workSpeedStat.LabelCap, 0, "");
+					this.$current = new StatDrawEntry(StatCategoryDefOf.Basics, "WorkSpeedStat".Translate(), this.workSpeedStat.LabelCap, 0, string.Empty);
 					if (!this.$disposing)
 					{
 						this.$PC = 5;
 					}
 					return true;
 				}
-				IL_291:
+				IL_28C:
 				if (this.efficiencyStat != null)
 				{
-					this.$current = new StatDrawEntry(StatCategoryDefOf.Basics, "EfficiencyStat".Translate(), this.efficiencyStat.LabelCap, 0, "");
+					this.$current = new StatDrawEntry(StatCategoryDefOf.Basics, "EfficiencyStat".Translate(), this.efficiencyStat.LabelCap, 0, string.Empty);
 					if (!this.$disposing)
 					{
 						this.$PC = 6;
 					}
 					return true;
 				}
-				IL_2E5:
-				if (!base.IsSurgery)
+				IL_2E0:
+				if (base.IsSurgery)
 				{
-					goto IL_3D3;
-				}
-				if (this.surgerySuccessChanceFactor >= 99999f)
-				{
-					this.$current = new StatDrawEntry(StatCategoryDefOf.Surgery, "SurgerySuccessChanceFactor".Translate(), "Always", 0, "");
+					if (this.surgerySuccessChanceFactor >= 99999f)
+					{
+						this.$current = new StatDrawEntry(StatCategoryDefOf.Surgery, "SurgerySuccessChanceFactor".Translate(), "Always", 0, string.Empty);
+						if (!this.$disposing)
+						{
+							this.$PC = 7;
+						}
+						return true;
+					}
+					this.$current = new StatDrawEntry(StatCategoryDefOf.Surgery, "SurgerySuccessChanceFactor".Translate(), this.surgerySuccessChanceFactor.ToStringPercent(), 0, string.Empty);
 					if (!this.$disposing)
 					{
-						this.$PC = 7;
+						this.$PC = 8;
 					}
 					return true;
 				}
-				this.$current = new StatDrawEntry(StatCategoryDefOf.Surgery, "SurgerySuccessChanceFactor".Translate(), this.surgerySuccessChanceFactor.ToStringPercent(), 0, "");
-				if (!this.$disposing)
-				{
-					this.$PC = 8;
-				}
-				return true;
-				IL_38D:
-				this.$current = new StatDrawEntry(StatCategoryDefOf.Surgery, "SurgeryRequireBed".Translate(), this.requireBed.ToStringYesNo(), 0, "");
-				if (!this.$disposing)
-				{
-					this.$PC = 9;
-				}
-				return true;
-				IL_3D3:
+				IL_387:
 				this.$PC = -1;
 				return false;
 			}

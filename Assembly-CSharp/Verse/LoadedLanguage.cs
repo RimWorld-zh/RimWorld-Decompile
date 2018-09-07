@@ -14,25 +14,45 @@ namespace Verse
 	{
 		public string folderName;
 
-		public LanguageInfo info = null;
+		public LanguageInfo info;
 
 		private LanguageWorker workerInt;
 
-		private bool dataIsLoaded = false;
+		private bool dataIsLoaded;
 
 		public List<string> loadErrors = new List<string>();
 
 		public List<string> backstoriesLoadErrors = new List<string>();
 
+		public bool anyKeyedReplacementsXmlParseError;
+
+		public string lastKeyedReplacementsXmlParseErrorInFile;
+
+		public bool anyDefInjectionsXmlParseError;
+
+		public string lastDefInjectionsXmlParseErrorInFile;
+
+		public bool anyError;
+
 		public Texture2D icon = BaseContent.BadTex;
 
-		public Dictionary<string, string> keyedReplacements = new Dictionary<string, string>();
-
-		public Dictionary<string, Pair<string, int>> keyedReplacementsFileSource = new Dictionary<string, Pair<string, int>>();
+		public Dictionary<string, LoadedLanguage.KeyedReplacement> keyedReplacements = new Dictionary<string, LoadedLanguage.KeyedReplacement>();
 
 		public List<DefInjectionPackage> defInjections = new List<DefInjectionPackage>();
 
 		public Dictionary<string, List<string>> stringFiles = new Dictionary<string, List<string>>();
+
+		public const string OldKeyedTranslationsFolderName = "CodeLinked";
+
+		public const string KeyedTranslationsFolderName = "Keyed";
+
+		public const string OldDefInjectionsFolderName = "DefLinked";
+
+		public const string DefInjectionsFolderName = "DefInjected";
+
+		public const string LanguagesFolderName = "Languages";
+
+		public const string PlaceholderText = "TODO";
 
 		public LoadedLanguage(string folderPath)
 		{
@@ -44,16 +64,11 @@ namespace Verse
 		{
 			get
 			{
-				string friendlyNameNative;
 				if (this.info == null || this.info.friendlyNameNative.NullOrEmpty())
 				{
-					friendlyNameNative = this.folderName;
+					return this.folderName;
 				}
-				else
-				{
-					friendlyNameNative = this.info.friendlyNameNative;
-				}
-				return friendlyNameNative;
+				return this.info.friendlyNameNative;
 			}
 		}
 
@@ -61,16 +76,11 @@ namespace Verse
 		{
 			get
 			{
-				string friendlyNameEnglish;
 				if (this.info == null || this.info.friendlyNameEnglish.NullOrEmpty())
 				{
-					friendlyNameEnglish = this.folderName;
+					return this.folderName;
 				}
-				else
-				{
-					friendlyNameEnglish = this.info.friendlyNameEnglish;
-				}
-				return friendlyNameEnglish;
+				return this.info.friendlyNameEnglish;
 			}
 		}
 
@@ -131,93 +141,95 @@ namespace Verse
 
 		public void LoadData()
 		{
-			if (!this.dataIsLoaded)
+			if (this.dataIsLoaded)
 			{
-				this.dataIsLoaded = true;
-				DeepProfiler.Start("Loading language data: " + this.folderName);
-				foreach (string text in this.FolderPaths)
+				return;
+			}
+			this.dataIsLoaded = true;
+			DeepProfiler.Start("Loading language data: " + this.folderName);
+			foreach (string text in this.FolderPaths)
+			{
+				string localFolderPath = text;
+				LongEventHandler.ExecuteWhenFinished(delegate
 				{
-					string localFolderPath = text;
-					LongEventHandler.ExecuteWhenFinished(delegate
+					if (this.icon == BaseContent.BadTex)
 					{
-						if (this.icon == BaseContent.BadTex)
+						FileInfo fileInfo = new FileInfo(Path.Combine(localFolderPath.ToString(), "LangIcon.png"));
+						if (fileInfo.Exists)
 						{
-							FileInfo fileInfo = new FileInfo(Path.Combine(localFolderPath.ToString(), "LangIcon.png"));
-							if (fileInfo.Exists)
-							{
-								this.icon = ModContentLoader<Texture2D>.LoadItem(fileInfo.FullName, null).contentItem;
-							}
-						}
-					});
-					DirectoryInfo directoryInfo = new DirectoryInfo(Path.Combine(text.ToString(), "CodeLinked"));
-					if (directoryInfo.Exists)
-					{
-						this.loadErrors.Add("Translations aren't called CodeLinked any more. Please rename to Keyed: " + directoryInfo);
-					}
-					else
-					{
-						directoryInfo = new DirectoryInfo(Path.Combine(text.ToString(), "Keyed"));
-					}
-					if (directoryInfo.Exists)
-					{
-						foreach (FileInfo file in directoryInfo.GetFiles("*.xml", SearchOption.AllDirectories))
-						{
-							this.LoadFromFile_Keyed(file);
+							this.icon = ModContentLoader<Texture2D>.LoadItem(fileInfo.FullName, null).contentItem;
 						}
 					}
-					DirectoryInfo directoryInfo2 = new DirectoryInfo(Path.Combine(text.ToString(), "DefLinked"));
-					if (directoryInfo2.Exists)
+				});
+				DirectoryInfo directoryInfo = new DirectoryInfo(Path.Combine(text.ToString(), "CodeLinked"));
+				if (directoryInfo.Exists)
+				{
+					this.loadErrors.Add("Translations aren't called CodeLinked any more. Please rename to Keyed: " + directoryInfo);
+				}
+				else
+				{
+					directoryInfo = new DirectoryInfo(Path.Combine(text.ToString(), "Keyed"));
+				}
+				if (directoryInfo.Exists)
+				{
+					foreach (FileInfo file in directoryInfo.GetFiles("*.xml", SearchOption.AllDirectories))
 					{
-						this.loadErrors.Add("Translations aren't called DefLinked any more. Please rename to DefInjected: " + directoryInfo2);
+						this.LoadFromFile_Keyed(file);
 					}
-					else
+				}
+				DirectoryInfo directoryInfo2 = new DirectoryInfo(Path.Combine(text.ToString(), "DefLinked"));
+				if (directoryInfo2.Exists)
+				{
+					this.loadErrors.Add("Translations aren't called DefLinked any more. Please rename to DefInjected: " + directoryInfo2);
+				}
+				else
+				{
+					directoryInfo2 = new DirectoryInfo(Path.Combine(text.ToString(), "DefInjected"));
+				}
+				if (directoryInfo2.Exists)
+				{
+					foreach (DirectoryInfo directoryInfo3 in directoryInfo2.GetDirectories("*", SearchOption.TopDirectoryOnly))
 					{
-						directoryInfo2 = new DirectoryInfo(Path.Combine(text.ToString(), "DefInjected"));
-					}
-					if (directoryInfo2.Exists)
-					{
-						foreach (DirectoryInfo directoryInfo3 in directoryInfo2.GetDirectories("*", SearchOption.TopDirectoryOnly))
+						string name = directoryInfo3.Name;
+						Type typeInAnyAssembly = GenTypes.GetTypeInAnyAssembly(name);
+						if (typeInAnyAssembly == null && name.Length > 3)
 						{
-							string name = directoryInfo3.Name;
-							Type typeInAnyAssembly = GenTypes.GetTypeInAnyAssembly(name);
-							if (typeInAnyAssembly == null && name.Length > 3)
-							{
-								typeInAnyAssembly = GenTypes.GetTypeInAnyAssembly(name.Substring(0, name.Length - 1));
-							}
-							if (typeInAnyAssembly == null)
-							{
-								this.loadErrors.Add(string.Concat(new string[]
-								{
-									"Error loading language from ",
-									text,
-									": dir ",
-									directoryInfo3.Name,
-									" doesn't correspond to any def type. Skipping..."
-								}));
-							}
-							else
-							{
-								foreach (FileInfo file2 in directoryInfo3.GetFiles("*.xml", SearchOption.AllDirectories))
-								{
-									this.LoadFromFile_DefInject(file2, typeInAnyAssembly);
-								}
-							}
+							typeInAnyAssembly = GenTypes.GetTypeInAnyAssembly(name.Substring(0, name.Length - 1));
 						}
-					}
-					DirectoryInfo directoryInfo4 = new DirectoryInfo(Path.Combine(text.ToString(), "Strings"));
-					if (directoryInfo4.Exists)
-					{
-						foreach (DirectoryInfo directoryInfo5 in directoryInfo4.GetDirectories("*", SearchOption.TopDirectoryOnly))
+						if (typeInAnyAssembly == null)
 						{
-							foreach (FileInfo file3 in directoryInfo5.GetFiles("*.txt", SearchOption.AllDirectories))
+							this.loadErrors.Add(string.Concat(new string[]
 							{
-								this.LoadFromFile_Strings(file3, directoryInfo4);
+								"Error loading language from ",
+								text,
+								": dir ",
+								directoryInfo3.Name,
+								" doesn't correspond to any def type. Skipping..."
+							}));
+						}
+						else
+						{
+							foreach (FileInfo file2 in directoryInfo3.GetFiles("*.xml", SearchOption.AllDirectories))
+							{
+								this.LoadFromFile_DefInject(file2, typeInAnyAssembly);
 							}
 						}
 					}
 				}
-				DeepProfiler.End();
+				this.EnsureAllDefTypesHaveDefInjectionPackage();
+				DirectoryInfo directoryInfo4 = new DirectoryInfo(Path.Combine(text.ToString(), "Strings"));
+				if (directoryInfo4.Exists)
+				{
+					foreach (DirectoryInfo directoryInfo5 in directoryInfo4.GetDirectories("*", SearchOption.TopDirectoryOnly))
+					{
+						foreach (FileInfo file3 in directoryInfo5.GetFiles("*.txt", SearchOption.AllDirectories))
+						{
+							this.LoadFromFile_Strings(file3, directoryInfo4);
+						}
+					}
+				}
 			}
+			DeepProfiler.End();
 		}
 
 		private void LoadFromFile_Strings(FileInfo file, DirectoryInfo stringsTopDir)
@@ -293,11 +305,25 @@ namespace Verse
 					ex
 				}));
 				dictionary.Clear();
+				dictionary2.Clear();
+				this.anyKeyedReplacementsXmlParseError = true;
+				this.lastKeyedReplacementsXmlParseErrorInFile = file.Name;
 			}
 			foreach (KeyValuePair<string, string> keyValuePair in dictionary)
 			{
-				this.keyedReplacements.Add(keyValuePair.Key, keyValuePair.Value);
-				this.keyedReplacementsFileSource.Add(keyValuePair.Key, new Pair<string, int>(file.Name, dictionary2[keyValuePair.Key]));
+				string text = keyValuePair.Value;
+				LoadedLanguage.KeyedReplacement keyedReplacement = new LoadedLanguage.KeyedReplacement();
+				if (text == "TODO")
+				{
+					keyedReplacement.isPlaceholder = true;
+					text = string.Empty;
+				}
+				keyedReplacement.key = keyValuePair.Key;
+				keyedReplacement.value = text;
+				keyedReplacement.fileSource = file.Name;
+				keyedReplacement.fileSourceLine = dictionary2[keyValuePair.Key];
+				keyedReplacement.fileSourceFullPath = file.FullName;
+				this.keyedReplacements.Add(keyValuePair.Key, keyedReplacement);
 			}
 		}
 
@@ -311,16 +337,38 @@ namespace Verse
 				defInjectionPackage = new DefInjectionPackage(defType);
 				this.defInjections.Add(defInjectionPackage);
 			}
-			defInjectionPackage.AddDataFromFile(file);
+			bool flag;
+			defInjectionPackage.AddDataFromFile(file, out flag);
+			if (flag)
+			{
+				this.anyDefInjectionsXmlParseError = true;
+				this.lastDefInjectionsXmlParseErrorInFile = file.Name;
+			}
 		}
 
-		public bool HaveTextForKey(string key)
+		private void EnsureAllDefTypesHaveDefInjectionPackage()
+		{
+			using (IEnumerator<Type> enumerator = GenDefDatabase.AllDefTypesWithDatabases().GetEnumerator())
+			{
+				while (enumerator.MoveNext())
+				{
+					Type defType = enumerator.Current;
+					if (!this.defInjections.Any((DefInjectionPackage x) => x.defType == defType))
+					{
+						this.defInjections.Add(new DefInjectionPackage(defType));
+					}
+				}
+			}
+		}
+
+		public bool HaveTextForKey(string key, bool allowPlaceholders = false)
 		{
 			if (!this.dataIsLoaded)
 			{
 				this.LoadData();
 			}
-			return this.keyedReplacements.ContainsKey(key);
+			LoadedLanguage.KeyedReplacement keyedReplacement;
+			return key != null && this.keyedReplacements.TryGetValue(key, out keyedReplacement) && (allowPlaceholders || !keyedReplacement.isPlaceholder);
 		}
 
 		public bool TryGetTextFromKey(string key, out string translated)
@@ -329,17 +377,19 @@ namespace Verse
 			{
 				this.LoadData();
 			}
-			bool result;
-			if (!this.keyedReplacements.TryGetValue(key, out translated))
+			if (key == null)
 			{
 				translated = key;
-				result = false;
+				return false;
 			}
-			else
+			LoadedLanguage.KeyedReplacement keyedReplacement;
+			if (!this.keyedReplacements.TryGetValue(key, out keyedReplacement) || keyedReplacement.isPlaceholder)
 			{
-				result = true;
+				translated = key;
+				return false;
 			}
-			return result;
+			translated = keyedReplacement.value;
+			return true;
 		}
 
 		public bool TryGetStringsFromFile(string fileName, out List<string> stringsList)
@@ -348,32 +398,22 @@ namespace Verse
 			{
 				this.LoadData();
 			}
-			bool result;
 			if (!this.stringFiles.TryGetValue(fileName, out stringsList))
 			{
 				stringsList = null;
-				result = false;
+				return false;
 			}
-			else
-			{
-				result = true;
-			}
-			return result;
+			return true;
 		}
 
 		public string GetKeySourceFileAndLine(string key)
 		{
-			Pair<string, int> pair;
-			string result;
-			if (!this.keyedReplacementsFileSource.TryGetValue(key, out pair))
+			LoadedLanguage.KeyedReplacement keyedReplacement;
+			if (!this.keyedReplacements.TryGetValue(key, out keyedReplacement))
 			{
-				result = "unknown";
+				return "unknown";
 			}
-			else
-			{
-				result = pair.First + ":" + pair.Second;
-			}
-			return result;
+			return keyedReplacement.fileSource + ":" + keyedReplacement.fileSourceLine;
 		}
 
 		public void InjectIntoData_BeforeImpliedDefs()
@@ -418,6 +458,7 @@ namespace Verse
 			num += this.backstoriesLoadErrors.Count;
 			if (num != 0)
 			{
+				this.anyError = true;
 				Log.Warning(string.Concat(new object[]
 				{
 					"Translation data for language ",
@@ -432,6 +473,25 @@ namespace Verse
 		public override string ToString()
 		{
 			return this.info.friendlyNameEnglish;
+		}
+
+		public class KeyedReplacement
+		{
+			public string key;
+
+			public string value;
+
+			public string fileSource;
+
+			public int fileSourceLine;
+
+			public string fileSourceFullPath;
+
+			public bool isPlaceholder;
+
+			public KeyedReplacement()
+			{
+			}
 		}
 
 		[CompilerGenerated]
@@ -480,11 +540,8 @@ namespace Verse
 				{
 					switch (num)
 					{
-					case 1u:
-						IL_D5:
-						break;
 					}
-					if (enumerator.MoveNext())
+					while (enumerator.MoveNext())
 					{
 						mod = enumerator.Current;
 						langDirPath = Path.Combine(mod.RootDir, "Languages");
@@ -500,7 +557,6 @@ namespace Verse
 							flag = true;
 							return true;
 						}
-						goto IL_D5;
 					}
 				}
 				finally
@@ -619,6 +675,21 @@ namespace Verse
 			internal bool <>m__0(DefInjectionPackage di)
 			{
 				return di.defType == this.defType;
+			}
+		}
+
+		[CompilerGenerated]
+		private sealed class <EnsureAllDefTypesHaveDefInjectionPackage>c__AnonStorey3
+		{
+			internal Type defType;
+
+			public <EnsureAllDefTypesHaveDefInjectionPackage>c__AnonStorey3()
+			{
+			}
+
+			internal bool <>m__0(DefInjectionPackage x)
+			{
+				return x.defType == this.defType;
 			}
 		}
 	}

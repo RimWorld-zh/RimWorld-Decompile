@@ -33,72 +33,66 @@ namespace RimWorld
 			where b.def.IsOrbitalTradeBeacon
 			select b;
 			Building building = enumerable.FirstOrDefault((Building b) => !map.roofGrid.Roofed(b.Position) && DropCellFinder.AnyAdjacentGoodDropSpot(b.Position, map, false, false));
-			IntVec3 result;
+			IntVec3 position;
 			if (building != null)
 			{
-				IntVec3 position = building.Position;
-				IntVec3 intVec;
-				if (!DropCellFinder.TryFindDropSpotNear(position, map, out intVec, false, false, false))
+				position = building.Position;
+				IntVec3 result;
+				if (!DropCellFinder.TryFindDropSpotNear(position, map, out result, false, false))
 				{
 					Log.Error("Could find no good TradeDropSpot near dropCenter " + position + ". Using a random standable unfogged cell.", false);
-					intVec = CellFinderLoose.RandomCellWith((IntVec3 c) => c.Standable(map) && !c.Fogged(map), map, 1000);
+					result = CellFinderLoose.RandomCellWith((IntVec3 c) => c.Standable(map) && !c.Fogged(map), map, 1000);
 				}
-				result = intVec;
+				return result;
 			}
-			else
+			List<Building> list = new List<Building>();
+			list.AddRange(enumerable);
+			list.AddRange(collection);
+			list.RemoveAll(delegate(Building b)
 			{
-				List<Building> list = new List<Building>();
-				list.AddRange(enumerable);
-				list.AddRange(collection);
-				list.RemoveAll(delegate(Building b)
-				{
-					CompPowerTrader compPowerTrader = b.TryGetComp<CompPowerTrader>();
-					return compPowerTrader != null && !compPowerTrader.PowerOn;
-				});
-				Predicate<IntVec3> validator = (IntVec3 c) => DropCellFinder.IsGoodDropSpot(c, map, false, false);
+				CompPowerTrader compPowerTrader = b.TryGetComp<CompPowerTrader>();
+				return compPowerTrader != null && !compPowerTrader.PowerOn;
+			});
+			Predicate<IntVec3> validator = (IntVec3 c) => DropCellFinder.IsGoodDropSpot(c, map, false, false);
+			if (!list.Any<Building>())
+			{
+				list.AddRange(map.listerBuildings.allBuildingsColonist);
+				list.Shuffle<Building>();
 				if (!list.Any<Building>())
 				{
-					list.AddRange(map.listerBuildings.allBuildingsColonist);
-					list.Shuffle<Building>();
-					if (!list.Any<Building>())
-					{
-						return CellFinderLoose.RandomCellWith(validator, map, 1000);
-					}
+					return CellFinderLoose.RandomCellWith(validator, map, 1000);
 				}
-				int num = 8;
-				IntVec3 position;
-				for (;;)
-				{
-					for (int i = 0; i < list.Count; i++)
-					{
-						IntVec3 position2 = list[i].Position;
-						if (CellFinder.TryFindRandomCellNear(position2, map, num, validator, out position, -1))
-						{
-							goto Block_7;
-						}
-					}
-					num = Mathf.RoundToInt((float)num * 1.1f);
-					if (num > map.Size.x)
-					{
-						goto Block_9;
-					}
-				}
-				Block_7:
-				return position;
-				Block_9:
-				Log.Error("Failed to generate trade drop center. Giving random.", false);
-				result = CellFinderLoose.RandomCellWith(validator, map, 1000);
 			}
-			return result;
+			int num = 8;
+			for (;;)
+			{
+				for (int i = 0; i < list.Count; i++)
+				{
+					IntVec3 position2 = list[i].Position;
+					if (CellFinder.TryFindRandomCellNear(position2, map, num, validator, out position, -1))
+					{
+						return position;
+					}
+				}
+				num = Mathf.RoundToInt((float)num * 1.1f);
+				if (num > map.Size.x)
+				{
+					goto Block_9;
+				}
+			}
+			return position;
+			Block_9:
+			Log.Error("Failed to generate trade drop center. Giving random.", false);
+			return CellFinderLoose.RandomCellWith(validator, map, 1000);
 		}
 
-		public static bool TryFindDropSpotNear(IntVec3 center, Map map, out IntVec3 result, bool allowFogged, bool canRoofPunch, bool willExplode)
+		public static bool TryFindDropSpotNear(IntVec3 center, Map map, out IntVec3 result, bool allowFogged, bool canRoofPunch)
 		{
 			if (DebugViewSettings.drawDestSearch)
 			{
 				map.debugDrawer.FlashCell(center, 1f, "center", 50);
 			}
-			Predicate<IntVec3> validator = (IntVec3 c) => DropCellFinder.IsGoodDropSpot(c, map, allowFogged, canRoofPunch) && map.reachability.CanReach(center, c, PathEndMode.OnCell, TraverseMode.PassDoors, Danger.Deadly) && (!willExplode || !SkyfallerUtility.CanPossiblyFallOnColonist(ThingDefOf.ExplosiveDropPodIncoming, c, map));
+			Predicate<IntVec3> validator = (IntVec3 c) => DropCellFinder.IsGoodDropSpot(c, map, allowFogged, canRoofPunch) && map.reachability.CanReach(center, c, PathEndMode.OnCell, TraverseMode.PassDoors, Danger.Deadly);
 			int num = 5;
 			while (!CellFinder.TryFindRandomCellNear(center, map, num, validator, out result, -1))
 			{
@@ -114,44 +108,36 @@ namespace RimWorld
 
 		public static bool IsGoodDropSpot(IntVec3 c, Map map, bool allowFogged, bool canRoofPunch)
 		{
-			bool result;
 			if (!c.InBounds(map) || !c.Standable(map))
 			{
-				result = false;
+				return false;
 			}
-			else if (!DropCellFinder.CanPhysicallyDropInto(c, map, canRoofPunch))
+			if (!DropCellFinder.CanPhysicallyDropInto(c, map, canRoofPunch))
 			{
 				if (DebugViewSettings.drawDestSearch)
 				{
 					map.debugDrawer.FlashCell(c, 0f, "phys", 50);
 				}
-				result = false;
+				return false;
 			}
-			else if (Current.ProgramState == ProgramState.Playing && !allowFogged && c.Fogged(map))
+			if (Current.ProgramState == ProgramState.Playing && !allowFogged && c.Fogged(map))
 			{
-				result = false;
+				return false;
 			}
-			else
+			List<Thing> thingList = c.GetThingList(map);
+			for (int i = 0; i < thingList.Count; i++)
 			{
-				List<Thing> thingList = c.GetThingList(map);
-				for (int i = 0; i < thingList.Count; i++)
+				Thing thing = thingList[i];
+				if (thing is IActiveDropPod || thing is Skyfaller)
 				{
-					Thing thing = thingList[i];
-					if (thing is IActiveDropPod || thing is Skyfaller)
-					{
-						return false;
-					}
-					if (thing.def.category != ThingCategory.Plant)
-					{
-						if (GenSpawn.SpawningWipes(ThingDefOf.ActiveDropPod, thing.def))
-						{
-							return false;
-						}
-					}
+					return false;
 				}
-				result = true;
+				if (thing.def.category != ThingCategory.Plant && GenSpawn.SpawningWipes(ThingDefOf.ActiveDropPod, thing.def))
+				{
+					return false;
+				}
 			}
-			return result;
+			return true;
 		}
 
 		private static bool AnyAdjacentGoodDropSpot(IntVec3 c, Map map, bool allowFogged, bool canRoofPunch)
@@ -200,13 +186,11 @@ namespace RimWorld
 						}
 						if (!flag && map.reachability.CanReachFactionBase(intVec, hostFaction))
 						{
-							goto IL_167;
+							return intVec;
 						}
 					}
 				}
 			}
-			return intVec;
-			IL_167:
 			return intVec;
 		}
 
@@ -228,7 +212,7 @@ namespace RimWorld
 						List<Building> allBuildingsColonist = map.listerBuildings.allBuildingsColonist;
 						for (int i = 0; i < allBuildingsColonist.Count; i++)
 						{
-							if (DropCellFinder.TryFindDropSpotNear(allBuildingsColonist[i].Position, map, out root, true, true, false))
+							if (DropCellFinder.TryFindDropSpotNear(allBuildingsColonist[i].Position, map, out root, true, true))
 							{
 								break;
 							}
@@ -239,7 +223,7 @@ namespace RimWorld
 						List<Thing> list = map.listerThings.ThingsInGroup(ThingRequestGroup.BuildingArtificial);
 						for (int j = 0; j < list.Count; j++)
 						{
-							if (list[j].Faction == faction && DropCellFinder.TryFindDropSpotNear(list[j].Position, map, out root, true, true, false))
+							if (list[j].Faction == faction && DropCellFinder.TryFindDropSpotNear(list[j].Position, map, out root, true, true))
 							{
 								break;
 							}
@@ -269,28 +253,23 @@ namespace RimWorld
 
 		private static bool CanPhysicallyDropInto(IntVec3 c, Map map, bool canRoofPunch)
 		{
-			bool result;
 			if (!c.Walkable(map))
 			{
-				result = false;
+				return false;
 			}
-			else
+			RoofDef roof = c.GetRoof(map);
+			if (roof != null)
 			{
-				RoofDef roof = c.GetRoof(map);
-				if (roof != null)
+				if (!canRoofPunch)
 				{
-					if (!canRoofPunch)
-					{
-						return false;
-					}
-					if (roof.isThickRoof)
-					{
-						return false;
-					}
+					return false;
 				}
-				result = true;
+				if (roof.isThickRoof)
+				{
+					return false;
+				}
 			}
-			return result;
+			return true;
 		}
 
 		[CompilerGenerated]
@@ -363,15 +342,13 @@ namespace RimWorld
 
 			internal IntVec3 center;
 
-			internal bool willExplode;
-
 			public <TryFindDropSpotNear>c__AnonStorey2()
 			{
 			}
 
 			internal bool <>m__0(IntVec3 c)
 			{
-				return DropCellFinder.IsGoodDropSpot(c, this.map, this.allowFogged, this.canRoofPunch) && this.map.reachability.CanReach(this.center, c, PathEndMode.OnCell, TraverseMode.PassDoors, Danger.Deadly) && (!this.willExplode || !SkyfallerUtility.CanPossiblyFallOnColonist(ThingDefOf.ExplosiveDropPodIncoming, c, this.map));
+				return DropCellFinder.IsGoodDropSpot(c, this.map, this.allowFogged, this.canRoofPunch) && this.map.reachability.CanReach(this.center, c, PathEndMode.OnCell, TraverseMode.PassDoors, Danger.Deadly);
 			}
 		}
 

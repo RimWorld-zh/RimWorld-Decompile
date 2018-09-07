@@ -17,35 +17,30 @@ namespace Verse
 
 		public static string ThingListToUniqueCountString(IEnumerable<Thing> things)
 		{
-			string result;
 			if (things == null)
 			{
-				result = "null";
+				return "null";
 			}
-			else
+			Dictionary<ThingDef, int> dictionary = new Dictionary<ThingDef, int>();
+			foreach (Thing thing in things)
 			{
-				Dictionary<ThingDef, int> dictionary = new Dictionary<ThingDef, int>();
-				foreach (Thing thing in things)
+				if (!dictionary.ContainsKey(thing.def))
 				{
-					if (!dictionary.ContainsKey(thing.def))
-					{
-						dictionary.Add(thing.def, 0);
-					}
-					Dictionary<ThingDef, int> dictionary2;
-					ThingDef def;
-					(dictionary2 = dictionary)[def = thing.def] = dictionary2[def] + 1;
+					dictionary.Add(thing.def, 0);
 				}
-				StringBuilder stringBuilder = new StringBuilder();
-				stringBuilder.AppendLine("Registered things in dynamic draw list:");
-				foreach (KeyValuePair<ThingDef, int> keyValuePair in from k in dictionary
-				orderby k.Value descending
-				select k)
-				{
-					stringBuilder.AppendLine(keyValuePair.Key + " - " + keyValuePair.Value);
-				}
-				result = stringBuilder.ToString();
+				Dictionary<ThingDef, int> dictionary2;
+				ThingDef def;
+				(dictionary2 = dictionary)[def = thing.def] = dictionary2[def] + 1;
 			}
-			return result;
+			StringBuilder stringBuilder = new StringBuilder();
+			stringBuilder.AppendLine("Registered things in dynamic draw list:");
+			foreach (KeyValuePair<ThingDef, int> keyValuePair in from k in dictionary
+			orderby k.Value descending
+			select k)
+			{
+				stringBuilder.AppendLine(keyValuePair.Key + " - " + keyValuePair.Value);
+			}
+			return stringBuilder.ToString();
 		}
 
 		[CompilerGenerated]

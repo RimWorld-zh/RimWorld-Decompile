@@ -67,124 +67,123 @@ namespace Verse
 					this.parentGrid[root] = IntVec3.Invalid;
 				}
 				this.working = false;
+				return;
 			}
-			else
+			int area = this.map.Area;
+			IntVec3[] cardinalDirectionsAround = GenAdj.CardinalDirectionsAround;
+			int num = cardinalDirectionsAround.Length;
+			CellIndices cellIndices = this.map.cellIndices;
+			int num2 = 0;
+			this.openSet.Clear();
+			if (root.IsValid)
 			{
-				int area = this.map.Area;
-				IntVec3[] cardinalDirectionsAround = GenAdj.CardinalDirectionsAround;
-				int num = cardinalDirectionsAround.Length;
-				CellIndices cellIndices = this.map.cellIndices;
-				int num2 = 0;
-				this.openSet.Clear();
-				if (root.IsValid)
-				{
-					int num3 = cellIndices.CellToIndex(root);
-					this.visited.Add(num3);
-					this.traversalDistance[num3] = 0;
-					this.openSet.Enqueue(root);
-				}
-				if (extraRoots != null)
-				{
-					IList<IntVec3> list = extraRoots as IList<IntVec3>;
-					if (list != null)
-					{
-						for (int i = 0; i < list.Count; i++)
-						{
-							int num4 = cellIndices.CellToIndex(list[i]);
-							this.visited.Add(num4);
-							this.traversalDistance[num4] = 0;
-							this.openSet.Enqueue(list[i]);
-						}
-					}
-					else
-					{
-						foreach (IntVec3 intVec in extraRoots)
-						{
-							int num5 = cellIndices.CellToIndex(intVec);
-							this.visited.Add(num5);
-							this.traversalDistance[num5] = 0;
-							this.openSet.Enqueue(intVec);
-						}
-					}
-				}
-				if (rememberParents)
-				{
-					for (int j = 0; j < this.visited.Count; j++)
-					{
-						IntVec3 intVec2 = cellIndices.IndexToCell(this.visited[j]);
-						this.parentGrid[this.visited[j]] = ((!passCheck(intVec2)) ? IntVec3.Invalid : intVec2);
-					}
-				}
-				while (this.openSet.Count > 0)
-				{
-					IntVec3 intVec3 = this.openSet.Dequeue();
-					int num6 = this.traversalDistance[cellIndices.CellToIndex(intVec3)];
-					if (processor(intVec3, num6))
-					{
-						break;
-					}
-					num2++;
-					if (num2 == maxCellsToProcess)
-					{
-						break;
-					}
-					for (int k = 0; k < num; k++)
-					{
-						IntVec3 intVec4 = intVec3 + cardinalDirectionsAround[k];
-						int num7 = cellIndices.CellToIndex(intVec4);
-						if (intVec4.InBounds(this.map) && this.traversalDistance[num7] == -1 && passCheck(intVec4))
-						{
-							this.visited.Add(num7);
-							this.openSet.Enqueue(intVec4);
-							this.traversalDistance[num7] = num6 + 1;
-							if (rememberParents)
-							{
-								this.parentGrid[num7] = intVec3;
-							}
-						}
-					}
-					if (this.openSet.Count > area)
-					{
-						Log.Error("Overflow on flood fill (>" + area + " cells). Make sure we're not flooding over the same area after we check it.", false);
-						this.working = false;
-						return;
-					}
-				}
-				this.working = false;
+				int num3 = cellIndices.CellToIndex(root);
+				this.visited.Add(num3);
+				this.traversalDistance[num3] = 0;
+				this.openSet.Enqueue(root);
 			}
+			if (extraRoots != null)
+			{
+				IList<IntVec3> list = extraRoots as IList<IntVec3>;
+				if (list != null)
+				{
+					for (int i = 0; i < list.Count; i++)
+					{
+						int num4 = cellIndices.CellToIndex(list[i]);
+						this.visited.Add(num4);
+						this.traversalDistance[num4] = 0;
+						this.openSet.Enqueue(list[i]);
+					}
+				}
+				else
+				{
+					foreach (IntVec3 intVec in extraRoots)
+					{
+						int num5 = cellIndices.CellToIndex(intVec);
+						this.visited.Add(num5);
+						this.traversalDistance[num5] = 0;
+						this.openSet.Enqueue(intVec);
+					}
+				}
+			}
+			if (rememberParents)
+			{
+				for (int j = 0; j < this.visited.Count; j++)
+				{
+					IntVec3 intVec2 = cellIndices.IndexToCell(this.visited[j]);
+					this.parentGrid[this.visited[j]] = ((!passCheck(intVec2)) ? IntVec3.Invalid : intVec2);
+				}
+			}
+			while (this.openSet.Count > 0)
+			{
+				IntVec3 intVec3 = this.openSet.Dequeue();
+				int num6 = this.traversalDistance[cellIndices.CellToIndex(intVec3)];
+				if (processor(intVec3, num6))
+				{
+					break;
+				}
+				num2++;
+				if (num2 == maxCellsToProcess)
+				{
+					break;
+				}
+				for (int k = 0; k < num; k++)
+				{
+					IntVec3 intVec4 = intVec3 + cardinalDirectionsAround[k];
+					int num7 = cellIndices.CellToIndex(intVec4);
+					if (intVec4.InBounds(this.map) && this.traversalDistance[num7] == -1 && passCheck(intVec4))
+					{
+						this.visited.Add(num7);
+						this.openSet.Enqueue(intVec4);
+						this.traversalDistance[num7] = num6 + 1;
+						if (rememberParents)
+						{
+							this.parentGrid[num7] = intVec3;
+						}
+					}
+				}
+				if (this.openSet.Count > area)
+				{
+					Log.Error("Overflow on flood fill (>" + area + " cells). Make sure we're not flooding over the same area after we check it.", false);
+					this.working = false;
+					return;
+				}
+			}
+			this.working = false;
 		}
 
 		public void ReconstructLastFloodFillPath(IntVec3 dest, List<IntVec3> outPath)
 		{
 			outPath.Clear();
-			if (this.parentGrid != null && dest.InBounds(this.map) && this.parentGrid[dest].IsValid)
+			if (this.parentGrid == null || !dest.InBounds(this.map) || !this.parentGrid[dest].IsValid)
 			{
-				int num = 0;
-				int num2 = this.map.Area + 1;
-				IntVec3 intVec = dest;
-				for (;;)
-				{
-					num++;
-					if (num > num2)
-					{
-						break;
-					}
-					if (!intVec.IsValid)
-					{
-						goto Block_4;
-					}
-					outPath.Add(intVec);
-					if (this.parentGrid[intVec] == intVec)
-					{
-						goto Block_5;
-					}
-					intVec = this.parentGrid[intVec];
-				}
-				Log.Error("Too many iterations.", false);
-				Block_4:
-				Block_5:
-				outPath.Reverse();
+				return;
 			}
+			int num = 0;
+			int num2 = this.map.Area + 1;
+			IntVec3 intVec = dest;
+			for (;;)
+			{
+				num++;
+				if (num > num2)
+				{
+					break;
+				}
+				if (!intVec.IsValid)
+				{
+					goto Block_4;
+				}
+				outPath.Add(intVec);
+				if (this.parentGrid[intVec] == intVec)
+				{
+					goto Block_5;
+				}
+				intVec = this.parentGrid[intVec];
+			}
+			Log.Error("Too many iterations.", false);
+			Block_4:
+			Block_5:
+			outPath.Reverse();
 		}
 
 		private void ClearVisited()

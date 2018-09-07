@@ -16,13 +16,15 @@ namespace RimWorld
 		public override void DrawGhost(ThingDef def, IntVec3 center, Rot4 rot, Color ghostCol)
 		{
 			Map currentMap = Find.CurrentMap;
-			if (def.building != null && def.building.hasFuelingPort)
+			if (def.building == null || !def.building.hasFuelingPort)
 			{
-				if (FuelingPortUtility.GetFuelingPortCell(center, rot).Standable(currentMap))
-				{
-					PlaceWorker_FuelingPort.DrawFuelingPortCell(center, rot);
-				}
+				return;
 			}
+			if (!FuelingPortUtility.GetFuelingPortCell(center, rot).Standable(currentMap))
+			{
+				return;
+			}
+			PlaceWorker_FuelingPort.DrawFuelingPortCell(center, rot);
 		}
 
 		public static void DrawFuelingPortCell(IntVec3 center, Rot4 rot)

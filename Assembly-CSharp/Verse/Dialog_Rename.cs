@@ -37,16 +37,11 @@ namespace Verse
 
 		protected virtual AcceptanceReport NameIsValid(string name)
 		{
-			AcceptanceReport result;
 			if (name.Length == 0)
 			{
-				result = false;
+				return false;
 			}
-			else
-			{
-				result = true;
-			}
-			return result;
+			return true;
 		}
 
 		public override void DoWindowContents(Rect inRect)

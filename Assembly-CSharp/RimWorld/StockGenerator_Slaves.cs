@@ -11,7 +11,7 @@ namespace RimWorld
 {
 	public class StockGenerator_Slaves : StockGenerator
 	{
-		private bool respectPopulationIntent = false;
+		private bool respectPopulationIntent;
 
 		public StockGenerator_Slaves()
 		{
@@ -19,7 +19,7 @@ namespace RimWorld
 
 		public override IEnumerable<Thing> GenerateThings(int forTile)
 		{
-			if (this.respectPopulationIntent && Rand.Value > Find.Storyteller.intenderPopulation.PopulationIntent)
+			if (this.respectPopulationIntent && Rand.Value > StorytellerUtilityPopulation.PopulationIntent)
 			{
 				yield break;
 			}
@@ -81,7 +81,7 @@ namespace RimWorld
 				switch (num)
 				{
 				case 0u:
-					if (this.respectPopulationIntent && Rand.Value > Find.Storyteller.intenderPopulation.PopulationIntent)
+					if (this.respectPopulationIntent && Rand.Value > StorytellerUtilityPopulation.PopulationIntent)
 					{
 						return false;
 					}

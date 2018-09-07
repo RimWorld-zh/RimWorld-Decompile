@@ -191,11 +191,9 @@ namespace Verse
 					", roomGroup=",
 					this
 				}), false);
+				return;
 			}
-			else
-			{
-				this.rooms.Add(room);
-			}
+			this.rooms.Add(room);
 		}
 
 		public void RemoveRoom(Room room)
@@ -209,26 +207,19 @@ namespace Verse
 					", roomGroup=",
 					this
 				}), false);
+				return;
 			}
-			else
-			{
-				this.rooms.Remove(room);
-			}
+			this.rooms.Remove(room);
 		}
 
 		public bool PushHeat(float energy)
 		{
-			bool result;
 			if (this.UsesOutdoorTemperature)
 			{
-				result = false;
+				return false;
 			}
-			else
-			{
-				this.Temperature += energy / (float)this.CellCount;
-				result = true;
-			}
-			return result;
+			this.Temperature += energy / (float)this.CellCount;
+			return true;
 		}
 
 		public void Notify_RoofChanged()

@@ -19,23 +19,23 @@ namespace Verse
 
 		public CheckJobOverrideOnDamageMode checkOverrideOnDamage = CheckJobOverrideOnDamageMode.Always;
 
-		public bool alwaysShowWeapon = false;
+		public bool alwaysShowWeapon;
 
-		public bool neverShowWeapon = false;
+		public bool neverShowWeapon;
 
 		public bool suspendable = true;
 
 		public bool casualInterruptible = true;
 
-		public bool allowOpportunisticPrefix = false;
+		public bool allowOpportunisticPrefix;
 
-		public bool collideWithPawns = false;
+		public bool collideWithPawns;
 
-		public bool isIdle = false;
+		public bool isIdle;
 
-		public TaleDef taleOnCompletion = null;
+		public TaleDef taleOnCompletion;
 
-		public bool makeTargetPrisoner = false;
+		public bool makeTargetPrisoner;
 
 		public int joyDuration = 4000;
 
@@ -43,11 +43,11 @@ namespace Verse
 
 		public float joyGainRate = 1f;
 
-		public SkillDef joySkill = null;
+		public SkillDef joySkill;
 
-		public float joyXpPerTick = 0f;
+		public float joyXpPerTick;
 
-		public JoyKindDef joyKind = null;
+		public JoyKindDef joyKind;
 
 		public Rot4 faceDir = Rot4.Invalid;
 
@@ -57,7 +57,7 @@ namespace Verse
 
 		public override IEnumerable<string> ConfigErrors()
 		{
-			foreach (string e in this.<ConfigErrors>__BaseCallProxy0())
+			foreach (string e in base.ConfigErrors())
 			{
 				yield return e;
 			}
@@ -109,7 +109,7 @@ namespace Verse
 				case 1u:
 					break;
 				case 2u:
-					goto IL_FC;
+					goto IL_F8;
 				default:
 					return false;
 				}
@@ -142,7 +142,7 @@ namespace Verse
 				}
 				if (this.joySkill == null || this.joyXpPerTick != 0f)
 				{
-					goto IL_FC;
+					goto IL_F8;
 				}
 				this.$current = "funSkill is not null but funXpPerTick is zero";
 				if (!this.$disposing)
@@ -150,7 +150,7 @@ namespace Verse
 					this.$PC = 2;
 				}
 				return true;
-				IL_FC:
+				IL_F8:
 				this.$PC = -1;
 				return false;
 			}

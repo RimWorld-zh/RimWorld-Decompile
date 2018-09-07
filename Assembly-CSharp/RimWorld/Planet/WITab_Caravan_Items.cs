@@ -28,13 +28,13 @@ namespace RimWorld.Planet
 		private const float AssignDrugPoliciesButtonHeight = 27f;
 
 		[CompilerGenerated]
+		private static Func<TransferableImmutable, float> <>f__mg$cache0;
+
+		[CompilerGenerated]
 		private static Func<TransferableImmutable, Transferable> <>f__am$cache0;
 
 		[CompilerGenerated]
 		private static Func<TransferableImmutable, Transferable> <>f__am$cache1;
-
-		[CompilerGenerated]
-		private static Func<TransferableImmutable, float> <>f__am$cache2;
 
 		public WITab_Caravan_Items()
 		{
@@ -113,7 +113,12 @@ namespace RimWorld.Planet
 				transferableImmutable.things.Add(list[i]);
 				seed = Gen.HashCombineInt(seed, list[i].GetHashCode());
 			}
-			this.cachedItems = this.cachedItems.OrderBy((TransferableImmutable tr) => tr, this.sorter1.Comparer).ThenBy((TransferableImmutable tr) => tr, this.sorter2.Comparer).ThenBy((TransferableImmutable tr) => TransferableUIUtility.DefaultListOrderPriority(tr)).ToList<TransferableImmutable>();
+			IOrderedEnumerable<TransferableImmutable> source = this.cachedItems.OrderBy((TransferableImmutable tr) => tr, this.sorter1.Comparer).ThenBy((TransferableImmutable tr) => tr, this.sorter2.Comparer);
+			if (WITab_Caravan_Items.<>f__mg$cache0 == null)
+			{
+				WITab_Caravan_Items.<>f__mg$cache0 = new Func<TransferableImmutable, float>(TransferableUIUtility.DefaultListOrderPriority);
+			}
+			this.cachedItems = source.ThenBy(WITab_Caravan_Items.<>f__mg$cache0).ToList<TransferableImmutable>();
 			this.cachedItemsCount = list.Count;
 			this.cachedItemsHash = seed;
 		}
@@ -154,12 +159,6 @@ namespace RimWorld.Planet
 		private static Transferable <CacheItems>m__3(TransferableImmutable tr)
 		{
 			return tr;
-		}
-
-		[CompilerGenerated]
-		private static float <CacheItems>m__4(TransferableImmutable tr)
-		{
-			return TransferableUIUtility.DefaultListOrderPriority(tr);
 		}
 	}
 }

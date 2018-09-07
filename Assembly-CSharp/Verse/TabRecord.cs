@@ -8,9 +8,9 @@ namespace Verse
 	{
 		public string label = "Tab";
 
-		public Action clickedAction = null;
+		public Action clickedAction;
 
-		public bool selected = false;
+		public bool selected;
 
 		public Func<bool> selectedGetter;
 

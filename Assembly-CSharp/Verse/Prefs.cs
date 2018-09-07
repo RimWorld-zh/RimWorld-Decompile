@@ -54,6 +54,19 @@ namespace Verse
 			}
 		}
 
+		public static bool ExtremeDifficultyUnlocked
+		{
+			get
+			{
+				return Prefs.data.extremeDifficultyUnlocked;
+			}
+			set
+			{
+				Prefs.data.extremeDifficultyUnlocked = value;
+				Prefs.Apply();
+			}
+		}
+
 		public static bool AdaptiveTrainingEnabled
 		{
 			get
@@ -308,11 +321,12 @@ namespace Verse
 			}
 			set
 			{
-				if (value != Prefs.data.resourceReadoutCategorized)
+				if (value == Prefs.data.resourceReadoutCategorized)
 				{
-					Prefs.data.resourceReadoutCategorized = value;
-					Prefs.Save();
+					return;
 				}
+				Prefs.data.resourceReadoutCategorized = value;
+				Prefs.Save();
 			}
 		}
 
@@ -388,18 +402,13 @@ namespace Verse
 		public static NameTriple RandomPreferredName()
 		{
 			string rawName;
-			NameTriple result;
 			if ((from name in Prefs.PreferredNames
 			where !name.NullOrEmpty()
 			select name).TryRandomElement(out rawName))
 			{
-				result = NameTriple.FromString(rawName);
+				return NameTriple.FromString(rawName);
 			}
-			else
-			{
-				result = null;
-			}
-			return result;
+			return null;
 		}
 
 		[CompilerGenerated]

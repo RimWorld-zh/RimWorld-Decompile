@@ -33,32 +33,34 @@ namespace Verse
 
 		public void Register(Thing t)
 		{
-			if (t.def.Fillage != FillCategory.None)
+			if (t.def.Fillage == FillCategory.None)
 			{
-				CellRect cellRect = t.OccupiedRect();
-				for (int i = cellRect.minZ; i <= cellRect.maxZ; i++)
+				return;
+			}
+			CellRect cellRect = t.OccupiedRect();
+			for (int i = cellRect.minZ; i <= cellRect.maxZ; i++)
+			{
+				for (int j = cellRect.minX; j <= cellRect.maxX; j++)
 				{
-					for (int j = cellRect.minX; j <= cellRect.maxX; j++)
-					{
-						IntVec3 c = new IntVec3(j, 0, i);
-						this.RecalculateCell(c, null);
-					}
+					IntVec3 c = new IntVec3(j, 0, i);
+					this.RecalculateCell(c, null);
 				}
 			}
 		}
 
 		public void DeRegister(Thing t)
 		{
-			if (t.def.Fillage != FillCategory.None)
+			if (t.def.Fillage == FillCategory.None)
 			{
-				CellRect cellRect = t.OccupiedRect();
-				for (int i = cellRect.minZ; i <= cellRect.maxZ; i++)
+				return;
+			}
+			CellRect cellRect = t.OccupiedRect();
+			for (int i = cellRect.minZ; i <= cellRect.maxZ; i++)
+			{
+				for (int j = cellRect.minX; j <= cellRect.maxX; j++)
 				{
-					for (int j = cellRect.minX; j <= cellRect.maxX; j++)
-					{
-						IntVec3 c = new IntVec3(j, 0, i);
-						this.RecalculateCell(c, t);
-					}
+					IntVec3 c = new IntVec3(j, 0, i);
+					this.RecalculateCell(c, t);
 				}
 			}
 		}

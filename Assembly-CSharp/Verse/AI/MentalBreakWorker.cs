@@ -26,32 +26,27 @@ namespace Verse.AI
 
 		public virtual bool BreakCanOccur(Pawn pawn)
 		{
-			bool result;
 			if (this.def.requiredTrait != null && (pawn.story == null || !pawn.story.traits.HasTrait(this.def.requiredTrait)))
 			{
-				result = false;
+				return false;
 			}
-			else if (this.def.mentalState != null && pawn.story != null && pawn.story.traits.allTraits.Any((Trait tr) => tr.CurrentData.disallowedMentalStates != null && tr.CurrentData.disallowedMentalStates.Contains(this.def.mentalState)))
+			if (this.def.mentalState != null && pawn.story != null && pawn.story.traits.allTraits.Any((Trait tr) => tr.CurrentData.disallowedMentalStates != null && tr.CurrentData.disallowedMentalStates.Contains(this.def.mentalState)))
 			{
-				result = false;
+				return false;
 			}
-			else if (this.def.mentalState != null && !this.def.mentalState.Worker.StateCanOccur(pawn))
+			if (this.def.mentalState != null && !this.def.mentalState.Worker.StateCanOccur(pawn))
 			{
-				result = false;
+				return false;
 			}
-			else
+			if (pawn.story != null)
 			{
-				if (pawn.story != null)
+				IEnumerable<MentalBreakDef> theOnlyAllowedMentalBreaks = pawn.story.traits.TheOnlyAllowedMentalBreaks;
+				if (!theOnlyAllowedMentalBreaks.Contains(this.def) && theOnlyAllowedMentalBreaks.Any((MentalBreakDef x) => x.intensity == this.def.intensity && x.Worker.BreakCanOccur(pawn)))
 				{
-					IEnumerable<MentalBreakDef> theOnlyAllowedMentalBreaks = pawn.story.traits.TheOnlyAllowedMentalBreaks;
-					if (!theOnlyAllowedMentalBreaks.Contains(this.def) && theOnlyAllowedMentalBreaks.Any((MentalBreakDef x) => x.intensity == this.def.intensity && x.Worker.BreakCanOccur(pawn)))
-					{
-						return false;
-					}
+					return false;
 				}
-				result = (!TutorSystem.TutorialMode || pawn.Faction != Faction.OfPlayer);
 			}
-			return result;
+			return !TutorSystem.TutorialMode || pawn.Faction != Faction.OfPlayer;
 		}
 
 		public virtual bool TryStart(Pawn pawn, Thought reason, bool causedByMood)
@@ -65,30 +60,25 @@ namespace Verse.AI
 
 		protected bool TrySendLetter(Pawn pawn, string textKey, Thought reason)
 		{
-			bool result;
 			if (!PawnUtility.ShouldSendNotificationAbout(pawn))
 			{
-				result = false;
+				return false;
 			}
-			else
+			string label = this.def.LabelCap + ": " + pawn.LabelShortCap;
+			string text = textKey.Translate(new object[]
 			{
-				string label = "MentalBreakLetterLabel".Translate() + ": " + this.def.LabelCap;
-				string text = textKey.Translate(new object[]
+				pawn.Label
+			}).CapitalizeFirst();
+			if (reason != null)
+			{
+				text = text + "\n\n" + "FinalStraw".Translate(new object[]
 				{
-					pawn.Label
-				}).CapitalizeFirst();
-				if (reason != null)
-				{
-					text = text + "\n\n" + "FinalStraw".Translate(new object[]
-					{
-						reason.LabelCap
-					});
-				}
-				text = text.AdjustedFor(pawn, "PAWN");
-				Find.LetterStack.ReceiveLetter(label, text, LetterDefOf.NegativeEvent, pawn, null, null);
-				result = true;
+					reason.LabelCap
+				});
 			}
-			return result;
+			text = text.AdjustedFor(pawn, "PAWN");
+			Find.LetterStack.ReceiveLetter(label, text, LetterDefOf.NegativeEvent, pawn, null, null);
+			return true;
 		}
 
 		[CompilerGenerated]

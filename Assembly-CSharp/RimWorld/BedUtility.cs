@@ -13,7 +13,6 @@ namespace RimWorld
 		public static IntVec3 GetSleepingSlotPos(int index, IntVec3 bedCenter, Rot4 bedRot, IntVec2 bedSize)
 		{
 			int sleepingSlotsCount = BedUtility.GetSleepingSlotsCount(bedSize);
-			IntVec3 result;
 			if (index < 0 || index >= sleepingSlotsCount)
 			{
 				Log.Error(string.Concat(new object[]
@@ -24,29 +23,22 @@ namespace RimWorld
 					sleepingSlotsCount,
 					" sleeping slots available."
 				}), false);
-				result = bedCenter;
+				return bedCenter;
 			}
-			else
+			CellRect cellRect = GenAdj.OccupiedRect(bedCenter, bedRot, bedSize);
+			if (bedRot == Rot4.North)
 			{
-				CellRect cellRect = GenAdj.OccupiedRect(bedCenter, bedRot, bedSize);
-				if (bedRot == Rot4.North)
-				{
-					result = new IntVec3(cellRect.minX + index, bedCenter.y, cellRect.minZ);
-				}
-				else if (bedRot == Rot4.East)
-				{
-					result = new IntVec3(cellRect.minX, bedCenter.y, cellRect.maxZ - index);
-				}
-				else if (bedRot == Rot4.South)
-				{
-					result = new IntVec3(cellRect.minX + index, bedCenter.y, cellRect.maxZ);
-				}
-				else
-				{
-					result = new IntVec3(cellRect.maxX, bedCenter.y, cellRect.maxZ - index);
-				}
+				return new IntVec3(cellRect.minX + index, bedCenter.y, cellRect.minZ);
 			}
-			return result;
+			if (bedRot == Rot4.East)
+			{
+				return new IntVec3(cellRect.minX, bedCenter.y, cellRect.maxZ - index);
+			}
+			if (bedRot == Rot4.South)
+			{
+				return new IntVec3(cellRect.minX + index, bedCenter.y, cellRect.maxZ);
+			}
+			return new IntVec3(cellRect.maxX, bedCenter.y, cellRect.maxZ - index);
 		}
 	}
 }

@@ -49,12 +49,10 @@ namespace Verse
 			if (xmlRoot.ChildNodes.Count != 1)
 			{
 				Log.Error("Misconfigured ThingDefCountClass: " + xmlRoot.OuterXml, false);
+				return;
 			}
-			else
-			{
-				DirectXmlCrossRefLoader.RegisterObjectWantsCrossRef(this, "thingDef", xmlRoot.Name);
-				this.count = (int)ParseHelper.FromString(xmlRoot.FirstChild.Value, typeof(int));
-			}
+			DirectXmlCrossRefLoader.RegisterObjectWantsCrossRef(this, "thingDef", xmlRoot.Name);
+			this.count = (int)ParseHelper.FromString(xmlRoot.FirstChild.Value, typeof(int));
 		}
 
 		public override string ToString()

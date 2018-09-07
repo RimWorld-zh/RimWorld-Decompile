@@ -14,47 +14,40 @@ namespace RimWorld
 
 		protected override bool CanFireNowSub(IncidentParms parms)
 		{
-			bool result;
 			if (!base.CanFireNowSub(parms))
 			{
-				result = false;
+				return false;
 			}
-			else
-			{
-				Map map = (Map)parms.target;
-				IntVec3 intVec;
-				result = this.TryFindEntryCell(map, out intVec);
-			}
-			return result;
+			Map map = (Map)parms.target;
+			IntVec3 intVec;
+			return this.TryFindEntryCell(map, out intVec);
 		}
 
 		protected override bool TryExecuteWorker(IncidentParms parms)
 		{
 			Map map = (Map)parms.target;
 			IntVec3 loc;
-			bool result;
 			if (!this.TryFindEntryCell(map, out loc))
 			{
-				result = false;
+				return false;
 			}
-			else
+			Gender? gender = null;
+			if (this.def.pawnFixedGender != Gender.None)
 			{
-				PawnKindDef villager = PawnKindDefOf.Villager;
-				PawnGenerationRequest request = new PawnGenerationRequest(villager, Faction.OfPlayer, PawnGenerationContext.NonPlayer, -1, false, false, false, false, true, false, 20f, false, true, true, false, false, false, false, null, null, null, null, null, null, null, null);
-				Pawn pawn = PawnGenerator.GeneratePawn(request);
-				GenSpawn.Spawn(pawn, loc, map, WipeMode.Vanish);
-				string text = "WandererJoin".Translate(new object[]
-				{
-					villager.label,
-					pawn.story.Title
-				});
-				text = text.AdjustedFor(pawn, "PAWN");
-				string label = "LetterLabelWandererJoin".Translate();
-				PawnRelationUtility.TryAppendRelationsWithColonistsInfo(ref text, ref label, pawn);
-				Find.LetterStack.ReceiveLetter(label, text, LetterDefOf.PositiveEvent, pawn, null, null);
-				result = true;
+				gender = new Gender?(this.def.pawnFixedGender);
 			}
-			return result;
+			PawnKindDef pawnKind = this.def.pawnKind;
+			Faction ofPlayer = Faction.OfPlayer;
+			bool pawnMustBeCapableOfViolence = this.def.pawnMustBeCapableOfViolence;
+			Gender? fixedGender = gender;
+			PawnGenerationRequest request = new PawnGenerationRequest(pawnKind, ofPlayer, PawnGenerationContext.NonPlayer, -1, true, false, false, false, true, pawnMustBeCapableOfViolence, 20f, false, true, true, false, false, false, false, null, null, null, null, null, fixedGender, null, null);
+			Pawn pawn = PawnGenerator.GeneratePawn(request);
+			GenSpawn.Spawn(pawn, loc, map, WipeMode.Vanish);
+			string text = this.def.letterText.AdjustedFor(pawn, "PAWN");
+			string label = this.def.letterLabel.AdjustedFor(pawn, "PAWN");
+			PawnRelationUtility.TryAppendRelationsWithColonistsInfo(ref text, ref label, pawn);
+			Find.LetterStack.ReceiveLetter(label, text, LetterDefOf.PositiveEvent, pawn, null, null);
+			return true;
 		}
 
 		private bool TryFindEntryCell(Map map, out IntVec3 cell)

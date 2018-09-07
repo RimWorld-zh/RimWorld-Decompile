@@ -36,6 +36,22 @@ namespace Verse
 			}
 		}
 
+		public static bool Is32BitBuild
+		{
+			get
+			{
+				return IntPtr.Size == 4;
+			}
+		}
+
+		public static bool Is64BitBuild
+		{
+			get
+			{
+				return IntPtr.Size == 8;
+			}
+		}
+
 		public static void CopyUnityData()
 		{
 			UnityData.mainThreadId = Thread.CurrentThread.ManagedThreadId;

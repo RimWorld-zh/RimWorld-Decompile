@@ -26,9 +26,9 @@ namespace Verse
 
 		private HashSet<Room> tmpVisitedRooms = new HashSet<Room>();
 
-		private bool initialized = false;
+		private bool initialized;
 
-		private bool working = false;
+		private bool working;
 
 		private bool enabledInt = true;
 
@@ -70,37 +70,36 @@ namespace Verse
 
 		public void TryRebuildDirtyRegionsAndRooms()
 		{
-			if (!this.working && this.Enabled)
+			if (this.working || !this.Enabled)
 			{
-				this.working = true;
-				if (!this.initialized)
-				{
-					this.RebuildAllRegionsAndRooms();
-				}
-				if (!this.map.regionDirtyer.AnyDirty)
-				{
-					this.working = false;
-				}
-				else
-				{
-					try
-					{
-						this.RegenerateNewRegionsFromDirtyCells();
-						this.CreateOrUpdateRooms();
-					}
-					catch (Exception arg)
-					{
-						Log.Error("Exception while rebuilding dirty regions: " + arg, false);
-					}
-					this.newRegions.Clear();
-					this.map.regionDirtyer.SetAllClean();
-					this.initialized = true;
-					this.working = false;
-					if (DebugSettings.detectRegionListersBugs)
-					{
-						Autotests_RegionListers.CheckBugs(this.map);
-					}
-				}
+				return;
+			}
+			this.working = true;
+			if (!this.initialized)
+			{
+				this.RebuildAllRegionsAndRooms();
+			}
+			if (!this.map.regionDirtyer.AnyDirty)
+			{
+				this.working = false;
+				return;
+			}
+			try
+			{
+				this.RegenerateNewRegionsFromDirtyCells();
+				this.CreateOrUpdateRooms();
+			}
+			catch (Exception arg)
+			{
+				Log.Error("Exception while rebuilding dirty regions: " + arg, false);
+			}
+			this.newRegions.Clear();
+			this.map.regionDirtyer.SetAllClean();
+			this.initialized = true;
+			this.working = false;
+			if (DebugSettings.detectRegionListersBugs)
+			{
+				Autotests_RegionListers.CheckBugs(this.map);
 			}
 		}
 

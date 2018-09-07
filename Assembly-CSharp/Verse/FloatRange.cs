@@ -125,17 +125,12 @@ namespace Verse
 			{
 				'~'
 			});
-			FloatRange result;
 			if (array.Length == 1)
 			{
 				float num = Convert.ToSingle(array[0]);
-				result = new FloatRange(num, num);
+				return new FloatRange(num, num);
 			}
-			else
-			{
-				result = new FloatRange(Convert.ToSingle(array[0]), Convert.ToSingle(array[1]));
-			}
-			return result;
+			return new FloatRange(Convert.ToSingle(array[0]), Convert.ToSingle(array[1]));
 		}
 
 		public override string ToString()

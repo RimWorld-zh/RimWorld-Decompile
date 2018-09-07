@@ -15,9 +15,12 @@ namespace RimWorld
 		{
 		}
 
-		public override bool TryMakePreToilReservations()
+		public override bool TryMakePreToilReservations(bool errorOnFailed)
 		{
-			return this.pawn.Reserve(this.job.targetA, this.job, 1, -1, null);
+			Pawn pawn = this.pawn;
+			LocalTargetInfo targetA = this.job.targetA;
+			Job job = this.job;
+			return pawn.Reserve(targetA, job, 1, -1, null, errorOnFailed);
 		}
 
 		protected override IEnumerable<Toil> MakeNewToils()
@@ -37,7 +40,8 @@ namespace RimWorld
 				Building building = (Building)actor.CurJob.targetA.Thing;
 				CompLongRangeMineralScanner comp = building.GetComp<CompLongRangeMineralScanner>();
 				comp.Used(actor);
-				actor.skills.Learn(SkillDefOf.Intellectual, 0.0385f, false);
+				actor.skills.Learn(SkillDefOf.Intellectual, 0.035f, false);
+				actor.GainComfortFromCellIfPossible();
 			};
 			work.defaultCompleteMode = ToilCompleteMode.Never;
 			work.FailOnCannotTouch(TargetIndex.A, PathEndMode.InteractionCell);
@@ -94,7 +98,8 @@ namespace RimWorld
 						Building building = (Building)actor.CurJob.targetA.Thing;
 						CompLongRangeMineralScanner comp = building.GetComp<CompLongRangeMineralScanner>();
 						comp.Used(actor);
-						actor.skills.Learn(SkillDefOf.Intellectual, 0.0385f, false);
+						actor.skills.Learn(SkillDefOf.Intellectual, 0.035f, false);
+						actor.GainComfortFromCellIfPossible();
 					};
 					<MakeNewToils>c__AnonStorey.work.defaultCompleteMode = ToilCompleteMode.Never;
 					<MakeNewToils>c__AnonStorey.work.FailOnCannotTouch(TargetIndex.A, PathEndMode.InteractionCell);
@@ -188,7 +193,8 @@ namespace RimWorld
 					Building building = (Building)actor.CurJob.targetA.Thing;
 					CompLongRangeMineralScanner comp = building.GetComp<CompLongRangeMineralScanner>();
 					comp.Used(actor);
-					actor.skills.Learn(SkillDefOf.Intellectual, 0.0385f, false);
+					actor.skills.Learn(SkillDefOf.Intellectual, 0.035f, false);
+					actor.GainComfortFromCellIfPossible();
 				}
 			}
 		}

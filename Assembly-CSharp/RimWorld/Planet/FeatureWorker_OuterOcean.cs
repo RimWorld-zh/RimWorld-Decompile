@@ -27,25 +27,27 @@ namespace RimWorld.Planet
 					this.edgeTiles.Add(i);
 				}
 			}
-			if (this.edgeTiles.Any<int>())
+			if (!this.edgeTiles.Any<int>())
 			{
-				this.group.Clear();
-				WorldFloodFiller worldFloodFiller = Find.WorldFloodFiller;
-				int rootTile = -1;
-				Predicate<int> passCheck = (int x) => this.CanTraverse(x);
-				Func<int, int, bool> processor = delegate(int tile, int traversalDist)
-				{
-					this.group.Add(tile);
-					return false;
-				};
-				List<int> extraRootTiles = this.edgeTiles;
-				worldFloodFiller.FloodFill(rootTile, passCheck, processor, int.MaxValue, extraRootTiles);
-				this.group.RemoveAll((int x) => worldGrid[x].feature != null);
-				if (this.group.Count >= this.def.minSize && this.group.Count <= this.def.maxSize)
-				{
-					base.AddFeature(this.group, this.group);
-				}
+				return;
 			}
+			this.group.Clear();
+			WorldFloodFiller worldFloodFiller = Find.WorldFloodFiller;
+			int rootTile = -1;
+			Predicate<int> passCheck = (int x) => this.CanTraverse(x);
+			Func<int, int, bool> processor = delegate(int tile, int traversalDist)
+			{
+				this.group.Add(tile);
+				return false;
+			};
+			List<int> extraRootTiles = this.edgeTiles;
+			worldFloodFiller.FloodFill(rootTile, passCheck, processor, int.MaxValue, extraRootTiles);
+			this.group.RemoveAll((int x) => worldGrid[x].feature != null);
+			if (this.group.Count < this.def.minSize || this.group.Count > this.def.maxSize)
+			{
+				return;
+			}
+			base.AddFeature(this.group, this.group);
 		}
 
 		private bool IsRoot(int tile)

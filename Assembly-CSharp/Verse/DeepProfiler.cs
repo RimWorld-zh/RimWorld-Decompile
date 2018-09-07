@@ -34,18 +34,20 @@ namespace Verse
 
 		public static void Start(string label = null)
 		{
-			if (Prefs.LogVerbose)
+			if (!Prefs.LogVerbose)
 			{
-				DeepProfiler.Get().Start(label);
+				return;
 			}
+			DeepProfiler.Get().Start(label);
 		}
 
 		public static void End()
 		{
-			if (Prefs.LogVerbose)
+			if (!Prefs.LogVerbose)
 			{
-				DeepProfiler.Get().End();
+				return;
 			}
+			DeepProfiler.Get().End();
 		}
 
 		// Note: this type is marked as 'beforefieldinit'.

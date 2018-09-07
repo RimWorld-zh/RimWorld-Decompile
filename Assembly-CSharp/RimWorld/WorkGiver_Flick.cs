@@ -43,17 +43,12 @@ namespace RimWorld
 
 		public override bool HasJobOnThing(Pawn pawn, Thing t, bool forced = false)
 		{
-			bool result;
 			if (pawn.Map.designationManager.DesignationOn(t, DesignationDefOf.Flick) == null)
 			{
-				result = false;
+				return false;
 			}
-			else
-			{
-				LocalTargetInfo target = t;
-				result = pawn.CanReserve(target, 1, -1, null, forced);
-			}
-			return result;
+			LocalTargetInfo target = t;
+			return pawn.CanReserve(target, 1, -1, null, forced);
 		}
 
 		public override Job JobOnThing(Pawn pawn, Thing t, bool forced = false)
@@ -92,7 +87,7 @@ namespace RimWorld
 					i = 0;
 					break;
 				case 1u:
-					IL_9F:
+					IL_9D:
 					i++;
 					break;
 				default:
@@ -113,7 +108,7 @@ namespace RimWorld
 						}
 						return true;
 					}
-					goto IL_9F;
+					goto IL_9D;
 				}
 				return false;
 			}

@@ -14,24 +14,19 @@ namespace RimWorld
 
 		protected override Job TryGiveJob(Pawn pawn)
 		{
-			Job result;
 			if (pawn.needs.joy == null)
 			{
-				result = null;
+				return null;
 			}
-			else if (Find.TickManager.TicksGame < 60000)
+			if (Find.TickManager.TicksGame < 60000)
 			{
-				result = null;
+				return null;
 			}
-			else if (JoyUtility.LordPreventsGettingJoy(pawn) || JoyUtility.TimetablePreventsGettingJoy(pawn))
+			if (JoyUtility.LordPreventsGettingJoy(pawn) || JoyUtility.TimetablePreventsGettingJoy(pawn))
 			{
-				result = null;
+				return null;
 			}
-			else
-			{
-				result = base.TryGiveJob(pawn);
-			}
-			return result;
+			return base.TryGiveJob(pawn);
 		}
 	}
 }

@@ -18,20 +18,15 @@ namespace RimWorld
 		{
 			Thing anyThing = t.AnyThing;
 			Pawn pawn = anyThing as Pawn;
-			float result;
 			if (pawn != null)
 			{
-				result = pawn.health.summaryHealth.SummaryHealthPercent;
+				return pawn.health.summaryHealth.SummaryHealthPercent;
 			}
-			else if (!anyThing.def.useHitPoints)
+			if (!anyThing.def.useHitPoints)
 			{
-				result = 1f;
+				return 1f;
 			}
-			else
-			{
-				result = (float)anyThing.HitPoints / (float)anyThing.MaxHitPoints;
-			}
-			return result;
+			return (float)anyThing.HitPoints / (float)anyThing.MaxHitPoints;
 		}
 	}
 }

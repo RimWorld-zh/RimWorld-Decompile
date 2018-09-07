@@ -26,7 +26,7 @@ namespace Verse
 
 		private int cachedOpenRoofCount = -1;
 
-		private IEnumerator<IntVec3> cachedOpenRoofState = null;
+		private IEnumerator<IntVec3> cachedOpenRoofState;
 
 		public bool isPrisonCell;
 
@@ -147,17 +147,18 @@ namespace Verse
 			}
 			set
 			{
-				if (value != this.groupInt)
+				if (value == this.groupInt)
 				{
-					if (this.groupInt != null)
-					{
-						this.groupInt.RemoveRoom(this);
-					}
-					this.groupInt = value;
-					if (this.groupInt != null)
-					{
-						this.groupInt.AddRoom(this);
-					}
+					return;
+				}
+				if (this.groupInt != null)
+				{
+					this.groupInt.RemoveRoom(this);
+				}
+				this.groupInt = value;
+				if (this.groupInt != null)
+				{
+					this.groupInt.AddRoom(this);
 				}
 			}
 		}
@@ -338,6 +339,14 @@ namespace Verse
 			}
 		}
 
+		public bool IsDoorway
+		{
+			get
+			{
+				return this.regions.Count == 1 && this.regions[0].IsDoorway;
+			}
+		}
+
 		public List<Thing> ContainedAndAdjacentThings
 		{
 			get
@@ -396,18 +405,16 @@ namespace Verse
 					", room=",
 					this
 				}), false);
+				return;
 			}
-			else
+			this.regions.Add(r);
+			if (r.touchesMapEdge)
 			{
-				this.regions.Add(r);
-				if (r.touchesMapEdge)
-				{
-					this.numRegionsTouchingMapEdge++;
-				}
-				if (this.regions.Count == 1)
-				{
-					this.Map.regionGrid.allRooms.Add(this);
-				}
+				this.numRegionsTouchingMapEdge++;
+			}
+			if (this.regions.Count == 1)
+			{
+				this.Map.regionGrid.allRooms.Add(this);
 			}
 		}
 
@@ -422,22 +429,20 @@ namespace Verse
 					", room=",
 					this
 				}), false);
+				return;
 			}
-			else
+			this.regions.Remove(r);
+			if (r.touchesMapEdge)
 			{
-				this.regions.Remove(r);
-				if (r.touchesMapEdge)
-				{
-					this.numRegionsTouchingMapEdge--;
-				}
-				if (this.regions.Count == 0)
-				{
-					this.Group = null;
-					this.cachedOpenRoofCount = -1;
-					this.cachedOpenRoofState = null;
-					this.statsAndRoleDirty = true;
-					this.Map.regionGrid.allRooms.Remove(this);
-				}
+				this.numRegionsTouchingMapEdge--;
+			}
+			if (this.regions.Count == 0)
+			{
+				this.Group = null;
+				this.cachedOpenRoofCount = -1;
+				this.cachedOpenRoofState = null;
+				this.statsAndRoleDirty = true;
+				this.Map.regionGrid.allRooms.Remove(this);
 			}
 		}
 
@@ -499,14 +504,11 @@ namespace Verse
 			{
 				list[j].Notify_ColorChanged();
 			}
-			if (Current.ProgramState == ProgramState.Playing)
+			if (Current.ProgramState == ProgramState.Playing && this.isPrisonCell)
 			{
-				if (this.isPrisonCell)
+				foreach (Building_Bed building_Bed2 in this.ContainedBeds)
 				{
-					foreach (Building_Bed building_Bed2 in this.ContainedBeds)
-					{
-						building_Bed2.ForPrisoners = true;
-					}
+					building_Bed2.ForPrisoners = true;
 				}
 			}
 			this.lastChangeTick = Find.TickManager.TicksGame;
@@ -525,11 +527,9 @@ namespace Verse
 					", but mapIndex=",
 					this.mapIndex
 				}), false);
+				return;
 			}
-			else
-			{
-				this.mapIndex = (sbyte)((int)this.mapIndex - 1);
-			}
+			this.mapIndex = (sbyte)((int)this.mapIndex - 1);
 		}
 
 		public float GetStat(RoomStatDef roomStat)
@@ -538,16 +538,11 @@ namespace Verse
 			{
 				this.UpdateRoomStatsAndRole();
 			}
-			float result;
 			if (this.stats == null)
 			{
-				result = roomStat.roomlessScore;
+				return roomStat.roomlessScore;
 			}
-			else
-			{
-				result = this.stats[roomStat];
-			}
-			return result;
+			return this.stats[roomStat];
 		}
 
 		public RoomStatScoreStage GetStatScoreStage(RoomStatDef stat)
@@ -877,13 +872,13 @@ namespace Verse
 					switch (num)
 					{
 					case 1u:
-						IL_10E:
+						IL_10A:
 						i++;
 						break;
 					default:
-						goto IL_12A;
+						goto IL_124;
 					}
-					IL_11D:
+					IL_118:
 					if (i < 8)
 					{
 						prospective = c + GenAdj.AdjacentCells[i];
@@ -898,14 +893,14 @@ namespace Verse
 							flag = true;
 							return true;
 						}
-						goto IL_10E;
+						goto IL_10A;
 					}
-					IL_12A:
+					IL_124:
 					if (enumerator.MoveNext())
 					{
 						c = enumerator.Current;
 						i = 0;
-						goto IL_11D;
+						goto IL_118;
 					}
 				}
 				finally
@@ -1187,7 +1182,7 @@ namespace Verse
 					i = 0;
 					break;
 				case 1u:
-					IL_87:
+					IL_85:
 					i++;
 					break;
 				default:
@@ -1209,7 +1204,7 @@ namespace Verse
 						}
 						return true;
 					}
-					goto IL_87;
+					goto IL_85;
 				}
 				return false;
 			}

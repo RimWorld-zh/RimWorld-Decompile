@@ -35,27 +35,26 @@ namespace Verse
 			}
 			private set
 			{
-				if (this.Primary != value)
+				if (this.Primary == value)
 				{
-					if (value != null && value.def.equipmentType != EquipmentType.Primary)
-					{
-						Log.Error("Tried to set non-primary equipment as primary.", false);
-					}
-					else
-					{
-						if (this.Primary != null)
-						{
-							this.equipment.Remove(this.Primary);
-						}
-						if (value != null)
-						{
-							this.equipment.TryAdd(value, true);
-						}
-						if (this.pawn.drafter != null)
-						{
-							this.pawn.drafter.Notify_PrimaryWeaponChanged();
-						}
-					}
+					return;
+				}
+				if (value != null && value.def.equipmentType != EquipmentType.Primary)
+				{
+					Log.Error("Tried to set non-primary equipment as primary.", false);
+					return;
+				}
+				if (this.Primary != null)
+				{
+					this.equipment.Remove(this.Primary);
+				}
+				if (value != null)
+				{
+					this.equipment.TryAdd(value, true);
+				}
+				if (this.pawn.drafter != null)
+				{
+					this.pawn.drafter.Notify_PrimaryWeaponChanged();
 				}
 			}
 		}
@@ -163,7 +162,6 @@ namespace Verse
 
 		public bool TryDropEquipment(ThingWithComps eq, out ThingWithComps resultingEq, IntVec3 pos, bool forbid = true)
 		{
-			bool result;
 			if (!pos.IsValid)
 			{
 				Log.Error(string.Concat(new object[]
@@ -174,21 +172,17 @@ namespace Verse
 					" at invalid cell."
 				}), false);
 				resultingEq = null;
-				result = false;
+				return false;
 			}
-			else if (this.equipment.TryDrop(eq, pos, this.pawn.MapHeld, ThingPlaceMode.Near, out resultingEq, null, null))
+			if (this.equipment.TryDrop(eq, pos, this.pawn.MapHeld, ThingPlaceMode.Near, out resultingEq, null, null))
 			{
 				if (resultingEq != null)
 				{
 					resultingEq.SetForbidden(forbid, false);
 				}
-				result = true;
+				return true;
 			}
-			else
-			{
-				result = false;
-			}
-			return result;
+			return false;
 		}
 
 		public void DropAllEquipment(IntVec3 pos, bool forbid = true)
@@ -210,12 +204,10 @@ namespace Verse
 			if (!this.equipment.Contains(eq))
 			{
 				Log.Warning("Tried to destroy equipment " + eq + " but it's not here.", false);
+				return;
 			}
-			else
-			{
-				this.Remove(eq);
-				eq.Destroy(DestroyMode.Vanish);
-			}
+			this.Remove(eq);
+			eq.Destroy(DestroyMode.Vanish);
 		}
 
 		public void DestroyAllEquipment(DestroyMode mode = DestroyMode.Vanish)
@@ -253,11 +245,9 @@ namespace Verse
 					" while already having primaryInt equipment ",
 					this.Primary
 				}), false);
+				return;
 			}
-			else
-			{
-				this.equipment.TryAdd(newEq, true);
-			}
+			this.equipment.TryAdd(newEq, true);
 		}
 
 		public IEnumerable<Gizmo> GetGizmos()
@@ -354,14 +344,14 @@ namespace Verse
 				case 0u:
 					list = base.AllEquipmentListForReading;
 					i = 0;
-					goto IL_D9;
+					goto IL_D4;
 				case 1u:
 					j++;
 					break;
 				default:
 					return false;
 				}
-				IL_B4:
+				IL_B0:
 				if (j < verbs.Count)
 				{
 					this.$current = verbs[j];
@@ -372,13 +362,13 @@ namespace Verse
 					return true;
 				}
 				i++;
-				IL_D9:
+				IL_D4:
 				if (i < list.Count)
 				{
 					eq = list[i];
 					verbs = eq.GetComp<CompEquippable>().AllVerbs;
 					j = 0;
-					goto IL_B4;
+					goto IL_B0;
 				}
 				this.$PC = -1;
 				return false;
@@ -470,7 +460,7 @@ namespace Verse
 				case 0u:
 					if (!PawnAttackGizmoUtility.CanShowEquipmentGizmos())
 					{
-						goto IL_186;
+						goto IL_17E;
 					}
 					list = base.AllEquipmentListForReading;
 					i = 0;
@@ -534,7 +524,7 @@ namespace Verse
 					num = 4294967293u;
 					goto Block_3;
 				}
-				IL_186:
+				IL_17E:
 				this.$PC = -1;
 				return false;
 			}

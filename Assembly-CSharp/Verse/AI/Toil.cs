@@ -9,19 +9,19 @@ namespace Verse.AI
 	{
 		public Pawn actor;
 
-		public Action initAction = null;
+		public Action initAction;
 
-		public Action tickAction = null;
+		public Action tickAction;
 
 		public List<Func<JobCondition>> endConditions = new List<Func<JobCondition>>();
 
-		public List<Action> preInitActions = null;
+		public List<Action> preInitActions;
 
-		public List<Action> preTickActions = null;
+		public List<Action> preTickActions;
 
-		public List<Action> finishActions = null;
+		public List<Action> finishActions;
 
-		public bool atomicWithPrevious = false;
+		public bool atomicWithPrevious;
 
 		public RandomSocialMode socialMode = RandomSocialMode.Normal;
 
@@ -29,9 +29,9 @@ namespace Verse.AI
 
 		public ToilCompleteMode defaultCompleteMode = ToilCompleteMode.Instant;
 
-		public int defaultDuration = 0;
+		public int defaultDuration;
 
-		public bool handlingFacing = false;
+		public bool handlingFacing;
 
 		public Toil()
 		{
@@ -78,16 +78,11 @@ namespace Verse.AI
 		{
 			this.endConditions.Add(delegate
 			{
-				JobCondition result;
 				if (newFailCondition())
 				{
-					result = JobCondition.Incompletable;
+					return JobCondition.Incompletable;
 				}
-				else
-				{
-					result = JobCondition.Ongoing;
-				}
-				return result;
+				return JobCondition.Ongoing;
 			});
 		}
 
@@ -134,16 +129,11 @@ namespace Verse.AI
 
 			internal JobCondition <>m__0()
 			{
-				JobCondition result;
 				if (this.newFailCondition())
 				{
-					result = JobCondition.Incompletable;
+					return JobCondition.Incompletable;
 				}
-				else
-				{
-					result = JobCondition.Ongoing;
-				}
-				return result;
+				return JobCondition.Ongoing;
 			}
 		}
 	}

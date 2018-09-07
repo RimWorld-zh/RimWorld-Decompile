@@ -23,17 +23,12 @@ namespace Verse.AI
 		{
 			get
 			{
-				bool result;
 				if (!this.otherPawn.InMentalState)
 				{
-					result = false;
+					return false;
 				}
-				else
-				{
-					MentalState_SocialFighting mentalState_SocialFighting = this.otherPawn.MentalState as MentalState_SocialFighting;
-					result = (mentalState_SocialFighting != null && mentalState_SocialFighting.otherPawn == this.pawn);
-				}
-				return result;
+				MentalState_SocialFighting mentalState_SocialFighting = this.otherPawn.MentalState as MentalState_SocialFighting;
+				return mentalState_SocialFighting != null && mentalState_SocialFighting.otherPawn == this.pawn;
 			}
 		}
 

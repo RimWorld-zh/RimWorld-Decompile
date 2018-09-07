@@ -50,11 +50,12 @@ namespace RimWorld
 
 		protected override void Set(IntVec3 c, bool val)
 		{
-			if (base[c] != val)
+			if (base[c] == val)
 			{
-				base.Set(c, val);
-				base.Map.listerFilthInHomeArea.Notify_HomeAreaChanged(c);
+				return;
 			}
+			base.Set(c, val);
+			base.Map.listerFilthInHomeArea.Notify_HomeAreaChanged(c);
 		}
 	}
 }

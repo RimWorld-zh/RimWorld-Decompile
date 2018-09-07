@@ -15,16 +15,11 @@ namespace RimWorld
 
 		protected override Texture2D GetIconFor(Pawn pawn)
 		{
-			Texture2D result;
 			if (pawn.RaceProps.predator)
 			{
-				result = PawnColumnWorker_Predator.Icon;
+				return PawnColumnWorker_Predator.Icon;
 			}
-			else
-			{
-				result = null;
-			}
-			return result;
+			return null;
 		}
 
 		protected override string GetIconTip(Pawn pawn)

@@ -10,9 +10,9 @@ namespace RimWorld
 {
 	public class ScenPartDef : Def
 	{
-		public ScenPartCategory category = ScenPartCategory.Undefined;
+		public ScenPartCategory category;
 
-		public Type scenPartClass = null;
+		public Type scenPartClass;
 
 		public float summaryPriority = -1f;
 
@@ -44,7 +44,7 @@ namespace RimWorld
 
 		public override IEnumerable<string> ConfigErrors()
 		{
-			foreach (string e in this.<ConfigErrors>__BaseCallProxy0())
+			foreach (string e in base.ConfigErrors())
 			{
 				yield return e;
 			}
@@ -96,7 +96,7 @@ namespace RimWorld
 				case 1u:
 					break;
 				case 2u:
-					goto IL_E7;
+					goto IL_E3;
 				default:
 					return false;
 				}
@@ -129,7 +129,7 @@ namespace RimWorld
 				}
 				if (this.scenPartClass != null)
 				{
-					goto IL_E7;
+					goto IL_E3;
 				}
 				this.$current = "scenPartClass is null";
 				if (!this.$disposing)
@@ -137,7 +137,7 @@ namespace RimWorld
 					this.$PC = 2;
 				}
 				return true;
-				IL_E7:
+				IL_E3:
 				this.$PC = -1;
 				return false;
 			}

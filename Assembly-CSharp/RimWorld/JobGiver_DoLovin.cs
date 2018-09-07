@@ -12,32 +12,24 @@ namespace RimWorld
 
 		protected override Job TryGiveJob(Pawn pawn)
 		{
-			Job result;
 			if (Find.TickManager.TicksGame < pawn.mindState.canLovinTick)
 			{
-				result = null;
+				return null;
 			}
-			else if (pawn.CurrentBed() == null || pawn.CurrentBed().Medical || !pawn.health.capacities.CanBeAwake)
+			if (pawn.CurrentBed() == null || pawn.CurrentBed().Medical || !pawn.health.capacities.CanBeAwake)
 			{
-				result = null;
+				return null;
 			}
-			else
+			Pawn partnerInMyBed = LovePartnerRelationUtility.GetPartnerInMyBed(pawn);
+			if (partnerInMyBed == null || !partnerInMyBed.health.capacities.CanBeAwake || Find.TickManager.TicksGame < partnerInMyBed.mindState.canLovinTick)
 			{
-				Pawn partnerInMyBed = LovePartnerRelationUtility.GetPartnerInMyBed(pawn);
-				if (partnerInMyBed == null || !partnerInMyBed.health.capacities.CanBeAwake || Find.TickManager.TicksGame < partnerInMyBed.mindState.canLovinTick)
-				{
-					result = null;
-				}
-				else if (!pawn.CanReserve(partnerInMyBed, 1, -1, null, false) || !partnerInMyBed.CanReserve(pawn, 1, -1, null, false))
-				{
-					result = null;
-				}
-				else
-				{
-					result = new Job(JobDefOf.Lovin, partnerInMyBed, pawn.CurrentBed());
-				}
+				return null;
 			}
-			return result;
+			if (!pawn.CanReserve(partnerInMyBed, 1, -1, null, false) || !partnerInMyBed.CanReserve(pawn, 1, -1, null, false))
+			{
+				return null;
+			}
+			return new Job(JobDefOf.Lovin, partnerInMyBed, pawn.CurrentBed());
 		}
 	}
 }

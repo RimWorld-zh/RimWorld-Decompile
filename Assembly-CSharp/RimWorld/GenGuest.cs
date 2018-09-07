@@ -12,10 +12,14 @@ namespace RimWorld
 			{
 				p.ownership.UnclaimAll();
 			}
-			if (p.Faction == Faction.OfPlayer)
+			if (p.Faction == Faction.OfPlayer || p.IsWildMan())
 			{
 				p.needs.mood.thoughts.memories.TryGainMemory(ThoughtDefOf.WasImprisoned, null);
 				p.guest.SetGuestStatus(null, false);
+				if (p.IsWildMan())
+				{
+					p.mindState.WildManEverReachedOutside = false;
+				}
 			}
 			else
 			{

@@ -38,7 +38,6 @@ namespace RimWorld
 			Filth filth = (Filth)(from t in c.GetThingList(map)
 			where t.def == filthDef
 			select t).FirstOrDefault<Thing>();
-			bool result;
 			if (!c.Walkable(map) || (filth != null && !filth.CanBeThickened))
 			{
 				if (shouldPropagate)
@@ -60,25 +59,21 @@ namespace RimWorld
 				{
 					filth.AddSources(sources);
 				}
-				result = false;
+				return false;
+			}
+			if (filth != null)
+			{
+				filth.ThickenFilth();
+				filth.AddSources(sources);
 			}
 			else
 			{
-				if (filth != null)
-				{
-					filth.ThickenFilth();
-					filth.AddSources(sources);
-				}
-				else
-				{
-					Filth filth2 = (Filth)ThingMaker.MakeThing(filthDef, null);
-					filth2.AddSources(sources);
-					GenSpawn.Spawn(filth2, c, map, WipeMode.Vanish);
-				}
-				FilthMonitor.Notify_FilthSpawned();
-				result = true;
+				Filth filth2 = (Filth)ThingMaker.MakeThing(filthDef, null);
+				filth2.AddSources(sources);
+				GenSpawn.Spawn(filth2, c, map, WipeMode.Vanish);
 			}
-			return result;
+			FilthMonitor.Notify_FilthSpawned();
+			return true;
 		}
 
 		public static void RemoveAllFilth(IntVec3 c, Map map)

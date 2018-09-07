@@ -8,7 +8,7 @@ namespace RimWorld
 {
 	public class StoryWatcher_Adaptation : IExposable
 	{
-		private float adaptDays = 0f;
+		private float adaptDays;
 
 		private List<Pawn> pawnsJustDownedThisTick = new List<Pawn>();
 
@@ -52,19 +52,21 @@ namespace RimWorld
 
 		public void Notify_PawnEvent(Pawn p, AdaptationEvent ev, DamageInfo? dinfo = null)
 		{
-			if (p.RaceProps.Humanlike && p.IsColonist)
+			if (!p.RaceProps.Humanlike || !p.IsColonist)
 			{
-				if (ev == AdaptationEvent.Downed)
+				return;
+			}
+			if (ev == AdaptationEvent.Downed)
+			{
+				if (dinfo == null || !dinfo.Value.Def.ExternalViolenceFor(p))
 				{
-					if (dinfo != null && dinfo.Value.Def.externalViolence)
-					{
-						this.pawnsJustDownedThisTick.Add(p);
-					}
+					return;
 				}
-				else
-				{
-					this.ResolvePawnEvent(p, ev);
-				}
+				this.pawnsJustDownedThisTick.Add(p);
+			}
+			else
+			{
+				this.ResolvePawnEvent(p, ev);
 			}
 		}
 
@@ -84,7 +86,7 @@ namespace RimWorld
 				int num2 = this.Population - 1;
 				num = this.StorytellerDef.adaptDaysLossFromColonistLostByPostPopulation.Evaluate((float)num2);
 			}
-			if (DebugViewSettings.logAdaptation)
+			if (DebugViewSettings.writeStoryteller)
 			{
 				Log.Message(string.Concat(new object[]
 				{
@@ -110,15 +112,17 @@ namespace RimWorld
 			this.pawnsJustDownedThisTick.Clear();
 			if (Find.TickManager.TicksGame % 30000 == 0)
 			{
-				if (this.adaptDays < 0f || (float)GenDate.DaysPassed >= this.StorytellerDef.adaptDaysGameStartGraceDays)
+				if (this.adaptDays >= 0f && (float)GenDate.DaysPassed < this.StorytellerDef.adaptDaysGameStartGraceDays)
 				{
-					float num = 0.5f * this.StorytellerDef.adaptDaysGrowthRateCurve.Evaluate(this.adaptDays);
-					if (this.adaptDays > 0f)
-					{
-						num *= Find.Storyteller.difficulty.adaptationGrowthRateFactorOverZero;
-					}
-					this.adaptDays += num;
+					return;
 				}
+				float num = 0.5f * this.StorytellerDef.adaptDaysGrowthRateCurve.Evaluate(this.adaptDays);
+				if (this.adaptDays > 0f)
+				{
+					num *= Find.Storyteller.difficulty.adaptationGrowthRateFactorOverZero;
+				}
+				this.adaptDays += num;
+				this.adaptDays = Mathf.Min(this.adaptDays, this.StorytellerDef.adaptDaysMax);
 			}
 		}
 

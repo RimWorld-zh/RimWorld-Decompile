@@ -76,17 +76,12 @@ namespace Verse
 				ShaderDatabase.lookup[shaderPath] = (Shader)Resources.Load("Materials/" + shaderPath, typeof(Shader));
 			}
 			Shader shader = ShaderDatabase.lookup[shaderPath];
-			Shader result;
 			if (shader == null)
 			{
 				Log.Warning("Could not load shader " + shaderPath, false);
-				result = ShaderDatabase.DefaultShader;
+				return ShaderDatabase.DefaultShader;
 			}
-			else
-			{
-				result = shader;
-			}
-			return result;
+			return shader;
 		}
 
 		// Note: this type is marked as 'beforefieldinit'.

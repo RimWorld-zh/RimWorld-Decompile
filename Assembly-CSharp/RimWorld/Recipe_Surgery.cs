@@ -1,16 +1,19 @@
 ﻿using System;
 using System.Collections.Generic;
+using UnityEngine;
 using Verse;
 
 namespace RimWorld
 {
 	public class Recipe_Surgery : RecipeWorker
 	{
+		private const float MaxSuccessChance = 0.98f;
+
 		private const float CatastrophicFailChance = 0.5f;
 
 		private const float RidiculousFailChanceFromCatastrophic = 0.1f;
 
-		private const float InspiredSurgeryFailChanceFactor = 0.1f;
+		private const float InspiredSurgerySuccessChanceFactor = 2f;
 
 		private static readonly SimpleCurve MedicineMedicalPotencyToSurgeryChanceFactor = new SimpleCurve
 		{
@@ -47,13 +50,10 @@ namespace RimWorld
 			num *= this.recipe.surgerySuccessChanceFactor;
 			if (surgeon.InspirationDef == InspirationDefOf.Inspired_Surgery && !patient.RaceProps.IsMechanoid)
 			{
-				if (num < 1f)
-				{
-					num = 1f - (1f - num) * 0.1f;
-				}
+				num *= 2f;
 				surgeon.mindState.inspirationHandler.EndInspiration(InspirationDefOf.Inspired_Surgery);
 			}
-			bool result;
+			num = Mathf.Min(num, 0.98f);
 			if (!Rand.Chance(num))
 			{
 				if (Rand.Chance(this.recipe.deathOnFailedSurgeryChance))
@@ -104,21 +104,18 @@ namespace RimWorld
 				{
 					this.TryGainBotchedSurgeryThought(patient, surgeon);
 				}
-				result = true;
+				return true;
 			}
-			else
-			{
-				result = false;
-			}
-			return result;
+			return false;
 		}
 
 		private void TryGainBotchedSurgeryThought(Pawn patient, Pawn surgeon)
 		{
-			if (patient.RaceProps.Humanlike)
+			if (!patient.RaceProps.Humanlike)
 			{
-				patient.needs.mood.thoughts.memories.TryGainMemory(ThoughtDefOf.BotchedMySurgery, surgeon);
+				return;
 			}
+			patient.needs.mood.thoughts.memories.TryGainMemory(ThoughtDefOf.BotchedMySurgery, surgeon);
 		}
 
 		private float GetAverageMedicalPotency(List<Thing> ingredients, Bill bill)
@@ -149,16 +146,11 @@ namespace RimWorld
 					num2 += medicine.GetStatValue(StatDefOf.MedicalPotency, true) * (float)medicine.stackCount;
 				}
 			}
-			float result;
 			if (num == 0)
 			{
-				result = 1f;
+				return 1f;
 			}
-			else
-			{
-				result = num2 / (float)num;
-			}
-			return result;
+			return num2 / (float)num;
 		}
 
 		// Note: this type is marked as 'beforefieldinit'.

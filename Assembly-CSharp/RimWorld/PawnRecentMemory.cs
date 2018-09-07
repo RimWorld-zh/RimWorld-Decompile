@@ -40,16 +40,17 @@ namespace RimWorld
 
 		public void RecentMemoryInterval()
 		{
-			if (this.pawn.Spawned)
+			if (!this.pawn.Spawned)
 			{
-				if (this.pawn.Map.glowGrid.PsychGlowAt(this.pawn.Position) != PsychGlow.Dark)
-				{
-					this.lastLightTick = Find.TickManager.TicksGame;
-				}
-				if (this.Outdoors())
-				{
-					this.lastOutdoorTick = Find.TickManager.TicksGame;
-				}
+				return;
+			}
+			if (this.pawn.Map.glowGrid.PsychGlowAt(this.pawn.Position) != PsychGlow.Dark)
+			{
+				this.lastLightTick = Find.TickManager.TicksGame;
+			}
+			if (this.Outdoors())
+			{
+				this.lastOutdoorTick = Find.TickManager.TicksGame;
 			}
 		}
 

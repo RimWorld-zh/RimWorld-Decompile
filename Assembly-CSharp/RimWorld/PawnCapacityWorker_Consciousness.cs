@@ -14,7 +14,7 @@ namespace RimWorld
 		public override float CalculateCapacityLevel(HediffSet diffSet, List<PawnCapacityUtility.CapacityImpactor> impactors = null)
 		{
 			BodyPartTagDef consciousnessSource = BodyPartTagDefOf.ConsciousnessSource;
-			float num = PawnCapacityUtility.CalculateTagEfficiency(diffSet, consciousnessSource, float.MaxValue, default(FloatRange), impactors);
+			float num = PawnCapacityUtility.CalculateTagEfficiency(diffSet, consciousnessSource, float.MaxValue, default(FloatRange), impactors, -1f);
 			float num2 = Mathf.Clamp(GenMath.LerpDouble(0.1f, 1f, 0f, 0.4f, diffSet.PainTotal), 0f, 0.4f);
 			if ((double)num2 >= 0.01)
 			{

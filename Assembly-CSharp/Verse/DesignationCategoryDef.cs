@@ -13,9 +13,9 @@ namespace Verse
 	{
 		public List<Type> specialDesignatorClasses = new List<Type>();
 
-		public int order = 0;
+		public int order;
 
-		public bool showPowerGrid = false;
+		public bool showPowerGrid;
 
 		[Unsaved]
 		private List<Designator> resolvedDesignators = new List<Designator>();
@@ -159,7 +159,7 @@ namespace Verse
 					i = 0;
 					break;
 				case 1u:
-					IL_91:
+					IL_8F:
 					i++;
 					break;
 				default:
@@ -181,7 +181,7 @@ namespace Verse
 						}
 						return true;
 					}
-					goto IL_91;
+					goto IL_8F;
 				}
 				return false;
 			}

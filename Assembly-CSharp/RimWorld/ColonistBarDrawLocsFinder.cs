@@ -41,15 +41,13 @@ namespace RimWorld
 			{
 				outDrawLocs.Clear();
 				scale = 1f;
+				return;
 			}
-			else
-			{
-				this.CalculateColonistsInGroup();
-				bool onlyOneRow;
-				int maxPerGlobalRow;
-				scale = this.FindBestScale(out onlyOneRow, out maxPerGlobalRow);
-				this.CalculateDrawLocs(outDrawLocs, scale, onlyOneRow, maxPerGlobalRow);
-			}
+			this.CalculateColonistsInGroup();
+			bool onlyOneRow;
+			int maxPerGlobalRow;
+			scale = this.FindBestScale(out onlyOneRow, out maxPerGlobalRow);
+			this.CalculateDrawLocs(outDrawLocs, scale, onlyOneRow, maxPerGlobalRow);
 		}
 
 		private void CalculateColonistsInGroup()
@@ -159,20 +157,15 @@ namespace RimWorld
 
 		private static int GetAllowedRowsCountForScale(float scale)
 		{
-			int result;
 			if (scale > 0.58f)
 			{
-				result = 1;
+				return 1;
 			}
-			else if (scale > 0.42f)
+			if (scale > 0.42f)
 			{
-				result = 2;
+				return 2;
 			}
-			else
-			{
-				result = 3;
-			}
-			return result;
+			return 3;
 		}
 
 		private void CalculateDrawLocs(List<Vector2> outDrawLocs, float scale, bool onlyOneRow, int maxPerGlobalRow)

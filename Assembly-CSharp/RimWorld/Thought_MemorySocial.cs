@@ -46,16 +46,11 @@ namespace RimWorld
 
 		public virtual float OpinionOffset()
 		{
-			float result;
 			if (this.ShouldDiscard)
 			{
-				result = 0f;
+				return 0f;
 			}
-			else
-			{
-				result = this.opinionOffset * this.AgeFactor;
-			}
-			return result;
+			return this.opinionOffset * this.AgeFactor;
 		}
 
 		public Pawn OtherPawn()

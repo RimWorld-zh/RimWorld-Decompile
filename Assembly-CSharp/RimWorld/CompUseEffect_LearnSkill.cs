@@ -40,22 +40,17 @@ namespace RimWorld
 
 		public override bool CanBeUsedBy(Pawn p, out string failReason)
 		{
-			bool result;
 			if (p.skills == null)
 			{
 				failReason = null;
-				result = false;
+				return false;
 			}
-			else if (p.skills.GetSkill(this.Skill).TotallyDisabled)
+			if (p.skills.GetSkill(this.Skill).TotallyDisabled)
 			{
 				failReason = "SkillDisabled".Translate();
-				result = false;
+				return false;
 			}
-			else
-			{
-				result = base.CanBeUsedBy(p, out failReason);
-			}
-			return result;
+			return base.CanBeUsedBy(p, out failReason);
 		}
 	}
 }

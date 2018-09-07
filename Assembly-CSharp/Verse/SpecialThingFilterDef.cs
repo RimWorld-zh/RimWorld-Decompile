@@ -13,14 +13,14 @@ namespace Verse
 
 		public string saveKey;
 
-		public bool allowedByDefault = false;
+		public bool allowedByDefault;
 
 		public bool configurable = true;
 
-		public Type workerClass = null;
+		public Type workerClass;
 
 		[Unsaved]
-		private SpecialThingFilterWorker workerInt = null;
+		private SpecialThingFilterWorker workerInt;
 
 		public SpecialThingFilterDef()
 		{
@@ -40,7 +40,7 @@ namespace Verse
 
 		public override IEnumerable<string> ConfigErrors()
 		{
-			foreach (string err in this.<ConfigErrors>__BaseCallProxy0())
+			foreach (string err in base.ConfigErrors())
 			{
 				yield return err;
 			}
@@ -97,7 +97,7 @@ namespace Verse
 				case 1u:
 					break;
 				case 2u:
-					goto IL_FA;
+					goto IL_F8;
 				default:
 					return false;
 				}
@@ -130,7 +130,7 @@ namespace Verse
 				}
 				if (this.workerClass != null)
 				{
-					goto IL_FA;
+					goto IL_F8;
 				}
 				this.$current = "SpecialThingFilterDef " + this.defName + " has no worker class.";
 				if (!this.$disposing)
@@ -138,7 +138,7 @@ namespace Verse
 					this.$PC = 2;
 				}
 				return true;
-				IL_FA:
+				IL_F8:
 				this.$PC = -1;
 				return false;
 			}

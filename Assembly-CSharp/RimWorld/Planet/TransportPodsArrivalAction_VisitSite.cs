@@ -34,20 +34,15 @@ namespace RimWorld.Planet
 		public override FloatMenuAcceptanceReport StillValid(IEnumerable<IThingHolder> pods, int destinationTile)
 		{
 			FloatMenuAcceptanceReport floatMenuAcceptanceReport = base.StillValid(pods, destinationTile);
-			FloatMenuAcceptanceReport result;
 			if (!floatMenuAcceptanceReport)
 			{
-				result = floatMenuAcceptanceReport;
+				return floatMenuAcceptanceReport;
 			}
-			else if (this.site != null && this.site.Tile != destinationTile)
+			if (this.site != null && this.site.Tile != destinationTile)
 			{
-				result = false;
+				return false;
 			}
-			else
-			{
-				result = TransportPodsArrivalAction_VisitSite.CanVisit(pods, this.site);
-			}
-			return result;
+			return TransportPodsArrivalAction_VisitSite.CanVisit(pods, this.site);
 		}
 
 		public override bool ShouldUseLongEvent(List<ActiveDropPodInfo> pods, int tile)
@@ -62,7 +57,7 @@ namespace RimWorld.Planet
 			Map orGenerateMap = GetOrGenerateMapUtility.GetOrGenerateMap(this.site.Tile, SiteCoreWorker.MapSize, null);
 			if (flag)
 			{
-				Find.TickManager.CurTimeSpeed = TimeSpeed.Paused;
+				Find.TickManager.Notify_GeneratedPotentiallyHostileMap();
 				PawnRelationUtility.Notify_PawnsSeenByPlayer_Letter_Send(orGenerateMap.mapPawns.AllPawns, "LetterRelatedPawnsInMapWherePlayerLanded".Translate(new object[]
 				{
 					Faction.OfPlayer.def.pawnsPlural
@@ -74,27 +69,22 @@ namespace RimWorld.Planet
 
 		public static FloatMenuAcceptanceReport CanVisit(IEnumerable<IThingHolder> pods, Site site)
 		{
-			FloatMenuAcceptanceReport result;
 			if (site == null || !site.Spawned || !site.core.def.transportPodsCanLandAndGenerateMap)
 			{
-				result = false;
+				return false;
 			}
-			else if (!TransportPodsArrivalActionUtility.AnyNonDownedColonist(pods))
+			if (!TransportPodsArrivalActionUtility.AnyNonDownedColonist(pods))
 			{
-				result = false;
+				return false;
 			}
-			else if (site.EnterCooldownBlocksEntering())
+			if (site.EnterCooldownBlocksEntering())
 			{
-				result = FloatMenuAcceptanceReport.WithFailMessage("MessageEnterCooldownBlocksEntering".Translate(new object[]
+				return FloatMenuAcceptanceReport.WithFailMessage("MessageEnterCooldownBlocksEntering".Translate(new object[]
 				{
 					site.EnterCooldownDaysLeft().ToString("0.#")
 				}));
 			}
-			else
-			{
-				result = true;
-			}
-			return result;
+			return true;
 		}
 
 		public static IEnumerable<FloatMenuOption> GetFloatMenuOptions(CompLaunchable representative, IEnumerable<IThingHolder> pods, Site site)
@@ -154,7 +144,7 @@ namespace RimWorld.Planet
 				case 1u:
 					break;
 				case 2u:
-					goto IL_177;
+					goto IL_172;
 				default:
 					return false;
 				}
@@ -189,7 +179,7 @@ namespace RimWorld.Planet
 				num = 4294967293u;
 				try
 				{
-					IL_177:
+					IL_172:
 					switch (num)
 					{
 					}

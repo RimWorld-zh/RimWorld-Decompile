@@ -11,7 +11,7 @@ namespace RimWorld
 
 		public ThingDef interactionMote;
 
-		public float socialFightBaseChance = 0f;
+		public float socialFightBaseChance;
 
 		public ThoughtDef initiatorThought;
 
@@ -49,6 +49,7 @@ namespace RimWorld
 				if (this.workerInt == null)
 				{
 					this.workerInt = (InteractionWorker)Activator.CreateInstance(this.workerClass);
+					this.workerInt.interaction = this;
 				}
 				return this.workerInt;
 			}

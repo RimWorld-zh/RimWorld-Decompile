@@ -22,19 +22,19 @@ namespace Verse
 					" for post load init, but current mode is ",
 					Scribe.mode
 				}), false);
+				return;
 			}
-			else if (s == null)
+			if (s == null)
 			{
 				Log.Warning("Trying to register null in RegisterforPostLoadInit.", false);
+				return;
 			}
-			else if (this.saveablesToPostLoad.Contains(s))
+			if (this.saveablesToPostLoad.Contains(s))
 			{
 				Log.Warning("Tried to register in RegisterforPostLoadInit when already registered: " + s, false);
+				return;
 			}
-			else
-			{
-				this.saveablesToPostLoad.Add(s);
-			}
+			this.saveablesToPostLoad.Add(s);
 		}
 
 		public void DoAllPostLoadInits()

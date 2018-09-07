@@ -7,7 +7,7 @@ namespace Verse.AI
 	{
 		protected float wanderRadius;
 
-		protected Func<Pawn, IntVec3, IntVec3, bool> wanderDestValidator = null;
+		protected Func<Pawn, IntVec3, IntVec3, bool> wanderDestValidator;
 
 		protected IntRange ticksBetweenWandersRange = new IntRange(20, 100);
 
@@ -41,33 +41,25 @@ namespace Verse.AI
 			{
 				pawn.mindState.nextMoveOrderIsWait = !pawn.mindState.nextMoveOrderIsWait;
 			}
-			Job result;
 			if (nextMoveOrderIsWait && !flag)
 			{
-				result = new Job(JobDefOf.Wait_Wander)
+				return new Job(JobDefOf.Wait_Wander)
 				{
 					expiryInterval = this.ticksBetweenWandersRange.RandomInRange
 				};
 			}
-			else
+			IntVec3 exactWanderDest = this.GetExactWanderDest(pawn);
+			if (!exactWanderDest.IsValid)
 			{
-				IntVec3 exactWanderDest = this.GetExactWanderDest(pawn);
-				if (!exactWanderDest.IsValid)
-				{
-					pawn.mindState.nextMoveOrderIsWait = false;
-					result = null;
-				}
-				else
-				{
-					result = new Job(JobDefOf.GotoWander, exactWanderDest)
-					{
-						locomotionUrgency = this.locomotionUrgency,
-						expiryInterval = this.expiryInterval,
-						checkOverrideOnExpire = true
-					};
-				}
+				pawn.mindState.nextMoveOrderIsWait = false;
+				return null;
 			}
-			return result;
+			return new Job(JobDefOf.GotoWander, exactWanderDest)
+			{
+				locomotionUrgency = this.locomotionUrgency,
+				expiryInterval = this.expiryInterval,
+				checkOverrideOnExpire = true
+			};
 		}
 
 		protected virtual IntVec3 GetExactWanderDest(Pawn pawn)

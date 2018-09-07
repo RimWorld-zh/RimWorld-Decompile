@@ -180,7 +180,7 @@ namespace RimWorld
 				case 4u:
 					break;
 				case 5u:
-					goto IL_1A0;
+					goto IL_19F;
 				case 6u:
 					this.$PC = -1;
 					return false;
@@ -196,7 +196,7 @@ namespace RimWorld
 					}
 					return true;
 				}
-				IL_1A0:
+				IL_19F:
 				this.$current = new Rule_String(prefix + "_quality", this.quality.GetLabel());
 				if (!this.$disposing)
 				{

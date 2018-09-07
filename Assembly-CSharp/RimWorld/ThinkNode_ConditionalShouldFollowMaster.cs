@@ -17,43 +17,35 @@ namespace RimWorld
 
 		public static bool ShouldFollowMaster(Pawn pawn)
 		{
-			bool result;
 			if (!pawn.Spawned || pawn.playerSettings == null)
 			{
-				result = false;
+				return false;
+			}
+			Pawn respectedMaster = pawn.playerSettings.RespectedMaster;
+			if (respectedMaster == null)
+			{
+				return false;
+			}
+			if (respectedMaster.Spawned)
+			{
+				if (pawn.playerSettings.followDrafted && respectedMaster.Drafted && pawn.CanReach(respectedMaster, PathEndMode.OnCell, Danger.Deadly, false, TraverseMode.ByPawn))
+				{
+					return true;
+				}
+				if (pawn.playerSettings.followFieldwork && respectedMaster.mindState.lastJobTag == JobTag.Fieldwork && pawn.CanReach(respectedMaster, PathEndMode.OnCell, Danger.Deadly, false, TraverseMode.ByPawn))
+				{
+					return true;
+				}
 			}
 			else
 			{
-				Pawn respectedMaster = pawn.playerSettings.RespectedMaster;
-				if (respectedMaster == null)
+				Pawn carriedBy = respectedMaster.CarriedBy;
+				if (carriedBy != null && carriedBy.HostileTo(respectedMaster) && pawn.CanReach(carriedBy, PathEndMode.OnCell, Danger.Deadly, false, TraverseMode.ByPawn))
 				{
-					result = false;
-				}
-				else
-				{
-					if (respectedMaster.Spawned)
-					{
-						if (pawn.playerSettings.followDrafted && respectedMaster.Drafted && pawn.CanReach(respectedMaster, PathEndMode.OnCell, Danger.Deadly, false, TraverseMode.ByPawn))
-						{
-							return true;
-						}
-						if (pawn.playerSettings.followFieldwork && respectedMaster.mindState.lastJobTag == JobTag.Fieldwork && pawn.CanReach(respectedMaster, PathEndMode.OnCell, Danger.Deadly, false, TraverseMode.ByPawn))
-						{
-							return true;
-						}
-					}
-					else
-					{
-						Pawn carriedBy = respectedMaster.CarriedBy;
-						if (carriedBy != null && carriedBy.HostileTo(respectedMaster) && pawn.CanReach(carriedBy, PathEndMode.OnCell, Danger.Deadly, false, TraverseMode.ByPawn))
-						{
-							return true;
-						}
-					}
-					result = false;
+					return true;
 				}
 			}
-			return result;
+			return false;
 		}
 	}
 }

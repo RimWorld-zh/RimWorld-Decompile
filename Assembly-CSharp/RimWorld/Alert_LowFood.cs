@@ -23,35 +23,25 @@ namespace RimWorld
 		public override string GetExplanation()
 		{
 			Map map = this.MapWithLowFood();
-			string result;
 			if (map == null)
 			{
-				result = "";
+				return string.Empty;
 			}
-			else
-			{
-				float totalHumanEdibleNutrition = map.resourceCounter.TotalHumanEdibleNutrition;
-				int num = map.mapPawns.FreeColonistsSpawnedCount + (from pr in map.mapPawns.PrisonersOfColony
-				where pr.guest.GetsFood
-				select pr).Count<Pawn>();
-				int num2 = Mathf.FloorToInt(totalHumanEdibleNutrition / (float)num);
-				result = string.Format("LowFoodDesc".Translate(), totalHumanEdibleNutrition.ToString("F0"), num.ToStringCached(), num2.ToStringCached());
-			}
-			return result;
+			float totalHumanEdibleNutrition = map.resourceCounter.TotalHumanEdibleNutrition;
+			int num = map.mapPawns.FreeColonistsSpawnedCount + (from pr in map.mapPawns.PrisonersOfColony
+			where pr.guest.GetsFood
+			select pr).Count<Pawn>();
+			int num2 = Mathf.FloorToInt(totalHumanEdibleNutrition / (float)num);
+			return string.Format("LowFoodDesc".Translate(), totalHumanEdibleNutrition.ToString("F0"), num.ToStringCached(), num2.ToStringCached());
 		}
 
 		public override AlertReport GetReport()
 		{
-			AlertReport result;
 			if (Find.TickManager.TicksGame < 150000)
 			{
-				result = false;
+				return false;
 			}
-			else
-			{
-				result = (this.MapWithLowFood() != null);
-			}
-			return result;
+			return this.MapWithLowFood() != null;
 		}
 
 		private Map MapWithLowFood()

@@ -101,12 +101,9 @@ namespace RimWorld
 					else if (thing.def.category == ThingCategory.Item)
 					{
 						CompRottable compRottable = thing.TryGetComp<CompRottable>();
-						if (compRottable != null)
+						if (compRottable != null && compRottable.Stage < RotStage.Dessicated)
 						{
-							if (compRottable.Stage < RotStage.Dessicated)
-							{
-								compRottable.RotProgress += 3000f;
-							}
+							compRottable.RotProgress += 3000f;
 						}
 					}
 				}

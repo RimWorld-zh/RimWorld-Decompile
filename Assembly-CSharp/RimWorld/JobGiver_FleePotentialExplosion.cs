@@ -14,45 +14,37 @@ namespace RimWorld
 
 		protected override Job TryGiveJob(Pawn pawn)
 		{
-			Job result;
 			if (pawn.RaceProps.intelligence < Intelligence.Humanlike)
 			{
-				result = null;
+				return null;
 			}
-			else if (pawn.mindState.knownExploder == null)
+			if (pawn.mindState.knownExploder == null)
 			{
-				result = null;
+				return null;
 			}
-			else if (!pawn.mindState.knownExploder.Spawned)
+			if (!pawn.mindState.knownExploder.Spawned)
 			{
 				pawn.mindState.knownExploder = null;
-				result = null;
+				return null;
 			}
-			else if (PawnUtility.PlayerForcedJobNowOrSoon(pawn))
+			if (PawnUtility.PlayerForcedJobNowOrSoon(pawn))
 			{
-				result = null;
+				return null;
 			}
-			else
+			Thing knownExploder = pawn.mindState.knownExploder;
+			if ((float)(pawn.Position - knownExploder.Position).LengthHorizontalSquared > 81f)
 			{
-				Thing knownExploder = pawn.mindState.knownExploder;
-				IntVec3 c;
-				if ((float)(pawn.Position - knownExploder.Position).LengthHorizontalSquared > 81f)
-				{
-					result = null;
-				}
-				else if (!RCellFinder.TryFindDirectFleeDestination(knownExploder.Position, 9f, pawn, out c))
-				{
-					result = null;
-				}
-				else
-				{
-					result = new Job(JobDefOf.Goto, c)
-					{
-						locomotionUrgency = LocomotionUrgency.Sprint
-					};
-				}
+				return null;
 			}
-			return result;
+			IntVec3 c;
+			if (!RCellFinder.TryFindDirectFleeDestination(knownExploder.Position, 9f, pawn, out c))
+			{
+				return null;
+			}
+			return new Job(JobDefOf.Goto, c)
+			{
+				locomotionUrgency = LocomotionUrgency.Sprint
+			};
 		}
 	}
 }

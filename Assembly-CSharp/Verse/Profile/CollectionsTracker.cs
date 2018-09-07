@@ -26,20 +26,18 @@ namespace Verse.Profile
 			if (!MemoryTracker.AnythingTracked)
 			{
 				Log.Message("No objects tracked, memory tracker markup may not be applied.", false);
+				return;
 			}
-			else
+			CollectionsTracker.collections.Clear();
+			foreach (WeakReference weakReference in MemoryTracker.FoundCollections)
 			{
-				CollectionsTracker.collections.Clear();
-				foreach (WeakReference weakReference in MemoryTracker.FoundCollections)
+				if (weakReference.IsAlive)
 				{
-					if (weakReference.IsAlive)
-					{
-						ICollection collection = weakReference.Target as ICollection;
-						CollectionsTracker.collections[weakReference] = collection.Count;
-					}
+					ICollection collection = weakReference.Target as ICollection;
+					CollectionsTracker.collections[weakReference] = collection.Count;
 				}
-				Log.Message("Tracking " + CollectionsTracker.collections.Count + " collections.", false);
 			}
+			Log.Message("Tracking " + CollectionsTracker.collections.Count + " collections.", false);
 		}
 
 		[DebugOutput]
@@ -48,18 +46,16 @@ namespace Verse.Profile
 			if (!MemoryTracker.AnythingTracked)
 			{
 				Log.Message("No objects tracked, memory tracker markup may not be applied.", false);
+				return;
 			}
-			else
+			CollectionsTracker.collections.RemoveAll((KeyValuePair<WeakReference, int> kvp) => !kvp.Key.IsAlive || ((ICollection)kvp.Key.Target).Count <= kvp.Value);
+			MemoryTracker.LogObjectHoldPathsFor(from kvp in CollectionsTracker.collections
+			select kvp.Key, delegate(WeakReference elem)
 			{
-				CollectionsTracker.collections.RemoveAll((KeyValuePair<WeakReference, int> kvp) => !kvp.Key.IsAlive || ((ICollection)kvp.Key.Target).Count <= kvp.Value);
-				MemoryTracker.LogObjectHoldPathsFor(from kvp in CollectionsTracker.collections
-				select kvp.Key, delegate(WeakReference elem)
-				{
-					ICollection collection = elem.Target as ICollection;
-					return collection.Count - CollectionsTracker.collections[elem];
-				});
-				CollectionsTracker.collections.Clear();
-			}
+				ICollection collection = elem.Target as ICollection;
+				return collection.Count - CollectionsTracker.collections[elem];
+			});
+			CollectionsTracker.collections.Clear();
 		}
 
 		// Note: this type is marked as 'beforefieldinit'.

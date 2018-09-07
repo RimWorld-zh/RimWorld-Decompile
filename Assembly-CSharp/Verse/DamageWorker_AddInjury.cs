@@ -18,199 +18,188 @@ namespace Verse
 		public override DamageWorker.DamageResult Apply(DamageInfo dinfo, Thing thing)
 		{
 			Pawn pawn = thing as Pawn;
-			DamageWorker.DamageResult result;
 			if (pawn == null)
 			{
-				result = base.Apply(dinfo, thing);
+				return base.Apply(dinfo, thing);
 			}
-			else
-			{
-				result = this.ApplyToPawn(dinfo, pawn);
-			}
-			return result;
+			return this.ApplyToPawn(dinfo, pawn);
 		}
 
 		private DamageWorker.DamageResult ApplyToPawn(DamageInfo dinfo, Pawn pawn)
 		{
 			DamageWorker.DamageResult damageResult = new DamageWorker.DamageResult();
-			DamageWorker.DamageResult result;
 			if (dinfo.Amount <= 0f)
 			{
-				result = damageResult;
+				return damageResult;
 			}
-			else if (!DebugSettings.enablePlayerDamage && pawn.Faction == Faction.OfPlayer)
+			if (!DebugSettings.enablePlayerDamage && pawn.Faction == Faction.OfPlayer)
 			{
-				result = damageResult;
+				return damageResult;
+			}
+			Map mapHeld = pawn.MapHeld;
+			bool spawnedOrAnyParentSpawned = pawn.SpawnedOrAnyParentSpawned;
+			if (dinfo.AllowDamagePropagation && dinfo.Amount >= (float)dinfo.Def.minDamageToFragment)
+			{
+				int num = Rand.RangeInclusive(2, 4);
+				for (int i = 0; i < num; i++)
+				{
+					DamageInfo dinfo2 = dinfo;
+					dinfo2.SetAmount(dinfo.Amount / (float)num);
+					this.ApplyDamageToPart(dinfo2, pawn, damageResult);
+				}
 			}
 			else
 			{
-				Map mapHeld = pawn.MapHeld;
-				bool spawnedOrAnyParentSpawned = pawn.SpawnedOrAnyParentSpawned;
-				if (dinfo.AllowDamagePropagation && dinfo.Amount >= (float)dinfo.Def.minDamageToFragment)
+				this.ApplyDamageToPart(dinfo, pawn, damageResult);
+				this.ApplySmallPawnDamagePropagation(dinfo, pawn, damageResult);
+			}
+			if (damageResult.wounded)
+			{
+				DamageWorker_AddInjury.PlayWoundedVoiceSound(dinfo, pawn);
+				pawn.Drawer.Notify_DamageApplied(dinfo);
+			}
+			if (damageResult.headshot && pawn.Spawned)
+			{
+				MoteMaker.ThrowText(new Vector3((float)pawn.Position.x + 1f, (float)pawn.Position.y, (float)pawn.Position.z + 1f), pawn.Map, "Headshot".Translate(), Color.white, -1f);
+				if (dinfo.Instigator != null)
 				{
-					int num = Rand.RangeInclusive(2, 4);
-					for (int i = 0; i < num; i++)
+					Pawn pawn2 = dinfo.Instigator as Pawn;
+					if (pawn2 != null)
 					{
-						DamageInfo dinfo2 = dinfo;
-						dinfo2.SetAmount(dinfo.Amount / (float)num);
-						this.ApplyDamageToPart(dinfo2, pawn, damageResult);
+						pawn2.records.Increment(RecordDefOf.Headshots);
 					}
 				}
-				else
+			}
+			if ((damageResult.deflected || damageResult.diminished) && spawnedOrAnyParentSpawned)
+			{
+				EffecterDef effecterDef;
+				if (damageResult.deflected)
 				{
-					this.ApplyDamageToPart(dinfo, pawn, damageResult);
-					this.ApplySmallPawnDamagePropagation(dinfo, pawn, damageResult);
-				}
-				if (damageResult.wounded)
-				{
-					DamageWorker_AddInjury.PlayWoundedVoiceSound(dinfo, pawn);
-					pawn.Drawer.Notify_DamageApplied(dinfo);
-				}
-				if (damageResult.headshot && pawn.Spawned)
-				{
-					MoteMaker.ThrowText(new Vector3((float)pawn.Position.x + 1f, (float)pawn.Position.y, (float)pawn.Position.z + 1f), pawn.Map, "Headshot".Translate(), Color.white, -1f);
-					if (dinfo.Instigator != null)
+					if (damageResult.deflectedByMetalArmor && dinfo.Def.canUseDeflectMetalEffect)
 					{
-						Pawn pawn2 = dinfo.Instigator as Pawn;
-						if (pawn2 != null)
+						if (dinfo.Def == DamageDefOf.Bullet)
 						{
-							pawn2.records.Increment(RecordDefOf.Headshots);
-						}
-					}
-				}
-				if ((damageResult.deflected || damageResult.diminished) && spawnedOrAnyParentSpawned)
-				{
-					EffecterDef effecterDef;
-					if (damageResult.deflected)
-					{
-						if (damageResult.deflectedByMetalArmor && dinfo.Def.canUseDeflectMetalEffect)
-						{
-							if (dinfo.Def == DamageDefOf.Bullet)
-							{
-								effecterDef = EffecterDefOf.Deflect_Metal_Bullet;
-							}
-							else
-							{
-								effecterDef = EffecterDefOf.Deflect_Metal;
-							}
-						}
-						else if (dinfo.Def == DamageDefOf.Bullet)
-						{
-							effecterDef = EffecterDefOf.Deflect_General_Bullet;
+							effecterDef = EffecterDefOf.Deflect_Metal_Bullet;
 						}
 						else
 						{
-							effecterDef = EffecterDefOf.Deflect_General;
+							effecterDef = EffecterDefOf.Deflect_Metal;
 						}
 					}
-					else if (damageResult.diminishedByMetalArmor)
+					else if (dinfo.Def == DamageDefOf.Bullet)
 					{
-						effecterDef = EffecterDefOf.DamageDiminished_Metal;
+						effecterDef = EffecterDefOf.Deflect_General_Bullet;
 					}
 					else
 					{
-						effecterDef = EffecterDefOf.DamageDiminished_General;
-					}
-					if (pawn.health.deflectionEffecter == null || pawn.health.deflectionEffecter.def != effecterDef)
-					{
-						if (pawn.health.deflectionEffecter != null)
-						{
-							pawn.health.deflectionEffecter.Cleanup();
-							pawn.health.deflectionEffecter = null;
-						}
-						pawn.health.deflectionEffecter = effecterDef.Spawn();
-					}
-					pawn.health.deflectionEffecter.Trigger(pawn, dinfo.Instigator ?? pawn);
-					if (damageResult.deflected)
-					{
-						pawn.Drawer.Notify_DamageDeflected(dinfo);
+						effecterDef = EffecterDefOf.Deflect_General;
 					}
 				}
-				if (!damageResult.deflected && spawnedOrAnyParentSpawned)
+				else if (damageResult.diminishedByMetalArmor)
 				{
-					ImpactSoundUtility.PlayImpactSound(pawn, dinfo.Def.impactSoundType, mapHeld);
+					effecterDef = EffecterDefOf.DamageDiminished_Metal;
 				}
-				result = damageResult;
+				else
+				{
+					effecterDef = EffecterDefOf.DamageDiminished_General;
+				}
+				if (pawn.health.deflectionEffecter == null || pawn.health.deflectionEffecter.def != effecterDef)
+				{
+					if (pawn.health.deflectionEffecter != null)
+					{
+						pawn.health.deflectionEffecter.Cleanup();
+						pawn.health.deflectionEffecter = null;
+					}
+					pawn.health.deflectionEffecter = effecterDef.Spawn();
+				}
+				pawn.health.deflectionEffecter.Trigger(pawn, dinfo.Instigator ?? pawn);
+				if (damageResult.deflected)
+				{
+					pawn.Drawer.Notify_DamageDeflected(dinfo);
+				}
 			}
-			return result;
+			if (!damageResult.deflected && spawnedOrAnyParentSpawned)
+			{
+				ImpactSoundUtility.PlayImpactSound(pawn, dinfo.Def.impactSoundType, mapHeld);
+			}
+			return damageResult;
 		}
 
 		private void CheckApplySpreadDamage(DamageInfo dinfo, Thing t)
 		{
-			if (dinfo.Def != DamageDefOf.Flame || t.FlammableNow)
+			if (dinfo.Def == DamageDefOf.Flame && !t.FlammableNow)
 			{
-				if (Rand.Chance(0.5f))
-				{
-					dinfo.SetAmount((float)Mathf.CeilToInt(dinfo.Amount * Rand.Range(0.35f, 0.7f)));
-					t.TakeDamage(dinfo);
-				}
+				return;
+			}
+			if (Rand.Chance(0.5f))
+			{
+				dinfo.SetAmount((float)Mathf.CeilToInt(dinfo.Amount * Rand.Range(0.35f, 0.7f)));
+				t.TakeDamage(dinfo);
 			}
 		}
 
 		private void ApplySmallPawnDamagePropagation(DamageInfo dinfo, Pawn pawn, DamageWorker.DamageResult result)
 		{
-			if (dinfo.AllowDamagePropagation)
+			if (!dinfo.AllowDamagePropagation)
 			{
-				if (result.LastHitPart != null && dinfo.Def.harmsHealth && result.LastHitPart != pawn.RaceProps.body.corePart && result.LastHitPart.parent != null && pawn.health.hediffSet.GetPartHealth(result.LastHitPart.parent) > 0f && dinfo.Amount >= 10f && pawn.HealthScale <= 0.5001f)
-				{
-					DamageInfo dinfo2 = dinfo;
-					dinfo2.SetHitPart(result.LastHitPart.parent);
-					this.ApplyDamageToPart(dinfo2, pawn, result);
-				}
+				return;
+			}
+			if (result.LastHitPart != null && dinfo.Def.harmsHealth && result.LastHitPart != pawn.RaceProps.body.corePart && result.LastHitPart.parent != null && pawn.health.hediffSet.GetPartHealth(result.LastHitPart.parent) > 0f && result.LastHitPart.parent.coverageAbs > 0f && dinfo.Amount >= 10f && pawn.HealthScale <= 0.5001f)
+			{
+				DamageInfo dinfo2 = dinfo;
+				dinfo2.SetHitPart(result.LastHitPart.parent);
+				this.ApplyDamageToPart(dinfo2, pawn, result);
 			}
 		}
 
 		private void ApplyDamageToPart(DamageInfo dinfo, Pawn pawn, DamageWorker.DamageResult result)
 		{
 			BodyPartRecord exactPartFromDamageInfo = this.GetExactPartFromDamageInfo(dinfo, pawn);
-			if (exactPartFromDamageInfo != null)
+			if (exactPartFromDamageInfo == null)
 			{
-				dinfo.SetHitPart(exactPartFromDamageInfo);
-				float num = dinfo.Amount;
-				bool flag = !dinfo.InstantPermanentInjury;
-				bool deflectedByMetalArmor = false;
-				if (flag)
+				return;
+			}
+			dinfo.SetHitPart(exactPartFromDamageInfo);
+			float num = dinfo.Amount;
+			bool flag = !dinfo.InstantPermanentInjury;
+			bool deflectedByMetalArmor = false;
+			if (flag)
+			{
+				DamageDef def = dinfo.Def;
+				bool diminishedByMetalArmor;
+				num = ArmorUtility.GetPostArmorDamage(pawn, num, dinfo.ArmorPenetrationInt, dinfo.HitPart, ref def, out deflectedByMetalArmor, out diminishedByMetalArmor);
+				dinfo.Def = def;
+				if (num < dinfo.Amount)
 				{
-					DamageDef def = dinfo.Def;
-					bool diminishedByMetalArmor;
-					num = ArmorUtility.GetPostArmorDamage(pawn, num, dinfo.ArmorPenetrationInt, dinfo.HitPart, ref def, out deflectedByMetalArmor, out diminishedByMetalArmor);
-					dinfo.Def = def;
-					if (num < dinfo.Amount)
-					{
-						result.diminished = true;
-						result.diminishedByMetalArmor = diminishedByMetalArmor;
-					}
-				}
-				if (num <= 0f)
-				{
-					result.AddPart(pawn, dinfo.HitPart);
-					result.deflected = true;
-					result.deflectedByMetalArmor = deflectedByMetalArmor;
-				}
-				else
-				{
-					if (DamageWorker_AddInjury.IsHeadshot(dinfo, pawn))
-					{
-						result.headshot = true;
-					}
-					if (dinfo.InstantPermanentInjury)
-					{
-						HediffDef hediffDefFromDamage = HealthUtility.GetHediffDefFromDamage(dinfo.Def, pawn, dinfo.HitPart);
-						if (hediffDefFromDamage.CompPropsFor(typeof(HediffComp_GetsPermanent)) == null || dinfo.HitPart.def.permanentInjuryChanceFactor == 0f || dinfo.HitPart.def.IsSolid(dinfo.HitPart, pawn.health.hediffSet.hediffs) || pawn.health.hediffSet.PartOrAnyAncestorHasDirectlyAddedParts(dinfo.HitPart))
-						{
-							return;
-						}
-					}
-					if (!dinfo.AllowDamagePropagation)
-					{
-						this.FinalizeAndAddInjury(pawn, num, dinfo, result);
-					}
-					else
-					{
-						this.ApplySpecialEffectsToPart(pawn, num, dinfo, result);
-					}
+					result.diminished = true;
+					result.diminishedByMetalArmor = diminishedByMetalArmor;
 				}
 			}
+			if (num <= 0f)
+			{
+				result.AddPart(pawn, dinfo.HitPart);
+				result.deflected = true;
+				result.deflectedByMetalArmor = deflectedByMetalArmor;
+				return;
+			}
+			if (DamageWorker_AddInjury.IsHeadshot(dinfo, pawn))
+			{
+				result.headshot = true;
+			}
+			if (dinfo.InstantPermanentInjury)
+			{
+				HediffDef hediffDefFromDamage = HealthUtility.GetHediffDefFromDamage(dinfo.Def, pawn, dinfo.HitPart);
+				if (hediffDefFromDamage.CompPropsFor(typeof(HediffComp_GetsPermanent)) == null || dinfo.HitPart.def.permanentInjuryChanceFactor == 0f || pawn.health.hediffSet.PartOrAnyAncestorHasDirectlyAddedParts(dinfo.HitPart))
+				{
+					return;
+				}
+			}
+			if (!dinfo.AllowDamagePropagation)
+			{
+				this.FinalizeAndAddInjury(pawn, num, dinfo, result);
+				return;
+			}
+			this.ApplySpecialEffectsToPart(pawn, num, dinfo, result);
 		}
 
 		protected virtual void ApplySpecialEffectsToPart(Pawn pawn, float totalDamage, DamageInfo dinfo, DamageWorker.DamageResult result)
@@ -222,41 +211,36 @@ namespace Verse
 
 		protected float FinalizeAndAddInjury(Pawn pawn, float totalDamage, DamageInfo dinfo, DamageWorker.DamageResult result)
 		{
-			float result2;
 			if (pawn.health.hediffSet.PartIsMissing(dinfo.HitPart))
 			{
-				result2 = 0f;
+				return 0f;
 			}
-			else
+			HediffDef hediffDefFromDamage = HealthUtility.GetHediffDefFromDamage(dinfo.Def, pawn, dinfo.HitPart);
+			Hediff_Injury hediff_Injury = (Hediff_Injury)HediffMaker.MakeHediff(hediffDefFromDamage, pawn, null);
+			hediff_Injury.Part = dinfo.HitPart;
+			hediff_Injury.source = dinfo.Weapon;
+			hediff_Injury.sourceBodyPartGroup = dinfo.WeaponBodyPartGroup;
+			hediff_Injury.sourceHediffDef = dinfo.WeaponLinkedHediff;
+			hediff_Injury.Severity = totalDamage;
+			if (dinfo.InstantPermanentInjury)
 			{
-				HediffDef hediffDefFromDamage = HealthUtility.GetHediffDefFromDamage(dinfo.Def, pawn, dinfo.HitPart);
-				Hediff_Injury hediff_Injury = (Hediff_Injury)HediffMaker.MakeHediff(hediffDefFromDamage, pawn, null);
-				hediff_Injury.Part = dinfo.HitPart;
-				hediff_Injury.source = dinfo.Weapon;
-				hediff_Injury.sourceBodyPartGroup = dinfo.WeaponBodyPartGroup;
-				hediff_Injury.sourceHediffDef = dinfo.WeaponLinkedHediff;
-				hediff_Injury.Severity = totalDamage;
-				if (dinfo.InstantPermanentInjury)
+				HediffComp_GetsPermanent hediffComp_GetsPermanent = hediff_Injury.TryGetComp<HediffComp_GetsPermanent>();
+				if (hediffComp_GetsPermanent != null)
 				{
-					HediffComp_GetsPermanent hediffComp_GetsPermanent = hediff_Injury.TryGetComp<HediffComp_GetsPermanent>();
-					if (hediffComp_GetsPermanent != null)
-					{
-						hediffComp_GetsPermanent.IsPermanent = true;
-					}
-					else
-					{
-						Log.Error(string.Concat(new object[]
-						{
-							"Tried to create instant permanent injury on Hediff without a GetsPermanent comp: ",
-							hediffDefFromDamage,
-							" on ",
-							pawn
-						}), false);
-					}
+					hediffComp_GetsPermanent.IsPermanent = true;
 				}
-				result2 = this.FinalizeAndAddInjury(pawn, hediff_Injury, dinfo, result);
+				else
+				{
+					Log.Error(string.Concat(new object[]
+					{
+						"Tried to create instant permanent injury on Hediff without a GetsPermanent comp: ",
+						hediffDefFromDamage,
+						" on ",
+						pawn
+					}), false);
+				}
 			}
-			return result2;
+			return this.FinalizeAndAddInjury(pawn, hediff_Injury, dinfo, result);
 		}
 
 		protected float FinalizeAndAddInjury(Pawn pawn, Hediff_Injury injury, DamageInfo dinfo, DamageWorker.DamageResult result)
@@ -277,35 +261,36 @@ namespace Verse
 
 		private void CheckDuplicateDamageToOuterParts(DamageInfo dinfo, Pawn pawn, float totalDamage, DamageWorker.DamageResult result)
 		{
-			if (dinfo.AllowDamagePropagation)
+			if (!dinfo.AllowDamagePropagation)
 			{
-				if (dinfo.Def.harmAllLayersUntilOutside && dinfo.HitPart.depth == BodyPartDepth.Inside)
+				return;
+			}
+			if (dinfo.Def.harmAllLayersUntilOutside && dinfo.HitPart.depth == BodyPartDepth.Inside)
+			{
+				BodyPartRecord parent = dinfo.HitPart.parent;
+				do
 				{
-					BodyPartRecord parent = dinfo.HitPart.parent;
-					do
+					if (pawn.health.hediffSet.GetPartHealth(parent) != 0f && parent.coverageAbs > 0f)
 					{
-						if (pawn.health.hediffSet.GetPartHealth(parent) != 0f)
+						HediffDef hediffDefFromDamage = HealthUtility.GetHediffDefFromDamage(dinfo.Def, pawn, parent);
+						Hediff_Injury hediff_Injury = (Hediff_Injury)HediffMaker.MakeHediff(hediffDefFromDamage, pawn, null);
+						hediff_Injury.Part = parent;
+						hediff_Injury.source = dinfo.Weapon;
+						hediff_Injury.sourceBodyPartGroup = dinfo.WeaponBodyPartGroup;
+						hediff_Injury.Severity = totalDamage;
+						if (hediff_Injury.Severity <= 0f)
 						{
-							HediffDef hediffDefFromDamage = HealthUtility.GetHediffDefFromDamage(dinfo.Def, pawn, parent);
-							Hediff_Injury hediff_Injury = (Hediff_Injury)HediffMaker.MakeHediff(hediffDefFromDamage, pawn, null);
-							hediff_Injury.Part = parent;
-							hediff_Injury.source = dinfo.Weapon;
-							hediff_Injury.sourceBodyPartGroup = dinfo.WeaponBodyPartGroup;
-							hediff_Injury.Severity = totalDamage;
-							if (hediff_Injury.Severity <= 0f)
-							{
-								hediff_Injury.Severity = 1f;
-							}
-							this.FinalizeAndAddInjury(pawn, hediff_Injury, dinfo, result);
+							hediff_Injury.Severity = 1f;
 						}
-						if (parent.depth == BodyPartDepth.Outside)
-						{
-							break;
-						}
-						parent = parent.parent;
+						this.FinalizeAndAddInjury(pawn, hediff_Injury, dinfo, result);
 					}
-					while (parent != null);
+					if (parent.depth == BodyPartDepth.Outside)
+					{
+						break;
+					}
+					parent = parent.parent;
 				}
+				while (parent != null);
 			}
 		}
 
@@ -316,76 +301,63 @@ namespace Verse
 
 		private BodyPartRecord GetExactPartFromDamageInfo(DamageInfo dinfo, Pawn pawn)
 		{
-			BodyPartRecord result;
 			if (dinfo.HitPart != null)
 			{
-				result = ((!pawn.health.hediffSet.GetNotMissingParts(BodyPartHeight.Undefined, BodyPartDepth.Undefined, null).Any((BodyPartRecord x) => x == dinfo.HitPart)) ? null : dinfo.HitPart);
+				return (!pawn.health.hediffSet.GetNotMissingParts(BodyPartHeight.Undefined, BodyPartDepth.Undefined, null, null).Any((BodyPartRecord x) => x == dinfo.HitPart)) ? null : dinfo.HitPart;
 			}
-			else
+			BodyPartRecord bodyPartRecord = this.ChooseHitPart(dinfo, pawn);
+			if (bodyPartRecord == null)
 			{
-				BodyPartRecord bodyPartRecord = this.ChooseHitPart(dinfo, pawn);
-				if (bodyPartRecord == null)
-				{
-					Log.Warning("ChooseHitPart returned null (any part).", false);
-				}
-				result = bodyPartRecord;
+				Log.Warning("ChooseHitPart returned null (any part).", false);
 			}
-			return result;
+			return bodyPartRecord;
 		}
 
 		protected virtual BodyPartRecord ChooseHitPart(DamageInfo dinfo, Pawn pawn)
 		{
-			return pawn.health.hediffSet.GetRandomNotMissingPart(dinfo.Def, dinfo.Height, dinfo.Depth);
+			return pawn.health.hediffSet.GetRandomNotMissingPart(dinfo.Def, dinfo.Height, dinfo.Depth, null);
 		}
 
 		private static void PlayWoundedVoiceSound(DamageInfo dinfo, Pawn pawn)
 		{
-			if (!pawn.Dead)
+			if (pawn.Dead)
 			{
-				if (!dinfo.InstantPermanentInjury)
-				{
-					if (pawn.SpawnedOrAnyParentSpawned)
-					{
-						if (dinfo.Def.externalViolence)
-						{
-							LifeStageUtility.PlayNearestLifestageSound(pawn, (LifeStageAge ls) => ls.soundWounded, 1f);
-						}
-					}
-				}
+				return;
+			}
+			if (dinfo.InstantPermanentInjury)
+			{
+				return;
+			}
+			if (!pawn.SpawnedOrAnyParentSpawned)
+			{
+				return;
+			}
+			if (dinfo.Def.ExternalViolenceFor(pawn))
+			{
+				LifeStageUtility.PlayNearestLifestageSound(pawn, (LifeStageAge ls) => ls.soundWounded, 1f);
 			}
 		}
 
 		protected float ReduceDamageToPreserveOutsideParts(float postArmorDamage, DamageInfo dinfo, Pawn pawn)
 		{
-			float result;
 			if (!DamageWorker_AddInjury.ShouldReduceDamageToPreservePart(dinfo.HitPart))
 			{
-				result = postArmorDamage;
+				return postArmorDamage;
 			}
-			else
+			float partHealth = pawn.health.hediffSet.GetPartHealth(dinfo.HitPart);
+			if (postArmorDamage < partHealth)
 			{
-				float partHealth = pawn.health.hediffSet.GetPartHealth(dinfo.HitPart);
-				if (postArmorDamage < partHealth)
-				{
-					result = postArmorDamage;
-				}
-				else
-				{
-					float maxHealth = dinfo.HitPart.def.GetMaxHealth(pawn);
-					float num = postArmorDamage - partHealth;
-					float f = num / maxHealth;
-					float chance = this.def.overkillPctToDestroyPart.InverseLerpThroughRange(f);
-					if (Rand.Chance(chance))
-					{
-						result = postArmorDamage;
-					}
-					else
-					{
-						postArmorDamage = (result = partHealth - 1f);
-					}
-				}
+				return postArmorDamage;
 			}
-			return result;
+			float maxHealth = dinfo.HitPart.def.GetMaxHealth(pawn);
+			float num = postArmorDamage - partHealth;
+			float f = num / maxHealth;
+			float chance = this.def.overkillPctToDestroyPart.InverseLerpThroughRange(f);
+			if (Rand.Chance(chance))
+			{
+				return postArmorDamage;
+			}
+			return postArmorDamage = partHealth - 1f;
 		}
 
 		public static bool ShouldReduceDamageToPreservePart(BodyPartRecord bodyPart)

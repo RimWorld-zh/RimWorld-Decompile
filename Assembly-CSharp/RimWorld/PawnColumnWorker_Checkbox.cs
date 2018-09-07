@@ -16,30 +16,31 @@ namespace RimWorld
 
 		public override void DoCell(Rect rect, Pawn pawn, PawnTable table)
 		{
-			if (this.HasCheckbox(pawn))
+			if (!this.HasCheckbox(pawn))
 			{
-				int num = (int)((rect.width - 24f) / 2f);
-				int num2 = Mathf.Max(3, 0);
-				Vector2 vector = new Vector2(rect.x + (float)num, rect.y + (float)num2);
-				Rect rect2 = new Rect(vector.x, vector.y, 24f, 24f);
-				bool value = this.GetValue(pawn);
-				bool flag = value;
-				Vector2 topLeft = vector;
-				ref bool checkOn = ref value;
-				bool paintable = this.def.paintable;
-				Widgets.Checkbox(topLeft, ref checkOn, 24f, false, paintable, null, null);
-				if (Mouse.IsOver(rect2))
+				return;
+			}
+			int num = (int)((rect.width - 24f) / 2f);
+			int num2 = Mathf.Max(3, 0);
+			Vector2 vector = new Vector2(rect.x + (float)num, rect.y + (float)num2);
+			Rect rect2 = new Rect(vector.x, vector.y, 24f, 24f);
+			bool value = this.GetValue(pawn);
+			bool flag = value;
+			Vector2 topLeft = vector;
+			ref bool checkOn = ref value;
+			bool paintable = this.def.paintable;
+			Widgets.Checkbox(topLeft, ref checkOn, 24f, false, paintable, null, null);
+			if (Mouse.IsOver(rect2))
+			{
+				string tip = this.GetTip(pawn);
+				if (!tip.NullOrEmpty())
 				{
-					string tip = this.GetTip(pawn);
-					if (!tip.NullOrEmpty())
-					{
-						TooltipHandler.TipRegion(rect2, tip);
-					}
+					TooltipHandler.TipRegion(rect2, tip);
 				}
-				if (value != flag)
-				{
-					this.SetValue(pawn, value);
-				}
+			}
+			if (value != flag)
+			{
+				this.SetValue(pawn, value);
 			}
 		}
 
@@ -65,20 +66,15 @@ namespace RimWorld
 
 		private int GetValueToCompare(Pawn pawn)
 		{
-			int result;
 			if (!this.HasCheckbox(pawn))
 			{
-				result = 0;
+				return 0;
 			}
-			else if (!this.GetValue(pawn))
+			if (!this.GetValue(pawn))
 			{
-				result = 1;
+				return 1;
 			}
-			else
-			{
-				result = 2;
-			}
-			return result;
+			return 2;
 		}
 
 		protected virtual string GetTip(Pawn pawn)
@@ -112,12 +108,9 @@ namespace RimWorld
 								this.SetValue(pawnsListForReading[i], true);
 							}
 						}
-						else if (Event.current.button == 1)
+						else if (Event.current.button == 1 && this.GetValue(pawnsListForReading[i]))
 						{
-							if (this.GetValue(pawnsListForReading[i]))
-							{
-								this.SetValue(pawnsListForReading[i], false);
-							}
+							this.SetValue(pawnsListForReading[i], false);
 						}
 					}
 				}

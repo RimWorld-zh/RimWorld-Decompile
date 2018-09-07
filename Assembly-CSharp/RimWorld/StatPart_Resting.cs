@@ -39,16 +39,11 @@ namespace RimWorld
 
 		private float RestingMultiplier(Pawn pawn)
 		{
-			float result;
 			if (pawn.InBed() || (pawn.GetPosture() != PawnPosture.Standing && !pawn.Downed) || (pawn.IsCaravanMember() && !pawn.GetCaravan().pather.MovingNow) || pawn.InCaravanBed() || pawn.CarriedByCaravan())
 			{
-				result = this.factor;
+				return this.factor;
 			}
-			else
-			{
-				result = 1f;
-			}
-			return result;
+			return 1f;
 		}
 	}
 }

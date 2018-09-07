@@ -25,16 +25,11 @@ namespace Verse
 		{
 			get
 			{
-				int result;
 				if (this.entries.Count == 0)
 				{
-					result = 0;
+					return 0;
 				}
-				else
-				{
-					result = this.entries[0].Tick;
-				}
-				return result;
+				return this.entries[0].Tick;
 			}
 		}
 

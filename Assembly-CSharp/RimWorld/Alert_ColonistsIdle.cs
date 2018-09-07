@@ -57,16 +57,11 @@ namespace RimWorld
 
 		public override AlertReport GetReport()
 		{
-			AlertReport result;
 			if (GenDate.DaysPassed < 1)
 			{
-				result = false;
+				return false;
 			}
-			else
-			{
-				result = AlertReport.CulpritsAre(this.IdleColonists);
-			}
-			return result;
+			return AlertReport.CulpritsAre(this.IdleColonists);
 		}
 
 		[CompilerGenerated]
@@ -101,18 +96,15 @@ namespace RimWorld
 				case 0u:
 					maps = Find.Maps;
 					i = 0;
-					goto IL_11D;
+					goto IL_115;
 				case 1u:
 					Block_3:
 					try
 					{
 						switch (num)
 						{
-						case 1u:
-							IL_DC:
-							break;
 						}
-						if (enumerator.MoveNext())
+						while (enumerator.MoveNext())
 						{
 							p = enumerator.Current;
 							if (p.mindState.IsIdle)
@@ -125,7 +117,6 @@ namespace RimWorld
 								flag = true;
 								return true;
 							}
-							goto IL_DC;
 						}
 					}
 					finally
@@ -142,9 +133,9 @@ namespace RimWorld
 				default:
 					return false;
 				}
-				IL_10E:
+				IL_107:
 				i++;
-				IL_11D:
+				IL_115:
 				if (i >= maps.Count)
 				{
 					this.$PC = -1;
@@ -157,7 +148,7 @@ namespace RimWorld
 						num = 4294967293u;
 						goto Block_3;
 					}
-					goto IL_10E;
+					goto IL_107;
 				}
 				return false;
 			}

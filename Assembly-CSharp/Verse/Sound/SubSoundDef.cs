@@ -13,15 +13,16 @@ namespace Verse.Sound
 	{
 		[DefaultValue("UnnamedSubSoundDef")]
 		[Description("A name to help you identify the sound.")]
+		[MayTranslate]
 		public string name = "UnnamedSubSoundDef";
 
 		[DefaultValue(false)]
 		[Description("Whether this sound plays on the camera or in the world.\n\nThis must match what the game expects from the sound Def with this name.")]
-		public bool onCamera = false;
+		public bool onCamera;
 
 		[DefaultValue(false)]
 		[Description("Whether to mute this subSound while the game is paused (either by the pausing in play or by opening a menu)")]
-		public bool muteWhenPaused = false;
+		public bool muteWhenPaused;
 
 		[DefaultValue(false)]
 		[Description("Whether this subSound's tempo should be affected by the current tick rate.")]
@@ -79,7 +80,7 @@ namespace Verse.Sound
 		[DefaultValue(0f)]
 		[Description("The fade-in time of each sample. The sample will start at 0 volume and fade in over this number of seconds.")]
 		[EditSliderRange(0f, 2f)]
-		public float sustainAttack = 0f;
+		public float sustainAttack;
 
 		[DefaultValue(true)]
 		[Description("Skip the attack on the first sustainer sample.")]
@@ -88,7 +89,7 @@ namespace Verse.Sound
 		[DefaultValue(0f)]
 		[Description("The fade-out time of each sample. At this number of seconds before the sample ends, it will start fading out. Its volume will be zero at the moment it finishes fading out.")]
 		[EditSliderRange(0f, 2f)]
-		public float sustainRelease = 0f;
+		public float sustainRelease;
 
 		[Unsaved]
 		public SoundDef parentDef;
@@ -97,13 +98,13 @@ namespace Verse.Sound
 		private List<ResolvedGrain> resolvedGrains = new List<ResolvedGrain>();
 
 		[Unsaved]
-		private ResolvedGrain lastPlayedResolvedGrain = null;
+		private ResolvedGrain lastPlayedResolvedGrain;
 
 		[Unsaved]
-		private int numToAvoid = 0;
+		private int numToAvoid;
 
 		[Unsaved]
-		private int distinctResolvedGrainsCount = 0;
+		private int distinctResolvedGrainsCount;
 
 		[Unsaved]
 		private Queue<ResolvedGrain> recentlyPlayedResolvedGrains = new Queue<ResolvedGrain>();
@@ -124,36 +125,38 @@ namespace Verse.Sound
 					this,
 					"_: No resolved grains."
 				}), false);
+				return;
 			}
-			else if (Find.SoundRoot.oneShotManager.CanAddPlayingOneShot(this.parentDef, info))
+			if (!Find.SoundRoot.oneShotManager.CanAddPlayingOneShot(this.parentDef, info))
 			{
-				ResolvedGrain resolvedGrain = this.RandomizedResolvedGrain();
-				ResolvedGrain_Clip resolvedGrain_Clip = resolvedGrain as ResolvedGrain_Clip;
-				if (resolvedGrain_Clip != null)
+				return;
+			}
+			ResolvedGrain resolvedGrain = this.RandomizedResolvedGrain();
+			ResolvedGrain_Clip resolvedGrain_Clip = resolvedGrain as ResolvedGrain_Clip;
+			if (resolvedGrain_Clip != null)
+			{
+				if (SampleOneShot.TryMakeAndPlay(this, resolvedGrain_Clip.clip, info) == null)
 				{
-					if (SampleOneShot.TryMakeAndPlay(this, resolvedGrain_Clip.clip, info) == null)
-					{
-						return;
-					}
-					SoundSlotManager.Notify_Played(this.parentDef.slot, resolvedGrain_Clip.clip.length);
+					return;
 				}
-				if (this.distinctResolvedGrainsCount > 1)
+				SoundSlotManager.Notify_Played(this.parentDef.slot, resolvedGrain_Clip.clip.length);
+			}
+			if (this.distinctResolvedGrainsCount > 1)
+			{
+				if (this.repeatMode == RepeatSelectMode.NeverLastHalf)
 				{
-					if (this.repeatMode == RepeatSelectMode.NeverLastHalf)
+					while (this.recentlyPlayedResolvedGrains.Count >= this.numToAvoid)
 					{
-						while (this.recentlyPlayedResolvedGrains.Count >= this.numToAvoid)
-						{
-							this.recentlyPlayedResolvedGrains.Dequeue();
-						}
-						if (this.recentlyPlayedResolvedGrains.Count < this.numToAvoid)
-						{
-							this.recentlyPlayedResolvedGrains.Enqueue(resolvedGrain);
-						}
+						this.recentlyPlayedResolvedGrains.Dequeue();
 					}
-					else if (this.repeatMode == RepeatSelectMode.NeverTwice)
+					if (this.recentlyPlayedResolvedGrains.Count < this.numToAvoid)
 					{
-						this.lastPlayedResolvedGrain = resolvedGrain;
+						this.recentlyPlayedResolvedGrains.Enqueue(resolvedGrain);
 					}
+				}
+				else if (this.repeatMode == RepeatSelectMode.NeverTwice)
+				{
+					this.lastPlayedResolvedGrain = resolvedGrain;
 				}
 			}
 		}
@@ -177,16 +180,9 @@ namespace Verse.Sound
 						break;
 					}
 				}
-				else
+				else if (this.repeatMode != RepeatSelectMode.NeverTwice || !chosenGrain.Equals(this.lastPlayedResolvedGrain))
 				{
-					if (this.repeatMode != RepeatSelectMode.NeverTwice)
-					{
-						break;
-					}
-					if (!chosenGrain.Equals(this.lastPlayedResolvedGrain))
-					{
-						break;
-					}
+					break;
 				}
 			}
 			return chosenGrain;
@@ -243,14 +239,11 @@ namespace Verse.Sound
 				if (mapping.outParam != null)
 				{
 					Type neededFilter = mapping.outParam.NeededFilterType;
-					if (neededFilter != null)
+					if (neededFilter != null && !(from fil in this.filters
+					where fil.GetType() == neededFilter
+					select fil).Any<SoundFilter>())
 					{
-						if (!(from fil in this.filters
-						where fil.GetType() == neededFilter
-						select fil).Any<SoundFilter>())
-						{
-							yield return "A parameter wants to modify the " + neededFilter.ToString() + " filter, but this sound doesn't have it.";
-						}
+						yield return "A parameter wants to modify the " + neededFilter.ToString() + " filter, but this sound doesn't have it.";
 					}
 				}
 			}
@@ -339,12 +332,12 @@ namespace Verse.Sound
 				case 1u:
 					break;
 				case 2u:
-					goto IL_B3;
+					goto IL_B2;
 				case 3u:
-					goto IL_F7;
+					goto IL_F6;
 				case 4u:
 				case 5u:
-					goto IL_111;
+					goto IL_10F;
 				default:
 					return false;
 				}
@@ -357,7 +350,7 @@ namespace Verse.Sound
 					}
 					return true;
 				}
-				IL_B3:
+				IL_B2:
 				if (this.distRange.min > this.distRange.max)
 				{
 					this.$current = "Dist range min/max are reversed.";
@@ -367,23 +360,18 @@ namespace Verse.Sound
 					}
 					return true;
 				}
-				IL_F7:
+				IL_F6:
 				enumerator = this.paramMappings.GetEnumerator();
 				num = 4294967293u;
 				try
 				{
-					IL_111:
+					IL_10F:
 					switch (num)
 					{
 					case 4u:
-						goto IL_24C;
-					case 5u:
-						IL_239:
-						break;
+						goto IL_243;
 					}
-					IL_23A:
-					IL_23B:
-					if (enumerator.MoveNext())
+					while (enumerator.MoveNext())
 					{
 						mapping = enumerator.Current;
 						if (mapping.inParam == null || mapping.outParam == null)
@@ -396,30 +384,24 @@ namespace Verse.Sound
 							flag = true;
 							return true;
 						}
-						if (mapping.outParam == null)
+						if (mapping.outParam != null)
 						{
-							goto IL_23B;
-						}
-						Type neededFilter = mapping.outParam.NeededFilterType;
-						if (neededFilter == null)
-						{
-							goto IL_23A;
-						}
-						if (!(from fil in this.filters
-						where fil.GetType() == neededFilter
-						select fil).Any<SoundFilter>())
-						{
-							this.$current = "A parameter wants to modify the " + neededFilter.ToString() + " filter, but this sound doesn't have it.";
-							if (!this.$disposing)
+							Type neededFilter = mapping.outParam.NeededFilterType;
+							if (neededFilter != null && !(from fil in this.filters
+							where fil.GetType() == neededFilter
+							select fil).Any<SoundFilter>())
 							{
-								this.$PC = 5;
+								this.$current = "A parameter wants to modify the " + neededFilter.ToString() + " filter, but this sound doesn't have it.";
+								if (!this.$disposing)
+								{
+									this.$PC = 5;
+								}
+								flag = true;
+								return true;
 							}
-							flag = true;
-							return true;
 						}
-						goto IL_239;
 					}
-					IL_24C:;
+					IL_243:;
 				}
 				finally
 				{

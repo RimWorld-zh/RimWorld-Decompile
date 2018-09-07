@@ -14,12 +14,9 @@ namespace Verse
 	{
 		public static IEnumerable<StatDrawEntry> SpecialDisplayStats(HediffStage stage, Hediff instance)
 		{
-			if (instance != null)
+			if (instance != null && instance.Bleeding)
 			{
-				if (instance.Bleeding)
-				{
-					yield return new StatDrawEntry(StatCategoryDefOf.Basics, "BleedingRate".Translate(), instance.BleedRate.ToStringPercent() + "/" + "LetterDay".Translate(), 0, "");
-				}
+				yield return new StatDrawEntry(StatCategoryDefOf.Basics, "BleedingRate".Translate(), instance.BleedRate.ToStringPercent() + "/" + "LetterDay".Translate(), 0, string.Empty);
 			}
 			float painOffsetToDisplay = 0f;
 			if (instance != null)
@@ -40,7 +37,7 @@ namespace Verse
 				{
 					painOffsetToDisplay = -0.01f;
 				}
-				yield return new StatDrawEntry(StatCategoryDefOf.Basics, "Pain".Translate(), (painOffsetToDisplay * 100f).ToString("+###0;-###0") + "%", 0, "");
+				yield return new StatDrawEntry(StatCategoryDefOf.Basics, "Pain".Translate(), (painOffsetToDisplay * 100f).ToString("+###0;-###0") + "%", 0, string.Empty);
 			}
 			float painFactorToDisplay = 1f;
 			if (instance != null)
@@ -53,14 +50,11 @@ namespace Verse
 			}
 			if (painFactorToDisplay != 1f)
 			{
-				yield return new StatDrawEntry(StatCategoryDefOf.Basics, "Pain".Translate(), "x" + painFactorToDisplay.ToStringPercent(), 0, "");
+				yield return new StatDrawEntry(StatCategoryDefOf.Basics, "Pain".Translate(), "x" + painFactorToDisplay.ToStringPercent(), 0, string.Empty);
 			}
-			if (stage != null)
+			if (stage != null && stage.partEfficiencyOffset != 0f)
 			{
-				if (stage.partEfficiencyOffset != 0f)
-				{
-					yield return new StatDrawEntry(StatCategoryDefOf.Basics, "PartEfficiency".Translate(), stage.partEfficiencyOffset.ToStringByStyle(ToStringStyle.PercentZero, ToStringNumberSense.Offset), 0, "");
-				}
+				yield return new StatDrawEntry(StatCategoryDefOf.Basics, "PartEfficiency".Translate(), stage.partEfficiencyOffset.ToStringByStyle(ToStringStyle.PercentZero, ToStringNumberSense.Offset), 0, string.Empty);
 			}
 			List<PawnCapacityModifier> capModsToDisplay = null;
 			if (instance != null)
@@ -77,15 +71,15 @@ namespace Verse
 				{
 					if (capModsToDisplay[i].offset != 0f)
 					{
-						yield return new StatDrawEntry(StatCategoryDefOf.Basics, capModsToDisplay[i].capacity.GetLabelFor(true, true).CapitalizeFirst(), (capModsToDisplay[i].offset * 100f).ToString("+#;-#") + "%", 0, "");
+						yield return new StatDrawEntry(StatCategoryDefOf.Basics, capModsToDisplay[i].capacity.GetLabelFor(true, true).CapitalizeFirst(), (capModsToDisplay[i].offset * 100f).ToString("+#;-#") + "%", 0, string.Empty);
 					}
 					if (capModsToDisplay[i].postFactor != 1f)
 					{
-						yield return new StatDrawEntry(StatCategoryDefOf.Basics, capModsToDisplay[i].capacity.GetLabelFor(true, true).CapitalizeFirst(), "x" + capModsToDisplay[i].postFactor.ToStringPercent(), 0, "");
+						yield return new StatDrawEntry(StatCategoryDefOf.Basics, capModsToDisplay[i].capacity.GetLabelFor(true, true).CapitalizeFirst(), "x" + capModsToDisplay[i].postFactor.ToStringPercent(), 0, string.Empty);
 					}
 					if (capModsToDisplay[i].SetMaxDefined)
 					{
-						yield return new StatDrawEntry(StatCategoryDefOf.Basics, capModsToDisplay[i].capacity.GetLabelFor(true, true).CapitalizeFirst(), "max".Translate() + " " + capModsToDisplay[i].setMax.ToStringPercent(), 0, "");
+						yield return new StatDrawEntry(StatCategoryDefOf.Basics, capModsToDisplay[i].capacity.GetLabelFor(true, true).CapitalizeFirst(), "max".Translate() + " " + capModsToDisplay[i].setMax.ToStringPercent(), 0, string.Empty);
 					}
 				}
 			}
@@ -110,35 +104,35 @@ namespace Verse
 						}
 						affectsSb.Append("SocialInteractionsLower".Translate());
 					}
-					yield return new StatDrawEntry(StatCategoryDefOf.Basics, "Affects".Translate(), affectsSb.ToString(), 0, "");
+					yield return new StatDrawEntry(StatCategoryDefOf.Basics, "Affects".Translate(), affectsSb.ToString(), 0, string.Empty);
 				}
 				if (stage.hungerRateFactor != 1f)
 				{
-					yield return new StatDrawEntry(StatCategoryDefOf.Basics, "HungerRate".Translate(), "x" + stage.hungerRateFactor.ToStringPercent(), 0, "");
+					yield return new StatDrawEntry(StatCategoryDefOf.Basics, "HungerRate".Translate(), "x" + stage.hungerRateFactor.ToStringPercent(), 0, string.Empty);
 				}
 				if (stage.hungerRateFactorOffset != 0f)
 				{
-					yield return new StatDrawEntry(StatCategoryDefOf.Basics, "HungerRate".Translate(), stage.hungerRateFactorOffset.ToStringSign() + stage.hungerRateFactorOffset.ToStringPercent(), 0, "");
+					yield return new StatDrawEntry(StatCategoryDefOf.Basics, "HungerRate".Translate(), stage.hungerRateFactorOffset.ToStringSign() + stage.hungerRateFactorOffset.ToStringPercent(), 0, string.Empty);
 				}
 				if (stage.restFallFactor != 1f)
 				{
-					yield return new StatDrawEntry(StatCategoryDefOf.Basics, "Tiredness".Translate(), "x" + stage.restFallFactor.ToStringPercent(), 0, "");
+					yield return new StatDrawEntry(StatCategoryDefOf.Basics, "Tiredness".Translate(), "x" + stage.restFallFactor.ToStringPercent(), 0, string.Empty);
 				}
 				if (stage.restFallFactorOffset != 0f)
 				{
-					yield return new StatDrawEntry(StatCategoryDefOf.Basics, "Tiredness".Translate(), stage.restFallFactorOffset.ToStringSign() + stage.restFallFactorOffset.ToStringPercent(), 0, "");
+					yield return new StatDrawEntry(StatCategoryDefOf.Basics, "Tiredness".Translate(), stage.restFallFactorOffset.ToStringSign() + stage.restFallFactorOffset.ToStringPercent(), 0, string.Empty);
 				}
 				if (stage.makeImmuneTo != null)
 				{
 					yield return new StatDrawEntry(StatCategoryDefOf.Basics, "PreventsInfection".Translate(), (from im in stage.makeImmuneTo
-					select im.label).ToCommaList(false).CapitalizeFirst(), 0, "");
+					select im.label).ToCommaList(false).CapitalizeFirst(), 0, string.Empty);
 				}
 				if (stage.statOffsets != null)
 				{
 					for (int j = 0; j < stage.statOffsets.Count; j++)
 					{
 						StatModifier sm = stage.statOffsets[j];
-						yield return new StatDrawEntry(StatCategoryDefOf.Basics, sm.stat.LabelCap, sm.ValueToStringAsOffset, 0, "");
+						yield return new StatDrawEntry(StatCategoryDefOf.Basics, sm.stat.LabelCap, sm.ValueToStringAsOffset, 0, string.Empty);
 					}
 				}
 			}
@@ -186,48 +180,65 @@ namespace Verse
 				switch (num)
 				{
 				case 0u:
-					if (instance != null)
+					if (instance != null && instance.Bleeding)
 					{
-						if (instance.Bleeding)
+						this.$current = new StatDrawEntry(StatCategoryDefOf.Basics, "BleedingRate".Translate(), instance.BleedRate.ToStringPercent() + "/" + "LetterDay".Translate(), 0, string.Empty);
+						if (!this.$disposing)
 						{
-							this.$current = new StatDrawEntry(StatCategoryDefOf.Basics, "BleedingRate".Translate(), instance.BleedRate.ToStringPercent() + "/" + "LetterDay".Translate(), 0, "");
-							if (!this.$disposing)
-							{
-								this.$PC = 1;
-							}
-							return true;
+							this.$PC = 1;
 						}
+						return true;
 					}
 					break;
 				case 1u:
 					break;
 				case 2u:
-					goto IL_1D5;
+					goto IL_1CD;
 				case 3u:
-					goto IL_27A;
+					goto IL_26E;
 				case 4u:
-					goto IL_2E4;
+					goto IL_2D4;
 				case 5u:
-					goto IL_3E4;
+					IL_3CE:
+					if (capModsToDisplay[i].postFactor != 1f)
+					{
+						this.$current = new StatDrawEntry(StatCategoryDefOf.Basics, capModsToDisplay[i].capacity.GetLabelFor(true, true).CapitalizeFirst(), "x" + capModsToDisplay[i].postFactor.ToStringPercent(), 0, string.Empty);
+						if (!this.$disposing)
+						{
+							this.$PC = 6;
+						}
+						return true;
+					}
+					goto IL_45F;
 				case 6u:
-					goto IL_477;
+					goto IL_45F;
 				case 7u:
-					goto IL_50F;
+					goto IL_4F5;
 				case 8u:
-					goto IL_641;
+					IL_61C:
+					if (stage.hungerRateFactor != 1f)
+					{
+						this.$current = new StatDrawEntry(StatCategoryDefOf.Basics, "HungerRate".Translate(), "x" + stage.hungerRateFactor.ToStringPercent(), 0, string.Empty);
+						if (!this.$disposing)
+						{
+							this.$PC = 9;
+						}
+						return true;
+					}
+					goto IL_680;
 				case 9u:
-					goto IL_6A8;
+					goto IL_680;
 				case 10u:
-					goto IL_719;
+					goto IL_6EF;
 				case 11u:
-					goto IL_77F;
+					goto IL_753;
 				case 12u:
-					goto IL_7F0;
+					goto IL_7C2;
 				case 13u:
-					goto IL_86F;
+					goto IL_83F;
 				case 14u:
 					j++;
-					goto IL_8FE;
+					goto IL_8CB;
 				default:
 					return false;
 				}
@@ -250,14 +261,14 @@ namespace Verse
 					{
 						painOffsetToDisplay = -0.01f;
 					}
-					this.$current = new StatDrawEntry(StatCategoryDefOf.Basics, "Pain".Translate(), (painOffsetToDisplay * 100f).ToString("+###0;-###0") + "%", 0, "");
+					this.$current = new StatDrawEntry(StatCategoryDefOf.Basics, "Pain".Translate(), (painOffsetToDisplay * 100f).ToString("+###0;-###0") + "%", 0, string.Empty);
 					if (!this.$disposing)
 					{
 						this.$PC = 2;
 					}
 					return true;
 				}
-				IL_1D5:
+				IL_1CD:
 				painFactorToDisplay = 1f;
 				if (instance != null)
 				{
@@ -269,27 +280,24 @@ namespace Verse
 				}
 				if (painFactorToDisplay != 1f)
 				{
-					this.$current = new StatDrawEntry(StatCategoryDefOf.Basics, "Pain".Translate(), "x" + painFactorToDisplay.ToStringPercent(), 0, "");
+					this.$current = new StatDrawEntry(StatCategoryDefOf.Basics, "Pain".Translate(), "x" + painFactorToDisplay.ToStringPercent(), 0, string.Empty);
 					if (!this.$disposing)
 					{
 						this.$PC = 3;
 					}
 					return true;
 				}
-				IL_27A:
-				if (stage != null)
+				IL_26E:
+				if (stage != null && stage.partEfficiencyOffset != 0f)
 				{
-					if (stage.partEfficiencyOffset != 0f)
+					this.$current = new StatDrawEntry(StatCategoryDefOf.Basics, "PartEfficiency".Translate(), stage.partEfficiencyOffset.ToStringByStyle(ToStringStyle.PercentZero, ToStringNumberSense.Offset), 0, string.Empty);
+					if (!this.$disposing)
 					{
-						this.$current = new StatDrawEntry(StatCategoryDefOf.Basics, "PartEfficiency".Translate(), stage.partEfficiencyOffset.ToStringByStyle(ToStringStyle.PercentZero, ToStringNumberSense.Offset), 0, "");
-						if (!this.$disposing)
-						{
-							this.$PC = 4;
-						}
-						return true;
+						this.$PC = 4;
 					}
+					return true;
 				}
-				IL_2E4:
+				IL_2D4:
 				capModsToDisplay = null;
 				if (instance != null)
 				{
@@ -302,49 +310,39 @@ namespace Verse
 				if (capModsToDisplay != null)
 				{
 					i = 0;
-					goto IL_51E;
+					goto IL_503;
 				}
-				goto IL_535;
-				IL_3E4:
-				if (capModsToDisplay[i].postFactor != 1f)
-				{
-					this.$current = new StatDrawEntry(StatCategoryDefOf.Basics, capModsToDisplay[i].capacity.GetLabelFor(true, true).CapitalizeFirst(), "x" + capModsToDisplay[i].postFactor.ToStringPercent(), 0, "");
-					if (!this.$disposing)
-					{
-						this.$PC = 6;
-					}
-					return true;
-				}
-				IL_477:
+				goto IL_519;
+				IL_45F:
 				if (capModsToDisplay[i].SetMaxDefined)
 				{
-					this.$current = new StatDrawEntry(StatCategoryDefOf.Basics, capModsToDisplay[i].capacity.GetLabelFor(true, true).CapitalizeFirst(), "max".Translate() + " " + capModsToDisplay[i].setMax.ToStringPercent(), 0, "");
+					this.$current = new StatDrawEntry(StatCategoryDefOf.Basics, capModsToDisplay[i].capacity.GetLabelFor(true, true).CapitalizeFirst(), "max".Translate() + " " + capModsToDisplay[i].setMax.ToStringPercent(), 0, string.Empty);
 					if (!this.$disposing)
 					{
 						this.$PC = 7;
 					}
 					return true;
 				}
-				IL_50F:
+				IL_4F5:
 				i++;
-				IL_51E:
+				IL_503:
 				if (i < capModsToDisplay.Count)
 				{
 					if (capModsToDisplay[i].offset != 0f)
 					{
-						this.$current = new StatDrawEntry(StatCategoryDefOf.Basics, capModsToDisplay[i].capacity.GetLabelFor(true, true).CapitalizeFirst(), (capModsToDisplay[i].offset * 100f).ToString("+#;-#") + "%", 0, "");
+						this.$current = new StatDrawEntry(StatCategoryDefOf.Basics, capModsToDisplay[i].capacity.GetLabelFor(true, true).CapitalizeFirst(), (capModsToDisplay[i].offset * 100f).ToString("+#;-#") + "%", 0, string.Empty);
 						if (!this.$disposing)
 						{
 							this.$PC = 5;
 						}
 						return true;
 					}
-					goto IL_3E4;
+					goto IL_3CE;
 				}
-				IL_535:
+				IL_519:
 				if (stage == null)
 				{
-					goto IL_91B;
+					goto IL_8E6;
 				}
 				if (stage.AffectsMemory || stage.AffectsSocialInteractions)
 				{
@@ -365,83 +363,73 @@ namespace Verse
 						}
 						affectsSb.Append("SocialInteractionsLower".Translate());
 					}
-					this.$current = new StatDrawEntry(StatCategoryDefOf.Basics, "Affects".Translate(), affectsSb.ToString(), 0, "");
+					this.$current = new StatDrawEntry(StatCategoryDefOf.Basics, "Affects".Translate(), affectsSb.ToString(), 0, string.Empty);
 					if (!this.$disposing)
 					{
 						this.$PC = 8;
 					}
 					return true;
 				}
-				IL_641:
-				if (stage.hungerRateFactor != 1f)
-				{
-					this.$current = new StatDrawEntry(StatCategoryDefOf.Basics, "HungerRate".Translate(), "x" + stage.hungerRateFactor.ToStringPercent(), 0, "");
-					if (!this.$disposing)
-					{
-						this.$PC = 9;
-					}
-					return true;
-				}
-				IL_6A8:
+				goto IL_61C;
+				IL_680:
 				if (stage.hungerRateFactorOffset != 0f)
 				{
-					this.$current = new StatDrawEntry(StatCategoryDefOf.Basics, "HungerRate".Translate(), stage.hungerRateFactorOffset.ToStringSign() + stage.hungerRateFactorOffset.ToStringPercent(), 0, "");
+					this.$current = new StatDrawEntry(StatCategoryDefOf.Basics, "HungerRate".Translate(), stage.hungerRateFactorOffset.ToStringSign() + stage.hungerRateFactorOffset.ToStringPercent(), 0, string.Empty);
 					if (!this.$disposing)
 					{
 						this.$PC = 10;
 					}
 					return true;
 				}
-				IL_719:
+				IL_6EF:
 				if (stage.restFallFactor != 1f)
 				{
-					this.$current = new StatDrawEntry(StatCategoryDefOf.Basics, "Tiredness".Translate(), "x" + stage.restFallFactor.ToStringPercent(), 0, "");
+					this.$current = new StatDrawEntry(StatCategoryDefOf.Basics, "Tiredness".Translate(), "x" + stage.restFallFactor.ToStringPercent(), 0, string.Empty);
 					if (!this.$disposing)
 					{
 						this.$PC = 11;
 					}
 					return true;
 				}
-				IL_77F:
+				IL_753:
 				if (stage.restFallFactorOffset != 0f)
 				{
-					this.$current = new StatDrawEntry(StatCategoryDefOf.Basics, "Tiredness".Translate(), stage.restFallFactorOffset.ToStringSign() + stage.restFallFactorOffset.ToStringPercent(), 0, "");
+					this.$current = new StatDrawEntry(StatCategoryDefOf.Basics, "Tiredness".Translate(), stage.restFallFactorOffset.ToStringSign() + stage.restFallFactorOffset.ToStringPercent(), 0, string.Empty);
 					if (!this.$disposing)
 					{
 						this.$PC = 12;
 					}
 					return true;
 				}
-				IL_7F0:
+				IL_7C2:
 				if (stage.makeImmuneTo != null)
 				{
 					this.$current = new StatDrawEntry(StatCategoryDefOf.Basics, "PreventsInfection".Translate(), (from im in stage.makeImmuneTo
-					select im.label).ToCommaList(false).CapitalizeFirst(), 0, "");
+					select im.label).ToCommaList(false).CapitalizeFirst(), 0, string.Empty);
 					if (!this.$disposing)
 					{
 						this.$PC = 13;
 					}
 					return true;
 				}
-				IL_86F:
+				IL_83F:
 				if (stage.statOffsets == null)
 				{
-					goto IL_91A;
+					goto IL_8E6;
 				}
 				j = 0;
-				IL_8FE:
+				IL_8CB:
 				if (j < stage.statOffsets.Count)
 				{
 					sm = stage.statOffsets[j];
-					this.$current = new StatDrawEntry(StatCategoryDefOf.Basics, sm.stat.LabelCap, sm.ValueToStringAsOffset, 0, "");
+					this.$current = new StatDrawEntry(StatCategoryDefOf.Basics, sm.stat.LabelCap, sm.ValueToStringAsOffset, 0, string.Empty);
 					if (!this.$disposing)
 					{
 						this.$PC = 14;
 					}
 					return true;
 				}
-				IL_91A:
-				IL_91B:
+				IL_8E6:
 				this.$PC = -1;
 				return false;
 			}

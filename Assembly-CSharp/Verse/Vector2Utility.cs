@@ -49,44 +49,39 @@ namespace Verse
 
 		public static float DistanceToRect(this Vector2 u, Rect rect)
 		{
-			float result;
 			if (rect.Contains(u))
 			{
-				result = 0f;
+				return 0f;
 			}
-			else if (u.x < rect.xMin && u.y < rect.yMin)
+			if (u.x < rect.xMin && u.y < rect.yMin)
 			{
-				result = Vector2.Distance(u, new Vector2(rect.xMin, rect.yMin));
+				return Vector2.Distance(u, new Vector2(rect.xMin, rect.yMin));
 			}
-			else if (u.x > rect.xMax && u.y < rect.yMin)
+			if (u.x > rect.xMax && u.y < rect.yMin)
 			{
-				result = Vector2.Distance(u, new Vector2(rect.xMax, rect.yMin));
+				return Vector2.Distance(u, new Vector2(rect.xMax, rect.yMin));
 			}
-			else if (u.x < rect.xMin && u.y > rect.yMax)
+			if (u.x < rect.xMin && u.y > rect.yMax)
 			{
-				result = Vector2.Distance(u, new Vector2(rect.xMin, rect.yMax));
+				return Vector2.Distance(u, new Vector2(rect.xMin, rect.yMax));
 			}
-			else if (u.x > rect.xMax && u.y > rect.yMax)
+			if (u.x > rect.xMax && u.y > rect.yMax)
 			{
-				result = Vector2.Distance(u, new Vector2(rect.xMax, rect.yMax));
+				return Vector2.Distance(u, new Vector2(rect.xMax, rect.yMax));
 			}
-			else if (u.x < rect.xMin)
+			if (u.x < rect.xMin)
 			{
-				result = rect.xMin - u.x;
+				return rect.xMin - u.x;
 			}
-			else if (u.x > rect.xMax)
+			if (u.x > rect.xMax)
 			{
-				result = u.x - rect.xMax;
+				return u.x - rect.xMax;
 			}
-			else if (u.y < rect.yMin)
+			if (u.y < rect.yMin)
 			{
-				result = rect.yMin - u.y;
+				return rect.yMin - u.y;
 			}
-			else
-			{
-				result = u.y - rect.yMax;
-			}
-			return result;
+			return u.y - rect.yMax;
 		}
 	}
 }

@@ -36,9 +36,12 @@ namespace RimWorld
 			Scribe_Values.Look<int>(ref this.unequipBuffer, "unequipBuffer", 0, false);
 		}
 
-		public override bool TryMakePreToilReservations()
+		public override bool TryMakePreToilReservations(bool errorOnFailed)
 		{
-			return this.pawn.Reserve(this.Apparel, this.job, 1, -1, null);
+			Pawn pawn = this.pawn;
+			LocalTargetInfo target = this.Apparel;
+			Job job = this.job;
+			return pawn.Reserve(target, job, 1, -1, null, errorOnFailed);
 		}
 
 		public override void Notify_Starting()
@@ -99,6 +102,7 @@ namespace RimWorld
 						{
 							Log.Error(this.pawn + " could not drop " + wornApparel[i].ToStringSafe<Apparel>(), false);
 							base.EndJobWith(JobCondition.Errored);
+							return;
 						}
 					}
 					break;

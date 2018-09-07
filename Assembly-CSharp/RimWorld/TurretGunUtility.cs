@@ -14,27 +14,19 @@ namespace RimWorld
 
 		public static ThingDef TryFindRandomShellDef(ThingDef turret, bool allowEMP = true, bool mustHarmHealth = true, TechLevel techLevel = TechLevel.Undefined, bool allowAntigrainWarhead = false, float maxMarketValue = -1f)
 		{
-			ThingDef result;
 			if (!TurretGunUtility.NeedsShells(turret))
 			{
-				result = null;
+				return null;
 			}
-			else
+			ThingFilter fixedFilter = turret.building.turretGunDef.building.fixedStorageSettings.filter;
+			ThingDef result;
+			if ((from x in DefDatabase<ThingDef>.AllDefsListForReading
+			where fixedFilter.Allows(x) && (allowEMP || x.projectileWhenLoaded.projectile.damageDef != DamageDefOf.EMP) && (!mustHarmHealth || x.projectileWhenLoaded.projectile.damageDef.harmsHealth) && (techLevel == TechLevel.Undefined || x.techLevel <= techLevel) && (allowAntigrainWarhead || x != ThingDefOf.Shell_AntigrainWarhead) && (maxMarketValue < 0f || x.BaseMarketValue <= maxMarketValue)
+			select x).TryRandomElement(out result))
 			{
-				ThingFilter fixedFilter = turret.building.turretGunDef.building.fixedStorageSettings.filter;
-				ThingDef thingDef;
-				if ((from x in DefDatabase<ThingDef>.AllDefsListForReading
-				where fixedFilter.Allows(x) && (allowEMP || x.projectileWhenLoaded.projectile.damageDef != DamageDefOf.EMP) && (!mustHarmHealth || x.projectileWhenLoaded.projectile.damageDef.harmsHealth) && (techLevel == TechLevel.Undefined || x.techLevel <= techLevel) && (allowAntigrainWarhead || x != ThingDefOf.Shell_AntigrainWarhead) && (maxMarketValue < 0f || x.BaseMarketValue <= maxMarketValue)
-				select x).TryRandomElement(out thingDef))
-				{
-					result = thingDef;
-				}
-				else
-				{
-					result = null;
-				}
+				return result;
 			}
-			return result;
+			return null;
 		}
 
 		[CompilerGenerated]

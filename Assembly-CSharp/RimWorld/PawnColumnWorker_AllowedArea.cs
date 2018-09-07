@@ -41,10 +41,11 @@ namespace RimWorld
 
 		public override void DoCell(Rect rect, Pawn pawn, PawnTable table)
 		{
-			if (pawn.Faction == Faction.OfPlayer)
+			if (pawn.Faction != Faction.OfPlayer)
 			{
-				AreaAllowedGUI.DoAllowedAreaSelectors(rect, pawn);
+				return;
 			}
+			AreaAllowedGUI.DoAllowedAreaSelectors(rect, pawn);
 		}
 
 		public override void DoHeader(Rect rect, PawnTable table)
@@ -64,17 +65,12 @@ namespace RimWorld
 
 		private int GetValueToCompare(Pawn pawn)
 		{
-			int result;
 			if (pawn.Faction != Faction.OfPlayer)
 			{
-				result = int.MinValue;
+				return int.MinValue;
 			}
-			else
-			{
-				Area areaRestriction = pawn.playerSettings.AreaRestriction;
-				result = ((areaRestriction == null) ? -2147483647 : areaRestriction.ID);
-			}
-			return result;
+			Area areaRestriction = pawn.playerSettings.AreaRestriction;
+			return (areaRestriction == null) ? -2147483647 : areaRestriction.ID;
 		}
 
 		protected override void HeaderClicked(Rect headerRect, PawnTable table)

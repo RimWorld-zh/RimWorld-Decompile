@@ -30,7 +30,7 @@ namespace Verse
 
 		protected int ticksToImpact;
 
-		private Sustainer ambientSustainer = null;
+		private Sustainer ambientSustainer;
 
 		private static List<IntVec3> checkedCells = new List<IntVec3>();
 
@@ -44,20 +44,15 @@ namespace Verse
 		{
 			get
 			{
-				ProjectileHitFlags result;
 				if (this.def.projectile.alwaysFreeIntercept)
 				{
-					result = ProjectileHitFlags.All;
+					return ProjectileHitFlags.All;
 				}
-				else if (this.def.projectile.flyOverhead)
+				if (this.def.projectile.flyOverhead)
 				{
-					result = ProjectileHitFlags.None;
+					return ProjectileHitFlags.None;
 				}
-				else
-				{
-					result = this.desiredHitFlags;
-				}
-				return result;
+				return this.desiredHitFlags;
 			}
 			set
 			{
@@ -178,40 +173,41 @@ namespace Verse
 		public override void Tick()
 		{
 			base.Tick();
-			if (!this.landed)
+			if (this.landed)
 			{
-				Vector3 exactPosition = this.ExactPosition;
-				this.ticksToImpact--;
-				if (!this.ExactPosition.InBounds(base.Map))
+				return;
+			}
+			Vector3 exactPosition = this.ExactPosition;
+			this.ticksToImpact--;
+			if (!this.ExactPosition.InBounds(base.Map))
+			{
+				this.ticksToImpact++;
+				base.Position = this.ExactPosition.ToIntVec3();
+				this.Destroy(DestroyMode.Vanish);
+				return;
+			}
+			Vector3 exactPosition2 = this.ExactPosition;
+			if (this.CheckForFreeInterceptBetween(exactPosition, exactPosition2))
+			{
+				return;
+			}
+			base.Position = this.ExactPosition.ToIntVec3();
+			if (this.ticksToImpact == 60 && Find.TickManager.CurTimeSpeed == TimeSpeed.Normal && this.def.projectile.soundImpactAnticipate != null)
+			{
+				this.def.projectile.soundImpactAnticipate.PlayOneShot(this);
+			}
+			if (this.ticksToImpact <= 0)
+			{
+				if (this.DestinationCell.InBounds(base.Map))
 				{
-					this.ticksToImpact++;
-					base.Position = this.ExactPosition.ToIntVec3();
-					this.Destroy(DestroyMode.Vanish);
+					base.Position = this.DestinationCell;
 				}
-				else
-				{
-					Vector3 exactPosition2 = this.ExactPosition;
-					if (!this.CheckForFreeInterceptBetween(exactPosition, exactPosition2))
-					{
-						base.Position = this.ExactPosition.ToIntVec3();
-						if (this.ticksToImpact == 60 && Find.TickManager.CurTimeSpeed == TimeSpeed.Normal && this.def.projectile.soundImpactAnticipate != null)
-						{
-							this.def.projectile.soundImpactAnticipate.PlayOneShot(this);
-						}
-						if (this.ticksToImpact <= 0)
-						{
-							if (this.DestinationCell.InBounds(base.Map))
-							{
-								base.Position = this.DestinationCell;
-							}
-							this.ImpactSomething();
-						}
-						else if (this.ambientSustainer != null)
-						{
-							this.ambientSustainer.Maintain();
-						}
-					}
-				}
+				this.ImpactSomething();
+				return;
+			}
+			if (this.ambientSustainer != null)
+			{
+				this.ambientSustainer.Maintain();
 			}
 		}
 
@@ -219,149 +215,131 @@ namespace Verse
 		{
 			IntVec3 intVec = lastExactPos.ToIntVec3();
 			IntVec3 intVec2 = newExactPos.ToIntVec3();
-			bool result;
 			if (intVec2 == intVec)
 			{
-				result = false;
-			}
-			else if (!intVec.InBounds(base.Map) || !intVec2.InBounds(base.Map))
-			{
-				result = false;
-			}
-			else if (intVec2.AdjacentToCardinal(intVec))
-			{
-				result = this.CheckForFreeIntercept(intVec2);
-			}
-			else if (VerbUtility.InterceptChanceFactorFromDistance(this.origin, intVec2) <= 0f)
-			{
-				result = false;
-			}
-			else
-			{
-				Vector3 vector = lastExactPos;
-				Vector3 v = newExactPos - lastExactPos;
-				Vector3 b = v.normalized * 0.2f;
-				int num = (int)(v.MagnitudeHorizontal() / 0.2f);
-				Projectile.checkedCells.Clear();
-				int num2 = 0;
-				for (;;)
-				{
-					vector += b;
-					IntVec3 intVec3 = vector.ToIntVec3();
-					if (!Projectile.checkedCells.Contains(intVec3))
-					{
-						if (this.CheckForFreeIntercept(intVec3))
-						{
-							break;
-						}
-						Projectile.checkedCells.Add(intVec3);
-					}
-					num2++;
-					if (num2 > num)
-					{
-						goto Block_7;
-					}
-					if (intVec3 == intVec2)
-					{
-						goto Block_8;
-					}
-				}
-				return true;
-				Block_7:
 				return false;
-				Block_8:
-				result = false;
 			}
-			return result;
+			if (!intVec.InBounds(base.Map) || !intVec2.InBounds(base.Map))
+			{
+				return false;
+			}
+			if (intVec2.AdjacentToCardinal(intVec))
+			{
+				return this.CheckForFreeIntercept(intVec2);
+			}
+			if (VerbUtility.InterceptChanceFactorFromDistance(this.origin, intVec2) <= 0f)
+			{
+				return false;
+			}
+			Vector3 vector = lastExactPos;
+			Vector3 v = newExactPos - lastExactPos;
+			Vector3 b = v.normalized * 0.2f;
+			int num = (int)(v.MagnitudeHorizontal() / 0.2f);
+			Projectile.checkedCells.Clear();
+			int num2 = 0;
+			for (;;)
+			{
+				vector += b;
+				IntVec3 intVec3 = vector.ToIntVec3();
+				if (!Projectile.checkedCells.Contains(intVec3))
+				{
+					if (this.CheckForFreeIntercept(intVec3))
+					{
+						break;
+					}
+					Projectile.checkedCells.Add(intVec3);
+				}
+				num2++;
+				if (num2 > num)
+				{
+					return false;
+				}
+				if (intVec3 == intVec2)
+				{
+					return false;
+				}
+			}
+			return true;
 		}
 
 		private bool CheckForFreeIntercept(IntVec3 c)
 		{
-			bool result;
 			if (this.destination.ToIntVec3() == c)
 			{
-				result = false;
+				return false;
 			}
-			else
+			float num = VerbUtility.InterceptChanceFactorFromDistance(this.origin, c);
+			if (num <= 0f)
 			{
-				float num = VerbUtility.InterceptChanceFactorFromDistance(this.origin, c);
-				if (num <= 0f)
+				return false;
+			}
+			bool flag = false;
+			List<Thing> thingList = c.GetThingList(base.Map);
+			for (int i = 0; i < thingList.Count; i++)
+			{
+				Thing thing = thingList[i];
+				if (this.CanHit(thing))
 				{
-					result = false;
-				}
-				else
-				{
-					bool flag = false;
-					List<Thing> thingList = c.GetThingList(base.Map);
-					for (int i = 0; i < thingList.Count; i++)
+					bool flag2 = false;
+					if (thing.def.Fillage == FillCategory.Full)
 					{
-						Thing thing = thingList[i];
-						if (this.CanHit(thing))
+						Building_Door building_Door = thing as Building_Door;
+						if (building_Door == null || !building_Door.Open)
 						{
-							bool flag2 = false;
-							if (thing.def.Fillage == FillCategory.Full)
-							{
-								Building_Door building_Door = thing as Building_Door;
-								if (building_Door == null || !building_Door.Open)
-								{
-									this.ThrowDebugText("int-wall", c);
-									this.Impact(thing);
-									return true;
-								}
-								flag2 = true;
-							}
-							float num2 = 0f;
-							Pawn pawn = thing as Pawn;
-							if (pawn != null)
-							{
-								num2 = 0.4f;
-								num2 *= Mathf.Clamp(pawn.BodySize, 0.1f, 2f);
-								if (pawn.GetPosture() != PawnPosture.Standing)
-								{
-									num2 *= 0.1f;
-								}
-								if (this.launcher != null && pawn.Faction != null && this.launcher.Faction != null && !pawn.Faction.HostileTo(this.launcher.Faction))
-								{
-									num2 *= 0.4f;
-								}
-							}
-							else if (thing.def.fillPercent > 0.2f)
-							{
-								if (flag2)
-								{
-									num2 = 0.05f;
-								}
-								else if (this.DestinationCell.AdjacentTo8Way(c))
-								{
-									num2 = thing.def.fillPercent * 1f;
-								}
-								else
-								{
-									num2 = thing.def.fillPercent * 0.15f;
-								}
-							}
-							num2 *= num;
-							if (num2 > 1E-05f)
-							{
-								if (Rand.Chance(num2))
-								{
-									this.ThrowDebugText("int-" + num2.ToStringPercent(), c);
-									this.Impact(thing);
-									return true;
-								}
-								flag = true;
-								this.ThrowDebugText(num2.ToStringPercent(), c);
-							}
+							this.ThrowDebugText("int-wall", c);
+							this.Impact(thing);
+							return true;
+						}
+						flag2 = true;
+					}
+					float num2 = 0f;
+					Pawn pawn = thing as Pawn;
+					if (pawn != null)
+					{
+						num2 = 0.4f * Mathf.Clamp(pawn.BodySize, 0.1f, 2f);
+						if (pawn.GetPosture() != PawnPosture.Standing)
+						{
+							num2 *= 0.1f;
+						}
+						if (this.launcher != null && pawn.Faction != null && this.launcher.Faction != null && !pawn.Faction.HostileTo(this.launcher.Faction))
+						{
+							num2 *= 0.4f;
 						}
 					}
-					if (!flag)
+					else if (thing.def.fillPercent > 0.2f)
 					{
-						this.ThrowDebugText("o", c);
+						if (flag2)
+						{
+							num2 = 0.05f;
+						}
+						else if (this.DestinationCell.AdjacentTo8Way(c))
+						{
+							num2 = thing.def.fillPercent * 1f;
+						}
+						else
+						{
+							num2 = thing.def.fillPercent * 0.15f;
+						}
 					}
-					result = false;
+					num2 *= num;
+					if (num2 > 1E-05f)
+					{
+						if (Rand.Chance(num2))
+						{
+							this.ThrowDebugText("int-" + num2.ToStringPercent(), c);
+							this.Impact(thing);
+							return true;
+						}
+						flag = true;
+						this.ThrowDebugText(num2.ToStringPercent(), c);
+					}
 				}
 			}
-			return result;
+			if (!flag)
+			{
+				this.ThrowDebugText("o", c);
+			}
+			return false;
 		}
 
 		private void ThrowDebugText(string text, IntVec3 c)
@@ -381,70 +359,59 @@ namespace Verse
 
 		protected bool CanHit(Thing thing)
 		{
-			bool result;
 			if (!thing.Spawned)
 			{
-				result = false;
+				return false;
 			}
-			else if (thing == this.launcher)
+			if (thing == this.launcher)
 			{
-				result = false;
+				return false;
 			}
-			else
+			bool flag = false;
+			CellRect.CellRectIterator iterator = thing.OccupiedRect().GetIterator();
+			while (!iterator.Done())
 			{
-				bool flag = false;
-				CellRect.CellRectIterator iterator = thing.OccupiedRect().GetIterator();
-				while (!iterator.Done())
+				List<Thing> thingList = iterator.Current.GetThingList(base.Map);
+				bool flag2 = false;
+				for (int i = 0; i < thingList.Count; i++)
 				{
-					List<Thing> thingList = iterator.Current.GetThingList(base.Map);
-					bool flag2 = false;
-					for (int i = 0; i < thingList.Count; i++)
+					if (thingList[i] != thing && thingList[i].def.Fillage == FillCategory.Full && thingList[i].def.Altitude >= thing.def.Altitude)
 					{
-						if (thingList[i] != thing && thingList[i].def.Fillage == FillCategory.Full && thingList[i].def.Altitude >= thing.def.Altitude)
-						{
-							flag2 = true;
-							break;
-						}
-					}
-					if (!flag2)
-					{
-						flag = true;
+						flag2 = true;
 						break;
 					}
-					iterator.MoveNext();
 				}
-				if (!flag)
+				if (!flag2)
 				{
-					result = false;
+					flag = true;
+					break;
 				}
-				else
+				iterator.MoveNext();
+			}
+			if (!flag)
+			{
+				return false;
+			}
+			ProjectileHitFlags hitFlags = this.HitFlags;
+			if (thing == this.intendedTarget && (hitFlags & ProjectileHitFlags.IntendedTarget) != ProjectileHitFlags.None)
+			{
+				return true;
+			}
+			if (thing != this.intendedTarget)
+			{
+				if (thing is Pawn)
 				{
-					ProjectileHitFlags hitFlags = this.HitFlags;
-					if (thing == this.intendedTarget && (hitFlags & ProjectileHitFlags.IntendedTarget) != ProjectileHitFlags.None)
+					if ((hitFlags & ProjectileHitFlags.NonTargetPawns) != ProjectileHitFlags.None)
 					{
-						result = true;
+						return true;
 					}
-					else
-					{
-						if (thing != this.intendedTarget)
-						{
-							if (thing is Pawn)
-							{
-								if ((hitFlags & ProjectileHitFlags.NonTargetPawns) != ProjectileHitFlags.None)
-								{
-									return true;
-								}
-							}
-							else if ((hitFlags & ProjectileHitFlags.NonTargetWorld) != ProjectileHitFlags.None)
-							{
-								return true;
-							}
-						}
-						result = (thing == this.intendedTarget && thing.def.Fillage == FillCategory.Full);
-					}
+				}
+				else if ((hitFlags & ProjectileHitFlags.NonTargetWorld) != ProjectileHitFlags.None)
+				{
+					return true;
 				}
 			}
-			return result;
+			return thing == this.intendedTarget && thing.def.Fillage == FillCategory.Full;
 		}
 
 		private void ImpactSomething()
@@ -467,44 +434,35 @@ namespace Verse
 					}
 				}
 			}
-			if (this.usedTarget.HasThing && this.CanHit(this.usedTarget.Thing))
-			{
-				Pawn pawn = this.usedTarget.Thing as Pawn;
-				if (pawn != null && pawn.GetPosture() != PawnPosture.Standing && (this.origin - this.destination).MagnitudeHorizontalSquared() >= 20.25f)
-				{
-					if (!Rand.Chance(0.2f))
-					{
-						this.ThrowDebugText("miss-laying", base.Position);
-						this.Impact(null);
-						return;
-					}
-				}
-				this.Impact(this.usedTarget.Thing);
-			}
-			else
+			if (!this.usedTarget.HasThing || !this.CanHit(this.usedTarget.Thing))
 			{
 				Projectile.cellThingsFiltered.Clear();
 				List<Thing> thingList = base.Position.GetThingList(base.Map);
 				for (int i = 0; i < thingList.Count; i++)
 				{
 					Thing thing = thingList[i];
-					if (thing.def.category == ThingCategory.Building || thing.def.category == ThingCategory.Pawn || thing.def.category == ThingCategory.Item || thing.def.category == ThingCategory.Plant)
+					if ((thing.def.category == ThingCategory.Building || thing.def.category == ThingCategory.Pawn || thing.def.category == ThingCategory.Item || thing.def.category == ThingCategory.Plant) && this.CanHit(thing))
 					{
-						if (this.CanHit(thing))
-						{
-							Projectile.cellThingsFiltered.Add(thing);
-						}
+						Projectile.cellThingsFiltered.Add(thing);
 					}
 				}
 				Projectile.cellThingsFiltered.Shuffle<Thing>();
 				for (int j = 0; j < Projectile.cellThingsFiltered.Count; j++)
 				{
 					Thing thing2 = Projectile.cellThingsFiltered[j];
-					Pawn pawn2 = thing2 as Pawn;
+					Pawn pawn = thing2 as Pawn;
 					float num;
-					if (pawn2 != null)
+					if (pawn != null)
 					{
-						num = 0.5f * Mathf.Clamp(pawn2.BodySize, 0.1f, 2f);
+						num = 0.5f * Mathf.Clamp(pawn.BodySize, 0.1f, 2f);
+						if (pawn.GetPosture() != PawnPosture.Standing && (this.origin - this.destination).MagnitudeHorizontalSquared() >= 20.25f)
+						{
+							num *= 0.2f;
+						}
+						if (this.launcher != null && pawn.Faction != null && this.launcher.Faction != null && !pawn.Faction.HostileTo(this.launcher.Faction))
+						{
+							num *= VerbUtility.InterceptChanceFactorFromDistance(this.origin, base.Position);
+						}
 					}
 					else
 					{
@@ -519,7 +477,16 @@ namespace Verse
 					this.ThrowDebugText("miss-" + num.ToStringPercent(), base.Position);
 				}
 				this.Impact(null);
+				return;
 			}
+			Pawn pawn2 = this.usedTarget.Thing as Pawn;
+			if (pawn2 != null && pawn2.GetPosture() != PawnPosture.Standing && (this.origin - this.destination).MagnitudeHorizontalSquared() >= 20.25f && !Rand.Chance(0.2f))
+			{
+				this.ThrowDebugText("miss-laying", base.Position);
+				this.Impact(null);
+				return;
+			}
+			this.Impact(this.usedTarget.Thing);
 		}
 
 		protected virtual void Impact(Thing hitThing)

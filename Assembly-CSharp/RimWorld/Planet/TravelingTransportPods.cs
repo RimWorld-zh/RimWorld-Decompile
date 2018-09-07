@@ -60,24 +60,16 @@ namespace RimWorld.Planet
 			{
 				Vector3 start = this.Start;
 				Vector3 end = this.End;
-				float result;
 				if (start == end)
 				{
-					result = 1f;
+					return 1f;
 				}
-				else
+				float num = GenMath.SphericalDistance(start.normalized, end.normalized);
+				if (num == 0f)
 				{
-					float num = GenMath.SphericalDistance(start.normalized, end.normalized);
-					if (num == 0f)
-					{
-						result = 1f;
-					}
-					else
-					{
-						result = 0.00025f / num;
-					}
+					return 1f;
 				}
-				return result;
+				return 0.00025f / num;
 			}
 		}
 
@@ -217,52 +209,53 @@ namespace RimWorld.Planet
 
 		private void Arrived()
 		{
-			if (!this.arrived)
+			if (this.arrived)
 			{
-				this.arrived = true;
-				if (this.arrivalAction == null || !this.arrivalAction.StillValid(this.pods.Cast<IThingHolder>(), this.destinationTile))
+				return;
+			}
+			this.arrived = true;
+			if (this.arrivalAction == null || !this.arrivalAction.StillValid(this.pods.Cast<IThingHolder>(), this.destinationTile))
+			{
+				this.arrivalAction = null;
+				List<Map> maps = Find.Maps;
+				for (int i = 0; i < maps.Count; i++)
 				{
-					this.arrivalAction = null;
-					List<Map> maps = Find.Maps;
-					for (int i = 0; i < maps.Count; i++)
+					if (maps[i].Tile == this.destinationTile)
 					{
-						if (maps[i].Tile == this.destinationTile)
-						{
-							this.arrivalAction = new TransportPodsArrivalAction_LandInSpecificCell(maps[i].Parent, DropCellFinder.RandomDropSpot(maps[i]));
-							break;
-						}
+						this.arrivalAction = new TransportPodsArrivalAction_LandInSpecificCell(maps[i].Parent, DropCellFinder.RandomDropSpot(maps[i]));
+						break;
 					}
-					if (this.arrivalAction == null)
+				}
+				if (this.arrivalAction == null)
+				{
+					if (TransportPodsArrivalAction_FormCaravan.CanFormCaravanAt(this.pods.Cast<IThingHolder>(), this.destinationTile))
 					{
-						if (TransportPodsArrivalAction_FormCaravan.CanFormCaravanAt(this.pods.Cast<IThingHolder>(), this.destinationTile))
+						this.arrivalAction = new TransportPodsArrivalAction_FormCaravan();
+					}
+					else
+					{
+						List<Caravan> caravans = Find.WorldObjects.Caravans;
+						for (int j = 0; j < caravans.Count; j++)
 						{
-							this.arrivalAction = new TransportPodsArrivalAction_FormCaravan();
-						}
-						else
-						{
-							List<Caravan> caravans = Find.WorldObjects.Caravans;
-							for (int j = 0; j < caravans.Count; j++)
+							if (caravans[j].Tile == this.destinationTile && TransportPodsArrivalAction_GiveToCaravan.CanGiveTo(this.pods.Cast<IThingHolder>(), caravans[j]))
 							{
-								if (caravans[j].Tile == this.destinationTile && TransportPodsArrivalAction_GiveToCaravan.CanGiveTo(this.pods.Cast<IThingHolder>(), caravans[j]))
-								{
-									this.arrivalAction = new TransportPodsArrivalAction_GiveToCaravan(caravans[j]);
-									break;
-								}
+								this.arrivalAction = new TransportPodsArrivalAction_GiveToCaravan(caravans[j]);
+								break;
 							}
 						}
 					}
 				}
-				if (this.arrivalAction != null && this.arrivalAction.ShouldUseLongEvent(this.pods, this.destinationTile))
-				{
-					LongEventHandler.QueueLongEvent(delegate()
-					{
-						this.DoArrivalAction();
-					}, "GeneratingMapForNewEncounter", false, null);
-				}
-				else
+			}
+			if (this.arrivalAction != null && this.arrivalAction.ShouldUseLongEvent(this.pods, this.destinationTile))
+			{
+				LongEventHandler.QueueLongEvent(delegate()
 				{
 					this.DoArrivalAction();
-				}
+				}, "GeneratingMapForNewEncounter", false, null);
+			}
+			else
+			{
+				this.DoArrivalAction();
 			}
 		}
 
@@ -349,15 +342,15 @@ namespace RimWorld.Planet
 				{
 				case 0u:
 					i = 0;
-					goto IL_D8;
+					goto IL_D3;
 				case 1u:
-					IL_A4:
+					IL_A1:
 					j++;
 					break;
 				default:
 					return false;
 				}
-				IL_B3:
+				IL_AF:
 				if (j >= things.Count)
 				{
 					i++;
@@ -374,14 +367,14 @@ namespace RimWorld.Planet
 						}
 						return true;
 					}
-					goto IL_A4;
+					goto IL_A1;
 				}
-				IL_D8:
+				IL_D3:
 				if (i < this.pods.Count)
 				{
 					things = this.pods[i].innerContainer;
 					j = 0;
-					goto IL_B3;
+					goto IL_AF;
 				}
 				this.$PC = -1;
 				return false;

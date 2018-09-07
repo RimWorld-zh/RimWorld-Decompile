@@ -4,7 +4,7 @@ namespace Verse
 {
 	public class TrainabilityDef : Def
 	{
-		public int intelligenceOrder = 0;
+		public int intelligenceOrder;
 
 		public TrainabilityDef()
 		{

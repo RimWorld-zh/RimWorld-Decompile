@@ -69,7 +69,7 @@ namespace RimWorld
 			}
 			for (int i = 0; i < num3; i++)
 			{
-				IEnumerable<BodyPartRecord> source = from x in pawn.health.hediffSet.GetNotMissingParts(BodyPartHeight.Undefined, BodyPartDepth.Undefined, null)
+				IEnumerable<BodyPartRecord> source = from x in pawn.health.hediffSet.GetNotMissingParts(BodyPartHeight.Undefined, BodyPartDepth.Undefined, null, null)
 				where x.depth == BodyPartDepth.Outside && (x.def.permanentInjuryChanceFactor != 0f || x.def.pawnGeneratorCanAmputate) && !pawn.health.hediffSet.PartOrAnyAncestorHasDirectlyAddedParts(x)
 				select x;
 				if (source.Any<BodyPartRecord>())
@@ -124,28 +124,21 @@ namespace RimWorld
 
 		private static DamageDef RandomPermanentInjuryDamageType(bool allowFrostbite)
 		{
-			DamageDef result;
 			switch (Rand.RangeInclusive(0, 3 + ((!allowFrostbite) ? 0 : 1)))
 			{
 			case 0:
-				result = DamageDefOf.Bullet;
-				break;
+				return DamageDefOf.Bullet;
 			case 1:
-				result = DamageDefOf.Scratch;
-				break;
+				return DamageDefOf.Scratch;
 			case 2:
-				result = DamageDefOf.Bite;
-				break;
+				return DamageDefOf.Bite;
 			case 3:
-				result = DamageDefOf.Stab;
-				break;
+				return DamageDefOf.Stab;
 			case 4:
-				result = DamageDefOf.Frostbite;
-				break;
+				return DamageDefOf.Frostbite;
 			default:
 				throw new Exception();
 			}
-			return result;
 		}
 
 		[DebugOutput]
@@ -248,16 +241,15 @@ namespace RimWorld
 						return false;
 					}
 					i = 0;
-					goto IL_139;
+					goto IL_132;
 				case 1u:
-					IL_104:
+					IL_100:
+					j++;
 					break;
 				default:
 					return false;
 				}
-				IL_105:
-				j++;
-				IL_114:
+				IL_10E:
 				if (j >= givers.Count)
 				{
 					i++;
@@ -267,7 +259,7 @@ namespace RimWorld
 					agb = (givers[j] as HediffGiver_Birthday);
 					if (agb == null)
 					{
-						goto IL_105;
+						goto IL_100;
 					}
 					ageFractionOfLifeExpectancy = (float)age / raceDef.race.lifeExpectancy;
 					if (Rand.Value < agb.ageFractionChanceCurve.Evaluate(ageFractionOfLifeExpectancy))
@@ -279,14 +271,14 @@ namespace RimWorld
 						}
 						return true;
 					}
-					goto IL_104;
+					goto IL_100;
 				}
-				IL_139:
+				IL_132:
 				if (i < sets.Count)
 				{
 					givers = sets[i].hediffGivers;
 					j = 0;
-					goto IL_114;
+					goto IL_10E;
 				}
 				this.$PC = -1;
 				return false;

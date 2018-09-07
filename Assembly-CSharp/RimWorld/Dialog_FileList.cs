@@ -11,15 +11,15 @@ namespace RimWorld
 	{
 		protected string interactButLabel = "Error";
 
-		protected float bottomAreaHeight = 0f;
+		protected float bottomAreaHeight;
 
 		protected List<SaveFileInfo> files = new List<SaveFileInfo>();
 
 		protected Vector2 scrollPosition = Vector2.zero;
 
-		protected string typingName = "";
+		protected string typingName = string.Empty;
 
-		private bool focusedNameArea = false;
+		private bool focusedNameArea;
 
 		protected const float BoxMargin = 20f;
 
@@ -95,7 +95,7 @@ namespace RimWorld
 					GUI.BeginGroup(position);
 					string fileNameWithoutExtension = Path.GetFileNameWithoutExtension(sfi.FileInfo.Name);
 					GUI.color = this.FileNameColor(sfi);
-					Rect rect2 = new Rect(15f, 0f, position.width, position.height);
+					Rect rect2 = new Rect(15f, 0f, 255f, position.height);
 					Text.Anchor = TextAnchor.MiddleLeft;
 					Text.Font = GameFont.Small;
 					Widgets.Label(rect2, fileNameWithoutExtension);

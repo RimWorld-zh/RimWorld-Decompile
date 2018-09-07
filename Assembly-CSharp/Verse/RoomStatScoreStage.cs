@@ -6,11 +6,11 @@ namespace Verse
 	{
 		public float minScore = float.MinValue;
 
-		public string label = null;
+		public string label;
 
 		[TranslationHandle]
 		[Unsaved]
-		public string untranslatedLabel = null;
+		public string untranslatedLabel;
 
 		public RoomStatScoreStage()
 		{

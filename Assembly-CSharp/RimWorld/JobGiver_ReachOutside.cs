@@ -13,29 +13,24 @@ namespace RimWorld
 		protected override Job TryGiveJob(Pawn pawn)
 		{
 			Room room = pawn.GetRoom(RegionType.Set_Passable);
-			Job result;
-			IntVec3 intVec;
 			if (room.PsychologicallyOutdoors && room.TouchesMapEdge)
 			{
-				result = null;
+				return null;
 			}
-			else if (!pawn.CanReachMapEdge())
+			if (!pawn.CanReachMapEdge())
 			{
-				result = null;
+				return null;
 			}
-			else if (!RCellFinder.TryFindRandomSpotJustOutsideColony(pawn, out intVec))
+			IntVec3 intVec;
+			if (!RCellFinder.TryFindRandomSpotJustOutsideColony(pawn, out intVec))
 			{
-				result = null;
+				return null;
 			}
-			else if (intVec == pawn.Position)
+			if (intVec == pawn.Position)
 			{
-				result = null;
+				return null;
 			}
-			else
-			{
-				result = new Job(JobDefOf.Goto, intVec);
-			}
-			return result;
+			return new Job(JobDefOf.Goto, intVec);
 		}
 	}
 }

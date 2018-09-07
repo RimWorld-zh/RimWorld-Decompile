@@ -15,9 +15,11 @@ namespace RimWorld
 
 		public IntRange widthRange = new IntRange(3, 4);
 
-		public IntRange guardsCountRange = IntRange.one;
+		public IntRange guardsCountRange = new IntRange(1, 1);
 
 		private const int Padding = 7;
+
+		public const int DefaultGuardsCount = 1;
 
 		[CompilerGenerated]
 		private static Func<Faction, bool> <>f__am$cache0;
@@ -89,47 +91,37 @@ namespace RimWorld
 			int rectRadius = Mathf.Max(Mathf.RoundToInt((float)Mathf.Min(map.Size.x, map.Size.z) * 0.07f), 1);
 			TraverseParms traverseParams = TraverseParms.For(TraverseMode.PassDoors, Danger.Deadly, false);
 			IntVec3 center;
-			CellRect result;
 			if (RCellFinder.TryFindRandomCellNearTheCenterOfTheMapWith(delegate(IntVec3 x)
 			{
-				bool result2;
 				if (!map.reachability.CanReachMapEdge(x, traverseParams))
 				{
-					result2 = false;
+					return false;
 				}
-				else
+				CellRect cellRect = CellRect.CenteredOn(x, rectRadius);
+				int num = 0;
+				CellRect.CellRectIterator iterator = cellRect.GetIterator();
+				while (!iterator.Done())
 				{
-					CellRect cellRect = CellRect.CenteredOn(x, rectRadius);
-					int num = 0;
-					CellRect.CellRectIterator iterator = cellRect.GetIterator();
-					while (!iterator.Done())
+					if (!iterator.Current.InBounds(map))
 					{
-						if (!iterator.Current.InBounds(map))
-						{
-							return false;
-						}
-						if (iterator.Current.Standable(map) || iterator.Current.GetPlant(map) != null)
-						{
-							num++;
-						}
-						iterator.MoveNext();
+						return false;
 					}
-					result2 = ((float)num / (float)cellRect.Area >= 0.6f);
+					if (iterator.Current.Standable(map) || iterator.Current.GetPlant(map) != null)
+					{
+						num++;
+					}
+					iterator.MoveNext();
 				}
-				return result2;
+				return (float)num / (float)cellRect.Area >= 0.6f;
 			}, map, out center))
 			{
-				result = CellRect.CenteredOn(center, rectRadius);
+				return CellRect.CenteredOn(center, rectRadius);
 			}
-			else if (RCellFinder.TryFindRandomCellNearTheCenterOfTheMapWith((IntVec3 x) => x.Standable(map), map, out center))
+			if (RCellFinder.TryFindRandomCellNearTheCenterOfTheMapWith((IntVec3 x) => x.Standable(map), map, out center))
 			{
-				result = CellRect.CenteredOn(center, rectRadius);
+				return CellRect.CenteredOn(center, rectRadius);
 			}
-			else
-			{
-				result = CellRect.CenteredOn(CellFinder.RandomCell(map), rectRadius).ClipInsideMap(map);
-			}
-			return result;
+			return CellRect.CenteredOn(CellFinder.RandomCell(map), rectRadius).ClipInsideMap(map);
 		}
 
 		[CompilerGenerated]
@@ -153,31 +145,26 @@ namespace RimWorld
 
 			internal bool <>m__0(IntVec3 x)
 			{
-				bool result;
 				if (!this.map.reachability.CanReachMapEdge(x, this.traverseParams))
 				{
-					result = false;
+					return false;
 				}
-				else
+				CellRect cellRect = CellRect.CenteredOn(x, this.rectRadius);
+				int num = 0;
+				CellRect.CellRectIterator iterator = cellRect.GetIterator();
+				while (!iterator.Done())
 				{
-					CellRect cellRect = CellRect.CenteredOn(x, this.rectRadius);
-					int num = 0;
-					CellRect.CellRectIterator iterator = cellRect.GetIterator();
-					while (!iterator.Done())
+					if (!iterator.Current.InBounds(this.map))
 					{
-						if (!iterator.Current.InBounds(this.map))
-						{
-							return false;
-						}
-						if (iterator.Current.Standable(this.map) || iterator.Current.GetPlant(this.map) != null)
-						{
-							num++;
-						}
-						iterator.MoveNext();
+						return false;
 					}
-					result = ((float)num / (float)cellRect.Area >= 0.6f);
+					if (iterator.Current.Standable(this.map) || iterator.Current.GetPlant(this.map) != null)
+					{
+						num++;
+					}
+					iterator.MoveNext();
 				}
-				return result;
+				return (float)num / (float)cellRect.Area >= 0.6f;
 			}
 
 			internal bool <>m__1(IntVec3 x)

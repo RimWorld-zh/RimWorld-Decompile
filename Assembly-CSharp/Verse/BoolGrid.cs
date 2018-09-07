@@ -11,7 +11,7 @@ namespace Verse
 	{
 		private bool[] arr;
 
-		private int trueCountInt = 0;
+		private int trueCountInt;
 
 		private int mapSizeX;
 
@@ -105,13 +105,11 @@ namespace Verse
 			if (this.MapSizeMatches(map) && this.arr != null)
 			{
 				this.Clear();
+				return;
 			}
-			else
-			{
-				this.mapSizeX = map.Size.x;
-				this.mapSizeZ = map.Size.z;
-				this.arr = new bool[this.mapSizeX * this.mapSizeZ];
-			}
+			this.mapSizeX = map.Size.x;
+			this.mapSizeZ = map.Size.z;
+			this.arr = new bool[this.mapSizeX * this.mapSizeZ];
 		}
 
 		public void ExposeData()
@@ -135,17 +133,18 @@ namespace Verse
 
 		public virtual void Set(int index, bool value)
 		{
-			if (this.arr[index] != value)
+			if (this.arr[index] == value)
 			{
-				this.arr[index] = value;
-				if (value)
-				{
-					this.trueCountInt++;
-				}
-				else
-				{
-					this.trueCountInt--;
-				}
+				return;
+			}
+			this.arr[index] = value;
+			if (value)
+			{
+				this.trueCountInt++;
+			}
+			else
+			{
+				this.trueCountInt--;
 			}
 		}
 
@@ -191,7 +190,7 @@ namespace Verse
 					}
 					yieldedCount = 0;
 					i = 0;
-					goto IL_CC;
+					goto IL_C7;
 				case 1u:
 					yieldedCount++;
 					if (yieldedCount >= this.trueCountInt)
@@ -202,9 +201,9 @@ namespace Verse
 				default:
 					return false;
 				}
-				IL_BD:
+				IL_B9:
 				i++;
-				IL_CC:
+				IL_C7:
 				if (i >= this.arr.Length)
 				{
 					this.$PC = -1;
@@ -220,7 +219,7 @@ namespace Verse
 						}
 						return true;
 					}
-					goto IL_BD;
+					goto IL_B9;
 				}
 				return false;
 			}

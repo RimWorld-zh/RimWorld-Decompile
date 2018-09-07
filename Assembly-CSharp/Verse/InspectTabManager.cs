@@ -10,18 +10,13 @@ namespace Verse
 		public static InspectTabBase GetSharedInstance(Type tabType)
 		{
 			InspectTabBase inspectTabBase;
-			InspectTabBase result;
 			if (InspectTabManager.sharedInstances.TryGetValue(tabType, out inspectTabBase))
 			{
-				result = inspectTabBase;
+				return inspectTabBase;
 			}
-			else
-			{
-				inspectTabBase = (InspectTabBase)Activator.CreateInstance(tabType);
-				InspectTabManager.sharedInstances.Add(tabType, inspectTabBase);
-				result = inspectTabBase;
-			}
-			return result;
+			inspectTabBase = (InspectTabBase)Activator.CreateInstance(tabType);
+			InspectTabManager.sharedInstances.Add(tabType, inspectTabBase);
+			return inspectTabBase;
 		}
 
 		// Note: this type is marked as 'beforefieldinit'.

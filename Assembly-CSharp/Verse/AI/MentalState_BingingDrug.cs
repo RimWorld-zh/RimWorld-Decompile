@@ -39,10 +39,10 @@ namespace Verse.AI
 			this.ChooseRandomChemical();
 			if (PawnUtility.ShouldSendNotificationAbout(this.pawn))
 			{
-				string label = "MentalBreakLetterLabel".Translate() + ": " + "LetterLabelDrugBinge".Translate(new object[]
+				string label = "LetterLabelDrugBinge".Translate(new object[]
 				{
 					this.chemical.label
-				}).CapitalizeFirst();
+				}).CapitalizeFirst() + ": " + this.pawn.LabelShortCap;
 				string text = "LetterDrugBinge".Translate(new object[]
 				{
 					this.pawn.Label,
@@ -98,22 +98,18 @@ namespace Verse.AI
 				if (this.chemical != null)
 				{
 					this.drugCategory = this.def.drugCategory;
+					return;
 				}
-				else
+				this.chemical = (from x in DefDatabase<ChemicalDef>.AllDefsListForReading
+				where AddictionUtility.CanBingeOnNow(this.pawn, x, DrugCategory.Any)
+				select x).RandomElementWithFallback(null);
+				if (this.chemical != null)
 				{
-					this.chemical = (from x in DefDatabase<ChemicalDef>.AllDefsListForReading
-					where AddictionUtility.CanBingeOnNow(this.pawn, x, DrugCategory.Any)
-					select x).RandomElementWithFallback(null);
-					if (this.chemical != null)
-					{
-						this.drugCategory = DrugCategory.Any;
-					}
-					else
-					{
-						this.chemical = DefDatabase<ChemicalDef>.AllDefsListForReading.RandomElement<ChemicalDef>();
-						this.drugCategory = DrugCategory.Any;
-					}
+					this.drugCategory = DrugCategory.Any;
+					return;
 				}
+				this.chemical = DefDatabase<ChemicalDef>.AllDefsListForReading.RandomElement<ChemicalDef>();
+				this.drugCategory = DrugCategory.Any;
 			}
 		}
 

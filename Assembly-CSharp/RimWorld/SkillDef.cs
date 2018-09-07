@@ -12,11 +12,11 @@ namespace RimWorld
 
 		public bool usuallyDefinedInBackstories = true;
 
-		public bool pawnCreatorSummaryVisible = false;
+		public bool pawnCreatorSummaryVisible;
 
-		public WorkTags disablingWorkTags = WorkTags.None;
+		public WorkTags disablingWorkTags;
 
-		public float listOrder = 0f;
+		public float listOrder;
 
 		public SkillDef()
 		{
@@ -32,31 +32,26 @@ namespace RimWorld
 
 		public bool IsDisabled(WorkTags combinedDisabledWorkTags, IEnumerable<WorkTypeDef> disabledWorkTypes)
 		{
-			bool result;
 			if ((combinedDisabledWorkTags & this.disablingWorkTags) != WorkTags.None)
 			{
-				result = true;
+				return true;
 			}
-			else
+			List<WorkTypeDef> allDefsListForReading = DefDatabase<WorkTypeDef>.AllDefsListForReading;
+			bool result = false;
+			for (int i = 0; i < allDefsListForReading.Count; i++)
 			{
-				List<WorkTypeDef> allDefsListForReading = DefDatabase<WorkTypeDef>.AllDefsListForReading;
-				bool flag = false;
-				for (int i = 0; i < allDefsListForReading.Count; i++)
+				WorkTypeDef workTypeDef = allDefsListForReading[i];
+				for (int j = 0; j < workTypeDef.relevantSkills.Count; j++)
 				{
-					WorkTypeDef workTypeDef = allDefsListForReading[i];
-					for (int j = 0; j < workTypeDef.relevantSkills.Count; j++)
+					if (workTypeDef.relevantSkills[j] == this)
 					{
-						if (workTypeDef.relevantSkills[j] == this)
+						if (!disabledWorkTypes.Contains(workTypeDef))
 						{
-							if (!disabledWorkTypes.Contains(workTypeDef))
-							{
-								return false;
-							}
-							flag = true;
+							return false;
 						}
+						result = true;
 					}
 				}
-				result = flag;
 			}
 			return result;
 		}

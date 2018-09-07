@@ -30,27 +30,19 @@ namespace RimWorld
 				return pawn3.Downed && pawn3.Faction == pawn.Faction && !pawn3.InBed() && pawn.CanReserve(pawn3, 1, -1, null, false) && !pawn3.IsForbidden(pawn) && !GenAI.EnemyIsNear(pawn3, 25f);
 			};
 			Pawn pawn2 = (Pawn)GenClosest.ClosestThingReachable(pawn.Position, pawn.Map, ThingRequest.ForGroup(ThingRequestGroup.Pawn), PathEndMode.OnCell, TraverseParms.For(pawn, Danger.Deadly, TraverseMode.ByPawn, false), this.radius, validator, null, 0, -1, false, RegionType.Set_Passable, false);
-			Job result;
 			if (pawn2 == null)
 			{
-				result = null;
+				return null;
 			}
-			else
+			Building_Bed building_Bed = RestUtility.FindBedFor(pawn2, pawn, pawn2.HostFaction == pawn.Faction, false, false);
+			if (building_Bed == null || !pawn2.CanReserve(building_Bed, 1, -1, null, false))
 			{
-				Building_Bed building_Bed = RestUtility.FindBedFor(pawn2, pawn, pawn2.HostFaction == pawn.Faction, false, false);
-				if (building_Bed == null || !pawn2.CanReserve(building_Bed, 1, -1, null, false))
-				{
-					result = null;
-				}
-				else
-				{
-					result = new Job(JobDefOf.Rescue, pawn2, building_Bed)
-					{
-						count = 1
-					};
-				}
+				return null;
 			}
-			return result;
+			return new Job(JobDefOf.Rescue, pawn2, building_Bed)
+			{
+				count = 1
+			};
 		}
 
 		[CompilerGenerated]

@@ -121,14 +121,15 @@ namespace RimWorld
 			default:
 				throw new NotImplementedException();
 			}
-			if (num > 0f)
+			if (num <= 0f)
 			{
-				PlayerKnowledgeDatabase.SetKnowledge(conc, PlayerKnowledgeDatabase.GetKnowledge(conc) + num);
-				LessonAutoActivator.Notify_KnowledgeDemonstrated(conc);
-				if (Find.ActiveLesson != null)
-				{
-					Find.ActiveLesson.Notify_KnowledgeDemonstrated(conc);
-				}
+				return;
+			}
+			PlayerKnowledgeDatabase.SetKnowledge(conc, PlayerKnowledgeDatabase.GetKnowledge(conc) + num);
+			LessonAutoActivator.Notify_KnowledgeDemonstrated(conc);
+			if (Find.ActiveLesson != null)
+			{
+				Find.ActiveLesson.Notify_KnowledgeDemonstrated(conc);
 			}
 		}
 

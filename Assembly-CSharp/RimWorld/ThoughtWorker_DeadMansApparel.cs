@@ -26,20 +26,15 @@ namespace RimWorld
 					num++;
 				}
 			}
-			ThoughtState result;
 			if (num == 0)
 			{
-				result = ThoughtState.Inactive;
+				return ThoughtState.Inactive;
 			}
-			else if (num >= 5)
+			if (num >= 5)
 			{
-				result = ThoughtState.ActiveAtStage(4, text);
+				return ThoughtState.ActiveAtStage(4, text);
 			}
-			else
-			{
-				result = ThoughtState.ActiveAtStage(num - 1, text);
-			}
-			return result;
+			return ThoughtState.ActiveAtStage(num - 1, text);
 		}
 	}
 }

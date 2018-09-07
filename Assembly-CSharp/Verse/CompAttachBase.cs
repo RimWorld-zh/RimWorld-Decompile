@@ -6,7 +6,7 @@ namespace Verse
 {
 	public class CompAttachBase : ThingComp
 	{
-		public List<AttachableThing> attachments = null;
+		public List<AttachableThing> attachments;
 
 		public CompAttachBase()
 		{
@@ -37,7 +37,6 @@ namespace Verse
 
 		public override string CompInspectStringExtra()
 		{
-			string result;
 			if (this.attachments != null)
 			{
 				StringBuilder stringBuilder = new StringBuilder();
@@ -45,13 +44,9 @@ namespace Verse
 				{
 					stringBuilder.AppendLine(this.attachments[i].InspectStringAddon);
 				}
-				result = stringBuilder.ToString().TrimEndNewlines();
+				return stringBuilder.ToString().TrimEndNewlines();
 			}
-			else
-			{
-				result = null;
-			}
-			return result;
+			return null;
 		}
 
 		public Thing GetAttachment(ThingDef def)

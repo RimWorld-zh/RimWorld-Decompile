@@ -7,17 +7,18 @@ namespace RimWorld
 	{
 		public static void DebugDrawInteractionCells()
 		{
-			if (Find.CurrentMap != null)
+			if (Find.CurrentMap == null)
 			{
-				if (DebugViewSettings.drawInteractionCells)
+				return;
+			}
+			if (DebugViewSettings.drawInteractionCells)
+			{
+				foreach (object obj in Find.Selector.SelectedObjects)
 				{
-					foreach (object obj in Find.Selector.SelectedObjects)
+					Thing thing = obj as Thing;
+					if (thing != null)
 					{
-						Thing thing = obj as Thing;
-						if (thing != null)
-						{
-							CellRenderer.RenderCell(thing.InteractionCell, 0.5f);
-						}
+						CellRenderer.RenderCell(thing.InteractionCell, 0.5f);
 					}
 				}
 			}

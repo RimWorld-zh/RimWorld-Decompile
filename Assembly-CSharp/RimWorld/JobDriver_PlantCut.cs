@@ -13,7 +13,7 @@ namespace RimWorld
 		{
 			if (base.Plant.def.plant.harvestedThingDef != null && base.Plant.CanYieldNow())
 			{
-				this.xpPerTick = 0.0935f;
+				this.xpPerTick = 0.085f;
 			}
 			else
 			{

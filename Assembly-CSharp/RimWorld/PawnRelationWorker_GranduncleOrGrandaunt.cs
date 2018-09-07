@@ -11,21 +11,16 @@ namespace RimWorld
 
 		public override bool InRelation(Pawn me, Pawn other)
 		{
-			bool result;
 			if (me == other)
 			{
-				result = false;
+				return false;
 			}
-			else if (PawnRelationDefOf.Grandparent.Worker.InRelation(me, other))
+			if (PawnRelationDefOf.Grandparent.Worker.InRelation(me, other))
 			{
-				result = false;
+				return false;
 			}
-			else
-			{
-				PawnRelationWorker worker = PawnRelationDefOf.GreatGrandparent.Worker;
-				result = ((other.GetMother() != null && worker.InRelation(me, other.GetMother())) || (other.GetFather() != null && worker.InRelation(me, other.GetFather())));
-			}
-			return result;
+			PawnRelationWorker worker = PawnRelationDefOf.GreatGrandparent.Worker;
+			return (other.GetMother() != null && worker.InRelation(me, other.GetMother())) || (other.GetFather() != null && worker.InRelation(me, other.GetFather()));
 		}
 	}
 }

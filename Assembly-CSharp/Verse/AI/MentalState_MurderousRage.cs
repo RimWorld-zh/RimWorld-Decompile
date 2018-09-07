@@ -24,9 +24,9 @@ namespace Verse.AI
 			return RandomSocialMode.Off;
 		}
 
-		public override void PostStart(string reason)
+		public override void PreStart()
 		{
-			base.PostStart(reason);
+			base.PreStart();
 			this.TryFindNewTarget();
 		}
 
@@ -57,17 +57,12 @@ namespace Verse.AI
 
 		public override string GetBeginLetterText()
 		{
-			string result;
 			if (this.target == null)
 			{
 				Log.Error("No target. This should have been checked in this mental state's worker.", false);
-				result = "";
+				return string.Empty;
 			}
-			else
-			{
-				result = string.Format(this.def.beginLetter, this.pawn.LabelShort, this.target.LabelShort).AdjustedFor(this.pawn, "PAWN").CapitalizeFirst();
-			}
-			return result;
+			return string.Format(this.def.beginLetter, this.pawn.LabelShort, this.target.LabelShort).AdjustedFor(this.pawn, "PAWN").CapitalizeFirst();
 		}
 
 		private bool TryFindNewTarget()

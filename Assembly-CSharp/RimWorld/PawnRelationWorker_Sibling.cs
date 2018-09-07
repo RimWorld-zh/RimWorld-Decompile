@@ -106,20 +106,17 @@ namespace RimWorld
 			string last;
 			PawnRelationWorker_Sibling.GenerateParentParams(num4, maxChronologicalAge, midChronologicalAge, num, generatedChild, existingChild, childRequest, out value, out value2, out value3, out last);
 			bool allowGay = true;
-			if (newlyGeneratedParentsWillBeSpousesIfNotGay && last.NullOrEmpty())
+			if (newlyGeneratedParentsWillBeSpousesIfNotGay && last.NullOrEmpty() && Rand.Value < 0.8f)
 			{
-				if (Rand.Value < 0.8f)
+				if (genderToGenerate == Gender.Male && existingChild.GetMother() != null && !existingChild.GetMother().story.traits.HasTrait(TraitDefOf.Gay))
 				{
-					if (genderToGenerate == Gender.Male && existingChild.GetMother() != null && !existingChild.GetMother().story.traits.HasTrait(TraitDefOf.Gay))
-					{
-						last = ((NameTriple)existingChild.GetMother().Name).Last;
-						allowGay = false;
-					}
-					else if (genderToGenerate == Gender.Female && existingChild.GetFather() != null && !existingChild.GetFather().story.traits.HasTrait(TraitDefOf.Gay))
-					{
-						last = ((NameTriple)existingChild.GetFather().Name).Last;
-						allowGay = false;
-					}
+					last = ((NameTriple)existingChild.GetMother().Name).Last;
+					allowGay = false;
+				}
+				else if (genderToGenerate == Gender.Female && existingChild.GetFather() != null && !existingChild.GetFather().story.traits.HasTrait(TraitDefOf.Gay))
+				{
+					last = ((NameTriple)existingChild.GetFather().Name).Last;
+					allowGay = false;
 				}
 			}
 			Faction faction = existingChild.Faction;
@@ -180,33 +177,30 @@ namespace RimWorld
 				}
 			}
 			lastName = null;
-			if (!ChildRelationUtility.DefinitelyHasNotBirthName(existingChild))
+			if (!ChildRelationUtility.DefinitelyHasNotBirthName(existingChild) && ChildRelationUtility.ChildWantsNameOfAnyParent(existingChild))
 			{
-				if (ChildRelationUtility.ChildWantsNameOfAnyParent(existingChild))
+				if (existingChild.GetMother() == null && existingChild.GetFather() == null)
 				{
-					if (existingChild.GetMother() == null && existingChild.GetFather() == null)
+					if (Rand.Value < 0.5f)
 					{
-						if (Rand.Value < 0.5f)
-						{
-							lastName = ((NameTriple)existingChild.Name).Last;
-						}
+						lastName = ((NameTriple)existingChild.Name).Last;
 					}
-					else
+				}
+				else
+				{
+					string last = ((NameTriple)existingChild.Name).Last;
+					string b = null;
+					if (existingChild.GetMother() != null)
 					{
-						string last = ((NameTriple)existingChild.Name).Last;
-						string b = null;
-						if (existingChild.GetMother() != null)
-						{
-							b = ((NameTriple)existingChild.GetMother().Name).Last;
-						}
-						else if (existingChild.GetFather() != null)
-						{
-							b = ((NameTriple)existingChild.GetFather().Name).Last;
-						}
-						if (last != b)
-						{
-							lastName = last;
-						}
+						b = ((NameTriple)existingChild.GetMother().Name).Last;
+					}
+					else if (existingChild.GetFather() != null)
+					{
+						b = ((NameTriple)existingChild.GetFather().Name).Last;
+					}
+					if (last != b)
+					{
+						lastName = last;
 					}
 				}
 			}
@@ -214,28 +208,30 @@ namespace RimWorld
 
 		private static void ResolveMyName(ref PawnGenerationRequest request, Pawn generated)
 		{
-			if (request.FixedLastName == null)
+			if (request.FixedLastName != null)
 			{
-				if (ChildRelationUtility.ChildWantsNameOfAnyParent(generated))
+				return;
+			}
+			if (ChildRelationUtility.ChildWantsNameOfAnyParent(generated))
+			{
+				if (Rand.Value < 0.5f)
 				{
-					if (Rand.Value < 0.5f)
-					{
-						request.SetFixedLastName(((NameTriple)generated.GetFather().Name).Last);
-					}
-					else
-					{
-						request.SetFixedLastName(((NameTriple)generated.GetMother().Name).Last);
-					}
+					request.SetFixedLastName(((NameTriple)generated.GetFather().Name).Last);
+				}
+				else
+				{
+					request.SetFixedLastName(((NameTriple)generated.GetMother().Name).Last);
 				}
 			}
 		}
 
 		private static void ResolveMySkinColor(ref PawnGenerationRequest request, Pawn generated)
 		{
-			if (request.FixedMelanin == null)
+			if (request.FixedMelanin != null)
 			{
-				request.SetFixedMelanin(ChildRelationUtility.GetRandomChildSkinColor(generated.GetFather().story.melanin, generated.GetMother().story.melanin));
+				return;
 			}
+			request.SetFixedMelanin(ChildRelationUtility.GetRandomChildSkinColor(generated.GetFather().story.melanin, generated.GetMother().story.melanin));
 		}
 	}
 }

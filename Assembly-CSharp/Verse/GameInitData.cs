@@ -17,13 +17,15 @@ namespace Verse
 
 		public int startingPawnCount = -1;
 
-		public Faction playerFaction = null;
+		public Faction playerFaction;
 
-		public Season startingSeason = Season.Undefined;
+		public Season startingSeason;
+
+		public bool permadeathChosen;
 
 		public bool permadeath;
 
-		public bool startedFromEntry = false;
+		public bool startedFromEntry;
 
 		public string gameToLoad;
 

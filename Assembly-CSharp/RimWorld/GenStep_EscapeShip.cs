@@ -25,44 +25,36 @@ namespace RimWorld
 
 		protected override bool CanScatterAt(IntVec3 c, Map map)
 		{
-			bool result;
 			if (!base.CanScatterAt(c, map))
 			{
-				result = false;
+				return false;
 			}
-			else if (!c.Standable(map))
+			if (!c.Standable(map))
 			{
-				result = false;
+				return false;
 			}
-			else if (c.Roofed(map))
+			if (c.Roofed(map))
 			{
-				result = false;
+				return false;
 			}
-			else if (!map.reachability.CanReachMapEdge(c, TraverseParms.For(TraverseMode.PassDoors, Danger.Deadly, false)))
+			if (!map.reachability.CanReachMapEdge(c, TraverseParms.For(TraverseMode.PassDoors, Danger.Deadly, false)))
 			{
-				result = false;
+				return false;
 			}
-			else
+			CellRect cellRect = new CellRect(c.x - GenStep_EscapeShip.EscapeShipSizeWidth.min / 2, c.z - GenStep_EscapeShip.EscapeShipSizeHeight.min / 2, GenStep_EscapeShip.EscapeShipSizeWidth.min, GenStep_EscapeShip.EscapeShipSizeHeight.min);
+			if (!cellRect.FullyContainedWithin(new CellRect(0, 0, map.Size.x, map.Size.z)))
 			{
-				CellRect cellRect = new CellRect(c.x - GenStep_EscapeShip.EscapeShipSizeWidth.min / 2, c.z - GenStep_EscapeShip.EscapeShipSizeHeight.min / 2, GenStep_EscapeShip.EscapeShipSizeWidth.min, GenStep_EscapeShip.EscapeShipSizeHeight.min);
-				if (!cellRect.FullyContainedWithin(new CellRect(0, 0, map.Size.x, map.Size.z)))
+				return false;
+			}
+			foreach (IntVec3 c2 in cellRect)
+			{
+				TerrainDef terrainDef = map.terrainGrid.TerrainAt(c2);
+				if (!terrainDef.affordances.Contains(TerrainAffordanceDefOf.Heavy) && (terrainDef.driesTo == null || !terrainDef.driesTo.affordances.Contains(TerrainAffordanceDefOf.Heavy)))
 				{
-					result = false;
-				}
-				else
-				{
-					foreach (IntVec3 c2 in cellRect)
-					{
-						TerrainDef terrainDef = map.terrainGrid.TerrainAt(c2);
-						if (!terrainDef.affordances.Contains(TerrainAffordanceDefOf.Heavy) && (terrainDef.driesTo == null || !terrainDef.driesTo.affordances.Contains(TerrainAffordanceDefOf.Heavy)))
-						{
-							return false;
-						}
-					}
-					result = true;
+					return false;
 				}
 			}
-			return result;
+			return true;
 		}
 
 		protected override void ScatterAt(IntVec3 c, Map map, int stackCount = 1)

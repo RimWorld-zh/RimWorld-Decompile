@@ -44,30 +44,29 @@ namespace RimWorld
 			if (this.audioSource != null && !this.audioSource.isPlaying)
 			{
 				this.audioSource.Play();
+				return;
 			}
-			else if (GameObject.Find("MusicAudioSourceDummy") != null)
+			if (GameObject.Find("MusicAudioSourceDummy") != null)
 			{
 				Log.Error("MusicManagerEntry did StartPlaying but there is already a music source GameObject.", false);
+				return;
 			}
-			else
+			this.audioSource = new GameObject("MusicAudioSourceDummy")
 			{
-				this.audioSource = new GameObject("MusicAudioSourceDummy")
+				transform = 
 				{
-					transform = 
-					{
-						parent = Camera.main.transform
-					}
-				}.AddComponent<AudioSource>();
-				this.audioSource.bypassEffects = true;
-				this.audioSource.bypassListenerEffects = true;
-				this.audioSource.bypassReverbZones = true;
-				this.audioSource.priority = 0;
-				this.audioSource.clip = SongDefOf.EntrySong.clip;
-				this.audioSource.volume = this.CurSanitizedVolume;
-				this.audioSource.loop = true;
-				this.audioSource.spatialBlend = 0f;
-				this.audioSource.Play();
-			}
+					parent = Camera.main.transform
+				}
+			}.AddComponent<AudioSource>();
+			this.audioSource.bypassEffects = true;
+			this.audioSource.bypassListenerEffects = true;
+			this.audioSource.bypassReverbZones = true;
+			this.audioSource.priority = 0;
+			this.audioSource.clip = SongDefOf.EntrySong.clip;
+			this.audioSource.volume = this.CurSanitizedVolume;
+			this.audioSource.loop = true;
+			this.audioSource.spatialBlend = 0f;
+			this.audioSource.Play();
 		}
 	}
 }

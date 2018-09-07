@@ -16,15 +16,15 @@ namespace RimWorld
 
 		private const float IntervalDeviation = 15f;
 
-		private float intervalDays = 0f;
+		private float intervalDays;
 
-		private bool repeat = false;
+		private bool repeat;
 
 		private string intervalDaysBuffer;
 
-		private float occurTick = 0f;
+		private float occurTick;
 
-		private bool isFinished = false;
+		private bool isFinished;
 
 		[CompilerGenerated]
 		private static Func<Map, bool> <>f__am$cache0;
@@ -97,33 +97,37 @@ namespace RimWorld
 		public override void Tick()
 		{
 			base.Tick();
-			if (Find.AnyPlayerHomeMap != null)
+			if (Find.AnyPlayerHomeMap == null)
 			{
-				if (!this.isFinished)
+				return;
+			}
+			if (this.isFinished)
+			{
+				return;
+			}
+			if (this.incident == null)
+			{
+				Log.Error("Trying to tick ScenPart_CreateIncident but the incident is null", false);
+				this.isFinished = true;
+				return;
+			}
+			if ((float)Find.TickManager.TicksGame >= this.occurTick)
+			{
+				IncidentParms parms = StorytellerUtility.DefaultParmsNow(this.incident.category, (from x in Find.Maps
+				where x.IsPlayerHome
+				select x).RandomElement<Map>());
+				if (!this.incident.Worker.TryExecute(parms))
 				{
-					if (this.incident == null)
-					{
-						Log.Error("Trying to tick ScenPart_CreateIncident but the incident is null", false);
-						this.isFinished = true;
-					}
-					else if ((float)Find.TickManager.TicksGame >= this.occurTick)
-					{
-						IncidentParms parms = StorytellerUtility.DefaultParmsNow(this.incident.category, (from x in Find.Maps
-						where x.IsPlayerHome
-						select x).RandomElement<Map>());
-						if (!this.incident.Worker.TryExecute(parms))
-						{
-							this.isFinished = true;
-						}
-						else if (this.repeat && this.intervalDays > 0f)
-						{
-							this.occurTick += this.IntervalTicks;
-						}
-						else
-						{
-							this.isFinished = true;
-						}
-					}
+					this.isFinished = true;
+					return;
+				}
+				if (this.repeat && this.intervalDays > 0f)
+				{
+					this.occurTick += this.IntervalTicks;
+				}
+				else
+				{
+					this.isFinished = true;
 				}
 			}
 		}

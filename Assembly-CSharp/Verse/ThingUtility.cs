@@ -50,31 +50,25 @@ namespace Verse
 
 		public static int RoundedResourceStackCount(int stackCount)
 		{
-			int result;
 			if (stackCount > 200)
 			{
-				result = GenMath.RoundTo(stackCount, 10);
+				return GenMath.RoundTo(stackCount, 10);
 			}
-			else if (stackCount > 100)
+			if (stackCount > 100)
 			{
-				result = GenMath.RoundTo(stackCount, 5);
+				return GenMath.RoundTo(stackCount, 5);
 			}
-			else
-			{
-				result = stackCount;
-			}
-			return result;
+			return stackCount;
 		}
 
 		public static IntVec3 InteractionCellWhenAt(ThingDef def, IntVec3 center, Rot4 rot, Map map)
 		{
-			IntVec3 result;
 			if (def.hasInteractionCell)
 			{
 				IntVec3 b = def.interactionCellOffset.RotatedBy(rot);
-				result = center + b;
+				return center + b;
 			}
-			else if (def.Size.x == 1 && def.Size.z == 1)
+			if (def.Size.x == 1 && def.Size.z == 1)
 			{
 				for (int i = 0; i < 8; i++)
 				{
@@ -100,36 +94,32 @@ namespace Verse
 						return intVec3;
 					}
 				}
-				result = center;
+				return center;
 			}
-			else
+			List<IntVec3> list = GenAdjFast.AdjacentCells8Way(center, rot, def.size);
+			CellRect rect = GenAdj.OccupiedRect(center, rot, def.size);
+			for (int l = 0; l < list.Count; l++)
 			{
-				List<IntVec3> list = GenAdjFast.AdjacentCells8Way(center, rot, def.size);
-				CellRect rect = GenAdj.OccupiedRect(center, rot, def.size);
-				for (int l = 0; l < list.Count; l++)
+				if (list[l].Standable(map) && list[l].GetDoor(map) == null && ReachabilityImmediate.CanReachImmediate(list[l], rect, map, PathEndMode.Touch, null))
 				{
-					if (list[l].Standable(map) && list[l].GetDoor(map) == null && ReachabilityImmediate.CanReachImmediate(list[l], rect, map, PathEndMode.Touch, null))
-					{
-						return list[l];
-					}
+					return list[l];
 				}
-				for (int m = 0; m < list.Count; m++)
-				{
-					if (list[m].Standable(map) && ReachabilityImmediate.CanReachImmediate(list[m], rect, map, PathEndMode.Touch, null))
-					{
-						return list[m];
-					}
-				}
-				for (int n = 0; n < list.Count; n++)
-				{
-					if (list[n].Walkable(map) && ReachabilityImmediate.CanReachImmediate(list[n], rect, map, PathEndMode.Touch, null))
-					{
-						return list[n];
-					}
-				}
-				result = center;
 			}
-			return result;
+			for (int m = 0; m < list.Count; m++)
+			{
+				if (list[m].Standable(map) && ReachabilityImmediate.CanReachImmediate(list[m], rect, map, PathEndMode.Touch, null))
+				{
+					return list[m];
+				}
+			}
+			for (int n = 0; n < list.Count; n++)
+			{
+				if (list[n].Walkable(map) && ReachabilityImmediate.CanReachImmediate(list[n], rect, map, PathEndMode.Touch, null))
+				{
+					return list[n];
+				}
+			}
+			return center;
 		}
 
 		public static DamageDef PrimaryMeleeWeaponDamageType(ThingDef thing)
@@ -139,18 +129,13 @@ namespace Verse
 
 		public static DamageDef PrimaryMeleeWeaponDamageType(List<Tool> tools)
 		{
-			DamageDef result;
 			if (tools.NullOrEmpty<Tool>())
 			{
-				result = null;
+				return null;
 			}
-			else
-			{
-				Tool tool2 = tools.MaxBy((Tool tool) => tool.power);
-				ManeuverDef maneuverDef = tool2.Maneuvers.FirstOrDefault<ManeuverDef>();
-				result = ((maneuverDef == null) ? null : maneuverDef.verb.meleeDamageDef);
-			}
-			return result;
+			Tool tool2 = tools.MaxBy((Tool tool) => tool.power);
+			ManeuverDef maneuverDef = tool2.Maneuvers.FirstOrDefault<ManeuverDef>();
+			return (maneuverDef == null) ? null : maneuverDef.verb.meleeDamageDef;
 		}
 
 		[CompilerGenerated]

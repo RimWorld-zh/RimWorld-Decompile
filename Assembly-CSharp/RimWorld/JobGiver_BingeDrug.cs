@@ -66,42 +66,32 @@ namespace RimWorld
 		{
 			ChemicalDef chemical = this.GetChemical(pawn);
 			DrugCategory drugCategory = this.GetDrugCategory(pawn);
-			Thing result;
 			if (chemical == null)
 			{
 				Log.ErrorOnce("Tried to binge on null chemical.", 1393746152, false);
-				result = null;
+				return null;
 			}
-			else
+			Hediff overdose = pawn.health.hediffSet.GetFirstHediffOfDef(HediffDefOf.DrugOverdose, false);
+			Predicate<Thing> predicate = delegate(Thing t)
 			{
-				Hediff overdose = pawn.health.hediffSet.GetFirstHediffOfDef(HediffDefOf.DrugOverdose, false);
-				Predicate<Thing> predicate = delegate(Thing t)
+				if (!this.IgnoreForbid(pawn) && t.IsForbidden(pawn))
 				{
-					bool result2;
-					if (!this.IgnoreForbid(pawn) && t.IsForbidden(pawn))
-					{
-						result2 = false;
-					}
-					else if (!pawn.CanReserve(t, 1, -1, null, false))
-					{
-						result2 = false;
-					}
-					else
-					{
-						CompDrug compDrug = t.TryGetComp<CompDrug>();
-						result2 = (compDrug.Props.chemical == chemical && (overdose == null || !compDrug.Props.CanCauseOverdose || overdose.Severity + compDrug.Props.overdoseSeverityOffset.max < 0.786f) && (pawn.Position.InHorDistOf(t.Position, 60f) || t.Position.Roofed(t.Map) || pawn.Map.areaManager.Home[t.Position] || t.GetSlotGroup() != null) && t.def.ingestible.drugCategory.IncludedIn(drugCategory));
-					}
-					return result2;
-				};
-				IntVec3 position = pawn.Position;
-				Map map = pawn.Map;
-				ThingRequest thingReq = ThingRequest.ForGroup(ThingRequestGroup.Drug);
-				PathEndMode peMode = PathEndMode.OnCell;
-				TraverseParms traverseParams = TraverseParms.For(pawn, Danger.Deadly, TraverseMode.ByPawn, false);
-				Predicate<Thing> validator = predicate;
-				result = GenClosest.ClosestThingReachable(position, map, thingReq, peMode, traverseParams, 9999f, validator, null, 0, -1, false, RegionType.Set_Passable, false);
-			}
-			return result;
+					return false;
+				}
+				if (!pawn.CanReserve(t, 1, -1, null, false))
+				{
+					return false;
+				}
+				CompDrug compDrug = t.TryGetComp<CompDrug>();
+				return compDrug.Props.chemical == chemical && (overdose == null || !compDrug.Props.CanCauseOverdose || overdose.Severity + compDrug.Props.overdoseSeverityOffset.max < 0.786f) && (pawn.Position.InHorDistOf(t.Position, 60f) || t.Position.Roofed(t.Map) || pawn.Map.areaManager.Home[t.Position] || t.GetSlotGroup() != null) && t.def.ingestible.drugCategory.IncludedIn(drugCategory);
+			};
+			IntVec3 position = pawn.Position;
+			Map map = pawn.Map;
+			ThingRequest thingReq = ThingRequest.ForGroup(ThingRequestGroup.Drug);
+			PathEndMode peMode = PathEndMode.OnCell;
+			TraverseParms traverseParams = TraverseParms.For(pawn, Danger.Deadly, TraverseMode.ByPawn, false);
+			Predicate<Thing> validator = predicate;
+			return GenClosest.ClosestThingReachable(position, map, thingReq, peMode, traverseParams, 9999f, validator, null, 0, -1, false, RegionType.Set_Passable, false);
 		}
 
 		private ChemicalDef GetChemical(Pawn pawn)
@@ -138,21 +128,16 @@ namespace RimWorld
 
 			internal bool <>m__0(Thing t)
 			{
-				bool result;
 				if (!this.$this.IgnoreForbid(this.pawn) && t.IsForbidden(this.pawn))
 				{
-					result = false;
+					return false;
 				}
-				else if (!this.pawn.CanReserve(t, 1, -1, null, false))
+				if (!this.pawn.CanReserve(t, 1, -1, null, false))
 				{
-					result = false;
+					return false;
 				}
-				else
-				{
-					CompDrug compDrug = t.TryGetComp<CompDrug>();
-					result = (compDrug.Props.chemical == this.chemical && (this.overdose == null || !compDrug.Props.CanCauseOverdose || this.overdose.Severity + compDrug.Props.overdoseSeverityOffset.max < 0.786f) && (this.pawn.Position.InHorDistOf(t.Position, 60f) || t.Position.Roofed(t.Map) || this.pawn.Map.areaManager.Home[t.Position] || t.GetSlotGroup() != null) && t.def.ingestible.drugCategory.IncludedIn(this.drugCategory));
-				}
-				return result;
+				CompDrug compDrug = t.TryGetComp<CompDrug>();
+				return compDrug.Props.chemical == this.chemical && (this.overdose == null || !compDrug.Props.CanCauseOverdose || this.overdose.Severity + compDrug.Props.overdoseSeverityOffset.max < 0.786f) && (this.pawn.Position.InHorDistOf(t.Position, 60f) || t.Position.Roofed(t.Map) || this.pawn.Map.areaManager.Home[t.Position] || t.GetSlotGroup() != null) && t.def.ingestible.drugCategory.IncludedIn(this.drugCategory);
 			}
 		}
 	}

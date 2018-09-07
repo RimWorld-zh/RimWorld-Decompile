@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Runtime.CompilerServices;
 using Verse;
 
 namespace RimWorld
@@ -11,6 +12,12 @@ namespace RimWorld
 		public List<SkillRecord> skills = new List<SkillRecord>();
 
 		private int lastXpSinceMidnightResetTimestamp = -1;
+
+		[CompilerGenerated]
+		private static Predicate<SkillRecord> <>f__am$cache0;
+
+		[CompilerGenerated]
+		private static Predicate<SkillRecord> <>f__am$cache1;
 
 		public Pawn_SkillTracker(Pawn newPawn)
 		{
@@ -28,6 +35,35 @@ namespace RimWorld
 				this.pawn
 			});
 			Scribe_Values.Look<int>(ref this.lastXpSinceMidnightResetTimestamp, "lastXpSinceMidnightResetTimestamp", 0, false);
+			if (Scribe.mode == LoadSaveMode.PostLoadInit)
+			{
+				if (this.skills.RemoveAll((SkillRecord x) => x == null) != 0)
+				{
+					Log.Error("Some skills were null after loading for " + this.pawn.ToStringSafe<Pawn>(), false);
+				}
+				if (this.skills.RemoveAll((SkillRecord x) => x.def == null) != 0)
+				{
+					Log.Error("Some skills had null def after loading for " + this.pawn.ToStringSafe<Pawn>(), false);
+				}
+				List<SkillDef> allDefsListForReading = DefDatabase<SkillDef>.AllDefsListForReading;
+				for (int i = 0; i < allDefsListForReading.Count; i++)
+				{
+					bool flag = false;
+					for (int j = 0; j < this.skills.Count; j++)
+					{
+						if (this.skills[j].def == allDefsListForReading[i])
+						{
+							flag = true;
+							break;
+						}
+					}
+					if (!flag)
+					{
+						Log.Warning(this.pawn.ToStringSafe<Pawn>() + " had no " + allDefsListForReading[i].ToStringSafe<SkillDef>() + " skill. Adding.", false);
+						this.skills.Add(new SkillRecord(this.pawn, allDefsListForReading[i]));
+					}
+				}
+			}
 		}
 
 		public SkillRecord GetSkill(SkillDef skillDef)
@@ -75,45 +111,34 @@ namespace RimWorld
 
 		public float AverageOfRelevantSkillsFor(WorkTypeDef workDef)
 		{
-			float result;
 			if (workDef.relevantSkills.Count == 0)
 			{
-				result = 3f;
+				return 3f;
 			}
-			else
+			float num = 0f;
+			for (int i = 0; i < workDef.relevantSkills.Count; i++)
 			{
-				float num = 0f;
-				for (int i = 0; i < workDef.relevantSkills.Count; i++)
-				{
-					num += (float)this.GetSkill(workDef.relevantSkills[i]).Level;
-				}
-				num /= (float)workDef.relevantSkills.Count;
-				result = num;
+				num += (float)this.GetSkill(workDef.relevantSkills[i]).Level;
 			}
-			return result;
+			return num / (float)workDef.relevantSkills.Count;
 		}
 
 		public Passion MaxPassionOfRelevantSkillsFor(WorkTypeDef workDef)
 		{
-			Passion result;
 			if (workDef.relevantSkills.Count == 0)
 			{
-				result = Passion.None;
+				return Passion.None;
 			}
-			else
+			Passion passion = Passion.None;
+			for (int i = 0; i < workDef.relevantSkills.Count; i++)
 			{
-				Passion passion = Passion.None;
-				for (int i = 0; i < workDef.relevantSkills.Count; i++)
+				Passion passion2 = this.GetSkill(workDef.relevantSkills[i]).passion;
+				if (passion2 > passion)
 				{
-					Passion passion2 = this.GetSkill(workDef.relevantSkills[i]).passion;
-					if (passion2 > passion)
-					{
-						passion = passion2;
-					}
+					passion = passion2;
 				}
-				result = passion;
 			}
-			return result;
+			return passion;
 		}
 
 		public void Notify_SkillDisablesChanged()
@@ -122,6 +147,18 @@ namespace RimWorld
 			{
 				this.skills[i].Notify_SkillDisablesChanged();
 			}
+		}
+
+		[CompilerGenerated]
+		private static bool <ExposeData>m__0(SkillRecord x)
+		{
+			return x == null;
+		}
+
+		[CompilerGenerated]
+		private static bool <ExposeData>m__1(SkillRecord x)
+		{
+			return x.def == null;
 		}
 	}
 }

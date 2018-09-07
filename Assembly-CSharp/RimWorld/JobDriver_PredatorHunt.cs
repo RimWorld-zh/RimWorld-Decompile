@@ -32,16 +32,11 @@ namespace RimWorld
 			get
 			{
 				Corpse corpse = this.Corpse;
-				Pawn result;
 				if (corpse != null)
 				{
-					result = corpse.InnerPawn;
+					return corpse.InnerPawn;
 				}
-				else
-				{
-					result = (Pawn)this.job.GetTarget(TargetIndex.A).Thing;
-				}
-				return result;
+				return (Pawn)this.job.GetTarget(TargetIndex.A).Thing;
 			}
 		}
 
@@ -62,19 +57,14 @@ namespace RimWorld
 
 		public override string GetReport()
 		{
-			string result;
 			if (this.Corpse != null)
 			{
-				result = base.ReportStringProcessed(JobDefOf.Ingest.reportString);
+				return base.ReportStringProcessed(JobDefOf.Ingest.reportString);
 			}
-			else
-			{
-				result = base.GetReport();
-			}
-			return result;
+			return base.GetReport();
 		}
 
-		public override bool TryMakePreToilReservations()
+		public override bool TryMakePreToilReservations(bool errorOnFailed)
 		{
 			return true;
 		}
@@ -154,7 +144,7 @@ namespace RimWorld
 		public override void Notify_DamageTaken(DamageInfo dinfo)
 		{
 			base.Notify_DamageTaken(dinfo);
-			if (dinfo.Def.externalViolence && dinfo.Def.isRanged && dinfo.Instigator != null && dinfo.Instigator != this.Prey && !this.pawn.InMentalState && !this.pawn.Downed)
+			if (dinfo.Def.ExternalViolenceFor(this.pawn) && dinfo.Def.isRanged && dinfo.Instigator != null && dinfo.Instigator != this.Prey && !this.pawn.InMentalState && !this.pawn.Downed)
 			{
 				this.pawn.mindState.StartFleeingBecauseOfPawnAction(dinfo.Instigator);
 			}
@@ -162,41 +152,45 @@ namespace RimWorld
 
 		private void CheckWarnPlayer()
 		{
-			if (!this.notifiedPlayerAttacking)
+			if (this.notifiedPlayerAttacking)
 			{
-				Pawn prey = this.Prey;
-				if (prey.Spawned && prey.Faction == Faction.OfPlayer)
-				{
-					if (Find.TickManager.TicksGame > this.pawn.mindState.lastPredatorHuntingPlayerNotificationTick + 2500)
-					{
-						if (prey.Position.InHorDistOf(this.pawn.Position, 60f))
-						{
-							if (prey.RaceProps.Humanlike)
-							{
-								Find.LetterStack.ReceiveLetter("LetterLabelPredatorHuntingColonist".Translate(new object[]
-								{
-									this.pawn.LabelShort,
-									prey.LabelDefinite()
-								}).CapitalizeFirst(), "LetterPredatorHuntingColonist".Translate(new object[]
-								{
-									this.pawn.LabelIndefinite(),
-									prey.LabelDefinite()
-								}).CapitalizeFirst(), LetterDefOf.ThreatBig, this.pawn, null, null);
-							}
-							else
-							{
-								Messages.Message("MessagePredatorHuntingPlayerAnimal".Translate(new object[]
-								{
-									this.pawn.LabelIndefinite(),
-									prey.LabelDefinite()
-								}).CapitalizeFirst(), this.pawn, MessageTypeDefOf.ThreatBig, true);
-							}
-							this.pawn.mindState.Notify_PredatorHuntingPlayerNotification();
-							this.notifiedPlayerAttacking = true;
-						}
-					}
-				}
+				return;
 			}
+			Pawn prey = this.Prey;
+			if (!prey.Spawned || prey.Faction != Faction.OfPlayer)
+			{
+				return;
+			}
+			if (Find.TickManager.TicksGame <= this.pawn.mindState.lastPredatorHuntingPlayerNotificationTick + 2500)
+			{
+				return;
+			}
+			if (!prey.Position.InHorDistOf(this.pawn.Position, 60f))
+			{
+				return;
+			}
+			if (prey.RaceProps.Humanlike)
+			{
+				Find.LetterStack.ReceiveLetter("LetterLabelPredatorHuntingColonist".Translate(new object[]
+				{
+					this.pawn.LabelShort,
+					prey.LabelDefinite()
+				}).CapitalizeFirst(), "LetterPredatorHuntingColonist".Translate(new object[]
+				{
+					this.pawn.LabelIndefinite(),
+					prey.LabelDefinite()
+				}).CapitalizeFirst(), LetterDefOf.ThreatBig, this.pawn, null, null);
+			}
+			else
+			{
+				Messages.Message("MessagePredatorHuntingPlayerAnimal".Translate(new object[]
+				{
+					this.pawn.LabelIndefinite(),
+					prey.LabelDefinite()
+				}).CapitalizeFirst(), this.pawn, MessageTypeDefOf.ThreatBig, true);
+			}
+			this.pawn.mindState.Notify_PredatorHuntingPlayerNotification();
+			this.notifiedPlayerAttacking = true;
 		}
 
 		[CompilerGenerated]

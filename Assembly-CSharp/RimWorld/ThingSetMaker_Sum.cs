@@ -152,7 +152,7 @@ namespace RimWorld
 				{
 				case 0u:
 					i = 0;
-					goto IL_115;
+					goto IL_10F;
 				case 1u:
 					Block_3:
 					try
@@ -186,9 +186,9 @@ namespace RimWorld
 				default:
 					return false;
 				}
-				IL_107:
+				IL_101:
 				i++;
-				IL_115:
+				IL_10F:
 				if (i >= this.options.Count)
 				{
 					this.$PC = -1;
@@ -197,7 +197,7 @@ namespace RimWorld
 				{
 					if (this.options[i].chance <= 0f)
 					{
-						goto IL_107;
+						goto IL_101;
 					}
 					enumerator = this.options[i].thingSetMaker.AllGeneratableThingsDebug(parms).GetEnumerator();
 					num = 4294967293u;

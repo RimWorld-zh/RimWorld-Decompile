@@ -10,13 +10,13 @@ namespace RimWorld
 {
 	public class JoyGiverDef : Def
 	{
-		public Type giverClass = null;
+		public Type giverClass;
 
-		public float baseChance = 0f;
+		public float baseChance;
 
 		public bool requireChair = true;
 
-		public List<ThingDef> thingDefs = null;
+		public List<ThingDef> thingDefs;
 
 		public JobDef jobDef;
 
@@ -24,7 +24,7 @@ namespace RimWorld
 
 		public float pctPawnsEverDo = 1f;
 
-		public bool unroofedOnly = false;
+		public bool unroofedOnly;
 
 		public JoyKindDef joyKind;
 
@@ -32,7 +32,7 @@ namespace RimWorld
 
 		public bool canDoWhileInBed;
 
-		private JoyGiver workerInt = null;
+		private JoyGiver workerInt;
 
 		public JoyGiverDef()
 		{
@@ -53,7 +53,7 @@ namespace RimWorld
 
 		public override IEnumerable<string> ConfigErrors()
 		{
-			foreach (string e in this.<ConfigErrors>__BaseCallProxy0())
+			foreach (string e in base.ConfigErrors())
 			{
 				yield return e;
 			}
@@ -113,7 +113,7 @@ namespace RimWorld
 				case 1u:
 					break;
 				case 2u:
-					goto IL_154;
+					goto IL_150;
 				default:
 					return false;
 				}
@@ -146,7 +146,7 @@ namespace RimWorld
 				}
 				if (this.jobDef == null || this.jobDef.joyKind == this.joyKind)
 				{
-					goto IL_154;
+					goto IL_150;
 				}
 				this.$current = string.Concat(new object[]
 				{
@@ -162,7 +162,7 @@ namespace RimWorld
 					this.$PC = 2;
 				}
 				return true;
-				IL_154:
+				IL_150:
 				this.$PC = -1;
 				return false;
 			}

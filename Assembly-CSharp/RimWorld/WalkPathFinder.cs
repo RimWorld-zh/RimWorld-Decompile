@@ -63,12 +63,9 @@ namespace RimWorld
 								num2 *= 0.01f;
 							}
 						}
-						if (list.Count >= 4)
+						if (list.Count >= 4 && (intVec - root).LengthManhattan < (intVec3 - root).LengthManhattan)
 						{
-							if ((intVec - root).LengthManhattan < (intVec3 - root).LengthManhattan)
-							{
-								num2 *= 1E-05f;
-							}
+							num2 *= 1E-05f;
 						}
 						if (num2 > num)
 						{
@@ -97,16 +94,14 @@ namespace RimWorld
 			if (!WalkPathFinder.TryFindWalkPath(currentMap.mapPawns.FreeColonistsSpawned.First<Pawn>(), root, out list))
 			{
 				currentMap.debugDrawer.FlashCell(root, 0.2f, "NOPATH", 50);
+				return;
 			}
-			else
+			for (int i = 0; i < list.Count; i++)
 			{
-				for (int i = 0; i < list.Count; i++)
+				currentMap.debugDrawer.FlashCell(list[i], (float)i / (float)numEntries, i.ToString(), 50);
+				if (i > 0)
 				{
-					currentMap.debugDrawer.FlashCell(list[i], (float)i / (float)numEntries, i.ToString(), 50);
-					if (i > 0)
-					{
-						currentMap.debugDrawer.FlashLine(list[i], list[i - 1], 50, SimpleColor.White);
-					}
+					currentMap.debugDrawer.FlashLine(list[i], list[i - 1], 50, SimpleColor.White);
 				}
 			}
 		}

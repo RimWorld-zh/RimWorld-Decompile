@@ -6,7 +6,7 @@ namespace RimWorld
 {
 	public class FactionRelation : IExposable
 	{
-		public Faction other = null;
+		public Faction other;
 
 		public int goodwill = 100;
 

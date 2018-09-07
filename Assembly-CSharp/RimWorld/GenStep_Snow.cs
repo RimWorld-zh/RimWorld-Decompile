@@ -53,14 +53,15 @@ namespace RimWorld
 			{
 				num4 *= 0.4f;
 			}
-			if ((double)num4 >= 0.3)
+			if ((double)num4 < 0.3)
 			{
-				foreach (IntVec3 c in map.AllCells)
+				return;
+			}
+			foreach (IntVec3 c in map.AllCells)
+			{
+				if (!c.Roofed(map))
 				{
-					if (!c.Roofed(map))
-					{
-						map.steadyEnvironmentEffects.AddFallenSnowAt(c, num4);
-					}
+					map.steadyEnvironmentEffects.AddFallenSnowAt(c, num4);
 				}
 			}
 		}

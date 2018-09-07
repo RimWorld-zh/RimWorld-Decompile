@@ -53,16 +53,11 @@ namespace Verse
 
 		public bool Accepts(Thing t)
 		{
-			bool result;
 			if (this.singleDef != null)
 			{
-				result = (t.def == this.singleDef);
+				return t.def == this.singleDef;
 			}
-			else
-			{
-				result = (this.group == ThingRequestGroup.Everything || this.group.Includes(t.def));
-			}
-			return result;
+			return this.group == ThingRequestGroup.Everything || this.group.Includes(t.def);
 		}
 
 		public override string ToString()

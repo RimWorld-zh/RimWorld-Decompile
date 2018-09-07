@@ -1,6 +1,5 @@
 ﻿using System;
 using System.Collections.Generic;
-using UnityEngine.Profiling;
 using Verse;
 using Verse.AI;
 
@@ -29,19 +28,11 @@ namespace RimWorld
 
 		public override Job JobOnThing(Pawn pawn, Thing t, bool forced = false)
 		{
-			Profiler.BeginSample("PawnCanAutomaticallyHaulFast");
-			Job result;
 			if (!HaulAIUtility.PawnCanAutomaticallyHaulFast(pawn, t, forced))
 			{
-				Profiler.EndSample();
-				result = null;
+				return null;
 			}
-			else
-			{
-				Profiler.EndSample();
-				result = HaulAIUtility.HaulToStorageJob(pawn, t);
-			}
-			return result;
+			return HaulAIUtility.HaulToStorageJob(pawn, t);
 		}
 	}
 }

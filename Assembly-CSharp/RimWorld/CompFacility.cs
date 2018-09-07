@@ -125,36 +125,31 @@ namespace RimWorld
 		public override string CompInspectStringExtra()
 		{
 			CompProperties_Facility props = this.Props;
-			string result;
 			if (props.statOffsets == null)
 			{
-				result = null;
+				return null;
 			}
-			else
+			bool flag = this.AmIActiveForAnyone();
+			StringBuilder stringBuilder = new StringBuilder();
+			for (int i = 0; i < props.statOffsets.Count; i++)
 			{
-				bool flag = this.AmIActiveForAnyone();
-				StringBuilder stringBuilder = new StringBuilder();
-				for (int i = 0; i < props.statOffsets.Count; i++)
+				StatModifier statModifier = props.statOffsets[i];
+				StatDef stat = statModifier.stat;
+				stringBuilder.Append(stat.LabelCap);
+				stringBuilder.Append(": ");
+				stringBuilder.Append(statModifier.value.ToStringByStyle(stat.toStringStyle, ToStringNumberSense.Offset));
+				if (!flag)
 				{
-					StatModifier statModifier = props.statOffsets[i];
-					StatDef stat = statModifier.stat;
-					stringBuilder.Append(stat.LabelCap);
-					stringBuilder.Append(": ");
-					stringBuilder.Append(statModifier.value.ToStringByStyle(stat.toStringStyle, ToStringNumberSense.Offset));
-					if (!flag)
-					{
-						stringBuilder.Append(" (");
-						stringBuilder.Append("InactiveFacility".Translate());
-						stringBuilder.Append(")");
-					}
-					if (i < props.statOffsets.Count - 1)
-					{
-						stringBuilder.AppendLine();
-					}
+					stringBuilder.Append(" (");
+					stringBuilder.Append("InactiveFacility".Translate());
+					stringBuilder.Append(")");
 				}
-				result = stringBuilder.ToString();
+				if (i < props.statOffsets.Count - 1)
+				{
+					stringBuilder.AppendLine();
+				}
 			}
-			return result;
+			return stringBuilder.ToString();
 		}
 
 		private void RelinkAll()
@@ -166,18 +161,19 @@ namespace RimWorld
 		{
 			this.UnlinkAll();
 			CompProperties_Facility props = this.Props;
-			if (props.linkableBuildings != null)
+			if (props.linkableBuildings == null)
 			{
-				for (int i = 0; i < props.linkableBuildings.Count; i++)
+				return;
+			}
+			for (int i = 0; i < props.linkableBuildings.Count; i++)
+			{
+				foreach (Thing thing in this.parent.Map.listerThings.ThingsOfDef(props.linkableBuildings[i]))
 				{
-					foreach (Thing thing in this.parent.Map.listerThings.ThingsOfDef(props.linkableBuildings[i]))
+					CompAffectedByFacilities compAffectedByFacilities = thing.TryGetComp<CompAffectedByFacilities>();
+					if (compAffectedByFacilities != null && compAffectedByFacilities.CanLinkTo(this.parent))
 					{
-						CompAffectedByFacilities compAffectedByFacilities = thing.TryGetComp<CompAffectedByFacilities>();
-						if (compAffectedByFacilities != null && compAffectedByFacilities.CanLinkTo(this.parent))
-						{
-							this.linkedBuildings.Add(thing);
-							compAffectedByFacilities.Notify_NewLink(this.parent);
-						}
+						this.linkedBuildings.Add(thing);
+						compAffectedByFacilities.Notify_NewLink(this.parent);
 					}
 				}
 			}

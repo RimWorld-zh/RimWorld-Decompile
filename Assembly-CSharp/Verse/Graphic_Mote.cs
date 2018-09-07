@@ -29,25 +29,26 @@ namespace Verse
 		{
 			Mote mote = (Mote)thing;
 			float alpha = mote.Alpha;
-			if (alpha > 0f)
+			if (alpha <= 0f)
 			{
-				Color color = base.Color * mote.instanceColor;
-				color.a *= alpha;
-				Vector3 exactScale = mote.exactScale;
-				exactScale.x *= this.data.drawSize.x;
-				exactScale.z *= this.data.drawSize.y;
-				Matrix4x4 matrix = default(Matrix4x4);
-				matrix.SetTRS(mote.DrawPos, Quaternion.AngleAxis(mote.exactRotation, Vector3.up), exactScale);
-				Material matSingle = this.MatSingle;
-				if (!this.ForcePropertyBlock && color.IndistinguishableFrom(matSingle.color))
-				{
-					Graphics.DrawMesh(MeshPool.plane10, matrix, matSingle, layer, null, 0);
-				}
-				else
-				{
-					Graphic_Mote.propertyBlock.SetColor(ShaderPropertyIDs.Color, color);
-					Graphics.DrawMesh(MeshPool.plane10, matrix, matSingle, layer, null, 0, Graphic_Mote.propertyBlock);
-				}
+				return;
+			}
+			Color color = base.Color * mote.instanceColor;
+			color.a *= alpha;
+			Vector3 exactScale = mote.exactScale;
+			exactScale.x *= this.data.drawSize.x;
+			exactScale.z *= this.data.drawSize.y;
+			Matrix4x4 matrix = default(Matrix4x4);
+			matrix.SetTRS(mote.DrawPos, Quaternion.AngleAxis(mote.exactRotation, Vector3.up), exactScale);
+			Material matSingle = this.MatSingle;
+			if (!this.ForcePropertyBlock && color.IndistinguishableFrom(matSingle.color))
+			{
+				Graphics.DrawMesh(MeshPool.plane10, matrix, matSingle, layer, null, 0);
+			}
+			else
+			{
+				Graphic_Mote.propertyBlock.SetColor(ShaderPropertyIDs.Color, color);
+				Graphics.DrawMesh(MeshPool.plane10, matrix, matSingle, layer, null, 0, Graphic_Mote.propertyBlock);
 			}
 		}
 

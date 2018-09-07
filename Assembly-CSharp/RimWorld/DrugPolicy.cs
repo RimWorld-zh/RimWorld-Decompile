@@ -64,22 +64,23 @@ namespace RimWorld
 
 		public void InitializeIfNeeded()
 		{
-			if (this.entriesInt == null)
+			if (this.entriesInt != null)
 			{
-				this.entriesInt = new List<DrugPolicyEntry>();
-				List<ThingDef> allDefsListForReading = DefDatabase<ThingDef>.AllDefsListForReading;
-				for (int i = 0; i < allDefsListForReading.Count; i++)
-				{
-					if (allDefsListForReading[i].category == ThingCategory.Item && allDefsListForReading[i].IsDrug)
-					{
-						DrugPolicyEntry drugPolicyEntry = new DrugPolicyEntry();
-						drugPolicyEntry.drug = allDefsListForReading[i];
-						drugPolicyEntry.allowedForAddiction = true;
-						this.entriesInt.Add(drugPolicyEntry);
-					}
-				}
-				this.entriesInt.SortBy((DrugPolicyEntry e) => e.drug.GetCompProperties<CompProperties_Drug>().listOrder);
+				return;
 			}
+			this.entriesInt = new List<DrugPolicyEntry>();
+			List<ThingDef> allDefsListForReading = DefDatabase<ThingDef>.AllDefsListForReading;
+			for (int i = 0; i < allDefsListForReading.Count; i++)
+			{
+				if (allDefsListForReading[i].category == ThingCategory.Item && allDefsListForReading[i].IsDrug)
+				{
+					DrugPolicyEntry drugPolicyEntry = new DrugPolicyEntry();
+					drugPolicyEntry.drug = allDefsListForReading[i];
+					drugPolicyEntry.allowedForAddiction = true;
+					this.entriesInt.Add(drugPolicyEntry);
+				}
+			}
+			this.entriesInt.SortBy((DrugPolicyEntry e) => e.drug.GetCompProperties<CompProperties_Drug>().listOrder);
 		}
 
 		public void ExposeData()

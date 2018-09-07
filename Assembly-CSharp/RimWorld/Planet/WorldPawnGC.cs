@@ -13,7 +13,7 @@ namespace RimWorld.Planet
 {
 	public class WorldPawnGC : IExposable
 	{
-		private int lastSuccessfulGCTick = 0;
+		private int lastSuccessfulGCTick;
 
 		private int currentGCRate = 1;
 
@@ -25,11 +25,11 @@ namespace RimWorld.Planet
 
 		private const int GCUpdateInterval = 15000;
 
-		private IEnumerator activeGCProcess = null;
+		private IEnumerator activeGCProcess;
 
-		private StringBuilder logDotgraph = null;
+		private StringBuilder logDotgraph;
 
-		private HashSet<string> logDotgraphUniqueLinks = null;
+		private HashSet<string> logDotgraphUniqueLinks;
 
 		[CompilerGenerated]
 		private static Func<KeyValuePair<string, int>, int> <>f__am$cache0;
@@ -38,7 +38,7 @@ namespace RimWorld.Planet
 		private static Func<KeyValuePair<string, int>, string> <>f__am$cache1;
 
 		[CompilerGenerated]
-		private static Func<char, bool> <>f__am$cache2;
+		private static Func<char, bool> <>f__mg$cache0;
 
 		public WorldPawnGC()
 		{
@@ -162,9 +162,9 @@ namespace RimWorld.Planet
 				string key2;
 				(dictionary3 = dictionary2)[key2 = text] = dictionary3[key2] + 1;
 			}
-			return GenText.ToTextList(from kvp in dictionary2
+			return (from kvp in dictionary2
 			orderby kvp.Value descending
-			select string.Format("{0}: {1}", kvp.Value, kvp.Key), "\n");
+			select string.Format("{0}: {1}", kvp.Value, kvp.Key)).ToLineList(null);
 		}
 
 		public IEnumerable PawnGCPass()
@@ -200,74 +200,66 @@ namespace RimWorld.Planet
 
 		private string GetCriticalPawnReason(Pawn pawn)
 		{
-			string result;
 			if (pawn.Discarded)
 			{
-				result = null;
+				return null;
 			}
-			else if (PawnUtility.EverBeenColonistOrTameAnimal(pawn) && pawn.RaceProps.Humanlike)
+			if (PawnUtility.EverBeenColonistOrTameAnimal(pawn) && pawn.RaceProps.Humanlike)
 			{
-				result = "Colonist";
+				return "Colonist";
 			}
-			else if (PawnGenerator.IsBeingGenerated(pawn))
+			if (PawnGenerator.IsBeingGenerated(pawn))
 			{
-				result = "Generating";
+				return "Generating";
 			}
-			else if (PawnUtility.IsFactionLeader(pawn))
+			if (PawnUtility.IsFactionLeader(pawn))
 			{
-				result = "FactionLeader";
+				return "FactionLeader";
 			}
-			else if (PawnUtility.IsKidnappedPawn(pawn))
+			if (PawnUtility.IsKidnappedPawn(pawn))
 			{
-				result = "Kidnapped";
+				return "Kidnapped";
 			}
-			else if (pawn.IsCaravanMember())
+			if (pawn.IsCaravanMember())
 			{
-				result = "CaravanMember";
+				return "CaravanMember";
 			}
-			else if (PawnUtility.IsTravelingInTransportPodWorldObject(pawn))
+			if (PawnUtility.IsTravelingInTransportPodWorldObject(pawn))
 			{
-				result = "TransportPod";
+				return "TransportPod";
 			}
-			else if (PawnUtility.ForSaleBySettlement(pawn))
+			if (PawnUtility.ForSaleBySettlement(pawn))
 			{
-				result = "ForSale";
+				return "ForSale";
 			}
-			else if (Find.WorldPawns.ForcefullyKeptPawns.Contains(pawn))
+			if (Find.WorldPawns.ForcefullyKeptPawns.Contains(pawn))
 			{
-				result = "ForceKept";
+				return "ForceKept";
 			}
-			else if (pawn.SpawnedOrAnyParentSpawned)
+			if (pawn.SpawnedOrAnyParentSpawned)
 			{
-				result = "Spawned";
+				return "Spawned";
 			}
-			else if (!pawn.Corpse.DestroyedOrNull())
+			if (!pawn.Corpse.DestroyedOrNull())
 			{
-				result = "CorpseExists";
+				return "CorpseExists";
 			}
-			else
+			if (pawn.RaceProps.Humanlike && Current.ProgramState == ProgramState.Playing)
 			{
-				if (pawn.RaceProps.Humanlike && Current.ProgramState == ProgramState.Playing)
+				if (Find.PlayLog.AnyEntryConcerns(pawn))
 				{
-					if (Find.PlayLog.AnyEntryConcerns(pawn))
-					{
-						return "InPlayLog";
-					}
-					if (Find.BattleLog.AnyEntryConcerns(pawn))
-					{
-						return "InBattleLog";
-					}
+					return "InPlayLog";
 				}
-				if (Current.ProgramState == ProgramState.Playing && Find.TaleManager.AnyActiveTaleConcerns(pawn))
+				if (Find.BattleLog.AnyEntryConcerns(pawn))
 				{
-					result = "InActiveTale";
-				}
-				else
-				{
-					result = null;
+					return "InBattleLog";
 				}
 			}
-			return result;
+			if (Current.ProgramState == ProgramState.Playing && Find.TaleManager.AnyActiveTaleConcerns(pawn))
+			{
+				return "InActiveTale";
+			}
+			return null;
 		}
 
 		private bool AllowedAsStoryPawn(Pawn pawn)
@@ -277,48 +269,50 @@ namespace RimWorld.Planet
 
 		public void AddAllRelationships(Pawn pawn, Dictionary<Pawn, string> keptPawns)
 		{
-			if (pawn.relations != null)
+			if (pawn.relations == null)
 			{
-				foreach (Pawn pawn2 in pawn.relations.RelatedPawns)
+				return;
+			}
+			foreach (Pawn pawn2 in pawn.relations.RelatedPawns)
+			{
+				if (this.logDotgraph != null)
 				{
-					if (this.logDotgraph != null)
+					string text = string.Format("{0}->{1} [label=<{2}> color=\"purple\"];", WorldPawnGC.DotgraphIdentifier(pawn), WorldPawnGC.DotgraphIdentifier(pawn2), pawn.GetRelations(pawn2).FirstOrDefault<PawnRelationDef>().ToString());
+					if (!this.logDotgraphUniqueLinks.Contains(text))
 					{
-						string text = string.Format("{0}->{1} [label=<{2}> color=\"purple\"];", WorldPawnGC.DotgraphIdentifier(pawn), WorldPawnGC.DotgraphIdentifier(pawn2), pawn.GetRelations(pawn2).FirstOrDefault<PawnRelationDef>().ToString());
-						if (!this.logDotgraphUniqueLinks.Contains(text))
-						{
-							this.logDotgraphUniqueLinks.Add(text);
-							this.logDotgraph.AppendLine(text);
-						}
+						this.logDotgraphUniqueLinks.Add(text);
+						this.logDotgraph.AppendLine(text);
 					}
-					if (!keptPawns.ContainsKey(pawn2))
-					{
-						keptPawns[pawn2] = "Relationship";
-					}
+				}
+				if (!keptPawns.ContainsKey(pawn2))
+				{
+					keptPawns[pawn2] = "Relationship";
 				}
 			}
 		}
 
 		public void AddAllMemories(Pawn pawn, Dictionary<Pawn, string> keptPawns)
 		{
-			if (pawn.needs != null && pawn.needs.mood != null && pawn.needs.mood.thoughts != null && pawn.needs.mood.thoughts.memories != null)
+			if (pawn.needs == null || pawn.needs.mood == null || pawn.needs.mood.thoughts == null || pawn.needs.mood.thoughts.memories == null)
 			{
-				foreach (Thought_Memory thought_Memory in pawn.needs.mood.thoughts.memories.Memories)
+				return;
+			}
+			foreach (Thought_Memory thought_Memory in pawn.needs.mood.thoughts.memories.Memories)
+			{
+				if (thought_Memory.otherPawn != null)
 				{
-					if (thought_Memory.otherPawn != null)
+					if (this.logDotgraph != null)
 					{
-						if (this.logDotgraph != null)
+						string text = string.Format("{0}->{1} [label=<{2}> color=\"orange\"];", WorldPawnGC.DotgraphIdentifier(pawn), WorldPawnGC.DotgraphIdentifier(thought_Memory.otherPawn), thought_Memory.def);
+						if (!this.logDotgraphUniqueLinks.Contains(text))
 						{
-							string text = string.Format("{0}->{1} [label=<{2}> color=\"orange\"];", WorldPawnGC.DotgraphIdentifier(pawn), WorldPawnGC.DotgraphIdentifier(thought_Memory.otherPawn), thought_Memory.def);
-							if (!this.logDotgraphUniqueLinks.Contains(text))
-							{
-								this.logDotgraphUniqueLinks.Add(text);
-								this.logDotgraph.AppendLine(text);
-							}
+							this.logDotgraphUniqueLinks.Add(text);
+							this.logDotgraph.AppendLine(text);
 						}
-						if (!keptPawns.ContainsKey(thought_Memory.otherPawn))
-						{
-							keptPawns[thought_Memory.otherPawn] = "Memory";
-						}
+					}
+					if (!keptPawns.ContainsKey(thought_Memory.otherPawn))
+					{
+						keptPawns[thought_Memory.otherPawn] = "Memory";
 					}
 				}
 			}
@@ -378,9 +372,12 @@ namespace RimWorld.Planet
 
 		public static string DotgraphIdentifier(Pawn pawn)
 		{
-			return new string((from ch in pawn.LabelShort
-			where char.IsLetter(ch)
-			select ch).ToArray<char>()) + "_" + pawn.thingIDNumber.ToString();
+			IEnumerable<char> labelShort = pawn.LabelShort;
+			if (WorldPawnGC.<>f__mg$cache0 == null)
+			{
+				WorldPawnGC.<>f__mg$cache0 = new Func<char, bool>(char.IsLetter);
+			}
+			return new string(labelShort.Where(WorldPawnGC.<>f__mg$cache0).ToArray<char>()) + "_" + pawn.thingIDNumber.ToString();
 		}
 
 		[CompilerGenerated]
@@ -393,12 +390,6 @@ namespace RimWorld.Planet
 		private static string <PawnGCDebugResults>m__1(KeyValuePair<string, int> kvp)
 		{
 			return string.Format("{0}: {1}", kvp.Value, kvp.Key);
-		}
-
-		[CompilerGenerated]
-		private static bool <DotgraphIdentifier>m__2(char ch)
-		{
-			return char.IsLetter(ch);
 		}
 
 		[CompilerGenerated]

@@ -16,7 +16,7 @@ namespace RimWorld
 
 		public WeatherDef lastWeather = WeatherDefOf.Clear;
 
-		public int curWeatherAge = 0;
+		public int curWeatherAge;
 
 		private List<Sustainer> ambienceSustainers = new List<Sustainer>();
 
@@ -87,33 +87,28 @@ namespace RimWorld
 		{
 			get
 			{
-				WeatherDef result;
 				if (this.curWeather == null)
 				{
-					result = this.lastWeather;
+					return this.lastWeather;
 				}
-				else if (this.lastWeather == null)
+				if (this.lastWeather == null)
 				{
-					result = this.curWeather;
+					return this.curWeather;
+				}
+				float num;
+				if (this.curWeather.perceivePriority > this.lastWeather.perceivePriority)
+				{
+					num = 0.18f;
+				}
+				else if (this.lastWeather.perceivePriority > this.curWeather.perceivePriority)
+				{
+					num = 0.82f;
 				}
 				else
 				{
-					float num;
-					if (this.curWeather.perceivePriority > this.lastWeather.perceivePriority)
-					{
-						num = 0.18f;
-					}
-					else if (this.lastWeather.perceivePriority > this.curWeather.perceivePriority)
-					{
-						num = 0.82f;
-					}
-					else
-					{
-						num = 0.5f;
-					}
-					result = ((this.TransitionLerpFactor >= num) ? this.curWeather : this.lastWeather);
+					num = 0.5f;
 				}
-				return result;
+				return (this.TransitionLerpFactor >= num) ? this.curWeather : this.lastWeather;
 			}
 		}
 
@@ -121,20 +116,15 @@ namespace RimWorld
 		{
 			get
 			{
-				WeatherDef result;
 				if (this.curWeather == null)
 				{
-					result = this.lastWeather;
+					return this.lastWeather;
 				}
-				else if (this.lastWeather == null)
+				if (this.lastWeather == null)
 				{
-					result = this.curWeather;
+					return this.curWeather;
 				}
-				else
-				{
-					result = ((this.TransitionLerpFactor >= 0.5f) ? this.curWeather : this.lastWeather);
-				}
-				return result;
+				return (this.TransitionLerpFactor >= 0.5f) ? this.curWeather : this.lastWeather;
 			}
 		}
 
@@ -238,38 +228,33 @@ namespace RimWorld
 
 		private float VolumeOfAmbientSound(SoundDef soundDef)
 		{
-			float result;
 			if (this.map != Find.CurrentMap)
 			{
-				result = 0f;
+				return 0f;
 			}
-			else
+			for (int i = 0; i < Find.WindowStack.Count; i++)
 			{
-				for (int i = 0; i < Find.WindowStack.Count; i++)
+				if (Find.WindowStack[i].silenceAmbientSound)
 				{
-					if (Find.WindowStack[i].silenceAmbientSound)
-					{
-						return 0f;
-					}
+					return 0f;
 				}
-				float num = 0f;
-				for (int j = 0; j < this.lastWeather.ambientSounds.Count; j++)
-				{
-					if (this.lastWeather.ambientSounds[j] == soundDef)
-					{
-						num += 1f - this.TransitionLerpFactor;
-					}
-				}
-				for (int k = 0; k < this.curWeather.ambientSounds.Count; k++)
-				{
-					if (this.curWeather.ambientSounds[k] == soundDef)
-					{
-						num += this.TransitionLerpFactor;
-					}
-				}
-				result = num;
 			}
-			return result;
+			float num = 0f;
+			for (int j = 0; j < this.lastWeather.ambientSounds.Count; j++)
+			{
+				if (this.lastWeather.ambientSounds[j] == soundDef)
+				{
+					num += 1f - this.TransitionLerpFactor;
+				}
+			}
+			for (int k = 0; k < this.curWeather.ambientSounds.Count; k++)
+			{
+				if (this.curWeather.ambientSounds[k] == soundDef)
+				{
+					num += this.TransitionLerpFactor;
+				}
+			}
+			return num;
 		}
 
 		public void DrawAllWeather()

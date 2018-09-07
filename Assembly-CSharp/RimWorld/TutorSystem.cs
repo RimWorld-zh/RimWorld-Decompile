@@ -29,64 +29,58 @@ namespace RimWorld
 
 		public static void Notify_Event(EventPack ep)
 		{
-			if (TutorSystem.TutorialMode)
+			if (!TutorSystem.TutorialMode)
 			{
-				if (DebugViewSettings.logTutor)
+				return;
+			}
+			if (DebugViewSettings.logTutor)
+			{
+				Log.Message("Notify_Event: " + ep, false);
+			}
+			if (Current.Game == null)
+			{
+				return;
+			}
+			Lesson lesson = Find.ActiveLesson.Current;
+			if (Find.ActiveLesson.Current != null)
+			{
+				Find.ActiveLesson.Current.Notify_Event(ep);
+			}
+			foreach (InstructionDef instructionDef in DefDatabase<InstructionDef>.AllDefs)
+			{
+				if (instructionDef.eventTagInitiate == ep.Tag && (instructionDef.eventTagInitiateSource == null || (lesson != null && instructionDef.eventTagInitiateSource == lesson.Instruction)) && (TutorSystem.TutorialMode || !instructionDef.tutorialModeOnly))
 				{
-					Log.Message("Notify_Event: " + ep, false);
-				}
-				if (Current.Game != null)
-				{
-					Lesson lesson = Find.ActiveLesson.Current;
-					if (Find.ActiveLesson.Current != null)
-					{
-						Find.ActiveLesson.Current.Notify_Event(ep);
-					}
-					foreach (InstructionDef instructionDef in DefDatabase<InstructionDef>.AllDefs)
-					{
-						if (instructionDef.eventTagInitiate == ep.Tag && (instructionDef.eventTagInitiateSource == null || (lesson != null && instructionDef.eventTagInitiateSource == lesson.Instruction)) && (TutorSystem.TutorialMode || !instructionDef.tutorialModeOnly))
-						{
-							Find.ActiveLesson.Activate(instructionDef);
-							break;
-						}
-					}
+					Find.ActiveLesson.Activate(instructionDef);
+					break;
 				}
 			}
 		}
 
 		public static bool AllowAction(EventPack ep)
 		{
-			bool result;
 			if (!TutorSystem.TutorialMode)
 			{
-				result = true;
+				return true;
 			}
-			else
+			if (DebugViewSettings.logTutor)
 			{
-				if (DebugViewSettings.logTutor)
+				Log.Message("AllowAction: " + ep, false);
+			}
+			if (ep.Cells != null && ep.Cells.Count<IntVec3>() == 1)
+			{
+				return TutorSystem.AllowAction(new EventPack(ep.Tag, ep.Cells.First<IntVec3>()));
+			}
+			if (Find.ActiveLesson.Current != null)
+			{
+				AcceptanceReport acceptanceReport = Find.ActiveLesson.Current.AllowAction(ep);
+				if (!acceptanceReport.Accepted)
 				{
-					Log.Message("AllowAction: " + ep, false);
-				}
-				if (ep.Cells != null && ep.Cells.Count<IntVec3>() == 1)
-				{
-					result = TutorSystem.AllowAction(new EventPack(ep.Tag, ep.Cells.First<IntVec3>()));
-				}
-				else
-				{
-					if (Find.ActiveLesson.Current != null)
-					{
-						AcceptanceReport acceptanceReport = Find.ActiveLesson.Current.AllowAction(ep);
-						if (!acceptanceReport.Accepted)
-						{
-							string text = acceptanceReport.Reason.NullOrEmpty() ? Find.ActiveLesson.Current.DefaultRejectInputMessage : acceptanceReport.Reason;
-							Messages.Message(text, MessageTypeDefOf.RejectInput, false);
-							return false;
-						}
-					}
-					result = true;
+					string text = acceptanceReport.Reason.NullOrEmpty() ? Find.ActiveLesson.Current.DefaultRejectInputMessage : acceptanceReport.Reason;
+					Messages.Message(text, MessageTypeDefOf.RejectInput, false);
+					return false;
 				}
 			}
-			return result;
+			return true;
 		}
 	}
 }

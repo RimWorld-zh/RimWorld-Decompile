@@ -14,17 +14,17 @@ namespace UnityStandardAssets.ImageEffects
 
 		public float spread = 1f;
 
-		public Shader blurShader = null;
+		public Shader blurShader;
 
-		private Material blurMaterial = null;
+		private Material blurMaterial;
 
-		public Shader depthFetchShader = null;
+		public Shader depthFetchShader;
 
-		private Material depthFetchMaterial = null;
+		private Material depthFetchMaterial;
 
-		public Shader creaseApplyShader = null;
+		public Shader creaseApplyShader;
 
-		private Material creaseApplyMaterial = null;
+		private Material creaseApplyMaterial;
 
 		public CreaseShading()
 		{
@@ -48,37 +48,35 @@ namespace UnityStandardAssets.ImageEffects
 			if (!this.CheckResources())
 			{
 				Graphics.Blit(source, destination);
+				return;
 			}
-			else
+			int width = source.width;
+			int height = source.height;
+			float num = 1f * (float)width / (1f * (float)height);
+			float num2 = 0.001953125f;
+			RenderTexture temporary = RenderTexture.GetTemporary(width, height, 0);
+			RenderTexture renderTexture = RenderTexture.GetTemporary(width / 2, height / 2, 0);
+			Graphics.Blit(source, temporary, this.depthFetchMaterial);
+			Graphics.Blit(temporary, renderTexture);
+			for (int i = 0; i < this.softness; i++)
 			{
-				int width = source.width;
-				int height = source.height;
-				float num = 1f * (float)width / (1f * (float)height);
-				float num2 = 0.001953125f;
-				RenderTexture temporary = RenderTexture.GetTemporary(width, height, 0);
-				RenderTexture renderTexture = RenderTexture.GetTemporary(width / 2, height / 2, 0);
-				Graphics.Blit(source, temporary, this.depthFetchMaterial);
-				Graphics.Blit(temporary, renderTexture);
-				for (int i = 0; i < this.softness; i++)
-				{
-					RenderTexture temporary2 = RenderTexture.GetTemporary(width / 2, height / 2, 0);
-					this.blurMaterial.SetVector("offsets", new Vector4(0f, this.spread * num2, 0f, 0f));
-					Graphics.Blit(renderTexture, temporary2, this.blurMaterial);
-					RenderTexture.ReleaseTemporary(renderTexture);
-					renderTexture = temporary2;
-					temporary2 = RenderTexture.GetTemporary(width / 2, height / 2, 0);
-					this.blurMaterial.SetVector("offsets", new Vector4(this.spread * num2 / num, 0f, 0f, 0f));
-					Graphics.Blit(renderTexture, temporary2, this.blurMaterial);
-					RenderTexture.ReleaseTemporary(renderTexture);
-					renderTexture = temporary2;
-				}
-				this.creaseApplyMaterial.SetTexture("_HrDepthTex", temporary);
-				this.creaseApplyMaterial.SetTexture("_LrDepthTex", renderTexture);
-				this.creaseApplyMaterial.SetFloat("intensity", this.intensity);
-				Graphics.Blit(source, destination, this.creaseApplyMaterial);
-				RenderTexture.ReleaseTemporary(temporary);
+				RenderTexture temporary2 = RenderTexture.GetTemporary(width / 2, height / 2, 0);
+				this.blurMaterial.SetVector("offsets", new Vector4(0f, this.spread * num2, 0f, 0f));
+				Graphics.Blit(renderTexture, temporary2, this.blurMaterial);
 				RenderTexture.ReleaseTemporary(renderTexture);
+				renderTexture = temporary2;
+				temporary2 = RenderTexture.GetTemporary(width / 2, height / 2, 0);
+				this.blurMaterial.SetVector("offsets", new Vector4(this.spread * num2 / num, 0f, 0f, 0f));
+				Graphics.Blit(renderTexture, temporary2, this.blurMaterial);
+				RenderTexture.ReleaseTemporary(renderTexture);
+				renderTexture = temporary2;
 			}
+			this.creaseApplyMaterial.SetTexture("_HrDepthTex", temporary);
+			this.creaseApplyMaterial.SetTexture("_LrDepthTex", renderTexture);
+			this.creaseApplyMaterial.SetFloat("intensity", this.intensity);
+			Graphics.Blit(source, destination, this.creaseApplyMaterial);
+			RenderTexture.ReleaseTemporary(temporary);
+			RenderTexture.ReleaseTemporary(renderTexture);
 		}
 	}
 }

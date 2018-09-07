@@ -12,44 +12,38 @@ namespace Verse.AI
 
 		protected override Job TryGiveJob(Pawn pawn)
 		{
-			Job result;
 			if (!pawn.Drafted)
 			{
-				result = null;
+				return null;
 			}
-			else if (!pawn.Position.Standable(pawn.Map))
+			if (pawn.pather.Moving)
 			{
-				result = this.FindBetterPosition(pawn);
+				return null;
 			}
-			else
+			if (!pawn.Position.Standable(pawn.Map))
 			{
-				List<Thing> thingList = pawn.Position.GetThingList(pawn.Map);
-				for (int i = 0; i < thingList.Count; i++)
+				return this.FindBetterPositionJob(pawn);
+			}
+			List<Thing> thingList = pawn.Position.GetThingList(pawn.Map);
+			for (int i = 0; i < thingList.Count; i++)
+			{
+				Pawn pawn2 = thingList[i] as Pawn;
+				if (pawn2 != null && pawn2 != pawn && pawn2.Faction == pawn.Faction && pawn2.Drafted && !pawn2.pather.MovingNow)
 				{
-					Pawn pawn2 = thingList[i] as Pawn;
-					if (pawn2 != null && pawn2.Faction == pawn.Faction && pawn2.Drafted && !pawn2.pather.MovingNow)
-					{
-						return this.FindBetterPosition(pawn);
-					}
+					return this.FindBetterPositionJob(pawn);
 				}
-				result = null;
 			}
-			return result;
+			return null;
 		}
 
-		private Job FindBetterPosition(Pawn pawn)
+		private Job FindBetterPositionJob(Pawn pawn)
 		{
 			IntVec3 intVec = RCellFinder.BestOrderedGotoDestNear(pawn.Position, pawn);
-			Job result;
 			if (intVec.IsValid && intVec != pawn.Position)
 			{
-				result = new Job(JobDefOf.Goto, intVec);
+				return new Job(JobDefOf.Goto, intVec);
 			}
-			else
-			{
-				result = null;
-			}
-			return result;
+			return null;
 		}
 	}
 }

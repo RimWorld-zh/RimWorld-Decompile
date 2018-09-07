@@ -17,31 +17,23 @@ namespace RimWorld
 
 		protected override Job TryGiveJob(Pawn pawn)
 		{
-			Job result;
 			if (pawn.RaceProps.nuzzleMtbHours <= 0f)
 			{
-				result = null;
+				return null;
 			}
-			else
+			List<Pawn> source = pawn.Map.mapPawns.SpawnedPawnsInFaction(pawn.Faction);
+			Pawn t;
+			if (!(from p in source
+			where !p.NonHumanlikeOrWildMan() && p != pawn && p.Position.InHorDistOf(pawn.Position, 40f) && pawn.GetRoom(RegionType.Set_Passable) == p.GetRoom(RegionType.Set_Passable) && !p.Position.IsForbidden(pawn) && p.CanCasuallyInteractNow(false)
+			select p).TryRandomElement(out t))
 			{
-				List<Pawn> source = pawn.Map.mapPawns.SpawnedPawnsInFaction(pawn.Faction);
-				Pawn t;
-				if (!(from p in source
-				where !p.NonHumanlikeOrWildMan() && p != pawn && p.Position.InHorDistOf(pawn.Position, 40f) && pawn.GetRoom(RegionType.Set_Passable) == p.GetRoom(RegionType.Set_Passable) && !p.Position.IsForbidden(pawn) && p.CanCasuallyInteractNow(false)
-				select p).TryRandomElement(out t))
-				{
-					result = null;
-				}
-				else
-				{
-					result = new Job(JobDefOf.Nuzzle, t)
-					{
-						locomotionUrgency = LocomotionUrgency.Walk,
-						expiryInterval = 3000
-					};
-				}
+				return null;
 			}
-			return result;
+			return new Job(JobDefOf.Nuzzle, t)
+			{
+				locomotionUrgency = LocomotionUrgency.Walk,
+				expiryInterval = 3000
+			};
 		}
 
 		[CompilerGenerated]

@@ -18,16 +18,11 @@ namespace Verse.Sound
 
 		public override float ValueFor(Sample samp)
 		{
-			float result;
 			if (Current.ProgramState != ProgramState.Playing || Find.MusicManagerPlay == null)
 			{
-				result = 1f;
+				return 1f;
 			}
-			else
-			{
-				result = Find.MusicManagerPlay.subtleAmbienceSoundVolumeMultiplier;
-			}
-			return result;
+			return Find.MusicManagerPlay.subtleAmbienceSoundVolumeMultiplier;
 		}
 	}
 }

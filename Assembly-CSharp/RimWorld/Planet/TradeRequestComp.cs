@@ -38,21 +38,18 @@ namespace RimWorld.Planet
 
 		public override string CompInspectStringExtra()
 		{
-			string result;
 			if (this.ActiveRequest)
 			{
-				result = "CaravanRequestInfo".Translate(new object[]
+				return "CaravanRequestInfo".Translate(new object[]
 				{
 					TradeRequestUtility.RequestedThingLabel(this.requestThingDef, this.requestCount).CapitalizeFirst(),
 					GenThing.ThingsToCommaList(this.rewards, true, true, -1).CapitalizeFirst(),
-					(this.expiration - Find.TickManager.TicksGame).ToStringTicksToDays("F1")
+					(this.expiration - Find.TickManager.TicksGame).ToStringTicksToDays("F1"),
+					(this.requestThingDef.GetStatValueAbstract(StatDefOf.MarketValue, null) * (float)this.requestCount).ToStringMoney(null),
+					GenThing.GetMarketValue(this.rewards).ToStringMoney(null)
 				});
 			}
-			else
-			{
-				result = null;
-			}
-			return result;
+			return null;
 		}
 
 		public override IEnumerable<Gizmo> GetCaravanGizmos(Caravan caravan)
@@ -77,6 +74,7 @@ namespace RimWorld.Planet
 		public void Disable()
 		{
 			this.expiration = -1;
+			this.rewards.ClearAndDestroyContents(DestroyMode.Vanish);
 		}
 
 		public override void PostExposeData()
@@ -112,25 +110,24 @@ namespace RimWorld.Planet
 				if (!this.ActiveRequest)
 				{
 					Log.Error("Attempted to fulfill an unavailable request", false);
+					return;
 				}
-				else if (!CaravanInventoryUtility.HasThings(caravan, this.requestThingDef, this.requestCount, new Func<Thing, bool>(this.PlayerCanGive)))
+				if (!CaravanInventoryUtility.HasThings(caravan, this.requestThingDef, this.requestCount, new Func<Thing, bool>(this.PlayerCanGive)))
 				{
 					Messages.Message("CommandFulfillTradeOfferFailInsufficient".Translate(new object[]
 					{
 						TradeRequestUtility.RequestedThingLabel(this.requestThingDef, this.requestCount)
 					}), MessageTypeDefOf.RejectInput, false);
+					return;
 				}
-				else
+				Find.WindowStack.Add(Dialog_MessageBox.CreateConfirmation("CommandFulfillTradeOfferConfirm".Translate(new object[]
 				{
-					Find.WindowStack.Add(Dialog_MessageBox.CreateConfirmation("CommandFulfillTradeOfferConfirm".Translate(new object[]
-					{
-						GenLabel.ThingLabel(this.requestThingDef, null, this.requestCount),
-						GenThing.ThingsToCommaList(this.rewards, true, true, -1)
-					}), delegate
-					{
-						this.Fulfill(caravan);
-					}, false, null));
-				}
+					GenLabel.ThingLabel(this.requestThingDef, null, this.requestCount),
+					GenThing.ThingsToCommaList(this.rewards, true, true, -1)
+				}), delegate
+				{
+					this.Fulfill(caravan);
+				}, false, null));
 			};
 			if (!CaravanInventoryUtility.HasThings(caravan, this.requestThingDef, this.requestCount, new Func<Thing, bool>(this.PlayerCanGive)))
 			{
@@ -147,22 +144,17 @@ namespace RimWorld.Planet
 			int remaining = this.requestCount;
 			List<Thing> list = CaravanInventoryUtility.TakeThings(caravan, delegate(Thing thing)
 			{
-				int result;
 				if (this.requestThingDef != thing.def)
 				{
-					result = 0;
+					return 0;
 				}
-				else if (!this.PlayerCanGive(thing))
+				if (!this.PlayerCanGive(thing))
 				{
-					result = 0;
+					return 0;
 				}
-				else
-				{
-					int num = Mathf.Min(remaining, thing.stackCount);
-					remaining -= num;
-					result = num;
-				}
-				return result;
+				int num = Mathf.Min(remaining, thing.stackCount);
+				remaining -= num;
+				return num;
 			});
 			for (int i = 0; i < list.Count; i++)
 			{
@@ -178,7 +170,7 @@ namespace RimWorld.Planet
 			{
 				Faction faction = this.parent.Faction;
 				Faction ofPlayer = Faction.OfPlayer;
-				int goodwillChange = 5;
+				int goodwillChange = 12;
 				string reason = "GoodwillChangedReason_FulfilledTradeRequest".Translate();
 				GlobalTargetInfo? lookTarget = new GlobalTargetInfo?(this.parent);
 				faction.TryAffectGoodwillWith(ofPlayer, goodwillChange, true, true, reason, lookTarget);
@@ -188,25 +180,17 @@ namespace RimWorld.Planet
 
 		private bool PlayerCanGive(Thing thing)
 		{
-			bool result;
 			if (thing.GetRotStage() != RotStage.Fresh)
 			{
-				result = false;
+				return false;
 			}
-			else
+			Apparel apparel = thing as Apparel;
+			if (apparel != null && apparel.WornByCorpse)
 			{
-				Apparel apparel = thing as Apparel;
-				if (apparel != null && apparel.WornByCorpse)
-				{
-					result = false;
-				}
-				else
-				{
-					CompQuality compQuality = thing.TryGetComp<CompQuality>();
-					result = (compQuality == null || compQuality.Quality >= QualityCategory.Normal);
-				}
+				return false;
 			}
-			return result;
+			CompQuality compQuality = thing.TryGetComp<CompQuality>();
+			return compQuality == null || compQuality.Quality >= QualityCategory.Normal;
 		}
 
 		// Note: this type is marked as 'beforefieldinit'.
@@ -325,25 +309,24 @@ namespace RimWorld.Planet
 				if (!this.$this.ActiveRequest)
 				{
 					Log.Error("Attempted to fulfill an unavailable request", false);
+					return;
 				}
-				else if (!CaravanInventoryUtility.HasThings(this.caravan, this.$this.requestThingDef, this.$this.requestCount, new Func<Thing, bool>(this.$this.PlayerCanGive)))
+				if (!CaravanInventoryUtility.HasThings(this.caravan, this.$this.requestThingDef, this.$this.requestCount, new Func<Thing, bool>(this.$this.PlayerCanGive)))
 				{
 					Messages.Message("CommandFulfillTradeOfferFailInsufficient".Translate(new object[]
 					{
 						TradeRequestUtility.RequestedThingLabel(this.$this.requestThingDef, this.$this.requestCount)
 					}), MessageTypeDefOf.RejectInput, false);
+					return;
 				}
-				else
+				Find.WindowStack.Add(Dialog_MessageBox.CreateConfirmation("CommandFulfillTradeOfferConfirm".Translate(new object[]
 				{
-					Find.WindowStack.Add(Dialog_MessageBox.CreateConfirmation("CommandFulfillTradeOfferConfirm".Translate(new object[]
-					{
-						GenLabel.ThingLabel(this.$this.requestThingDef, null, this.$this.requestCount),
-						GenThing.ThingsToCommaList(this.$this.rewards, true, true, -1)
-					}), delegate
-					{
-						this.$this.Fulfill(this.caravan);
-					}, false, null));
-				}
+					GenLabel.ThingLabel(this.$this.requestThingDef, null, this.$this.requestCount),
+					GenThing.ThingsToCommaList(this.$this.rewards, true, true, -1)
+				}), delegate
+				{
+					this.$this.Fulfill(this.caravan);
+				}, false, null));
 			}
 
 			internal void <>m__1()
@@ -365,22 +348,17 @@ namespace RimWorld.Planet
 
 			internal int <>m__0(Thing thing)
 			{
-				int result;
 				if (this.$this.requestThingDef != thing.def)
 				{
-					result = 0;
+					return 0;
 				}
-				else if (!this.$this.PlayerCanGive(thing))
+				if (!this.$this.PlayerCanGive(thing))
 				{
-					result = 0;
+					return 0;
 				}
-				else
-				{
-					int num = Mathf.Min(this.remaining, thing.stackCount);
-					this.remaining -= num;
-					result = num;
-				}
-				return result;
+				int num = Mathf.Min(this.remaining, thing.stackCount);
+				this.remaining -= num;
+				return num;
 			}
 		}
 	}

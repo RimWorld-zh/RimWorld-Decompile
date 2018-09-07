@@ -15,17 +15,12 @@ namespace RimWorld
 		protected override Job TryGiveJob(Pawn pawn)
 		{
 			CompEggLayer compEggLayer = pawn.TryGetComp<CompEggLayer>();
-			Job result;
 			if (compEggLayer == null || !compEggLayer.CanLayNow)
 			{
-				result = null;
+				return null;
 			}
-			else
-			{
-				IntVec3 c = RCellFinder.RandomWanderDestFor(pawn, pawn.Position, 5f, null, Danger.Some);
-				result = new Job(JobDefOf.LayEgg, c);
-			}
-			return result;
+			IntVec3 c = RCellFinder.RandomWanderDestFor(pawn, pawn.Position, 5f, null, Danger.Some);
+			return new Job(JobDefOf.LayEgg, c);
 		}
 	}
 }

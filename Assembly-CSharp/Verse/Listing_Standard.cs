@@ -76,7 +76,7 @@ namespace Verse
 			if (flag)
 			{
 				Vector2 labelScrollbarPosition = this.GetLabelScrollbarPosition(this.curX, this.curY);
-				Widgets.LabelScrollable(rect, label, ref labelScrollbarPosition, false);
+				Widgets.LabelScrollable(rect, label, ref labelScrollbarPosition, false, true);
 				this.SetLabelScrollbarPosition(this.curX, this.curY, labelScrollbarPosition);
 			}
 			else
@@ -108,12 +108,21 @@ namespace Verse
 			base.Gap(this.verticalSpacing);
 		}
 
-		public bool RadioButton(string label, bool active, float tabIn = 0f)
+		public bool RadioButton(string label, bool active, float tabIn = 0f, string tooltip = null)
 		{
 			float lineHeight = Text.LineHeight;
-			base.NewColumnIfNeeded(lineHeight);
-			bool result = Widgets.RadioButtonLabeled(new Rect(this.curX + tabIn, this.curY, base.ColumnWidth - tabIn, lineHeight), label, active);
-			this.curY += lineHeight + this.verticalSpacing;
+			Rect rect = base.GetRect(lineHeight);
+			rect.xMin += tabIn;
+			if (!tooltip.NullOrEmpty())
+			{
+				if (Mouse.IsOver(rect))
+				{
+					Widgets.DrawHighlight(rect);
+				}
+				TooltipHandler.TipRegion(rect, tooltip);
+			}
+			bool result = Widgets.RadioButtonLabeled(rect, label, active);
+			base.Gap(this.verticalSpacing);
 			return result;
 		}
 
@@ -293,24 +302,19 @@ namespace Verse
 
 		private Vector2 GetLabelScrollbarPosition(float x, float y)
 		{
-			Vector2 zero;
 			if (this.labelScrollbarPositions == null)
 			{
-				zero = Vector2.zero;
+				return Vector2.zero;
 			}
-			else
+			for (int i = 0; i < this.labelScrollbarPositions.Count; i++)
 			{
-				for (int i = 0; i < this.labelScrollbarPositions.Count; i++)
+				Vector2 first = this.labelScrollbarPositions[i].First;
+				if (first.x == x && first.y == y)
 				{
-					Vector2 first = this.labelScrollbarPositions[i].First;
-					if (first.x == x && first.y == y)
-					{
-						return this.labelScrollbarPositions[i].Second;
-					}
+					return this.labelScrollbarPositions[i].Second;
 				}
-				zero = Vector2.zero;
 			}
-			return zero;
+			return Vector2.zero;
 		}
 
 		private void SetLabelScrollbarPosition(float x, float y, Vector2 scrollbarPosition)

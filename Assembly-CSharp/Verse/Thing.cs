@@ -14,7 +14,7 @@ namespace Verse
 {
 	public class Thing : Entity, IExposable, ISelectable, ILoadReferenceable, ISignalReceiver
 	{
-		public ThingDef def = null;
+		public ThingDef def;
 
 		public int thingIDNumber = -1;
 
@@ -26,15 +26,15 @@ namespace Verse
 
 		public int stackCount = 1;
 
-		protected Faction factionInt = null;
+		protected Faction factionInt;
 
-		private ThingDef stuffInt = null;
+		private ThingDef stuffInt;
 
-		private Graphic graphicInt = null;
+		private Graphic graphicInt;
 
 		private int hitPointsInt = -1;
 
-		public ThingOwner holdingOwner = null;
+		public ThingOwner holdingOwner;
 
 		protected const sbyte UnspawnedState = -1;
 
@@ -84,30 +84,25 @@ namespace Verse
 		{
 			get
 			{
-				bool result;
 				if (this.GetStatValue(StatDefOf.Flammability, true) < 0.01f)
 				{
-					result = false;
+					return false;
 				}
-				else
+				if (this.Spawned && !this.FireBulwark)
 				{
-					if (this.Spawned && !this.FireBulwark)
+					List<Thing> thingList = this.Position.GetThingList(this.Map);
+					if (thingList != null)
 					{
-						List<Thing> thingList = this.Position.GetThingList(this.Map);
-						if (thingList != null)
+						for (int i = 0; i < thingList.Count; i++)
 						{
-							for (int i = 0; i < thingList.Count; i++)
+							if (thingList[i].FireBulwark)
 							{
-								if (thingList[i].FireBulwark)
-								{
-									return false;
-								}
+								return false;
 							}
 						}
 					}
-					result = true;
 				}
-				return result;
+				return true;
 			}
 		}
 
@@ -139,21 +134,16 @@ namespace Verse
 		{
 			get
 			{
-				bool result;
 				if ((int)this.mapIndexOrState < 0)
 				{
-					result = false;
+					return false;
 				}
-				else if ((int)this.mapIndexOrState < Find.Maps.Count)
+				if ((int)this.mapIndexOrState < Find.Maps.Count)
 				{
-					result = true;
+					return true;
 				}
-				else
-				{
-					Log.ErrorOnce("Thing is associated with invalid map index", 64664487, false);
-					result = false;
-				}
-				return result;
+				Log.ErrorOnce("Thing is associated with invalid map index", 64664487, false);
+				return false;
 			}
 		}
 
@@ -169,20 +159,15 @@ namespace Verse
 		{
 			get
 			{
-				Thing result;
 				if (this.Spawned)
 				{
-					result = this;
+					return this;
 				}
-				else if (this.ParentHolder != null)
+				if (this.ParentHolder != null)
 				{
-					result = ThingOwnerUtility.SpawnedParentOrMe(this.ParentHolder);
+					return ThingOwnerUtility.SpawnedParentOrMe(this.ParentHolder);
 				}
-				else
-				{
-					result = null;
-				}
-				return result;
+				return null;
 			}
 		}
 
@@ -190,16 +175,11 @@ namespace Verse
 		{
 			get
 			{
-				Map result;
 				if ((int)this.mapIndexOrState >= 0)
 				{
-					result = Find.Maps[(int)this.mapIndexOrState];
+					return Find.Maps[(int)this.mapIndexOrState];
 				}
-				else
-				{
-					result = null;
-				}
-				return result;
+				return null;
 			}
 		}
 
@@ -207,20 +187,15 @@ namespace Verse
 		{
 			get
 			{
-				Map result;
 				if (this.Spawned)
 				{
-					result = this.Map;
+					return this.Map;
 				}
-				else if (this.ParentHolder != null)
+				if (this.ParentHolder != null)
 				{
-					result = ThingOwnerUtility.GetRootMap(this.ParentHolder);
+					return ThingOwnerUtility.GetRootMap(this.ParentHolder);
 				}
-				else
-				{
-					result = null;
-				}
-				return result;
+				return null;
 			}
 		}
 
@@ -232,28 +207,29 @@ namespace Verse
 			}
 			set
 			{
-				if (!(value == this.positionInt))
+				if (value == this.positionInt)
 				{
-					if (this.Spawned)
+					return;
+				}
+				if (this.Spawned)
+				{
+					if (this.def.AffectsRegions)
 					{
-						if (this.def.AffectsRegions)
-						{
-							Log.Warning("Changed position of a spawned thing which affects regions. This is not supported.", false);
-						}
-						this.DirtyMapMesh(this.Map);
-						RegionListersUpdater.DeregisterInRegions(this, this.Map);
-						this.Map.thingGrid.Deregister(this, false);
+						Log.Warning("Changed position of a spawned thing which affects regions. This is not supported.", false);
 					}
-					this.positionInt = value;
-					if (this.Spawned)
+					this.DirtyMapMesh(this.Map);
+					RegionListersUpdater.DeregisterInRegions(this, this.Map);
+					this.Map.thingGrid.Deregister(this, false);
+				}
+				this.positionInt = value;
+				if (this.Spawned)
+				{
+					this.Map.thingGrid.Register(this);
+					RegionListersUpdater.RegisterInRegions(this, this.Map);
+					this.DirtyMapMesh(this.Map);
+					if (this.def.AffectsReachability)
 					{
-						this.Map.thingGrid.Register(this);
-						RegionListersUpdater.RegisterInRegions(this, this.Map);
-						this.DirtyMapMesh(this.Map);
-						if (this.def.AffectsReachability)
-						{
-							this.Map.reachability.ClearCache();
-						}
+						this.Map.reachability.ClearCache();
 					}
 				}
 			}
@@ -263,24 +239,16 @@ namespace Verse
 		{
 			get
 			{
-				IntVec3 result;
 				if (this.Spawned)
 				{
-					result = this.Position;
+					return this.Position;
 				}
-				else
+				IntVec3 rootPosition = ThingOwnerUtility.GetRootPosition(this.ParentHolder);
+				if (rootPosition.IsValid)
 				{
-					IntVec3 rootPosition = ThingOwnerUtility.GetRootPosition(this.ParentHolder);
-					if (rootPosition.IsValid)
-					{
-						result = rootPosition;
-					}
-					else
-					{
-						result = this.Position;
-					}
+					return rootPosition;
 				}
-				return result;
+				return this.Position;
 			}
 		}
 
@@ -292,26 +260,27 @@ namespace Verse
 			}
 			set
 			{
-				if (!(value == this.rotationInt))
+				if (value == this.rotationInt)
 				{
-					if (this.Spawned && (this.def.size.x != 1 || this.def.size.z != 1))
+					return;
+				}
+				if (this.Spawned && (this.def.size.x != 1 || this.def.size.z != 1))
+				{
+					if (this.def.AffectsRegions)
 					{
-						if (this.def.AffectsRegions)
-						{
-							Log.Warning("Changed rotation of a spawned non-single-cell thing which affects regions. This is not supported.", false);
-						}
-						RegionListersUpdater.DeregisterInRegions(this, this.Map);
-						this.Map.thingGrid.Deregister(this, false);
+						Log.Warning("Changed rotation of a spawned non-single-cell thing which affects regions. This is not supported.", false);
 					}
-					this.rotationInt = value;
-					if (this.Spawned && (this.def.size.x != 1 || this.def.size.z != 1))
+					RegionListersUpdater.DeregisterInRegions(this, this.Map);
+					this.Map.thingGrid.Deregister(this, false);
+				}
+				this.rotationInt = value;
+				if (this.Spawned && (this.def.size.x != 1 || this.def.size.z != 1))
+				{
+					this.Map.thingGrid.Register(this);
+					RegionListersUpdater.RegisterInRegions(this, this.Map);
+					if (this.def.AffectsReachability)
 					{
-						this.Map.thingGrid.Register(this);
-						RegionListersUpdater.RegisterInRegions(this, this.Map);
-						if (this.def.AffectsReachability)
-						{
-							this.Map.reachability.ClearCache();
-						}
+						this.Map.reachability.ClearCache();
 					}
 				}
 			}
@@ -345,16 +314,11 @@ namespace Verse
 		{
 			get
 			{
-				string result;
 				if (this.def.HasThingIDNumber)
 				{
-					result = this.def.defName + this.thingIDNumber.ToString();
+					return this.def.defName + this.thingIDNumber.ToString();
 				}
-				else
-				{
-					result = this.def.defName;
-				}
-				return result;
+				return this.def.defName;
 			}
 			set
 			{
@@ -389,16 +353,11 @@ namespace Verse
 		{
 			get
 			{
-				IntVec2 result;
 				if (!this.rotationInt.IsHorizontal)
 				{
-					result = this.def.size;
+					return this.def.size;
 				}
-				else
-				{
-					result = new IntVec2(this.def.size.z, this.def.size.x);
-				}
-				return result;
+				return new IntVec2(this.def.size.z, this.def.size.x);
 			}
 		}
 
@@ -406,16 +365,11 @@ namespace Verse
 		{
 			get
 			{
-				string result;
 				if (this.stackCount > 1)
 				{
-					result = this.LabelNoCount + " x" + this.stackCount.ToStringCached();
+					return this.LabelNoCount + " x" + this.stackCount.ToStringCached();
 				}
-				else
-				{
-					result = this.LabelNoCount;
-				}
-				return result;
+				return this.LabelNoCount;
 			}
 		}
 
@@ -475,7 +429,6 @@ namespace Verse
 				{
 					if (this.def.graphicData == null)
 					{
-						Log.ErrorOnce(this.def + " has no graphicData but we are trying to access it.", 764532, false);
 						return BaseContent.BadGraphic;
 					}
 					this.graphicInt = this.def.graphicData.GraphicColoredFor(this);
@@ -504,38 +457,30 @@ namespace Verse
 		{
 			get
 			{
-				float result;
 				if (this.Spawned)
 				{
-					result = GenTemperature.GetTemperatureForCell(this.Position, this.Map);
+					return GenTemperature.GetTemperatureForCell(this.Position, this.Map);
 				}
-				else
+				if (this.ParentHolder != null)
 				{
-					if (this.ParentHolder != null)
+					for (IThingHolder parentHolder = this.ParentHolder; parentHolder != null; parentHolder = parentHolder.ParentHolder)
 					{
-						for (IThingHolder parentHolder = this.ParentHolder; parentHolder != null; parentHolder = parentHolder.ParentHolder)
+						float result;
+						if (ThingOwnerUtility.TryGetFixedTemperature(parentHolder, this, out result))
 						{
-							float result2;
-							if (ThingOwnerUtility.TryGetFixedTemperature(parentHolder, this, out result2))
-							{
-								return result2;
-							}
+							return result;
 						}
 					}
-					if (this.SpawnedOrAnyParentSpawned)
-					{
-						result = GenTemperature.GetTemperatureForCell(this.PositionHeld, this.MapHeld);
-					}
-					else if (this.Tile >= 0)
-					{
-						result = GenTemperature.GetTemperatureAtTile(this.Tile);
-					}
-					else
-					{
-						result = 21f;
-					}
 				}
-				return result;
+				if (this.SpawnedOrAnyParentSpawned)
+				{
+					return GenTemperature.GetTemperatureForCell(this.PositionHeld, this.MapHeld);
+				}
+				if (this.Tile >= 0)
+				{
+					return GenTemperature.GetTemperatureAtTile(this.Tile);
+				}
+				return 21f;
 			}
 		}
 
@@ -543,20 +488,15 @@ namespace Verse
 		{
 			get
 			{
-				int result;
 				if (this.Spawned)
 				{
-					result = this.Map.Tile;
+					return this.Map.Tile;
 				}
-				else if (this.ParentHolder != null)
+				if (this.ParentHolder != null)
 				{
-					result = ThingOwnerUtility.GetRootTile(this.ParentHolder);
+					return ThingOwnerUtility.GetRootTile(this.ParentHolder);
 				}
-				else
-				{
-					result = -1;
-				}
-				return result;
+				return -1;
 			}
 		}
 
@@ -625,105 +565,101 @@ namespace Verse
 					" at ",
 					this.Position
 				}), false);
+				return;
 			}
-			else
+			int num = Find.Maps.IndexOf(map);
+			if (num < 0)
 			{
-				int num = Find.Maps.IndexOf(map);
-				if (num < 0)
+				Log.Error("Tried to spawn thing " + this + ", but the map provided does not exist.", false);
+				return;
+			}
+			if (this.stackCount > this.def.stackLimit)
+			{
+				Log.Error(string.Concat(new object[]
 				{
-					Log.Error("Tried to spawn thing " + this + ", but the map provided does not exist.", false);
-				}
-				else
+					"Spawned ",
+					this,
+					" with stackCount ",
+					this.stackCount,
+					" but stackLimit is ",
+					this.def.stackLimit,
+					". Truncating."
+				}), false);
+				this.stackCount = this.def.stackLimit;
+			}
+			this.mapIndexOrState = (sbyte)num;
+			RegionListersUpdater.RegisterInRegions(this, map);
+			if (!map.spawnedThings.TryAdd(this, false))
+			{
+				Log.Error("Couldn't add thing " + this + " to spawned things.", false);
+			}
+			map.listerThings.Add(this);
+			map.thingGrid.Register(this);
+			if (Find.TickManager != null)
+			{
+				Find.TickManager.RegisterAllTickabilityFor(this);
+			}
+			this.DirtyMapMesh(map);
+			if (this.def.drawerType != DrawerType.MapMeshOnly)
+			{
+				map.dynamicDrawManager.RegisterDrawable(this);
+			}
+			map.tooltipGiverList.Notify_ThingSpawned(this);
+			if (this.def.graphicData != null && this.def.graphicData.Linked)
+			{
+				map.linkGrid.Notify_LinkerCreatedOrDestroyed(this);
+				map.mapDrawer.MapMeshDirty(this.Position, MapMeshFlag.Things, true, false);
+			}
+			if (!this.def.CanOverlapZones)
+			{
+				map.zoneManager.Notify_NoZoneOverlapThingSpawned(this);
+			}
+			if (this.def.AffectsRegions)
+			{
+				map.regionDirtyer.Notify_ThingAffectingRegionsSpawned(this);
+			}
+			if (this.def.pathCost != 0 || this.def.passability == Traversability.Impassable)
+			{
+				map.pathGrid.RecalculatePerceivedPathCostUnderThing(this);
+			}
+			if (this.def.AffectsReachability)
+			{
+				map.reachability.ClearCache();
+			}
+			map.coverGrid.Register(this);
+			if (this.def.category == ThingCategory.Item)
+			{
+				map.listerHaulables.Notify_Spawned(this);
+				map.listerMergeables.Notify_Spawned(this);
+			}
+			map.attackTargetsCache.Notify_ThingSpawned(this);
+			Region validRegionAt_NoRebuild = map.regionGrid.GetValidRegionAt_NoRebuild(this.Position);
+			Room room = (validRegionAt_NoRebuild != null) ? validRegionAt_NoRebuild.Room : null;
+			if (room != null)
+			{
+				room.Notify_ContainedThingSpawnedOrDespawned(this);
+			}
+			StealAIDebugDrawer.Notify_ThingChanged(this);
+			IHaulDestination haulDestination = this as IHaulDestination;
+			if (haulDestination != null)
+			{
+				map.haulDestinationManager.AddHaulDestination(haulDestination);
+			}
+			if (this is IThingHolder && Find.ColonistBar != null)
+			{
+				Find.ColonistBar.MarkColonistsDirty();
+			}
+			if (this.def.category == ThingCategory.Item)
+			{
+				SlotGroup slotGroup = this.Position.GetSlotGroup(map);
+				if (slotGroup != null && slotGroup.parent != null)
 				{
-					if (this.stackCount > this.def.stackLimit)
-					{
-						Log.Error(string.Concat(new object[]
-						{
-							"Spawned ",
-							this,
-							" with stackCount ",
-							this.stackCount,
-							" but stackLimit is ",
-							this.def.stackLimit,
-							". Truncating."
-						}), false);
-						this.stackCount = this.def.stackLimit;
-					}
-					this.mapIndexOrState = (sbyte)num;
-					RegionListersUpdater.RegisterInRegions(this, map);
-					if (!map.spawnedThings.TryAdd(this, false))
-					{
-						Log.Error("Couldn't add thing " + this + " to spawned things.", false);
-					}
-					map.listerThings.Add(this);
-					map.thingGrid.Register(this);
-					if (Find.TickManager != null)
-					{
-						Find.TickManager.RegisterAllTickabilityFor(this);
-					}
-					this.DirtyMapMesh(map);
-					if (this.def.drawerType != DrawerType.MapMeshOnly)
-					{
-						map.dynamicDrawManager.RegisterDrawable(this);
-					}
-					map.tooltipGiverList.Notify_ThingSpawned(this);
-					if (this.def.graphicData != null && this.def.graphicData.Linked)
-					{
-						map.linkGrid.Notify_LinkerCreatedOrDestroyed(this);
-						map.mapDrawer.MapMeshDirty(this.Position, MapMeshFlag.Things, true, false);
-					}
-					if (!this.def.CanOverlapZones)
-					{
-						map.zoneManager.Notify_NoZoneOverlapThingSpawned(this);
-					}
-					if (this.def.AffectsRegions)
-					{
-						map.regionDirtyer.Notify_ThingAffectingRegionsSpawned(this);
-					}
-					if (this.def.pathCost != 0 || this.def.passability == Traversability.Impassable)
-					{
-						map.pathGrid.RecalculatePerceivedPathCostUnderThing(this);
-					}
-					if (this.def.AffectsReachability)
-					{
-						map.reachability.ClearCache();
-					}
-					map.coverGrid.Register(this);
-					if (this.def.category == ThingCategory.Item)
-					{
-						map.listerHaulables.Notify_Spawned(this);
-						map.listerMergeables.Notify_Spawned(this);
-					}
-					map.attackTargetsCache.Notify_ThingSpawned(this);
-					Region validRegionAt_NoRebuild = map.regionGrid.GetValidRegionAt_NoRebuild(this.Position);
-					Room room = (validRegionAt_NoRebuild != null) ? validRegionAt_NoRebuild.Room : null;
-					if (room != null)
-					{
-						room.Notify_ContainedThingSpawnedOrDespawned(this);
-					}
-					StealAIDebugDrawer.Notify_ThingChanged(this);
-					IHaulDestination haulDestination = this as IHaulDestination;
-					if (haulDestination != null)
-					{
-						map.haulDestinationManager.AddHaulDestination(haulDestination);
-					}
-					if (this is IThingHolder && Find.ColonistBar != null)
-					{
-						Find.ColonistBar.MarkColonistsDirty();
-					}
-					if (this.def.category == ThingCategory.Item)
-					{
-						SlotGroup slotGroup = this.Position.GetSlotGroup(map);
-						if (slotGroup != null && slotGroup.parent != null)
-						{
-							slotGroup.parent.Notify_ReceivedThing(this);
-						}
-					}
-					if (this.def.receivesSignals)
-					{
-						Find.SignalManager.RegisterReceiver(this);
-					}
+					slotGroup.parent.Notify_ReceivedThing(this);
 				}
+			}
+			if (this.def.receivesSignals)
+			{
+				Find.SignalManager.RegisterReceiver(this);
 			}
 		}
 
@@ -732,79 +668,78 @@ namespace Verse
 			if (this.Destroyed)
 			{
 				Log.Error("Tried to despawn " + this.ToStringSafe<Thing>() + " which is already destroyed.", false);
+				return;
 			}
-			else if (!this.Spawned)
+			if (!this.Spawned)
 			{
 				Log.Error("Tried to despawn " + this.ToStringSafe<Thing>() + " which is not spawned.", false);
+				return;
 			}
-			else
+			Map map = this.Map;
+			RegionListersUpdater.DeregisterInRegions(this, map);
+			map.spawnedThings.Remove(this);
+			map.listerThings.Remove(this);
+			map.thingGrid.Deregister(this, false);
+			map.coverGrid.DeRegister(this);
+			if (this.def.receivesSignals)
 			{
-				Map map = this.Map;
-				RegionListersUpdater.DeregisterInRegions(this, map);
-				map.spawnedThings.Remove(this);
-				map.listerThings.Remove(this);
-				map.thingGrid.Deregister(this, false);
-				map.coverGrid.DeRegister(this);
-				if (this.def.receivesSignals)
+				Find.SignalManager.DeregisterReceiver(this);
+			}
+			map.tooltipGiverList.Notify_ThingDespawned(this);
+			if (this.def.graphicData != null && this.def.graphicData.Linked)
+			{
+				map.linkGrid.Notify_LinkerCreatedOrDestroyed(this);
+				map.mapDrawer.MapMeshDirty(this.Position, MapMeshFlag.Things, true, false);
+			}
+			Find.Selector.Deselect(this);
+			this.DirtyMapMesh(map);
+			if (this.def.drawerType != DrawerType.MapMeshOnly)
+			{
+				map.dynamicDrawManager.DeRegisterDrawable(this);
+			}
+			Region validRegionAt_NoRebuild = map.regionGrid.GetValidRegionAt_NoRebuild(this.Position);
+			Room room = (validRegionAt_NoRebuild != null) ? validRegionAt_NoRebuild.Room : null;
+			if (room != null)
+			{
+				room.Notify_ContainedThingSpawnedOrDespawned(this);
+			}
+			if (this.def.AffectsRegions)
+			{
+				map.regionDirtyer.Notify_ThingAffectingRegionsDespawned(this);
+			}
+			if (this.def.pathCost != 0 || this.def.passability == Traversability.Impassable)
+			{
+				map.pathGrid.RecalculatePerceivedPathCostUnderThing(this);
+			}
+			if (this.def.AffectsReachability)
+			{
+				map.reachability.ClearCache();
+			}
+			Find.TickManager.DeRegisterAllTickabilityFor(this);
+			this.mapIndexOrState = -1;
+			if (this.def.category == ThingCategory.Item)
+			{
+				map.listerHaulables.Notify_DeSpawned(this);
+				map.listerMergeables.Notify_DeSpawned(this);
+			}
+			map.attackTargetsCache.Notify_ThingDespawned(this);
+			map.physicalInteractionReservationManager.ReleaseAllForTarget(this);
+			StealAIDebugDrawer.Notify_ThingChanged(this);
+			IHaulDestination haulDestination = this as IHaulDestination;
+			if (haulDestination != null)
+			{
+				map.haulDestinationManager.RemoveHaulDestination(haulDestination);
+			}
+			if (this is IThingHolder && Find.ColonistBar != null)
+			{
+				Find.ColonistBar.MarkColonistsDirty();
+			}
+			if (this.def.category == ThingCategory.Item)
+			{
+				SlotGroup slotGroup = this.Position.GetSlotGroup(map);
+				if (slotGroup != null && slotGroup.parent != null)
 				{
-					Find.SignalManager.DeregisterReceiver(this);
-				}
-				map.tooltipGiverList.Notify_ThingDespawned(this);
-				if (this.def.graphicData != null && this.def.graphicData.Linked)
-				{
-					map.linkGrid.Notify_LinkerCreatedOrDestroyed(this);
-					map.mapDrawer.MapMeshDirty(this.Position, MapMeshFlag.Things, true, false);
-				}
-				Find.Selector.Deselect(this);
-				this.DirtyMapMesh(map);
-				if (this.def.drawerType != DrawerType.MapMeshOnly)
-				{
-					map.dynamicDrawManager.DeRegisterDrawable(this);
-				}
-				Region validRegionAt_NoRebuild = map.regionGrid.GetValidRegionAt_NoRebuild(this.Position);
-				Room room = (validRegionAt_NoRebuild != null) ? validRegionAt_NoRebuild.Room : null;
-				if (room != null)
-				{
-					room.Notify_ContainedThingSpawnedOrDespawned(this);
-				}
-				if (this.def.AffectsRegions)
-				{
-					map.regionDirtyer.Notify_ThingAffectingRegionsDespawned(this);
-				}
-				if (this.def.pathCost != 0 || this.def.passability == Traversability.Impassable)
-				{
-					map.pathGrid.RecalculatePerceivedPathCostUnderThing(this);
-				}
-				if (this.def.AffectsReachability)
-				{
-					map.reachability.ClearCache();
-				}
-				Find.TickManager.DeRegisterAllTickabilityFor(this);
-				this.mapIndexOrState = -1;
-				if (this.def.category == ThingCategory.Item)
-				{
-					map.listerHaulables.Notify_DeSpawned(this);
-					map.listerMergeables.Notify_DeSpawned(this);
-				}
-				map.attackTargetsCache.Notify_ThingDespawned(this);
-				map.physicalInteractionReservationManager.ReleaseAllForTarget(this);
-				StealAIDebugDrawer.Notify_ThingChanged(this);
-				IHaulDestination haulDestination = this as IHaulDestination;
-				if (haulDestination != null)
-				{
-					map.haulDestinationManager.RemoveHaulDestination(haulDestination);
-				}
-				if (this is IThingHolder && Find.ColonistBar != null)
-				{
-					Find.ColonistBar.MarkColonistsDirty();
-				}
-				if (this.def.category == ThingCategory.Item)
-				{
-					SlotGroup slotGroup = this.Position.GetSlotGroup(map);
-					if (slotGroup != null && slotGroup.parent != null)
-					{
-						slotGroup.parent.Notify_LostThing(this);
-					}
+					slotGroup.parent.Notify_LostThing(this);
 				}
 			}
 		}
@@ -816,46 +751,41 @@ namespace Verse
 
 		public virtual void Destroy(DestroyMode mode = DestroyMode.Vanish)
 		{
-			if (!Thing.allowDestroyNonDestroyable)
+			if (!Thing.allowDestroyNonDestroyable && !this.def.destroyable)
 			{
-				if (!this.def.destroyable)
-				{
-					Log.Error("Tried to destroy non-destroyable thing " + this, false);
-					return;
-				}
+				Log.Error("Tried to destroy non-destroyable thing " + this, false);
+				return;
 			}
 			if (this.Destroyed)
 			{
 				Log.Error("Tried to destroy already-destroyed thing " + this, false);
+				return;
 			}
-			else
+			bool spawned = this.Spawned;
+			Map map = this.Map;
+			if (this.Spawned)
 			{
-				bool spawned = this.Spawned;
-				Map map = this.Map;
-				if (this.Spawned)
-				{
-					this.DeSpawn(mode);
-				}
-				this.mapIndexOrState = -2;
-				if (this.def.DiscardOnDestroyed)
-				{
-					this.Discard(false);
-				}
-				CompExplosive compExplosive = this.TryGetComp<CompExplosive>();
-				bool flag = compExplosive != null && compExplosive.destroyedThroughDetonation;
-				if (spawned && !flag)
-				{
-					GenLeaving.DoLeavingsFor(this, map, mode);
-				}
-				if (this.holdingOwner != null)
-				{
-					this.holdingOwner.Notify_ContainedItemDestroyed(this);
-				}
-				this.RemoveAllReservationsAndDesignationsOnThis();
-				if (!(this is Pawn))
-				{
-					this.stackCount = 0;
-				}
+				this.DeSpawn(mode);
+			}
+			this.mapIndexOrState = -2;
+			if (this.def.DiscardOnDestroyed)
+			{
+				this.Discard(false);
+			}
+			CompExplosive compExplosive = this.TryGetComp<CompExplosive>();
+			bool flag = compExplosive != null && compExplosive.destroyedThroughDetonation;
+			if (spawned && !flag)
+			{
+				GenLeaving.DoLeavingsFor(this, map, mode);
+			}
+			if (this.holdingOwner != null)
+			{
+				this.holdingOwner.Notify_ContainedItemDestroyed(this);
+			}
+			this.RemoveAllReservationsAndDesignationsOnThis();
+			if (!(this is Pawn))
+			{
+				this.stackCount = 0;
 			}
 		}
 
@@ -900,29 +830,28 @@ namespace Verse
 					", but mapIndexOrState=",
 					this.mapIndexOrState
 				}), false);
+				return;
 			}
-			else
-			{
-				this.mapIndexOrState = (sbyte)((int)this.mapIndexOrState - 1);
-			}
+			this.mapIndexOrState = (sbyte)((int)this.mapIndexOrState - 1);
 		}
 
 		private void RemoveAllReservationsAndDesignationsOnThis()
 		{
-			if (this.def.category != ThingCategory.Mote)
+			if (this.def.category == ThingCategory.Mote)
 			{
-				List<Map> maps = Find.Maps;
-				for (int i = 0; i < maps.Count; i++)
+				return;
+			}
+			List<Map> maps = Find.Maps;
+			for (int i = 0; i < maps.Count; i++)
+			{
+				maps[i].reservationManager.ReleaseAllForTarget(this);
+				maps[i].physicalInteractionReservationManager.ReleaseAllForTarget(this);
+				IAttackTarget attackTarget = this as IAttackTarget;
+				if (attackTarget != null)
 				{
-					maps[i].reservationManager.ReleaseAllForTarget(this);
-					maps[i].physicalInteractionReservationManager.ReleaseAllForTarget(this);
-					IAttackTarget attackTarget = this as IAttackTarget;
-					if (attackTarget != null)
-					{
-						maps[i].attackTargetReservationManager.ReleaseAllForTarget(attackTarget);
-					}
-					maps[i].designationManager.RemoveAllDesignationsOn(this, false);
+					maps[i].attackTargetReservationManager.ReleaseAllForTarget(attackTarget);
 				}
+				maps[i].designationManager.RemoveAllDesignationsOn(this, false);
 			}
 		}
 
@@ -965,6 +894,10 @@ namespace Verse
 					this.factionInt = Find.FactionManager.AllFactions.FirstOrDefault((Faction fa) => fa.GetUniqueLoadID() == facID);
 				}
 			}
+			if (Scribe.mode == LoadSaveMode.PostLoadInit)
+			{
+				BackCompatibility.ThingPostLoadInit(this);
+			}
 		}
 
 		public virtual void PostMapInit()
@@ -983,20 +916,15 @@ namespace Verse
 		{
 			get
 			{
-				Color result;
 				if (this.Stuff != null)
 				{
-					result = this.Stuff.stuffProps.color;
+					return this.Stuff.stuffProps.color;
 				}
-				else if (this.def.graphicData != null)
+				if (this.def.graphicData != null)
 				{
-					result = this.def.graphicData.color;
+					return this.def.graphicData.color;
 				}
-				else
-				{
-					result = Color.white;
-				}
-				return result;
+				return Color.white;
 			}
 			set
 			{
@@ -1015,16 +943,11 @@ namespace Verse
 		{
 			get
 			{
-				Color result;
 				if (this.def.graphicData != null)
 				{
-					result = this.def.graphicData.colorTwo;
+					return this.def.graphicData.colorTwo;
 				}
-				else
-				{
-					result = Color.white;
-				}
-				return result;
+				return Color.white;
 			}
 		}
 
@@ -1093,7 +1016,7 @@ namespace Verse
 
 		public virtual string GetInspectString()
 		{
-			return "";
+			return string.Empty;
 		}
 
 		public virtual string GetInspectStringLowPriority()
@@ -1130,61 +1053,53 @@ namespace Verse
 
 		public DamageWorker.DamageResult TakeDamage(DamageInfo dinfo)
 		{
-			DamageWorker.DamageResult result;
 			if (this.Destroyed)
 			{
-				result = new DamageWorker.DamageResult();
+				return new DamageWorker.DamageResult();
 			}
-			else if (dinfo.Amount == 0f)
+			if (dinfo.Amount == 0f)
 			{
-				result = new DamageWorker.DamageResult();
+				return new DamageWorker.DamageResult();
 			}
-			else
+			if (this.def.damageMultipliers != null)
 			{
-				if (this.def.damageMultipliers != null)
+				for (int i = 0; i < this.def.damageMultipliers.Count; i++)
 				{
-					for (int i = 0; i < this.def.damageMultipliers.Count; i++)
+					if (this.def.damageMultipliers[i].damageDef == dinfo.Def)
 					{
-						if (this.def.damageMultipliers[i].damageDef == dinfo.Def)
-						{
-							int num = Mathf.RoundToInt(dinfo.Amount * this.def.damageMultipliers[i].multiplier);
-							dinfo.SetAmount((float)num);
-						}
+						int num = Mathf.RoundToInt(dinfo.Amount * this.def.damageMultipliers[i].multiplier);
+						dinfo.SetAmount((float)num);
 					}
-				}
-				bool flag;
-				this.PreApplyDamage(ref dinfo, out flag);
-				if (flag)
-				{
-					result = new DamageWorker.DamageResult();
-				}
-				else
-				{
-					bool spawnedOrAnyParentSpawned = this.SpawnedOrAnyParentSpawned;
-					Map mapHeld = this.MapHeld;
-					DamageWorker.DamageResult damageResult = dinfo.Def.Worker.Apply(dinfo, this);
-					if (dinfo.Def.harmsHealth && spawnedOrAnyParentSpawned)
-					{
-						mapHeld.damageWatcher.Notify_DamageTaken(this, damageResult.totalDamageDealt);
-					}
-					if (dinfo.Def.externalViolence)
-					{
-						GenLeaving.DropFilthDueToDamage(this, damageResult.totalDamageDealt);
-						if (dinfo.Instigator != null)
-						{
-							Pawn pawn = dinfo.Instigator as Pawn;
-							if (pawn != null)
-							{
-								pawn.records.AddTo(RecordDefOf.DamageDealt, damageResult.totalDamageDealt);
-								pawn.records.AccumulateStoryEvent(StoryEventDefOf.DamageDealt);
-							}
-						}
-					}
-					this.PostApplyDamage(dinfo, damageResult.totalDamageDealt);
-					result = damageResult;
 				}
 			}
-			return result;
+			bool flag;
+			this.PreApplyDamage(ref dinfo, out flag);
+			if (flag)
+			{
+				return new DamageWorker.DamageResult();
+			}
+			bool spawnedOrAnyParentSpawned = this.SpawnedOrAnyParentSpawned;
+			Map mapHeld = this.MapHeld;
+			DamageWorker.DamageResult damageResult = dinfo.Def.Worker.Apply(dinfo, this);
+			if (dinfo.Def.harmsHealth && spawnedOrAnyParentSpawned)
+			{
+				mapHeld.damageWatcher.Notify_DamageTaken(this, damageResult.totalDamageDealt);
+			}
+			if (dinfo.Def.ExternalViolenceFor(this))
+			{
+				GenLeaving.DropFilthDueToDamage(this, damageResult.totalDamageDealt);
+				if (dinfo.Instigator != null)
+				{
+					Pawn pawn = dinfo.Instigator as Pawn;
+					if (pawn != null)
+					{
+						pawn.records.AddTo(RecordDefOf.DamageDealt, damageResult.totalDamageDealt);
+						pawn.records.AccumulateStoryEvent(StoryEventDefOf.DamageDealt);
+					}
+				}
+			}
+			this.PostApplyDamage(dinfo, damageResult.totalDamageDealt);
+			return damageResult;
 		}
 
 		public virtual void PreApplyDamage(ref DamageInfo dinfo, out bool absorbed)
@@ -1203,36 +1118,28 @@ namespace Verse
 
 		public virtual bool TryAbsorbStack(Thing other, bool respectStackLimit)
 		{
-			bool result;
 			if (!this.CanStackWith(other))
 			{
-				result = false;
+				return false;
 			}
-			else
+			int num = ThingUtility.TryAbsorbStackNumToTake(this, other, respectStackLimit);
+			if (this.def.useHitPoints)
 			{
-				int num = ThingUtility.TryAbsorbStackNumToTake(this, other, respectStackLimit);
-				if (this.def.useHitPoints)
-				{
-					this.HitPoints = Mathf.CeilToInt((float)(this.HitPoints * this.stackCount + other.HitPoints * num) / (float)(this.stackCount + num));
-				}
-				this.stackCount += num;
-				other.stackCount -= num;
-				StealAIDebugDrawer.Notify_ThingChanged(this);
-				if (this.Spawned)
-				{
-					this.Map.listerMergeables.Notify_ThingStackChanged(this);
-				}
-				if (other.stackCount <= 0)
-				{
-					other.Destroy(DestroyMode.Vanish);
-					result = true;
-				}
-				else
-				{
-					result = false;
-				}
+				this.HitPoints = Mathf.CeilToInt((float)(this.HitPoints * this.stackCount + other.HitPoints * num) / (float)(this.stackCount + num));
 			}
-			return result;
+			this.stackCount += num;
+			other.stackCount -= num;
+			StealAIDebugDrawer.Notify_ThingChanged(this);
+			if (this.Spawned)
+			{
+				this.Map.listerMergeables.Notify_ThingStackChanged(this);
+			}
+			if (other.stackCount <= 0)
+			{
+				other.Destroy(DestroyMode.Vanish);
+				return true;
+			}
+			return false;
 		}
 
 		public virtual Thing SplitOff(int count)
@@ -1241,7 +1148,6 @@ namespace Verse
 			{
 				throw new ArgumentException("SplitOff with count <= 0", "count");
 			}
-			Thing result;
 			if (count >= this.stackCount)
 			{
 				if (count > this.stackCount)
@@ -1264,24 +1170,20 @@ namespace Verse
 				{
 					this.holdingOwner.Remove(this);
 				}
-				result = this;
+				return this;
 			}
-			else
+			Thing thing = ThingMaker.MakeThing(this.def, this.Stuff);
+			thing.stackCount = count;
+			this.stackCount -= count;
+			if (this.Spawned)
 			{
-				Thing thing = ThingMaker.MakeThing(this.def, this.Stuff);
-				thing.stackCount = count;
-				this.stackCount -= count;
-				if (this.Spawned)
-				{
-					this.Map.listerMergeables.Notify_ThingStackChanged(this);
-				}
-				if (this.def.useHitPoints)
-				{
-					thing.HitPoints = this.HitPoints;
-				}
-				result = thing;
+				this.Map.listerMergeables.Notify_ThingStackChanged(this);
 			}
-			return result;
+			if (this.def.useHitPoints)
+			{
+				thing.HitPoints = this.HitPoints;
+			}
+			return thing;
 		}
 
 		public virtual IEnumerable<StatDrawEntry> SpecialDisplayStats()
@@ -1330,11 +1232,9 @@ namespace Verse
 			if (!this.def.CanHaveFaction)
 			{
 				Log.Error("Tried to SetFactionDirect on " + this + " which cannot have a faction.", false);
+				return;
 			}
-			else
-			{
-				this.factionInt = newFaction;
-			}
+			this.factionInt = newFaction;
 		}
 
 		public virtual void SetFaction(Faction newFaction, Pawn recruiter = null)
@@ -1342,17 +1242,15 @@ namespace Verse
 			if (!this.def.CanHaveFaction)
 			{
 				Log.Error("Tried to SetFaction on " + this + " which cannot have a faction.", false);
+				return;
 			}
-			else
+			this.factionInt = newFaction;
+			if (this.Spawned)
 			{
-				this.factionInt = newFaction;
-				if (this.Spawned)
+				IAttackTarget attackTarget = this as IAttackTarget;
+				if (attackTarget != null)
 				{
-					IAttackTarget attackTarget = this as IAttackTarget;
-					if (attackTarget != null)
-					{
-						this.Map.attackTargetsCache.UpdateTarget(attackTarget);
-					}
+					this.Map.attackTargetsCache.UpdateTarget(attackTarget);
 				}
 			}
 		}
@@ -1369,16 +1267,11 @@ namespace Verse
 
 		public override string ToString()
 		{
-			string result;
 			if (this.def != null)
 			{
-				result = this.ThingID;
+				return this.ThingID;
 			}
-			else
-			{
-				result = base.GetType().ToString();
-			}
-			return result;
+			return base.GetType().ToString();
 		}
 
 		public override int GetHashCode()
@@ -1398,11 +1291,9 @@ namespace Verse
 					this.mapIndexOrState,
 					"."
 				}), false);
+				return;
 			}
-			else
-			{
-				this.mapIndexOrState = -3;
-			}
+			this.mapIndexOrState = -3;
 		}
 
 		public virtual IEnumerable<Thing> ButcherProducts(Pawn butcher, float efficiency)
@@ -1456,68 +1347,63 @@ namespace Verse
 
 		public float Ingested(Pawn ingester, float nutritionWanted)
 		{
-			float result;
 			if (this.Destroyed)
 			{
 				Log.Error(ingester + " ingested destroyed thing " + this, false);
-				result = 0f;
+				return 0f;
 			}
-			else if (!this.IngestibleNow)
+			if (!this.IngestibleNow)
 			{
 				Log.Error(ingester + " ingested IngestibleNow=false thing " + this, false);
-				result = 0f;
+				return 0f;
 			}
-			else
+			ingester.mindState.lastIngestTick = Find.TickManager.TicksGame;
+			if (this.def.ingestible.outcomeDoers != null)
 			{
-				ingester.mindState.lastIngestTick = Find.TickManager.TicksGame;
-				if (this.def.ingestible.outcomeDoers != null)
+				for (int i = 0; i < this.def.ingestible.outcomeDoers.Count; i++)
 				{
-					for (int i = 0; i < this.def.ingestible.outcomeDoers.Count; i++)
-					{
-						this.def.ingestible.outcomeDoers[i].DoIngestionOutcome(ingester, this);
-					}
+					this.def.ingestible.outcomeDoers[i].DoIngestionOutcome(ingester, this);
 				}
-				if (ingester.needs.mood != null)
-				{
-					List<ThoughtDef> list = FoodUtility.ThoughtsFromIngesting(ingester, this, this.def);
-					for (int j = 0; j < list.Count; j++)
-					{
-						ingester.needs.mood.thoughts.memories.TryGainMemory(list[j], null);
-					}
-				}
-				if (ingester.IsColonist && FoodUtility.IsHumanlikeMeatOrHumanlikeCorpse(this))
-				{
-					TaleRecorder.RecordTale(TaleDefOf.AteRawHumanlikeMeat, new object[]
-					{
-						ingester
-					});
-				}
-				int num;
-				float num2;
-				this.IngestedCalculateAmounts(ingester, nutritionWanted, out num, out num2);
-				if (!ingester.Dead && ingester.needs.joy != null && Mathf.Abs(this.def.ingestible.joy) > 0.0001f && num > 0)
-				{
-					JoyKindDef joyKind = (this.def.ingestible.joyKind == null) ? JoyKindDefOf.Gluttonous : this.def.ingestible.joyKind;
-					ingester.needs.joy.GainJoy((float)num * this.def.ingestible.joy, joyKind);
-				}
-				if (ingester.RaceProps.Humanlike && Rand.Chance(this.GetStatValue(StatDefOf.FoodPoisonChanceFixedHuman, true) * Find.Storyteller.difficulty.foodPoisonChanceFactor))
-				{
-					FoodUtility.AddFoodPoisoningHediff(ingester, this, FoodPoisonCause.DangerousFoodType);
-				}
-				if (num > 0)
-				{
-					if (num == this.stackCount)
-					{
-						this.Destroy(DestroyMode.Vanish);
-					}
-					else
-					{
-						this.SplitOff(num);
-					}
-				}
-				this.PostIngested(ingester);
-				result = num2;
 			}
+			if (ingester.needs.mood != null)
+			{
+				List<ThoughtDef> list = FoodUtility.ThoughtsFromIngesting(ingester, this, this.def);
+				for (int j = 0; j < list.Count; j++)
+				{
+					ingester.needs.mood.thoughts.memories.TryGainMemory(list[j], null);
+				}
+			}
+			if (ingester.IsColonist && FoodUtility.IsHumanlikeMeatOrHumanlikeCorpse(this))
+			{
+				TaleRecorder.RecordTale(TaleDefOf.AteRawHumanlikeMeat, new object[]
+				{
+					ingester
+				});
+			}
+			int num;
+			float result;
+			this.IngestedCalculateAmounts(ingester, nutritionWanted, out num, out result);
+			if (!ingester.Dead && ingester.needs.joy != null && Mathf.Abs(this.def.ingestible.joy) > 0.0001f && num > 0)
+			{
+				JoyKindDef joyKind = (this.def.ingestible.joyKind == null) ? JoyKindDefOf.Gluttonous : this.def.ingestible.joyKind;
+				ingester.needs.joy.GainJoy((float)num * this.def.ingestible.joy, joyKind);
+			}
+			if (ingester.RaceProps.Humanlike && Rand.Chance(this.GetStatValue(StatDefOf.FoodPoisonChanceFixedHuman, true) * Find.Storyteller.difficulty.foodPoisonChanceFactor))
+			{
+				FoodUtility.AddFoodPoisoningHediff(ingester, this, FoodPoisonCause.DangerousFoodType);
+			}
+			if (num > 0)
+			{
+				if (num == this.stackCount)
+				{
+					this.Destroy(DestroyMode.Vanish);
+				}
+				else
+				{
+					this.SplitOff(num);
+				}
+			}
+			this.PostIngested(ingester);
 			return result;
 		}
 
@@ -1812,20 +1698,19 @@ namespace Verse
 				switch (num)
 				{
 				case 0u:
-					if (this.def.butcherProducts != null)
+					if (this.def.butcherProducts == null)
 					{
-						i = 0;
-						goto IL_E9;
+						goto IL_103;
 					}
-					goto IL_10A;
+					i = 0;
+					break;
 				case 1u:
+					IL_D5:
+					i++;
 					break;
 				default:
 					return false;
 				}
-				IL_DA:
-				i++;
-				IL_E9:
 				if (i < this.def.butcherProducts.Count)
 				{
 					ta = this.def.butcherProducts[i];
@@ -1841,9 +1726,9 @@ namespace Verse
 						}
 						return true;
 					}
-					goto IL_DA;
+					goto IL_D5;
 				}
-				IL_10A:
+				IL_103:
 				this.$PC = -1;
 				return false;
 			}
@@ -1940,24 +1825,22 @@ namespace Verse
 				case 0u:
 					costListAdj = this.def.CostListAdjusted(base.Stuff, true);
 					i = 0;
-					goto IL_11E;
+					break;
 				case 1u:
+					IL_10B:
+					i++;
 					break;
 				case 2u:
 					j++;
-					goto IL_1D4;
+					goto IL_1CC;
 				default:
 					return false;
 				}
-				IL_10F:
-				IL_110:
-				i++;
-				IL_11E:
 				if (i >= costListAdj.Count)
 				{
 					if (this.def.smeltProducts == null)
 					{
-						goto IL_1F5;
+						goto IL_1EC;
 					}
 					j = 0;
 				}
@@ -1965,7 +1848,7 @@ namespace Verse
 				{
 					if (costListAdj[i].thingDef.intricate)
 					{
-						goto IL_110;
+						goto IL_10B;
 					}
 					countF = (float)costListAdj[i].count * 0.25f;
 					count = GenMath.RoundRandom(countF);
@@ -1980,9 +1863,9 @@ namespace Verse
 						}
 						return true;
 					}
-					goto IL_10F;
+					goto IL_10B;
 				}
-				IL_1D4:
+				IL_1CC:
 				if (j < this.def.smeltProducts.Count)
 				{
 					ta = this.def.smeltProducts[j];
@@ -1995,7 +1878,7 @@ namespace Verse
 					}
 					return true;
 				}
-				IL_1F5:
+				IL_1EC:
 				this.$PC = -1;
 				return false;
 			}

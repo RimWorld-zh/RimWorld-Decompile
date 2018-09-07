@@ -1,7 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
 using RimWorld.Planet;
-using UnityEngine.Profiling;
 using Verse;
 using Verse.AI;
 
@@ -33,177 +32,128 @@ namespace RimWorld
 
 		public void MapInterfaceOnGUI_BeforeMainTabs()
 		{
-			if (Find.CurrentMap != null)
+			if (Find.CurrentMap == null)
 			{
-				if (!WorldRendererUtility.WorldRenderedNow)
+				return;
+			}
+			if (!WorldRendererUtility.WorldRenderedNow)
+			{
+				ScreenshotModeHandler screenshotMode = Find.UIRoot.screenshotMode;
+				this.thingOverlays.ThingOverlaysOnGUI();
+				MapComponentUtility.MapComponentOnGUI(Find.CurrentMap);
+				BeautyDrawer.BeautyDrawerOnGUI();
+				if (!screenshotMode.FiltersCurrentEvent)
 				{
-					ScreenshotModeHandler screenshotMode = Find.UIRoot.screenshotMode;
-					Profiler.BeginSample("ThingOverlaysOnGUI()");
-					this.thingOverlays.ThingOverlaysOnGUI();
-					Profiler.EndSample();
-					Profiler.BeginSample("MapComponentOnGUI()");
-					MapComponentUtility.MapComponentOnGUI(Find.CurrentMap);
-					Profiler.EndSample();
-					Profiler.BeginSample("BeautyDrawerOnGUI()");
-					BeautyDrawer.BeautyDrawerOnGUI();
-					Profiler.EndSample();
-					if (!screenshotMode.FiltersCurrentEvent)
-					{
-						Profiler.BeginSample("ColonistBarOnGUI()");
-						this.colonistBar.ColonistBarOnGUI();
-						Profiler.EndSample();
-					}
-					Profiler.BeginSample("DragBoxOnGUI()");
-					this.selector.dragBox.DragBoxOnGUI();
-					Profiler.EndSample();
-					Profiler.BeginSample("DesignationManagerOnGUI()");
-					this.designatorManager.DesignationManagerOnGUI();
-					Profiler.EndSample();
-					Profiler.BeginSample("TargeterOnGUI()");
-					this.targeter.TargeterOnGUI();
-					Profiler.EndSample();
-					Profiler.BeginSample("DispenseAllThingTooltips()");
-					Find.CurrentMap.tooltipGiverList.DispenseAllThingTooltips();
-					Profiler.EndSample();
-					if (DebugViewSettings.drawFoodSearchFromMouse)
-					{
-						Profiler.BeginSample("FoodUtility.DebugFoodSearchFromMouse_OnGUI()");
-						FoodUtility.DebugFoodSearchFromMouse_OnGUI();
-						Profiler.EndSample();
-					}
-					if (DebugViewSettings.drawAttackTargetScores)
-					{
-						Profiler.BeginSample("AttackTargetFinder.DebugDrawAttackTargetScores_OnGUI()");
-						AttackTargetFinder.DebugDrawAttackTargetScores_OnGUI();
-						Profiler.EndSample();
-					}
-					if (!screenshotMode.FiltersCurrentEvent)
-					{
-						Profiler.BeginSample("GlobalControlsOnGUI()");
-						this.globalControls.GlobalControlsOnGUI();
-						Profiler.EndSample();
-						Profiler.BeginSample("ResourceReadoutOnGUI()");
-						this.resourceReadout.ResourceReadoutOnGUI();
-						Profiler.EndSample();
-					}
+					this.colonistBar.ColonistBarOnGUI();
 				}
-				else
+				this.selector.dragBox.DragBoxOnGUI();
+				this.designatorManager.DesignationManagerOnGUI();
+				this.targeter.TargeterOnGUI();
+				Find.CurrentMap.tooltipGiverList.DispenseAllThingTooltips();
+				if (DebugViewSettings.drawFoodSearchFromMouse)
 				{
-					this.targeter.StopTargeting();
+					FoodUtility.DebugFoodSearchFromMouse_OnGUI();
 				}
+				if (DebugViewSettings.drawAttackTargetScores)
+				{
+					AttackTargetFinder.DebugDrawAttackTargetScores_OnGUI();
+				}
+				if (!screenshotMode.FiltersCurrentEvent)
+				{
+					this.globalControls.GlobalControlsOnGUI();
+					this.resourceReadout.ResourceReadoutOnGUI();
+				}
+			}
+			else
+			{
+				this.targeter.StopTargeting();
 			}
 		}
 
 		public void MapInterfaceOnGUI_AfterMainTabs()
 		{
-			if (Find.CurrentMap != null)
+			if (Find.CurrentMap == null)
 			{
-				if (!WorldRendererUtility.WorldRenderedNow)
+				return;
+			}
+			if (!WorldRendererUtility.WorldRenderedNow)
+			{
+				ScreenshotModeHandler screenshotMode = Find.UIRoot.screenshotMode;
+				if (!screenshotMode.FiltersCurrentEvent)
 				{
-					ScreenshotModeHandler screenshotMode = Find.UIRoot.screenshotMode;
-					if (!screenshotMode.FiltersCurrentEvent)
-					{
-						Profiler.BeginSample("MouseoverReadoutOnGUI()");
-						this.mouseoverReadout.MouseoverReadoutOnGUI();
-						Profiler.EndSample();
-						Profiler.BeginSample("EnvironmentStatsOnGUI()");
-						EnvironmentStatsDrawer.EnvironmentStatsOnGUI();
-						Profiler.EndSample();
-						Profiler.BeginSample("DebugDrawerOnGUI()");
-						Find.CurrentMap.debugDrawer.DebugDrawerOnGUI();
-						Profiler.EndSample();
-					}
+					this.mouseoverReadout.MouseoverReadoutOnGUI();
+					EnvironmentStatsDrawer.EnvironmentStatsOnGUI();
+					Find.CurrentMap.debugDrawer.DebugDrawerOnGUI();
 				}
 			}
 		}
 
 		public void HandleMapClicks()
 		{
-			if (Find.CurrentMap != null)
+			if (Find.CurrentMap == null)
 			{
-				if (!WorldRendererUtility.WorldRenderedNow)
-				{
-					Profiler.BeginSample("DesignatorManager.ProcessInputEvents()");
-					this.designatorManager.ProcessInputEvents();
-					Profiler.EndSample();
-					Profiler.BeginSample("targeter.ProcessInputEvents()");
-					this.targeter.ProcessInputEvents();
-					Profiler.EndSample();
-				}
+				return;
+			}
+			if (!WorldRendererUtility.WorldRenderedNow)
+			{
+				this.designatorManager.ProcessInputEvents();
+				this.targeter.ProcessInputEvents();
 			}
 		}
 
 		public void HandleLowPriorityInput()
 		{
-			if (Find.CurrentMap != null)
+			if (Find.CurrentMap == null)
 			{
-				if (!WorldRendererUtility.WorldRenderedNow)
-				{
-					Profiler.BeginSample("SelectorOnGUI()");
-					this.selector.SelectorOnGUI();
-					Profiler.EndSample();
-					Profiler.BeginSample("LordManagerOnGUI()");
-					Find.CurrentMap.lordManager.LordManagerOnGUI();
-					Profiler.EndSample();
-				}
+				return;
+			}
+			if (!WorldRendererUtility.WorldRenderedNow)
+			{
+				this.selector.SelectorOnGUI();
+				Find.CurrentMap.lordManager.LordManagerOnGUI();
 			}
 		}
 
 		public void MapInterfaceUpdate()
 		{
-			if (Find.CurrentMap != null)
+			if (Find.CurrentMap == null)
 			{
-				if (!WorldRendererUtility.WorldRenderedNow)
+				return;
+			}
+			if (!WorldRendererUtility.WorldRenderedNow)
+			{
+				this.targeter.TargeterUpdate();
+				SelectionDrawer.DrawSelectionOverlays();
+				EnvironmentStatsDrawer.DrawRoomOverlays();
+				this.designatorManager.DesignatorManagerUpdate();
+				Find.CurrentMap.roofGrid.RoofGridUpdate();
+				Find.CurrentMap.exitMapGrid.ExitMapGridUpdate();
+				Find.CurrentMap.deepResourceGrid.DeepResourceGridUpdate();
+				if (DebugViewSettings.drawPawnDebug)
 				{
-					Profiler.BeginSample("TargeterUpdate()");
-					this.targeter.TargeterUpdate();
-					Profiler.EndSample();
-					Profiler.BeginSample("DrawSelectionOverlays()");
-					SelectionDrawer.DrawSelectionOverlays();
-					Profiler.EndSample();
-					Profiler.BeginSample("EnvironmentStatsDrawer.DrawRoomOverlays()");
-					EnvironmentStatsDrawer.DrawRoomOverlays();
-					Profiler.EndSample();
-					Profiler.BeginSample("DesignatorManagerUpdate()");
-					this.designatorManager.DesignatorManagerUpdate();
-					Profiler.EndSample();
-					Profiler.BeginSample("RoofGridUpdate()");
-					Find.CurrentMap.roofGrid.RoofGridUpdate();
-					Profiler.EndSample();
-					Profiler.BeginSample("ExitMapGridUpdate()");
-					Find.CurrentMap.exitMapGrid.ExitMapGridUpdate();
-					Profiler.EndSample();
-					Profiler.BeginSample("DeepResourceGridUpdate()");
-					Find.CurrentMap.deepResourceGrid.DeepResourceGridUpdate();
-					Profiler.EndSample();
-					Profiler.BeginSample("Debug drawing");
-					if (DebugViewSettings.drawPawnDebug)
-					{
-						Find.CurrentMap.pawnDestinationReservationManager.DebugDrawDestinations();
-						Find.CurrentMap.reservationManager.DebugDrawReservations();
-					}
-					if (DebugViewSettings.drawFoodSearchFromMouse)
-					{
-						FoodUtility.DebugFoodSearchFromMouse_Update();
-					}
-					if (DebugViewSettings.drawPreyInfo)
-					{
-						FoodUtility.DebugDrawPredatorFoodSource();
-					}
-					if (DebugViewSettings.drawAttackTargetScores)
-					{
-						AttackTargetFinder.DebugDrawAttackTargetScores_Update();
-					}
-					MiscDebugDrawer.DebugDrawInteractionCells();
-					Find.CurrentMap.debugDrawer.DebugDrawerUpdate();
-					Find.CurrentMap.regionGrid.DebugDraw();
-					InfestationCellFinder.DebugDraw();
-					StealAIDebugDrawer.DebugDraw();
-					if (DebugViewSettings.drawRiverDebug)
-					{
-						Find.CurrentMap.waterInfo.DebugDrawRiver();
-					}
-					Profiler.EndSample();
+					Find.CurrentMap.pawnDestinationReservationManager.DebugDrawDestinations();
+					Find.CurrentMap.reservationManager.DebugDrawReservations();
+				}
+				if (DebugViewSettings.drawFoodSearchFromMouse)
+				{
+					FoodUtility.DebugFoodSearchFromMouse_Update();
+				}
+				if (DebugViewSettings.drawPreyInfo)
+				{
+					FoodUtility.DebugDrawPredatorFoodSource();
+				}
+				if (DebugViewSettings.drawAttackTargetScores)
+				{
+					AttackTargetFinder.DebugDrawAttackTargetScores_Update();
+				}
+				MiscDebugDrawer.DebugDrawInteractionCells();
+				Find.CurrentMap.debugDrawer.DebugDrawerUpdate();
+				Find.CurrentMap.regionGrid.DebugDraw();
+				InfestationCellFinder.DebugDraw();
+				StealAIDebugDrawer.DebugDraw();
+				if (DebugViewSettings.drawRiverDebug)
+				{
+					Find.CurrentMap.waterInfo.DebugDrawRiver();
 				}
 			}
 		}

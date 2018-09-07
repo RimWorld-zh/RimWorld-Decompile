@@ -23,19 +23,25 @@ namespace Verse
 			DeepProfiler.Start("InitLoading (read file)");
 			Scribe.loader.InitLoading(GenFilePaths.FilePathForSavedGame(fileName));
 			DeepProfiler.End();
-			ScribeMetaHeaderUtility.LoadGameDataHeader(ScribeMetaHeaderUtility.ScribeHeaderMode.Map, true);
-			if (Scribe.EnterNode("game"))
+			try
 			{
+				ScribeMetaHeaderUtility.LoadGameDataHeader(ScribeMetaHeaderUtility.ScribeHeaderMode.Map, true);
+				if (!Scribe.EnterNode("game"))
+				{
+					Log.Error("Could not find game XML node.", false);
+					Scribe.ForceStop();
+					return;
+				}
 				Current.Game = new Game();
 				Current.Game.LoadGame();
-				PermadeathModeUtility.CheckUpdatePermadeathModeUniqueNameOnGameLoad(fileName);
-				DeepProfiler.End();
 			}
-			else
+			catch (Exception)
 			{
-				Log.Error("Could not find game XML node.", false);
 				Scribe.ForceStop();
+				throw;
 			}
+			PermadeathModeUtility.CheckUpdatePermadeathModeUniqueNameOnGameLoad(fileName);
+			DeepProfiler.End();
 		}
 
 		[CompilerGenerated]

@@ -51,16 +51,11 @@ namespace RimWorld
 
 		public override AcceptanceReport AllowAction(EventPack ep)
 		{
-			AcceptanceReport result;
 			if (ep.Tag == "Designate-ZoneAdd_Growing")
 			{
-				result = TutorUtility.EventCellsMatchExactly(ep, this.cachedCells);
+				return TutorUtility.EventCellsMatchExactly(ep, this.cachedCells);
 			}
-			else
-			{
-				result = base.AllowAction(ep);
-			}
-			return result;
+			return base.AllowAction(ep);
 		}
 	}
 }

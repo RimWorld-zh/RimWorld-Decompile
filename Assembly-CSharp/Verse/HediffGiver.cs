@@ -9,9 +9,9 @@ namespace Verse
 		[TranslationHandle]
 		public HediffDef hediff;
 
-		public List<BodyPartDef> partsToAffect = null;
+		public List<BodyPartDef> partsToAffect;
 
-		public bool canAffectAnyLivePart = false;
+		public bool canAffectAnyLivePart;
 
 		public int countToAffect = 1;
 
@@ -30,7 +30,7 @@ namespace Verse
 
 		public bool TryApply(Pawn pawn, List<Hediff> outAddedHediffs = null)
 		{
-			return HediffGiveUtility.TryApply(pawn, this.hediff, this.partsToAffect, this.canAffectAnyLivePart, this.countToAffect, outAddedHediffs);
+			return HediffGiverUtility.TryApply(pawn, this.hediff, this.partsToAffect, this.canAffectAnyLivePart, this.countToAffect, outAddedHediffs);
 		}
 
 		protected void SendLetter(Pawn pawn, Hediff cause)

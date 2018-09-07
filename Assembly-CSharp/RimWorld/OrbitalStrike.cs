@@ -63,14 +63,12 @@ namespace RimWorld
 			if (!base.Spawned)
 			{
 				Log.Error("Called StartStrike() on unspawned thing.", false);
+				return;
 			}
-			else
-			{
-				this.angle = OrbitalStrike.AngleRange.RandomInRange;
-				this.startTick = Find.TickManager.TicksGame;
-				base.GetComp<CompAffectsSky>().StartFadeInHoldFadeOut(30, this.duration - 30 - 15, 15, 1f);
-				base.GetComp<CompOrbitalBeam>().StartAnimation(this.duration, 10, this.angle);
-			}
+			this.angle = OrbitalStrike.AngleRange.RandomInRange;
+			this.startTick = Find.TickManager.TicksGame;
+			base.GetComp<CompAffectsSky>().StartFadeInHoldFadeOut(30, this.duration - 30 - 15, 15, 1f);
+			base.GetComp<CompOrbitalBeam>().StartAnimation(this.duration, 10, this.angle);
 		}
 
 		public override void Tick()

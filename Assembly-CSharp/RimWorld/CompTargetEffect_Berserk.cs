@@ -12,10 +12,11 @@ namespace RimWorld
 		public override void DoEffectOn(Pawn user, Thing target)
 		{
 			Pawn pawn = (Pawn)target;
-			if (!pawn.Dead)
+			if (pawn.Dead)
 			{
-				pawn.mindState.mentalStateHandler.TryStartMentalState(MentalStateDefOf.Berserk, null, true, false, null, false);
+				return;
 			}
+			pawn.mindState.mentalStateHandler.TryStartMentalState(MentalStateDefOf.Berserk, null, true, false, null, false);
 		}
 	}
 }

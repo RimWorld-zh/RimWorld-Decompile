@@ -41,66 +41,53 @@ namespace RimWorld
 
 		protected override Job TryGiveJob(Pawn pawn)
 		{
-			Job result;
 			if (pawn.equipment == null)
 			{
-				result = null;
+				return null;
 			}
-			else if (this.AlreadySatisfiedWithCurrentWeapon(pawn))
+			if (this.AlreadySatisfiedWithCurrentWeapon(pawn))
 			{
-				result = null;
+				return null;
 			}
-			else if (pawn.RaceProps.Humanlike && pawn.story.WorkTagIsDisabled(WorkTags.Violent))
+			if (pawn.RaceProps.Humanlike && pawn.story.WorkTagIsDisabled(WorkTags.Violent))
 			{
-				result = null;
+				return null;
 			}
-			else if (!pawn.health.capacities.CapableOf(PawnCapacityDefOf.Manipulation))
+			if (!pawn.health.capacities.CapableOf(PawnCapacityDefOf.Manipulation))
 			{
-				result = null;
+				return null;
 			}
-			else if (pawn.GetRegion(RegionType.Set_Passable) == null)
+			if (pawn.GetRegion(RegionType.Set_Passable) == null)
 			{
-				result = null;
+				return null;
 			}
-			else
+			Thing thing = GenClosest.ClosestThingReachable(pawn.Position, pawn.Map, ThingRequest.ForGroup(ThingRequestGroup.Weapon), PathEndMode.OnCell, TraverseParms.For(pawn, Danger.Deadly, TraverseMode.ByPawn, false), 8f, (Thing x) => pawn.CanReserve(x, 1, -1, null, false) && this.ShouldEquip(x, pawn), null, 0, 15, false, RegionType.Set_Passable, false);
+			if (thing != null)
 			{
-				Thing thing = GenClosest.ClosestThingReachable(pawn.Position, pawn.Map, ThingRequest.ForGroup(ThingRequestGroup.Weapon), PathEndMode.OnCell, TraverseParms.For(pawn, Danger.Deadly, TraverseMode.ByPawn, false), 8f, (Thing x) => pawn.CanReserve(x, 1, -1, null, false) && this.ShouldEquip(x, pawn), null, 0, 15, false, RegionType.Set_Passable, false);
-				if (thing != null)
-				{
-					result = new Job(JobDefOf.Equip, thing);
-				}
-				else
-				{
-					result = null;
-				}
+				return new Job(JobDefOf.Equip, thing);
 			}
-			return result;
+			return null;
 		}
 
 		private bool AlreadySatisfiedWithCurrentWeapon(Pawn pawn)
 		{
 			ThingWithComps primary = pawn.equipment.Primary;
-			bool result;
 			if (primary == null)
 			{
-				result = false;
+				return false;
 			}
-			else
+			if (this.preferBuildingDestroyers)
 			{
-				if (this.preferBuildingDestroyers)
-				{
-					if (!pawn.equipment.PrimaryEq.PrimaryVerb.verbProps.ai_IsBuildingDestroyer)
-					{
-						return false;
-					}
-				}
-				else if (!primary.def.IsRangedWeapon)
+				if (!pawn.equipment.PrimaryEq.PrimaryVerb.verbProps.ai_IsBuildingDestroyer)
 				{
 					return false;
 				}
-				result = true;
 			}
-			return result;
+			else if (!primary.def.IsRangedWeapon)
+			{
+				return false;
+			}
+			return true;
 		}
 
 		private bool ShouldEquip(Thing newWep, Pawn pawn)
@@ -110,28 +97,23 @@ namespace RimWorld
 
 		private int GetWeaponScore(Thing wep)
 		{
-			int result;
 			if (wep == null)
 			{
-				result = 0;
+				return 0;
 			}
-			else if (wep.def.IsMeleeWeapon && wep.GetStatValue(StatDefOf.MeleeWeapon_AverageDPS, true) < this.MinMeleeWeaponDPSThreshold)
+			if (wep.def.IsMeleeWeapon && wep.GetStatValue(StatDefOf.MeleeWeapon_AverageDPS, true) < this.MinMeleeWeaponDPSThreshold)
 			{
-				result = 0;
+				return 0;
 			}
-			else if (this.preferBuildingDestroyers && wep.TryGetComp<CompEquippable>().PrimaryVerb.verbProps.ai_IsBuildingDestroyer)
+			if (this.preferBuildingDestroyers && wep.TryGetComp<CompEquippable>().PrimaryVerb.verbProps.ai_IsBuildingDestroyer)
 			{
-				result = 3;
+				return 3;
 			}
-			else if (wep.def.IsRangedWeapon)
+			if (wep.def.IsRangedWeapon)
 			{
-				result = 2;
+				return 2;
 			}
-			else
-			{
-				result = 1;
-			}
-			return result;
+			return 1;
 		}
 
 		[CompilerGenerated]

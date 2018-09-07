@@ -4,7 +4,7 @@ namespace Verse.AI
 {
 	public class ThinkNode_Tagger : ThinkNode_Priority
 	{
-		private JobTag tagToGive = JobTag.Misc;
+		private JobTag tagToGive;
 
 		public ThinkNode_Tagger()
 		{
@@ -19,21 +19,16 @@ namespace Verse.AI
 
 		public override float GetPriority(Pawn pawn)
 		{
-			float result;
 			if (this.priority >= 0f)
 			{
-				result = this.priority;
+				return this.priority;
 			}
-			else if (this.subNodes.Any<ThinkNode>())
+			if (this.subNodes.Any<ThinkNode>())
 			{
-				result = this.subNodes[0].GetPriority(pawn);
+				return this.subNodes[0].GetPriority(pawn);
 			}
-			else
-			{
-				Log.ErrorOnce("ThinkNode_PrioritySorter has child node which didn't give a priority: " + this, this.GetHashCode(), false);
-				result = 0f;
-			}
-			return result;
+			Log.ErrorOnce("ThinkNode_PrioritySorter has child node which didn't give a priority: " + this, this.GetHashCode(), false);
+			return 0f;
 		}
 
 		public override ThinkResult TryIssueJobPackage(Pawn pawn, JobIssueParams jobParams)

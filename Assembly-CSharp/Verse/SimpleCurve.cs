@@ -13,24 +13,19 @@ namespace Verse
 		private List<CurvePoint> points = new List<CurvePoint>();
 
 		[Unsaved]
-		private SimpleCurveView view = null;
+		private SimpleCurveView view;
 
 		private static Comparison<CurvePoint> CurvePointsComparer = delegate(CurvePoint a, CurvePoint b)
 		{
-			int result;
 			if (a.x < b.x)
 			{
-				result = -1;
+				return -1;
 			}
-			else if (b.x < a.x)
+			if (b.x < a.x)
 			{
-				result = 1;
+				return 1;
 			}
-			else
-			{
-				result = 0;
-			}
-			return result;
+			return 0;
 		};
 
 		public SimpleCurve()
@@ -137,75 +132,65 @@ namespace Verse
 				if ((this.points[i].Loc - point.Loc).sqrMagnitude < 0.001f)
 				{
 					this.points.RemoveAt(i);
-					break;
+					return;
 				}
 			}
 		}
 
 		public float Evaluate(float x)
 		{
-			float result;
 			if (this.points.Count == 0)
 			{
 				Log.Error("Evaluating a SimpleCurve with no points.", false);
-				result = 0f;
+				return 0f;
 			}
-			else if (x <= this.points[0].x)
+			if (x <= this.points[0].x)
 			{
-				result = this.points[0].y;
+				return this.points[0].y;
 			}
-			else if (x >= this.points[this.points.Count - 1].x)
+			if (x >= this.points[this.points.Count - 1].x)
 			{
-				result = this.points[this.points.Count - 1].y;
+				return this.points[this.points.Count - 1].y;
 			}
-			else
+			CurvePoint curvePoint = this.points[0];
+			CurvePoint curvePoint2 = this.points[this.points.Count - 1];
+			for (int i = 0; i < this.points.Count; i++)
 			{
-				CurvePoint curvePoint = this.points[0];
-				CurvePoint curvePoint2 = this.points[this.points.Count - 1];
-				for (int i = 0; i < this.points.Count; i++)
+				if (x <= this.points[i].x)
 				{
-					if (x <= this.points[i].x)
+					curvePoint2 = this.points[i];
+					if (i > 0)
 					{
-						curvePoint2 = this.points[i];
-						if (i > 0)
-						{
-							curvePoint = this.points[i - 1];
-						}
-						break;
+						curvePoint = this.points[i - 1];
 					}
+					break;
 				}
-				float t = (x - curvePoint.x) / (curvePoint2.x - curvePoint.x);
-				result = Mathf.Lerp(curvePoint.y, curvePoint2.y, t);
 			}
-			return result;
+			float t = (x - curvePoint.x) / (curvePoint2.x - curvePoint.x);
+			return Mathf.Lerp(curvePoint.y, curvePoint2.y, t);
 		}
 
 		public float PeriodProbabilityFromCumulative(float startX, float span)
 		{
-			float result;
 			if (this.points.Count < 2)
 			{
-				result = 0f;
+				return 0f;
 			}
-			else
+			if (this.points[0].y != 0f)
 			{
-				if (this.points[0].y != 0f)
-				{
-					Log.Warning("PeriodProbabilityFromCumulative should only run on curves whose first point is 0.", false);
-				}
-				float num = this.Evaluate(startX + span) - this.Evaluate(startX);
-				if (num < 0f)
-				{
-					Log.Error("PeriodicProbability got negative probability from " + this + ": slope should never be negative.", false);
-					num = 0f;
-				}
-				if (num > 1f)
-				{
-					num = 1f;
-				}
-				result = num;
+				Log.Warning("PeriodProbabilityFromCumulative should only run on curves whose first point is 0.", false);
 			}
-			return result;
+			float num = this.Evaluate(startX + span) - this.Evaluate(startX);
+			if (num < 0f)
+			{
+				Log.Error("PeriodicProbability got negative probability from " + this + ": slope should never be negative.", false);
+				num = 0f;
+			}
+			if (num > 1f)
+			{
+				num = 1f;
+			}
+			return num;
 		}
 
 		public IEnumerable<string> ConfigErrors(string prefix)
@@ -229,20 +214,15 @@ namespace Verse
 		[CompilerGenerated]
 		private static int <CurvePointsComparer>m__0(CurvePoint a, CurvePoint b)
 		{
-			int result;
 			if (a.x < b.x)
 			{
-				result = -1;
+				return -1;
 			}
-			else if (b.x < a.x)
+			if (b.x < a.x)
 			{
-				result = 1;
+				return 1;
 			}
-			else
-			{
-				result = 0;
-			}
-			return result;
+			return 0;
 		}
 
 		[CompilerGenerated]

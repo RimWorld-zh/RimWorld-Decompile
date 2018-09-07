@@ -67,140 +67,124 @@ namespace RimWorld
 
 		protected override Job TryGiveJob(Pawn pawn)
 		{
-			Job result;
 			if (pawn.outfits == null)
 			{
 				Log.ErrorOnce(pawn + " tried to run JobGiver_OptimizeApparel without an OutfitTracker", 5643897, false);
-				result = null;
+				return null;
 			}
-			else if (pawn.Faction != Faction.OfPlayer)
+			if (pawn.Faction != Faction.OfPlayer)
 			{
 				Log.ErrorOnce("Non-colonist " + pawn + " tried to optimize apparel.", 764323, false);
-				result = null;
+				return null;
+			}
+			if (!DebugViewSettings.debugApparelOptimize)
+			{
+				if (Find.TickManager.TicksGame < pawn.mindState.nextApparelOptimizeTick)
+				{
+					return null;
+				}
 			}
 			else
 			{
-				if (!DebugViewSettings.debugApparelOptimize)
+				JobGiver_OptimizeApparel.debugSb = new StringBuilder();
+				JobGiver_OptimizeApparel.debugSb.AppendLine(string.Concat(new object[]
 				{
-					if (Find.TickManager.TicksGame < pawn.mindState.nextApparelOptimizeTick)
+					"Scanning for ",
+					pawn,
+					" at ",
+					pawn.Position
+				}));
+			}
+			Outfit currentOutfit = pawn.outfits.CurrentOutfit;
+			List<Apparel> wornApparel = pawn.apparel.WornApparel;
+			for (int i = wornApparel.Count - 1; i >= 0; i--)
+			{
+				if (!currentOutfit.filter.Allows(wornApparel[i]) && pawn.outfits.forcedHandler.AllowedToAutomaticallyDrop(wornApparel[i]))
+				{
+					return new Job(JobDefOf.RemoveApparel, wornApparel[i])
 					{
-						return null;
-					}
+						haulDroppedApparel = true
+					};
 				}
-				else
+			}
+			Thing thing = null;
+			float num = 0f;
+			List<Thing> list = pawn.Map.listerThings.ThingsInGroup(ThingRequestGroup.Apparel);
+			if (list.Count == 0)
+			{
+				this.SetNextOptimizeTick(pawn);
+				return null;
+			}
+			JobGiver_OptimizeApparel.neededWarmth = PawnApparelGenerator.CalculateNeededWarmth(pawn, pawn.Map.Tile, GenLocalDate.Twelfth(pawn));
+			for (int j = 0; j < list.Count; j++)
+			{
+				Apparel apparel = (Apparel)list[j];
+				if (currentOutfit.filter.Allows(apparel))
 				{
-					JobGiver_OptimizeApparel.debugSb = new StringBuilder();
-					JobGiver_OptimizeApparel.debugSb.AppendLine(string.Concat(new object[]
+					if (apparel.IsInAnyStorage())
 					{
-						"Scanning for ",
-						pawn,
-						" at ",
-						pawn.Position
-					}));
-				}
-				Outfit currentOutfit = pawn.outfits.CurrentOutfit;
-				List<Apparel> wornApparel = pawn.apparel.WornApparel;
-				for (int i = wornApparel.Count - 1; i >= 0; i--)
-				{
-					if (!currentOutfit.filter.Allows(wornApparel[i]) && pawn.outfits.forcedHandler.AllowedToAutomaticallyDrop(wornApparel[i]))
-					{
-						return new Job(JobDefOf.RemoveApparel, wornApparel[i])
+						if (!apparel.IsForbidden(pawn))
 						{
-							haulDroppedApparel = true
-						};
-					}
-				}
-				Thing thing = null;
-				float num = 0f;
-				List<Thing> list = pawn.Map.listerThings.ThingsInGroup(ThingRequestGroup.Apparel);
-				if (list.Count == 0)
-				{
-					this.SetNextOptimizeTick(pawn);
-					result = null;
-				}
-				else
-				{
-					JobGiver_OptimizeApparel.neededWarmth = PawnApparelGenerator.CalculateNeededWarmth(pawn, pawn.Map.Tile, GenLocalDate.Twelfth(pawn));
-					for (int j = 0; j < list.Count; j++)
-					{
-						Apparel apparel = (Apparel)list[j];
-						if (currentOutfit.filter.Allows(apparel))
-						{
-							if (apparel.IsInAnyStorage())
+							float num2 = JobGiver_OptimizeApparel.ApparelScoreGain(pawn, apparel);
+							if (DebugViewSettings.debugApparelOptimize)
 							{
-								if (!apparel.IsForbidden(pawn))
+								JobGiver_OptimizeApparel.debugSb.AppendLine(apparel.LabelCap + ": " + num2.ToString("F2"));
+							}
+							if (num2 >= 0.05f && num2 >= num)
+							{
+								if (ApparelUtility.HasPartsToWear(pawn, apparel.def))
 								{
-									float num2 = JobGiver_OptimizeApparel.ApparelScoreGain(pawn, apparel);
-									if (DebugViewSettings.debugApparelOptimize)
+									if (pawn.CanReserveAndReach(apparel, PathEndMode.OnCell, pawn.NormalMaxDanger(), 1, -1, null, false))
 									{
-										JobGiver_OptimizeApparel.debugSb.AppendLine(apparel.LabelCap + ": " + num2.ToString("F2"));
-									}
-									if (num2 >= 0.05f && num2 >= num)
-									{
-										if (ApparelUtility.HasPartsToWear(pawn, apparel.def))
-										{
-											if (pawn.CanReserveAndReach(apparel, PathEndMode.OnCell, pawn.NormalMaxDanger(), 1, -1, null, false))
-											{
-												thing = apparel;
-												num = num2;
-											}
-										}
+										thing = apparel;
+										num = num2;
 									}
 								}
 							}
 						}
 					}
-					if (DebugViewSettings.debugApparelOptimize)
-					{
-						JobGiver_OptimizeApparel.debugSb.AppendLine("BEST: " + thing);
-						Log.Message(JobGiver_OptimizeApparel.debugSb.ToString(), false);
-						JobGiver_OptimizeApparel.debugSb = null;
-					}
-					if (thing == null)
-					{
-						this.SetNextOptimizeTick(pawn);
-						result = null;
-					}
-					else
-					{
-						result = new Job(JobDefOf.Wear, thing);
-					}
 				}
 			}
-			return result;
+			if (DebugViewSettings.debugApparelOptimize)
+			{
+				JobGiver_OptimizeApparel.debugSb.AppendLine("BEST: " + thing);
+				Log.Message(JobGiver_OptimizeApparel.debugSb.ToString(), false);
+				JobGiver_OptimizeApparel.debugSb = null;
+			}
+			if (thing == null)
+			{
+				this.SetNextOptimizeTick(pawn);
+				return null;
+			}
+			return new Job(JobDefOf.Wear, thing);
 		}
 
 		public static float ApparelScoreGain(Pawn pawn, Apparel ap)
 		{
-			float result;
 			if (ap is ShieldBelt && pawn.equipment.Primary != null && pawn.equipment.Primary.def.IsWeaponUsingProjectiles)
 			{
-				result = -1000f;
+				return -1000f;
 			}
-			else
+			float num = JobGiver_OptimizeApparel.ApparelScoreRaw(pawn, ap);
+			List<Apparel> wornApparel = pawn.apparel.WornApparel;
+			bool flag = false;
+			for (int i = 0; i < wornApparel.Count; i++)
 			{
-				float num = JobGiver_OptimizeApparel.ApparelScoreRaw(pawn, ap);
-				List<Apparel> wornApparel = pawn.apparel.WornApparel;
-				bool flag = false;
-				for (int i = 0; i < wornApparel.Count; i++)
+				if (!ApparelUtility.CanWearTogether(wornApparel[i].def, ap.def, pawn.RaceProps.body))
 				{
-					if (!ApparelUtility.CanWearTogether(wornApparel[i].def, ap.def, pawn.RaceProps.body))
+					if (!pawn.outfits.forcedHandler.AllowedToAutomaticallyDrop(wornApparel[i]))
 					{
-						if (!pawn.outfits.forcedHandler.AllowedToAutomaticallyDrop(wornApparel[i]))
-						{
-							return -1000f;
-						}
-						num -= JobGiver_OptimizeApparel.ApparelScoreRaw(pawn, wornApparel[i]);
-						flag = true;
+						return -1000f;
 					}
+					num -= JobGiver_OptimizeApparel.ApparelScoreRaw(pawn, wornApparel[i]);
+					flag = true;
 				}
-				if (!flag)
-				{
-					num *= 10f;
-				}
-				result = num;
 			}
-			return result;
+			if (!flag)
+			{
+				num *= 10f;
+			}
+			return num;
 		}
 
 		public static float ApparelScoreRaw(Pawn pawn, Apparel ap)

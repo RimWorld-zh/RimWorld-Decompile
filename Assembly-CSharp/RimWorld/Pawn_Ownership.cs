@@ -55,28 +55,20 @@ namespace RimWorld
 		{
 			get
 			{
-				Room result;
 				if (this.OwnedBed == null)
 				{
-					result = null;
+					return null;
 				}
-				else
+				Room room = this.OwnedBed.GetRoom(RegionType.Set_Passable);
+				if (room == null)
 				{
-					Room room = this.OwnedBed.GetRoom(RegionType.Set_Passable);
-					if (room == null)
-					{
-						result = null;
-					}
-					else if (room.Owners.Contains(this.pawn))
-					{
-						result = room;
-					}
-					else
-					{
-						result = null;
-					}
+					return null;
 				}
-				return result;
+				if (room.Owners.Contains(this.pawn))
+				{
+					return room;
+				}
+				return null;
 			}
 		}
 
@@ -102,21 +94,22 @@ namespace RimWorld
 
 		public void ClaimBedIfNonMedical(Building_Bed newBed)
 		{
-			if (!newBed.owners.Contains(this.pawn) && !newBed.Medical)
+			if (newBed.owners.Contains(this.pawn) || newBed.Medical)
 			{
+				return;
+			}
+			this.UnclaimBed();
+			if (newBed.owners.Count == newBed.SleepingSlotsCount)
+			{
+				newBed.owners[newBed.owners.Count - 1].ownership.UnclaimBed();
+			}
+			newBed.owners.Add(this.pawn);
+			newBed.SortOwners();
+			this.OwnedBed = newBed;
+			if (newBed.Medical)
+			{
+				Log.Warning(this.pawn.LabelCap + " claimed medical bed.", false);
 				this.UnclaimBed();
-				if (newBed.owners.Count == newBed.SleepingSlotsCount)
-				{
-					newBed.owners[newBed.owners.Count - 1].ownership.UnclaimBed();
-				}
-				newBed.owners.Add(this.pawn);
-				newBed.SortOwners();
-				this.OwnedBed = newBed;
-				if (newBed.Medical)
-				{
-					Log.Warning(this.pawn.LabelCap + " claimed medical bed.", false);
-					this.UnclaimBed();
-				}
 			}
 		}
 
@@ -131,17 +124,18 @@ namespace RimWorld
 
 		public void ClaimGrave(Building_Grave newGrave)
 		{
-			if (newGrave.assignedPawn != this.pawn)
+			if (newGrave.assignedPawn == this.pawn)
 			{
-				this.UnclaimGrave();
-				if (newGrave.assignedPawn != null)
-				{
-					newGrave.assignedPawn.ownership.UnclaimBed();
-				}
-				newGrave.assignedPawn = this.pawn;
-				newGrave.GetStoreSettings().Priority = StoragePriority.Critical;
-				this.AssignedGrave = newGrave;
+				return;
 			}
+			this.UnclaimGrave();
+			if (newGrave.assignedPawn != null)
+			{
+				newGrave.assignedPawn.ownership.UnclaimBed();
+			}
+			newGrave.assignedPawn = this.pawn;
+			newGrave.GetStoreSettings().Priority = StoragePriority.Critical;
+			this.AssignedGrave = newGrave;
 		}
 
 		public void UnclaimGrave()
@@ -162,12 +156,9 @@ namespace RimWorld
 
 		public void Notify_ChangedGuestStatus()
 		{
-			if (this.OwnedBed != null)
+			if (this.OwnedBed != null && ((this.OwnedBed.ForPrisoners && !this.pawn.IsPrisoner) || (!this.OwnedBed.ForPrisoners && this.pawn.IsPrisoner)))
 			{
-				if ((this.OwnedBed.ForPrisoners && !this.pawn.IsPrisoner) || (!this.OwnedBed.ForPrisoners && this.pawn.IsPrisoner))
-				{
-					this.UnclaimBed();
-				}
+				this.UnclaimBed();
 			}
 		}
 	}

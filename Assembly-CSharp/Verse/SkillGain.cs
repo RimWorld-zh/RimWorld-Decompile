@@ -25,12 +25,10 @@ namespace Verse
 			if (xmlRoot.ChildNodes.Count != 1)
 			{
 				Log.Error("Misconfigured SkillGain: " + xmlRoot.OuterXml, false);
+				return;
 			}
-			else
-			{
-				DirectXmlCrossRefLoader.RegisterObjectWantsCrossRef(this, "skill", xmlRoot.Name);
-				this.xp = (int)ParseHelper.FromString(xmlRoot.FirstChild.Value, typeof(int));
-			}
+			DirectXmlCrossRefLoader.RegisterObjectWantsCrossRef(this, "skill", xmlRoot.Name);
+			this.xp = (int)ParseHelper.FromString(xmlRoot.FirstChild.Value, typeof(int));
 		}
 	}
 }

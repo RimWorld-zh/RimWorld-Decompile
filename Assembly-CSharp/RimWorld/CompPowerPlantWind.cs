@@ -13,7 +13,7 @@ namespace RimWorld
 
 		private int ticksSinceWeatherUpdate;
 
-		private float cachedPowerOutput = 0f;
+		private float cachedPowerOutput;
 
 		private List<IntVec3> windPathCells = new List<IntVec3>();
 
@@ -21,7 +21,7 @@ namespace RimWorld
 
 		private List<IntVec3> windPathBlockedCells = new List<IntVec3>();
 
-		private float spinPosition = 0f;
+		private float spinPosition;
 
 		private const float MaxUsableWindIntensity = 1.5f;
 
@@ -92,34 +92,32 @@ namespace RimWorld
 			if (!base.PowerOn)
 			{
 				this.cachedPowerOutput = 0f;
+				return;
 			}
-			else
+			this.ticksSinceWeatherUpdate++;
+			if (this.ticksSinceWeatherUpdate >= this.updateWeatherEveryXTicks)
 			{
-				this.ticksSinceWeatherUpdate++;
-				if (this.ticksSinceWeatherUpdate >= this.updateWeatherEveryXTicks)
+				float num = Mathf.Min(this.parent.Map.windManager.WindSpeed, 1.5f);
+				this.ticksSinceWeatherUpdate = 0;
+				this.cachedPowerOutput = -(base.Props.basePowerConsumption * num);
+				this.RecalculateBlockages();
+				if (this.windPathBlockedCells.Count > 0)
 				{
-					float num = Mathf.Min(this.parent.Map.windManager.WindSpeed, 1.5f);
-					this.ticksSinceWeatherUpdate = 0;
-					this.cachedPowerOutput = -(base.Props.basePowerConsumption * num);
-					this.RecalculateBlockages();
-					if (this.windPathBlockedCells.Count > 0)
+					float num2 = 0f;
+					for (int i = 0; i < this.windPathBlockedCells.Count; i++)
 					{
-						float num2 = 0f;
-						for (int i = 0; i < this.windPathBlockedCells.Count; i++)
-						{
-							num2 += this.cachedPowerOutput * 0.2f;
-						}
-						this.cachedPowerOutput -= num2;
-						if (this.cachedPowerOutput < 0f)
-						{
-							this.cachedPowerOutput = 0f;
-						}
+						num2 += this.cachedPowerOutput * 0.2f;
+					}
+					this.cachedPowerOutput -= num2;
+					if (this.cachedPowerOutput < 0f)
+					{
+						this.cachedPowerOutput = 0f;
 					}
 				}
-				if (this.cachedPowerOutput > 0.01f)
-				{
-					this.spinPosition += this.PowerPercent * CompPowerPlantWind.SpinRateFactor;
-				}
+			}
+			if (this.cachedPowerOutput > 0.01f)
+			{
+				this.spinPosition += this.PowerPercent * CompPowerPlantWind.SpinRateFactor;
 			}
 		}
 

@@ -31,7 +31,6 @@ namespace Verse.AI.Group
 
 		public override bool ActivateOn(Lord lord, TriggerSignal signal)
 		{
-			bool result;
 			if (signal.type == TriggerSignalType.Tick)
 			{
 				if (this.data == null || !(this.data is TriggerData_TicksPassed))
@@ -40,13 +39,9 @@ namespace Verse.AI.Group
 				}
 				TriggerData_TicksPassed data = this.Data;
 				data.ticksPassed++;
-				result = (data.ticksPassed > this.duration);
+				return data.ticksPassed > this.duration;
 			}
-			else
-			{
-				result = false;
-			}
-			return result;
+			return false;
 		}
 
 		public override void SourceToilBecameActive(Transition transition, LordToil previousToil)

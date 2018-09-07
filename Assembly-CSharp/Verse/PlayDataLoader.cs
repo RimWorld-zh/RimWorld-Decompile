@@ -10,7 +10,7 @@ namespace Verse
 {
 	public static class PlayDataLoader
 	{
-		private static bool loadedInt = false;
+		private static bool loadedInt;
 
 		[CompilerGenerated]
 		private static Action <>f__am$cache0;
@@ -34,54 +34,52 @@ namespace Verse
 			if (PlayDataLoader.loadedInt)
 			{
 				Log.Error("Loading play data when already loaded. Call ClearAllPlayData first.", false);
+				return;
 			}
-			else
+			DeepProfiler.Start("LoadAllPlayData");
+			try
 			{
-				DeepProfiler.Start("LoadAllPlayData");
-				try
+				PlayDataLoader.DoPlayLoad();
+			}
+			catch (Exception arg)
+			{
+				if (!Prefs.ResetModsConfigOnCrash)
 				{
-					PlayDataLoader.DoPlayLoad();
+					throw;
 				}
-				catch (Exception arg)
-				{
-					if (!Prefs.ResetModsConfigOnCrash)
-					{
-						throw;
-					}
-					if (recovering)
-					{
-						Log.Warning("Could not recover from errors loading play data. Giving up.", false);
-						throw;
-					}
-					IEnumerable<ModMetaData> activeModsInLoadOrder = ModsConfig.ActiveModsInLoadOrder;
-					if (activeModsInLoadOrder.Count<ModMetaData>() == 1 && activeModsInLoadOrder.First<ModMetaData>().IsCoreMod)
-					{
-						throw;
-					}
-					Log.Warning("Caught exception while loading play data but there are active mods other than Core. Resetting mods config and trying again.\nThe exception was: " + arg, false);
-					try
-					{
-						PlayDataLoader.ClearAllPlayData();
-					}
-					catch
-					{
-						Log.Warning("Caught exception while recovering from errors and trying to clear all play data. Ignoring it.\nThe exception was: " + arg, false);
-					}
-					ModsConfig.Reset();
-					DirectXmlCrossRefLoader.Clear();
-					PlayDataLoader.LoadAllPlayData(true);
-					return;
-				}
-				finally
-				{
-					DeepProfiler.End();
-				}
-				PlayDataLoader.loadedInt = true;
 				if (recovering)
 				{
-					Log.Message("Successfully recovered from errors and loaded play data.", false);
-					DelayedErrorWindowRequest.Add("RecoveredFromErrorsText".Translate(), "RecoveredFromErrorsDialogTitle".Translate());
+					Log.Warning("Could not recover from errors loading play data. Giving up.", false);
+					throw;
 				}
+				IEnumerable<ModMetaData> activeModsInLoadOrder = ModsConfig.ActiveModsInLoadOrder;
+				if (activeModsInLoadOrder.Count<ModMetaData>() == 1 && activeModsInLoadOrder.First<ModMetaData>().IsCoreMod)
+				{
+					throw;
+				}
+				Log.Warning("Caught exception while loading play data but there are active mods other than Core. Resetting mods config and trying again.\nThe exception was: " + arg, false);
+				try
+				{
+					PlayDataLoader.ClearAllPlayData();
+				}
+				catch
+				{
+					Log.Warning("Caught exception while recovering from errors and trying to clear all play data. Ignoring it.\nThe exception was: " + arg, false);
+				}
+				ModsConfig.Reset();
+				DirectXmlCrossRefLoader.Clear();
+				PlayDataLoader.LoadAllPlayData(true);
+				return;
+			}
+			finally
+			{
+				DeepProfiler.End();
+			}
+			PlayDataLoader.loadedInt = true;
+			if (recovering)
+			{
+				Log.Message("Successfully recovered from errors and loaded play data.", false);
+				DelayedErrorWindowRequest.Add("RecoveredFromErrorsText".Translate(), "RecoveredFromErrorsDialogTitle".Translate());
 			}
 		}
 
@@ -202,6 +200,7 @@ namespace Verse
 				TunnelHiveSpawner.ResetStaticData();
 				Hive.ResetStaticData();
 				ExpectationsUtility.Reset();
+				WealthWatcher.ResetStaticData();
 				WorkGiver_FillFermentingBarrel.ResetStaticData();
 				WorkGiver_DoBill.ResetStaticData();
 				WorkGiver_InteractAnimal.ResetStaticData();

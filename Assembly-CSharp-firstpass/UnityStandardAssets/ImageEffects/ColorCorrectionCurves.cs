@@ -25,7 +25,7 @@ namespace UnityStandardAssets.ImageEffects
 			new Keyframe(1f, 1f)
 		});
 
-		public bool useDepthCorrection = false;
+		public bool useDepthCorrection;
 
 		public AnimationCurve zCurve = new AnimationCurve(new Keyframe[]
 		{
@@ -65,7 +65,7 @@ namespace UnityStandardAssets.ImageEffects
 
 		public float saturation = 1f;
 
-		public bool selectiveCc = false;
+		public bool selectiveCc;
 
 		public Color selectiveFromColor = Color.white;
 
@@ -75,11 +75,11 @@ namespace UnityStandardAssets.ImageEffects
 
 		public bool updateTextures = true;
 
-		public Shader colorCorrectionCurvesShader = null;
+		public Shader colorCorrectionCurvesShader;
 
-		public Shader simpleColorCorrectionCurvesShader = null;
+		public Shader simpleColorCorrectionCurvesShader;
 
-		public Shader colorCorrectionSelectiveShader = null;
+		public Shader colorCorrectionSelectiveShader;
 
 		private bool updateTexturesOnStartup = true;
 
@@ -166,44 +166,42 @@ namespace UnityStandardAssets.ImageEffects
 			if (!this.CheckResources())
 			{
 				Graphics.Blit(source, destination);
+				return;
+			}
+			if (this.updateTexturesOnStartup)
+			{
+				this.UpdateParameters();
+				this.updateTexturesOnStartup = false;
+			}
+			if (this.useDepthCorrection)
+			{
+				base.GetComponent<Camera>().depthTextureMode |= DepthTextureMode.Depth;
+			}
+			RenderTexture renderTexture = destination;
+			if (this.selectiveCc)
+			{
+				renderTexture = RenderTexture.GetTemporary(source.width, source.height);
+			}
+			if (this.useDepthCorrection)
+			{
+				this.ccDepthMaterial.SetTexture("_RgbTex", this.rgbChannelTex);
+				this.ccDepthMaterial.SetTexture("_ZCurve", this.zCurveTex);
+				this.ccDepthMaterial.SetTexture("_RgbDepthTex", this.rgbDepthChannelTex);
+				this.ccDepthMaterial.SetFloat("_Saturation", this.saturation);
+				Graphics.Blit(source, renderTexture, this.ccDepthMaterial);
 			}
 			else
 			{
-				if (this.updateTexturesOnStartup)
-				{
-					this.UpdateParameters();
-					this.updateTexturesOnStartup = false;
-				}
-				if (this.useDepthCorrection)
-				{
-					base.GetComponent<Camera>().depthTextureMode |= DepthTextureMode.Depth;
-				}
-				RenderTexture renderTexture = destination;
-				if (this.selectiveCc)
-				{
-					renderTexture = RenderTexture.GetTemporary(source.width, source.height);
-				}
-				if (this.useDepthCorrection)
-				{
-					this.ccDepthMaterial.SetTexture("_RgbTex", this.rgbChannelTex);
-					this.ccDepthMaterial.SetTexture("_ZCurve", this.zCurveTex);
-					this.ccDepthMaterial.SetTexture("_RgbDepthTex", this.rgbDepthChannelTex);
-					this.ccDepthMaterial.SetFloat("_Saturation", this.saturation);
-					Graphics.Blit(source, renderTexture, this.ccDepthMaterial);
-				}
-				else
-				{
-					this.ccMaterial.SetTexture("_RgbTex", this.rgbChannelTex);
-					this.ccMaterial.SetFloat("_Saturation", this.saturation);
-					Graphics.Blit(source, renderTexture, this.ccMaterial);
-				}
-				if (this.selectiveCc)
-				{
-					this.selectiveCcMaterial.SetColor("selColor", this.selectiveFromColor);
-					this.selectiveCcMaterial.SetColor("targetColor", this.selectiveToColor);
-					Graphics.Blit(renderTexture, destination, this.selectiveCcMaterial);
-					RenderTexture.ReleaseTemporary(renderTexture);
-				}
+				this.ccMaterial.SetTexture("_RgbTex", this.rgbChannelTex);
+				this.ccMaterial.SetFloat("_Saturation", this.saturation);
+				Graphics.Blit(source, renderTexture, this.ccMaterial);
+			}
+			if (this.selectiveCc)
+			{
+				this.selectiveCcMaterial.SetColor("selColor", this.selectiveFromColor);
+				this.selectiveCcMaterial.SetColor("targetColor", this.selectiveToColor);
+				Graphics.Blit(renderTexture, destination, this.selectiveCcMaterial);
+				RenderTexture.ReleaseTemporary(renderTexture);
 			}
 		}
 

@@ -45,17 +45,12 @@ namespace RimWorld
 		public override bool HasJobOnThing(Pawn pawn, Thing t, bool forced = false)
 		{
 			Pawn pawn2 = t as Pawn;
-			bool result;
 			if (pawn2 == null || !pawn2.AnimalOrWildMan())
 			{
-				result = false;
+				return false;
 			}
-			else
-			{
-				LocalTargetInfo target = t;
-				result = (pawn.CanReserve(target, 1, -1, null, forced) && pawn.Map.designationManager.DesignationOn(t, DesignationDefOf.Hunt) != null);
-			}
-			return result;
+			LocalTargetInfo target = t;
+			return pawn.CanReserve(target, 1, -1, null, forced) && pawn.Map.designationManager.DesignationOn(t, DesignationDefOf.Hunt) != null;
 		}
 
 		public override Job JobOnThing(Pawn pawn, Thing t, bool forced = false)

@@ -142,11 +142,12 @@ namespace Verse
 		protected virtual void Set(IntVec3 c, bool val)
 		{
 			int index = this.Map.cellIndices.CellToIndex(c);
-			if (this.innerGrid[index] != val)
+			if (this.innerGrid[index] == val)
 			{
-				this.innerGrid[index] = val;
-				this.MarkDirty(c);
+				return;
 			}
+			this.innerGrid[index] = val;
+			this.MarkDirty(c);
 		}
 
 		private void MarkDirty(IntVec3 c)

@@ -50,39 +50,37 @@ namespace Verse
 			if (newTerr == null)
 			{
 				Log.Error("Tried to set terrain at " + c + " to null.", false);
+				return;
+			}
+			if (Current.ProgramState == ProgramState.Playing)
+			{
+				Designation designation = this.map.designationManager.DesignationAt(c, DesignationDefOf.SmoothFloor);
+				if (designation != null)
+				{
+					designation.Delete();
+				}
+			}
+			int num = this.map.cellIndices.CellToIndex(c);
+			if (newTerr.layerable)
+			{
+				if (this.underGrid[num] == null)
+				{
+					if (this.topGrid[num].passability != Traversability.Impassable)
+					{
+						this.underGrid[num] = this.topGrid[num];
+					}
+					else
+					{
+						this.underGrid[num] = TerrainDefOf.Sand;
+					}
+				}
 			}
 			else
 			{
-				if (Current.ProgramState == ProgramState.Playing)
-				{
-					Designation designation = this.map.designationManager.DesignationAt(c, DesignationDefOf.SmoothFloor);
-					if (designation != null)
-					{
-						designation.Delete();
-					}
-				}
-				int num = this.map.cellIndices.CellToIndex(c);
-				if (newTerr.layerable)
-				{
-					if (this.underGrid[num] == null)
-					{
-						if (this.topGrid[num].passability != Traversability.Impassable)
-						{
-							this.underGrid[num] = this.topGrid[num];
-						}
-						else
-						{
-							this.underGrid[num] = TerrainDefOf.Sand;
-						}
-					}
-				}
-				else
-				{
-					this.underGrid[num] = null;
-				}
-				this.topGrid[num] = newTerr;
-				this.DoTerrainChangedEffects(c);
+				this.underGrid[num] = null;
 			}
+			this.topGrid[num] = newTerr;
+			this.DoTerrainChangedEffects(c);
 		}
 
 		public void SetUnderTerrain(IntVec3 c, TerrainDef newTerr)
@@ -90,12 +88,10 @@ namespace Verse
 			if (!c.InBounds(this.map))
 			{
 				Log.Error("Tried to set terrain out of bounds at " + c, false);
+				return;
 			}
-			else
-			{
-				int num = this.map.cellIndices.CellToIndex(c);
-				this.underGrid[num] = newTerr;
-			}
+			int num = this.map.cellIndices.CellToIndex(c);
+			this.underGrid[num] = newTerr;
 		}
 
 		public void RemoveTopLayer(IntVec3 c, bool doLeavings = true)
@@ -133,6 +129,10 @@ namespace Verse
 				{
 					thingList[i].Destroy(DestroyMode.Vanish);
 				}
+				else if ((thingList[i].def.IsBlueprint || thingList[i].def.IsFrame) && !GenConstruct.CanBuildOnTerrain(thingList[i].def.entityDefToBuild, thingList[i].Position, this.map, thingList[i].Rotation, null))
+				{
+					thingList[i].Destroy(DestroyMode.Cancel);
+				}
 			}
 			this.map.pathGrid.RecalculatePerceivedPathCostAt(c);
 			Region regionAt_NoRebuild_InvalidAllowed = this.map.regionGrid.GetRegionAt_NoRebuild_InvalidAllowed(c);
@@ -160,6 +160,10 @@ namespace Verse
 
 		public void Notify_TerrainDestroyed(IntVec3 c)
 		{
+			if (!this.CanRemoveTopLayerAt(c))
+			{
+				return;
+			}
 			TerrainDef terrainDef = this.TerrainAt(c);
 			this.RemoveTopLayer(c, false);
 			if (terrainDef.destroyBuildingsOnDestroyed)
@@ -224,18 +228,13 @@ namespace Verse
 
 		public string DebugStringAt(IntVec3 c)
 		{
-			string result;
 			if (c.InBounds(this.map))
 			{
 				TerrainDef terrain = c.GetTerrain(this.map);
 				TerrainDef terrainDef = this.underGrid[this.map.cellIndices.CellToIndex(c)];
-				result = "top: " + ((terrain == null) ? "null" : terrain.defName) + ", under=" + ((terrainDef == null) ? "null" : terrainDef.defName);
+				return "top: " + ((terrain == null) ? "null" : terrain.defName) + ", under=" + ((terrainDef == null) ? "null" : terrainDef.defName);
 			}
-			else
-			{
-				result = "out of bounds";
-			}
-			return result;
+			return "out of bounds";
 		}
 
 		[CompilerGenerated]

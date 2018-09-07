@@ -13,15 +13,15 @@ namespace RimWorld
 	{
 		private List<ConceptDef> activeConcepts = new List<ConceptDef>();
 
-		private ConceptDef selectedConcept = null;
+		private ConceptDef selectedConcept;
 
-		private bool showAllMode = false;
+		private bool showAllMode;
 
-		private float contentHeight = 0f;
+		private float contentHeight;
 
 		private Vector2 scrollPosition = Vector2.zero;
 
-		private string searchString = "";
+		private string searchString = string.Empty;
 
 		private float lastConceptActivateRealTime = -999f;
 
@@ -42,7 +42,7 @@ namespace RimWorld
 		public static readonly Texture2D ProgressBarBGTex = SolidColorMaterials.NewSolidColorTexture(new Color(0.509803951f, 0.407843143f, 0.13333334f));
 
 		[CompilerGenerated]
-		private static Predicate<ConceptDef> <>f__am$cache0;
+		private static Predicate<ConceptDef> <>f__mg$cache0;
 
 		public LearningReadout()
 		{
@@ -70,25 +70,25 @@ namespace RimWorld
 			Scribe_Defs.Look<ConceptDef>(ref this.selectedConcept, "selectedConcept");
 			if (Scribe.mode == LoadSaveMode.PostLoadInit)
 			{
-				this.activeConcepts.RemoveAll((ConceptDef c) => PlayerKnowledgeDatabase.IsComplete(c));
+				List<ConceptDef> list = this.activeConcepts;
+				if (LearningReadout.<>f__mg$cache0 == null)
+				{
+					LearningReadout.<>f__mg$cache0 = new Predicate<ConceptDef>(PlayerKnowledgeDatabase.IsComplete);
+				}
+				list.RemoveAll(LearningReadout.<>f__mg$cache0);
 			}
 		}
 
 		public bool TryActivateConcept(ConceptDef conc)
 		{
-			bool result;
 			if (this.activeConcepts.Contains(conc))
 			{
-				result = false;
+				return false;
 			}
-			else
-			{
-				this.activeConcepts.Add(conc);
-				SoundDefOf.Lesson_Activated.PlayOneShotOnCamera(null);
-				this.lastConceptActivateRealTime = RealTime.LastRealTime;
-				result = true;
-			}
-			return result;
+			this.activeConcepts.Add(conc);
+			SoundDefOf.Lesson_Activated.PlayOneShotOnCamera(null);
+			this.lastConceptActivateRealTime = RealTime.LastRealTime;
+			return true;
 		}
 
 		public bool IsActive(ConceptDef conc)
@@ -119,137 +119,135 @@ namespace RimWorld
 
 		private string FilterSearchStringInput(string input)
 		{
-			string result;
 			if (input == this.searchString)
 			{
-				result = input;
+				return input;
 			}
-			else
+			if (input.Length > 20)
 			{
-				if (input.Length > 20)
-				{
-					input = input.Substring(0, 20);
-				}
-				result = input;
+				input = input.Substring(0, 20);
 			}
-			return result;
+			return input;
 		}
 
 		public void LearningReadoutOnGUI()
 		{
-			if (!TutorSystem.TutorialMode && TutorSystem.AdaptiveTrainingEnabled)
+			if (TutorSystem.TutorialMode || !TutorSystem.AdaptiveTrainingEnabled)
 			{
-				if (Find.PlaySettings.showLearningHelper || this.activeConcepts.Count != 0)
+				return;
+			}
+			if (!Find.PlaySettings.showLearningHelper && this.activeConcepts.Count == 0)
+			{
+				return;
+			}
+			if (Find.WindowStack.IsOpen<Screen_Credits>())
+			{
+				return;
+			}
+			float b = (float)UI.screenHeight / 2f;
+			float a = this.contentHeight + 14f;
+			Rect outRect = new Rect((float)UI.screenWidth - 8f - 200f, 8f, 200f, Mathf.Min(a, b));
+			Rect outRect2 = outRect;
+			Find.WindowStack.ImmediateWindow(76136312, outRect, WindowLayer.Super, delegate
+			{
+				outRect = outRect.AtZero();
+				Rect rect = outRect.ContractedBy(7f);
+				Rect viewRect = rect.AtZero();
+				bool flag = this.contentHeight > rect.height;
+				Widgets.DrawWindowBackgroundTutor(outRect);
+				if (flag)
 				{
-					if (!Find.WindowStack.IsOpen<Screen_Credits>())
+					viewRect.height = this.contentHeight + 40f;
+					viewRect.width -= 20f;
+					this.scrollPosition = GUI.BeginScrollView(rect, this.scrollPosition, viewRect);
+				}
+				else
+				{
+					GUI.BeginGroup(rect);
+				}
+				float num2 = 0f;
+				Text.Font = GameFont.Small;
+				Rect rect2 = new Rect(0f, 0f, viewRect.width - 24f, 24f);
+				Widgets.Label(rect2, "LearningHelper".Translate());
+				num2 = rect2.yMax;
+				Rect butRect = new Rect(rect2.xMax, rect2.y, 24f, 24f);
+				if (Widgets.ButtonImage(butRect, this.showAllMode ? TexButton.Minus : TexButton.Plus))
+				{
+					this.showAllMode = !this.showAllMode;
+					if (this.showAllMode)
 					{
-						float b = (float)UI.screenHeight / 2f;
-						float a = this.contentHeight + 14f;
-						Rect outRect = new Rect((float)UI.screenWidth - 8f - 200f, 8f, 200f, Mathf.Min(a, b));
-						Rect outRect2 = outRect;
-						Find.WindowStack.ImmediateWindow(76136312, outRect, WindowLayer.Super, delegate
-						{
-							outRect = outRect.AtZero();
-							Rect rect = outRect.ContractedBy(7f);
-							Rect viewRect = rect.AtZero();
-							bool flag = this.contentHeight > rect.height;
-							Widgets.DrawWindowBackgroundTutor(outRect);
-							if (flag)
-							{
-								viewRect.height = this.contentHeight + 40f;
-								viewRect.width -= 20f;
-								this.scrollPosition = GUI.BeginScrollView(rect, this.scrollPosition, viewRect);
-							}
-							else
-							{
-								GUI.BeginGroup(rect);
-							}
-							float num2 = 0f;
-							Text.Font = GameFont.Small;
-							Rect rect2 = new Rect(0f, 0f, viewRect.width - 24f, 24f);
-							Widgets.Label(rect2, "LearningHelper".Translate());
-							num2 = rect2.yMax;
-							Rect butRect = new Rect(rect2.xMax, rect2.y, 24f, 24f);
-							if (Widgets.ButtonImage(butRect, this.showAllMode ? TexButton.Minus : TexButton.Plus))
-							{
-								this.showAllMode = !this.showAllMode;
-								if (this.showAllMode)
-								{
-									SoundDefOf.Tick_High.PlayOneShotOnCamera(null);
-								}
-								else
-								{
-									SoundDefOf.Tick_Low.PlayOneShotOnCamera(null);
-								}
-							}
-							if (this.showAllMode)
-							{
-								Rect rect3 = new Rect(0f, num2, viewRect.width - 20f - 2f, 28f);
-								this.searchString = this.FilterSearchStringInput(Widgets.TextField(rect3, this.searchString));
-								if (this.searchString == "")
-								{
-									GUI.color = new Color(0.6f, 0.6f, 0.6f, 1f);
-									Text.Anchor = TextAnchor.MiddleLeft;
-									Rect rect4 = rect3;
-									rect4.xMin += 7f;
-									Widgets.Label(rect4, "Filter".Translate() + "...");
-									Text.Anchor = TextAnchor.UpperLeft;
-									GUI.color = Color.white;
-								}
-								Rect butRect2 = new Rect(viewRect.width - 20f, num2 + 14f - 10f, 20f, 20f);
-								if (Widgets.ButtonImage(butRect2, TexButton.CloseXSmall))
-								{
-									this.searchString = "";
-									SoundDefOf.Tick_Tiny.PlayOneShotOnCamera(null);
-								}
-								num2 = rect3.yMax + 4f;
-							}
-							IEnumerable<ConceptDef> enumerable = this.showAllMode ? DefDatabase<ConceptDef>.AllDefs : this.activeConcepts;
-							if (enumerable.Any<ConceptDef>())
-							{
-								GUI.color = new Color(1f, 1f, 1f, 0.5f);
-								Widgets.DrawLineHorizontal(0f, num2, viewRect.width);
-								GUI.color = Color.white;
-								num2 += 4f;
-							}
-							if (this.showAllMode)
-							{
-								enumerable = from c in enumerable
-								orderby this.DisplayPriority(c) descending, c.label
-								select c;
-							}
-							foreach (ConceptDef conceptDef2 in enumerable)
-							{
-								if (!conceptDef2.TriggeredDirect)
-								{
-									num2 = this.DrawConceptListRow(0f, num2, viewRect.width, conceptDef2).yMax;
-								}
-							}
-							this.contentHeight = num2;
-							if (flag)
-							{
-								GUI.EndScrollView();
-							}
-							else
-							{
-								GUI.EndGroup();
-							}
-						}, false, false, 1f);
-						float num = Time.realtimeSinceStartup - this.lastConceptActivateRealTime;
-						if (num < 1f && num > 0f)
-						{
-							GenUI.DrawFlash(outRect2.x, outRect2.center.y, (float)UI.screenWidth * 0.6f, Pulser.PulseBrightness(1f, 1f, num) * 0.85f, new Color(0.8f, 0.77f, 0.53f));
-						}
-						ConceptDef conceptDef = (this.selectedConcept == null) ? this.mouseoverConcept : this.selectedConcept;
-						if (conceptDef != null)
-						{
-							this.DrawInfoPane(conceptDef);
-							conceptDef.HighlightAllTags();
-						}
-						this.mouseoverConcept = null;
+						SoundDefOf.Tick_High.PlayOneShotOnCamera(null);
+					}
+					else
+					{
+						SoundDefOf.Tick_Low.PlayOneShotOnCamera(null);
 					}
 				}
+				if (this.showAllMode)
+				{
+					Rect rect3 = new Rect(0f, num2, viewRect.width - 20f - 2f, 28f);
+					this.searchString = this.FilterSearchStringInput(Widgets.TextField(rect3, this.searchString));
+					if (this.searchString == string.Empty)
+					{
+						GUI.color = new Color(0.6f, 0.6f, 0.6f, 1f);
+						Text.Anchor = TextAnchor.MiddleLeft;
+						Rect rect4 = rect3;
+						rect4.xMin += 7f;
+						Widgets.Label(rect4, "Filter".Translate() + "...");
+						Text.Anchor = TextAnchor.UpperLeft;
+						GUI.color = Color.white;
+					}
+					Rect butRect2 = new Rect(viewRect.width - 20f, num2 + 14f - 10f, 20f, 20f);
+					if (Widgets.ButtonImage(butRect2, TexButton.CloseXSmall))
+					{
+						this.searchString = string.Empty;
+						SoundDefOf.Tick_Tiny.PlayOneShotOnCamera(null);
+					}
+					num2 = rect3.yMax + 4f;
+				}
+				IEnumerable<ConceptDef> enumerable = this.showAllMode ? DefDatabase<ConceptDef>.AllDefs : this.activeConcepts;
+				if (enumerable.Any<ConceptDef>())
+				{
+					GUI.color = new Color(1f, 1f, 1f, 0.5f);
+					Widgets.DrawLineHorizontal(0f, num2, viewRect.width);
+					GUI.color = Color.white;
+					num2 += 4f;
+				}
+				if (this.showAllMode)
+				{
+					enumerable = from c in enumerable
+					orderby this.DisplayPriority(c) descending, c.label
+					select c;
+				}
+				foreach (ConceptDef conceptDef2 in enumerable)
+				{
+					if (!conceptDef2.TriggeredDirect)
+					{
+						num2 = this.DrawConceptListRow(0f, num2, viewRect.width, conceptDef2).yMax;
+					}
+				}
+				this.contentHeight = num2;
+				if (flag)
+				{
+					GUI.EndScrollView();
+				}
+				else
+				{
+					GUI.EndGroup();
+				}
+			}, false, false, 1f);
+			float num = Time.realtimeSinceStartup - this.lastConceptActivateRealTime;
+			if (num < 1f && num > 0f)
+			{
+				GenUI.DrawFlash(outRect2.x, outRect2.center.y, (float)UI.screenWidth * 0.6f, Pulser.PulseBrightness(1f, 1f, num) * 0.85f, new Color(0.8f, 0.77f, 0.53f));
 			}
+			ConceptDef conceptDef = (this.selectedConcept == null) ? this.mouseoverConcept : this.selectedConcept;
+			if (conceptDef != null)
+			{
+				this.DrawInfoPane(conceptDef);
+				conceptDef.HighlightAllTags();
+			}
+			this.mouseoverConcept = null;
 		}
 
 		private int DisplayPriority(ConceptDef conc)
@@ -264,7 +262,7 @@ namespace RimWorld
 
 		private bool MatchesSearchString(ConceptDef conc)
 		{
-			return this.searchString != "" && conc.label.IndexOf(this.searchString, StringComparison.OrdinalIgnoreCase) >= 0;
+			return this.searchString != string.Empty && conc.label.IndexOf(this.searchString, StringComparison.OrdinalIgnoreCase) >= 0;
 		}
 
 		private Rect DrawConceptListRow(float x, float y, float width, ConceptDef conc)
@@ -397,12 +395,6 @@ namespace RimWorld
 		}
 
 		[CompilerGenerated]
-		private static bool <ExposeData>m__0(ConceptDef c)
-		{
-			return PlayerKnowledgeDatabase.IsComplete(c);
-		}
-
-		[CompilerGenerated]
 		private sealed class <LearningReadoutOnGUI>c__AnonStorey0
 		{
 			internal Rect outRect;
@@ -454,7 +446,7 @@ namespace RimWorld
 				{
 					Rect rect3 = new Rect(0f, num, viewRect.width - 20f - 2f, 28f);
 					this.$this.searchString = this.$this.FilterSearchStringInput(Widgets.TextField(rect3, this.$this.searchString));
-					if (this.$this.searchString == "")
+					if (this.$this.searchString == string.Empty)
 					{
 						GUI.color = new Color(0.6f, 0.6f, 0.6f, 1f);
 						Text.Anchor = TextAnchor.MiddleLeft;
@@ -467,7 +459,7 @@ namespace RimWorld
 					Rect butRect2 = new Rect(viewRect.width - 20f, num + 14f - 10f, 20f, 20f);
 					if (Widgets.ButtonImage(butRect2, TexButton.CloseXSmall))
 					{
-						this.$this.searchString = "";
+						this.$this.searchString = string.Empty;
 						SoundDefOf.Tick_Tiny.PlayOneShotOnCamera(null);
 					}
 					num = rect3.yMax + 4f;

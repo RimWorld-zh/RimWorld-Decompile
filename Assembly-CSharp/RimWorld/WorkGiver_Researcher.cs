@@ -14,16 +14,11 @@ namespace RimWorld
 		{
 			get
 			{
-				ThingRequest result;
 				if (Find.ResearchManager.currentProj == null)
 				{
-					result = ThingRequest.ForGroup(ThingRequestGroup.Nothing);
+					return ThingRequest.ForGroup(ThingRequestGroup.Nothing);
 				}
-				else
-				{
-					result = ThingRequest.ForGroup(ThingRequestGroup.ResearchBench);
-				}
-				return result;
+				return ThingRequest.ForGroup(ThingRequestGroup.ResearchBench);
 			}
 		}
 
@@ -43,29 +38,21 @@ namespace RimWorld
 		public override bool HasJobOnThing(Pawn pawn, Thing t, bool forced = false)
 		{
 			ResearchProjectDef currentProj = Find.ResearchManager.currentProj;
-			bool result;
 			if (currentProj == null)
 			{
-				result = false;
+				return false;
 			}
-			else
+			Building_ResearchBench building_ResearchBench = t as Building_ResearchBench;
+			if (building_ResearchBench == null)
 			{
-				Building_ResearchBench building_ResearchBench = t as Building_ResearchBench;
-				if (building_ResearchBench == null)
-				{
-					result = false;
-				}
-				else if (!currentProj.CanBeResearchedAt(building_ResearchBench, false))
-				{
-					result = false;
-				}
-				else
-				{
-					LocalTargetInfo target = t;
-					result = pawn.CanReserve(target, 1, -1, null, forced);
-				}
+				return false;
 			}
-			return result;
+			if (!currentProj.CanBeResearchedAt(building_ResearchBench, false))
+			{
+				return false;
+			}
+			LocalTargetInfo target = t;
+			return pawn.CanReserve(target, 1, -1, null, forced);
 		}
 
 		public override Job JobOnThing(Pawn pawn, Thing t, bool forced = false)

@@ -38,16 +38,11 @@ namespace RimWorld
 
 		public override string ToString()
 		{
-			string result;
 			if (this.stat == null)
 			{
-				result = "(null stat)";
+				return "(null stat)";
 			}
-			else
-			{
-				result = this.stat.defName + "-" + this.value.ToString();
-			}
-			return result;
+			return this.stat.defName + "-" + this.value.ToString();
 		}
 	}
 }

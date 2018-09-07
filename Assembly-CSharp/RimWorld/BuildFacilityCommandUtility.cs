@@ -78,15 +78,14 @@ namespace RimWorld
 						return false;
 					}
 					i = 0;
-					goto IL_DE;
+					break;
 				case 1u:
+					IL_CD:
+					i++;
 					break;
 				default:
 					return false;
 				}
-				IL_D0:
-				i++;
-				IL_DE:
 				if (i >= affectedByFacilities.linkableFacilities.Count)
 				{
 					this.$PC = -1;
@@ -97,7 +96,7 @@ namespace RimWorld
 					des = BuildCopyCommandUtility.FindAllowedDesignator(facility, true);
 					if (des == null)
 					{
-						goto IL_D0;
+						goto IL_CD;
 					}
 					this.$current = des;
 					if (!this.$disposing)

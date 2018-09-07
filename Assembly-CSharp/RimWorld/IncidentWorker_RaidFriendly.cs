@@ -13,16 +13,16 @@ namespace RimWorld
 		private static Func<IAttackTarget, Faction> <>f__am$cache0;
 
 		[CompilerGenerated]
-		private static Func<IAttackTarget, bool> <>f__am$cache1;
+		private static Func<IAttackTarget, bool> <>f__mg$cache0;
 
 		[CompilerGenerated]
-		private static Func<IAttackTarget, float> <>f__am$cache2;
+		private static Func<IAttackTarget, float> <>f__am$cache1;
 
 		[CompilerGenerated]
-		private static Func<Faction, float> <>f__am$cache3;
+		private static Func<Faction, float> <>f__am$cache2;
 
 		[CompilerGenerated]
-		private static Predicate<Pawn> <>f__am$cache4;
+		private static Predicate<Pawn> <>f__am$cache3;
 
 		public IncidentWorker_RaidFriendly()
 		{
@@ -37,60 +37,49 @@ namespace RimWorld
 
 		protected override bool CanFireNowSub(IncidentParms parms)
 		{
-			bool result;
 			if (!base.CanFireNowSub(parms))
 			{
-				result = false;
+				return false;
 			}
-			else
+			Map map = (Map)parms.target;
+			IEnumerable<IAttackTarget> targetsHostileToColony = map.attackTargetsCache.TargetsHostileToColony;
+			if (IncidentWorker_RaidFriendly.<>f__mg$cache0 == null)
 			{
-				Map map = (Map)parms.target;
-				result = ((from p in map.attackTargetsCache.TargetsHostileToColony
-				where GenHostility.IsActiveThreatToPlayer(p)
-				select p).Sum(delegate(IAttackTarget p)
-				{
-					Pawn pawn = p as Pawn;
-					float result2;
-					if (pawn != null)
-					{
-						result2 = pawn.kindDef.combatPower;
-					}
-					else
-					{
-						result2 = 0f;
-					}
-					return result2;
-				}) > 120f);
+				IncidentWorker_RaidFriendly.<>f__mg$cache0 = new Func<IAttackTarget, bool>(GenHostility.IsActiveThreatToPlayer);
 			}
-			return result;
+			return targetsHostileToColony.Where(IncidentWorker_RaidFriendly.<>f__mg$cache0).Sum(delegate(IAttackTarget p)
+			{
+				Pawn pawn = p as Pawn;
+				if (pawn != null)
+				{
+					return pawn.kindDef.combatPower;
+				}
+				return 0f;
+			}) > 120f;
 		}
 
 		protected override bool TryResolveRaidFaction(IncidentParms parms)
 		{
 			Map map = (Map)parms.target;
-			bool result;
 			if (parms.faction != null)
 			{
-				result = true;
+				return true;
 			}
-			else if (!base.CandidateFactions(map, false).Any<Faction>())
+			if (!base.CandidateFactions(map, false).Any<Faction>())
 			{
-				result = false;
+				return false;
 			}
-			else
-			{
-				parms.faction = base.CandidateFactions(map, false).RandomElementByWeight((Faction fac) => (float)fac.PlayerGoodwill + 120.000008f);
-				result = true;
-			}
-			return result;
+			parms.faction = base.CandidateFactions(map, false).RandomElementByWeight((Faction fac) => (float)fac.PlayerGoodwill + 120.000008f);
+			return true;
 		}
 
 		protected override void ResolveRaidStrategy(IncidentParms parms, PawnGroupKindDef groupKind)
 		{
-			if (parms.raidStrategy == null)
+			if (parms.raidStrategy != null)
 			{
-				parms.raidStrategy = RaidStrategyDefOf.ImmediateAttack;
+				return;
 			}
+			parms.raidStrategy = RaidStrategyDefOf.ImmediateAttack;
 		}
 
 		protected override void ResolveRaidPoints(IncidentParms parms)
@@ -145,35 +134,24 @@ namespace RimWorld
 		}
 
 		[CompilerGenerated]
-		private static bool <CanFireNowSub>m__1(IAttackTarget p)
-		{
-			return GenHostility.IsActiveThreatToPlayer(p);
-		}
-
-		[CompilerGenerated]
-		private static float <CanFireNowSub>m__2(IAttackTarget p)
+		private static float <CanFireNowSub>m__1(IAttackTarget p)
 		{
 			Pawn pawn = p as Pawn;
-			float result;
 			if (pawn != null)
 			{
-				result = pawn.kindDef.combatPower;
+				return pawn.kindDef.combatPower;
 			}
-			else
-			{
-				result = 0f;
-			}
-			return result;
+			return 0f;
 		}
 
 		[CompilerGenerated]
-		private static float <TryResolveRaidFaction>m__3(Faction fac)
+		private static float <TryResolveRaidFaction>m__2(Faction fac)
 		{
 			return (float)fac.PlayerGoodwill + 120.000008f;
 		}
 
 		[CompilerGenerated]
-		private static bool <GetLetterText>m__4(Pawn x)
+		private static bool <GetLetterText>m__3(Pawn x)
 		{
 			return x.Faction.leader == x;
 		}

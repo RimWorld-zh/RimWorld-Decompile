@@ -28,15 +28,16 @@ namespace Verse
 
 		public static void TryRegisterAllFrom(LoadableXmlAsset xmlAsset, ModContentPack mod)
 		{
-			if (xmlAsset.xmlDoc != null)
+			if (xmlAsset.xmlDoc == null)
 			{
-				XmlNodeList childNodes = xmlAsset.xmlDoc.DocumentElement.ChildNodes;
-				for (int i = 0; i < childNodes.Count; i++)
+				return;
+			}
+			XmlNodeList childNodes = xmlAsset.xmlDoc.DocumentElement.ChildNodes;
+			for (int i = 0; i < childNodes.Count; i++)
+			{
+				if (childNodes[i].NodeType == XmlNodeType.Element)
 				{
-					if (childNodes[i].NodeType == XmlNodeType.Element)
-					{
-						XmlInheritance.TryRegister(childNodes[i], mod);
-					}
+					XmlInheritance.TryRegister(childNodes[i], mod);
 				}
 			}
 		}
@@ -45,50 +46,51 @@ namespace Verse
 		{
 			XmlAttribute xmlAttribute = node.Attributes["Name"];
 			XmlAttribute xmlAttribute2 = node.Attributes["ParentName"];
-			if (xmlAttribute != null || xmlAttribute2 != null)
+			if (xmlAttribute == null && xmlAttribute2 == null)
 			{
-				List<XmlInheritance.XmlInheritanceNode> list = null;
-				if (xmlAttribute != null && XmlInheritance.nodesByName.TryGetValue(xmlAttribute.Value, out list))
+				return;
+			}
+			List<XmlInheritance.XmlInheritanceNode> list = null;
+			if (xmlAttribute != null && XmlInheritance.nodesByName.TryGetValue(xmlAttribute.Value, out list))
+			{
+				for (int i = 0; i < list.Count; i++)
 				{
-					for (int i = 0; i < list.Count; i++)
+					if (list[i].mod == mod)
 					{
-						if (list[i].mod == mod)
+						if (mod == null)
 						{
-							if (mod == null)
-							{
-								Log.Error("XML error: Could not register node named \"" + xmlAttribute.Value + "\" because this name is already used.", false);
-							}
-							else
-							{
-								Log.Error(string.Concat(new string[]
-								{
-									"XML error: Could not register node named \"",
-									xmlAttribute.Value,
-									"\" in mod ",
-									mod.ToString(),
-									" because this name is already used in this mod."
-								}), false);
-							}
-							return;
+							Log.Error("XML error: Could not register node named \"" + xmlAttribute.Value + "\" because this name is already used.", false);
 						}
+						else
+						{
+							Log.Error(string.Concat(new string[]
+							{
+								"XML error: Could not register node named \"",
+								xmlAttribute.Value,
+								"\" in mod ",
+								mod.ToString(),
+								" because this name is already used in this mod."
+							}), false);
+						}
+						return;
 					}
 				}
-				XmlInheritance.XmlInheritanceNode xmlInheritanceNode = new XmlInheritance.XmlInheritanceNode();
-				xmlInheritanceNode.xmlNode = node;
-				xmlInheritanceNode.mod = mod;
-				XmlInheritance.unresolvedNodes.Add(xmlInheritanceNode);
-				if (xmlAttribute != null)
+			}
+			XmlInheritance.XmlInheritanceNode xmlInheritanceNode = new XmlInheritance.XmlInheritanceNode();
+			xmlInheritanceNode.xmlNode = node;
+			xmlInheritanceNode.mod = mod;
+			XmlInheritance.unresolvedNodes.Add(xmlInheritanceNode);
+			if (xmlAttribute != null)
+			{
+				if (list != null)
 				{
-					if (list != null)
-					{
-						list.Add(xmlInheritanceNode);
-					}
-					else
-					{
-						list = new List<XmlInheritance.XmlInheritanceNode>();
-						list.Add(xmlInheritanceNode);
-						XmlInheritance.nodesByName.Add(xmlAttribute.Value, list);
-					}
+					list.Add(xmlInheritanceNode);
+				}
+				else
+				{
+					list = new List<XmlInheritance.XmlInheritanceNode>();
+					list.Add(xmlInheritanceNode);
+					XmlInheritance.nodesByName.Add(xmlAttribute.Value, list);
 				}
 			}
 		}
@@ -171,14 +173,12 @@ namespace Verse
 			if (node.resolvedXmlNode != null)
 			{
 				Log.Error("XML error: Cyclic inheritance hierarchy detected for node \"" + node.xmlNode.Name + "\". Full node: " + node.xmlNode.OuterXml, false);
+				return;
 			}
-			else
+			XmlInheritance.ResolveXmlNodeFor(node);
+			for (int i = 0; i < node.children.Count; i++)
 			{
-				XmlInheritance.ResolveXmlNodeFor(node);
-				for (int i = 0; i < node.children.Count; i++)
-				{
-					XmlInheritance.ResolveXmlNodesRecursively(node.children[i]);
-				}
+				XmlInheritance.ResolveXmlNodesRecursively(node.children[i]);
 			}
 		}
 
@@ -234,7 +234,6 @@ namespace Verse
 					}
 				}
 			}
-			XmlInheritance.XmlInheritanceNode result;
 			if (xmlInheritanceNode == null)
 			{
 				Log.Error(string.Concat(new string[]
@@ -246,13 +245,9 @@ namespace Verse
 					"\". Full node: ",
 					node.xmlNode.OuterXml
 				}), false);
-				result = null;
+				return null;
 			}
-			else
-			{
-				result = xmlInheritanceNode;
-			}
-			return result;
+			return xmlInheritanceNode;
 		}
 
 		private static void ResolveXmlNodeFor(XmlInheritance.XmlInheritanceNode node)
@@ -260,19 +255,18 @@ namespace Verse
 			if (node.parent == null)
 			{
 				node.resolvedXmlNode = node.xmlNode;
+				return;
 			}
-			else if (node.parent.resolvedXmlNode == null)
+			if (node.parent.resolvedXmlNode == null)
 			{
 				Log.Error("XML error: Internal error. Tried to resolve node whose parent has not been resolved yet. This means that this method was called in incorrect order.", false);
 				node.resolvedXmlNode = node.xmlNode;
+				return;
 			}
-			else
-			{
-				XmlInheritance.CheckForDuplicateNodes(node.xmlNode, node.xmlNode);
-				XmlNode xmlNode = node.parent.resolvedXmlNode.CloneNode(true);
-				XmlInheritance.RecursiveNodeCopyOverwriteElements(node.xmlNode, xmlNode);
-				node.resolvedXmlNode = xmlNode;
-			}
+			XmlInheritance.CheckForDuplicateNodes(node.xmlNode, node.xmlNode);
+			XmlNode xmlNode = node.parent.resolvedXmlNode.CloneNode(true);
+			XmlInheritance.RecursiveNodeCopyOverwriteElements(node.xmlNode, xmlNode);
+			node.resolvedXmlNode = xmlNode;
 		}
 
 		private static void RecursiveNodeCopyOverwriteElements(XmlNode child, XmlNode current)
@@ -303,128 +297,126 @@ namespace Verse
 						disposable.Dispose();
 					}
 				}
+				return;
 			}
-			else
+			current.Attributes.RemoveAll();
+			XmlAttributeCollection attributes = child.Attributes;
+			for (int i = 0; i < attributes.Count; i++)
 			{
-				current.Attributes.RemoveAll();
-				XmlAttributeCollection attributes = child.Attributes;
-				for (int i = 0; i < attributes.Count; i++)
+				XmlAttribute node2 = (XmlAttribute)current.OwnerDocument.ImportNode(attributes[i], true);
+				current.Attributes.Append(node2);
+			}
+			List<XmlElement> list = new List<XmlElement>();
+			XmlNode xmlNode = null;
+			IEnumerator enumerator2 = child.GetEnumerator();
+			try
+			{
+				while (enumerator2.MoveNext())
 				{
-					XmlAttribute node2 = (XmlAttribute)current.OwnerDocument.ImportNode(attributes[i], true);
-					current.Attributes.Append(node2);
+					object obj2 = enumerator2.Current;
+					XmlNode xmlNode2 = (XmlNode)obj2;
+					if (xmlNode2.NodeType == XmlNodeType.Text)
+					{
+						xmlNode = xmlNode2;
+					}
+					else if (xmlNode2.NodeType == XmlNodeType.Element)
+					{
+						list.Add((XmlElement)xmlNode2);
+					}
 				}
-				List<XmlElement> list = new List<XmlElement>();
-				XmlNode xmlNode = null;
-				IEnumerator enumerator2 = child.GetEnumerator();
+			}
+			finally
+			{
+				IDisposable disposable2;
+				if ((disposable2 = (enumerator2 as IDisposable)) != null)
+				{
+					disposable2.Dispose();
+				}
+			}
+			if (xmlNode != null)
+			{
+				for (int j = current.ChildNodes.Count - 1; j >= 0; j--)
+				{
+					XmlNode xmlNode3 = current.ChildNodes[j];
+					if (xmlNode3.NodeType != XmlNodeType.Attribute)
+					{
+						current.RemoveChild(xmlNode3);
+					}
+				}
+				XmlNode newChild2 = current.OwnerDocument.ImportNode(xmlNode, true);
+				current.AppendChild(newChild2);
+			}
+			else if (!list.Any<XmlElement>())
+			{
+				bool flag = false;
+				IEnumerator enumerator3 = current.ChildNodes.GetEnumerator();
 				try
 				{
-					while (enumerator2.MoveNext())
+					while (enumerator3.MoveNext())
 					{
-						object obj2 = enumerator2.Current;
-						XmlNode xmlNode2 = (XmlNode)obj2;
-						if (xmlNode2.NodeType == XmlNodeType.Text)
+						object obj3 = enumerator3.Current;
+						XmlNode xmlNode4 = (XmlNode)obj3;
+						if (xmlNode4.NodeType == XmlNodeType.Element)
 						{
-							xmlNode = xmlNode2;
-						}
-						else if (xmlNode2.NodeType == XmlNodeType.Element)
-						{
-							list.Add((XmlElement)xmlNode2);
+							flag = true;
+							break;
 						}
 					}
 				}
 				finally
 				{
-					IDisposable disposable2;
-					if ((disposable2 = (enumerator2 as IDisposable)) != null)
+					IDisposable disposable3;
+					if ((disposable3 = (enumerator3 as IDisposable)) != null)
 					{
-						disposable2.Dispose();
+						disposable3.Dispose();
 					}
 				}
-				if (xmlNode != null)
+				if (!flag)
 				{
-					for (int j = current.ChildNodes.Count - 1; j >= 0; j--)
-					{
-						XmlNode xmlNode3 = current.ChildNodes[j];
-						if (xmlNode3.NodeType != XmlNodeType.Attribute)
-						{
-							current.RemoveChild(xmlNode3);
-						}
-					}
-					XmlNode newChild2 = current.OwnerDocument.ImportNode(xmlNode, true);
-					current.AppendChild(newChild2);
-				}
-				else if (!list.Any<XmlElement>())
-				{
-					bool flag = false;
-					IEnumerator enumerator3 = current.ChildNodes.GetEnumerator();
+					IEnumerator enumerator4 = current.ChildNodes.GetEnumerator();
 					try
 					{
-						while (enumerator3.MoveNext())
+						while (enumerator4.MoveNext())
 						{
-							object obj3 = enumerator3.Current;
-							XmlNode xmlNode4 = (XmlNode)obj3;
-							if (xmlNode4.NodeType == XmlNodeType.Element)
+							object obj4 = enumerator4.Current;
+							XmlNode xmlNode5 = (XmlNode)obj4;
+							if (xmlNode5.NodeType != XmlNodeType.Attribute)
 							{
-								flag = true;
-								break;
+								current.RemoveChild(xmlNode5);
 							}
 						}
 					}
 					finally
 					{
-						IDisposable disposable3;
-						if ((disposable3 = (enumerator3 as IDisposable)) != null)
+						IDisposable disposable4;
+						if ((disposable4 = (enumerator4 as IDisposable)) != null)
 						{
-							disposable3.Dispose();
-						}
-					}
-					if (!flag)
-					{
-						IEnumerator enumerator4 = current.ChildNodes.GetEnumerator();
-						try
-						{
-							while (enumerator4.MoveNext())
-							{
-								object obj4 = enumerator4.Current;
-								XmlNode xmlNode5 = (XmlNode)obj4;
-								if (xmlNode5.NodeType != XmlNodeType.Attribute)
-								{
-									current.RemoveChild(xmlNode5);
-								}
-							}
-						}
-						finally
-						{
-							IDisposable disposable4;
-							if ((disposable4 = (enumerator4 as IDisposable)) != null)
-							{
-								disposable4.Dispose();
-							}
+							disposable4.Dispose();
 						}
 					}
 				}
-				else
+			}
+			else
+			{
+				for (int k = 0; k < list.Count; k++)
 				{
-					for (int k = 0; k < list.Count; k++)
+					XmlElement xmlElement = list[k];
+					if (xmlElement.Name == "li")
 					{
-						XmlElement xmlElement = list[k];
-						if (xmlElement.Name == "li")
+						XmlNode newChild3 = current.OwnerDocument.ImportNode(xmlElement, true);
+						current.AppendChild(newChild3);
+					}
+					else
+					{
+						XmlElement xmlElement2 = current[xmlElement.Name];
+						if (xmlElement2 != null)
 						{
-							XmlNode newChild3 = current.OwnerDocument.ImportNode(xmlElement, true);
-							current.AppendChild(newChild3);
+							XmlInheritance.RecursiveNodeCopyOverwriteElements(xmlElement, xmlElement2);
 						}
 						else
 						{
-							XmlElement xmlElement2 = current[xmlElement.Name];
-							if (xmlElement2 != null)
-							{
-								XmlInheritance.RecursiveNodeCopyOverwriteElements(xmlElement, xmlElement2);
-							}
-							else
-							{
-								XmlNode newChild4 = current.OwnerDocument.ImportNode(xmlElement, true);
-								current.AppendChild(newChild4);
-							}
+							XmlNode newChild4 = current.OwnerDocument.ImportNode(xmlElement, true);
+							current.AppendChild(newChild4);
 						}
 					}
 				}
@@ -451,7 +443,7 @@ namespace Verse
 								xmlNode.Name,
 								" in this XML block: ",
 								node.OuterXml,
-								(node == root) ? "" : ("\n\nRoot node: " + root.OuterXml)
+								(node == root) ? string.Empty : ("\n\nRoot node: " + root.OuterXml)
 							}), false);
 						}
 						else

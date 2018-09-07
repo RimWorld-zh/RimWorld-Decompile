@@ -4,7 +4,7 @@ namespace Verse
 {
 	public static class DebugTools
 	{
-		public static DebugTool curTool = null;
+		public static DebugTool curTool;
 
 		public static void DebugToolsOnGUI()
 		{

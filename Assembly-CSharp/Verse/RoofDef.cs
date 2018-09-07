@@ -4,13 +4,13 @@ namespace Verse
 {
 	public class RoofDef : Def
 	{
-		public bool isNatural = false;
+		public bool isNatural;
 
-		public bool isThickRoof = false;
+		public bool isThickRoof;
 
-		public ThingDef collapseLeavingThingDef = null;
+		public ThingDef collapseLeavingThingDef;
 
-		public ThingDef filthLeaving = null;
+		public ThingDef filthLeaving;
 
 		public SoundDef soundPunchThrough;
 

@@ -21,31 +21,32 @@ namespace RimWorld
 
 		public static void GenerateAddictionsAndTolerancesFor(Pawn pawn)
 		{
-			if (pawn.RaceProps.IsFlesh && pawn.RaceProps.Humanlike)
+			if (!pawn.RaceProps.IsFlesh || !pawn.RaceProps.Humanlike)
 			{
-				if (!pawn.IsTeetotaler())
+				return;
+			}
+			if (pawn.IsTeetotaler())
+			{
+				return;
+			}
+			PawnAddictionHediffsGenerator.allDrugs.Clear();
+			int i = 0;
+			while (i < 3)
+			{
+				if (Rand.Value < pawn.kindDef.chemicalAddictionChance)
 				{
-					PawnAddictionHediffsGenerator.allDrugs.Clear();
-					for (int i = 0; i < 3; i++)
+					if (!PawnAddictionHediffsGenerator.allDrugs.Any<ThingDef>())
 					{
-						if (Rand.Value >= pawn.kindDef.chemicalAddictionChance)
-						{
-							break;
-						}
-						if (!PawnAddictionHediffsGenerator.allDrugs.Any<ThingDef>())
-						{
-							PawnAddictionHediffsGenerator.allDrugs.AddRange(from x in DefDatabase<ThingDef>.AllDefsListForReading
-							where x.category == ThingCategory.Item && x.GetCompProperties<CompProperties_Drug>() != null
-							select x);
-						}
-						IEnumerable<ChemicalDef> source = from x in DefDatabase<ChemicalDef>.AllDefsListForReading
-						where PawnAddictionHediffsGenerator.PossibleWithTechLevel(x, pawn.Faction) && !AddictionUtility.IsAddicted(pawn, x)
-						select x;
-						ChemicalDef chemicalDef;
-						if (!source.TryRandomElement(out chemicalDef))
-						{
-							break;
-						}
+						PawnAddictionHediffsGenerator.allDrugs.AddRange(from x in DefDatabase<ThingDef>.AllDefsListForReading
+						where x.category == ThingCategory.Item && x.GetCompProperties<CompProperties_Drug>() != null
+						select x);
+					}
+					IEnumerable<ChemicalDef> source = from x in DefDatabase<ChemicalDef>.AllDefsListForReading
+					where PawnAddictionHediffsGenerator.PossibleWithTechLevel(x, pawn.Faction) && !AddictionUtility.IsAddicted(pawn, x)
+					select x;
+					ChemicalDef chemicalDef;
+					if (source.TryRandomElement(out chemicalDef))
+					{
 						Hediff hediff = HediffMaker.MakeHediff(chemicalDef.addictionHediff, pawn, null);
 						hediff.Severity = PawnAddictionHediffsGenerator.GeneratedAddictionSeverityRange.RandomInRange;
 						pawn.health.AddHediff(hediff, null, null, null);
@@ -63,8 +64,11 @@ namespace RimWorld
 							}
 						}
 						PawnAddictionHediffsGenerator.DoIngestionOutcomeDoers(pawn, chemicalDef);
+						i++;
+						continue;
 					}
 				}
+				return;
 			}
 		}
 

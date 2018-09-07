@@ -19,9 +19,9 @@ namespace RimWorld
 
 		public static float lastCurrencyFlashTime = -100f;
 
-		private List<Tradeable> cachedTradeables = null;
+		private List<Tradeable> cachedTradeables;
 
-		private Tradeable cachedCurrencyTradeable = null;
+		private Tradeable cachedCurrencyTradeable;
 
 		private TransferableSorterDef sorter1;
 
@@ -92,6 +92,9 @@ namespace RimWorld
 		private static readonly Texture2D TradeModeIcon = ContentFinder<Texture2D>.Get("UI/Buttons/TradeMode", true);
 
 		[CompilerGenerated]
+		private static Func<Tradeable, float> <>f__mg$cache0;
+
+		[CompilerGenerated]
 		private static Func<Tradeable, bool> <>f__am$cache0;
 
 		[CompilerGenerated]
@@ -107,16 +110,13 @@ namespace RimWorld
 		private static Func<Tradeable, Transferable> <>f__am$cache4;
 
 		[CompilerGenerated]
-		private static Func<Tradeable, float> <>f__am$cache5;
+		private static Func<Tradeable, string> <>f__am$cache5;
 
 		[CompilerGenerated]
-		private static Func<Tradeable, string> <>f__am$cache6;
+		private static Func<Tradeable, int> <>f__am$cache6;
 
 		[CompilerGenerated]
 		private static Func<Tradeable, int> <>f__am$cache7;
-
-		[CompilerGenerated]
-		private static Func<Tradeable, int> <>f__am$cache8;
 
 		public Dialog_Trade(Pawn playerNegotiator, ITrader trader, bool giftsOnly = false)
 		{
@@ -166,6 +166,7 @@ namespace RimWorld
 				if (this.massUsageDirty)
 				{
 					this.massUsageDirty = false;
+					TradeSession.deal.UpdateCurrencyCount();
 					if (this.cachedCurrencyTradeable != null)
 					{
 						this.cachedTradeables.Add(this.cachedCurrencyTradeable);
@@ -187,6 +188,7 @@ namespace RimWorld
 				if (this.massCapacityDirty)
 				{
 					this.massCapacityDirty = false;
+					TradeSession.deal.UpdateCurrencyCount();
 					if (this.cachedCurrencyTradeable != null)
 					{
 						this.cachedTradeables.Add(this.cachedCurrencyTradeable);
@@ -210,6 +212,7 @@ namespace RimWorld
 				if (this.tilesPerDayDirty)
 				{
 					this.tilesPerDayDirty = false;
+					TradeSession.deal.UpdateCurrencyCount();
 					Caravan caravan = TradeSession.playerNegotiator.GetCaravan();
 					StringBuilder stringBuilder = new StringBuilder();
 					this.cachedTilesPerDay = TilesPerDayCalculator.ApproxTilesPerDayLeftAfterTradeableTransfer(this.playerCaravanAllPawnsAndItems, this.cachedTradeables, this.MassUsage, this.MassCapacity, this.Tile, (caravan == null || !caravan.pather.Moving) ? -1 : caravan.pather.nextTile, stringBuilder);
@@ -226,6 +229,7 @@ namespace RimWorld
 				if (this.daysWorthOfFoodDirty)
 				{
 					this.daysWorthOfFoodDirty = false;
+					TradeSession.deal.UpdateCurrencyCount();
 					float first = DaysWorthOfFoodCalculator.ApproxDaysWorthOfFoodLeftAfterTradeableTransfer(this.playerCaravanAllPawnsAndItems, this.cachedTradeables, this.Tile, IgnorePawnsInventoryMode.Ignore, Faction.OfPlayer);
 					this.cachedDaysWorthOfFood = new Pair<float, float>(first, DaysUntilRotCalculator.ApproxDaysUntilRotLeftAfterTradeableTransfer(this.playerCaravanAllPawnsAndItems, this.cachedTradeables, this.Tile, IgnorePawnsInventoryMode.Ignore));
 				}
@@ -240,6 +244,7 @@ namespace RimWorld
 				if (this.foragedFoodPerDayDirty)
 				{
 					this.foragedFoodPerDayDirty = false;
+					TradeSession.deal.UpdateCurrencyCount();
 					StringBuilder stringBuilder = new StringBuilder();
 					this.cachedForagedFoodPerDay = ForagedFoodPerDayCalculator.ForagedFoodPerDayLeftAfterTradeableTransfer(this.playerCaravanAllPawnsAndItems, this.cachedTradeables, this.Biome, Faction.OfPlayer, stringBuilder);
 					this.cachedForagedFoodPerDayExplanation = stringBuilder.ToString();
@@ -255,6 +260,7 @@ namespace RimWorld
 				if (this.visibilityDirty)
 				{
 					this.visibilityDirty = false;
+					TradeSession.deal.UpdateCurrencyCount();
 					StringBuilder stringBuilder = new StringBuilder();
 					this.cachedVisibility = CaravanVisibilityCalculator.VisibilityLeftAfterTradeableTransfer(this.playerCaravanAllPawnsAndItems, this.cachedTradeables, stringBuilder);
 					this.cachedVisibilityExplanation = stringBuilder.ToString();
@@ -300,22 +306,22 @@ namespace RimWorld
 			this.cachedCurrencyTradeable = (from x in TradeSession.deal.AllTradeables
 			where x.IsCurrency
 			select x).FirstOrDefault<Tradeable>();
-			this.cachedTradeables = (from tr in TradeSession.deal.AllTradeables
+			IOrderedEnumerable<Tradeable> source = (from tr in TradeSession.deal.AllTradeables
 			where !tr.IsCurrency
 			orderby (!tr.TraderWillTrade) ? -1 : 0 descending
-			select tr).ThenBy((Tradeable tr) => tr, this.sorter1.Comparer).ThenBy((Tradeable tr) => tr, this.sorter2.Comparer).ThenBy((Tradeable tr) => TransferableUIUtility.DefaultListOrderPriority(tr)).ThenBy((Tradeable tr) => tr.ThingDef.label).ThenBy(delegate(Tradeable tr)
+			select tr).ThenBy((Tradeable tr) => tr, this.sorter1.Comparer).ThenBy((Tradeable tr) => tr, this.sorter2.Comparer);
+			if (Dialog_Trade.<>f__mg$cache0 == null)
 			{
-				QualityCategory qualityCategory;
-				int result;
-				if (tr.AnyThing.TryGetQuality(out qualityCategory))
+				Dialog_Trade.<>f__mg$cache0 = new Func<Tradeable, float>(TransferableUIUtility.DefaultListOrderPriority);
+			}
+			this.cachedTradeables = source.ThenBy(Dialog_Trade.<>f__mg$cache0).ThenBy((Tradeable tr) => tr.ThingDef.label).ThenBy(delegate(Tradeable tr)
+			{
+				QualityCategory result;
+				if (tr.AnyThing.TryGetQuality(out result))
 				{
-					result = (int)qualityCategory;
+					return (int)result;
 				}
-				else
-				{
-					result = -1;
-				}
-				return result;
+				return -1;
 			}).ThenBy((Tradeable tr) => tr.AnyThing.HitPoints).ToList<Tradeable>();
 		}
 
@@ -323,7 +329,7 @@ namespace RimWorld
 		{
 			if (this.playerIsCaravan)
 			{
-				CaravanUIUtility.DrawCaravanInfo(new CaravanUIUtility.CaravanInfo(this.MassUsage, this.MassCapacity, this.cachedMassCapacityExplanation, this.TilesPerDay, this.cachedTilesPerDayExplanation, this.DaysWorthOfFood, this.ForagedFoodPerDay, this.cachedForagedFoodPerDayExplanation, this.Visibility, this.cachedVisibilityExplanation), null, this.Tile, null, -9999f, new Rect(12f, 0f, inRect.width - 24f, 40f), true, null, false);
+				CaravanUIUtility.DrawCaravanInfo(new CaravanUIUtility.CaravanInfo(this.MassUsage, this.MassCapacity, this.cachedMassCapacityExplanation, this.TilesPerDay, this.cachedTilesPerDayExplanation, this.DaysWorthOfFood, this.ForagedFoodPerDay, this.cachedForagedFoodPerDayExplanation, this.Visibility, this.cachedVisibilityExplanation, -1f, -1f, null), null, this.Tile, null, -9999f, new Rect(12f, 0f, inRect.width - 24f, 40f), true, null, false);
 				inRect.yMin += 52f;
 			}
 			TradeSession.deal.UpdateCurrencyCount();
@@ -584,55 +590,44 @@ namespace RimWorld
 		}
 
 		[CompilerGenerated]
-		private static float <CacheTradeables>m__5(Tradeable tr)
-		{
-			return TransferableUIUtility.DefaultListOrderPriority(tr);
-		}
-
-		[CompilerGenerated]
-		private static string <CacheTradeables>m__6(Tradeable tr)
+		private static string <CacheTradeables>m__5(Tradeable tr)
 		{
 			return tr.ThingDef.label;
 		}
 
 		[CompilerGenerated]
-		private static int <CacheTradeables>m__7(Tradeable tr)
+		private static int <CacheTradeables>m__6(Tradeable tr)
 		{
-			QualityCategory qualityCategory;
-			int result;
-			if (tr.AnyThing.TryGetQuality(out qualityCategory))
+			QualityCategory result;
+			if (tr.AnyThing.TryGetQuality(out result))
 			{
-				result = (int)qualityCategory;
+				return (int)result;
 			}
-			else
-			{
-				result = -1;
-			}
-			return result;
+			return -1;
 		}
 
 		[CompilerGenerated]
-		private static int <CacheTradeables>m__8(Tradeable tr)
+		private static int <CacheTradeables>m__7(Tradeable tr)
 		{
 			return tr.AnyThing.HitPoints;
 		}
 
 		[CompilerGenerated]
-		private void <DoWindowContents>m__9(TransferableSorterDef x)
+		private void <DoWindowContents>m__8(TransferableSorterDef x)
 		{
 			this.sorter1 = x;
 			this.CacheTradeables();
 		}
 
 		[CompilerGenerated]
-		private void <DoWindowContents>m__A(TransferableSorterDef x)
+		private void <DoWindowContents>m__9(TransferableSorterDef x)
 		{
 			this.sorter2 = x;
 			this.CacheTradeables();
 		}
 
 		[CompilerGenerated]
-		private void <DoWindowContents>m__B()
+		private void <DoWindowContents>m__A()
 		{
 			bool flag;
 			if (TradeSession.deal.TryExecute(out flag))

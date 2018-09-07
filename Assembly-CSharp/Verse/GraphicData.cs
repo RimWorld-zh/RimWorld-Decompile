@@ -12,13 +12,13 @@ namespace Verse
 	public class GraphicData
 	{
 		[NoTranslate]
-		public string texPath = null;
+		public string texPath;
 
-		public Type graphicClass = null;
+		public Type graphicClass;
 
-		public ShaderTypeDef shaderType = null;
+		public ShaderTypeDef shaderType;
 
-		public List<ShaderParameter> shaderParameters = null;
+		public List<ShaderParameter> shaderParameters;
 
 		public Color color = Color.white;
 
@@ -26,24 +26,24 @@ namespace Verse
 
 		public Vector2 drawSize = Vector2.one;
 
-		public float onGroundRandomRotateAngle = 0f;
+		public float onGroundRandomRotateAngle;
 
 		public bool drawRotated = true;
 
 		public bool allowFlip = true;
 
-		public float flipExtraRotation = 0f;
+		public float flipExtraRotation;
 
-		public ShadowData shadowData = null;
+		public ShadowData shadowData;
 
-		public DamageGraphicData damageData = null;
+		public DamageGraphicData damageData;
 
-		public LinkDrawerType linkType = LinkDrawerType.None;
+		public LinkDrawerType linkType;
 
-		public LinkFlags linkFlags = LinkFlags.None;
+		public LinkFlags linkFlags;
 
 		[Unsaved]
-		private Graphic cachedGraphic = null;
+		private Graphic cachedGraphic;
 
 		public GraphicData()
 		{
@@ -92,24 +92,22 @@ namespace Verse
 			if (this.graphicClass == null)
 			{
 				this.cachedGraphic = null;
+				return;
 			}
-			else
+			ShaderTypeDef cutout = this.shaderType;
+			if (cutout == null)
 			{
-				ShaderTypeDef cutout = this.shaderType;
-				if (cutout == null)
-				{
-					cutout = ShaderTypeDefOf.Cutout;
-				}
-				Shader shader = cutout.Shader;
-				this.cachedGraphic = GraphicDatabase.Get(this.graphicClass, this.texPath, shader, this.drawSize, this.color, this.colorTwo, this, this.shaderParameters);
-				if (this.onGroundRandomRotateAngle > 0.01f)
-				{
-					this.cachedGraphic = new Graphic_RandomRotated(this.cachedGraphic, this.onGroundRandomRotateAngle);
-				}
-				if (this.Linked)
-				{
-					this.cachedGraphic = GraphicUtility.WrapLinked(this.cachedGraphic, this.linkType);
-				}
+				cutout = ShaderTypeDefOf.Cutout;
+			}
+			Shader shader = cutout.Shader;
+			this.cachedGraphic = GraphicDatabase.Get(this.graphicClass, this.texPath, shader, this.drawSize, this.color, this.colorTwo, this, this.shaderParameters);
+			if (this.onGroundRandomRotateAngle > 0.01f)
+			{
+				this.cachedGraphic = new Graphic_RandomRotated(this.cachedGraphic, this.onGroundRandomRotateAngle);
+			}
+			if (this.Linked)
+			{
+				this.cachedGraphic = GraphicUtility.WrapLinked(this.cachedGraphic, this.linkType);
 			}
 		}
 
@@ -123,16 +121,11 @@ namespace Verse
 
 		public Graphic GraphicColoredFor(Thing t)
 		{
-			Graphic result;
 			if (t.DrawColor.IndistinguishableFrom(this.Graphic.Color) && t.DrawColorTwo.IndistinguishableFrom(this.Graphic.ColorTwo))
 			{
-				result = this.Graphic;
+				return this.Graphic;
 			}
-			else
-			{
-				result = this.Graphic.GetColoredVersion(this.Graphic.Shader, t.DrawColor, t.DrawColorTwo);
-			}
-			return result;
+			return this.Graphic.GetColoredVersion(this.Graphic.Shader, t.DrawColor, t.DrawColorTwo);
 		}
 
 		internal IEnumerable<string> ConfigErrors(ThingDef thingDef)
@@ -145,12 +138,9 @@ namespace Verse
 			{
 				yield return "texPath is null or empty";
 			}
-			if (thingDef != null)
+			if (thingDef != null && thingDef.drawerType == DrawerType.RealtimeOnly && this.Linked)
 			{
-				if (thingDef.drawerType == DrawerType.RealtimeOnly && this.Linked)
-				{
-					yield return "does not add to map mesh but has a link drawer. Link drawers can only work on the map mesh.";
-				}
+				yield return "does not add to map mesh but has a link drawer. Link drawers can only work on the map mesh.";
 			}
 			if ((this.shaderType == ShaderTypeDefOf.Cutout || this.shaderType == ShaderTypeDefOf.CutoutComplex) && thingDef.mote != null && (thingDef.mote.fadeInTime > 0f || thingDef.mote.fadeOutTime > 0f))
 			{
@@ -197,13 +187,11 @@ namespace Verse
 				case 1u:
 					break;
 				case 2u:
-					goto IL_91;
+					goto IL_90;
 				case 3u:
-					goto IL_DD;
+					goto IL_DB;
 				case 4u:
-					IL_16B:
-					this.$PC = -1;
-					return false;
+					goto IL_168;
 				default:
 					return false;
 				}
@@ -216,20 +204,17 @@ namespace Verse
 					}
 					return true;
 				}
-				IL_91:
-				if (thingDef != null)
+				IL_90:
+				if (thingDef != null && thingDef.drawerType == DrawerType.RealtimeOnly && base.Linked)
 				{
-					if (thingDef.drawerType == DrawerType.RealtimeOnly && base.Linked)
+					this.$current = "does not add to map mesh but has a link drawer. Link drawers can only work on the map mesh.";
+					if (!this.$disposing)
 					{
-						this.$current = "does not add to map mesh but has a link drawer. Link drawers can only work on the map mesh.";
-						if (!this.$disposing)
-						{
-							this.$PC = 3;
-						}
-						return true;
+						this.$PC = 3;
 					}
+					return true;
 				}
-				IL_DD:
+				IL_DB:
 				if ((this.shaderType == ShaderTypeDefOf.Cutout || this.shaderType == ShaderTypeDefOf.CutoutComplex) && thingDef.mote != null && (thingDef.mote.fadeInTime > 0f || thingDef.mote.fadeOutTime > 0f))
 				{
 					this.$current = "mote fades but uses cutout shader type. It will abruptly disappear when opacity falls under the cutout threshold.";
@@ -239,7 +224,9 @@ namespace Verse
 					}
 					return true;
 				}
-				goto IL_16B;
+				IL_168:
+				this.$PC = -1;
+				return false;
 			}
 
 			string IEnumerator<string>.Current

@@ -97,18 +97,16 @@ namespace Verse.Profile
 			if (MemoryTracker.trackedLocked)
 			{
 				MemoryTracker.trackedQueue.Add(obj);
+				return;
 			}
-			else
+			Type type = obj.GetType();
+			HashSet<WeakReference> hashSet = null;
+			if (!MemoryTracker.tracked.TryGetValue(type, out hashSet))
 			{
-				Type type = obj.GetType();
-				HashSet<WeakReference> hashSet = null;
-				if (!MemoryTracker.tracked.TryGetValue(type, out hashSet))
-				{
-					hashSet = new HashSet<WeakReference>();
-					MemoryTracker.tracked[type] = hashSet;
-				}
-				hashSet.Add(new WeakReference(obj));
+				hashSet = new HashSet<WeakReference>();
+				MemoryTracker.tracked[type] = hashSet;
 			}
+			hashSet.Add(new WeakReference(obj));
 		}
 
 		public static void RegisterType(RuntimeTypeHandle typeHandle)
@@ -116,14 +114,12 @@ namespace Verse.Profile
 			if (MemoryTracker.trackedLocked)
 			{
 				MemoryTracker.trackedTypeQueue.Add(typeHandle);
+				return;
 			}
-			else
+			Type typeFromHandle = Type.GetTypeFromHandle(typeHandle);
+			if (!MemoryTracker.tracked.ContainsKey(typeFromHandle))
 			{
-				Type typeFromHandle = Type.GetTypeFromHandle(typeHandle);
-				if (!MemoryTracker.tracked.ContainsKey(typeFromHandle))
-				{
-					MemoryTracker.tracked[typeFromHandle] = new HashSet<WeakReference>();
-				}
+				MemoryTracker.tracked[typeFromHandle] = new HashSet<WeakReference>();
 			}
 		}
 
@@ -162,30 +158,28 @@ namespace Verse.Profile
 			if (MemoryTracker.tracked.Count == 0)
 			{
 				Log.Message("No objects tracked, memory tracker markup may not be applied.", false);
+				return;
 			}
-			else
+			GC.Collect();
+			MemoryTracker.LockTracking();
+			try
 			{
-				GC.Collect();
-				MemoryTracker.LockTracking();
-				try
+				foreach (HashSet<WeakReference> table in MemoryTracker.tracked.Values)
 				{
-					foreach (HashSet<WeakReference> table in MemoryTracker.tracked.Values)
-					{
-						MemoryTracker.CullNulls(table);
-					}
-					StringBuilder stringBuilder = new StringBuilder();
-					foreach (KeyValuePair<Type, HashSet<WeakReference>> keyValuePair in from kvp in MemoryTracker.tracked
-					orderby -kvp.Value.Count
-					select kvp)
-					{
-						stringBuilder.AppendLine(string.Format("{0,6} {1}", keyValuePair.Value.Count, keyValuePair.Key));
-					}
-					Log.Message(stringBuilder.ToString(), false);
+					MemoryTracker.CullNulls(table);
 				}
-				finally
+				StringBuilder stringBuilder = new StringBuilder();
+				foreach (KeyValuePair<Type, HashSet<WeakReference>> keyValuePair in from kvp in MemoryTracker.tracked
+				orderby -kvp.Value.Count
+				select kvp)
 				{
-					MemoryTracker.UnlockTracking();
+					stringBuilder.AppendLine(string.Format("{0,6} {1}", keyValuePair.Value.Count, keyValuePair.Key));
 				}
+				Log.Message(stringBuilder.ToString(), false);
+			}
+			finally
+			{
+				MemoryTracker.UnlockTracking();
 			}
 		}
 
@@ -196,45 +190,43 @@ namespace Verse.Profile
 			if (MemoryTracker.tracked.Count == 0)
 			{
 				Log.Message("No objects tracked, memory tracker markup may not be applied.", false);
+				return;
 			}
-			else
+			GC.Collect();
+			MemoryTracker.LockTracking();
+			try
 			{
-				GC.Collect();
-				MemoryTracker.LockTracking();
-				try
+				foreach (HashSet<WeakReference> table in MemoryTracker.tracked.Values)
 				{
-					foreach (HashSet<WeakReference> table in MemoryTracker.tracked.Values)
-					{
-						MemoryTracker.CullNulls(table);
-					}
-					List<Type> list = new List<Type>();
-					list.Add(typeof(Map));
-					List<FloatMenuOption> list2 = new List<FloatMenuOption>();
-					foreach (Type type in list.Concat(from kvp in MemoryTracker.tracked
-					orderby -kvp.Value.Count
-					select kvp.Key).Take(30))
-					{
-						Type type2 = type;
-						HashSet<WeakReference> trackedBatch = MemoryTracker.tracked.TryGetValue(type2, null);
-						if (trackedBatch == null)
-						{
-							trackedBatch = new HashSet<WeakReference>();
-						}
-						list2.Add(new FloatMenuOption(string.Format("{0} ({1})", type2, trackedBatch.Count), delegate()
-						{
-							MemoryTracker.LogObjectHoldPathsFor(trackedBatch, (WeakReference _) => 1);
-						}, MenuOptionPriority.Default, null, null, 0f, null, null));
-						if (list2.Count == 30)
-						{
-							break;
-						}
-					}
-					Find.WindowStack.Add(new FloatMenu(list2));
+					MemoryTracker.CullNulls(table);
 				}
-				finally
+				List<Type> list = new List<Type>();
+				list.Add(typeof(Map));
+				List<FloatMenuOption> list2 = new List<FloatMenuOption>();
+				foreach (Type type in list.Concat(from kvp in MemoryTracker.tracked
+				orderby -kvp.Value.Count
+				select kvp.Key).Take(30))
 				{
-					MemoryTracker.UnlockTracking();
+					Type type2 = type;
+					HashSet<WeakReference> trackedBatch = MemoryTracker.tracked.TryGetValue(type2, null);
+					if (trackedBatch == null)
+					{
+						trackedBatch = new HashSet<WeakReference>();
+					}
+					list2.Add(new FloatMenuOption(string.Format("{0} ({1})", type2, trackedBatch.Count), delegate()
+					{
+						MemoryTracker.LogObjectHoldPathsFor(trackedBatch, (WeakReference _) => 1);
+					}, MenuOptionPriority.Default, null, null, 0f, null, null));
+					if (list2.Count == 30)
+					{
+						break;
+					}
 				}
+				Find.WindowStack.Add(new FloatMenu(list2));
+			}
+			finally
+			{
+				MemoryTracker.UnlockTracking();
 			}
 		}
 
@@ -343,7 +335,7 @@ namespace Verse.Profile
 				referenceData = new MemoryTracker.ReferenceData();
 				references[obj] = referenceData;
 			}
-			foreach (MemoryTracker.ChildReference childReference in MemoryTracker.GetAllReferencedClassesFromClassOrStruct(obj, MemoryTracker.GetFieldsFromHierarchy(obj.GetType(), BindingFlags.Instance), obj, ""))
+			foreach (MemoryTracker.ChildReference childReference in MemoryTracker.GetAllReferencedClassesFromClassOrStruct(obj, MemoryTracker.GetFieldsFromHierarchy(obj.GetType(), BindingFlags.Instance), obj, string.Empty))
 			{
 				if (!childReference.child.GetType().IsClass)
 				{
@@ -539,20 +531,21 @@ namespace Verse.Profile
 
 		public static void Update()
 		{
-			if (MemoryTracker.tracked.Count != 0)
+			if (MemoryTracker.tracked.Count == 0)
 			{
-				if (MemoryTracker.updatesSinceLastCull++ >= 10)
+				return;
+			}
+			if (MemoryTracker.updatesSinceLastCull++ >= 10)
+			{
+				MemoryTracker.updatesSinceLastCull = 0;
+				HashSet<WeakReference> value = MemoryTracker.tracked.ElementAtOrDefault(MemoryTracker.cullTargetIndex++).Value;
+				if (value == null)
 				{
-					MemoryTracker.updatesSinceLastCull = 0;
-					HashSet<WeakReference> value = MemoryTracker.tracked.ElementAtOrDefault(MemoryTracker.cullTargetIndex++).Value;
-					if (value == null)
-					{
-						MemoryTracker.cullTargetIndex = 0;
-					}
-					else
-					{
-						MemoryTracker.CullNulls(value);
-					}
+					MemoryTracker.cullTargetIndex = 0;
+				}
+				else
+				{
+					MemoryTracker.CullNulls(value);
 				}
 			}
 		}
@@ -767,7 +760,7 @@ namespace Verse.Profile
 				case 1u:
 					break;
 				case 2u:
-					goto IL_1CE;
+					goto IL_1C2;
 				default:
 					return false;
 				}
@@ -806,7 +799,6 @@ namespace Verse.Profile
 						}
 						break;
 					}
-					IL_153:
 					while (enumerator.MoveNext())
 					{
 						field = enumerator.Current;
@@ -822,8 +814,6 @@ namespace Verse.Profile
 							}
 						}
 					}
-					goto IL_183;
-					goto IL_153;
 				}
 				finally
 				{
@@ -835,17 +825,16 @@ namespace Verse.Profile
 						}
 					}
 				}
-				IL_183:
 				if (current == null || !(current is ICollection))
 				{
-					goto IL_2FD;
+					goto IL_2EA;
 				}
 				MemoryTracker.foundCollections.Add(new WeakReference(current));
 				enumerator3 = (current as IEnumerable).GetEnumerator();
 				num = 4294967293u;
 				try
 				{
-					IL_1CE:
+					IL_1C2:
 					switch (num)
 					{
 					case 2u:
@@ -900,7 +889,7 @@ namespace Verse.Profile
 						}
 					}
 				}
-				IL_2FD:
+				IL_2EA:
 				this.$PC = -1;
 				return false;
 			}

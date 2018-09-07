@@ -26,13 +26,13 @@ namespace RimWorld
 
 		public bool isTempIncidentMapOwner;
 
-		public List<IncidentTargetTypeDef> incidentTargetTypes;
+		public List<IncidentTargetTagDef> IncidentTargetTags;
 
 		public bool selectable = true;
 
 		public bool neverMultiSelect;
 
-		public MapGeneratorDef mapGenerator = null;
+		public MapGeneratorDef mapGenerator;
 
 		public List<Type> inspectorTabs;
 
@@ -69,20 +69,15 @@ namespace RimWorld
 		{
 			get
 			{
-				Material result;
 				if (this.texture.NullOrEmpty())
 				{
-					result = null;
+					return null;
 				}
-				else
+				if (this.material == null)
 				{
-					if (this.material == null)
-					{
-						this.material = MaterialPool.MatFrom(this.texture, ShaderDatabase.WorldOverlayTransparentLit, WorldMaterials.WorldObjectRenderQueue);
-					}
-					result = this.material;
+					this.material = MaterialPool.MatFrom(this.texture, ShaderDatabase.WorldOverlayTransparentLit, WorldMaterials.WorldObjectRenderQueue);
 				}
-				return result;
+				return this.material;
 			}
 		}
 
@@ -142,7 +137,7 @@ namespace RimWorld
 
 		public override IEnumerable<string> ConfigErrors()
 		{
-			foreach (string e in this.<ConfigErrors>__BaseCallProxy0())
+			foreach (string e in base.ConfigErrors())
 			{
 				yield return e;
 			}
@@ -236,9 +231,9 @@ namespace RimWorld
 						}
 					}
 					i++;
-					goto IL_17E;
+					goto IL_175;
 				case 3u:
-					IL_1D8:
+					IL_1CF:
 					this.$PC = -1;
 					return false;
 				default:
@@ -272,7 +267,7 @@ namespace RimWorld
 					}
 				}
 				i = 0;
-				IL_17E:
+				IL_175:
 				if (i < this.comps.Count)
 				{
 					enumerator2 = this.comps[i].ConfigErrors(this).GetEnumerator();
@@ -288,7 +283,7 @@ namespace RimWorld
 					}
 					return true;
 				}
-				goto IL_1D8;
+				goto IL_1CF;
 			}
 
 			string IEnumerator<string>.Current

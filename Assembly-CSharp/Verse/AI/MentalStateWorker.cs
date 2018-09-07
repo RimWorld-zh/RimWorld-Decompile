@@ -13,31 +13,26 @@ namespace Verse.AI
 
 		public virtual bool StateCanOccur(Pawn pawn)
 		{
-			bool result;
 			if (!this.def.unspawnedCanDo && !pawn.Spawned)
 			{
-				result = false;
+				return false;
 			}
-			else if (!this.def.prisonersCanDo && pawn.HostFaction != null)
+			if (!this.def.prisonersCanDo && pawn.HostFaction != null)
 			{
-				result = false;
+				return false;
 			}
-			else if (this.def.colonistsOnly && pawn.Faction != Faction.OfPlayer)
+			if (this.def.colonistsOnly && pawn.Faction != Faction.OfPlayer)
 			{
-				result = false;
+				return false;
 			}
-			else
+			for (int i = 0; i < this.def.requiredCapacities.Count; i++)
 			{
-				for (int i = 0; i < this.def.requiredCapacities.Count; i++)
+				if (!pawn.health.capacities.CapableOf(this.def.requiredCapacities[i]))
 				{
-					if (!pawn.health.capacities.CapableOf(this.def.requiredCapacities[i]))
-					{
-						return false;
-					}
+					return false;
 				}
-				result = true;
 			}
-			return result;
+			return true;
 		}
 	}
 }

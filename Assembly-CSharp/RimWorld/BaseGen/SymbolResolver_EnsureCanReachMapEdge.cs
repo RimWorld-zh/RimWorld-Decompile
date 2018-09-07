@@ -51,13 +51,14 @@ namespace RimWorld.BaseGen
 							IntVec3 foundDest = IntVec3.Invalid;
 							map.floodFiller.FloodFill(intVec, (IntVec3 x) => !found && this.CanTraverse(x, canPathThroughNonStandable), delegate(IntVec3 x)
 							{
-								if (!found)
+								if (found)
 								{
-									if (map.reachability.CanReachMapEdge(x, traverseParms))
-									{
-										found = true;
-										foundDest = x;
-									}
+									return;
+								}
+								if (map.reachability.CanReachMapEdge(x, traverseParms))
+								{
+									found = true;
+									foundDest = x;
 								}
 							}, int.MaxValue, true, null);
 							if (found)
@@ -177,13 +178,14 @@ namespace RimWorld.BaseGen
 
 			internal void <>m__1(IntVec3 x)
 			{
-				if (!this.found)
+				if (this.found)
 				{
-					if (this.<>f__ref$1.map.reachability.CanReachMapEdge(x, this.traverseParms))
-					{
-						this.found = true;
-						this.foundDest = x;
-					}
+					return;
+				}
+				if (this.<>f__ref$1.map.reachability.CanReachMapEdge(x, this.traverseParms))
+				{
+					this.found = true;
+					this.foundDest = x;
 				}
 			}
 		}

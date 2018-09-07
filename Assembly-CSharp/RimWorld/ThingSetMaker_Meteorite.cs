@@ -54,26 +54,21 @@ namespace RimWorld
 		private ThingDef FindRandomMineableDef()
 		{
 			float value = Rand.Value;
-			ThingDef result;
 			if (value < 0.4f)
 			{
-				result = (from x in ThingSetMaker_Meteorite.nonSmoothedMineables
+				return (from x in ThingSetMaker_Meteorite.nonSmoothedMineables
 				where !x.building.isResourceRock
 				select x).RandomElement<ThingDef>();
 			}
-			else if (value < 0.75f)
+			if (value < 0.75f)
 			{
-				result = (from x in ThingSetMaker_Meteorite.nonSmoothedMineables
+				return (from x in ThingSetMaker_Meteorite.nonSmoothedMineables
 				where x.building.isResourceRock && x.building.mineableThing.BaseMarketValue < 5f
 				select x).RandomElement<ThingDef>();
 			}
-			else
-			{
-				result = (from x in ThingSetMaker_Meteorite.nonSmoothedMineables
-				where x.building.isResourceRock && x.building.mineableThing.BaseMarketValue >= 5f
-				select x).RandomElement<ThingDef>();
-			}
-			return result;
+			return (from x in ThingSetMaker_Meteorite.nonSmoothedMineables
+			where x.building.isResourceRock && x.building.mineableThing.BaseMarketValue >= 5f
+			select x).RandomElement<ThingDef>();
 		}
 
 		protected override IEnumerable<ThingDef> AllGeneratableThingsDebugSub(ThingSetMakerParams parms)

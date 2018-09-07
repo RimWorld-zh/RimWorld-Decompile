@@ -28,6 +28,9 @@ namespace RimWorld
 		};
 
 		[CompilerGenerated]
+		private static Predicate<string> <>f__mg$cache0;
+
+		[CompilerGenerated]
 		private static Func<Resolution, bool> <>f__am$cache0;
 
 		[CompilerGenerated]
@@ -61,10 +64,7 @@ namespace RimWorld
 		private static Action <>f__am$cacheA;
 
 		[CompilerGenerated]
-		private static Predicate<string> <>f__am$cacheB;
-
-		[CompilerGenerated]
-		private static Action <>f__am$cacheC;
+		private static Action <>f__am$cacheB;
 
 		public Dialog_Options()
 		{
@@ -317,7 +317,7 @@ namespace RimWorld
 						Prefs.AutosaveIntervalDays = 0.25f;
 					}, MenuOptionPriority.Default, null, null, 0f, null, null));
 				}
-				list6.Add(new FloatMenuOption("0.5 " + text + "", delegate()
+				list6.Add(new FloatMenuOption("0.5 " + text + string.Empty, delegate()
 				{
 					Prefs.AutosaveIntervalDays = 0.5f;
 				}, MenuOptionPriority.Default, null, null, 0f, null, null));
@@ -348,25 +348,16 @@ namespace RimWorld
 				}), -1f, null);
 				GUI.color = Color.white;
 			}
-			if (Current.ProgramState == ProgramState.Playing)
+			if (Current.ProgramState == ProgramState.Playing && listing_Standard.ButtonText("ChangeStoryteller".Translate(), "OptionsButton-ChooseStoryteller") && TutorSystem.AllowAction("ChooseStoryteller"))
 			{
-				if (listing_Standard.ButtonText("ChangeStoryteller".Translate(), "OptionsButton-ChooseStoryteller"))
-				{
-					if (TutorSystem.AllowAction("ChooseStoryteller"))
-					{
-						Find.WindowStack.Add(new Page_SelectStorytellerInGame());
-					}
-				}
+				Find.WindowStack.Add(new Page_SelectStorytellerInGame());
 			}
-			if (!DevModePermanentlyDisabledUtility.Disabled)
+			if (!DevModePermanentlyDisabledUtility.Disabled && listing_Standard.ButtonText("PermanentlyDisableDevMode".Translate(), null))
 			{
-				if (listing_Standard.ButtonText("PermanentlyDisableDevMode".Translate(), null))
+				Find.WindowStack.Add(Dialog_MessageBox.CreateConfirmation("ConfirmPermanentlyDisableDevMode".Translate(), delegate
 				{
-					Find.WindowStack.Add(Dialog_MessageBox.CreateConfirmation("ConfirmPermanentlyDisableDevMode".Translate(), delegate
-					{
-						DevModePermanentlyDisabledUtility.Disable();
-					}, true, null));
-				}
+					DevModePermanentlyDisabledUtility.Disable();
+				}, true, null));
 			}
 			if (!DevModePermanentlyDisabledUtility.Disabled || Prefs.DevMode)
 			{
@@ -388,7 +379,7 @@ namespace RimWorld
 			}
 			listing_Standard.NewColumn();
 			Text.Font = GameFont.Medium;
-			listing_Standard.Label("", -1f, null);
+			listing_Standard.Label(string.Empty, -1f, null);
 			Text.Font = GameFont.Small;
 			listing_Standard.Gap(12f);
 			listing_Standard.Gap(12f);
@@ -396,9 +387,14 @@ namespace RimWorld
 			{
 				Find.WindowStack.Add(new Dialog_ModSettings());
 			}
-			listing_Standard.Label("", -1f, null);
+			listing_Standard.Label(string.Empty, -1f, null);
 			listing_Standard.Label("NamesYouWantToSee".Translate(), -1f, null);
-			Prefs.PreferredNames.RemoveAll((string n) => n.NullOrEmpty());
+			List<string> preferredNames = Prefs.PreferredNames;
+			if (Dialog_Options.<>f__mg$cache0 == null)
+			{
+				Dialog_Options.<>f__mg$cache0 = new Predicate<string>(GenText.NullOrEmpty);
+			}
+			preferredNames.RemoveAll(Dialog_Options.<>f__mg$cache0);
 			for (int j = 0; j < Prefs.PreferredNames.Count; j++)
 			{
 				string name = Prefs.PreferredNames[j];
@@ -433,14 +429,11 @@ namespace RimWorld
 					SoundDefOf.Tick_Low.PlayOneShotOnCamera(null);
 				}
 			}
-			if (Prefs.PreferredNames.Count < 6)
+			if (Prefs.PreferredNames.Count < 6 && listing_Standard.ButtonText("AddName".Translate() + "...", null))
 			{
-				if (listing_Standard.ButtonText("AddName".Translate() + "...", null))
-				{
-					Find.WindowStack.Add(new Dialog_AddPreferredName());
-				}
+				Find.WindowStack.Add(new Dialog_AddPreferredName());
 			}
-			listing_Standard.Label("", -1f, null);
+			listing_Standard.Label(string.Empty, -1f, null);
 			if (listing_Standard.ButtonText("RestoreToDefaultSettings".Translate(), null))
 			{
 				this.RestoreToDefaultSettings();
@@ -559,13 +552,7 @@ namespace RimWorld
 		}
 
 		[CompilerGenerated]
-		private static bool <DoWindowContents>m__B(string n)
-		{
-			return n.NullOrEmpty();
-		}
-
-		[CompilerGenerated]
-		private static void <RestoreToDefaultSettings>m__C()
+		private static void <RestoreToDefaultSettings>m__B()
 		{
 			GenCommandLine.Restart();
 		}

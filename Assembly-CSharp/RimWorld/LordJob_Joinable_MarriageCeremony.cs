@@ -133,47 +133,39 @@ namespace RimWorld
 
 		public override float VoluntaryJoinPriorityFor(Pawn p)
 		{
-			float result;
 			if (this.IsFiance(p))
 			{
 				if (!MarriageCeremonyUtility.FianceCanContinueCeremony(p))
 				{
-					result = 0f;
+					return 0f;
 				}
-				else
-				{
-					result = VoluntarilyJoinableLordJobJoinPriorities.MarriageCeremonyFiance;
-				}
-			}
-			else if (this.IsGuest(p))
-			{
-				if (!MarriageCeremonyUtility.ShouldGuestKeepAttendingCeremony(p))
-				{
-					result = 0f;
-				}
-				else
-				{
-					if (!this.lord.ownedPawns.Contains(p))
-					{
-						if (this.IsCeremonyAboutToEnd())
-						{
-							return 0f;
-						}
-						LordToil_MarriageCeremony lordToil_MarriageCeremony = this.lord.CurLordToil as LordToil_MarriageCeremony;
-						IntVec3 intVec;
-						if (lordToil_MarriageCeremony != null && !SpectatorCellFinder.TryFindSpectatorCellFor(p, lordToil_MarriageCeremony.Data.spectateRect, base.Map, out intVec, lordToil_MarriageCeremony.Data.spectateRectAllowedSides, 1, null))
-						{
-							return 0f;
-						}
-					}
-					result = VoluntarilyJoinableLordJobJoinPriorities.MarriageCeremonyGuest;
-				}
+				return VoluntarilyJoinableLordJobJoinPriorities.MarriageCeremonyFiance;
 			}
 			else
 			{
-				result = 0f;
+				if (!this.IsGuest(p))
+				{
+					return 0f;
+				}
+				if (!MarriageCeremonyUtility.ShouldGuestKeepAttendingCeremony(p))
+				{
+					return 0f;
+				}
+				if (!this.lord.ownedPawns.Contains(p))
+				{
+					if (this.IsCeremonyAboutToEnd())
+					{
+						return 0f;
+					}
+					LordToil_MarriageCeremony lordToil_MarriageCeremony = this.lord.CurLordToil as LordToil_MarriageCeremony;
+					IntVec3 intVec;
+					if (lordToil_MarriageCeremony != null && !SpectatorCellFinder.TryFindSpectatorCellFor(p, lordToil_MarriageCeremony.Data.spectateRect, base.Map, out intVec, lordToil_MarriageCeremony.Data.spectateRectAllowedSides, 1, null))
+					{
+						return 0f;
+					}
+				}
+				return VoluntarilyJoinableLordJobJoinPriorities.MarriageCeremonyGuest;
 			}
-			return result;
 		}
 
 		public override void ExposeData()

@@ -107,41 +107,39 @@ namespace RimWorld
 			if (this.allHaulDestinationsInOrder.Contains(haulDestination))
 			{
 				Log.Error("Double-added haul destination " + haulDestination.ToStringSafe<IHaulDestination>(), false);
+				return;
 			}
-			else
+			this.allHaulDestinationsInOrder.Add(haulDestination);
+			IList<IHaulDestination> list = this.allHaulDestinationsInOrder;
+			if (HaulDestinationManager.<>f__mg$cache0 == null)
 			{
-				this.allHaulDestinationsInOrder.Add(haulDestination);
-				IList<IHaulDestination> list = this.allHaulDestinationsInOrder;
-				if (HaulDestinationManager.<>f__mg$cache0 == null)
+				HaulDestinationManager.<>f__mg$cache0 = new Comparison<IHaulDestination>(HaulDestinationManager.CompareHaulDestinationPrioritiesDescending);
+			}
+			list.InsertionSort(HaulDestinationManager.<>f__mg$cache0);
+			ISlotGroupParent slotGroupParent = haulDestination as ISlotGroupParent;
+			if (slotGroupParent != null)
+			{
+				SlotGroup slotGroup = slotGroupParent.GetSlotGroup();
+				if (slotGroup == null)
 				{
-					HaulDestinationManager.<>f__mg$cache0 = new Comparison<IHaulDestination>(HaulDestinationManager.CompareHaulDestinationPrioritiesDescending);
+					Log.Error("ISlotGroupParent gave null slot group: " + slotGroupParent.ToStringSafe<ISlotGroupParent>(), false);
 				}
-				list.InsertionSort(HaulDestinationManager.<>f__mg$cache0);
-				ISlotGroupParent slotGroupParent = haulDestination as ISlotGroupParent;
-				if (slotGroupParent != null)
+				else
 				{
-					SlotGroup slotGroup = slotGroupParent.GetSlotGroup();
-					if (slotGroup == null)
+					this.allGroupsInOrder.Add(slotGroup);
+					IList<SlotGroup> list2 = this.allGroupsInOrder;
+					if (HaulDestinationManager.<>f__mg$cache1 == null)
 					{
-						Log.Error("ISlotGroupParent gave null slot group: " + slotGroupParent.ToStringSafe<ISlotGroupParent>(), false);
+						HaulDestinationManager.<>f__mg$cache1 = new Comparison<SlotGroup>(HaulDestinationManager.CompareSlotGroupPrioritiesDescending);
 					}
-					else
+					list2.InsertionSort(HaulDestinationManager.<>f__mg$cache1);
+					List<IntVec3> cellsList = slotGroup.CellsList;
+					for (int i = 0; i < cellsList.Count; i++)
 					{
-						this.allGroupsInOrder.Add(slotGroup);
-						IList<SlotGroup> list2 = this.allGroupsInOrder;
-						if (HaulDestinationManager.<>f__mg$cache1 == null)
-						{
-							HaulDestinationManager.<>f__mg$cache1 = new Comparison<SlotGroup>(HaulDestinationManager.CompareSlotGroupPrioritiesDescending);
-						}
-						list2.InsertionSort(HaulDestinationManager.<>f__mg$cache1);
-						List<IntVec3> cellsList = slotGroup.CellsList;
-						for (int i = 0; i < cellsList.Count; i++)
-						{
-							this.SetCellFor(cellsList[i], slotGroup);
-						}
-						this.map.listerHaulables.Notify_SlotGroupChanged(slotGroup);
-						this.map.listerMergeables.Notify_SlotGroupChanged(slotGroup);
+						this.SetCellFor(cellsList[i], slotGroup);
 					}
+					this.map.listerHaulables.Notify_SlotGroupChanged(slotGroup);
+					this.map.listerMergeables.Notify_SlotGroupChanged(slotGroup);
 				}
 			}
 		}
@@ -151,30 +149,28 @@ namespace RimWorld
 			if (!this.allHaulDestinationsInOrder.Contains(haulDestination))
 			{
 				Log.Error("Removing haul destination that isn't registered " + haulDestination.ToStringSafe<IHaulDestination>(), false);
+				return;
 			}
-			else
+			this.allHaulDestinationsInOrder.Remove(haulDestination);
+			ISlotGroupParent slotGroupParent = haulDestination as ISlotGroupParent;
+			if (slotGroupParent != null)
 			{
-				this.allHaulDestinationsInOrder.Remove(haulDestination);
-				ISlotGroupParent slotGroupParent = haulDestination as ISlotGroupParent;
-				if (slotGroupParent != null)
+				SlotGroup slotGroup = slotGroupParent.GetSlotGroup();
+				if (slotGroup == null)
 				{
-					SlotGroup slotGroup = slotGroupParent.GetSlotGroup();
-					if (slotGroup == null)
+					Log.Error("ISlotGroupParent gave null slot group: " + slotGroupParent.ToStringSafe<ISlotGroupParent>(), false);
+				}
+				else
+				{
+					this.allGroupsInOrder.Remove(slotGroup);
+					List<IntVec3> cellsList = slotGroup.CellsList;
+					for (int i = 0; i < cellsList.Count; i++)
 					{
-						Log.Error("ISlotGroupParent gave null slot group: " + slotGroupParent.ToStringSafe<ISlotGroupParent>(), false);
+						IntVec3 intVec = cellsList[i];
+						this.groupGrid[intVec.x, intVec.y, intVec.z] = null;
 					}
-					else
-					{
-						this.allGroupsInOrder.Remove(slotGroup);
-						List<IntVec3> cellsList = slotGroup.CellsList;
-						for (int i = 0; i < cellsList.Count; i++)
-						{
-							IntVec3 intVec = cellsList[i];
-							this.groupGrid[intVec.x, intVec.y, intVec.z] = null;
-						}
-						this.map.listerHaulables.Notify_SlotGroupChanged(slotGroup);
-						this.map.listerMergeables.Notify_SlotGroupChanged(slotGroup);
-					}
+					this.map.listerHaulables.Notify_SlotGroupChanged(slotGroup);
+					this.map.listerMergeables.Notify_SlotGroupChanged(slotGroup);
 				}
 			}
 		}
@@ -278,14 +274,14 @@ namespace RimWorld
 				{
 				case 0u:
 					i = 0;
-					goto IL_C1;
+					goto IL_BC;
 				case 1u:
 					i++;
 					break;
 				default:
 					return false;
 				}
-				IL_97:
+				IL_93:
 				if (j < this.allGroupsInOrder.Count)
 				{
 					this.$current = cellsList[j];
@@ -296,12 +292,12 @@ namespace RimWorld
 					return true;
 				}
 				i++;
-				IL_C1:
+				IL_BC:
 				if (i < this.allGroupsInOrder.Count)
 				{
 					cellsList = this.allGroupsInOrder[i].CellsList;
 					j = 0;
-					goto IL_97;
+					goto IL_93;
 				}
 				this.$PC = -1;
 				return false;

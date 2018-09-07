@@ -10,7 +10,7 @@ namespace UnityStandardAssets.ImageEffects
 	{
 		public bool monochrome = true;
 
-		private bool rgbFallback = false;
+		private bool rgbFallback;
 
 		[Range(0f, 5f)]
 		public float grainIntensityMin = 0.1f;
@@ -45,7 +45,7 @@ namespace UnityStandardAssets.ImageEffects
 
 		private Material m_MaterialYUV;
 
-		private float scratchTimeLeft = 0f;
+		private float scratchTimeLeft;
 
 		private float scratchX;
 
@@ -60,8 +60,9 @@ namespace UnityStandardAssets.ImageEffects
 			if (!SystemInfo.supportsImageEffects)
 			{
 				base.enabled = false;
+				return;
 			}
-			else if (this.shaderRGB == null || this.shaderYUV == null)
+			if (this.shaderRGB == null || this.shaderYUV == null)
 			{
 				Debug.Log("Noise shaders are not set up! Disabling noise effect.");
 				base.enabled = false;

@@ -57,12 +57,9 @@ namespace RimWorld
 				actor.GainComfortFromCellIfPossible();
 				if (!curDriver.asleep)
 				{
-					if (canSleep)
+					if (canSleep && ((actor.needs.rest != null && actor.needs.rest.CurLevel < RestUtility.FallAsleepMaxLevel(actor)) || curJob.forceSleep))
 					{
-						if ((actor.needs.rest != null && actor.needs.rest.CurLevel < RestUtility.FallAsleepMaxLevel(actor)) || curJob.forceSleep)
-						{
-							curDriver.asleep = true;
-						}
+						curDriver.asleep = true;
 					}
 				}
 				else if (!canSleep)
@@ -73,21 +70,18 @@ namespace RimWorld
 				{
 					curDriver.asleep = false;
 				}
-				if (curDriver.asleep)
+				if (curDriver.asleep && gainRestAndHealth && actor.needs.rest != null)
 				{
-					if (gainRestAndHealth && actor.needs.rest != null)
+					float restEffectiveness;
+					if (building_Bed != null && building_Bed.def.statBases.StatListContains(StatDefOf.BedRestEffectiveness))
 					{
-						float restEffectiveness;
-						if (building_Bed != null && building_Bed.def.statBases.StatListContains(StatDefOf.BedRestEffectiveness))
-						{
-							restEffectiveness = building_Bed.GetStatValue(StatDefOf.BedRestEffectiveness, true);
-						}
-						else
-						{
-							restEffectiveness = 0.8f;
-						}
-						actor.needs.rest.TickResting(restEffectiveness);
+						restEffectiveness = building_Bed.GetStatValue(StatDefOf.BedRestEffectiveness, true);
 					}
+					else
+					{
+						restEffectiveness = 0.8f;
+					}
+					actor.needs.rest.TickResting(restEffectiveness);
 				}
 				if (actor.mindState.applyBedThoughtsTick != 0 && actor.mindState.applyBedThoughtsTick <= Find.TickManager.TicksGame)
 				{
@@ -113,10 +107,12 @@ namespace RimWorld
 						actor.Position = CellFinder.RandomClosewalkCellNear(actor.Position, actor.Map, 1, null);
 					}
 					actor.jobs.EndCurrentJob(JobCondition.Incompletable, true);
+					return;
 				}
-				else if (lookForOtherJobs && actor.IsHashIntervalTick(211))
+				if (lookForOtherJobs && actor.IsHashIntervalTick(211))
 				{
 					actor.jobs.CheckForJobOverride();
+					return;
 				}
 			};
 			layDown.defaultCompleteMode = ToilCompleteMode.Never;
@@ -139,49 +135,50 @@ namespace RimWorld
 
 		private static void ApplyBedThoughts(Pawn actor)
 		{
-			if (actor.needs.mood != null)
+			if (actor.needs.mood == null)
 			{
-				Building_Bed building_Bed = actor.CurrentBed();
-				actor.needs.mood.thoughts.memories.RemoveMemoriesOfDef(ThoughtDefOf.SleptInBedroom);
-				actor.needs.mood.thoughts.memories.RemoveMemoriesOfDef(ThoughtDefOf.SleptInBarracks);
-				actor.needs.mood.thoughts.memories.RemoveMemoriesOfDef(ThoughtDefOf.SleptOutside);
-				actor.needs.mood.thoughts.memories.RemoveMemoriesOfDef(ThoughtDefOf.SleptOnGround);
-				actor.needs.mood.thoughts.memories.RemoveMemoriesOfDef(ThoughtDefOf.SleptInCold);
-				actor.needs.mood.thoughts.memories.RemoveMemoriesOfDef(ThoughtDefOf.SleptInHeat);
-				if (actor.GetRoom(RegionType.Set_Passable).PsychologicallyOutdoors)
+				return;
+			}
+			Building_Bed building_Bed = actor.CurrentBed();
+			actor.needs.mood.thoughts.memories.RemoveMemoriesOfDef(ThoughtDefOf.SleptInBedroom);
+			actor.needs.mood.thoughts.memories.RemoveMemoriesOfDef(ThoughtDefOf.SleptInBarracks);
+			actor.needs.mood.thoughts.memories.RemoveMemoriesOfDef(ThoughtDefOf.SleptOutside);
+			actor.needs.mood.thoughts.memories.RemoveMemoriesOfDef(ThoughtDefOf.SleptOnGround);
+			actor.needs.mood.thoughts.memories.RemoveMemoriesOfDef(ThoughtDefOf.SleptInCold);
+			actor.needs.mood.thoughts.memories.RemoveMemoriesOfDef(ThoughtDefOf.SleptInHeat);
+			if (actor.GetRoom(RegionType.Set_Passable).PsychologicallyOutdoors)
+			{
+				actor.needs.mood.thoughts.memories.TryGainMemory(ThoughtDefOf.SleptOutside, null);
+			}
+			if (building_Bed == null || building_Bed.CostListAdjusted().Count == 0)
+			{
+				actor.needs.mood.thoughts.memories.TryGainMemory(ThoughtDefOf.SleptOnGround, null);
+			}
+			if (actor.AmbientTemperature < actor.def.GetStatValueAbstract(StatDefOf.ComfyTemperatureMin, null))
+			{
+				actor.needs.mood.thoughts.memories.TryGainMemory(ThoughtDefOf.SleptInCold, null);
+			}
+			if (actor.AmbientTemperature > actor.def.GetStatValueAbstract(StatDefOf.ComfyTemperatureMax, null))
+			{
+				actor.needs.mood.thoughts.memories.TryGainMemory(ThoughtDefOf.SleptInHeat, null);
+			}
+			if (building_Bed != null && building_Bed == actor.ownership.OwnedBed && !building_Bed.ForPrisoners && !actor.story.traits.HasTrait(TraitDefOf.Ascetic))
+			{
+				ThoughtDef thoughtDef = null;
+				if (building_Bed.GetRoom(RegionType.Set_Passable).Role == RoomRoleDefOf.Bedroom)
 				{
-					actor.needs.mood.thoughts.memories.TryGainMemory(ThoughtDefOf.SleptOutside, null);
+					thoughtDef = ThoughtDefOf.SleptInBedroom;
 				}
-				if (building_Bed == null || building_Bed.CostListAdjusted().Count == 0)
+				else if (building_Bed.GetRoom(RegionType.Set_Passable).Role == RoomRoleDefOf.Barracks)
 				{
-					actor.needs.mood.thoughts.memories.TryGainMemory(ThoughtDefOf.SleptOnGround, null);
+					thoughtDef = ThoughtDefOf.SleptInBarracks;
 				}
-				if (actor.AmbientTemperature < actor.def.GetStatValueAbstract(StatDefOf.ComfyTemperatureMin, null))
+				if (thoughtDef != null)
 				{
-					actor.needs.mood.thoughts.memories.TryGainMemory(ThoughtDefOf.SleptInCold, null);
-				}
-				if (actor.AmbientTemperature > actor.def.GetStatValueAbstract(StatDefOf.ComfyTemperatureMax, null))
-				{
-					actor.needs.mood.thoughts.memories.TryGainMemory(ThoughtDefOf.SleptInHeat, null);
-				}
-				if (building_Bed != null && building_Bed == actor.ownership.OwnedBed && !building_Bed.ForPrisoners && !actor.story.traits.HasTrait(TraitDefOf.Ascetic))
-				{
-					ThoughtDef thoughtDef = null;
-					if (building_Bed.GetRoom(RegionType.Set_Passable).Role == RoomRoleDefOf.Bedroom)
+					int scoreStageIndex = RoomStatDefOf.Impressiveness.GetScoreStageIndex(building_Bed.GetRoom(RegionType.Set_Passable).GetStat(RoomStatDefOf.Impressiveness));
+					if (thoughtDef.stages[scoreStageIndex] != null)
 					{
-						thoughtDef = ThoughtDefOf.SleptInBedroom;
-					}
-					else if (building_Bed.GetRoom(RegionType.Set_Passable).Role == RoomRoleDefOf.Barracks)
-					{
-						thoughtDef = ThoughtDefOf.SleptInBarracks;
-					}
-					if (thoughtDef != null)
-					{
-						int scoreStageIndex = RoomStatDefOf.Impressiveness.GetScoreStageIndex(building_Bed.GetRoom(RegionType.Set_Passable).GetStat(RoomStatDefOf.Impressiveness));
-						if (thoughtDef.stages[scoreStageIndex] != null)
-						{
-							actor.needs.mood.thoughts.memories.TryGainMemory(ThoughtMaker.MakeThought(thoughtDef, scoreStageIndex), null);
-						}
+						actor.needs.mood.thoughts.memories.TryGainMemory(ThoughtMaker.MakeThought(thoughtDef, scoreStageIndex), null);
 					}
 				}
 			}
@@ -247,12 +244,9 @@ namespace RimWorld
 				actor.GainComfortFromCellIfPossible();
 				if (!curDriver.asleep)
 				{
-					if (this.canSleep)
+					if (this.canSleep && ((actor.needs.rest != null && actor.needs.rest.CurLevel < RestUtility.FallAsleepMaxLevel(actor)) || curJob.forceSleep))
 					{
-						if ((actor.needs.rest != null && actor.needs.rest.CurLevel < RestUtility.FallAsleepMaxLevel(actor)) || curJob.forceSleep)
-						{
-							curDriver.asleep = true;
-						}
+						curDriver.asleep = true;
 					}
 				}
 				else if (!this.canSleep)
@@ -263,21 +257,18 @@ namespace RimWorld
 				{
 					curDriver.asleep = false;
 				}
-				if (curDriver.asleep)
+				if (curDriver.asleep && this.gainRestAndHealth && actor.needs.rest != null)
 				{
-					if (this.gainRestAndHealth && actor.needs.rest != null)
+					float restEffectiveness;
+					if (building_Bed != null && building_Bed.def.statBases.StatListContains(StatDefOf.BedRestEffectiveness))
 					{
-						float restEffectiveness;
-						if (building_Bed != null && building_Bed.def.statBases.StatListContains(StatDefOf.BedRestEffectiveness))
-						{
-							restEffectiveness = building_Bed.GetStatValue(StatDefOf.BedRestEffectiveness, true);
-						}
-						else
-						{
-							restEffectiveness = 0.8f;
-						}
-						actor.needs.rest.TickResting(restEffectiveness);
+						restEffectiveness = building_Bed.GetStatValue(StatDefOf.BedRestEffectiveness, true);
 					}
+					else
+					{
+						restEffectiveness = 0.8f;
+					}
+					actor.needs.rest.TickResting(restEffectiveness);
 				}
 				if (actor.mindState.applyBedThoughtsTick != 0 && actor.mindState.applyBedThoughtsTick <= Find.TickManager.TicksGame)
 				{
@@ -303,10 +294,12 @@ namespace RimWorld
 						actor.Position = CellFinder.RandomClosewalkCellNear(actor.Position, actor.Map, 1, null);
 					}
 					actor.jobs.EndCurrentJob(JobCondition.Incompletable, true);
+					return;
 				}
-				else if (this.lookForOtherJobs && actor.IsHashIntervalTick(211))
+				if (this.lookForOtherJobs && actor.IsHashIntervalTick(211))
 				{
 					actor.jobs.CheckForJobOverride();
+					return;
 				}
 			}
 

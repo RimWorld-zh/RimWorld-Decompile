@@ -16,37 +16,37 @@ namespace Verse
 
 		public static bool enableRandomDiseases = true;
 
-		public static bool godMode = false;
+		public static bool godMode;
 
-		public static bool noAnimals = false;
+		public static bool noAnimals;
 
-		public static bool unlimitedPower = false;
+		public static bool unlimitedPower;
 
-		public static bool pathThroughWalls = false;
+		public static bool pathThroughWalls;
 
-		public static bool instantRecruit = false;
+		public static bool instantRecruit;
 
-		public static bool alwaysSocialFight = false;
+		public static bool alwaysSocialFight;
 
-		public static bool alwaysDoLovin = false;
+		public static bool alwaysDoLovin;
 
-		public static bool detectRegionListersBugs = false;
+		public static bool detectRegionListersBugs;
 
-		public static bool instantVisitorsGift = false;
+		public static bool instantVisitorsGift;
 
-		public static bool lowFPS = false;
+		public static bool lowFPS;
 
-		public static bool fastResearch = false;
+		public static bool fastResearch;
 
-		public static bool fastLearning = false;
+		public static bool fastLearning;
 
-		public static bool fastEcology = false;
+		public static bool fastEcology;
 
-		public static bool fastEcologyRegrowRateOnly = false;
+		public static bool fastEcologyRegrowRateOnly;
 
-		public static bool fastCrafting = false;
+		public static bool fastCrafting;
 
-		public static bool fastCaravans = false;
+		public static bool fastCaravans;
 
 		// Note: this type is marked as 'beforefieldinit'.
 		static DebugSettings()

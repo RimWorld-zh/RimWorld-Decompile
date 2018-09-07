@@ -23,10 +23,11 @@ namespace Verse
 
 		public static void Notify_BuildingHitPointsChanged(Building b, int oldHitPoints)
 		{
-			if (b.Spawned && b.def.useHitPoints && b.HitPoints != oldHitPoints && b.def.drawDamagedOverlay && BuildingsDamageSectionLayerUtility.GetDamageOverlaysCount(b, b.HitPoints) != BuildingsDamageSectionLayerUtility.GetDamageOverlaysCount(b, oldHitPoints))
+			if (!b.Spawned || !b.def.useHitPoints || b.HitPoints == oldHitPoints || !b.def.drawDamagedOverlay || BuildingsDamageSectionLayerUtility.GetDamageOverlaysCount(b, b.HitPoints) == BuildingsDamageSectionLayerUtility.GetDamageOverlaysCount(b, oldHitPoints))
 			{
-				b.Map.mapDrawer.MapMeshDirty(b.Position, MapMeshFlag.BuildingsDamage);
+				return;
 			}
+			b.Map.mapDrawer.MapMeshDirty(b.Position, MapMeshFlag.BuildingsDamage);
 		}
 
 		public static bool UsesLinkableCornersAndEdges(Building b)
@@ -136,38 +137,36 @@ namespace Verse
 				topRight = null;
 				botRight = null;
 				botLeft = null;
+				return;
+			}
+			DamageGraphicData damageData = b.def.graphicData.damageData;
+			if (b.Rotation == Rot4.North)
+			{
+				topLeft = damageData.cornerTLMat;
+				topRight = damageData.cornerTRMat;
+				botRight = damageData.cornerBRMat;
+				botLeft = damageData.cornerBLMat;
+			}
+			else if (b.Rotation == Rot4.East)
+			{
+				topLeft = damageData.cornerBLMat;
+				topRight = damageData.cornerTLMat;
+				botRight = damageData.cornerTRMat;
+				botLeft = damageData.cornerBRMat;
+			}
+			else if (b.Rotation == Rot4.South)
+			{
+				topLeft = damageData.cornerBRMat;
+				topRight = damageData.cornerBLMat;
+				botRight = damageData.cornerTLMat;
+				botLeft = damageData.cornerTRMat;
 			}
 			else
 			{
-				DamageGraphicData damageData = b.def.graphicData.damageData;
-				if (b.Rotation == Rot4.North)
-				{
-					topLeft = damageData.cornerTLMat;
-					topRight = damageData.cornerTRMat;
-					botRight = damageData.cornerBRMat;
-					botLeft = damageData.cornerBLMat;
-				}
-				else if (b.Rotation == Rot4.East)
-				{
-					topLeft = damageData.cornerBLMat;
-					topRight = damageData.cornerTLMat;
-					botRight = damageData.cornerTRMat;
-					botLeft = damageData.cornerBRMat;
-				}
-				else if (b.Rotation == Rot4.South)
-				{
-					topLeft = damageData.cornerBRMat;
-					topRight = damageData.cornerBLMat;
-					botRight = damageData.cornerTLMat;
-					botLeft = damageData.cornerTRMat;
-				}
-				else
-				{
-					topLeft = damageData.cornerTRMat;
-					topRight = damageData.cornerBRMat;
-					botRight = damageData.cornerBLMat;
-					botLeft = damageData.cornerTLMat;
-				}
+				topLeft = damageData.cornerTRMat;
+				topRight = damageData.cornerBRMat;
+				botRight = damageData.cornerBLMat;
+				botLeft = damageData.cornerTLMat;
 			}
 		}
 
@@ -176,30 +175,25 @@ namespace Verse
 			BuildingsDamageSectionLayerUtility.overlays.Clear();
 			BuildingsDamageSectionLayerUtility.overlaysWorkingList.Clear();
 			BuildingsDamageSectionLayerUtility.overlaysWorkingList.AddRange(BuildingsDamageSectionLayerUtility.GetAvailableOverlays(b));
-			List<DamageOverlay> result;
 			if (!BuildingsDamageSectionLayerUtility.overlaysWorkingList.Any<DamageOverlay>())
 			{
-				result = BuildingsDamageSectionLayerUtility.overlays;
+				return BuildingsDamageSectionLayerUtility.overlays;
 			}
-			else
+			Rand.PushState();
+			Rand.Seed = Gen.HashCombineInt(b.thingIDNumber, 1958376471);
+			int damageOverlaysCount = BuildingsDamageSectionLayerUtility.GetDamageOverlaysCount(b, b.HitPoints);
+			for (int i = 0; i < damageOverlaysCount; i++)
 			{
-				Rand.PushState();
-				Rand.Seed = Gen.HashCombineInt(b.thingIDNumber, 1958376471);
-				int damageOverlaysCount = BuildingsDamageSectionLayerUtility.GetDamageOverlaysCount(b, b.HitPoints);
-				for (int i = 0; i < damageOverlaysCount; i++)
+				if (!BuildingsDamageSectionLayerUtility.overlaysWorkingList.Any<DamageOverlay>())
 				{
-					if (!BuildingsDamageSectionLayerUtility.overlaysWorkingList.Any<DamageOverlay>())
-					{
-						break;
-					}
-					DamageOverlay item = BuildingsDamageSectionLayerUtility.overlaysWorkingList.RandomElement<DamageOverlay>();
-					BuildingsDamageSectionLayerUtility.overlaysWorkingList.Remove(item);
-					BuildingsDamageSectionLayerUtility.overlays.Add(item);
+					break;
 				}
-				Rand.PopState();
-				result = BuildingsDamageSectionLayerUtility.overlays;
+				DamageOverlay item = BuildingsDamageSectionLayerUtility.overlaysWorkingList.RandomElement<DamageOverlay>();
+				BuildingsDamageSectionLayerUtility.overlaysWorkingList.Remove(item);
+				BuildingsDamageSectionLayerUtility.overlays.Add(item);
 			}
-			return result;
+			Rand.PopState();
+			return BuildingsDamageSectionLayerUtility.overlays;
 		}
 
 		public static Rect GetDamageRect(Building b)
@@ -279,47 +273,37 @@ namespace Verse
 		private static bool DifferentAt(Building b, int x, int z)
 		{
 			IntVec3 c = new IntVec3(x, 0, z);
-			bool result;
 			if (!c.InBounds(b.Map))
 			{
-				result = true;
+				return true;
 			}
-			else
+			List<Thing> thingList = c.GetThingList(b.Map);
+			for (int i = 0; i < thingList.Count; i++)
 			{
-				List<Thing> thingList = c.GetThingList(b.Map);
-				for (int i = 0; i < thingList.Count; i++)
+				if (thingList[i].def == b.def)
 				{
-					if (thingList[i].def == b.def)
-					{
-						return false;
-					}
+					return false;
 				}
-				result = true;
 			}
-			return result;
+			return true;
 		}
 
 		private static bool SameAndDamagedAt(Building b, int x, int z)
 		{
 			IntVec3 c = new IntVec3(x, 0, z);
-			bool result;
 			if (!c.InBounds(b.Map))
 			{
-				result = false;
+				return false;
 			}
-			else
+			List<Thing> thingList = c.GetThingList(b.Map);
+			for (int i = 0; i < thingList.Count; i++)
 			{
-				List<Thing> thingList = c.GetThingList(b.Map);
-				for (int i = 0; i < thingList.Count; i++)
+				if (thingList[i].def == b.def && thingList[i].HitPoints < thingList[i].MaxHitPoints)
 				{
-					if (thingList[i].def == b.def && thingList[i].HitPoints < thingList[i].MaxHitPoints)
-					{
-						return true;
-					}
+					return true;
 				}
-				result = false;
 			}
-			return result;
+			return false;
 		}
 
 		// Note: this type is marked as 'beforefieldinit'.

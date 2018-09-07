@@ -13,7 +13,7 @@ namespace Verse
 
 		public List<Assembly> loadedAssemblies = new List<Assembly>();
 
-		private static bool globalResolverIsSet = false;
+		private static bool globalResolverIsSet;
 
 		[CompilerGenerated]
 		private static ResolveEventHandler <>f__am$cache0;
@@ -35,39 +35,40 @@ namespace Verse
 			string path = Path.Combine(this.mod.RootDir, "Assemblies");
 			string path2 = Path.Combine(GenFilePaths.CoreModsFolderPath, path);
 			DirectoryInfo directoryInfo = new DirectoryInfo(path2);
-			if (directoryInfo.Exists)
+			if (!directoryInfo.Exists)
 			{
-				foreach (FileInfo fileInfo in directoryInfo.GetFiles("*.*", SearchOption.AllDirectories))
+				return;
+			}
+			foreach (FileInfo fileInfo in directoryInfo.GetFiles("*.*", SearchOption.AllDirectories))
+			{
+				if (!(fileInfo.Extension.ToLower() != ".dll"))
 				{
-					if (!(fileInfo.Extension.ToLower() != ".dll"))
+					Assembly assembly = null;
+					try
 					{
-						Assembly assembly = null;
-						try
+						byte[] rawAssembly = File.ReadAllBytes(fileInfo.FullName);
+						string fileName = Path.Combine(fileInfo.DirectoryName, Path.GetFileNameWithoutExtension(fileInfo.FullName)) + ".pdb";
+						FileInfo fileInfo2 = new FileInfo(fileName);
+						if (fileInfo2.Exists)
 						{
-							byte[] rawAssembly = File.ReadAllBytes(fileInfo.FullName);
-							string fileName = Path.Combine(fileInfo.DirectoryName, Path.GetFileNameWithoutExtension(fileInfo.FullName)) + ".pdb";
-							FileInfo fileInfo2 = new FileInfo(fileName);
-							if (fileInfo2.Exists)
-							{
-								byte[] rawSymbolStore = File.ReadAllBytes(fileInfo2.FullName);
-								assembly = AppDomain.CurrentDomain.Load(rawAssembly, rawSymbolStore);
-							}
-							else
-							{
-								assembly = AppDomain.CurrentDomain.Load(rawAssembly);
-							}
+							byte[] rawSymbolStore = File.ReadAllBytes(fileInfo2.FullName);
+							assembly = AppDomain.CurrentDomain.Load(rawAssembly, rawSymbolStore);
 						}
-						catch (Exception ex)
+						else
 						{
-							Log.Error("Exception loading " + fileInfo.Name + ": " + ex.ToString(), false);
-							break;
+							assembly = AppDomain.CurrentDomain.Load(rawAssembly);
 						}
-						if (assembly != null)
+					}
+					catch (Exception ex)
+					{
+						Log.Error("Exception loading " + fileInfo.Name + ": " + ex.ToString(), false);
+						break;
+					}
+					if (assembly != null)
+					{
+						if (this.AssemblyIsUsable(assembly))
 						{
-							if (this.AssemblyIsUsable(assembly))
-							{
-								this.loadedAssemblies.Add(assembly);
-							}
+							this.loadedAssemblies.Add(assembly);
 						}
 					}
 				}

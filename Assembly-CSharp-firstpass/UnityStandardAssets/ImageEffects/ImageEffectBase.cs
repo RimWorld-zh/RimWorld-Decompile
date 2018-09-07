@@ -20,8 +20,9 @@ namespace UnityStandardAssets.ImageEffects
 			if (!SystemInfo.supportsImageEffects)
 			{
 				base.enabled = false;
+				return;
 			}
-			else if (!this.shader || !this.shader.isSupported)
+			if (!this.shader || !this.shader.isSupported)
 			{
 				base.enabled = false;
 			}

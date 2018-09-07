@@ -6,7 +6,7 @@ namespace RimWorld
 {
 	public class GameCondition_ClimateCycle : GameCondition
 	{
-		private int ticksOffset = 0;
+		private int ticksOffset;
 
 		private const float PeriodYears = 4f;
 

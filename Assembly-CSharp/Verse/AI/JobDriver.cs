@@ -18,7 +18,7 @@ namespace Verse.AI
 
 		public List<Action> globalFinishActions = new List<Action>();
 
-		public bool ended = false;
+		public bool ended;
 
 		private int curToilIndex = -1;
 
@@ -26,7 +26,7 @@ namespace Verse.AI
 
 		public int ticksLeftThisToil = 99999;
 
-		private bool wantBeginNextToil = false;
+		private bool wantBeginNextToil;
 
 		protected int startTick = -1;
 
@@ -42,7 +42,7 @@ namespace Verse.AI
 
 		public Pawn locomotionUrgencySameAs;
 
-		public int debugTicksSpentThisToil = 0;
+		public int debugTicksSpentThisToil;
 
 		protected JobDriver()
 		{
@@ -52,12 +52,11 @@ namespace Verse.AI
 		{
 			get
 			{
-				Toil result;
 				if (this.curToilIndex < 0 || this.pawn.CurJob != this.job)
 				{
-					result = null;
+					return null;
 				}
-				else if (this.curToilIndex >= this.toils.Count)
+				if (this.curToilIndex >= this.toils.Count)
 				{
 					Log.Error(string.Concat(new object[]
 					{
@@ -70,13 +69,9 @@ namespace Verse.AI
 						this.toils.Count,
 						" toils."
 					}), false);
-					result = null;
+					return null;
 				}
-				else
-				{
-					result = this.toils[this.curToilIndex];
-				}
-				return result;
+				return this.toils[this.curToilIndex];
 			}
 		}
 
@@ -84,7 +79,7 @@ namespace Verse.AI
 		{
 			get
 			{
-				return this.curToilIndex >= 0 && this.curToilIndex < this.toils.Count;
+				return this.curToilIndex >= 0 && this.curToilIndex < this.toils.Count && this.pawn.CurJob == this.job;
 			}
 		}
 
@@ -258,7 +253,7 @@ namespace Verse.AI
 			return str;
 		}
 
-		public abstract bool TryMakePreToilReservations();
+		public abstract bool TryMakePreToilReservations(bool errorOnFailed);
 
 		protected abstract IEnumerable<Toil> MakeNewToils();
 
@@ -312,9 +307,9 @@ namespace Verse.AI
 					}), false);
 				}
 			}
-			if (this.HaveCurToil)
+			if (this.curToilIndex >= 0 && this.curToilIndex < this.toils.Count)
 			{
-				this.CurToil.Cleanup(this.curToilIndex, this);
+				this.toils[this.curToilIndex].Cleanup(this.curToilIndex, this);
 			}
 		}
 
@@ -368,13 +363,10 @@ namespace Verse.AI
 							return;
 						}
 					}
-					else if (this.curToilCompleteMode == ToilCompleteMode.FinishedBusy)
+					else if (this.curToilCompleteMode == ToilCompleteMode.FinishedBusy && !this.pawn.stances.FullBodyBusy)
 					{
-						if (!this.pawn.stances.FullBodyBusy)
-						{
-							this.ReadyForNextToil();
-							return;
-						}
+						this.ReadyForNextToil();
+						return;
 					}
 					if (this.wantBeginNextToil)
 					{
@@ -432,85 +424,89 @@ namespace Verse.AI
 
 		private void TryActuallyStartNextToil()
 		{
-			if (this.pawn.Spawned)
+			if (!this.pawn.Spawned)
 			{
-				if (!this.pawn.stances.FullBodyBusy || this.CanStartNextToilInBusyStance)
+				return;
+			}
+			if (this.pawn.stances.FullBodyBusy && !this.CanStartNextToilInBusyStance)
+			{
+				return;
+			}
+			if (this.pawn.CurJob != this.job)
+			{
+				return;
+			}
+			if (this.HaveCurToil)
+			{
+				this.CurToil.Cleanup(this.curToilIndex, this);
+			}
+			if (this.nextToilIndex >= 0)
+			{
+				this.curToilIndex = this.nextToilIndex;
+				this.nextToilIndex = -1;
+			}
+			else
+			{
+				this.curToilIndex++;
+			}
+			this.wantBeginNextToil = false;
+			if (!this.HaveCurToil)
+			{
+				if (this.pawn.stances != null && this.pawn.stances.curStance.StanceBusy)
 				{
-					if (this.HaveCurToil)
+					Log.ErrorOnce(this.pawn.ToStringSafe<Pawn>() + " ended job " + this.job.ToStringSafe<Job>() + " due to running out of toils during a busy stance.", 6453432, false);
+				}
+				this.EndJobWith(JobCondition.Succeeded);
+				return;
+			}
+			this.debugTicksSpentThisToil = 0;
+			this.ticksLeftThisToil = this.CurToil.defaultDuration;
+			this.curToilCompleteMode = this.CurToil.defaultCompleteMode;
+			if (!this.CheckCurrentToilEndOrFail())
+			{
+				Toil curToil = this.CurToil;
+				if (this.CurToil.preInitActions != null)
+				{
+					for (int i = 0; i < this.CurToil.preInitActions.Count; i++)
 					{
-						this.CurToil.Cleanup(this.curToilIndex, this);
-					}
-					if (this.nextToilIndex >= 0)
-					{
-						this.curToilIndex = this.nextToilIndex;
-						this.nextToilIndex = -1;
-					}
-					else
-					{
-						this.curToilIndex++;
-					}
-					this.wantBeginNextToil = false;
-					if (!this.HaveCurToil)
-					{
-						if (this.pawn.stances != null && this.pawn.stances.curStance.StanceBusy)
+						try
 						{
-							Log.ErrorOnce(this.pawn.ToStringSafe<Pawn>() + " ended job " + this.job.ToStringSafe<Job>() + " due to running out of toils during a busy stance.", 6453432, false);
+							this.CurToil.preInitActions[i]();
 						}
-						this.EndJobWith(JobCondition.Succeeded);
-					}
-					else
-					{
-						this.debugTicksSpentThisToil = 0;
-						this.ticksLeftThisToil = this.CurToil.defaultDuration;
-						this.curToilCompleteMode = this.CurToil.defaultCompleteMode;
-						if (!this.CheckCurrentToilEndOrFail())
+						catch (Exception exception)
 						{
-							Toil curToil = this.CurToil;
-							if (this.CurToil.preInitActions != null)
+							JobUtility.TryStartErrorRecoverJob(this.pawn, string.Concat(new object[]
 							{
-								for (int i = 0; i < this.CurToil.preInitActions.Count; i++)
-								{
-									try
-									{
-										this.CurToil.preInitActions[i]();
-									}
-									catch (Exception exception)
-									{
-										JobUtility.TryStartErrorRecoverJob(this.pawn, string.Concat(new object[]
-										{
-											"JobDriver threw exception in preInitActions[",
-											i,
-											"] for pawn ",
-											this.pawn.ToStringSafe<Pawn>()
-										}), exception, this);
-										return;
-									}
-									if (this.CurToil != curToil)
-									{
-										break;
-									}
-								}
-							}
-							if (this.CurToil == curToil)
-							{
-								if (this.CurToil.initAction != null)
-								{
-									try
-									{
-										this.CurToil.initAction();
-									}
-									catch (Exception exception2)
-									{
-										JobUtility.TryStartErrorRecoverJob(this.pawn, "JobDriver threw exception in initAction for pawn " + this.pawn.ToStringSafe<Pawn>(), exception2, this);
-										return;
-									}
-								}
-								if (this.CurToil == curToil && !this.ended && this.curToilCompleteMode == ToilCompleteMode.Instant)
-								{
-									this.ReadyForNextToil();
-								}
-							}
+								"JobDriver threw exception in preInitActions[",
+								i,
+								"] for pawn ",
+								this.pawn.ToStringSafe<Pawn>()
+							}), exception, this);
+							return;
 						}
+						if (this.CurToil != curToil)
+						{
+							break;
+						}
+					}
+				}
+				if (this.CurToil == curToil)
+				{
+					if (this.CurToil.initAction != null)
+					{
+						try
+						{
+							this.CurToil.initAction();
+						}
+						catch (Exception exception2)
+						{
+							JobUtility.TryStartErrorRecoverJob(this.pawn, "JobDriver threw exception in initAction for pawn " + this.pawn.ToStringSafe<Pawn>(), exception2, this);
+							return;
+						}
+					}
+					if (this.CurToil == curToil && !this.ended && this.curToilCompleteMode == ToilCompleteMode.Instant)
+					{
+						this.ReadyForNextToil();
 					}
 				}
 			}
@@ -665,16 +661,11 @@ namespace Verse.AI
 		{
 			this.globalFailConditions.Add(delegate
 			{
-				JobCondition result;
 				if (newFailCondition())
 				{
-					result = JobCondition.Incompletable;
+					return JobCondition.Incompletable;
 				}
-				else
-				{
-					result = JobCondition.Ongoing;
-				}
-				return result;
+				return JobCondition.Ongoing;
 			});
 		}
 
@@ -690,16 +681,11 @@ namespace Verse.AI
 
 		public virtual RandomSocialMode DesiredSocialMode()
 		{
-			RandomSocialMode result;
 			if (this.CurToil != null)
 			{
-				result = this.CurToil.socialMode;
+				return this.CurToil.socialMode;
 			}
-			else
-			{
-				result = RandomSocialMode.Normal;
-			}
-			return result;
+			return RandomSocialMode.Normal;
 		}
 
 		public virtual bool IsContinuation(Job j)
@@ -718,16 +704,11 @@ namespace Verse.AI
 
 			internal JobCondition <>m__0()
 			{
-				JobCondition result;
 				if (this.newFailCondition())
 				{
-					result = JobCondition.Incompletable;
+					return JobCondition.Incompletable;
 				}
-				else
-				{
-					result = JobCondition.Ongoing;
-				}
-				return result;
+				return JobCondition.Ongoing;
 			}
 		}
 	}

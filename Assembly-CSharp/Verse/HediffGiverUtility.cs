@@ -5,7 +5,7 @@ using System.Runtime.CompilerServices;
 
 namespace Verse
 {
-	public static class HediffGiveUtility
+	public static class HediffGiverUtility
 	{
 		[CompilerGenerated]
 		private static Func<BodyPartRecord, bool> <>f__am$cache0;
@@ -15,13 +15,12 @@ namespace Verse
 
 		public static bool TryApply(Pawn pawn, HediffDef hediff, List<BodyPartDef> partsToAffect, bool canAffectAnyLivePart = false, int countToAffect = 1, List<Hediff> outAddedHediffs = null)
 		{
-			bool result;
 			if (canAffectAnyLivePart || partsToAffect != null)
 			{
-				bool flag = false;
+				bool result = false;
 				for (int i = 0; i < countToAffect; i++)
 				{
-					IEnumerable<BodyPartRecord> source = pawn.health.hediffSet.GetNotMissingParts(BodyPartHeight.Undefined, BodyPartDepth.Undefined, null);
+					IEnumerable<BodyPartRecord> source = pawn.health.hediffSet.GetNotMissingParts(BodyPartHeight.Undefined, BodyPartDepth.Undefined, null, null);
 					if (partsToAffect != null)
 					{
 						source = from p in source
@@ -48,11 +47,11 @@ namespace Verse
 					{
 						outAddedHediffs.Add(hediff2);
 					}
-					flag = true;
+					result = true;
 				}
-				result = flag;
+				return result;
 			}
-			else if (!pawn.health.hediffSet.HasHediff(hediff, false))
+			if (!pawn.health.hediffSet.HasHediff(hediff, false))
 			{
 				Hediff hediff3 = HediffMaker.MakeHediff(hediff, pawn, null);
 				pawn.health.AddHediff(hediff3, null, null, null);
@@ -60,13 +59,9 @@ namespace Verse
 				{
 					outAddedHediffs.Add(hediff3);
 				}
-				result = true;
+				return true;
 			}
-			else
-			{
-				result = false;
-			}
-			return result;
+			return false;
 		}
 
 		[CompilerGenerated]

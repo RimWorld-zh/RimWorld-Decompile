@@ -9,7 +9,7 @@ namespace Verse
 
 		private const int ForceTicksStandard = 800;
 
-		private const int ForceTicksShort = 250;
+		private const int ForceTicksShort = 240;
 
 		public TimeSlower()
 		{
@@ -33,7 +33,7 @@ namespace Verse
 
 		public void SignalForceNormalSpeedShort()
 		{
-			this.forceNormalSpeedUntil = Mathf.Max(this.forceNormalSpeedUntil, Find.TickManager.TicksGame + 250);
+			this.forceNormalSpeedUntil = Mathf.Max(this.forceNormalSpeedUntil, Find.TickManager.TicksGame + 240);
 		}
 	}
 }

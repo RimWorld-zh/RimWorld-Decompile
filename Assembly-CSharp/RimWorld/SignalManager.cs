@@ -17,15 +17,14 @@ namespace RimWorld
 			if (receiver == null)
 			{
 				Log.Error("Tried to register a null reciever.", false);
+				return;
 			}
-			else if (this.receivers.Contains(receiver))
+			if (this.receivers.Contains(receiver))
 			{
 				Log.Error("Tried to register the same receiver twice: " + receiver.ToStringSafe<ISignalReceiver>(), false);
+				return;
 			}
-			else
-			{
-				this.receivers.Add(receiver);
-			}
+			this.receivers.Add(receiver);
 		}
 
 		public void DeregisterReceiver(ISignalReceiver receiver)

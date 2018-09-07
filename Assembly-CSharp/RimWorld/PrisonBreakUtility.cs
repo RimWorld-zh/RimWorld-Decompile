@@ -46,35 +46,27 @@ namespace RimWorld
 
 		public static float InitiatePrisonBreakMtbDays(Pawn pawn)
 		{
-			float result;
 			if (!pawn.Awake())
 			{
-				result = -1f;
+				return -1f;
 			}
-			else if (!PrisonBreakUtility.CanParticipateInPrisonBreak(pawn))
+			if (!PrisonBreakUtility.CanParticipateInPrisonBreak(pawn))
 			{
-				result = -1f;
+				return -1f;
 			}
-			else
+			Room room = pawn.GetRoom(RegionType.Set_Passable);
+			if (room == null || !room.isPrisonCell)
 			{
-				Room room = pawn.GetRoom(RegionType.Set_Passable);
-				if (room == null || !room.isPrisonCell)
-				{
-					result = -1f;
-				}
-				else
-				{
-					float num = 45f;
-					num /= Mathf.Clamp(pawn.health.capacities.GetLevel(PawnCapacityDefOf.Moving), 0.01f, 1f);
-					if (pawn.guest.everParticipatedInPrisonBreak)
-					{
-						float x = (float)(Find.TickManager.TicksGame - pawn.guest.lastPrisonBreakTicks) / 60000f;
-						num *= PrisonBreakUtility.PrisonBreakMTBFactorForDaysSincePrisonBreak.Evaluate(x);
-					}
-					result = num;
-				}
+				return -1f;
 			}
-			return result;
+			float num = 45f;
+			num /= Mathf.Clamp(pawn.health.capacities.GetLevel(PawnCapacityDefOf.Moving), 0.01f, 1f);
+			if (pawn.guest.everParticipatedInPrisonBreak)
+			{
+				float x = (float)(Find.TickManager.TicksGame - pawn.guest.lastPrisonBreakTicks) / 60000f;
+				num *= PrisonBreakUtility.PrisonBreakMTBFactorForDaysSincePrisonBreak.Evaluate(x);
+			}
+			return num;
 		}
 
 		public static bool CanParticipateInPrisonBreak(Pawn pawn)
@@ -175,44 +167,47 @@ namespace RimWorld
 		{
 			PrisonBreakUtility.escapingPrisonersGroup.Clear();
 			PrisonBreakUtility.AddPrisonersFrom(room, PrisonBreakUtility.escapingPrisonersGroup);
-			if (PrisonBreakUtility.escapingPrisonersGroup.Any<Pawn>())
+			if (!PrisonBreakUtility.escapingPrisonersGroup.Any<Pawn>())
 			{
-				foreach (Room room2 in participatingRooms)
+				return;
+			}
+			foreach (Room room2 in participatingRooms)
+			{
+				if (room2 != room)
 				{
-					if (room2 != room)
+					if (PrisonBreakUtility.RoomsAreCloseToEachOther(room, room2))
 					{
-						if (PrisonBreakUtility.RoomsAreCloseToEachOther(room, room2))
-						{
-							PrisonBreakUtility.AddPrisonersFrom(room2, PrisonBreakUtility.escapingPrisonersGroup);
-						}
-					}
-				}
-				IntVec3 exitPoint;
-				if (RCellFinder.TryFindRandomExitSpot(PrisonBreakUtility.escapingPrisonersGroup[0], out exitPoint, TraverseMode.PassDoors))
-				{
-					IntVec3 groupUpLoc;
-					if (PrisonBreakUtility.TryFindGroupUpLoc(PrisonBreakUtility.escapingPrisonersGroup, exitPoint, out groupUpLoc))
-					{
-						LordMaker.MakeNewLord(PrisonBreakUtility.escapingPrisonersGroup[0].Faction, new LordJob_PrisonBreak(groupUpLoc, exitPoint, sapperThingID), room.Map, PrisonBreakUtility.escapingPrisonersGroup);
-						for (int i = 0; i < PrisonBreakUtility.escapingPrisonersGroup.Count; i++)
-						{
-							Pawn pawn = PrisonBreakUtility.escapingPrisonersGroup[i];
-							if (pawn.CurJob != null && pawn.GetPosture().Laying())
-							{
-								pawn.jobs.EndCurrentJob(JobCondition.InterruptForced, true);
-							}
-							else
-							{
-								pawn.jobs.CheckForJobOverride();
-							}
-							pawn.guest.everParticipatedInPrisonBreak = true;
-							pawn.guest.lastPrisonBreakTicks = Find.TickManager.TicksGame;
-							outAllEscapingPrisoners.Add(pawn);
-						}
-						PrisonBreakUtility.escapingPrisonersGroup.Clear();
+						PrisonBreakUtility.AddPrisonersFrom(room2, PrisonBreakUtility.escapingPrisonersGroup);
 					}
 				}
 			}
+			IntVec3 exitPoint;
+			if (!RCellFinder.TryFindRandomExitSpot(PrisonBreakUtility.escapingPrisonersGroup[0], out exitPoint, TraverseMode.PassDoors))
+			{
+				return;
+			}
+			IntVec3 groupUpLoc;
+			if (!PrisonBreakUtility.TryFindGroupUpLoc(PrisonBreakUtility.escapingPrisonersGroup, exitPoint, out groupUpLoc))
+			{
+				return;
+			}
+			LordMaker.MakeNewLord(PrisonBreakUtility.escapingPrisonersGroup[0].Faction, new LordJob_PrisonBreak(groupUpLoc, exitPoint, sapperThingID), room.Map, PrisonBreakUtility.escapingPrisonersGroup);
+			for (int i = 0; i < PrisonBreakUtility.escapingPrisonersGroup.Count; i++)
+			{
+				Pawn pawn = PrisonBreakUtility.escapingPrisonersGroup[i];
+				if (pawn.CurJob != null && pawn.GetPosture().Laying())
+				{
+					pawn.jobs.EndCurrentJob(JobCondition.InterruptForced, true);
+				}
+				else
+				{
+					pawn.jobs.CheckForJobOverride();
+				}
+				pawn.guest.everParticipatedInPrisonBreak = true;
+				pawn.guest.lastPrisonBreakTicks = Find.TickManager.TicksGame;
+				outAllEscapingPrisoners.Add(pawn);
+			}
+			PrisonBreakUtility.escapingPrisonersGroup.Clear();
 		}
 
 		private static void AddPrisonersFrom(Room room, List<Pawn> outEscapingPrisoners)
@@ -265,27 +260,24 @@ namespace RimWorld
 		{
 			IntVec3 anyCell = a.Regions[0].AnyCell;
 			IntVec3 anyCell2 = b.Regions[0].AnyCell;
-			bool result;
 			if (a.Map != b.Map)
 			{
-				result = false;
+				return false;
 			}
-			else if (!anyCell.WithinRegions(anyCell2, a.Map, 18, TraverseParms.For(TraverseMode.PassDoors, Danger.Deadly, false), RegionType.Set_Passable))
+			if (!anyCell.WithinRegions(anyCell2, a.Map, 18, TraverseParms.For(TraverseMode.PassDoors, Danger.Deadly, false), RegionType.Set_Passable))
 			{
-				result = false;
+				return false;
 			}
-			else
+			bool result;
+			using (PawnPath pawnPath = a.Map.pathFinder.FindPath(anyCell, anyCell2, TraverseParms.For(TraverseMode.PassDoors, Danger.Deadly, false), PathEndMode.OnCell))
 			{
-				using (PawnPath pawnPath = a.Map.pathFinder.FindPath(anyCell, anyCell2, TraverseParms.For(TraverseMode.PassDoors, Danger.Deadly, false), PathEndMode.OnCell))
+				if (!pawnPath.Found)
 				{
-					if (!pawnPath.Found)
-					{
-						result = false;
-					}
-					else
-					{
-						result = (pawnPath.NodesLeftCount < 24);
-					}
+					result = false;
+				}
+				else
+				{
+					result = (pawnPath.NodesLeftCount < 24);
 				}
 			}
 			return result;

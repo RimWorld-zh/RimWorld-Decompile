@@ -97,20 +97,15 @@ namespace Verse
 
 		public override Texture2D IconFromPOV(Thing pov)
 		{
-			Texture2D result;
 			if (pov == null || pov == this.subjectPawn)
 			{
-				result = ((this.transitionDef != RulePackDefOf.Transition_Downed) ? LogEntry.Skull : LogEntry.Downed);
+				return (this.transitionDef != RulePackDefOf.Transition_Downed) ? LogEntry.Skull : LogEntry.Downed;
 			}
-			else if (pov == this.initiator)
+			if (pov == this.initiator)
 			{
-				result = ((this.transitionDef != RulePackDefOf.Transition_Downed) ? LogEntry.SkullTarget : LogEntry.DownedTarget);
+				return (this.transitionDef != RulePackDefOf.Transition_Downed) ? LogEntry.SkullTarget : LogEntry.DownedTarget;
 			}
-			else
-			{
-				result = null;
-			}
-			return result;
+			return null;
 		}
 
 		protected override GrammarRequest GenerateGrammarRequest()
@@ -197,7 +192,7 @@ namespace Verse
 				case 1u:
 					break;
 				case 2u:
-					goto IL_90;
+					goto IL_8F;
 				default:
 					return false;
 				}
@@ -210,7 +205,7 @@ namespace Verse
 					}
 					return true;
 				}
-				IL_90:
+				IL_8F:
 				this.$PC = -1;
 				return false;
 			}

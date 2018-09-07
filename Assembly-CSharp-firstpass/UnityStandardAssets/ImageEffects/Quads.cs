@@ -7,7 +7,7 @@ namespace UnityStandardAssets.ImageEffects
 	{
 		private static Mesh[] meshes;
 
-		private static int currentQuads = 0;
+		private static int currentQuads;
 
 		public Quads()
 		{
@@ -15,65 +15,56 @@ namespace UnityStandardAssets.ImageEffects
 
 		private static bool HasMeshes()
 		{
-			bool result;
 			if (Quads.meshes == null)
 			{
-				result = false;
+				return false;
 			}
-			else
+			foreach (Mesh y in Quads.meshes)
 			{
-				foreach (Mesh y in Quads.meshes)
+				if (null == y)
 				{
-					if (null == y)
-					{
-						return false;
-					}
+					return false;
 				}
-				result = true;
 			}
-			return result;
+			return true;
 		}
 
 		public static void Cleanup()
 		{
-			if (Quads.meshes != null)
+			if (Quads.meshes == null)
 			{
-				for (int i = 0; i < Quads.meshes.Length; i++)
-				{
-					if (null != Quads.meshes[i])
-					{
-						UnityEngine.Object.DestroyImmediate(Quads.meshes[i]);
-						Quads.meshes[i] = null;
-					}
-				}
-				Quads.meshes = null;
+				return;
 			}
+			for (int i = 0; i < Quads.meshes.Length; i++)
+			{
+				if (null != Quads.meshes[i])
+				{
+					UnityEngine.Object.DestroyImmediate(Quads.meshes[i]);
+					Quads.meshes[i] = null;
+				}
+			}
+			Quads.meshes = null;
 		}
 
 		public static Mesh[] GetMeshes(int totalWidth, int totalHeight)
 		{
-			Mesh[] result;
 			if (Quads.HasMeshes() && Quads.currentQuads == totalWidth * totalHeight)
 			{
-				result = Quads.meshes;
+				return Quads.meshes;
 			}
-			else
+			int num = 10833;
+			int num2 = totalWidth * totalHeight;
+			Quads.currentQuads = num2;
+			int num3 = Mathf.CeilToInt(1f * (float)num2 / (1f * (float)num));
+			Quads.meshes = new Mesh[num3];
+			int num4 = 0;
+			for (int i = 0; i < num2; i += num)
 			{
-				int num = 10833;
-				int num2 = totalWidth * totalHeight;
-				Quads.currentQuads = num2;
-				int num3 = Mathf.CeilToInt(1f * (float)num2 / (1f * (float)num));
-				Quads.meshes = new Mesh[num3];
-				int num4 = 0;
-				for (int i = 0; i < num2; i += num)
-				{
-					int triCount = Mathf.FloorToInt((float)Mathf.Clamp(num2 - i, 0, num));
-					Quads.meshes[num4] = Quads.GetMesh(triCount, i, totalWidth, totalHeight);
-					num4++;
-				}
-				result = Quads.meshes;
+				int triCount = Mathf.FloorToInt((float)Mathf.Clamp(num2 - i, 0, num));
+				Quads.meshes[num4] = Quads.GetMesh(triCount, i, totalWidth, totalHeight);
+				num4++;
 			}
-			return result;
+			return Quads.meshes;
 		}
 
 		private static Mesh GetMesh(int triCount, int triOffset, int totalWidth, int totalHeight)

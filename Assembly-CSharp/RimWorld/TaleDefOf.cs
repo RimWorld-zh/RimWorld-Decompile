@@ -45,6 +45,8 @@ namespace RimWorld
 
 		public static TaleDef BuriedCorpse;
 
+		public static TaleDef IllnessRevealed;
+
 		public static TaleDef KilledBy;
 
 		public static TaleDef KilledColonist;
@@ -110,8 +112,6 @@ namespace RimWorld
 		public static TaleDef SocialFight;
 
 		public static TaleDef CollapseDodged;
-
-		public static TaleDef RaidArrived;
 
 		static TaleDefOf()
 		{

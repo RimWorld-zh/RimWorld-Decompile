@@ -96,36 +96,30 @@ namespace Verse
 
 		public override int GetCountCanAccept(Thing item, bool canMergeWithExistingStacks = true)
 		{
-			int result;
 			if (!(item is T))
 			{
-				result = 0;
+				return 0;
 			}
-			else
-			{
-				result = base.GetCountCanAccept(item, canMergeWithExistingStacks);
-			}
-			return result;
+			return base.GetCountCanAccept(item, canMergeWithExistingStacks);
 		}
 
 		public override int TryAdd(Thing item, int count, bool canMergeWithExistingStacks = true)
 		{
-			int result;
 			if (count <= 0)
 			{
-				result = 0;
+				return 0;
 			}
-			else if (item == null)
+			if (item == null)
 			{
 				Log.Warning("Tried to add null item to ThingOwner.", false);
-				result = 0;
+				return 0;
 			}
-			else if (base.Contains(item))
+			if (base.Contains(item))
 			{
 				Log.Warning("Tried to add " + item + " to ThingOwner but this item is already here.", false);
-				result = 0;
+				return 0;
 			}
-			else if (item.holdingOwner != null)
+			if (item.holdingOwner != null)
 			{
 				Log.Warning(string.Concat(new object[]
 				{
@@ -139,154 +133,134 @@ namespace Verse
 					item.holdingOwner.Owner.ToStringSafe<IThingHolder>(),
 					". Use TryAddOrTransfer, TryTransferToContainer, or remove the item before adding it."
 				}), false);
-				result = 0;
+				return 0;
 			}
-			else if (!base.CanAcceptAnyOf(item, canMergeWithExistingStacks))
+			if (!base.CanAcceptAnyOf(item, canMergeWithExistingStacks))
 			{
-				result = 0;
+				return 0;
 			}
-			else
+			int stackCount = item.stackCount;
+			int num = Mathf.Min(stackCount, count);
+			Thing thing = item.SplitOff(num);
+			if (this.TryAdd((T)((object)thing), canMergeWithExistingStacks))
 			{
-				int stackCount = item.stackCount;
-				int num = Mathf.Min(stackCount, count);
-				Thing thing = item.SplitOff(num);
-				if (!this.TryAdd((T)((object)thing), canMergeWithExistingStacks))
-				{
-					if (thing != item)
-					{
-						int num2 = stackCount - item.stackCount - thing.stackCount;
-						item.TryAbsorbStack(thing, false);
-						result = num2;
-					}
-					else
-					{
-						result = stackCount - item.stackCount;
-					}
-				}
-				else
-				{
-					result = num;
-				}
+				return num;
 			}
-			return result;
+			if (thing != item)
+			{
+				int result = stackCount - item.stackCount - thing.stackCount;
+				item.TryAbsorbStack(thing, false);
+				return result;
+			}
+			return stackCount - item.stackCount;
 		}
 
 		public override bool TryAdd(Thing item, bool canMergeWithExistingStacks = true)
 		{
-			bool result;
 			if (item == null)
 			{
 				Log.Warning("Tried to add null item to ThingOwner.", false);
-				result = false;
+				return false;
 			}
-			else
+			T t = item as T;
+			if (t == null)
 			{
-				T t = item as T;
-				if (t == null)
+				return false;
+			}
+			if (base.Contains(item))
+			{
+				Log.Warning("Tried to add " + item.ToStringSafe<Thing>() + " to ThingOwner but this item is already here.", false);
+				return false;
+			}
+			if (item.holdingOwner != null)
+			{
+				Log.Warning(string.Concat(new string[]
 				{
-					result = false;
-				}
-				else if (base.Contains(item))
+					"Tried to add ",
+					item.ToStringSafe<Thing>(),
+					" to ThingOwner but this thing is already in another container. owner=",
+					this.owner.ToStringSafe<IThingHolder>(),
+					", current container owner=",
+					item.holdingOwner.Owner.ToStringSafe<IThingHolder>(),
+					". Use TryAddOrTransfer, TryTransferToContainer, or remove the item before adding it."
+				}), false);
+				return false;
+			}
+			if (!base.CanAcceptAnyOf(item, canMergeWithExistingStacks))
+			{
+				return false;
+			}
+			if (canMergeWithExistingStacks)
+			{
+				for (int i = 0; i < this.innerList.Count; i++)
 				{
-					Log.Warning("Tried to add " + item.ToStringSafe<Thing>() + " to ThingOwner but this item is already here.", false);
-					result = false;
-				}
-				else if (item.holdingOwner != null)
-				{
-					Log.Warning(string.Concat(new string[]
+					T t2 = this.innerList[i];
+					if (t2.CanStackWith(item))
 					{
-						"Tried to add ",
-						item.ToStringSafe<Thing>(),
-						" to ThingOwner but this thing is already in another container. owner=",
-						this.owner.ToStringSafe<IThingHolder>(),
-						", current container owner=",
-						item.holdingOwner.Owner.ToStringSafe<IThingHolder>(),
-						". Use TryAddOrTransfer, TryTransferToContainer, or remove the item before adding it."
-					}), false);
-					result = false;
-				}
-				else if (!base.CanAcceptAnyOf(item, canMergeWithExistingStacks))
-				{
-					result = false;
-				}
-				else
-				{
-					if (canMergeWithExistingStacks)
-					{
-						for (int i = 0; i < this.innerList.Count; i++)
+						int num = Mathf.Min(item.stackCount, t2.def.stackLimit - t2.stackCount);
+						if (num > 0)
 						{
-							T t2 = this.innerList[i];
-							if (t2.CanStackWith(item))
+							Thing other = item.SplitOff(num);
+							int stackCount = t2.stackCount;
+							t2.TryAbsorbStack(other, true);
+							if (t2.stackCount > stackCount)
 							{
-								int num = Mathf.Min(item.stackCount, t2.def.stackLimit - t2.stackCount);
-								if (num > 0)
-								{
-									Thing other = item.SplitOff(num);
-									int stackCount = t2.stackCount;
-									t2.TryAbsorbStack(other, true);
-									if (t2.stackCount > stackCount)
-									{
-										base.NotifyAddedAndMergedWith(t2, t2.stackCount - stackCount);
-									}
-									if (item.Destroyed || item.stackCount == 0)
-									{
-										return true;
-									}
-								}
+								base.NotifyAddedAndMergedWith(t2, t2.stackCount - stackCount);
+							}
+							if (item.Destroyed || item.stackCount == 0)
+							{
+								return true;
 							}
 						}
 					}
-					if (this.Count >= this.maxStacks)
-					{
-						result = false;
-					}
-					else
-					{
-						item.holdingOwner = this;
-						this.innerList.Add(t);
-						base.NotifyAdded(t);
-						result = true;
-					}
 				}
 			}
-			return result;
+			if (this.Count >= this.maxStacks)
+			{
+				return false;
+			}
+			item.holdingOwner = this;
+			this.innerList.Add(t);
+			base.NotifyAdded(t);
+			return true;
 		}
 
 		public void TryAddRangeOrTransfer(IEnumerable<T> things, bool canMergeWithExistingStacks = true, bool destroyLeftover = false)
 		{
-			if (things != this)
+			if (things == this)
 			{
-				ThingOwner thingOwner = things as ThingOwner;
-				if (thingOwner != null)
+				return;
+			}
+			ThingOwner thingOwner = things as ThingOwner;
+			if (thingOwner != null)
+			{
+				thingOwner.TryTransferAllToContainer(this, canMergeWithExistingStacks);
+				if (destroyLeftover)
 				{
-					thingOwner.TryTransferAllToContainer(this, canMergeWithExistingStacks);
-					if (destroyLeftover)
+					thingOwner.ClearAndDestroyContents(DestroyMode.Vanish);
+				}
+			}
+			else
+			{
+				IList<T> list = things as IList<T>;
+				if (list != null)
+				{
+					for (int i = 0; i < list.Count; i++)
 					{
-						thingOwner.ClearAndDestroyContents(DestroyMode.Vanish);
+						if (!base.TryAddOrTransfer(list[i], canMergeWithExistingStacks) && destroyLeftover)
+						{
+							T t = list[i];
+							t.Destroy(DestroyMode.Vanish);
+						}
 					}
 				}
 				else
 				{
-					IList<T> list = things as IList<T>;
-					if (list != null)
+					foreach (T t2 in things)
 					{
-						for (int i = 0; i < list.Count; i++)
+						if (!base.TryAddOrTransfer(t2, canMergeWithExistingStacks) && destroyLeftover)
 						{
-							if (!base.TryAddOrTransfer(list[i], canMergeWithExistingStacks) && destroyLeftover)
-							{
-								T t = list[i];
-								t.Destroy(DestroyMode.Vanish);
-							}
-						}
-					}
-					else
-					{
-						foreach (T t2 in things)
-						{
-							if (!base.TryAddOrTransfer(t2, canMergeWithExistingStacks) && destroyLeftover)
-							{
-								t2.Destroy(DestroyMode.Vanish);
-							}
+							t2.Destroy(DestroyMode.Vanish);
 						}
 					}
 				}
@@ -296,37 +270,27 @@ namespace Verse
 		public override int IndexOf(Thing item)
 		{
 			T t = item as T;
-			int result;
 			if (t == null)
 			{
-				result = -1;
+				return -1;
 			}
-			else
-			{
-				result = this.innerList.IndexOf(t);
-			}
-			return result;
+			return this.innerList.IndexOf(t);
 		}
 
 		public override bool Remove(Thing item)
 		{
-			bool result;
 			if (!base.Contains(item))
 			{
-				result = false;
+				return false;
 			}
-			else
+			if (item.holdingOwner == this)
 			{
-				if (item.holdingOwner == this)
-				{
-					item.holdingOwner = null;
-				}
-				int index = this.innerList.LastIndexOf((T)((object)item));
-				this.innerList.RemoveAt(index);
-				base.NotifyRemoved(item);
-				result = true;
+				item.holdingOwner = null;
 			}
-			return result;
+			int index = this.innerList.LastIndexOf((T)((object)item));
+			this.innerList.RemoveAt(index);
+			base.NotifyRemoved(item);
+			return true;
 		}
 
 		public int RemoveAll(Predicate<T> predicate)

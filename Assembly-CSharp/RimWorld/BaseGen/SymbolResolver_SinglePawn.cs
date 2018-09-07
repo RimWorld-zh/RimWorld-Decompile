@@ -26,84 +26,83 @@ namespace RimWorld.BaseGen
 
 		public override void Resolve(ResolveParams rp)
 		{
-			if (rp.singlePawnToSpawn == null || !rp.singlePawnToSpawn.Spawned)
+			if (rp.singlePawnToSpawn != null && rp.singlePawnToSpawn.Spawned)
 			{
-				Map map = BaseGen.globalSettings.map;
-				IntVec3 loc;
-				if (!SymbolResolver_SinglePawn.TryFindSpawnCell(rp, out loc))
+				return;
+			}
+			Map map = BaseGen.globalSettings.map;
+			IntVec3 loc;
+			if (!SymbolResolver_SinglePawn.TryFindSpawnCell(rp, out loc))
+			{
+				if (rp.singlePawnToSpawn != null)
 				{
-					if (rp.singlePawnToSpawn != null)
-					{
-						Find.WorldPawns.PassToWorld(rp.singlePawnToSpawn, PawnDiscardDecideMode.Decide);
-					}
+					Find.WorldPawns.PassToWorld(rp.singlePawnToSpawn, PawnDiscardDecideMode.Decide);
+				}
+				return;
+			}
+			Pawn pawn;
+			if (rp.singlePawnToSpawn == null)
+			{
+				PawnGenerationRequest value;
+				if (rp.singlePawnGenerationRequest != null)
+				{
+					value = rp.singlePawnGenerationRequest.Value;
 				}
 				else
 				{
-					Pawn pawn;
-					if (rp.singlePawnToSpawn == null)
+					PawnKindDef pawnKindDef;
+					if ((pawnKindDef = rp.singlePawnKindDef) == null)
 					{
-						PawnGenerationRequest value;
-						if (rp.singlePawnGenerationRequest != null)
+						pawnKindDef = (from x in DefDatabase<PawnKindDef>.AllDefsListForReading
+						where x.defaultFactionType == null || !x.defaultFactionType.isPlayer
+						select x).RandomElement<PawnKindDef>();
+					}
+					PawnKindDef pawnKindDef2 = pawnKindDef;
+					Faction faction = rp.faction;
+					if (faction == null && pawnKindDef2.RaceProps.Humanlike)
+					{
+						if (pawnKindDef2.defaultFactionType != null)
 						{
-							value = rp.singlePawnGenerationRequest.Value;
-						}
-						else
-						{
-							PawnKindDef pawnKindDef;
-							if ((pawnKindDef = rp.singlePawnKindDef) == null)
+							faction = FactionUtility.DefaultFactionFrom(pawnKindDef2.defaultFactionType);
+							if (faction == null)
 							{
-								pawnKindDef = (from x in DefDatabase<PawnKindDef>.AllDefsListForReading
-								where x.defaultFactionType == null || !x.defaultFactionType.isPlayer
-								select x).RandomElement<PawnKindDef>();
+								return;
 							}
-							PawnKindDef pawnKindDef2 = pawnKindDef;
-							Faction faction = rp.faction;
-							if (faction == null && pawnKindDef2.RaceProps.Humanlike)
-							{
-								if (pawnKindDef2.defaultFactionType != null)
-								{
-									faction = FactionUtility.DefaultFactionFrom(pawnKindDef2.defaultFactionType);
-									if (faction == null)
-									{
-										return;
-									}
-								}
-								else if (!(from x in Find.FactionManager.AllFactions
-								where !x.IsPlayer
-								select x).TryRandomElement(out faction))
-								{
-									return;
-								}
-							}
-							PawnKindDef kind = pawnKindDef2;
-							Faction faction2 = faction;
-							int tile = map.Tile;
-							value = new PawnGenerationRequest(kind, faction2, PawnGenerationContext.NonPlayer, tile, false, false, false, false, true, false, 1f, false, true, true, false, false, false, false, null, null, null, null, null, null, null, null);
 						}
-						pawn = PawnGenerator.GeneratePawn(value);
-						if (rp.postThingGenerate != null)
+						else if (!(from x in Find.FactionManager.AllFactions
+						where !x.IsPlayer
+						select x).TryRandomElement(out faction))
 						{
-							rp.postThingGenerate(pawn);
+							return;
 						}
 					}
-					else
-					{
-						pawn = rp.singlePawnToSpawn;
-					}
-					if (!pawn.Dead && rp.disableSinglePawn != null && rp.disableSinglePawn.Value)
-					{
-						pawn.mindState.Active = false;
-					}
-					GenSpawn.Spawn(pawn, loc, map, WipeMode.Vanish);
-					if (rp.singlePawnLord != null)
-					{
-						rp.singlePawnLord.AddPawn(pawn);
-					}
-					if (rp.postThingSpawn != null)
-					{
-						rp.postThingSpawn(pawn);
-					}
+					PawnKindDef kind = pawnKindDef2;
+					Faction faction2 = faction;
+					int tile = map.Tile;
+					value = new PawnGenerationRequest(kind, faction2, PawnGenerationContext.NonPlayer, tile, false, false, false, false, true, false, 1f, false, true, true, false, false, false, false, null, null, null, null, null, null, null, null);
 				}
+				pawn = PawnGenerator.GeneratePawn(value);
+				if (rp.postThingGenerate != null)
+				{
+					rp.postThingGenerate(pawn);
+				}
+			}
+			else
+			{
+				pawn = rp.singlePawnToSpawn;
+			}
+			if (!pawn.Dead && rp.disableSinglePawn != null && rp.disableSinglePawn.Value)
+			{
+				pawn.mindState.Active = false;
+			}
+			GenSpawn.Spawn(pawn, loc, map, WipeMode.Vanish);
+			if (rp.singlePawnLord != null)
+			{
+				rp.singlePawnLord.AddPawn(pawn);
+			}
+			if (rp.postThingSpawn != null)
+			{
+				rp.postThingSpawn(pawn);
 			}
 		}
 

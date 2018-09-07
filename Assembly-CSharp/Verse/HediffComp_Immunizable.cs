@@ -28,16 +28,11 @@ namespace Verse
 		{
 			get
 			{
-				string result;
 				if (this.FullyImmune)
 				{
-					result = "DevelopedImmunityLower".Translate();
+					return "DevelopedImmunityLower".Translate();
 				}
-				else
-				{
-					result = null;
-				}
-				return result;
+				return null;
 			}
 		}
 
@@ -45,16 +40,11 @@ namespace Verse
 		{
 			get
 			{
-				string result;
 				if (base.Def.PossibleToDevelopImmunityNaturally() && !this.FullyImmune)
 				{
-					result = "Immunity".Translate() + ": " + (Mathf.Floor(this.Immunity * 100f) / 100f).ToStringPercent();
+					return "Immunity".Translate() + ": " + (Mathf.Floor(this.Immunity * 100f) / 100f).ToStringPercent();
 				}
-				else
-				{
-					result = null;
-				}
-				return result;
+				return null;
 			}
 		}
 
@@ -78,16 +68,11 @@ namespace Verse
 		{
 			get
 			{
-				TextureAndColor result;
 				if (this.FullyImmune)
 				{
-					result = HediffComp_Immunizable.IconImmune;
+					return HediffComp_Immunizable.IconImmune;
 				}
-				else
-				{
-					result = TextureAndColor.None;
-				}
-				return result;
+				return TextureAndColor.None;
 			}
 		}
 

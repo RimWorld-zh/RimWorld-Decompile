@@ -74,63 +74,49 @@ namespace RimWorld.Planet
 
 		public static bool TryFindRandomFactionFor(SiteCoreDef core, IEnumerable<SitePartDef> parts, out Faction faction, bool disallowNonHostileFactions = true, Predicate<Faction> extraFactionValidator = null)
 		{
-			bool result;
 			if (SiteMakerHelper.FactionCanOwn(core, parts, null, disallowNonHostileFactions, extraFactionValidator))
 			{
 				faction = null;
-				result = true;
+				return true;
 			}
-			else if ((from x in Find.FactionManager.AllFactionsListForReading
+			if ((from x in Find.FactionManager.AllFactionsListForReading
 			where SiteMakerHelper.FactionCanOwn(core, parts, x, disallowNonHostileFactions, extraFactionValidator)
 			select x).TryRandomElement(out faction))
 			{
-				result = true;
+				return true;
 			}
-			else
-			{
-				faction = null;
-				result = false;
-			}
-			return result;
+			faction = null;
+			return false;
 		}
 
 		public static bool FactionCanOwn(SiteCoreDef core, IEnumerable<SitePartDef> parts, Faction faction, bool disallowNonHostileFactions, Predicate<Faction> extraFactionValidator)
 		{
-			bool result;
 			if (!SiteMakerHelper.FactionCanOwn(core, faction, disallowNonHostileFactions, extraFactionValidator))
 			{
-				result = false;
+				return false;
 			}
-			else
+			if (parts != null)
 			{
-				if (parts != null)
+				foreach (SitePartDef siteDefBase in parts)
 				{
-					foreach (SitePartDef siteDefBase in parts)
+					if (!SiteMakerHelper.FactionCanOwn(siteDefBase, faction, disallowNonHostileFactions, extraFactionValidator))
 					{
-						if (!SiteMakerHelper.FactionCanOwn(siteDefBase, faction, disallowNonHostileFactions, extraFactionValidator))
-						{
-							return false;
-						}
+						return false;
 					}
 				}
-				result = true;
+				return true;
 			}
-			return result;
+			return true;
 		}
 
 		private static bool FactionCanOwn(SiteCoreOrPartDefBase siteDefBase, Faction faction, bool disallowNonHostileFactions, Predicate<Faction> extraFactionValidator)
 		{
-			bool result;
 			if (siteDefBase == null)
 			{
 				Log.Error("Called FactionCanOwn() with null SiteDefBase.", false);
-				result = false;
+				return false;
 			}
-			else
-			{
-				result = (siteDefBase.FactionCanOwn(faction) && (!disallowNonHostileFactions || faction == null || faction.HostileTo(Faction.OfPlayer)) && (extraFactionValidator == null || extraFactionValidator(faction)));
-			}
-			return result;
+			return siteDefBase.FactionCanOwn(faction) && (!disallowNonHostileFactions || faction == null || faction.HostileTo(Faction.OfPlayer)) && (extraFactionValidator == null || extraFactionValidator(faction));
 		}
 
 		// Note: this type is marked as 'beforefieldinit'.

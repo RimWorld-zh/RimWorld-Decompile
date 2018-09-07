@@ -21,7 +21,7 @@ namespace RimWorld
 
 		public override IEnumerable<string> ConfigErrors(ThingDef parentDef)
 		{
-			foreach (string err in this.<ConfigErrors>__BaseCallProxy0(parentDef))
+			foreach (string err in base.ConfigErrors(parentDef))
 			{
 				yield return err;
 			}
@@ -85,9 +85,9 @@ namespace RimWorld
 				case 1u:
 					break;
 				case 2u:
-					goto IL_124;
+					goto IL_120;
 				case 3u:
-					goto IL_153;
+					goto IL_14F;
 				default:
 					return false;
 				}
@@ -133,7 +133,7 @@ namespace RimWorld
 					}
 					return true;
 				}
-				IL_124:
+				IL_120:
 				if (parentDef.CompDefFor<CompExplosive>() == null)
 				{
 					this.$current = "CompProximityFuse requires a CompExplosive";
@@ -143,7 +143,7 @@ namespace RimWorld
 					}
 					return true;
 				}
-				IL_153:
+				IL_14F:
 				this.$PC = -1;
 				return false;
 			}

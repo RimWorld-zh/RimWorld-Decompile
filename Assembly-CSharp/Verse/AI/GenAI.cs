@@ -33,17 +33,12 @@ namespace Verse.AI
 			RegionTraverser.BreadthFirstTraverse(root, (Region r1, Region r2) => r2.Room == root.Room, (Region r) => r.ListerThings.ThingsInGroup(ThingRequestGroup.Pawn).Any(delegate(Thing t)
 			{
 				Pawn pawn2 = t as Pawn;
-				bool result;
 				if (pawn2 != null && !pawn2.Downed && (float)(pawn.Position - pawn2.Position).LengthHorizontalSquared < 144f && pawn2.HostileTo(pawn.Faction))
 				{
 					found = true;
-					result = true;
+					return true;
 				}
-				else
-				{
-					result = false;
-				}
-				return result;
+				return false;
 			}), 9, RegionType.Set_Passable);
 			return found;
 		}
@@ -63,76 +58,63 @@ namespace Verse.AI
 				}
 			}
 			Building building2;
-			IntVec3 result;
 			if (list.TryRandomElement(out building2))
 			{
-				result = building2.Position;
+				return building2.Position;
 			}
-			else
+			IEnumerable<Building> source = from b in map.listerBuildings.allBuildingsColonist
+			where !b.def.building.ai_combatDangerous && !b.def.building.isInert
+			select b;
+			if (source.Any<Building>())
 			{
-				IEnumerable<Building> source = from b in map.listerBuildings.allBuildingsColonist
-				where !b.def.building.ai_combatDangerous && !b.def.building.isInert
-				select b;
-				if (source.Any<Building>())
+				for (int j = 0; j < 500; j++)
 				{
-					for (int j = 0; j < 500; j++)
+					Building t = source.RandomElement<Building>();
+					IntVec3 intVec = t.RandomAdjacentCell8Way();
+					if (intVec.Walkable(map) && map.reachability.CanReach(raidSpawnLoc, intVec, PathEndMode.OnCell, TraverseMode.PassAllDestroyableThings, Danger.Deadly))
 					{
-						Building t = source.RandomElement<Building>();
-						IntVec3 intVec = t.RandomAdjacentCell8Way();
-						if (intVec.Walkable(map) && map.reachability.CanReach(raidSpawnLoc, intVec, PathEndMode.OnCell, TraverseMode.PassAllDestroyableThings, Danger.Deadly))
-						{
-							return intVec;
-						}
+						return intVec;
 					}
 				}
-				Pawn pawn;
-				IntVec3 intVec2;
-				if ((from x in map.mapPawns.FreeColonistsSpawned
-				where map.reachability.CanReach(raidSpawnLoc, x, PathEndMode.OnCell, TraverseMode.PassAllDestroyableThings, Danger.Deadly)
-				select x).TryRandomElement(out pawn))
-				{
-					result = pawn.Position;
-				}
-				else if (CellFinderLoose.TryGetRandomCellWith((IntVec3 x) => map.reachability.CanReach(raidSpawnLoc, x, PathEndMode.OnCell, TraverseMode.PassAllDestroyableThings, Danger.Deadly), map, 1000, out intVec2))
-				{
-					result = intVec2;
-				}
-				else
-				{
-					result = map.Center;
-				}
 			}
-			return result;
+			Pawn pawn;
+			if ((from x in map.mapPawns.FreeColonistsSpawned
+			where map.reachability.CanReach(raidSpawnLoc, x, PathEndMode.OnCell, TraverseMode.PassAllDestroyableThings, Danger.Deadly)
+			select x).TryRandomElement(out pawn))
+			{
+				return pawn.Position;
+			}
+			IntVec3 result;
+			if (CellFinderLoose.TryGetRandomCellWith((IntVec3 x) => map.reachability.CanReach(raidSpawnLoc, x, PathEndMode.OnCell, TraverseMode.PassAllDestroyableThings, Danger.Deadly), map, 1000, out result))
+			{
+				return result;
+			}
+			return map.Center;
 		}
 
 		public static bool EnemyIsNear(Pawn p, float radius)
 		{
-			bool result;
 			if (!p.Spawned)
 			{
-				result = false;
+				return false;
 			}
-			else
+			bool flag = p.Position.Fogged(p.Map);
+			List<IAttackTarget> potentialTargetsFor = p.Map.attackTargetsCache.GetPotentialTargetsFor(p);
+			for (int i = 0; i < potentialTargetsFor.Count; i++)
 			{
-				bool flag = p.Position.Fogged(p.Map);
-				List<IAttackTarget> potentialTargetsFor = p.Map.attackTargetsCache.GetPotentialTargetsFor(p);
-				for (int i = 0; i < potentialTargetsFor.Count; i++)
+				IAttackTarget attackTarget = potentialTargetsFor[i];
+				if (!attackTarget.ThreatDisabled(p))
 				{
-					IAttackTarget attackTarget = potentialTargetsFor[i];
-					if (!attackTarget.ThreatDisabled(p))
+					if (flag || !attackTarget.Thing.Position.Fogged(attackTarget.Thing.Map))
 					{
-						if (flag || !attackTarget.Thing.Position.Fogged(attackTarget.Thing.Map))
+						if (p.Position.InHorDistOf(((Thing)attackTarget).Position, radius))
 						{
-							if (p.Position.InHorDistOf(((Thing)attackTarget).Position, radius))
-							{
-								return true;
-							}
+							return true;
 						}
 					}
 				}
-				result = false;
 			}
-			return result;
+			return false;
 		}
 
 		[CompilerGenerated]
@@ -164,34 +146,24 @@ namespace Verse.AI
 				return r.ListerThings.ThingsInGroup(ThingRequestGroup.Pawn).Any(delegate(Thing t)
 				{
 					Pawn pawn = t as Pawn;
-					bool result;
 					if (pawn != null && !pawn.Downed && (float)(this.pawn.Position - pawn.Position).LengthHorizontalSquared < 144f && pawn.HostileTo(this.pawn.Faction))
 					{
 						this.found = true;
-						result = true;
+						return true;
 					}
-					else
-					{
-						result = false;
-					}
-					return result;
+					return false;
 				});
 			}
 
 			internal bool <>m__2(Thing t)
 			{
 				Pawn pawn = t as Pawn;
-				bool result;
 				if (pawn != null && !pawn.Downed && (float)(this.pawn.Position - pawn.Position).LengthHorizontalSquared < 144f && pawn.HostileTo(this.pawn.Faction))
 				{
 					this.found = true;
-					result = true;
+					return true;
 				}
-				else
-				{
-					result = false;
-				}
-				return result;
+				return false;
 			}
 		}
 

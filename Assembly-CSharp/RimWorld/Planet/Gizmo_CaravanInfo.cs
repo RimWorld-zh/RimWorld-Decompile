@@ -22,26 +22,21 @@ namespace RimWorld.Planet
 
 		public override GizmoResult GizmoOnGUI(Vector2 topLeft, float maxWidth)
 		{
-			GizmoResult result;
 			if (!this.caravan.Spawned)
 			{
-				result = new GizmoResult(GizmoState.Clear);
+				return new GizmoResult(GizmoState.Clear);
 			}
-			else
-			{
-				Rect rect = new Rect(topLeft.x, topLeft.y, this.GetWidth(maxWidth), 75f);
-				Widgets.DrawWindowBackground(rect);
-				GUI.BeginGroup(rect);
-				Rect rect2 = rect.AtZero();
-				int? ticksToArrive = (!this.caravan.pather.Moving) ? null : new int?(CaravanArrivalTimeEstimator.EstimatedTicksToArrive(this.caravan, true));
-				StringBuilder stringBuilder = new StringBuilder();
-				float tilesPerDay = TilesPerDayCalculator.ApproxTilesPerDay(this.caravan, stringBuilder);
-				CaravanUIUtility.DrawCaravanInfo(new CaravanUIUtility.CaravanInfo(this.caravan.MassUsage, this.caravan.MassCapacity, this.caravan.MassCapacityExplanation, tilesPerDay, stringBuilder.ToString(), this.caravan.DaysWorthOfFood, this.caravan.forage.ForagedFoodPerDay, this.caravan.forage.ForagedFoodPerDayExplanation, this.caravan.Visibility, this.caravan.VisibilityExplanation), null, this.caravan.Tile, ticksToArrive, -9999f, rect2, true, null, true);
-				GUI.EndGroup();
-				GenUI.AbsorbClicksInRect(rect);
-				result = new GizmoResult(GizmoState.Clear);
-			}
-			return result;
+			Rect rect = new Rect(topLeft.x, topLeft.y, this.GetWidth(maxWidth), 75f);
+			Widgets.DrawWindowBackground(rect);
+			GUI.BeginGroup(rect);
+			Rect rect2 = rect.AtZero();
+			int? ticksToArrive = (!this.caravan.pather.Moving) ? null : new int?(CaravanArrivalTimeEstimator.EstimatedTicksToArrive(this.caravan, true));
+			StringBuilder stringBuilder = new StringBuilder();
+			float tilesPerDay = TilesPerDayCalculator.ApproxTilesPerDay(this.caravan, stringBuilder);
+			CaravanUIUtility.DrawCaravanInfo(new CaravanUIUtility.CaravanInfo(this.caravan.MassUsage, this.caravan.MassCapacity, this.caravan.MassCapacityExplanation, tilesPerDay, stringBuilder.ToString(), this.caravan.DaysWorthOfFood, this.caravan.forage.ForagedFoodPerDay, this.caravan.forage.ForagedFoodPerDayExplanation, this.caravan.Visibility, this.caravan.VisibilityExplanation, -1f, -1f, null), null, this.caravan.Tile, ticksToArrive, -9999f, rect2, true, null, true);
+			GUI.EndGroup();
+			GenUI.AbsorbClicksInRect(rect);
+			return new GizmoResult(GizmoState.Clear);
 		}
 	}
 }

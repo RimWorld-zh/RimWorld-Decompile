@@ -57,16 +57,11 @@ namespace RimWorld
 		{
 			get
 			{
-				string result;
 				if (this.CurStage.labelSocial != null)
 				{
-					result = this.CurStage.labelSocial.CapitalizeFirst();
+					return this.CurStage.labelSocial.CapitalizeFirst();
 				}
-				else
-				{
-					result = this.LabelCap;
-				}
-				return result;
+				return this.LabelCap;
 			}
 		}
 
@@ -75,16 +70,11 @@ namespace RimWorld
 			get
 			{
 				string description = this.CurStage.description;
-				string result;
 				if (description != null)
 				{
-					result = description;
+					return description;
 				}
-				else
-				{
-					result = this.def.description;
-				}
-				return result;
+				return this.def.description;
 			}
 		}
 
@@ -92,20 +82,15 @@ namespace RimWorld
 		{
 			get
 			{
-				Texture2D result;
 				if (this.def.Icon != null)
 				{
-					result = this.def.Icon;
+					return this.def.Icon;
 				}
-				else if (this.MoodOffset() > 0f)
+				if (this.MoodOffset() > 0f)
 				{
-					result = Thought.DefaultGoodIcon;
+					return Thought.DefaultGoodIcon;
 				}
-				else
-				{
-					result = Thought.DefaultBadIcon;
-				}
-				return result;
+				return Thought.DefaultBadIcon;
 			}
 		}
 
@@ -116,7 +101,6 @@ namespace RimWorld
 
 		public virtual float MoodOffset()
 		{
-			float result;
 			if (this.CurStage == null)
 			{
 				Log.Error(string.Concat(new object[]
@@ -126,18 +110,14 @@ namespace RimWorld
 					" for ",
 					this.pawn
 				}), false);
-				result = 0f;
+				return 0f;
 			}
-			else
+			float num = this.BaseMoodOffset;
+			if (this.def.effectMultiplyingStat != null)
 			{
-				float num = this.BaseMoodOffset;
-				if (this.def.effectMultiplyingStat != null)
-				{
-					num *= this.pawn.GetStatValue(this.def.effectMultiplyingStat, true);
-				}
-				result = num;
+				num *= this.pawn.GetStatValue(this.def.effectMultiplyingStat, true);
 			}
-			return result;
+			return num;
 		}
 
 		public virtual bool GroupsWith(Thought other)

@@ -5,7 +5,7 @@ namespace RimWorld
 {
 	public abstract class StatPart_Curve : StatPart
 	{
-		protected SimpleCurve curve = null;
+		protected SimpleCurve curve;
 
 		protected StatPart_Curve()
 		{
@@ -27,16 +27,11 @@ namespace RimWorld
 
 		public override string ExplanationPart(StatRequest req)
 		{
-			string result;
 			if (req.HasThing && this.AppliesTo(req))
 			{
-				result = this.ExplanationLabel(req) + ": x" + this.curve.Evaluate(this.CurveXGetter(req)).ToStringPercent();
+				return this.ExplanationLabel(req) + ": x" + this.curve.Evaluate(this.CurveXGetter(req)).ToStringPercent();
 			}
-			else
-			{
-				result = null;
-			}
-			return result;
+			return null;
 		}
 	}
 }

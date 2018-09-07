@@ -116,9 +116,10 @@ namespace RimWorld
 			{
 				VersionControl.versionString
 			});
-			if (UnityData.isDebugBuild)
+			string versionExtraInfo = VersionControl.GetVersionExtraInfo();
+			if (!versionExtraInfo.NullOrEmpty())
 			{
-				text = text + " (" + "DevelopmentBuildLower".Translate() + ")";
+				text = text + " (" + versionExtraInfo + ")";
 			}
 			text = text + "\n" + "CompiledOn".Translate(new object[]
 			{
@@ -139,6 +140,28 @@ namespace RimWorld
 			component.DrawAt(rect2);
 		}
 
+		private static string GetVersionExtraInfo()
+		{
+			string text = string.Empty;
+			if (UnityData.Is32BitBuild)
+			{
+				text += "32-bit";
+			}
+			else if (UnityData.Is64BitBuild)
+			{
+				text += "64-bit";
+			}
+			if (UnityData.isDebugBuild)
+			{
+				if (!text.NullOrEmpty())
+				{
+					text += ", ";
+				}
+				text += "DevelopmentBuildLower".Translate();
+			}
+			return text;
+		}
+
 		public static void LogVersionNumber()
 		{
 			Log.Message("RimWorld " + VersionControl.versionStringWithRev, false);
@@ -150,28 +173,23 @@ namespace RimWorld
 			{
 				'.'
 			});
-			bool result;
 			if (array.Length != 3)
 			{
-				result = false;
+				return false;
 			}
-			else
+			for (int i = 0; i < 3; i++)
 			{
-				for (int i = 0; i < 3; i++)
+				int num;
+				if (!int.TryParse(array[i], out num))
 				{
-					int num;
-					if (!int.TryParse(array[i], out num))
-					{
-						return false;
-					}
-					if (num < 0)
-					{
-						return false;
-					}
+					return false;
 				}
-				result = true;
+				if (num < 0)
+				{
+					return false;
+				}
 			}
-			return result;
+			return true;
 		}
 
 		public static int BuildFromVersionString(string str)

@@ -31,7 +31,6 @@ namespace RimWorld
 
 		public override bool SelectedUseOption(Pawn p)
 		{
-			bool result;
 			if (this.PlayerChoosesTarget)
 			{
 				Find.Targeter.BeginTargeting(this.GetTargetingParameters(), delegate(LocalTargetInfo t)
@@ -39,33 +38,31 @@ namespace RimWorld
 					this.target = t.Thing;
 					this.parent.GetComp<CompUsable>().TryStartUseJob(p);
 				}, p, null, null);
-				result = true;
+				return true;
 			}
-			else
-			{
-				this.target = null;
-				result = false;
-			}
-			return result;
+			this.target = null;
+			return false;
 		}
 
 		public override void DoEffect(Pawn usedBy)
 		{
-			if (!this.PlayerChoosesTarget || this.target != null)
+			if (this.PlayerChoosesTarget && this.target == null)
 			{
-				if (this.target == null || this.GetTargetingParameters().CanTarget(this.target))
+				return;
+			}
+			if (this.target != null && !this.GetTargetingParameters().CanTarget(this.target))
+			{
+				return;
+			}
+			base.DoEffect(usedBy);
+			foreach (Thing thing in this.GetTargets(this.target))
+			{
+				foreach (CompTargetEffect compTargetEffect in this.parent.GetComps<CompTargetEffect>())
 				{
-					base.DoEffect(usedBy);
-					foreach (Thing thing in this.GetTargets(this.target))
-					{
-						foreach (CompTargetEffect compTargetEffect in this.parent.GetComps<CompTargetEffect>())
-						{
-							compTargetEffect.DoEffectOn(usedBy, thing);
-						}
-					}
-					this.target = null;
+					compTargetEffect.DoEffectOn(usedBy, thing);
 				}
 			}
+			this.target = null;
 		}
 
 		protected abstract TargetingParameters GetTargetingParameters();

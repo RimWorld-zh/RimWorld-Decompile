@@ -94,11 +94,8 @@ namespace Verse
 				{
 					switch (num)
 					{
-					case 1u:
-						IL_92:
-						break;
 					}
-					if (enumerator.MoveNext())
+					while (enumerator.MoveNext())
 					{
 						p = enumerator.Current;
 						if (p.Name != null)
@@ -111,7 +108,6 @@ namespace Verse
 							flag = true;
 							return true;
 						}
-						goto IL_92;
 					}
 				}
 				finally

@@ -33,16 +33,11 @@ namespace Verse
 			this.getter = delegate(T t)
 			{
 				ThingDef thingDef = getter(t);
-				string result;
 				if (thingDef == null)
 				{
-					result = "";
+					return string.Empty;
 				}
-				else
-				{
-					result = thingDef.defName;
-				}
-				return result;
+				return thingDef.defName;
 			};
 		}
 
@@ -94,16 +89,11 @@ namespace Verse
 			internal string <>m__0(T t)
 			{
 				ThingDef thingDef = this.getter(t);
-				string result;
 				if (thingDef == null)
 				{
-					result = "";
+					return string.Empty;
 				}
-				else
-				{
-					result = thingDef.defName;
-				}
-				return result;
+				return thingDef.defName;
 			}
 		}
 

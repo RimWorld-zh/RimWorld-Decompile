@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Linq;
 using System.Runtime.CompilerServices;
 using RimWorld;
@@ -7,10 +8,10 @@ namespace Verse
 {
 	public class HediffComp_HealPermanentWounds : HediffComp
 	{
-		private int ticksToHeal = 0;
+		private int ticksToHeal;
 
 		[CompilerGenerated]
-		private static Func<Hediff, bool> <>f__am$cache0;
+		private static Func<Hediff, bool> <>f__mg$cache0;
 
 		public HediffComp_HealPermanentWounds()
 		{
@@ -47,21 +48,25 @@ namespace Verse
 
 		private void TryHealRandomPermanentWound()
 		{
-			Hediff hediff;
-			if ((from hd in base.Pawn.health.hediffSet.hediffs
-			where hd.IsPermanent()
-			select hd).TryRandomElement(out hediff))
+			IEnumerable<Hediff> hediffs = base.Pawn.health.hediffSet.hediffs;
+			if (HediffComp_HealPermanentWounds.<>f__mg$cache0 == null)
 			{
-				hediff.Severity = 0f;
-				if (PawnUtility.ShouldSendNotificationAbout(base.Pawn))
+				HediffComp_HealPermanentWounds.<>f__mg$cache0 = new Func<Hediff, bool>(HediffUtility.IsPermanent);
+			}
+			Hediff hediff;
+			if (!hediffs.Where(HediffComp_HealPermanentWounds.<>f__mg$cache0).TryRandomElement(out hediff))
+			{
+				return;
+			}
+			hediff.Severity = 0f;
+			if (PawnUtility.ShouldSendNotificationAbout(base.Pawn))
+			{
+				Messages.Message("MessagePermanentWoundHealed".Translate(new object[]
 				{
-					Messages.Message("MessagePermanentWoundHealed".Translate(new object[]
-					{
-						this.parent.LabelCap,
-						base.Pawn.LabelShort,
-						hediff.Label
-					}), base.Pawn, MessageTypeDefOf.PositiveEvent, true);
-				}
+					this.parent.LabelCap,
+					base.Pawn.LabelShort,
+					hediff.Label
+				}), base.Pawn, MessageTypeDefOf.PositiveEvent, true);
 			}
 		}
 
@@ -73,12 +78,6 @@ namespace Verse
 		public override string CompDebugString()
 		{
 			return "ticksToHeal: " + this.ticksToHeal;
-		}
-
-		[CompilerGenerated]
-		private static bool <TryHealRandomPermanentWound>m__0(Hediff hd)
-		{
-			return hd.IsPermanent();
 		}
 	}
 }

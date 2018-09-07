@@ -5,13 +5,13 @@ namespace RimWorld
 {
 	public class HoldOffsetSet
 	{
-		public HoldOffset northDefault = null;
+		public HoldOffset northDefault;
 
-		public HoldOffset east = null;
+		public HoldOffset east;
 
-		public HoldOffset south = null;
+		public HoldOffset south;
 
-		public HoldOffset west = null;
+		public HoldOffset west;
 
 		public HoldOffsetSet()
 		{
@@ -19,28 +19,23 @@ namespace RimWorld
 
 		public HoldOffset Pick(Rot4 rotation)
 		{
-			HoldOffset result;
 			if (rotation == Rot4.North)
 			{
-				result = this.northDefault;
+				return this.northDefault;
 			}
-			else if (rotation == Rot4.East)
+			if (rotation == Rot4.East)
 			{
-				result = this.east;
+				return this.east;
 			}
-			else if (rotation == Rot4.South)
+			if (rotation == Rot4.South)
 			{
-				result = this.south;
+				return this.south;
 			}
-			else if (rotation == Rot4.West)
+			if (rotation == Rot4.West)
 			{
-				result = this.west;
+				return this.west;
 			}
-			else
-			{
-				result = null;
-			}
-			return result;
+			return null;
 		}
 	}
 }

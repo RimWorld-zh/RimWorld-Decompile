@@ -15,7 +15,7 @@ namespace RimWorld
 
 		public int endTick = -1;
 
-		public bool introDone = false;
+		public bool introDone;
 
 		[CompilerGenerated]
 		private static Predicate<Thing> <>f__am$cache0;
@@ -54,10 +54,11 @@ namespace RimWorld
 
 		public void AddStartingItem(Thing t)
 		{
-			if (!this.startingItems.Contains(t))
+			if (this.startingItems.Contains(t))
 			{
-				this.startingItems.Add(t);
+				return;
 			}
+			this.startingItems.Add(t);
 		}
 
 		[CompilerGenerated]

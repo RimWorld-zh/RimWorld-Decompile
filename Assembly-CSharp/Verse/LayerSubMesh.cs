@@ -6,9 +6,9 @@ namespace Verse
 {
 	public class LayerSubMesh
 	{
-		public bool finalized = false;
+		public bool finalized;
 
-		public bool disabled = false;
+		public bool disabled;
 
 		public Material material;
 
@@ -81,19 +81,13 @@ namespace Verse
 					Log.Error("Cannot cook Tris for " + this.material.ToString() + ": no ingredients data.", false);
 				}
 			}
-			if ((byte)(parts & MeshParts.Colors) != 0)
+			if ((byte)(parts & MeshParts.Colors) != 0 && this.colors.Count > 0)
 			{
-				if (this.colors.Count > 0)
-				{
-					this.mesh.SetColors(this.colors);
-				}
+				this.mesh.SetColors(this.colors);
 			}
-			if ((byte)(parts & MeshParts.UVs) != 0)
+			if ((byte)(parts & MeshParts.UVs) != 0 && this.uvs.Count > 0)
 			{
-				if (this.uvs.Count > 0)
-				{
-					this.mesh.SetUVs(0, this.uvs);
-				}
+				this.mesh.SetUVs(0, this.uvs);
 			}
 			this.finalized = true;
 		}

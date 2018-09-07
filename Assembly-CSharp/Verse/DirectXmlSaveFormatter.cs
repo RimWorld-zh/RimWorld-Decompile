@@ -9,19 +9,20 @@ namespace Verse
 	{
 		public static void AddWhitespaceFromRoot(XElement root)
 		{
-			if (root.Elements().Any<XElement>())
+			if (!root.Elements().Any<XElement>())
 			{
-				foreach (XElement xelement in root.Elements().ToList<XElement>())
-				{
-					XText content = new XText("\n");
-					xelement.AddAfterSelf(content);
-				}
-				root.Elements().First<XElement>().AddBeforeSelf(new XText("\n"));
-				root.Elements().Last<XElement>().AddAfterSelf(new XText("\n"));
-				foreach (XElement element in root.Elements().ToList<XElement>())
-				{
-					DirectXmlSaveFormatter.IndentXml(element, 1);
-				}
+				return;
+			}
+			foreach (XElement xelement in root.Elements().ToList<XElement>())
+			{
+				XText content = new XText("\n");
+				xelement.AddAfterSelf(content);
+			}
+			root.Elements().First<XElement>().AddBeforeSelf(new XText("\n"));
+			root.Elements().Last<XElement>().AddAfterSelf(new XText("\n"));
+			foreach (XElement element in root.Elements().ToList<XElement>())
+			{
+				DirectXmlSaveFormatter.IndentXml(element, 1);
 			}
 		}
 

@@ -15,24 +15,19 @@ namespace RimWorld
 			Thing enemyTarget = pawn.mindState.enemyTarget;
 			bool allowManualCastWeapons = !pawn.IsColonist;
 			Verb verb = pawn.TryGetAttackVerb(enemyTarget, allowManualCastWeapons);
-			bool result;
 			if (verb == null)
 			{
 				dest = IntVec3.Invalid;
-				result = false;
+				return false;
 			}
-			else
+			return CastPositionFinder.TryFindCastPosition(new CastPositionRequest
 			{
-				result = CastPositionFinder.TryFindCastPosition(new CastPositionRequest
-				{
-					caster = pawn,
-					target = enemyTarget,
-					verb = verb,
-					maxRangeFromTarget = verb.verbProps.range,
-					wantCoverFromTarget = (verb.verbProps.range > 5f)
-				}, out dest);
-			}
-			return result;
+				caster = pawn,
+				target = enemyTarget,
+				verb = verb,
+				maxRangeFromTarget = verb.verbProps.range,
+				wantCoverFromTarget = (verb.verbProps.range > 5f)
+			}, out dest);
 		}
 	}
 }

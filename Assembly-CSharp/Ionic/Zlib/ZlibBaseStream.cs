@@ -8,7 +8,7 @@ namespace Ionic.Zlib
 {
 	internal class ZlibBaseStream : Stream
 	{
-		protected internal ZlibCodec _z = null;
+		protected internal ZlibCodec _z;
 
 		protected internal ZlibBaseStream.StreamMode _streamMode = ZlibBaseStream.StreamMode.Undefined;
 
@@ -30,7 +30,7 @@ namespace Ionic.Zlib
 
 		protected internal Stream _stream;
 
-		protected internal CompressionStrategy Strategy = CompressionStrategy.Default;
+		protected internal CompressionStrategy Strategy;
 
 		private CRC32 crc;
 
@@ -42,7 +42,7 @@ namespace Ionic.Zlib
 
 		protected internal int _gzipHeaderByteCount;
 
-		private bool nomoreinput = false;
+		private bool nomoreinput;
 
 		public ZlibBaseStream(Stream stream, CompressionMode compressionMode, CompressionLevel level, ZlibStreamFlavor flavor, bool leaveOpen)
 		{
@@ -62,16 +62,11 @@ namespace Ionic.Zlib
 		{
 			get
 			{
-				int result;
 				if (this.crc == null)
 				{
-					result = 0;
+					return 0;
 				}
-				else
-				{
-					result = this.crc.Crc32Result;
-				}
-				return result;
+				return this.crc.Crc32Result;
 			}
 		}
 
@@ -131,22 +126,60 @@ namespace Ionic.Zlib
 			{
 				throw new ZlibException("Cannot Write after Reading.");
 			}
-			if (count != 0)
+			if (count == 0)
 			{
-				this.z.InputBuffer = buffer;
-				this._z.NextIn = offset;
-				this._z.AvailableBytesIn = count;
+				return;
+			}
+			this.z.InputBuffer = buffer;
+			this._z.NextIn = offset;
+			this._z.AvailableBytesIn = count;
+			for (;;)
+			{
+				this._z.OutputBuffer = this.workingBuffer;
+				this._z.NextOut = 0;
+				this._z.AvailableBytesOut = this._workingBuffer.Length;
+				int num = (!this._wantCompress) ? this._z.Inflate(this._flushMode) : this._z.Deflate(this._flushMode);
+				if (num != 0 && num != 1)
+				{
+					break;
+				}
+				this._stream.Write(this._workingBuffer, 0, this._workingBuffer.Length - this._z.AvailableBytesOut);
+				bool flag = this._z.AvailableBytesIn == 0 && this._z.AvailableBytesOut != 0;
+				if (this._flavor == ZlibStreamFlavor.GZIP && !this._wantCompress)
+				{
+					flag = (this._z.AvailableBytesIn == 8 && this._z.AvailableBytesOut != 0);
+				}
+				if (flag)
+				{
+					return;
+				}
+			}
+			throw new ZlibException(((!this._wantCompress) ? "in" : "de") + "flating: " + this._z.Message);
+		}
+
+		private void finish()
+		{
+			if (this._z == null)
+			{
+				return;
+			}
+			if (this._streamMode == ZlibBaseStream.StreamMode.Writer)
+			{
+				int num;
 				for (;;)
 				{
 					this._z.OutputBuffer = this.workingBuffer;
 					this._z.NextOut = 0;
 					this._z.AvailableBytesOut = this._workingBuffer.Length;
-					int num = (!this._wantCompress) ? this._z.Inflate(this._flushMode) : this._z.Deflate(this._flushMode);
-					if (num != 0 && num != 1)
+					num = ((!this._wantCompress) ? this._z.Inflate(FlushType.Finish) : this._z.Deflate(FlushType.Finish));
+					if (num != 1 && num != 0)
 					{
 						break;
 					}
-					this._stream.Write(this._workingBuffer, 0, this._workingBuffer.Length - this._z.AvailableBytesOut);
+					if (this._workingBuffer.Length - this._z.AvailableBytesOut > 0)
+					{
+						this._stream.Write(this._workingBuffer, 0, this._workingBuffer.Length - this._z.AvailableBytesOut);
+					}
 					bool flag = this._z.AvailableBytesIn == 0 && this._z.AvailableBytesOut != 0;
 					if (this._flavor == ZlibStreamFlavor.GZIP && !this._wantCompress)
 					{
@@ -154,140 +187,104 @@ namespace Ionic.Zlib
 					}
 					if (flag)
 					{
-						return;
+						goto Block_12;
 					}
 				}
-				throw new ZlibException(((!this._wantCompress) ? "in" : "de") + "flating: " + this._z.Message);
+				string text = ((!this._wantCompress) ? "in" : "de") + "flating";
+				if (this._z.Message == null)
+				{
+					throw new ZlibException(string.Format("{0}: (rc = {1})", text, num));
+				}
+				throw new ZlibException(text + ": " + this._z.Message);
+				Block_12:
+				this.Flush();
+				if (this._flavor == ZlibStreamFlavor.GZIP)
+				{
+					if (!this._wantCompress)
+					{
+						throw new ZlibException("Writing with decompression is not supported.");
+					}
+					int crc32Result = this.crc.Crc32Result;
+					this._stream.Write(BitConverter.GetBytes(crc32Result), 0, 4);
+					int value = (int)(this.crc.TotalBytesRead & (long)((ulong)-1));
+					this._stream.Write(BitConverter.GetBytes(value), 0, 4);
+				}
 			}
-		}
-
-		private void finish()
-		{
-			if (this._z != null)
+			else if (this._streamMode == ZlibBaseStream.StreamMode.Reader && this._flavor == ZlibStreamFlavor.GZIP)
 			{
-				if (this._streamMode == ZlibBaseStream.StreamMode.Writer)
+				if (this._wantCompress)
 				{
-					int num;
-					for (;;)
+					throw new ZlibException("Reading with compression is not supported.");
+				}
+				if (this._z.TotalBytesOut == 0L)
+				{
+					return;
+				}
+				byte[] array = new byte[8];
+				if (this._z.AvailableBytesIn < 8)
+				{
+					Array.Copy(this._z.InputBuffer, this._z.NextIn, array, 0, this._z.AvailableBytesIn);
+					int num2 = 8 - this._z.AvailableBytesIn;
+					int num3 = this._stream.Read(array, this._z.AvailableBytesIn, num2);
+					if (num2 != num3)
 					{
-						this._z.OutputBuffer = this.workingBuffer;
-						this._z.NextOut = 0;
-						this._z.AvailableBytesOut = this._workingBuffer.Length;
-						num = ((!this._wantCompress) ? this._z.Inflate(FlushType.Finish) : this._z.Deflate(FlushType.Finish));
-						if (num != 1 && num != 0)
-						{
-							break;
-						}
-						if (this._workingBuffer.Length - this._z.AvailableBytesOut > 0)
-						{
-							this._stream.Write(this._workingBuffer, 0, this._workingBuffer.Length - this._z.AvailableBytesOut);
-						}
-						bool flag = this._z.AvailableBytesIn == 0 && this._z.AvailableBytesOut != 0;
-						if (this._flavor == ZlibStreamFlavor.GZIP && !this._wantCompress)
-						{
-							flag = (this._z.AvailableBytesIn == 8 && this._z.AvailableBytesOut != 0);
-						}
-						if (flag)
-						{
-							goto Block_12;
-						}
-					}
-					string text = ((!this._wantCompress) ? "in" : "de") + "flating";
-					if (this._z.Message == null)
-					{
-						throw new ZlibException(string.Format("{0}: (rc = {1})", text, num));
-					}
-					throw new ZlibException(text + ": " + this._z.Message);
-					Block_12:
-					this.Flush();
-					if (this._flavor == ZlibStreamFlavor.GZIP)
-					{
-						if (!this._wantCompress)
-						{
-							throw new ZlibException("Writing with decompression is not supported.");
-						}
-						int crc32Result = this.crc.Crc32Result;
-						this._stream.Write(BitConverter.GetBytes(crc32Result), 0, 4);
-						int value = (int)(this.crc.TotalBytesRead & (long)((ulong)-1));
-						this._stream.Write(BitConverter.GetBytes(value), 0, 4);
+						throw new ZlibException(string.Format("Missing or incomplete GZIP trailer. Expected 8 bytes, got {0}.", this._z.AvailableBytesIn + num3));
 					}
 				}
-				else if (this._streamMode == ZlibBaseStream.StreamMode.Reader)
+				else
 				{
-					if (this._flavor == ZlibStreamFlavor.GZIP)
-					{
-						if (this._wantCompress)
-						{
-							throw new ZlibException("Reading with compression is not supported.");
-						}
-						if (this._z.TotalBytesOut != 0L)
-						{
-							byte[] array = new byte[8];
-							if (this._z.AvailableBytesIn < 8)
-							{
-								Array.Copy(this._z.InputBuffer, this._z.NextIn, array, 0, this._z.AvailableBytesIn);
-								int num2 = 8 - this._z.AvailableBytesIn;
-								int num3 = this._stream.Read(array, this._z.AvailableBytesIn, num2);
-								if (num2 != num3)
-								{
-									throw new ZlibException(string.Format("Missing or incomplete GZIP trailer. Expected 8 bytes, got {0}.", this._z.AvailableBytesIn + num3));
-								}
-							}
-							else
-							{
-								Array.Copy(this._z.InputBuffer, this._z.NextIn, array, 0, array.Length);
-							}
-							int num4 = BitConverter.ToInt32(array, 0);
-							int crc32Result2 = this.crc.Crc32Result;
-							int num5 = BitConverter.ToInt32(array, 4);
-							int num6 = (int)(this._z.TotalBytesOut & (long)((ulong)-1));
-							if (crc32Result2 != num4)
-							{
-								throw new ZlibException(string.Format("Bad CRC32 in GZIP trailer. (actual({0:X8})!=expected({1:X8}))", crc32Result2, num4));
-							}
-							if (num6 != num5)
-							{
-								throw new ZlibException(string.Format("Bad size in GZIP trailer. (actual({0})!=expected({1}))", num6, num5));
-							}
-						}
-					}
+					Array.Copy(this._z.InputBuffer, this._z.NextIn, array, 0, array.Length);
+				}
+				int num4 = BitConverter.ToInt32(array, 0);
+				int crc32Result2 = this.crc.Crc32Result;
+				int num5 = BitConverter.ToInt32(array, 4);
+				int num6 = (int)(this._z.TotalBytesOut & (long)((ulong)-1));
+				if (crc32Result2 != num4)
+				{
+					throw new ZlibException(string.Format("Bad CRC32 in GZIP trailer. (actual({0:X8})!=expected({1:X8}))", crc32Result2, num4));
+				}
+				if (num6 != num5)
+				{
+					throw new ZlibException(string.Format("Bad size in GZIP trailer. (actual({0})!=expected({1}))", num6, num5));
 				}
 			}
 		}
 
 		private void end()
 		{
-			if (this.z != null)
+			if (this.z == null)
 			{
-				if (this._wantCompress)
-				{
-					this._z.EndDeflate();
-				}
-				else
-				{
-					this._z.EndInflate();
-				}
-				this._z = null;
+				return;
 			}
+			if (this._wantCompress)
+			{
+				this._z.EndDeflate();
+			}
+			else
+			{
+				this._z.EndInflate();
+			}
+			this._z = null;
 		}
 
 		public override void Close()
 		{
-			if (this._stream != null)
+			if (this._stream == null)
 			{
-				try
+				return;
+			}
+			try
+			{
+				this.finish();
+			}
+			finally
+			{
+				this.end();
+				if (!this._leaveOpen)
 				{
-					this.finish();
+					this._stream.Close();
 				}
-				finally
-				{
-					this.end();
-					if (!this._leaveOpen)
-					{
-						this._stream.Close();
-					}
-					this._stream = null;
-				}
+				this._stream = null;
 			}
 		}
 
@@ -341,52 +338,47 @@ namespace Ionic.Zlib
 			int num = 0;
 			byte[] array = new byte[10];
 			int num2 = this._stream.Read(array, 0, array.Length);
-			int result;
 			if (num2 == 0)
 			{
-				result = 0;
+				return 0;
 			}
-			else
+			if (num2 != 10)
 			{
-				if (num2 != 10)
-				{
-					throw new ZlibException("Not a valid GZIP stream.");
-				}
-				if (array[0] != 31 || array[1] != 139 || array[2] != 8)
-				{
-					throw new ZlibException("Bad GZIP header.");
-				}
-				int num3 = BitConverter.ToInt32(array, 4);
-				this._GzipMtime = GZipStream._unixEpoch.AddSeconds((double)num3);
-				num += num2;
-				if ((array[3] & 4) == 4)
-				{
-					num2 = this._stream.Read(array, 0, 2);
-					num += num2;
-					short num4 = (short)((int)array[0] + (int)array[1] * 256);
-					byte[] array2 = new byte[(int)num4];
-					num2 = this._stream.Read(array2, 0, array2.Length);
-					if (num2 != (int)num4)
-					{
-						throw new ZlibException("Unexpected end-of-file reading GZIP header.");
-					}
-					num += num2;
-				}
-				if ((array[3] & 8) == 8)
-				{
-					this._GzipFileName = this.ReadZeroTerminatedString();
-				}
-				if ((array[3] & 16) == 16)
-				{
-					this._GzipComment = this.ReadZeroTerminatedString();
-				}
-				if ((array[3] & 2) == 2)
-				{
-					this.Read(this._buf1, 0, 1);
-				}
-				result = num;
+				throw new ZlibException("Not a valid GZIP stream.");
 			}
-			return result;
+			if (array[0] != 31 || array[1] != 139 || array[2] != 8)
+			{
+				throw new ZlibException("Bad GZIP header.");
+			}
+			int num3 = BitConverter.ToInt32(array, 4);
+			this._GzipMtime = GZipStream._unixEpoch.AddSeconds((double)num3);
+			num += num2;
+			if ((array[3] & 4) == 4)
+			{
+				num2 = this._stream.Read(array, 0, 2);
+				num += num2;
+				short num4 = (short)((int)array[0] + (int)array[1] * 256);
+				byte[] array2 = new byte[(int)num4];
+				num2 = this._stream.Read(array2, 0, array2.Length);
+				if (num2 != (int)num4)
+				{
+					throw new ZlibException("Unexpected end-of-file reading GZIP header.");
+				}
+				num += num2;
+			}
+			if ((array[3] & 8) == 8)
+			{
+				this._GzipFileName = this.ReadZeroTerminatedString();
+			}
+			if ((array[3] & 16) == 16)
+			{
+				this._GzipComment = this.ReadZeroTerminatedString();
+			}
+			if ((array[3] & 2) == 2)
+			{
+				this.Read(this._buf1, 0, 1);
+			}
+			return num;
 		}
 
 		public override int Read(byte[] buffer, int offset, int count)
@@ -412,97 +404,89 @@ namespace Ionic.Zlib
 			{
 				throw new ZlibException("Cannot Read after Writing.");
 			}
-			int result;
 			if (count == 0)
 			{
-				result = 0;
+				return 0;
 			}
-			else if (this.nomoreinput && this._wantCompress)
+			if (this.nomoreinput && this._wantCompress)
 			{
-				result = 0;
+				return 0;
 			}
-			else
+			if (buffer == null)
 			{
-				if (buffer == null)
+				throw new ArgumentNullException("buffer");
+			}
+			if (count < 0)
+			{
+				throw new ArgumentOutOfRangeException("count");
+			}
+			if (offset < buffer.GetLowerBound(0))
+			{
+				throw new ArgumentOutOfRangeException("offset");
+			}
+			if (offset + count > buffer.GetLength(0))
+			{
+				throw new ArgumentOutOfRangeException("count");
+			}
+			this._z.OutputBuffer = buffer;
+			this._z.NextOut = offset;
+			this._z.AvailableBytesOut = count;
+			this._z.InputBuffer = this.workingBuffer;
+			int num;
+			for (;;)
+			{
+				if (this._z.AvailableBytesIn == 0 && !this.nomoreinput)
 				{
-					throw new ArgumentNullException("buffer");
-				}
-				if (count < 0)
-				{
-					throw new ArgumentOutOfRangeException("count");
-				}
-				if (offset < buffer.GetLowerBound(0))
-				{
-					throw new ArgumentOutOfRangeException("offset");
-				}
-				if (offset + count > buffer.GetLength(0))
-				{
-					throw new ArgumentOutOfRangeException("count");
-				}
-				this._z.OutputBuffer = buffer;
-				this._z.NextOut = offset;
-				this._z.AvailableBytesOut = count;
-				this._z.InputBuffer = this.workingBuffer;
-				int num;
-				for (;;)
-				{
-					if (this._z.AvailableBytesIn == 0 && !this.nomoreinput)
+					this._z.NextIn = 0;
+					this._z.AvailableBytesIn = this._stream.Read(this._workingBuffer, 0, this._workingBuffer.Length);
+					if (this._z.AvailableBytesIn == 0)
 					{
-						this._z.NextIn = 0;
-						this._z.AvailableBytesIn = this._stream.Read(this._workingBuffer, 0, this._workingBuffer.Length);
-						if (this._z.AvailableBytesIn == 0)
-						{
-							this.nomoreinput = true;
-						}
+						this.nomoreinput = true;
 					}
-					num = ((!this._wantCompress) ? this._z.Inflate(this._flushMode) : this._z.Deflate(this._flushMode));
-					if (this.nomoreinput && num == -5)
-					{
-						break;
-					}
+				}
+				num = ((!this._wantCompress) ? this._z.Inflate(this._flushMode) : this._z.Deflate(this._flushMode));
+				if (this.nomoreinput && num == -5)
+				{
+					break;
+				}
+				if (num != 0 && num != 1)
+				{
+					goto Block_20;
+				}
+				if ((this.nomoreinput || num == 1) && this._z.AvailableBytesOut == count)
+				{
+					goto Block_23;
+				}
+				if (this._z.AvailableBytesOut <= 0 || this.nomoreinput || num != 0)
+				{
+					goto IL_263;
+				}
+			}
+			return 0;
+			Block_20:
+			throw new ZlibException(string.Format("{0}flating:  rc={1}  msg={2}", (!this._wantCompress) ? "in" : "de", num, this._z.Message));
+			Block_23:
+			IL_263:
+			if (this._z.AvailableBytesOut > 0)
+			{
+				if (num != 0 || this._z.AvailableBytesIn == 0)
+				{
+				}
+				if (this.nomoreinput && this._wantCompress)
+				{
+					num = this._z.Deflate(FlushType.Finish);
 					if (num != 0 && num != 1)
 					{
-						goto Block_20;
-					}
-					if ((this.nomoreinput || num == 1) && this._z.AvailableBytesOut == count)
-					{
-						goto Block_23;
-					}
-					if (this._z.AvailableBytesOut <= 0 || this.nomoreinput || num != 0)
-					{
-						goto IL_280;
+						throw new ZlibException(string.Format("Deflating:  rc={0}  msg={1}", num, this._z.Message));
 					}
 				}
-				return 0;
-				Block_20:
-				throw new ZlibException(string.Format("{0}flating:  rc={1}  msg={2}", (!this._wantCompress) ? "in" : "de", num, this._z.Message));
-				Block_23:
-				IL_280:
-				if (this._z.AvailableBytesOut > 0)
-				{
-					if (num != 0 || this._z.AvailableBytesIn == 0)
-					{
-					}
-					if (this.nomoreinput)
-					{
-						if (this._wantCompress)
-						{
-							num = this._z.Deflate(FlushType.Finish);
-							if (num != 0 && num != 1)
-							{
-								throw new ZlibException(string.Format("Deflating:  rc={0}  msg={1}", num, this._z.Message));
-							}
-						}
-					}
-				}
-				num = count - this._z.AvailableBytesOut;
-				if (this.crc != null)
-				{
-					this.crc.SlurpBlock(buffer, offset, num);
-				}
-				result = num;
 			}
-			return result;
+			num = count - this._z.AvailableBytesOut;
+			if (this.crc != null)
+			{
+				this.crc.SlurpBlock(buffer, offset, num);
+			}
+			return num;
 		}
 
 		public override bool CanRead

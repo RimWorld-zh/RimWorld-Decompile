@@ -79,8 +79,6 @@ namespace RimWorld
 
 		public static RecordDef NutritionEaten;
 
-		public static RecordDef TrapsRearmed;
-
 		public static RecordDef BodiesStripped;
 
 		public static RecordDef ThingsUninstalled;

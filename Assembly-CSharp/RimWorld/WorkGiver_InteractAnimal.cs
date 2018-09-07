@@ -41,43 +41,35 @@ namespace RimWorld
 		protected virtual bool CanInteractWithAnimal(Pawn pawn, Pawn animal, bool forced)
 		{
 			LocalTargetInfo target = animal;
-			bool result;
 			if (!pawn.CanReserve(target, 1, -1, null, forced))
 			{
-				result = false;
+				return false;
 			}
-			else if (animal.Downed)
+			if (animal.Downed)
 			{
 				JobFailReason.Is(WorkGiver_InteractAnimal.CantInteractAnimalDownedTrans, null);
-				result = false;
+				return false;
 			}
-			else if (!animal.Awake())
+			if (!animal.Awake())
 			{
 				JobFailReason.Is(WorkGiver_InteractAnimal.CantInteractAnimalAsleepTrans, null);
-				result = false;
+				return false;
 			}
-			else if (!animal.CanCasuallyInteractNow(false))
+			if (!animal.CanCasuallyInteractNow(false))
 			{
 				JobFailReason.Is(WorkGiver_InteractAnimal.CantInteractAnimalBusyTrans, null);
-				result = false;
+				return false;
 			}
-			else
+			int num = TrainableUtility.MinimumHandlingSkill(animal);
+			if (num > pawn.skills.GetSkill(SkillDefOf.Animals).Level)
 			{
-				int num = TrainableUtility.MinimumHandlingSkill(animal);
-				if (num > pawn.skills.GetSkill(SkillDefOf.Animals).Level)
+				JobFailReason.Is("AnimalsSkillTooLow".Translate(new object[]
 				{
-					JobFailReason.Is("AnimalsSkillTooLow".Translate(new object[]
-					{
-						num
-					}), null);
-					result = false;
-				}
-				else
-				{
-					result = true;
-				}
+					num
+				}), null);
+				return false;
 			}
-			return result;
+			return true;
 		}
 
 		protected bool HasFoodToInteractAnimal(Pawn pawn, Pawn tamee)
@@ -114,20 +106,15 @@ namespace RimWorld
 			float num = JobDriver_InteractAnimal.RequiredNutritionPerFeed(tamee) * 2f * 4f;
 			ThingDef foodDef;
 			Thing thing = FoodUtility.BestFoodSourceOnMap(pawn, tamee, false, out foodDef, FoodPreferability.RawTasty, false, false, false, false, false, false, false, false, false);
-			Job result;
 			if (thing == null)
 			{
-				result = null;
+				return null;
 			}
-			else
+			float nutrition = FoodUtility.GetNutrition(thing, foodDef);
+			return new Job(JobDefOf.TakeInventory, thing)
 			{
-				float nutrition = FoodUtility.GetNutrition(thing, foodDef);
-				result = new Job(JobDefOf.TakeInventory, thing)
-				{
-					count = Mathf.CeilToInt(num / nutrition)
-				};
-			}
-			return result;
+				count = Mathf.CeilToInt(num / nutrition)
+			};
 		}
 	}
 }

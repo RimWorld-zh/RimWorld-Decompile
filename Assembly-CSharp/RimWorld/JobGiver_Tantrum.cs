@@ -13,33 +13,28 @@ namespace RimWorld
 		protected override Job TryGiveJob(Pawn pawn)
 		{
 			MentalState_Tantrum mentalState_Tantrum = pawn.MentalState as MentalState_Tantrum;
-			Job result;
 			if (mentalState_Tantrum == null || mentalState_Tantrum.target == null || !pawn.CanReach(mentalState_Tantrum.target, PathEndMode.Touch, Danger.Deadly, false, TraverseMode.ByPawn))
 			{
-				result = null;
+				return null;
 			}
-			else
+			Verb verbToUse = null;
+			Pawn pawn2 = mentalState_Tantrum.target as Pawn;
+			if (pawn2 != null)
 			{
-				Verb verbToUse = null;
-				Pawn pawn2 = mentalState_Tantrum.target as Pawn;
-				if (pawn2 != null)
+				if (pawn2.Downed)
 				{
-					if (pawn2.Downed)
-					{
-						return null;
-					}
-					if (!InteractionUtility.TryGetRandomVerbForSocialFight(pawn, out verbToUse))
-					{
-						return null;
-					}
+					return null;
 				}
-				result = new Job(JobDefOf.AttackMelee, mentalState_Tantrum.target)
+				if (!InteractionUtility.TryGetRandomVerbForSocialFight(pawn, out verbToUse))
 				{
-					maxNumMeleeAttacks = 1,
-					verbToUse = verbToUse
-				};
+					return null;
+				}
 			}
-			return result;
+			return new Job(JobDefOf.AttackMelee, mentalState_Tantrum.target)
+			{
+				maxNumMeleeAttacks = 1,
+				verbToUse = verbToUse
+			};
 		}
 	}
 }

@@ -41,28 +41,21 @@ namespace Verse
 		{
 			get
 			{
-				float result;
 				switch (Find.TickManager.CurTimeSpeed)
 				{
 				case TimeSpeed.Paused:
-					result = 1f;
-					break;
+					return 1f;
 				case TimeSpeed.Normal:
-					result = 1f;
-					break;
+					return 1f;
 				case TimeSpeed.Fast:
-					result = 1f;
-					break;
+					return 1f;
 				case TimeSpeed.Superfast:
-					result = 0.25f;
-					break;
+					return 0.25f;
 				case TimeSpeed.Ultrafast:
-					result = 0.25f;
-					break;
+					return 0.25f;
 				default:
 					throw new NotImplementedException();
 				}
-				return result;
 			}
 		}
 
@@ -91,30 +84,34 @@ namespace Verse
 
 		private void TryDoCall()
 		{
-			if (Find.CameraDriver.CurrentViewRect.ExpandedBy(10).Contains(this.pawn.Position))
+			if (!Find.CameraDriver.CurrentViewRect.ExpandedBy(10).Contains(this.pawn.Position))
 			{
-				if (!this.pawn.Downed && this.pawn.Awake())
-				{
-					if (!this.pawn.Position.Fogged(this.pawn.Map))
-					{
-						this.DoCall();
-					}
-				}
+				return;
 			}
+			if (this.pawn.Downed || !this.pawn.Awake())
+			{
+				return;
+			}
+			if (this.pawn.Position.Fogged(this.pawn.Map))
+			{
+				return;
+			}
+			this.DoCall();
 		}
 
 		public void DoCall()
 		{
-			if (this.pawn.Spawned)
+			if (!this.pawn.Spawned)
 			{
-				if (this.PawnAggressive)
-				{
-					LifeStageUtility.PlayNearestLifestageSound(this.pawn, (LifeStageAge ls) => ls.soundAngry, 1f);
-				}
-				else
-				{
-					LifeStageUtility.PlayNearestLifestageSound(this.pawn, (LifeStageAge ls) => ls.soundCall, this.IdleCallVolumeFactor);
-				}
+				return;
+			}
+			if (this.PawnAggressive)
+			{
+				LifeStageUtility.PlayNearestLifestageSound(this.pawn, (LifeStageAge ls) => ls.soundAngry, 1f);
+			}
+			else
+			{
+				LifeStageUtility.PlayNearestLifestageSound(this.pawn, (LifeStageAge ls) => ls.soundCall, this.IdleCallVolumeFactor);
 			}
 		}
 

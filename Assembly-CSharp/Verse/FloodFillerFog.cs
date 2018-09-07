@@ -25,17 +25,12 @@ namespace Verse
 			result.allOnScreen = true;
 			Predicate<IntVec3> predicate = delegate(IntVec3 c)
 			{
-				bool result;
 				if (!fogGridDirect[map.cellIndices.CellToIndex(c)])
 				{
-					result = false;
+					return false;
 				}
-				else
-				{
-					Thing edifice = c.GetEdifice(map);
-					result = ((edifice == null || !edifice.def.MakeFog) && (!FloodFillerFog.testMode || expanding || numUnfogged <= 500));
-				}
-				return result;
+				Thing edifice = c.GetEdifice(map);
+				return (edifice == null || !edifice.def.MakeFog) && (!FloodFillerFog.testMode || expanding || numUnfogged <= 500);
 			};
 			Action<IntVec3> processor = delegate(IntVec3 c)
 			{
@@ -146,17 +141,12 @@ namespace Verse
 
 			internal bool <>m__0(IntVec3 c)
 			{
-				bool flag;
 				if (!this.fogGridDirect[this.map.cellIndices.CellToIndex(c)])
 				{
-					flag = false;
+					return false;
 				}
-				else
-				{
-					Thing edifice = c.GetEdifice(this.map);
-					flag = ((edifice == null || !edifice.def.MakeFog) && (!FloodFillerFog.testMode || this.expanding || this.numUnfogged <= 500));
-				}
-				return flag;
+				Thing edifice = c.GetEdifice(this.map);
+				return (edifice == null || !edifice.def.MakeFog) && (!FloodFillerFog.testMode || this.expanding || this.numUnfogged <= 500);
 			}
 
 			internal void <>m__1(IntVec3 c)

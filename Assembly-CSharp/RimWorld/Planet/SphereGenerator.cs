@@ -55,21 +55,16 @@ namespace RimWorld.Planet
 		private static int GetMiddlePoint(int p1, int p2, List<Vector3> verts, float radius)
 		{
 			long key = ((long)Mathf.Min(p1, p2) << 32) + (long)Mathf.Max(p1, p2);
-			int num;
 			int result;
-			if (SphereGenerator.middlePointsCache.TryGetValue(key, out num))
+			if (SphereGenerator.middlePointsCache.TryGetValue(key, out result))
 			{
-				result = num;
+				return result;
 			}
-			else
-			{
-				Vector3 vector = (verts[p1] + verts[p2]) / 2f;
-				int count = verts.Count;
-				verts.Add(vector.normalized * radius);
-				SphereGenerator.middlePointsCache.Add(key, count);
-				result = count;
-			}
-			return result;
+			Vector3 vector = (verts[p1] + verts[p2]) / 2f;
+			int count = verts.Count;
+			verts.Add(vector.normalized * radius);
+			SphereGenerator.middlePointsCache.Add(key, count);
+			return count;
 		}
 
 		// Note: this type is marked as 'beforefieldinit'.

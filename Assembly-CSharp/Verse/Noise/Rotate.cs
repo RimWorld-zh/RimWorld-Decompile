@@ -1,33 +1,32 @@
 ﻿using System;
-using System.Diagnostics;
 
 namespace Verse.Noise
 {
 	public class Rotate : ModuleBase
 	{
-		private double m_x = 0.0;
+		private double m_x;
 
-		private double m_x1Matrix = 0.0;
+		private double m_x1Matrix;
 
-		private double m_x2Matrix = 0.0;
+		private double m_x2Matrix;
 
-		private double m_x3Matrix = 0.0;
+		private double m_x3Matrix;
 
-		private double m_y = 0.0;
+		private double m_y;
 
-		private double m_y1Matrix = 0.0;
+		private double m_y1Matrix;
 
-		private double m_y2Matrix = 0.0;
+		private double m_y2Matrix;
 
-		private double m_y3Matrix = 0.0;
+		private double m_y3Matrix;
 
-		private double m_z = 0.0;
+		private double m_z;
 
-		private double m_z1Matrix = 0.0;
+		private double m_z1Matrix;
 
-		private double m_z2Matrix = 0.0;
+		private double m_z2Matrix;
 
-		private double m_z3Matrix = 0.0;
+		private double m_z3Matrix;
 
 		public Rotate() : base(1)
 		{
@@ -105,7 +104,6 @@ namespace Verse.Noise
 
 		public override double GetValue(double x, double y, double z)
 		{
-			Debug.Assert(this.modules[0] != null);
 			double x2 = this.m_x1Matrix * x + this.m_y1Matrix * y + this.m_z1Matrix * z;
 			double y2 = this.m_x2Matrix * x + this.m_y2Matrix * y + this.m_z2Matrix * z;
 			double z2 = this.m_x3Matrix * x + this.m_y3Matrix * y + this.m_z3Matrix * z;

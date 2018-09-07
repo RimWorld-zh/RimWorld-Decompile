@@ -175,29 +175,24 @@ namespace Verse
 
 		private float GetAsFloat(FieldInfo field)
 		{
-			float result;
 			if (field.FieldType == typeof(float))
 			{
-				result = (float)field.GetValue(null);
+				return (float)field.GetValue(null);
 			}
-			else if (field.FieldType == typeof(bool))
+			if (field.FieldType == typeof(bool))
 			{
-				result = (float)((!(bool)field.GetValue(null)) ? 0 : 1);
+				return (float)((!(bool)field.GetValue(null)) ? 0 : 1);
 			}
-			else if (field.FieldType == typeof(int))
+			if (field.FieldType == typeof(int))
 			{
-				result = (float)((int)field.GetValue(null));
+				return (float)((int)field.GetValue(null));
 			}
-			else if (field.FieldType == typeof(ushort))
+			if (field.FieldType == typeof(ushort))
 			{
-				result = (float)((ushort)field.GetValue(null));
+				return (float)((ushort)field.GetValue(null));
 			}
-			else
-			{
-				Log.ErrorOnce(string.Format("Attempted to return unknown field type {0} as a float", field.FieldType), 83944644, false);
-				result = 0f;
-			}
-			return result;
+			Log.ErrorOnce(string.Format("Attempted to return unknown field type {0} as a float", field.FieldType), 83944644, false);
+			return 0f;
 		}
 
 		private void SetFromFloat(FieldInfo field, float input)
@@ -302,36 +297,35 @@ namespace Verse
 					switch (num)
 					{
 					case 1u:
-						IL_18E:
+						IL_188:
+						i++;
 						break;
 					default:
-						goto IL_1B2;
+						goto IL_1A9;
 					}
-					IL_18F:
-					i++;
-					IL_19E:
+					IL_196:
 					if (i < fields.Length)
 					{
 						field = fields[i];
 						tv = field.TryGetAttribute<TweakValue>();
 						if (tv == null)
 						{
-							goto IL_18F;
+							goto IL_188;
 						}
 						if (!field.IsStatic)
 						{
 							Log.Error(string.Format("Field {0}.{1} is marked with TweakValue, but isn't static; TweakValue won't work", field.DeclaringType.FullName, field.Name), false);
-							goto IL_18E;
+							goto IL_188;
 						}
 						if (field.IsLiteral)
 						{
 							Log.Error(string.Format("Field {0}.{1} is marked with TweakValue, but is const; TweakValue won't work", field.DeclaringType.FullName, field.Name), false);
-							goto IL_18E;
+							goto IL_188;
 						}
 						if (field.IsInitOnly)
 						{
 							Log.Error(string.Format("Field {0}.{1} is marked with TweakValue, but is readonly; TweakValue won't work", field.DeclaringType.FullName, field.Name), false);
-							goto IL_18E;
+							goto IL_188;
 						}
 						this.$current = field;
 						if (!this.$disposing)
@@ -341,13 +335,13 @@ namespace Verse
 						flag = true;
 						return true;
 					}
-					IL_1B2:
+					IL_1A9:
 					if (enumerator.MoveNext())
 					{
 						type = enumerator.Current;
 						fields = type.GetFields(BindingFlags.DeclaredOnly | BindingFlags.Instance | BindingFlags.Static | BindingFlags.Public | BindingFlags.NonPublic);
 						i = 0;
-						goto IL_19E;
+						goto IL_196;
 					}
 				}
 				finally

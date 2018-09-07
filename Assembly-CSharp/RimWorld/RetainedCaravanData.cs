@@ -45,10 +45,11 @@ namespace RimWorld
 
 		public void Notify_GeneratedTempIncidentMapFor(Caravan caravan)
 		{
-			if (this.map.Parent.def.isTempIncidentMapOwner)
+			if (!this.map.Parent.def.isTempIncidentMapOwner)
 			{
-				this.Set(caravan);
+				return;
 			}
+			this.Set(caravan);
 		}
 
 		public void Notify_CaravanFormed(Caravan caravan)

@@ -6,6 +6,7 @@ using System.Runtime.CompilerServices;
 using System.Threading;
 using UnityEngine;
 using Verse;
+using Verse.AI;
 using Verse.AI.Group;
 using Verse.Sound;
 
@@ -22,6 +23,8 @@ namespace RimWorld
 
 		private CompLaunchable cachedCompLaunchable;
 
+		private bool notifiedCantLoadMore;
+
 		private static readonly Texture2D CancelLoadCommandTex = ContentFinder<Texture2D>.Get("UI/Designators/Cancel", true);
 
 		private static readonly Texture2D LoadCommandTex = ContentFinder<Texture2D>.Get("UI/Commands/LoadTransporter", true);
@@ -33,9 +36,6 @@ namespace RimWorld
 		private static readonly Texture2D SelectNextInGroupCommandTex = ContentFinder<Texture2D>.Get("UI/Commands/SelectNextTransporter", true);
 
 		private static List<CompTransporter> tmpTransportersInGroup = new List<CompTransporter>();
-
-		[CompilerGenerated]
-		private static Predicate<TransferableOneWay> <>f__am$cache0;
 
 		public CompTransporter()
 		{
@@ -98,24 +98,18 @@ namespace RimWorld
 		{
 			get
 			{
-				Thing result;
 				if (this.leftToLoad == null)
 				{
-					result = null;
+					return null;
 				}
-				else
+				for (int i = 0; i < this.leftToLoad.Count; i++)
 				{
-					TransferableOneWay transferableOneWay = this.leftToLoad.Find((TransferableOneWay x) => x.CountToTransfer != 0 && x.HasAnyThing);
-					if (transferableOneWay != null)
+					if (this.leftToLoad[i].CountToTransfer != 0 && this.leftToLoad[i].HasAnyThing)
 					{
-						result = transferableOneWay.AnyThing;
-					}
-					else
-					{
-						result = null;
+						return this.leftToLoad[i].AnyThing;
 					}
 				}
-				return result;
+				return null;
 			}
 		}
 
@@ -136,6 +130,83 @@ namespace RimWorld
 			}
 		}
 
+		public bool AnyInGroupNotifiedCantLoadMore
+		{
+			get
+			{
+				List<CompTransporter> list = this.TransportersInGroup(this.parent.Map);
+				for (int i = 0; i < list.Count; i++)
+				{
+					if (list[i].notifiedCantLoadMore)
+					{
+						return true;
+					}
+				}
+				return false;
+			}
+		}
+
+		public bool AnyPawnCanLoadAnythingNow
+		{
+			get
+			{
+				if (!this.AnythingLeftToLoad)
+				{
+					return false;
+				}
+				if (!this.parent.Spawned)
+				{
+					return false;
+				}
+				List<Pawn> allPawnsSpawned = this.parent.Map.mapPawns.AllPawnsSpawned;
+				for (int i = 0; i < allPawnsSpawned.Count; i++)
+				{
+					if (allPawnsSpawned[i].CurJobDef == JobDefOf.HaulToTransporter)
+					{
+						CompTransporter transporter = ((JobDriver_HaulToTransporter)allPawnsSpawned[i].jobs.curDriver).Transporter;
+						if (transporter != null && transporter.groupID == this.groupID)
+						{
+							return true;
+						}
+					}
+					if (allPawnsSpawned[i].CurJobDef == JobDefOf.EnterTransporter)
+					{
+						CompTransporter transporter2 = ((JobDriver_EnterTransporter)allPawnsSpawned[i].jobs.curDriver).Transporter;
+						if (transporter2 != null && transporter2.groupID == this.groupID)
+						{
+							return true;
+						}
+					}
+				}
+				List<CompTransporter> list = this.TransportersInGroup(this.parent.Map);
+				for (int j = 0; j < allPawnsSpawned.Count; j++)
+				{
+					if (allPawnsSpawned[j].mindState.duty != null && allPawnsSpawned[j].mindState.duty.transportersGroup == this.groupID)
+					{
+						CompTransporter compTransporter = JobGiver_EnterTransporter.FindMyTransporter(list, allPawnsSpawned[j]);
+						if (compTransporter != null && allPawnsSpawned[j].CanReach(compTransporter.parent, PathEndMode.Touch, Danger.Deadly, false, TraverseMode.ByPawn))
+						{
+							return true;
+						}
+					}
+				}
+				for (int k = 0; k < allPawnsSpawned.Count; k++)
+				{
+					if (allPawnsSpawned[k].IsColonist)
+					{
+						for (int l = 0; l < list.Count; l++)
+						{
+							if (LoadTransportersJobUtility.HasJobOnTransporter(allPawnsSpawned[k], list[l]))
+							{
+								return true;
+							}
+						}
+					}
+				}
+				return false;
+			}
+		}
+
 		public override void PostExposeData()
 		{
 			base.PostExposeData();
@@ -145,6 +216,7 @@ namespace RimWorld
 				this
 			});
 			Scribe_Collections.Look<TransferableOneWay>(ref this.leftToLoad, "leftToLoad", LookMode.Deep, new object[0]);
+			Scribe_Values.Look<bool>(ref this.notifiedCantLoadMore, "notifiedCantLoadMore", false, false);
 		}
 
 		public ThingOwner GetDirectlyHeldThings()
@@ -172,26 +244,30 @@ namespace RimWorld
 					}
 				}
 			}
+			if (this.parent.IsHashIntervalTick(60) && this.parent.Spawned && this.LoadingInProgressOrReadyToLaunch && this.AnyInGroupHasAnythingLeftToLoad && !this.AnyInGroupNotifiedCantLoadMore && !this.AnyPawnCanLoadAnythingNow)
+			{
+				this.notifiedCantLoadMore = true;
+				Messages.Message("MessageCantLoadMoreIntoTransporters".Translate(new object[]
+				{
+					this.FirstThingLeftToLoadInGroup.LabelNoCount,
+					Faction.OfPlayer.def.pawnsPlural
+				}), this.parent, MessageTypeDefOf.CautionInput, true);
+			}
 		}
 
 		public List<CompTransporter> TransportersInGroup(Map map)
 		{
-			List<CompTransporter> result;
 			if (!this.LoadingInProgressOrReadyToLaunch)
 			{
-				result = null;
+				return null;
 			}
-			else
-			{
-				TransporterUtility.GetTransportersInGroup(this.groupID, map, CompTransporter.tmpTransportersInGroup);
-				result = CompTransporter.tmpTransportersInGroup;
-			}
-			return result;
+			TransporterUtility.GetTransportersInGroup(this.groupID, map, CompTransporter.tmpTransportersInGroup);
+			return CompTransporter.tmpTransportersInGroup;
 		}
 
 		public override IEnumerable<Gizmo> CompGetGizmosExtra()
 		{
-			foreach (Gizmo g in this.<CompGetGizmosExtra>__BaseCallProxy0())
+			foreach (Gizmo g in base.CompGetGizmosExtra())
 			{
 				yield return g;
 			}
@@ -296,24 +372,23 @@ namespace RimWorld
 
 		public void AddToTheToLoadList(TransferableOneWay t, int count)
 		{
-			if (t.HasAnyThing && t.CountToTransfer > 0)
+			if (!t.HasAnyThing || t.CountToTransfer <= 0)
 			{
-				if (this.leftToLoad == null)
-				{
-					this.leftToLoad = new List<TransferableOneWay>();
-				}
-				if (TransferableUtility.TransferableMatching<TransferableOneWay>(t.AnyThing, this.leftToLoad, TransferAsOneMode.PodsOrCaravanPacking) != null)
-				{
-					Log.Error("Transferable already exists.", false);
-				}
-				else
-				{
-					TransferableOneWay transferableOneWay = new TransferableOneWay();
-					this.leftToLoad.Add(transferableOneWay);
-					transferableOneWay.things.AddRange(t.things);
-					transferableOneWay.AdjustTo(count);
-				}
+				return;
 			}
+			if (this.leftToLoad == null)
+			{
+				this.leftToLoad = new List<TransferableOneWay>();
+			}
+			if (TransferableUtility.TransferableMatching<TransferableOneWay>(t.AnyThing, this.leftToLoad, TransferAsOneMode.PodsOrCaravanPacking) != null)
+			{
+				Log.Error("Transferable already exists.", false);
+				return;
+			}
+			TransferableOneWay transferableOneWay = new TransferableOneWay();
+			this.leftToLoad.Add(transferableOneWay);
+			transferableOneWay.things.AddRange(t.things);
+			transferableOneWay.AdjustTo(count);
 		}
 
 		public void Notify_ThingAdded(Thing t)
@@ -333,34 +408,30 @@ namespace RimWorld
 
 		public bool CancelLoad(Map map)
 		{
-			bool result;
 			if (!this.LoadingInProgressOrReadyToLaunch)
 			{
-				result = false;
+				return false;
 			}
-			else
+			this.TryRemoveLord(map);
+			List<CompTransporter> list = this.TransportersInGroup(map);
+			for (int i = 0; i < list.Count; i++)
 			{
-				this.TryRemoveLord(map);
-				List<CompTransporter> list = this.TransportersInGroup(map);
-				for (int i = 0; i < list.Count; i++)
-				{
-					list[i].CleanUpLoadingVars(map);
-				}
-				this.CleanUpLoadingVars(map);
-				result = true;
+				list[i].CleanUpLoadingVars(map);
 			}
-			return result;
+			this.CleanUpLoadingVars(map);
+			return true;
 		}
 
 		public void TryRemoveLord(Map map)
 		{
-			if (this.LoadingInProgressOrReadyToLaunch)
+			if (!this.LoadingInProgressOrReadyToLaunch)
 			{
-				Lord lord = TransporterUtility.FindLord(this.groupID, map);
-				if (lord != null)
-				{
-					map.lordManager.RemoveLord(lord);
-				}
+				return;
+			}
+			Lord lord = TransporterUtility.FindLord(this.groupID, map);
+			if (lord != null)
+			{
+				map.lordManager.RemoveLord(lord);
 			}
 		}
 
@@ -376,21 +447,23 @@ namespace RimWorld
 
 		private void SubtractFromToLoadList(Thing t, int count)
 		{
-			if (this.leftToLoad != null)
+			if (this.leftToLoad == null)
 			{
-				TransferableOneWay transferableOneWay = TransferableUtility.TransferableMatchingDesperate(t, this.leftToLoad, TransferAsOneMode.PodsOrCaravanPacking);
-				if (transferableOneWay != null)
-				{
-					transferableOneWay.AdjustBy(-count);
-					if (transferableOneWay.CountToTransfer <= 0)
-					{
-						this.leftToLoad.Remove(transferableOneWay);
-					}
-					if (!this.AnyInGroupHasAnythingLeftToLoad)
-					{
-						Messages.Message("MessageFinishedLoadingTransporters".Translate(), this.parent, MessageTypeDefOf.TaskCompletion, true);
-					}
-				}
+				return;
+			}
+			TransferableOneWay transferableOneWay = TransferableUtility.TransferableMatchingDesperate(t, this.leftToLoad, TransferAsOneMode.PodsOrCaravanPacking);
+			if (transferableOneWay == null)
+			{
+				return;
+			}
+			transferableOneWay.AdjustBy(-count);
+			if (transferableOneWay.CountToTransfer <= 0)
+			{
+				this.leftToLoad.Remove(transferableOneWay);
+			}
+			if (!this.AnyInGroupHasAnythingLeftToLoad)
+			{
+				Messages.Message("MessageFinishedLoadingTransporters".Translate(), this.parent, MessageTypeDefOf.TaskCompletion, true);
 			}
 		}
 
@@ -422,12 +495,6 @@ namespace RimWorld
 		// Note: this type is marked as 'beforefieldinit'.
 		static CompTransporter()
 		{
-		}
-
-		[CompilerGenerated]
-		private static bool <get_FirstThingLeftToLoad>m__0(TransferableOneWay x)
-		{
-			return x.CountToTransfer != 0 && x.HasAnyThing;
 		}
 
 		[DebuggerHidden]
@@ -536,9 +603,9 @@ namespace RimWorld
 					return true;
 				}
 				case 5u:
-					goto IL_460;
+					goto IL_452;
 				case 6u:
-					goto IL_460;
+					goto IL_452;
 				default:
 					return false;
 				}
@@ -626,7 +693,7 @@ namespace RimWorld
 					this.$PC = 6;
 				}
 				return true;
-				IL_460:
+				IL_452:
 				this.$PC = -1;
 				return false;
 			}

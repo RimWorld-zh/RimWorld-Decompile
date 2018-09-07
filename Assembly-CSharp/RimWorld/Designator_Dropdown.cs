@@ -11,9 +11,9 @@ namespace RimWorld
 	{
 		private List<Designator> elements = new List<Designator>();
 
-		private Designator activeDesignator = null;
+		private Designator activeDesignator;
 
-		private bool activeDesignatorSet = false;
+		private bool activeDesignatorSet;
 
 		public Designator_Dropdown()
 		{
@@ -23,7 +23,7 @@ namespace RimWorld
 		{
 			get
 			{
-				return this.activeDesignator.Label + ((!this.activeDesignatorSet) ? "..." : "");
+				return this.activeDesignator.Label + ((!this.activeDesignatorSet) ? "..." : string.Empty);
 			}
 		}
 

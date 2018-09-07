@@ -31,7 +31,7 @@ namespace RimWorld.Planet
 
 		public override IEnumerable Regenerate()
 		{
-			IEnumerator enumerator = this.<Regenerate>__BaseCallProxy0().GetEnumerator();
+			IEnumerator enumerator = base.Regenerate().GetEnumerator();
 			try
 			{
 				while (enumerator.MoveNext())
@@ -154,7 +154,7 @@ namespace RimWorld.Planet
 				case 1u:
 					break;
 				case 2u:
-					IL_14C:
+					IL_147:
 					if (subMesh.verts.Count > 60000)
 					{
 						subMesh = base.GetSubMesh(WorldMaterials.Rivers);
@@ -182,7 +182,7 @@ namespace RimWorld.Planet
 						base.GeneratePaths(subMeshBorder, i, outputsBorder, this.riverColor, true);
 					}
 					i++;
-					goto IL_315;
+					goto IL_309;
 				default:
 					return false;
 				}
@@ -219,7 +219,7 @@ namespace RimWorld.Planet
 				outputs = new List<WorldLayer_Paths.OutputDirection>();
 				outputsBorder = new List<WorldLayer_Paths.OutputDirection>();
 				i = 0;
-				IL_315:
+				IL_309:
 				if (i >= grid.TilesCount)
 				{
 					base.FinalizeMesh(MeshParts.All);
@@ -236,7 +236,7 @@ namespace RimWorld.Planet
 						}
 						return true;
 					}
-					goto IL_14C;
+					goto IL_147;
 				}
 				return false;
 			}

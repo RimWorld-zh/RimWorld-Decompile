@@ -12,16 +12,16 @@ namespace Verse
 	{
 		public Type conditionClass = typeof(GameCondition);
 
-		private List<GameConditionDef> exclusiveConditions = null;
+		private List<GameConditionDef> exclusiveConditions;
 
 		[MustTranslate]
-		public string endMessage = null;
+		public string endMessage;
 
-		public bool canBePermanent = false;
+		public bool canBePermanent;
 
 		public PsychicDroneLevel defaultDroneLevel = PsychicDroneLevel.BadMedium;
 
-		public bool preventRain = false;
+		public bool preventRain;
 
 		public GameConditionDef()
 		{
@@ -39,7 +39,7 @@ namespace Verse
 
 		public override IEnumerable<string> ConfigErrors()
 		{
-			foreach (string e in this.<ConfigErrors>__BaseCallProxy0())
+			foreach (string e in base.ConfigErrors())
 			{
 				yield return e;
 			}
@@ -91,7 +91,7 @@ namespace Verse
 				case 1u:
 					break;
 				case 2u:
-					goto IL_E7;
+					goto IL_E3;
 				default:
 					return false;
 				}
@@ -124,7 +124,7 @@ namespace Verse
 				}
 				if (this.conditionClass != null)
 				{
-					goto IL_E7;
+					goto IL_E3;
 				}
 				this.$current = "conditionClass is null";
 				if (!this.$disposing)
@@ -132,7 +132,7 @@ namespace Verse
 					this.$PC = 2;
 				}
 				return true;
-				IL_E7:
+				IL_E3:
 				this.$PC = -1;
 				return false;
 			}

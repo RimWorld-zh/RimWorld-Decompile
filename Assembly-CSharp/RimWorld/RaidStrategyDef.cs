@@ -24,9 +24,9 @@ namespace RimWorld
 		[MustTranslate]
 		public string letterLabelFriendly;
 
-		public float pointsFactor = 1f;
+		public SimpleCurve pointsFactorCurve;
 
-		public bool pawnsCanBringFood = false;
+		public bool pawnsCanBringFood;
 
 		public List<PawnsArrivalModeDef> arriveModes;
 

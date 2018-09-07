@@ -192,41 +192,7 @@ namespace Steamworks
 
 		public bool IsValid()
 		{
-			bool result;
-			if (this.GetEAccountType() <= EAccountType.k_EAccountTypeInvalid || this.GetEAccountType() >= EAccountType.k_EAccountTypeMax)
-			{
-				result = false;
-			}
-			else if (this.GetEUniverse() <= EUniverse.k_EUniverseInvalid || this.GetEUniverse() >= EUniverse.k_EUniverseMax)
-			{
-				result = false;
-			}
-			else
-			{
-				if (this.GetEAccountType() == EAccountType.k_EAccountTypeIndividual)
-				{
-					if (this.GetAccountID() == new AccountID_t(0u) || this.GetUnAccountInstance() > 4u)
-					{
-						return false;
-					}
-				}
-				if (this.GetEAccountType() == EAccountType.k_EAccountTypeClan)
-				{
-					if (this.GetAccountID() == new AccountID_t(0u) || this.GetUnAccountInstance() != 0u)
-					{
-						return false;
-					}
-				}
-				if (this.GetEAccountType() == EAccountType.k_EAccountTypeGameServer)
-				{
-					if (this.GetAccountID() == new AccountID_t(0u))
-					{
-						return false;
-					}
-				}
-				result = true;
-			}
-			return result;
+			return this.GetEAccountType() > EAccountType.k_EAccountTypeInvalid && this.GetEAccountType() < EAccountType.k_EAccountTypeMax && this.GetEUniverse() > EUniverse.k_EUniverseInvalid && this.GetEUniverse() < EUniverse.k_EUniverseMax && (this.GetEAccountType() != EAccountType.k_EAccountTypeIndividual || (!(this.GetAccountID() == new AccountID_t(0u)) && this.GetUnAccountInstance() <= 4u)) && (this.GetEAccountType() != EAccountType.k_EAccountTypeClan || (!(this.GetAccountID() == new AccountID_t(0u)) && this.GetUnAccountInstance() == 0u)) && (this.GetEAccountType() != EAccountType.k_EAccountTypeGameServer || !(this.GetAccountID() == new AccountID_t(0u)));
 		}
 
 		public override string ToString()

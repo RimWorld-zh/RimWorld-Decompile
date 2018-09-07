@@ -21,20 +21,15 @@ namespace RimWorld
 		protected override Texture2D GetIconFor(Pawn pawn)
 		{
 			IEnumerable<Pawn> allColonistBondsFor = TrainableUtility.GetAllColonistBondsFor(pawn);
-			Texture2D result;
 			if (!allColonistBondsFor.Any<Pawn>())
 			{
-				result = null;
+				return null;
 			}
-			else if (allColonistBondsFor.Any((Pawn bond) => bond == pawn.playerSettings.Master))
+			if (allColonistBondsFor.Any((Pawn bond) => bond == pawn.playerSettings.Master))
 			{
-				result = PawnColumnWorker_Bond.BondIcon;
+				return PawnColumnWorker_Bond.BondIcon;
 			}
-			else
-			{
-				result = PawnColumnWorker_Bond.BondBrokenIcon;
-			}
-			return result;
+			return PawnColumnWorker_Bond.BondBrokenIcon;
 		}
 
 		protected override string GetIconTip(Pawn pawn)
@@ -50,38 +45,35 @@ namespace RimWorld
 		public int GetCompareValueFor(Pawn a)
 		{
 			Texture2D iconFor = this.GetIconFor(a);
-			int result;
 			if (iconFor == null)
 			{
-				result = 0;
+				return 0;
 			}
-			else if (iconFor == PawnColumnWorker_Bond.BondBrokenIcon)
+			if (iconFor == PawnColumnWorker_Bond.BondBrokenIcon)
 			{
-				result = 1;
+				return 1;
 			}
-			else if (iconFor == PawnColumnWorker_Bond.BondIcon)
+			if (iconFor == PawnColumnWorker_Bond.BondIcon)
 			{
-				result = 2;
+				return 2;
 			}
-			else
-			{
-				Log.ErrorOnce("Unknown bond type when trying to sort", 20536378, false);
-				result = 0;
-			}
-			return result;
+			Log.ErrorOnce("Unknown bond type when trying to sort", 20536378, false);
+			return 0;
 		}
 
 		protected override void PaintedIcon(Pawn pawn)
 		{
-			if (!(this.GetIconFor(pawn) != PawnColumnWorker_Bond.BondBrokenIcon))
+			if (this.GetIconFor(pawn) != PawnColumnWorker_Bond.BondBrokenIcon)
 			{
-				if (pawn.training.HasLearned(TrainableDefOf.Obedience))
-				{
-					pawn.playerSettings.Master = (from master in TrainableUtility.GetAllColonistBondsFor(pawn)
-					where TrainableUtility.CanBeMaster(master, pawn, true)
-					select master).FirstOrDefault<Pawn>();
-				}
+				return;
 			}
+			if (!pawn.training.HasLearned(TrainableDefOf.Obedience))
+			{
+				return;
+			}
+			pawn.playerSettings.Master = (from master in TrainableUtility.GetAllColonistBondsFor(pawn)
+			where TrainableUtility.CanBeMaster(master, pawn, true)
+			select master).FirstOrDefault<Pawn>();
 		}
 
 		// Note: this type is marked as 'beforefieldinit'.

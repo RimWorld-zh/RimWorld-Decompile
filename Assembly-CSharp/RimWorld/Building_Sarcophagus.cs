@@ -5,9 +5,9 @@ namespace RimWorld
 {
 	public class Building_Sarcophagus : Building_Grave
 	{
-		private bool everNonEmpty = false;
+		private bool everNonEmpty;
 
-		private bool thisIsFirstBodyEver = false;
+		private bool thisIsFirstBodyEver;
 
 		public Building_Sarcophagus()
 		{
@@ -21,18 +21,13 @@ namespace RimWorld
 
 		public override bool TryAcceptThing(Thing thing, bool allowSpecialEffects = true)
 		{
-			bool result;
 			if (base.TryAcceptThing(thing, allowSpecialEffects))
 			{
 				this.thisIsFirstBodyEver = !this.everNonEmpty;
 				this.everNonEmpty = true;
-				result = true;
+				return true;
 			}
-			else
-			{
-				result = false;
-			}
-			return result;
+			return false;
 		}
 
 		public override void Notify_CorpseBuried(Pawn worker)

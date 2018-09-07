@@ -8,7 +8,7 @@ namespace RimWorld.Planet
 	{
 		public static Pawn FindBestDiplomat(Caravan caravan)
 		{
-			return BestCaravanPawnUtility.FindPawnWithBestStat(caravan, StatDefOf.DiplomacyPower);
+			return BestCaravanPawnUtility.FindPawnWithBestStat(caravan, StatDefOf.NegotiationAbility);
 		}
 
 		public static Pawn FindBestNegotiator(Caravan caravan)

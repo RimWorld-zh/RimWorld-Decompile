@@ -118,7 +118,7 @@ namespace RimWorld.Planet
 				list.Clear();
 				list.Add(srcTile);
 				int found = 0;
-				Find.WorldPathFinder.FloodPathsWithCost(list, (int src, int dst) => Caravan_PathFollower.CostToMove(3500, src, dst, null, true, null, null), null, delegate(int tile, float distance)
+				Find.WorldPathFinder.FloodPathsWithCost(list, (int src, int dst) => Caravan_PathFollower.CostToMove(3300, src, dst, null, true, null, null), null, delegate(int tile, float distance)
 				{
 					if (tile != srcTile && tileToIndexLookup.ContainsKey(tile))
 					{
@@ -151,19 +151,19 @@ namespace RimWorld.Planet
 				WorldGenStep_Roads.Link prospective = linkProspective[j];
 				if (list[prospective.indexA].Group() != list[prospective.indexB].Group())
 				{
-					goto IL_AF;
+					goto IL_A9;
 				}
 				if (Rand.Value <= 0.015f)
 				{
 					if (!list2.Any((WorldGenStep_Roads.Link link) => link.indexB == prospective.indexA && link.indexA == prospective.indexB))
 					{
-						goto IL_AF;
+						goto IL_A9;
 					}
 				}
-				IL_146:
+				IL_13B:
 				j++;
 				continue;
-				IL_AF:
+				IL_A9:
 				if (Rand.Value > 0.1f)
 				{
 					list2.Add(prospective);
@@ -173,8 +173,9 @@ namespace RimWorld.Planet
 					WorldGenStep_Roads.Connectedness parent = new WorldGenStep_Roads.Connectedness();
 					list[prospective.indexA].Group().parent = parent;
 					list[prospective.indexB].Group().parent = parent;
+					goto IL_13B;
 				}
-				goto IL_146;
+				goto IL_13B;
 			}
 			return list2;
 		}
@@ -216,7 +217,7 @@ namespace RimWorld.Planet
 		[CompilerGenerated]
 		private static int <GenerateProspectiveLinks>m__2(int src, int dst)
 		{
-			return Caravan_PathFollower.CostToMove(3500, src, dst, null, true, null, null);
+			return Caravan_PathFollower.CostToMove(3300, src, dst, null, true, null, null);
 		}
 
 		[CompilerGenerated]
@@ -250,16 +251,11 @@ namespace RimWorld.Planet
 
 			public WorldGenStep_Roads.Connectedness Group()
 			{
-				WorldGenStep_Roads.Connectedness result;
 				if (this.parent == null)
 				{
-					result = this;
+					return this;
 				}
-				else
-				{
-					result = this.parent.Group();
-				}
-				return result;
+				return this.parent.Group();
 			}
 		}
 

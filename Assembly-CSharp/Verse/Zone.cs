@@ -14,21 +14,23 @@ namespace Verse
 	{
 		public ZoneManager zoneManager;
 
+		public int ID = -1;
+
 		public string label;
 
 		public List<IntVec3> cells = new List<IntVec3>();
 
-		private bool cellsShuffled = false;
+		private bool cellsShuffled;
 
 		public Color color = Color.white;
 
-		private Material materialInt = null;
+		private Material materialInt;
 
-		public bool hidden = false;
+		public bool hidden;
 
 		private int lastStaticFireCheckTick = -9999;
 
-		private bool lastStaticFireCheckResult = false;
+		private bool lastStaticFireCheckResult;
 
 		private const int StaticFireCheckInterval = 1000;
 
@@ -47,6 +49,7 @@ namespace Verse
 		{
 			this.label = zoneManager.NewZoneName(baseName);
 			this.zoneManager = zoneManager;
+			this.ID = Find.UniqueIDsManager.GetNextZoneID();
 			this.color = this.NextZoneColor;
 		}
 
@@ -150,12 +153,14 @@ namespace Verse
 
 		public virtual void ExposeData()
 		{
+			Scribe_Values.Look<int>(ref this.ID, "ID", -1, false);
 			Scribe_Values.Look<string>(ref this.label, "label", null, false);
 			Scribe_Values.Look<Color>(ref this.color, "color", default(Color), false);
 			Scribe_Values.Look<bool>(ref this.hidden, "hidden", false, false);
 			Scribe_Collections.Look<IntVec3>(ref this.cells, "cells", LookMode.Undefined, new object[0]);
 			if (Scribe.mode == LoadSaveMode.PostLoadInit)
 			{
+				BackCompatibility.ZonePostLoadInit(this);
 				this.CheckAddHaulDestination();
 			}
 		}
@@ -171,25 +176,23 @@ namespace Verse
 					", zone=",
 					this
 				}), false);
+				return;
 			}
-			else
+			List<Thing> list = this.Map.thingGrid.ThingsListAt(c);
+			for (int i = 0; i < list.Count; i++)
 			{
-				List<Thing> list = this.Map.thingGrid.ThingsListAt(c);
-				for (int i = 0; i < list.Count; i++)
+				Thing thing = list[i];
+				if (!thing.def.CanOverlapZones)
 				{
-					Thing thing = list[i];
-					if (!thing.def.CanOverlapZones)
-					{
-						Log.Error("Added zone over zone-incompatible thing " + thing, false);
-						return;
-					}
+					Log.Error("Added zone over zone-incompatible thing " + thing, false);
+					return;
 				}
-				this.cells.Add(c);
-				this.zoneManager.AddZoneGridCell(this, c);
-				this.Map.mapDrawer.MapMeshDirty(c, MapMeshFlag.Zone);
-				AutoHomeAreaMaker.Notify_ZoneCellAdded(c, this);
-				this.cellsShuffled = false;
 			}
+			this.cells.Add(c);
+			this.zoneManager.AddZoneGridCell(this, c);
+			this.Map.mapDrawer.MapMeshDirty(c, MapMeshFlag.Zone);
+			AutoHomeAreaMaker.Notify_ZoneCellAdded(c, this);
+			this.cellsShuffled = false;
 		}
 
 		public virtual void RemoveCell(IntVec3 c)
@@ -203,17 +206,15 @@ namespace Verse
 					", zone=",
 					this
 				}), false);
+				return;
 			}
-			else
+			this.cells.Remove(c);
+			this.zoneManager.ClearZoneGridCell(c);
+			this.Map.mapDrawer.MapMeshDirty(c, MapMeshFlag.Zone);
+			this.cellsShuffled = false;
+			if (this.cells.Count == 0)
 			{
-				this.cells.Remove(c);
-				this.zoneManager.ClearZoneGridCell(c);
-				this.Map.mapDrawer.MapMeshDirty(c, MapMeshFlag.Zone);
-				this.cellsShuffled = false;
-				if (this.cells.Count == 0)
-				{
-					this.Deregister();
-				}
+				this.Deregister();
 			}
 		}
 
@@ -267,7 +268,7 @@ namespace Verse
 
 		public virtual string GetInspectString()
 		{
-			return "";
+			return string.Empty;
 		}
 
 		public virtual IEnumerable<InspectTabBase> GetInspectTabs()
@@ -331,44 +332,45 @@ namespace Verse
 
 		public void CheckContiguous()
 		{
-			if (this.cells.Count != 0)
+			if (this.cells.Count == 0)
 			{
-				if (Zone.extantGrid == null)
+				return;
+			}
+			if (Zone.extantGrid == null)
+			{
+				Zone.extantGrid = new BoolGrid(this.Map);
+			}
+			else
+			{
+				Zone.extantGrid.ClearAndResizeTo(this.Map);
+			}
+			if (Zone.foundGrid == null)
+			{
+				Zone.foundGrid = new BoolGrid(this.Map);
+			}
+			else
+			{
+				Zone.foundGrid.ClearAndResizeTo(this.Map);
+			}
+			for (int i = 0; i < this.cells.Count; i++)
+			{
+				Zone.extantGrid.Set(this.cells[i], true);
+			}
+			Predicate<IntVec3> passCheck = (IntVec3 c) => Zone.extantGrid[c] && !Zone.foundGrid[c];
+			int numFound = 0;
+			Action<IntVec3> processor = delegate(IntVec3 c)
+			{
+				Zone.foundGrid.Set(c, true);
+				numFound++;
+			};
+			this.Map.floodFiller.FloodFill(this.cells[0], passCheck, processor, int.MaxValue, false, null);
+			if (numFound < this.cells.Count)
+			{
+				foreach (IntVec3 c2 in this.Map.AllCells)
 				{
-					Zone.extantGrid = new BoolGrid(this.Map);
-				}
-				else
-				{
-					Zone.extantGrid.ClearAndResizeTo(this.Map);
-				}
-				if (Zone.foundGrid == null)
-				{
-					Zone.foundGrid = new BoolGrid(this.Map);
-				}
-				else
-				{
-					Zone.foundGrid.ClearAndResizeTo(this.Map);
-				}
-				for (int i = 0; i < this.cells.Count; i++)
-				{
-					Zone.extantGrid.Set(this.cells[i], true);
-				}
-				Predicate<IntVec3> passCheck = (IntVec3 c) => Zone.extantGrid[c] && !Zone.foundGrid[c];
-				int numFound = 0;
-				Action<IntVec3> processor = delegate(IntVec3 c)
-				{
-					Zone.foundGrid.Set(c, true);
-					numFound++;
-				};
-				this.Map.floodFiller.FloodFill(this.cells[0], passCheck, processor, int.MaxValue, false, null);
-				if (numFound < this.cells.Count)
-				{
-					foreach (IntVec3 c2 in this.Map.AllCells)
+					if (Zone.extantGrid[c2] && !Zone.foundGrid[c2])
 					{
-						if (Zone.extantGrid[c2] && !Zone.foundGrid[c2])
-						{
-							this.RemoveCell(c2);
-						}
+						this.RemoveCell(c2);
 					}
 				}
 			}
@@ -390,7 +392,7 @@ namespace Verse
 
 		public string GetUniqueLoadID()
 		{
-			return "Zone_" + this.zoneManager.AllZones.IndexOf(this);
+			return "Zone_" + this.ID;
 		}
 
 		[CompilerGenerated]
@@ -510,14 +512,14 @@ namespace Verse
 				case 0u:
 					grids = base.Map.thingGrid;
 					i = 0;
-					goto IL_D8;
+					goto IL_D3;
 				case 1u:
 					j++;
 					break;
 				default:
 					return false;
 				}
-				IL_B3:
+				IL_AF:
 				if (j < thingList.Count)
 				{
 					this.$current = thingList[j];
@@ -528,12 +530,12 @@ namespace Verse
 					return true;
 				}
 				i++;
-				IL_D8:
+				IL_D3:
 				if (i < this.cells.Count)
 				{
 					thingList = grids.ThingsListAt(this.cells[i]);
 					j = 0;
-					goto IL_B3;
+					goto IL_AF;
 				}
 				this.$PC = -1;
 				return false;
@@ -742,7 +744,7 @@ namespace Verse
 				case 3u:
 					break;
 				case 4u:
-					goto IL_259;
+					goto IL_250;
 				case 5u:
 					this.$PC = -1;
 					return false;
@@ -786,7 +788,7 @@ namespace Verse
 					}
 					return true;
 				}
-				IL_259:
+				IL_250:
 				Command_Action delete2 = new Command_Action();
 				delete2.icon = ContentFinder<Texture2D>.Get("UI/Buttons/Delete", true);
 				delete2.defaultLabel = "CommandDeleteZoneLabel".Translate();

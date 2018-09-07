@@ -14,7 +14,7 @@ namespace RimWorld
 
 		private const int CellsPerTick = 4;
 
-		private static int groupCycleIndex = 0;
+		private static int groupCycleIndex;
 
 		private List<int> cellCycleIndices = new List<int>();
 
@@ -80,34 +80,35 @@ namespace RimWorld
 				ListerHaulables.groupCycleIndex = 0;
 			}
 			List<SlotGroup> allGroupsListForReading = this.map.haulDestinationManager.AllGroupsListForReading;
-			if (allGroupsListForReading.Count != 0)
+			if (allGroupsListForReading.Count == 0)
 			{
-				int num = ListerHaulables.groupCycleIndex % allGroupsListForReading.Count;
-				SlotGroup slotGroup = allGroupsListForReading[ListerHaulables.groupCycleIndex % allGroupsListForReading.Count];
-				if (slotGroup.CellsList.Count != 0)
+				return;
+			}
+			int num = ListerHaulables.groupCycleIndex % allGroupsListForReading.Count;
+			SlotGroup slotGroup = allGroupsListForReading[ListerHaulables.groupCycleIndex % allGroupsListForReading.Count];
+			if (slotGroup.CellsList.Count != 0)
+			{
+				while (this.cellCycleIndices.Count <= num)
 				{
-					while (this.cellCycleIndices.Count <= num)
+					this.cellCycleIndices.Add(0);
+				}
+				if (this.cellCycleIndices[num] >= 2147473647)
+				{
+					this.cellCycleIndices[num] = 0;
+				}
+				for (int i = 0; i < 4; i++)
+				{
+					List<int> list;
+					int index;
+					(list = this.cellCycleIndices)[index = num] = list[index] + 1;
+					IntVec3 c = slotGroup.CellsList[this.cellCycleIndices[num] % slotGroup.CellsList.Count];
+					List<Thing> thingList = c.GetThingList(this.map);
+					for (int j = 0; j < thingList.Count; j++)
 					{
-						this.cellCycleIndices.Add(0);
-					}
-					if (this.cellCycleIndices[num] >= 2147473647)
-					{
-						this.cellCycleIndices[num] = 0;
-					}
-					for (int i = 0; i < 4; i++)
-					{
-						List<int> list;
-						int index;
-						(list = this.cellCycleIndices)[index = num] = list[index] + 1;
-						IntVec3 c = slotGroup.CellsList[this.cellCycleIndices[num] % slotGroup.CellsList.Count];
-						List<Thing> thingList = c.GetThingList(this.map);
-						for (int j = 0; j < thingList.Count; j++)
+						if (thingList[j].def.EverHaulable)
 						{
-							if (thingList[j].def.EverHaulable)
-							{
-								this.Check(thingList[j]);
-								break;
-							}
+							this.Check(thingList[j]);
+							break;
 						}
 					}
 				}
@@ -148,27 +149,22 @@ namespace RimWorld
 
 		private bool ShouldBeHaulable(Thing t)
 		{
-			bool result;
 			if (t.IsForbidden(Faction.OfPlayer))
 			{
-				result = false;
+				return false;
 			}
-			else
+			if (!t.def.alwaysHaulable)
 			{
-				if (!t.def.alwaysHaulable)
+				if (!t.def.EverHaulable)
 				{
-					if (!t.def.EverHaulable)
-					{
-						return false;
-					}
-					if (this.map.designationManager.DesignationOn(t, DesignationDefOf.Haul) == null && !t.IsInAnyStorage())
-					{
-						return false;
-					}
+					return false;
 				}
-				result = !t.IsInValidBestStorage();
+				if (this.map.designationManager.DesignationOn(t, DesignationDefOf.Haul) == null && !t.IsInAnyStorage())
+				{
+					return false;
+				}
 			}
-			return result;
+			return !t.IsInValidBestStorage();
 		}
 
 		private void CheckAdd(Thing t)

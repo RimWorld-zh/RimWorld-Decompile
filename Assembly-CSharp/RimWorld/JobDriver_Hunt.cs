@@ -30,16 +30,11 @@ namespace RimWorld
 			get
 			{
 				Corpse corpse = this.Corpse;
-				Pawn result;
 				if (corpse != null)
 				{
-					result = corpse.InnerPawn;
+					return corpse.InnerPawn;
 				}
-				else
-				{
-					result = (Pawn)this.job.GetTarget(TargetIndex.A).Thing;
-				}
-				return result;
+				return (Pawn)this.job.GetTarget(TargetIndex.A).Thing;
 			}
 		}
 
@@ -59,21 +54,19 @@ namespace RimWorld
 
 		public override string GetReport()
 		{
-			string result;
 			if (this.Victim != null)
 			{
-				result = this.job.def.reportString.Replace("TargetA", this.Victim.LabelShort);
+				return this.job.def.reportString.Replace("TargetA", this.Victim.LabelShort);
 			}
-			else
-			{
-				result = base.GetReport();
-			}
-			return result;
+			return base.GetReport();
 		}
 
-		public override bool TryMakePreToilReservations()
+		public override bool TryMakePreToilReservations(bool errorOnFailed)
 		{
-			return this.pawn.Reserve(this.Victim, this.job, 1, -1, null);
+			Pawn pawn = this.pawn;
+			LocalTargetInfo target = this.Victim;
+			Job job = this.job;
+			return pawn.Reserve(target, job, 1, -1, null, errorOnFailed);
 		}
 
 		protected override IEnumerable<Toil> MakeNewToils()
@@ -117,14 +110,15 @@ namespace RimWorld
 			yield return Toils_General.WaitWith(TargetIndex.A, 180, true, false).FailOnMobile(TargetIndex.A);
 			yield return Toils_General.Do(delegate
 			{
-				if (!this.Victim.Dead)
+				if (this.Victim.Dead)
 				{
-					ExecutionUtility.DoExecutionByCut(this.pawn, this.Victim);
-					this.pawn.records.Increment(RecordDefOf.AnimalsSlaughtered);
-					if (this.pawn.InMentalState)
-					{
-						this.pawn.MentalState.Notify_SlaughteredAnimal();
-					}
+					return;
+				}
+				ExecutionUtility.DoExecutionByCut(this.pawn, this.Victim);
+				this.pawn.records.Increment(RecordDefOf.AnimalsSlaughtered);
+				if (this.pawn.InMentalState)
+				{
+					this.pawn.MentalState.Notify_SlaughteredAnimal();
 				}
 			});
 			yield return Toils_Jump.Jump(startCollectCorpseLabel);
@@ -146,38 +140,32 @@ namespace RimWorld
 				if (this.Victim == null)
 				{
 					toil.actor.jobs.EndCurrentJob(JobCondition.Incompletable, true);
+					return;
 				}
-				else
+				TaleRecorder.RecordTale(TaleDefOf.Hunted, new object[]
 				{
-					TaleRecorder.RecordTale(TaleDefOf.Hunted, new object[]
-					{
-						this.pawn,
-						this.Victim
-					});
-					Corpse corpse = this.Victim.Corpse;
-					if (corpse == null || !this.pawn.CanReserveAndReach(corpse, PathEndMode.ClosestTouch, Danger.Deadly, 1, -1, null, false))
-					{
-						this.pawn.jobs.EndCurrentJob(JobCondition.Incompletable, true);
-					}
-					else
-					{
-						corpse.SetForbidden(false, true);
-						IntVec3 c;
-						if (StoreUtility.TryFindBestBetterStoreCellFor(corpse, this.pawn, this.Map, StoragePriority.Unstored, this.pawn.Faction, out c, true))
-						{
-							this.pawn.Reserve(corpse, this.job, 1, -1, null);
-							this.pawn.Reserve(c, this.job, 1, -1, null);
-							this.job.SetTarget(TargetIndex.B, c);
-							this.job.SetTarget(TargetIndex.A, corpse);
-							this.job.count = 1;
-							this.job.haulMode = HaulMode.ToCellStorage;
-						}
-						else
-						{
-							this.pawn.jobs.EndCurrentJob(JobCondition.Succeeded, true);
-						}
-					}
+					this.pawn,
+					this.Victim
+				});
+				Corpse corpse = this.Victim.Corpse;
+				if (corpse == null || !this.pawn.CanReserveAndReach(corpse, PathEndMode.ClosestTouch, Danger.Deadly, 1, -1, null, false))
+				{
+					this.pawn.jobs.EndCurrentJob(JobCondition.Incompletable, true);
+					return;
 				}
+				corpse.SetForbidden(false, true);
+				IntVec3 c;
+				if (StoreUtility.TryFindBestBetterStoreCellFor(corpse, this.pawn, this.Map, StoragePriority.Unstored, this.pawn.Faction, out c, true))
+				{
+					this.pawn.Reserve(corpse, this.job, 1, -1, null, true);
+					this.pawn.Reserve(c, this.job, 1, -1, null, true);
+					this.job.SetTarget(TargetIndex.B, c);
+					this.job.SetTarget(TargetIndex.A, corpse);
+					this.job.count = 1;
+					this.job.haulMode = HaulMode.ToCellStorage;
+					return;
+				}
+				this.pawn.jobs.EndCurrentJob(JobCondition.Succeeded, true);
 			};
 			return toil;
 		}
@@ -323,14 +311,15 @@ namespace RimWorld
 				case 11u:
 					this.$current = Toils_General.Do(delegate
 					{
-						if (!base.Victim.Dead)
+						if (base.Victim.Dead)
 						{
-							ExecutionUtility.DoExecutionByCut(this.pawn, base.Victim);
-							this.pawn.records.Increment(RecordDefOf.AnimalsSlaughtered);
-							if (this.pawn.InMentalState)
-							{
-								this.pawn.MentalState.Notify_SlaughteredAnimal();
-							}
+							return;
+						}
+						ExecutionUtility.DoExecutionByCut(this.pawn, base.Victim);
+						this.pawn.records.Increment(RecordDefOf.AnimalsSlaughtered);
+						if (this.pawn.InMentalState)
+						{
+							this.pawn.MentalState.Notify_SlaughteredAnimal();
 						}
 					});
 					if (!this.$disposing)
@@ -480,14 +469,15 @@ namespace RimWorld
 
 			internal void <>m__5()
 			{
-				if (!base.Victim.Dead)
+				if (base.Victim.Dead)
 				{
-					ExecutionUtility.DoExecutionByCut(this.pawn, base.Victim);
-					this.pawn.records.Increment(RecordDefOf.AnimalsSlaughtered);
-					if (this.pawn.InMentalState)
-					{
-						this.pawn.MentalState.Notify_SlaughteredAnimal();
-					}
+					return;
+				}
+				ExecutionUtility.DoExecutionByCut(this.pawn, base.Victim);
+				this.pawn.records.Increment(RecordDefOf.AnimalsSlaughtered);
+				if (this.pawn.InMentalState)
+				{
+					this.pawn.MentalState.Notify_SlaughteredAnimal();
 				}
 			}
 		}
@@ -508,38 +498,32 @@ namespace RimWorld
 				if (this.$this.Victim == null)
 				{
 					this.toil.actor.jobs.EndCurrentJob(JobCondition.Incompletable, true);
+					return;
 				}
-				else
+				TaleRecorder.RecordTale(TaleDefOf.Hunted, new object[]
 				{
-					TaleRecorder.RecordTale(TaleDefOf.Hunted, new object[]
-					{
-						this.$this.pawn,
-						this.$this.Victim
-					});
-					Corpse corpse = this.$this.Victim.Corpse;
-					if (corpse == null || !this.$this.pawn.CanReserveAndReach(corpse, PathEndMode.ClosestTouch, Danger.Deadly, 1, -1, null, false))
-					{
-						this.$this.pawn.jobs.EndCurrentJob(JobCondition.Incompletable, true);
-					}
-					else
-					{
-						corpse.SetForbidden(false, true);
-						IntVec3 c;
-						if (StoreUtility.TryFindBestBetterStoreCellFor(corpse, this.$this.pawn, this.$this.Map, StoragePriority.Unstored, this.$this.pawn.Faction, out c, true))
-						{
-							this.$this.pawn.Reserve(corpse, this.$this.job, 1, -1, null);
-							this.$this.pawn.Reserve(c, this.$this.job, 1, -1, null);
-							this.$this.job.SetTarget(TargetIndex.B, c);
-							this.$this.job.SetTarget(TargetIndex.A, corpse);
-							this.$this.job.count = 1;
-							this.$this.job.haulMode = HaulMode.ToCellStorage;
-						}
-						else
-						{
-							this.$this.pawn.jobs.EndCurrentJob(JobCondition.Succeeded, true);
-						}
-					}
+					this.$this.pawn,
+					this.$this.Victim
+				});
+				Corpse corpse = this.$this.Victim.Corpse;
+				if (corpse == null || !this.$this.pawn.CanReserveAndReach(corpse, PathEndMode.ClosestTouch, Danger.Deadly, 1, -1, null, false))
+				{
+					this.$this.pawn.jobs.EndCurrentJob(JobCondition.Incompletable, true);
+					return;
 				}
+				corpse.SetForbidden(false, true);
+				IntVec3 c;
+				if (StoreUtility.TryFindBestBetterStoreCellFor(corpse, this.$this.pawn, this.$this.Map, StoragePriority.Unstored, this.$this.pawn.Faction, out c, true))
+				{
+					this.$this.pawn.Reserve(corpse, this.$this.job, 1, -1, null, true);
+					this.$this.pawn.Reserve(c, this.$this.job, 1, -1, null, true);
+					this.$this.job.SetTarget(TargetIndex.B, c);
+					this.$this.job.SetTarget(TargetIndex.A, corpse);
+					this.$this.job.count = 1;
+					this.$this.job.haulMode = HaulMode.ToCellStorage;
+					return;
+				}
+				this.$this.pawn.jobs.EndCurrentJob(JobCondition.Succeeded, true);
 			}
 		}
 	}

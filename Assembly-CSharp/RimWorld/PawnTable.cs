@@ -122,69 +122,70 @@ namespace RimWorld
 
 		public void PawnTableOnGUI(Vector2 position)
 		{
-			if (Event.current.type != EventType.Layout)
+			if (Event.current.type == EventType.Layout)
 			{
-				this.RecacheIfDirty();
-				float num = this.cachedSize.x - 16f;
-				int num2 = 0;
-				for (int i = 0; i < this.def.columns.Count; i++)
-				{
-					int num3;
-					if (i == this.def.columns.Count - 1)
-					{
-						num3 = (int)(num - (float)num2);
-					}
-					else
-					{
-						num3 = (int)this.cachedColumnWidths[i];
-					}
-					Rect rect = new Rect((float)((int)position.x + num2), (float)((int)position.y), (float)num3, (float)((int)this.cachedHeaderHeight));
-					this.def.columns[i].Worker.DoHeader(rect, this);
-					num2 += num3;
-				}
-				Rect outRect = new Rect((float)((int)position.x), (float)((int)position.y + (int)this.cachedHeaderHeight), (float)((int)this.cachedSize.x), (float)((int)this.cachedSize.y - (int)this.cachedHeaderHeight));
-				Rect viewRect = new Rect(0f, 0f, outRect.width - 16f, (float)((int)this.cachedHeightNoScrollbar - (int)this.cachedHeaderHeight));
-				Widgets.BeginScrollView(outRect, ref this.scrollPosition, viewRect, true);
-				int num4 = 0;
-				for (int j = 0; j < this.cachedPawns.Count; j++)
-				{
-					num2 = 0;
-					if ((float)num4 - this.scrollPosition.y + (float)((int)this.cachedRowHeights[j]) >= 0f && (float)num4 - this.scrollPosition.y <= outRect.height)
-					{
-						GUI.color = new Color(1f, 1f, 1f, 0.2f);
-						Widgets.DrawLineHorizontal(0f, (float)num4, viewRect.width);
-						GUI.color = Color.white;
-						Rect rect2 = new Rect(0f, (float)num4, viewRect.width, (float)((int)this.cachedRowHeights[j]));
-						if (Mouse.IsOver(rect2))
-						{
-							GUI.DrawTexture(rect2, TexUI.HighlightTex);
-						}
-						for (int k = 0; k < this.def.columns.Count; k++)
-						{
-							int num5;
-							if (k == this.def.columns.Count - 1)
-							{
-								num5 = (int)(num - (float)num2);
-							}
-							else
-							{
-								num5 = (int)this.cachedColumnWidths[k];
-							}
-							Rect rect3 = new Rect((float)num2, (float)num4, (float)num5, (float)((int)this.cachedRowHeights[j]));
-							this.def.columns[k].Worker.DoCell(rect3, this.cachedPawns[j], this);
-							num2 += num5;
-						}
-						if (this.cachedPawns[j].Downed)
-						{
-							GUI.color = new Color(1f, 0f, 0f, 0.5f);
-							Widgets.DrawLineHorizontal(0f, rect2.center.y, viewRect.width);
-							GUI.color = Color.white;
-						}
-					}
-					num4 += (int)this.cachedRowHeights[j];
-				}
-				Widgets.EndScrollView();
+				return;
 			}
+			this.RecacheIfDirty();
+			float num = this.cachedSize.x - 16f;
+			int num2 = 0;
+			for (int i = 0; i < this.def.columns.Count; i++)
+			{
+				int num3;
+				if (i == this.def.columns.Count - 1)
+				{
+					num3 = (int)(num - (float)num2);
+				}
+				else
+				{
+					num3 = (int)this.cachedColumnWidths[i];
+				}
+				Rect rect = new Rect((float)((int)position.x + num2), (float)((int)position.y), (float)num3, (float)((int)this.cachedHeaderHeight));
+				this.def.columns[i].Worker.DoHeader(rect, this);
+				num2 += num3;
+			}
+			Rect outRect = new Rect((float)((int)position.x), (float)((int)position.y + (int)this.cachedHeaderHeight), (float)((int)this.cachedSize.x), (float)((int)this.cachedSize.y - (int)this.cachedHeaderHeight));
+			Rect viewRect = new Rect(0f, 0f, outRect.width - 16f, (float)((int)this.cachedHeightNoScrollbar - (int)this.cachedHeaderHeight));
+			Widgets.BeginScrollView(outRect, ref this.scrollPosition, viewRect, true);
+			int num4 = 0;
+			for (int j = 0; j < this.cachedPawns.Count; j++)
+			{
+				num2 = 0;
+				if ((float)num4 - this.scrollPosition.y + (float)((int)this.cachedRowHeights[j]) >= 0f && (float)num4 - this.scrollPosition.y <= outRect.height)
+				{
+					GUI.color = new Color(1f, 1f, 1f, 0.2f);
+					Widgets.DrawLineHorizontal(0f, (float)num4, viewRect.width);
+					GUI.color = Color.white;
+					Rect rect2 = new Rect(0f, (float)num4, viewRect.width, (float)((int)this.cachedRowHeights[j]));
+					if (Mouse.IsOver(rect2))
+					{
+						GUI.DrawTexture(rect2, TexUI.HighlightTex);
+					}
+					for (int k = 0; k < this.def.columns.Count; k++)
+					{
+						int num5;
+						if (k == this.def.columns.Count - 1)
+						{
+							num5 = (int)(num - (float)num2);
+						}
+						else
+						{
+							num5 = (int)this.cachedColumnWidths[k];
+						}
+						Rect rect3 = new Rect((float)num2, (float)num4, (float)num5, (float)((int)this.cachedRowHeights[j]));
+						this.def.columns[k].Worker.DoCell(rect3, this.cachedPawns[j], this);
+						num2 += num5;
+					}
+					if (this.cachedPawns[j].Downed)
+					{
+						GUI.color = new Color(1f, 0f, 0f, 0.5f);
+						Widgets.DrawLineHorizontal(0f, rect2.center.y, viewRect.width);
+						GUI.color = Color.white;
+					}
+				}
+				num4 += (int)this.cachedRowHeights[j];
+			}
+			Widgets.EndScrollView();
 		}
 
 		public void SetDirty()
@@ -218,16 +219,17 @@ namespace RimWorld
 
 		private void RecacheIfDirty()
 		{
-			if (this.dirty)
+			if (!this.dirty)
 			{
-				this.dirty = false;
-				this.RecachePawns();
-				this.RecacheRowHeights();
-				this.cachedHeaderHeight = this.CalculateHeaderHeight();
-				this.cachedHeightNoScrollbar = this.CalculateTotalRequiredHeight();
-				this.RecacheSize();
-				this.RecacheColumnWidths();
+				return;
 			}
+			this.dirty = false;
+			this.RecachePawns();
+			this.RecacheRowHeights();
+			this.cachedHeaderHeight = this.CalculateHeaderHeight();
+			this.cachedHeightNoScrollbar = this.CalculateTotalRequiredHeight();
+			this.RecacheSize();
+			this.RecacheColumnWidths();
 		}
 
 		private void RecachePawns()
@@ -266,21 +268,23 @@ namespace RimWorld
 			float num = this.cachedSize.x - 16f;
 			float num2 = 0f;
 			this.RecacheColumnWidths_StartWithMinWidths(out num2);
-			if (num2 != num)
+			if (num2 == num)
 			{
-				if (num2 > num)
+				return;
+			}
+			if (num2 > num)
+			{
+				this.SubtractProportionally(num2 - num, num2);
+			}
+			else
+			{
+				bool flag;
+				this.RecacheColumnWidths_DistributeUntilOptimal(num, ref num2, out flag);
+				if (flag)
 				{
-					this.SubtractProportionally(num2 - num, num2);
+					return;
 				}
-				else
-				{
-					bool flag;
-					this.RecacheColumnWidths_DistributeUntilOptimal(num, ref num2, out flag);
-					if (!flag)
-					{
-						this.RecacheColumnWidths_DistributeAboveOptimal(num, ref num2);
-					}
-				}
+				this.RecacheColumnWidths_DistributeAboveOptimal(num, ref num2);
 			}
 		}
 
@@ -379,12 +383,12 @@ namespace RimWorld
 				}
 			}
 			Log.Error("Too many iterations.", false);
-			goto IL_2A8;
+			goto IL_295;
 			Block_13:
 			noMoreFreeSpace = true;
 			Block_14:
 			Block_15:
-			IL_2A8:
+			IL_295:
 			noMoreFreeSpace = false;
 		}
 

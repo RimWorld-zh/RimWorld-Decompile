@@ -41,16 +41,11 @@ namespace RimWorld.Planet
 			get
 			{
 				this.EnsureSpecificSocialTabForPawnValid();
-				float result;
 				if (this.specificSocialTabForPawn.DestroyedOrNull())
 				{
-					result = 0f;
+					return 0f;
 				}
-				else
-				{
-					result = 540f;
-				}
-				return result;
+				return 540f;
 			}
 		}
 
@@ -90,14 +85,15 @@ namespace RimWorld.Planet
 				Rect rect = new Rect(tabRect.xMax - 1f, tabRect.yMin, specificSocialTabWidth, tabRect.height);
 				Find.WindowStack.ImmediateWindow(1439870015, rect, WindowLayer.GameUI, delegate
 				{
-					if (!localSpecificSocialTabForPawn.DestroyedOrNull())
+					if (localSpecificSocialTabForPawn.DestroyedOrNull())
 					{
-						SocialCardUtility.DrawSocialCard(rect.AtZero(), localSpecificSocialTabForPawn);
-						if (Widgets.CloseButtonFor(rect.AtZero()))
-						{
-							this.specificSocialTabForPawn = null;
-							SoundDefOf.TabClose.PlayOneShotOnCamera(null);
-						}
+						return;
+					}
+					SocialCardUtility.DrawSocialCard(rect.AtZero(), localSpecificSocialTabForPawn);
+					if (Widgets.CloseButtonFor(rect.AtZero()))
+					{
+						this.specificSocialTabForPawn = null;
+						SoundDefOf.TabClose.PlayOneShotOnCamera(null);
 					}
 				}, true, false, 1f);
 			}
@@ -236,14 +232,15 @@ namespace RimWorld.Planet
 
 			internal void <>m__0()
 			{
-				if (!this.<>f__ref$0.localSpecificSocialTabForPawn.DestroyedOrNull())
+				if (this.<>f__ref$0.localSpecificSocialTabForPawn.DestroyedOrNull())
 				{
-					SocialCardUtility.DrawSocialCard(this.rect.AtZero(), this.<>f__ref$0.localSpecificSocialTabForPawn);
-					if (Widgets.CloseButtonFor(this.rect.AtZero()))
-					{
-						this.<>f__ref$0.$this.specificSocialTabForPawn = null;
-						SoundDefOf.TabClose.PlayOneShotOnCamera(null);
-					}
+					return;
+				}
+				SocialCardUtility.DrawSocialCard(this.rect.AtZero(), this.<>f__ref$0.localSpecificSocialTabForPawn);
+				if (Widgets.CloseButtonFor(this.rect.AtZero()))
+				{
+					this.<>f__ref$0.$this.specificSocialTabForPawn = null;
+					SoundDefOf.TabClose.PlayOneShotOnCamera(null);
 				}
 			}
 		}

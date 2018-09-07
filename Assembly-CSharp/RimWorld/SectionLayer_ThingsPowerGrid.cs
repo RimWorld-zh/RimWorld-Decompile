@@ -21,13 +21,14 @@ namespace RimWorld
 
 		protected override void TakePrintFrom(Thing t)
 		{
-			if (t.Faction == null || t.Faction == Faction.OfPlayer)
+			if (t.Faction != null && t.Faction != Faction.OfPlayer)
 			{
-				Building building = t as Building;
-				if (building != null)
-				{
-					building.PrintForPowerGrid(this);
-				}
+				return;
+			}
+			Building building = t as Building;
+			if (building != null)
+			{
+				building.PrintForPowerGrid(this);
 			}
 		}
 	}

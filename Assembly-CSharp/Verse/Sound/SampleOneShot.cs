@@ -56,7 +56,6 @@ namespace Verse.Sound
 
 		public static SampleOneShot TryMakeAndPlay(SubSoundDef def, AudioClip clip, SoundInfo info)
 		{
-			SampleOneShot result;
 			if ((double)info.pitchFactor <= 0.0001)
 			{
 				Log.ErrorOnce(string.Concat(new object[]
@@ -68,50 +67,43 @@ namespace Verse.Sound
 					", ",
 					info
 				}), 632321, false);
-				result = null;
+				return null;
+			}
+			SampleOneShot sampleOneShot = new SampleOneShot(def);
+			sampleOneShot.info = info;
+			sampleOneShot.source = Find.SoundRoot.sourcePool.GetSource(def.onCamera);
+			if (sampleOneShot.source == null)
+			{
+				return null;
+			}
+			sampleOneShot.source.clip = clip;
+			sampleOneShot.source.volume = sampleOneShot.SanitizedVolume;
+			sampleOneShot.source.pitch = sampleOneShot.SanitizedPitch;
+			sampleOneShot.source.minDistance = sampleOneShot.subDef.distRange.TrueMin;
+			sampleOneShot.source.maxDistance = sampleOneShot.subDef.distRange.TrueMax;
+			if (!def.onCamera)
+			{
+				sampleOneShot.source.gameObject.transform.position = info.Maker.Cell.ToVector3ShiftedWithAltitude(0f);
+				sampleOneShot.source.minDistance = def.distRange.TrueMin;
+				sampleOneShot.source.maxDistance = def.distRange.TrueMax;
+				sampleOneShot.source.spatialBlend = 1f;
 			}
 			else
 			{
-				SampleOneShot sampleOneShot = new SampleOneShot(def);
-				sampleOneShot.info = info;
-				sampleOneShot.source = Find.SoundRoot.sourcePool.GetSource(def.onCamera);
-				if (sampleOneShot.source == null)
-				{
-					result = null;
-				}
-				else
-				{
-					sampleOneShot.source.clip = clip;
-					sampleOneShot.source.volume = sampleOneShot.SanitizedVolume;
-					sampleOneShot.source.pitch = sampleOneShot.SanitizedPitch;
-					sampleOneShot.source.minDistance = sampleOneShot.subDef.distRange.TrueMin;
-					sampleOneShot.source.maxDistance = sampleOneShot.subDef.distRange.TrueMax;
-					if (!def.onCamera)
-					{
-						sampleOneShot.source.gameObject.transform.position = info.Maker.Cell.ToVector3ShiftedWithAltitude(0f);
-						sampleOneShot.source.minDistance = def.distRange.TrueMin;
-						sampleOneShot.source.maxDistance = def.distRange.TrueMax;
-						sampleOneShot.source.spatialBlend = 1f;
-					}
-					else
-					{
-						sampleOneShot.source.spatialBlend = 0f;
-					}
-					for (int i = 0; i < def.filters.Count; i++)
-					{
-						def.filters[i].SetupOn(sampleOneShot.source);
-					}
-					foreach (KeyValuePair<string, float> keyValuePair in info.DefinedParameters)
-					{
-						sampleOneShot.externalParams[keyValuePair.Key] = keyValuePair.Value;
-					}
-					sampleOneShot.Update();
-					sampleOneShot.source.Play();
-					Find.SoundRoot.oneShotManager.TryAddPlayingOneShot(sampleOneShot);
-					result = sampleOneShot;
-				}
+				sampleOneShot.source.spatialBlend = 0f;
 			}
-			return result;
+			for (int i = 0; i < def.filters.Count; i++)
+			{
+				def.filters[i].SetupOn(sampleOneShot.source);
+			}
+			foreach (KeyValuePair<string, float> keyValuePair in info.DefinedParameters)
+			{
+				sampleOneShot.externalParams[keyValuePair.Key] = keyValuePair.Value;
+			}
+			sampleOneShot.Update();
+			sampleOneShot.source.Play();
+			Find.SoundRoot.oneShotManager.TryAddPlayingOneShot(sampleOneShot);
+			return sampleOneShot;
 		}
 	}
 }

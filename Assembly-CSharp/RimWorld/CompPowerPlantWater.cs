@@ -22,7 +22,7 @@ namespace RimWorld
 
 		private float spinRate = 1f;
 
-		private const float PowerFactorIfWaterDoubleUsed = 0.5f;
+		private const float PowerFactorIfWaterDoubleUsed = 0.3f;
 
 		private const float SpinRateFactor = 0.006666667f;
 
@@ -44,20 +44,15 @@ namespace RimWorld
 				{
 					this.RebuildCache();
 				}
-				float result;
 				if (!this.waterUsable)
 				{
-					result = 0f;
+					return 0f;
 				}
-				else if (this.waterDoubleUsed)
+				if (this.waterDoubleUsed)
 				{
-					result = base.DesiredPowerOutput * 0.5f;
+					return base.DesiredPowerOutput * 0.3f;
 				}
-				else
-				{
-					result = base.DesiredPowerOutput;
-				}
-				return result;
+				return base.DesiredPowerOutput;
 			}
 		}
 
@@ -115,22 +110,20 @@ namespace RimWorld
 			if (!this.waterUsable)
 			{
 				this.spinRate = 0f;
+				return;
 			}
-			else
+			Vector3 vector = Vector3.zero;
+			foreach (IntVec3 intVec in this.WaterCells())
 			{
-				Vector3 vector = Vector3.zero;
-				foreach (IntVec3 intVec in this.WaterCells())
-				{
-					vector += this.parent.Map.waterInfo.GetWaterMovement(intVec.ToVector3Shifted());
-				}
-				this.spinRate = Mathf.Sign(Vector3.Dot(vector, this.parent.Rotation.Rotated(RotationDirection.Clockwise).FacingCell.ToVector3()));
-				this.spinRate *= Rand.RangeSeeded(0.9f, 1.1f, this.parent.thingIDNumber * 60509 + 33151);
-				if (this.waterDoubleUsed)
-				{
-					this.spinRate *= 0.5f;
-				}
-				this.cacheDirty = false;
+				vector += this.parent.Map.waterInfo.GetWaterMovement(intVec.ToVector3Shifted());
 			}
+			this.spinRate = Mathf.Sign(Vector3.Dot(vector, this.parent.Rotation.Rotated(RotationDirection.Clockwise).FacingCell.ToVector3()));
+			this.spinRate *= Rand.RangeSeeded(0.9f, 1.1f, this.parent.thingIDNumber * 60509 + 33151);
+			if (this.waterDoubleUsed)
+			{
+				this.spinRate *= 0.5f;
+			}
+			this.cacheDirty = false;
 		}
 
 		private void ForceOthersToRebuildCache(Map map)
@@ -173,8 +166,8 @@ namespace RimWorld
 
 		public static CellRect WaterUseRect(IntVec3 loc, Rot4 rot)
 		{
-			int width = (!rot.IsHorizontal) ? 11 : 5;
-			int height = (!rot.IsHorizontal) ? 5 : 11;
+			int width = (!rot.IsHorizontal) ? 13 : 7;
+			int height = (!rot.IsHorizontal) ? 7 : 13;
 			return CellRect.CenteredOn(loc + rot.FacingCell * 4, width, height);
 		}
 

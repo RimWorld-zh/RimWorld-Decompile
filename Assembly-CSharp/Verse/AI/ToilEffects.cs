@@ -84,10 +84,11 @@ namespace Verse.AI
 				if (effecter == null)
 				{
 					EffecterDef effecterDef = effecterDefGetter();
-					if (effecterDef != null)
+					if (effecterDef == null)
 					{
-						effecter = effecterDef.Spawn();
+						return;
 					}
+					effecter = effecterDef.Spawn();
 				}
 				else
 				{
@@ -110,34 +111,35 @@ namespace Verse.AI
 			Effecter effecter = null;
 			toil.AddPreTickAction(delegate
 			{
-				if (toil.actor.Faction == Faction.OfPlayer)
+				if (toil.actor.Faction != Faction.OfPlayer)
 				{
-					if (effecter == null)
+					return;
+				}
+				if (effecter == null)
+				{
+					EffecterDef progressBar = EffecterDefOf.ProgressBar;
+					effecter = progressBar.Spawn();
+				}
+				else
+				{
+					LocalTargetInfo target = toil.actor.CurJob.GetTarget(ind);
+					if (!target.IsValid || (target.HasThing && !target.Thing.Spawned))
 					{
-						EffecterDef progressBar = EffecterDefOf.ProgressBar;
-						effecter = progressBar.Spawn();
+						effecter.EffectTick(toil.actor, TargetInfo.Invalid);
+					}
+					else if (interpolateBetweenActorAndTarget)
+					{
+						effecter.EffectTick(toil.actor.CurJob.GetTarget(ind).ToTargetInfo(toil.actor.Map), toil.actor);
 					}
 					else
 					{
-						LocalTargetInfo target = toil.actor.CurJob.GetTarget(ind);
-						if (!target.IsValid || (target.HasThing && !target.Thing.Spawned))
-						{
-							effecter.EffectTick(toil.actor, TargetInfo.Invalid);
-						}
-						else if (interpolateBetweenActorAndTarget)
-						{
-							effecter.EffectTick(toil.actor.CurJob.GetTarget(ind).ToTargetInfo(toil.actor.Map), toil.actor);
-						}
-						else
-						{
-							effecter.EffectTick(toil.actor.CurJob.GetTarget(ind).ToTargetInfo(toil.actor.Map), TargetInfo.Invalid);
-						}
-						MoteProgressBar mote = ((SubEffecter_ProgressBar)effecter.children[0]).mote;
-						if (mote != null)
-						{
-							mote.progress = Mathf.Clamp01(progressGetter());
-							mote.offsetZ = offsetZ;
-						}
+						effecter.EffectTick(toil.actor.CurJob.GetTarget(ind).ToTargetInfo(toil.actor.Map), TargetInfo.Invalid);
+					}
+					MoteProgressBar mote = ((SubEffecter_ProgressBar)effecter.children[0]).mote;
+					if (mote != null)
+					{
+						mote.progress = Mathf.Clamp01(progressGetter());
+						mote.offsetZ = offsetZ;
 					}
 				}
 			});
@@ -318,10 +320,11 @@ namespace Verse.AI
 				if (this.effecter == null)
 				{
 					EffecterDef effecterDef = this.effecterDefGetter();
-					if (effecterDef != null)
+					if (effecterDef == null)
 					{
-						this.effecter = effecterDef.Spawn();
+						return;
 					}
+					this.effecter = effecterDef.Spawn();
 				}
 				else
 				{
@@ -360,34 +363,35 @@ namespace Verse.AI
 
 			internal void <>m__0()
 			{
-				if (this.toil.actor.Faction == Faction.OfPlayer)
+				if (this.toil.actor.Faction != Faction.OfPlayer)
 				{
-					if (this.effecter == null)
+					return;
+				}
+				if (this.effecter == null)
+				{
+					EffecterDef progressBar = EffecterDefOf.ProgressBar;
+					this.effecter = progressBar.Spawn();
+				}
+				else
+				{
+					LocalTargetInfo target = this.toil.actor.CurJob.GetTarget(this.ind);
+					if (!target.IsValid || (target.HasThing && !target.Thing.Spawned))
 					{
-						EffecterDef progressBar = EffecterDefOf.ProgressBar;
-						this.effecter = progressBar.Spawn();
+						this.effecter.EffectTick(this.toil.actor, TargetInfo.Invalid);
+					}
+					else if (this.interpolateBetweenActorAndTarget)
+					{
+						this.effecter.EffectTick(this.toil.actor.CurJob.GetTarget(this.ind).ToTargetInfo(this.toil.actor.Map), this.toil.actor);
 					}
 					else
 					{
-						LocalTargetInfo target = this.toil.actor.CurJob.GetTarget(this.ind);
-						if (!target.IsValid || (target.HasThing && !target.Thing.Spawned))
-						{
-							this.effecter.EffectTick(this.toil.actor, TargetInfo.Invalid);
-						}
-						else if (this.interpolateBetweenActorAndTarget)
-						{
-							this.effecter.EffectTick(this.toil.actor.CurJob.GetTarget(this.ind).ToTargetInfo(this.toil.actor.Map), this.toil.actor);
-						}
-						else
-						{
-							this.effecter.EffectTick(this.toil.actor.CurJob.GetTarget(this.ind).ToTargetInfo(this.toil.actor.Map), TargetInfo.Invalid);
-						}
-						MoteProgressBar mote = ((SubEffecter_ProgressBar)this.effecter.children[0]).mote;
-						if (mote != null)
-						{
-							mote.progress = Mathf.Clamp01(this.progressGetter());
-							mote.offsetZ = this.offsetZ;
-						}
+						this.effecter.EffectTick(this.toil.actor.CurJob.GetTarget(this.ind).ToTargetInfo(this.toil.actor.Map), TargetInfo.Invalid);
+					}
+					MoteProgressBar mote = ((SubEffecter_ProgressBar)this.effecter.children[0]).mote;
+					if (mote != null)
+					{
+						mote.progress = Mathf.Clamp01(this.progressGetter());
+						mote.offsetZ = this.offsetZ;
 					}
 				}
 			}

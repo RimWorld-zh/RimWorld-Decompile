@@ -1,6 +1,5 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Diagnostics;
 using System.Runtime.CompilerServices;
 using UnityEngine;
 
@@ -55,8 +54,6 @@ namespace Verse.Noise
 
 		public override double GetValue(double x, double y, double z)
 		{
-			System.Diagnostics.Debug.Assert(this.modules[0] != null);
-			System.Diagnostics.Debug.Assert(this.ControlPointCount >= 4);
 			double value = this.modules[0].GetValue(x, y, z);
 			int i;
 			for (i = 0; i < this.m_data.Count; i++)
@@ -70,19 +67,14 @@ namespace Verse.Noise
 			int num = Mathf.Clamp(i - 1, 0, this.m_data.Count - 1);
 			int num2 = Mathf.Clamp(i, 0, this.m_data.Count - 1);
 			int index2 = Mathf.Clamp(i + 1, 0, this.m_data.Count - 1);
-			double result;
 			if (num == num2)
 			{
-				result = this.m_data[num].Value;
+				return this.m_data[num].Value;
 			}
-			else
-			{
-				double key = this.m_data[num].Key;
-				double key2 = this.m_data[num2].Key;
-				double position = (value - key) / (key2 - key);
-				result = Utils.InterpolateCubic(this.m_data[index].Value, this.m_data[num].Value, this.m_data[num2].Value, this.m_data[index2].Value, position);
-			}
-			return result;
+			double key = this.m_data[num].Key;
+			double key2 = this.m_data[num2].Key;
+			double position = (value - key) / (key2 - key);
+			return Utils.InterpolateCubic(this.m_data[index].Value, this.m_data[num].Value, this.m_data[num2].Value, this.m_data[index2].Value, position);
 		}
 
 		[CompilerGenerated]

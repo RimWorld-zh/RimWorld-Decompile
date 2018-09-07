@@ -12,9 +12,9 @@ namespace RimWorld
 	{
 		public NeedDef need;
 
-		public float offset = 0f;
+		public float offset;
 
-		public ChemicalDef toleranceChemical = null;
+		public ChemicalDef toleranceChemical;
 
 		public IngestionOutcomeDoer_OffsetNeed()
 		{
@@ -22,21 +22,23 @@ namespace RimWorld
 
 		protected override void DoIngestionOutcomeSpecial(Pawn pawn, Thing ingested)
 		{
-			if (pawn.needs != null)
+			if (pawn.needs == null)
 			{
-				Need need = pawn.needs.TryGetNeed(this.need);
-				if (need != null)
-				{
-					float num = this.offset;
-					AddictionUtility.ModifyChemicalEffectForToleranceAndBodySize(pawn, this.toleranceChemical, ref num);
-					need.CurLevel += num;
-				}
+				return;
 			}
+			Need need = pawn.needs.TryGetNeed(this.need);
+			if (need == null)
+			{
+				return;
+			}
+			float num = this.offset;
+			AddictionUtility.ModifyChemicalEffectForToleranceAndBodySize(pawn, this.toleranceChemical, ref num);
+			need.CurLevel += num;
 		}
 
 		public override IEnumerable<StatDrawEntry> SpecialDisplayStats(ThingDef parentDef)
 		{
-			yield return new StatDrawEntry(StatCategoryDefOf.Basics, this.need.LabelCap, this.offset.ToStringPercent(), 0, "");
+			yield return new StatDrawEntry(StatCategoryDefOf.Basics, this.need.LabelCap, this.offset.ToStringPercent(), 0, string.Empty);
 			yield break;
 		}
 
@@ -63,7 +65,7 @@ namespace RimWorld
 				switch (num)
 				{
 				case 0u:
-					this.$current = new StatDrawEntry(StatCategoryDefOf.Basics, this.need.LabelCap, this.offset.ToStringPercent(), 0, "");
+					this.$current = new StatDrawEntry(StatCategoryDefOf.Basics, this.need.LabelCap, this.offset.ToStringPercent(), 0, string.Empty);
 					if (!this.$disposing)
 					{
 						this.$PC = 1;

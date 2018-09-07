@@ -35,20 +35,15 @@ namespace RimWorld
 
 		public override string GetLabelWhenUsedOn(Pawn pawn, BodyPartRecord part)
 		{
-			string result;
 			if (pawn.IsTeetotaler() && this.recipe.ingredients[0].filter.BestThingRequest.singleDef.IsNonMedicalDrug)
 			{
-				result = base.GetLabelWhenUsedOn(pawn, part) + " (" + "TeetotalerUnhappy".Translate() + ")";
+				return base.GetLabelWhenUsedOn(pawn, part) + " (" + "TeetotalerUnhappy".Translate() + ")";
 			}
-			else if (pawn.IsProsthophobe() && this.recipe.ingredients[0].filter.BestThingRequest.singleDef == ThingDefOf.Luciferium)
+			if (pawn.IsProsthophobe() && this.recipe.ingredients[0].filter.BestThingRequest.singleDef == ThingDefOf.Luciferium)
 			{
-				result = base.GetLabelWhenUsedOn(pawn, part) + " (" + "ProsthophobeUnhappy".Translate() + ")";
+				return base.GetLabelWhenUsedOn(pawn, part) + " (" + "ProsthophobeUnhappy".Translate() + ")";
 			}
-			else
-			{
-				result = base.GetLabelWhenUsedOn(pawn, part);
-			}
-			return result;
+			return base.GetLabelWhenUsedOn(pawn, part);
 		}
 	}
 }

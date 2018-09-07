@@ -5,7 +5,7 @@ namespace Verse.AI
 {
 	public static class JobUtility
 	{
-		private static bool startingErrorRecoverJob = false;
+		private static bool startingErrorRecoverJob;
 
 		public static void TryStartErrorRecoverJob(Pawn pawn, string message, Exception exception = null, JobDriver concreteDriver = null)
 		{

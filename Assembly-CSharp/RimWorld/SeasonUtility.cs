@@ -72,20 +72,15 @@ namespace RimWorld
 			float num;
 			float num2;
 			SeasonUtility.GetSeason(yearPct, latitude, out by, out by2, out by3, out by4, out num, out num2);
-			Season result;
 			if (num == 1f)
 			{
-				result = Season.PermanentSummer;
+				return Season.PermanentSummer;
 			}
-			else if (num2 == 1f)
+			if (num2 == 1f)
 			{
-				result = Season.PermanentWinter;
+				return Season.PermanentWinter;
 			}
-			else
-			{
-				result = GenMath.MaxBy<Season>(Season.Spring, by, Season.Summer, by2, Season.Fall, by3, Season.Winter, by4);
-			}
-			return result;
+			return GenMath.MaxBy<Season>(Season.Spring, by, Season.Summer, by2, Season.Fall, by3, Season.Winter, by4);
 		}
 
 		public static Season GetDominantSeason(float yearPct, float latitude)
@@ -256,79 +251,55 @@ namespace RimWorld
 
 		public static Season GetPreviousSeason(this Season season)
 		{
-			Season result;
 			switch (season)
 			{
 			case Season.Undefined:
-				result = Season.Undefined;
-				break;
+				return Season.Undefined;
 			case Season.Spring:
-				result = Season.Winter;
-				break;
+				return Season.Winter;
 			case Season.Summer:
-				result = Season.Spring;
-				break;
+				return Season.Spring;
 			case Season.Fall:
-				result = Season.Summer;
-				break;
+				return Season.Summer;
 			case Season.Winter:
-				result = Season.Fall;
-				break;
+				return Season.Fall;
 			case Season.PermanentSummer:
-				result = Season.PermanentSummer;
-				break;
+				return Season.PermanentSummer;
 			case Season.PermanentWinter:
-				result = Season.PermanentWinter;
-				break;
+				return Season.PermanentWinter;
 			default:
-				result = Season.Undefined;
-				break;
+				return Season.Undefined;
 			}
-			return result;
 		}
 
 		public static float GetMiddleYearPct(this Season season, float latitude)
 		{
-			float result;
 			if (season == Season.Undefined)
 			{
-				result = 0.5f;
+				return 0.5f;
 			}
-			else
-			{
-				result = season.GetMiddleTwelfth(latitude).GetMiddleYearPct();
-			}
-			return result;
+			return season.GetMiddleTwelfth(latitude).GetMiddleYearPct();
 		}
 
 		public static string Label(this Season season)
 		{
-			string result;
 			switch (season)
 			{
 			case Season.Spring:
-				result = "SeasonSpring".Translate();
-				break;
+				return "SeasonSpring".Translate();
 			case Season.Summer:
-				result = "SeasonSummer".Translate();
-				break;
+				return "SeasonSummer".Translate();
 			case Season.Fall:
-				result = "SeasonFall".Translate();
-				break;
+				return "SeasonFall".Translate();
 			case Season.Winter:
-				result = "SeasonWinter".Translate();
-				break;
+				return "SeasonWinter".Translate();
 			case Season.PermanentSummer:
-				result = "SeasonPermanentSummer".Translate();
-				break;
+				return "SeasonPermanentSummer".Translate();
 			case Season.PermanentWinter:
-				result = "SeasonPermanentWinter".Translate();
-				break;
+				return "SeasonPermanentWinter".Translate();
 			default:
-				result = "Unknown season";
-				break;
+				return "Unknown season";
 			}
-			return result;
 		}
 
 		public static string LabelCap(this Season season)
@@ -338,33 +309,28 @@ namespace RimWorld
 
 		public static string SeasonsRangeLabel(List<Twelfth> twelfths, Vector2 longLat)
 		{
-			string result;
 			if (twelfths.Count == 0)
 			{
-				result = "";
+				return string.Empty;
 			}
-			else if (twelfths.Count == 12)
+			if (twelfths.Count == 12)
 			{
-				result = "WholeYear".Translate();
+				return "WholeYear".Translate();
 			}
-			else
+			string text = string.Empty;
+			for (int i = 0; i < 12; i++)
 			{
-				string text = "";
-				for (int i = 0; i < 12; i++)
+				Twelfth twelfth = (Twelfth)i;
+				if (twelfths.Contains(twelfth))
 				{
-					Twelfth twelfth = (Twelfth)i;
-					if (twelfths.Contains(twelfth))
+					if (!text.NullOrEmpty())
 					{
-						if (!text.NullOrEmpty())
-						{
-							text += ", ";
-						}
-						text += SeasonUtility.SeasonsContinuousRangeLabel(twelfths, twelfth, longLat);
+						text += ", ";
 					}
+					text += SeasonUtility.SeasonsContinuousRangeLabel(twelfths, twelfth, longLat);
 				}
-				result = text;
 			}
-			return result;
+			return text;
 		}
 
 		private static string SeasonsContinuousRangeLabel(List<Twelfth> twelfths, Twelfth rootTwelfth, Vector2 longLat)

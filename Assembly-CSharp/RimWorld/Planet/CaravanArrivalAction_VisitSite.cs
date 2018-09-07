@@ -37,20 +37,15 @@ namespace RimWorld.Planet
 		public override FloatMenuAcceptanceReport StillValid(Caravan caravan, int destinationTile)
 		{
 			FloatMenuAcceptanceReport floatMenuAcceptanceReport = base.StillValid(caravan, destinationTile);
-			FloatMenuAcceptanceReport result;
 			if (!floatMenuAcceptanceReport)
 			{
-				result = floatMenuAcceptanceReport;
+				return floatMenuAcceptanceReport;
 			}
-			else if (this.site != null && this.site.Tile != destinationTile)
+			if (this.site != null && this.site.Tile != destinationTile)
 			{
-				result = false;
+				return false;
 			}
-			else
-			{
-				result = CaravanArrivalAction_VisitSite.CanVisit(caravan, this.site);
-			}
-			return result;
+			return CaravanArrivalAction_VisitSite.CanVisit(caravan, this.site);
 		}
 
 		public override void Arrived(Caravan caravan)
@@ -66,23 +61,18 @@ namespace RimWorld.Planet
 
 		public static FloatMenuAcceptanceReport CanVisit(Caravan caravan, Site site)
 		{
-			FloatMenuAcceptanceReport result;
 			if (site == null || !site.Spawned)
 			{
-				result = false;
+				return false;
 			}
-			else if (site.EnterCooldownBlocksEntering())
+			if (site.EnterCooldownBlocksEntering())
 			{
-				result = FloatMenuAcceptanceReport.WithFailMessage("MessageEnterCooldownBlocksEntering".Translate(new object[]
+				return FloatMenuAcceptanceReport.WithFailMessage("MessageEnterCooldownBlocksEntering".Translate(new object[]
 				{
 					site.EnterCooldownDaysLeft().ToString("0.#")
 				}));
 			}
-			else
-			{
-				result = true;
-			}
-			return result;
+			return true;
 		}
 
 		public static IEnumerable<FloatMenuOption> GetFloatMenuOptions(Caravan caravan, Site site)

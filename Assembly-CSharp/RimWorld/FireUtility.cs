@@ -31,12 +31,9 @@ namespace RimWorld
 			if (num > 0f)
 			{
 				Building edifice = c.GetEdifice(map);
-				if (edifice != null && edifice.def.passability == Traversability.Impassable)
+				if (edifice != null && edifice.def.passability == Traversability.Impassable && edifice.OccupiedRect().ContractedBy(1).Contains(c))
 				{
-					if (edifice.OccupiedRect().ContractedBy(1).Contains(c))
-					{
-						return 0f;
-					}
+					return 0f;
 				}
 				List<Thing> thingList2 = c.GetThingList(map);
 				for (int j = 0; j < thingList2.Count; j++)
@@ -53,74 +50,54 @@ namespace RimWorld
 		public static bool TryStartFireIn(IntVec3 c, Map map, float fireSize)
 		{
 			float num = FireUtility.ChanceToStartFireIn(c, map);
-			bool result;
 			if (num <= 0f)
 			{
-				result = false;
+				return false;
 			}
-			else
-			{
-				Fire fire = (Fire)ThingMaker.MakeThing(ThingDefOf.Fire, null);
-				fire.fireSize = fireSize;
-				GenSpawn.Spawn(fire, c, map, Rot4.North, WipeMode.Vanish, false);
-				result = true;
-			}
-			return result;
+			Fire fire = (Fire)ThingMaker.MakeThing(ThingDefOf.Fire, null);
+			fire.fireSize = fireSize;
+			GenSpawn.Spawn(fire, c, map, Rot4.North, WipeMode.Vanish, false);
+			return true;
 		}
 
 		public static void TryAttachFire(this Thing t, float fireSize)
 		{
-			if (t.CanEverAttachFire())
+			if (!t.CanEverAttachFire())
 			{
-				if (!t.HasAttachment(ThingDefOf.Fire))
-				{
-					Fire fire = (Fire)ThingMaker.MakeThing(ThingDefOf.Fire, null);
-					fire.fireSize = fireSize;
-					fire.AttachTo(t);
-					GenSpawn.Spawn(fire, t.Position, t.Map, Rot4.North, WipeMode.Vanish, false);
-					Pawn pawn = t as Pawn;
-					if (pawn != null)
-					{
-						pawn.jobs.StopAll(false);
-						pawn.records.Increment(RecordDefOf.TimesOnFire);
-					}
-				}
+				return;
+			}
+			if (t.HasAttachment(ThingDefOf.Fire))
+			{
+				return;
+			}
+			Fire fire = (Fire)ThingMaker.MakeThing(ThingDefOf.Fire, null);
+			fire.fireSize = fireSize;
+			fire.AttachTo(t);
+			GenSpawn.Spawn(fire, t.Position, t.Map, Rot4.North, WipeMode.Vanish, false);
+			Pawn pawn = t as Pawn;
+			if (pawn != null)
+			{
+				pawn.jobs.StopAll(false);
+				pawn.records.Increment(RecordDefOf.TimesOnFire);
 			}
 		}
 
 		public static bool IsBurning(this TargetInfo t)
 		{
-			bool result;
 			if (t.HasThing)
 			{
-				result = t.Thing.IsBurning();
+				return t.Thing.IsBurning();
 			}
-			else
-			{
-				result = t.Cell.ContainsStaticFire(t.Map);
-			}
-			return result;
+			return t.Cell.ContainsStaticFire(t.Map);
 		}
 
 		public static bool IsBurning(this Thing t)
 		{
-			bool result;
 			if (t.Destroyed || !t.Spawned)
 			{
-				result = false;
+				return false;
 			}
-			else if (t.def.size == IntVec2.One)
-			{
-				if (t is Pawn)
-				{
-					result = t.HasAttachment(ThingDefOf.Fire);
-				}
-				else
-				{
-					result = t.Position.ContainsStaticFire(t.Map);
-				}
-			}
-			else
+			if (!(t.def.size == IntVec2.One))
 			{
 				CellRect.CellRectIterator iterator = t.OccupiedRect().GetIterator();
 				while (!iterator.Done())
@@ -131,9 +108,13 @@ namespace RimWorld
 					}
 					iterator.MoveNext();
 				}
-				result = false;
+				return false;
 			}
-			return result;
+			if (t is Pawn)
+			{
+				return t.HasAttachment(ThingDefOf.Fire);
+			}
+			return t.Position.ContainsStaticFire(t.Map);
 		}
 
 		public static bool ContainsStaticFire(this IntVec3 c, Map map)
@@ -164,24 +145,19 @@ namespace RimWorld
 		public static bool TerrainFlammableNow(this IntVec3 c, Map map)
 		{
 			TerrainDef terrain = c.GetTerrain(map);
-			bool result;
 			if (!terrain.Flammable())
 			{
-				result = false;
+				return false;
 			}
-			else
+			List<Thing> thingList = c.GetThingList(map);
+			for (int i = 0; i < thingList.Count; i++)
 			{
-				List<Thing> thingList = c.GetThingList(map);
-				for (int i = 0; i < thingList.Count; i++)
+				if (thingList[i].FireBulwark)
 				{
-					if (thingList[i].FireBulwark)
-					{
-						return false;
-					}
+					return false;
 				}
-				result = true;
 			}
-			return result;
+			return true;
 		}
 	}
 }

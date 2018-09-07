@@ -5,7 +5,7 @@ namespace Verse
 {
 	public class CameraShaker
 	{
-		private float curShakeMag = 0f;
+		private float curShakeMag;
 
 		private const float ShakeDecayRate = 0.5f;
 
@@ -42,10 +42,11 @@ namespace Verse
 
 		public void DoShake(float mag)
 		{
-			if (mag > 0f)
+			if (mag <= 0f)
 			{
-				this.CurShakeMag += mag;
+				return;
 			}
+			this.CurShakeMag += mag;
 		}
 
 		public void SetMinShake(float mag)

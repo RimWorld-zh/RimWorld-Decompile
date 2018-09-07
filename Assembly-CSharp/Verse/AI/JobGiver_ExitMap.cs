@@ -5,19 +5,19 @@ namespace Verse.AI
 {
 	public abstract class JobGiver_ExitMap : ThinkNode_JobGiver
 	{
-		protected LocomotionUrgency defaultLocomotion = LocomotionUrgency.None;
+		protected LocomotionUrgency defaultLocomotion;
 
 		protected int jobMaxDuration = 999999;
 
-		protected bool canBash = false;
+		protected bool canBash;
 
-		protected bool forceCanDig = false;
+		protected bool forceCanDig;
 
-		protected bool forceCanDigIfAnyHostileActiveThreat = false;
+		protected bool forceCanDigIfAnyHostileActiveThreat;
 
-		protected bool forceCanDigIfCantReachMapEdge = false;
+		protected bool forceCanDigIfCantReachMapEdge;
 
-		protected bool failIfCantJoinOrCreateCaravan = false;
+		protected bool failIfCantJoinOrCreateCaravan;
 
 		protected JobGiver_ExitMap()
 		{
@@ -44,39 +44,34 @@ namespace Verse.AI
 				flag = true;
 			}
 			IntVec3 c;
-			Job result;
 			if (!this.TryFindGoodExitDest(pawn, flag, out c))
 			{
-				result = null;
+				return null;
 			}
-			else
+			if (flag)
 			{
-				if (flag)
+				using (PawnPath pawnPath = pawn.Map.pathFinder.FindPath(pawn.Position, c, TraverseParms.For(pawn, Danger.Deadly, TraverseMode.PassAllDestroyableThings, false), PathEndMode.OnCell))
 				{
-					using (PawnPath pawnPath = pawn.Map.pathFinder.FindPath(pawn.Position, c, TraverseParms.For(pawn, Danger.Deadly, TraverseMode.PassAllDestroyableThings, false), PathEndMode.OnCell))
+					IntVec3 cellBeforeBlocker;
+					Thing thing = pawnPath.FirstBlockingBuilding(out cellBeforeBlocker, pawn);
+					if (thing != null)
 					{
-						IntVec3 cellBeforeBlocker;
-						Thing thing = pawnPath.FirstBlockingBuilding(out cellBeforeBlocker, pawn);
-						if (thing != null)
+						Job job = DigUtility.PassBlockerJob(pawn, thing, cellBeforeBlocker, true, true);
+						if (job != null)
 						{
-							Job job = DigUtility.PassBlockerJob(pawn, thing, cellBeforeBlocker, true, true);
-							if (job != null)
-							{
-								return job;
-							}
+							return job;
 						}
 					}
 				}
-				result = new Job(JobDefOf.Goto, c)
-				{
-					exitMapOnArrival = true,
-					failIfCantJoinOrCreateCaravan = this.failIfCantJoinOrCreateCaravan,
-					locomotionUrgency = PawnUtility.ResolveLocomotion(pawn, this.defaultLocomotion, LocomotionUrgency.Jog),
-					expiryInterval = this.jobMaxDuration,
-					canBash = this.canBash
-				};
 			}
-			return result;
+			return new Job(JobDefOf.Goto, c)
+			{
+				exitMapOnArrival = true,
+				failIfCantJoinOrCreateCaravan = this.failIfCantJoinOrCreateCaravan,
+				locomotionUrgency = PawnUtility.ResolveLocomotion(pawn, this.defaultLocomotion, LocomotionUrgency.Jog),
+				expiryInterval = this.jobMaxDuration,
+				canBash = this.canBash
+			};
 		}
 
 		protected abstract bool TryFindGoodExitDest(Pawn pawn, bool canDig, out IntVec3 dest);

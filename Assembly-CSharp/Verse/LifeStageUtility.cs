@@ -11,16 +11,18 @@ namespace Verse
 			float pitchFactor;
 			float num;
 			LifeStageUtility.GetNearestLifestageSound(pawn, getter, out soundDef, out pitchFactor, out num);
-			if (soundDef != null)
+			if (soundDef == null)
 			{
-				if (pawn.SpawnedOrAnyParentSpawned)
-				{
-					SoundInfo info = SoundInfo.InMap(new TargetInfo(pawn.PositionHeld, pawn.MapHeld, false), MaintenanceType.None);
-					info.pitchFactor = pitchFactor;
-					info.volumeFactor = num * volumeFactor;
-					soundDef.PlayOneShot(info);
-				}
+				return;
 			}
+			if (!pawn.SpawnedOrAnyParentSpawned)
+			{
+				return;
+			}
+			SoundInfo info = SoundInfo.InMap(new TargetInfo(pawn.PositionHeld, pawn.MapHeld, false), MaintenanceType.None);
+			info.pitchFactor = pitchFactor;
+			info.volumeFactor = num * volumeFactor;
+			soundDef.PlayOneShot(info);
 		}
 
 		private static void GetNearestLifestageSound(Pawn pawn, Func<LifeStageAge, SoundDef> getter, out SoundDef def, out float pitch, out float volume)
@@ -38,13 +40,13 @@ namespace Verse
 				num++;
 				if (num < 0 || num >= pawn.RaceProps.lifeStageAges.Count)
 				{
-					goto IL_95;
+					goto IL_8D;
 				}
 			}
 			pitch = pawn.ageTracker.CurLifeStage.voxPitch / lifeStageAge.def.voxPitch;
 			volume = pawn.ageTracker.CurLifeStage.voxVolume / lifeStageAge.def.voxVolume;
 			return;
-			IL_95:
+			IL_8D:
 			def = null;
 			pitch = (volume = 1f);
 		}

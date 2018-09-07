@@ -13,6 +13,10 @@ namespace Verse
 {
 	public static class BackstoryTranslationUtility
 	{
+		public const string BackstoriesFolder = "Backstories";
+
+		public const string BackstoriesFileName = "Backstories.xml";
+
 		private static IEnumerable<XElement> BackstoryTranslationElements(IEnumerable<string> folderPaths, List<string> loadErrors)
 		{
 			foreach (string folderPath in folderPaths)
@@ -58,49 +62,54 @@ namespace Verse
 				try
 				{
 					text = xelement.Name.ToString();
-					string value = xelement.Element("title").Value;
-					string text2 = (xelement.Element("titleFemale") == null) ? null : xelement.Element("titleFemale").Value;
-					string value2 = xelement.Element("titleShort").Value;
-					string text3 = (xelement.Element("titleShortFemale") == null) ? null : xelement.Element("titleShortFemale").Value;
-					string value3 = xelement.Element("desc").Value;
+					string text2 = BackstoryTranslationUtility.GetText(xelement, "title");
+					string text3 = BackstoryTranslationUtility.GetText(xelement, "titleFemale");
+					string text4 = BackstoryTranslationUtility.GetText(xelement, "titleShort");
+					string text5 = BackstoryTranslationUtility.GetText(xelement, "titleShortFemale");
+					string text6 = BackstoryTranslationUtility.GetText(xelement, "desc");
 					Backstory backstory;
 					if (!BackstoryDatabase.TryGetWithIdentifier(text, out backstory, false))
 					{
 						throw new Exception("Backstory not found matching identifier " + text);
 					}
-					if (value == backstory.title && text2 == backstory.titleFemale && value2 == backstory.titleShort && text3 == backstory.titleShortFemale && value3 == backstory.baseDesc)
+					if (text2 == backstory.title && text3 == backstory.titleFemale && text4 == backstory.titleShort && text5 == backstory.titleShortFemale && text6 == backstory.baseDesc)
 					{
 						throw new Exception("Backstory translation exactly matches default data: " + text);
 					}
-					if (value != null)
-					{
-						backstory.SetTitle(value, backstory.titleFemale);
-					}
 					if (text2 != null)
 					{
-						backstory.SetTitle(backstory.title, text2);
-					}
-					if (value2 != null)
-					{
-						backstory.SetTitleShort(value2, backstory.titleShortFemale);
+						backstory.SetTitle(text2, backstory.titleFemale);
+						backstory.titleTranslated = true;
 					}
 					if (text3 != null)
 					{
-						backstory.SetTitleShort(backstory.titleShort, text3);
+						backstory.SetTitle(backstory.title, text3);
+						backstory.titleFemaleTranslated = true;
 					}
-					if (value3 != null)
+					if (text4 != null)
 					{
-						backstory.baseDesc = value3;
+						backstory.SetTitleShort(text4, backstory.titleShortFemale);
+						backstory.titleShortTranslated = true;
+					}
+					if (text5 != null)
+					{
+						backstory.SetTitleShort(backstory.titleShort, text5);
+						backstory.titleShortFemaleTranslated = true;
+					}
+					if (text6 != null)
+					{
+						backstory.baseDesc = text6;
+						backstory.descTranslated = true;
 					}
 				}
 				catch (Exception ex)
 				{
-					loadErrors.Add(string.Concat(new object[]
+					loadErrors.Add(string.Concat(new string[]
 					{
 						"Couldn't load backstory ",
 						text,
 						": ",
-						ex,
+						ex.Message,
 						"\nFull XML text:\n\n",
 						xelement.ToString()
 					}));
@@ -123,28 +132,28 @@ namespace Verse
 					if (flag)
 					{
 						list.RemoveAt(list.FindIndex((KeyValuePair<string, Backstory> x) => x.Key == backstory.Key));
-						string value = xelement.Element("title").Value;
-						string str = (xelement.Element("titleFemale") == null) ? null : xelement.Element("titleFemale").Value;
-						string value2 = xelement.Element("titleShort").Value;
-						string str2 = (xelement.Element("titleShortFemale") == null) ? null : xelement.Element("titleShortFemale").Value;
-						string value3 = xelement.Element("desc").Value;
-						if (value.NullOrEmpty())
+						string text2 = BackstoryTranslationUtility.GetText(xelement, "title");
+						string text3 = BackstoryTranslationUtility.GetText(xelement, "titleFemale");
+						string text4 = BackstoryTranslationUtility.GetText(xelement, "titleShort");
+						string text5 = BackstoryTranslationUtility.GetText(xelement, "titleShortFemale");
+						string text6 = BackstoryTranslationUtility.GetText(xelement, "desc");
+						if (text2.NullOrEmpty())
 						{
 							list2.Add(text + ".title missing");
 						}
-						if (flag && !backstory.Value.titleFemale.NullOrEmpty() && str.NullOrEmpty())
+						if (flag && !backstory.Value.titleFemale.NullOrEmpty() && text3.NullOrEmpty())
 						{
 							list2.Add(text + ".titleFemale missing");
 						}
-						if (value2.NullOrEmpty())
+						if (text4.NullOrEmpty())
 						{
 							list2.Add(text + ".titleShort missing");
 						}
-						if (flag && !backstory.Value.titleShortFemale.NullOrEmpty() && str2.NullOrEmpty())
+						if (flag && !backstory.Value.titleShortFemale.NullOrEmpty() && text5.NullOrEmpty())
 						{
 							list2.Add(text + ".titleShortFemale missing");
 						}
-						if (value3.NullOrEmpty())
+						if (text6.NullOrEmpty())
 						{
 							list2.Add(text + ".desc missing");
 						}
@@ -183,30 +192,30 @@ namespace Verse
 					Backstory backstory;
 					if (BackstoryDatabase.allBackstories.TryGetValue(BackstoryDatabase.GetIdentifierClosestMatch(text, true), out backstory))
 					{
-						string value = xelement.Element("title").Value;
-						string text2 = (xelement.Element("titleFemale") == null) ? null : xelement.Element("titleFemale").Value;
-						string value2 = xelement.Element("titleShort").Value;
-						string text3 = (xelement.Element("titleShortFemale") == null) ? null : xelement.Element("titleShortFemale").Value;
-						string value3 = xelement.Element("desc").Value;
-						if (!value.NullOrEmpty() && value == backstory.untranslatedTitle)
+						string text2 = BackstoryTranslationUtility.GetText(xelement, "title");
+						string text3 = BackstoryTranslationUtility.GetText(xelement, "titleFemale");
+						string text4 = BackstoryTranslationUtility.GetText(xelement, "titleShort");
+						string text5 = BackstoryTranslationUtility.GetText(xelement, "titleShortFemale");
+						string text6 = BackstoryTranslationUtility.GetText(xelement, "desc");
+						if (!text2.NullOrEmpty() && text2 == backstory.untranslatedTitle)
 						{
-							list.Add(text + ".title '" + value.Replace("\n", "\\n") + "'");
+							list.Add(text + ".title '" + text2.Replace("\n", "\\n") + "'");
 						}
-						if (!text2.NullOrEmpty() && text2 == backstory.untranslatedTitleFemale)
+						if (!text3.NullOrEmpty() && text3 == backstory.untranslatedTitleFemale)
 						{
-							list.Add(text + ".titleFemale '" + text2.Replace("\n", "\\n") + "'");
+							list.Add(text + ".titleFemale '" + text3.Replace("\n", "\\n") + "'");
 						}
-						if (!value2.NullOrEmpty() && value2 == backstory.untranslatedTitleShort)
+						if (!text4.NullOrEmpty() && text4 == backstory.untranslatedTitleShort)
 						{
-							list.Add(text + ".titleShort '" + value2.Replace("\n", "\\n") + "'");
+							list.Add(text + ".titleShort '" + text4.Replace("\n", "\\n") + "'");
 						}
-						if (!text3.NullOrEmpty() && text3 == backstory.untranslatedTitleShortFemale)
+						if (!text5.NullOrEmpty() && text5 == backstory.untranslatedTitleShortFemale)
 						{
-							list.Add(text + ".titleShortFemale '" + text3.Replace("\n", "\\n") + "'");
+							list.Add(text + ".titleShortFemale '" + text5.Replace("\n", "\\n") + "'");
 						}
-						if (!value3.NullOrEmpty() && value3 == backstory.untranslatedDesc)
+						if (!text6.NullOrEmpty() && text6 == backstory.untranslatedDesc)
 						{
-							list.Add(text + ".desc '" + value3.Replace("\n", "\\n") + "'");
+							list.Add(text + ".desc '" + text6.Replace("\n", "\\n") + "'");
 						}
 					}
 				}
@@ -222,6 +231,16 @@ namespace Verse
 				}
 			}
 			return list;
+		}
+
+		private static string GetText(XElement backstory, string fieldName)
+		{
+			XElement xelement = backstory.Element(fieldName);
+			if (xelement == null || xelement.Value == "TODO")
+			{
+				return null;
+			}
+			return xelement.Value.Replace("\\n", "\n");
 		}
 
 		[CompilerGenerated]

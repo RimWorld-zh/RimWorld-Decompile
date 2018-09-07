@@ -40,25 +40,9 @@ namespace RimWorld
 				}
 			}
 			List<Building> allBuildingsColonist = pawn.Map.listerBuildings.allBuildingsColonist;
-			IntVec3 result;
-			if (allBuildingsColonist.Count == 0)
-			{
-				Pawn pawn2;
-				if ((from c in pawn.Map.mapPawns.FreeColonistsSpawned
-				where !c.Position.IsForbidden(pawn) && pawn.CanReach(c.Position, PathEndMode.Touch, Danger.None, false, TraverseMode.ByPawn)
-				select c).TryRandomElement(out pawn2))
-				{
-					result = pawn2.Position;
-				}
-				else
-				{
-					result = pawn.Position;
-				}
-			}
-			else
+			if (allBuildingsColonist.Count != 0)
 			{
 				int num = 0;
-				IntVec3 intVec;
 				for (;;)
 				{
 					num++;
@@ -72,19 +56,24 @@ namespace RimWorld
 						int num2 = 15 + num * 2;
 						if ((pawn.Position - building.Position).LengthHorizontalSquared <= num2 * num2)
 						{
-							intVec = GenAdjFast.AdjacentCells8Way(building).RandomElement<IntVec3>();
+							IntVec3 intVec = GenAdjFast.AdjacentCells8Way(building).RandomElement<IntVec3>();
 							if (intVec.Standable(building.Map) && !intVec.IsForbidden(pawn) && pawn.CanReach(intVec, PathEndMode.OnCell, Danger.None, false, TraverseMode.ByPawn) && !intVec.IsInPrisonCell(pawn.Map))
 							{
-								goto IL_265;
+								return intVec;
 							}
 						}
 					}
 				}
 				return pawn.Position;
-				IL_265:
-				result = intVec;
 			}
-			return result;
+			Pawn pawn2;
+			if ((from c in pawn.Map.mapPawns.FreeColonistsSpawned
+			where !c.Position.IsForbidden(pawn) && pawn.CanReach(c.Position, PathEndMode.Touch, Danger.None, false, TraverseMode.ByPawn)
+			select c).TryRandomElement(out pawn2))
+			{
+				return pawn2.Position;
+			}
+			return pawn.Position;
 		}
 
 		// Note: this type is marked as 'beforefieldinit'.

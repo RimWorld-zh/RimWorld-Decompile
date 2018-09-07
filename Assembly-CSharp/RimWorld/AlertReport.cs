@@ -27,23 +27,18 @@ namespace RimWorld
 		{
 			get
 			{
-				bool result;
 				if (this.culprits == null)
 				{
-					result = false;
+					return false;
 				}
-				else
+				foreach (GlobalTargetInfo globalTargetInfo in this.culprits)
 				{
-					foreach (GlobalTargetInfo globalTargetInfo in this.culprits)
+					if (globalTargetInfo.IsValid)
 					{
-						if (globalTargetInfo.IsValid)
-						{
-							return true;
-						}
+						return true;
 					}
-					result = false;
 				}
-				return result;
+				return false;
 			}
 		}
 

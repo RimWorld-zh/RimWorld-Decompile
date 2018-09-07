@@ -21,21 +21,16 @@ namespace RimWorld
 
 		public override string GetReport()
 		{
-			string result;
 			if (this.pawn.CurJob != this.job || this.pawn.Position != this.job.GetTarget(TargetIndex.A).Cell)
 			{
-				result = base.GetReport();
+				return base.GetReport();
 			}
-			else
-			{
-				result = "ReportCowering".Translate();
-			}
-			return result;
+			return "ReportCowering".Translate();
 		}
 
 		protected override IEnumerable<Toil> MakeNewToils()
 		{
-			foreach (Toil toil in this.<MakeNewToils>__BaseCallProxy0())
+			foreach (Toil toil in base.MakeNewToils())
 			{
 				yield return toil;
 			}

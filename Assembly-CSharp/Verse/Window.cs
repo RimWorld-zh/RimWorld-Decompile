@@ -2,7 +2,6 @@
 using System.Runtime.CompilerServices;
 using RimWorld;
 using UnityEngine;
-using UnityEngine.Profiling;
 using Verse.Sound;
 
 namespace Verse
@@ -53,7 +52,7 @@ namespace Verse
 
 		public SoundDef soundAmbient;
 
-		public bool silenceAmbientSound = false;
+		public bool silenceAmbientSound;
 
 		protected const float StandardMargin = 18f;
 
@@ -179,7 +178,6 @@ namespace Verse
 			Rect winRect = this.windowRect.AtZero();
 			this.windowRect = GUI.Window(this.ID, this.windowRect, delegate(int x)
 			{
-				Profiler.BeginSample("WindowOnGUI: " + this.GetType().Name);
 				UnityGUIBugsFixer.OnGUI();
 				Find.WindowStack.currentlyDrawnWindow = this;
 				if (this.doWindowBackground)
@@ -206,23 +204,17 @@ namespace Verse
 				{
 					GUI.Label(new Rect(this.Margin, this.Margin, this.windowRect.width, 25f), this.optionalTitle);
 				}
-				if (this.doCloseX)
+				if (this.doCloseX && Widgets.CloseButtonFor(winRect))
 				{
-					if (Widgets.CloseButtonFor(winRect))
-					{
-						this.Close(true);
-					}
+					this.Close(true);
 				}
-				if (this.resizeable)
+				if (this.resizeable && Event.current.type != EventType.Repaint)
 				{
-					if (Event.current.type != EventType.Repaint)
+					Rect lhs = this.resizer.DoResizeControl(this.windowRect);
+					if (lhs != this.windowRect)
 					{
-						Rect lhs = this.resizer.DoResizeControl(this.windowRect);
-						if (lhs != this.windowRect)
-						{
-							this.resizeLater = true;
-							this.resizeLaterRect = lhs;
-						}
+						this.resizeLater = true;
+						this.resizeLaterRect = lhs;
 					}
 				}
 				Rect rect = winRect.ContractedBy(this.Margin);
@@ -246,12 +238,9 @@ namespace Verse
 					}), false);
 				}
 				GUI.EndGroup();
-				if (this.resizeable)
+				if (this.resizeable && Event.current.type == EventType.Repaint)
 				{
-					if (Event.current.type == EventType.Repaint)
-					{
-						this.resizer.DoResizeControl(this.windowRect);
-					}
+					this.resizer.DoResizeControl(this.windowRect);
 				}
 				if (this.doCloseButton)
 				{
@@ -276,8 +265,7 @@ namespace Verse
 				}
 				ScreenFader.OverlayOnGUI(winRect.size);
 				Find.WindowStack.currentlyDrawnWindow = null;
-				Profiler.EndSample();
-			}, "", Widgets.EmptyStyle);
+			}, string.Empty, Widgets.EmptyStyle);
 		}
 
 		public virtual void Close(bool doCloseSound = true)
@@ -332,7 +320,6 @@ namespace Verse
 
 			internal void <>m__0(int x)
 			{
-				Profiler.BeginSample("WindowOnGUI: " + this.$this.GetType().Name);
 				UnityGUIBugsFixer.OnGUI();
 				Find.WindowStack.currentlyDrawnWindow = this.$this;
 				if (this.$this.doWindowBackground)
@@ -359,23 +346,17 @@ namespace Verse
 				{
 					GUI.Label(new Rect(this.$this.Margin, this.$this.Margin, this.$this.windowRect.width, 25f), this.$this.optionalTitle);
 				}
-				if (this.$this.doCloseX)
+				if (this.$this.doCloseX && Widgets.CloseButtonFor(this.winRect))
 				{
-					if (Widgets.CloseButtonFor(this.winRect))
-					{
-						this.$this.Close(true);
-					}
+					this.$this.Close(true);
 				}
-				if (this.$this.resizeable)
+				if (this.$this.resizeable && Event.current.type != EventType.Repaint)
 				{
-					if (Event.current.type != EventType.Repaint)
+					Rect rect = this.$this.resizer.DoResizeControl(this.$this.windowRect);
+					if (rect != this.$this.windowRect)
 					{
-						Rect rect = this.$this.resizer.DoResizeControl(this.$this.windowRect);
-						if (rect != this.$this.windowRect)
-						{
-							this.$this.resizeLater = true;
-							this.$this.resizeLaterRect = rect;
-						}
+						this.$this.resizeLater = true;
+						this.$this.resizeLaterRect = rect;
 					}
 				}
 				Rect rect2 = this.winRect.ContractedBy(this.$this.Margin);
@@ -399,12 +380,9 @@ namespace Verse
 					}), false);
 				}
 				GUI.EndGroup();
-				if (this.$this.resizeable)
+				if (this.$this.resizeable && Event.current.type == EventType.Repaint)
 				{
-					if (Event.current.type == EventType.Repaint)
-					{
-						this.$this.resizer.DoResizeControl(this.$this.windowRect);
-					}
+					this.$this.resizer.DoResizeControl(this.$this.windowRect);
 				}
 				if (this.$this.doCloseButton)
 				{
@@ -429,7 +407,6 @@ namespace Verse
 				}
 				ScreenFader.OverlayOnGUI(this.winRect.size);
 				Find.WindowStack.currentlyDrawnWindow = null;
-				Profiler.EndSample();
 			}
 		}
 	}

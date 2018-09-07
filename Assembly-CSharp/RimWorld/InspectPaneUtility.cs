@@ -45,24 +45,19 @@ namespace RimWorld
 
 		public static float PaneWidthFor(IInspectPane pane)
 		{
-			float result;
 			if (pane == null)
 			{
-				result = 432f;
+				return 432f;
 			}
-			else
+			int num = 0;
+			foreach (InspectTabBase inspectTabBase in pane.CurTabs)
 			{
-				int num = 0;
-				foreach (InspectTabBase inspectTabBase in pane.CurTabs)
+				if (inspectTabBase.IsVisible)
 				{
-					if (inspectTabBase.IsVisible)
-					{
-						num++;
-					}
+					num++;
 				}
-				result = 72f * (float)Mathf.Max(6, num);
 			}
-			return result;
+			return 72f * (float)Mathf.Max(6, num);
 		}
 
 		public static Vector2 PaneSizeFor(IInspectPane pane)
@@ -298,10 +293,11 @@ namespace RimWorld
 
 		private static void InterfaceToggleTab(InspectTabBase tab, IInspectPane pane)
 		{
-			if (!TutorSystem.TutorialMode || InspectPaneUtility.IsOpen(tab, pane) || TutorSystem.AllowAction("ITab-" + tab.tutorTag + "-Open"))
+			if (TutorSystem.TutorialMode && !InspectPaneUtility.IsOpen(tab, pane) && !TutorSystem.AllowAction("ITab-" + tab.tutorTag + "-Open"))
 			{
-				InspectPaneUtility.ToggleTab(tab, pane);
+				return;
 			}
+			InspectPaneUtility.ToggleTab(tab, pane);
 		}
 
 		// Note: this type is marked as 'beforefieldinit'.

@@ -48,20 +48,15 @@ namespace RimWorld
 
 		public override AcceptanceReport CanDesignateCell(IntVec3 c)
 		{
-			AcceptanceReport result;
 			if (!c.InBounds(base.Map))
 			{
-				result = false;
+				return false;
 			}
-			else if (!this.TameablesInCell(c).Any<Pawn>())
+			if (!this.TameablesInCell(c).Any<Pawn>())
 			{
-				result = "MessageMustDesignateTameable".Translate();
+				return "MessageMustDesignateTameable".Translate();
 			}
-			else
-			{
-				result = true;
-			}
-			return result;
+			return true;
 		}
 
 		public override void DesignateSingleCell(IntVec3 loc)
@@ -75,16 +70,7 @@ namespace RimWorld
 		public override AcceptanceReport CanDesignateThing(Thing t)
 		{
 			Pawn pawn = t as Pawn;
-			AcceptanceReport result;
-			if (pawn != null && pawn.AnimalOrWildMan() && pawn.Faction == null && pawn.RaceProps.wildness < 1f && !pawn.HostileTo(t) && base.Map.designationManager.DesignationOn(pawn, this.Designation) == null)
-			{
-				result = true;
-			}
-			else
-			{
-				result = false;
-			}
-			return result;
+			return pawn != null && TameUtility.CanTame(pawn) && base.Map.designationManager.DesignationOn(pawn, this.Designation) == null;
 		}
 
 		protected override void FinalizeDesignationSucceeded()
@@ -96,7 +82,7 @@ namespace RimWorld
 				while (enumerator.MoveNext())
 				{
 					PawnKindDef kind = enumerator.Current;
-					TameUtility.ShowDesignationWarnings(this.justDesignated.First((Pawn x) => x.kindDef == kind));
+					TameUtility.ShowDesignationWarnings(this.justDesignated.First((Pawn x) => x.kindDef == kind), true);
 				}
 			}
 			this.justDesignated.Clear();
@@ -185,7 +171,7 @@ namespace RimWorld
 					i = 0;
 					break;
 				case 1u:
-					IL_C4:
+					IL_C2:
 					i++;
 					break;
 				default:
@@ -206,7 +192,7 @@ namespace RimWorld
 						}
 						return true;
 					}
-					goto IL_C4;
+					goto IL_C2;
 				}
 				return false;
 			}

@@ -5,17 +5,17 @@ namespace RimWorld
 {
 	public class CompProperties_Power : CompProperties
 	{
-		public bool transmitsPower = false;
+		public bool transmitsPower;
 
-		public float basePowerConsumption = 0f;
+		public float basePowerConsumption;
 
-		public bool shortCircuitInRain = false;
+		public bool shortCircuitInRain;
 
-		public SoundDef soundPowerOn = null;
+		public SoundDef soundPowerOn;
 
-		public SoundDef soundPowerOff = null;
+		public SoundDef soundPowerOff;
 
-		public SoundDef soundAmbientPowered = null;
+		public SoundDef soundAmbientPowered;
 
 		public CompProperties_Power()
 		{

@@ -193,50 +193,48 @@ namespace Verse
 			if (Find.CurrentMap == null)
 			{
 				Log.Error("Requires visible map.", false);
+				return;
 			}
-			else
+			StringBuilder sb = new StringBuilder();
+			Action<StockGenerator> action = delegate(StockGenerator gen)
 			{
-				StringBuilder sb = new StringBuilder();
-				Action<StockGenerator> action = delegate(StockGenerator gen)
+				sb.AppendLine(gen.GetType().ToString());
+				sb.AppendLine("ALLOWED DEFS:");
+				foreach (ThingDef thingDef in from d in DefDatabase<ThingDef>.AllDefs
+				where gen.HandlesThingDef(d)
+				select d)
 				{
-					sb.AppendLine(gen.GetType().ToString());
-					sb.AppendLine("ALLOWED DEFS:");
-					foreach (ThingDef thingDef in from d in DefDatabase<ThingDef>.AllDefs
-					where gen.HandlesThingDef(d)
-					select d)
+					sb.AppendLine(string.Concat(new object[]
+					{
+						thingDef.defName,
+						" [",
+						thingDef.BaseMarketValue,
+						"]"
+					}));
+				}
+				sb.AppendLine();
+				sb.AppendLine("GENERATION TEST:");
+				gen.countRange = IntRange.one;
+				for (int i = 0; i < 30; i++)
+				{
+					foreach (Thing thing in gen.GenerateThings(Find.CurrentMap.Tile))
 					{
 						sb.AppendLine(string.Concat(new object[]
 						{
-							thingDef.defName,
+							thing.Label,
 							" [",
-							thingDef.BaseMarketValue,
+							thing.MarketValue,
 							"]"
 						}));
 					}
-					sb.AppendLine();
-					sb.AppendLine("GENERATION TEST:");
-					gen.countRange = IntRange.one;
-					for (int i = 0; i < 30; i++)
-					{
-						foreach (Thing thing in gen.GenerateThings(Find.CurrentMap.Tile))
-						{
-							sb.AppendLine(string.Concat(new object[]
-							{
-								thing.Label,
-								" [",
-								thing.MarketValue,
-								"]"
-							}));
-						}
-					}
-					sb.AppendLine("---------------------------------------------------------");
-				};
-				action(new StockGenerator_Armor());
-				action(new StockGenerator_WeaponsRanged());
-				action(new StockGenerator_Clothes());
-				action(new StockGenerator_Art());
-				Log.Message(sb.ToString(), false);
-			}
+				}
+				sb.AppendLine("---------------------------------------------------------");
+			};
+			action(new StockGenerator_Armor());
+			action(new StockGenerator_WeaponsRanged());
+			action(new StockGenerator_Clothes());
+			action(new StockGenerator_Art());
+			Log.Message(sb.ToString(), false);
 		}
 
 		[Category("Incidents")]
@@ -302,7 +300,7 @@ namespace Verse
 									}
 									int totalPawns = weaponsCount.Sum((Dictionary<ThingDef, int> x) => x.Sum((KeyValuePair<ThingDef, int> y) => y.Value));
 									List<TableDataGetter<int>> list4 = new List<TableDataGetter<int>>();
-									list4.Add(new TableDataGetter<int>("", (int x) => (x != 20) ? (x + 1).ToString() : "avg"));
+									list4.Add(new TableDataGetter<int>(string.Empty, (int x) => (x != 20) ? (x + 1).ToString() : "avg"));
 									list4.Add(new TableDataGetter<int>("pawns", delegate(int x)
 									{
 										string str = " ";
@@ -317,35 +315,30 @@ namespace Verse
 										}
 										return str + str2;
 									}));
-									list4.Add(new TableDataGetter<int>("kinds", (int x) => (x != 20) ? pawnKinds[x] : ""));
+									list4.Add(new TableDataGetter<int>("kinds", (int x) => (x != 20) ? pawnKinds[x] : string.Empty));
 									list4.AddRange(from x in DefDatabase<ThingDef>.AllDefs
 									where x.IsWeapon && !x.weaponTags.NullOrEmpty<string>() && weaponsCount.Any((Dictionary<ThingDef, int> wc) => wc.ContainsKey(x))
 									orderby x.IsMeleeWeapon descending, x.techLevel, x.BaseMarketValue
 									select new TableDataGetter<int>(x.label.Shorten(), delegate(int y)
 									{
-										string result;
 										if (y == 20)
 										{
-											result = " " + ((float)weaponsCount.Sum((Dictionary<ThingDef, int> z) => (!z.ContainsKey(x)) ? 0 : z[x]) / 20f).ToString("0.#");
+											return " " + ((float)weaponsCount.Sum((Dictionary<ThingDef, int> z) => (!z.ContainsKey(x)) ? 0 : z[x]) / 20f).ToString("0.#");
+										}
+										string result;
+										if (weaponsCount[y].ContainsKey(x))
+										{
+											object[] array = new object[5];
+											array[0] = " ";
+											array[1] = weaponsCount[y][x];
+											array[2] = " (";
+											array[3] = ((float)weaponsCount[y][x] / (float)weaponsCount[y].Sum((KeyValuePair<ThingDef, int> z) => z.Value)).ToStringPercent("F0");
+											array[4] = ")";
+											result = string.Concat(array);
 										}
 										else
 										{
-											string text;
-											if (weaponsCount[y].ContainsKey(x))
-											{
-												object[] array = new object[5];
-												array[0] = " ";
-												array[1] = weaponsCount[y][x];
-												array[2] = " (";
-												array[3] = ((float)weaponsCount[y][x] / (float)weaponsCount[y].Sum((KeyValuePair<ThingDef, int> z) => z.Value)).ToStringPercent("F0");
-												array[4] = ")";
-												text = string.Concat(array);
-											}
-											else
-											{
-												text = "";
-											}
-											result = text;
+											result = string.Empty;
 										}
 										return result;
 									}));
@@ -610,7 +603,7 @@ namespace Verse
 						}
 						int totalPawns = weaponsCount.Sum((Dictionary<ThingDef, int> x) => x.Sum((KeyValuePair<ThingDef, int> y) => y.Value));
 						List<TableDataGetter<int>> list3 = new List<TableDataGetter<int>>();
-						list3.Add(new TableDataGetter<int>("", (int x) => (x != 20) ? (x + 1).ToString() : "avg"));
+						list3.Add(new TableDataGetter<int>(string.Empty, (int x) => (x != 20) ? (x + 1).ToString() : "avg"));
 						list3.Add(new TableDataGetter<int>("pawns", delegate(int x)
 						{
 							string str = " ";
@@ -625,35 +618,30 @@ namespace Verse
 							}
 							return str + str2;
 						}));
-						list3.Add(new TableDataGetter<int>("kinds", (int x) => (x != 20) ? pawnKinds[x] : ""));
+						list3.Add(new TableDataGetter<int>("kinds", (int x) => (x != 20) ? pawnKinds[x] : string.Empty));
 						list3.AddRange(from x in DefDatabase<ThingDef>.AllDefs
 						where x.IsWeapon && !x.weaponTags.NullOrEmpty<string>() && weaponsCount.Any((Dictionary<ThingDef, int> wc) => wc.ContainsKey(x))
 						orderby x.IsMeleeWeapon descending, x.techLevel, x.BaseMarketValue
 						select new TableDataGetter<int>(x.label.Shorten(), delegate(int y)
 						{
-							string result;
 							if (y == 20)
 							{
-								result = " " + ((float)weaponsCount.Sum((Dictionary<ThingDef, int> z) => (!z.ContainsKey(x)) ? 0 : z[x]) / 20f).ToString("0.#");
+								return " " + ((float)weaponsCount.Sum((Dictionary<ThingDef, int> z) => (!z.ContainsKey(x)) ? 0 : z[x]) / 20f).ToString("0.#");
+							}
+							string result;
+							if (weaponsCount[y].ContainsKey(x))
+							{
+								object[] array = new object[5];
+								array[0] = " ";
+								array[1] = weaponsCount[y][x];
+								array[2] = " (";
+								array[3] = ((float)weaponsCount[y][x] / (float)weaponsCount[y].Sum((KeyValuePair<ThingDef, int> z) => z.Value)).ToStringPercent("F0");
+								array[4] = ")";
+								result = string.Concat(array);
 							}
 							else
 							{
-								string text;
-								if (weaponsCount[y].ContainsKey(x))
-								{
-									object[] array = new object[5];
-									array[0] = " ";
-									array[1] = weaponsCount[y][x];
-									array[2] = " (";
-									array[3] = ((float)weaponsCount[y][x] / (float)weaponsCount[y].Sum((KeyValuePair<ThingDef, int> z) => z.Value)).ToStringPercent("F0");
-									array[4] = ")";
-									text = string.Concat(array);
-								}
-								else
-								{
-									text = "";
-								}
-								result = text;
+								result = string.Empty;
 							}
 							return result;
 						}));
@@ -736,7 +724,7 @@ namespace Verse
 					}
 					int totalPawns = weaponsCount.Sum((Dictionary<ThingDef, int> x) => x.Sum((KeyValuePair<ThingDef, int> y) => y.Value));
 					List<TableDataGetter<int>> list2 = new List<TableDataGetter<int>>();
-					list2.Add(new TableDataGetter<int>("", (int x) => (x != 20) ? (x + 1).ToString() : "avg"));
+					list2.Add(new TableDataGetter<int>(string.Empty, (int x) => (x != 20) ? (x + 1).ToString() : "avg"));
 					list2.Add(new TableDataGetter<int>("pawns", delegate(int x)
 					{
 						string str = " ";
@@ -751,35 +739,30 @@ namespace Verse
 						}
 						return str + str2;
 					}));
-					list2.Add(new TableDataGetter<int>("kinds", (int x) => (x != 20) ? pawnKinds[x] : ""));
+					list2.Add(new TableDataGetter<int>("kinds", (int x) => (x != 20) ? pawnKinds[x] : string.Empty));
 					list2.AddRange(from x in DefDatabase<ThingDef>.AllDefs
 					where x.IsWeapon && !x.weaponTags.NullOrEmpty<string>() && weaponsCount.Any((Dictionary<ThingDef, int> wc) => wc.ContainsKey(x))
 					orderby x.IsMeleeWeapon descending, x.techLevel, x.BaseMarketValue
 					select new TableDataGetter<int>(x.label.Shorten(), delegate(int y)
 					{
-						string result;
 						if (y == 20)
 						{
-							result = " " + ((float)weaponsCount.Sum((Dictionary<ThingDef, int> z) => (!z.ContainsKey(x)) ? 0 : z[x]) / 20f).ToString("0.#");
+							return " " + ((float)weaponsCount.Sum((Dictionary<ThingDef, int> z) => (!z.ContainsKey(x)) ? 0 : z[x]) / 20f).ToString("0.#");
+						}
+						string result;
+						if (weaponsCount[y].ContainsKey(x))
+						{
+							object[] array = new object[5];
+							array[0] = " ";
+							array[1] = weaponsCount[y][x];
+							array[2] = " (";
+							array[3] = ((float)weaponsCount[y][x] / (float)weaponsCount[y].Sum((KeyValuePair<ThingDef, int> z) => z.Value)).ToStringPercent("F0");
+							array[4] = ")";
+							result = string.Concat(array);
 						}
 						else
 						{
-							string text;
-							if (weaponsCount[y].ContainsKey(x))
-							{
-								object[] array = new object[5];
-								array[0] = " ";
-								array[1] = weaponsCount[y][x];
-								array[2] = " (";
-								array[3] = ((float)weaponsCount[y][x] / (float)weaponsCount[y].Sum((KeyValuePair<ThingDef, int> z) => z.Value)).ToStringPercent("F0");
-								array[4] = ")";
-								text = string.Concat(array);
-							}
-							else
-							{
-								text = "";
-							}
-							result = text;
+							result = string.Empty;
 						}
 						return result;
 					}));
@@ -851,7 +834,7 @@ namespace Verse
 
 					internal string <>m__1(int x)
 					{
-						return (x != 20) ? this.pawnKinds[x] : "";
+						return (x != 20) ? this.pawnKinds[x] : string.Empty;
 					}
 
 					internal bool <>m__2(ThingDef x)
@@ -863,29 +846,24 @@ namespace Verse
 					{
 						return new TableDataGetter<int>(x.label.Shorten(), delegate(int y)
 						{
-							string result;
 							if (y == 20)
 							{
-								result = " " + ((float)this.weaponsCount.Sum((Dictionary<ThingDef, int> z) => (!z.ContainsKey(x)) ? 0 : z[x]) / 20f).ToString("0.#");
+								return " " + ((float)this.weaponsCount.Sum((Dictionary<ThingDef, int> z) => (!z.ContainsKey(x)) ? 0 : z[x]) / 20f).ToString("0.#");
+							}
+							string result;
+							if (this.weaponsCount[y].ContainsKey(x))
+							{
+								object[] array = new object[5];
+								array[0] = " ";
+								array[1] = this.weaponsCount[y][x];
+								array[2] = " (";
+								array[3] = ((float)this.weaponsCount[y][x] / (float)this.weaponsCount[y].Sum((KeyValuePair<ThingDef, int> z) => z.Value)).ToStringPercent("F0");
+								array[4] = ")";
+								result = string.Concat(array);
 							}
 							else
 							{
-								string text;
-								if (this.weaponsCount[y].ContainsKey(x))
-								{
-									object[] array = new object[5];
-									array[0] = " ";
-									array[1] = this.weaponsCount[y][x];
-									array[2] = " (";
-									array[3] = ((float)this.weaponsCount[y][x] / (float)this.weaponsCount[y].Sum((KeyValuePair<ThingDef, int> z) => z.Value)).ToStringPercent("F0");
-									array[4] = ")";
-									text = string.Concat(array);
-								}
-								else
-								{
-									text = "";
-								}
-								result = text;
+								result = string.Empty;
 							}
 							return result;
 						});
@@ -926,29 +904,24 @@ namespace Verse
 
 						internal string <>m__0(int y)
 						{
-							string result;
 							if (y == 20)
 							{
-								result = " " + ((float)this.<>f__ref$6.weaponsCount.Sum((Dictionary<ThingDef, int> z) => (!z.ContainsKey(this.x)) ? 0 : z[this.x]) / 20f).ToString("0.#");
+								return " " + ((float)this.<>f__ref$6.weaponsCount.Sum((Dictionary<ThingDef, int> z) => (!z.ContainsKey(this.x)) ? 0 : z[this.x]) / 20f).ToString("0.#");
+							}
+							string result;
+							if (this.<>f__ref$6.weaponsCount[y].ContainsKey(this.x))
+							{
+								object[] array = new object[5];
+								array[0] = " ";
+								array[1] = this.<>f__ref$6.weaponsCount[y][this.x];
+								array[2] = " (";
+								array[3] = ((float)this.<>f__ref$6.weaponsCount[y][this.x] / (float)this.<>f__ref$6.weaponsCount[y].Sum((KeyValuePair<ThingDef, int> z) => z.Value)).ToStringPercent("F0");
+								array[4] = ")";
+								result = string.Concat(array);
 							}
 							else
 							{
-								string text;
-								if (this.<>f__ref$6.weaponsCount[y].ContainsKey(this.x))
-								{
-									object[] array = new object[5];
-									array[0] = " ";
-									array[1] = this.<>f__ref$6.weaponsCount[y][this.x];
-									array[2] = " (";
-									array[3] = ((float)this.<>f__ref$6.weaponsCount[y][this.x] / (float)this.<>f__ref$6.weaponsCount[y].Sum((KeyValuePair<ThingDef, int> z) => z.Value)).ToStringPercent("F0");
-									array[4] = ")";
-									text = string.Concat(array);
-								}
-								else
-								{
-									text = "";
-								}
-								result = text;
+								result = string.Empty;
 							}
 							return result;
 						}

@@ -21,6 +21,18 @@ namespace RimWorld
 
 		private const int StartRandomFireEveryTicks = 20;
 
+		private static readonly SimpleCurve DistanceChanceFactor = new SimpleCurve
+		{
+			{
+				new CurvePoint(0f, 1f),
+				true
+			},
+			{
+				new CurvePoint(15f, 0.1f),
+				true
+			}
+		};
+
 		public Bombardment()
 		{
 		}
@@ -34,16 +46,17 @@ namespace RimWorld
 		public override void Tick()
 		{
 			base.Tick();
-			if (!base.Destroyed)
+			if (base.Destroyed)
 			{
-				if (Find.TickManager.TicksGame % 18 == 0)
-				{
-					this.CreateRandomExplosion();
-				}
-				if (Find.TickManager.TicksGame % 20 == 0)
-				{
-					this.StartRandomFire();
-				}
+				return;
+			}
+			if (Find.TickManager.TicksGame % 18 == 0)
+			{
+				this.CreateRandomExplosion();
+			}
+			if (Find.TickManager.TicksGame % 20 == 0)
+			{
+				this.StartRandomFire();
 			}
 		}
 
@@ -51,7 +64,7 @@ namespace RimWorld
 		{
 			IntVec3 intVec = (from x in GenRadial.RadialCellsAround(base.Position, 15f, true)
 			where x.InBounds(base.Map)
-			select x).RandomElement<IntVec3>();
+			select x).RandomElementByWeight((IntVec3 x) => Bombardment.DistanceChanceFactor.Evaluate(x.DistanceTo(base.Position)));
 			float num = (float)Rand.Range(6, 8);
 			IntVec3 center = intVec;
 			Map map = base.Map;
@@ -67,8 +80,13 @@ namespace RimWorld
 		{
 			IntVec3 c = (from x in GenRadial.RadialCellsAround(base.Position, 25f, true)
 			where x.InBounds(base.Map)
-			select x).RandomElement<IntVec3>();
+			select x).RandomElementByWeight((IntVec3 x) => Bombardment.DistanceChanceFactor.Evaluate(x.DistanceTo(base.Position)));
 			FireUtility.TryStartFireIn(c, base.Map, Rand.Range(0.1f, 0.925f));
+		}
+
+		// Note: this type is marked as 'beforefieldinit'.
+		static Bombardment()
+		{
 		}
 
 		[CompilerGenerated]
@@ -78,9 +96,21 @@ namespace RimWorld
 		}
 
 		[CompilerGenerated]
-		private bool <StartRandomFire>m__1(IntVec3 x)
+		private float <CreateRandomExplosion>m__1(IntVec3 x)
+		{
+			return Bombardment.DistanceChanceFactor.Evaluate(x.DistanceTo(base.Position));
+		}
+
+		[CompilerGenerated]
+		private bool <StartRandomFire>m__2(IntVec3 x)
 		{
 			return x.InBounds(base.Map);
+		}
+
+		[CompilerGenerated]
+		private float <StartRandomFire>m__3(IntVec3 x)
+		{
+			return Bombardment.DistanceChanceFactor.Evaluate(x.DistanceTo(base.Position));
 		}
 	}
 }

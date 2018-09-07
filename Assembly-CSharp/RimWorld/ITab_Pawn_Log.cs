@@ -35,13 +35,13 @@ namespace RimWorld
 		[TweakValue("Interface", 0f, 100f)]
 		private static float ButtonOffset = 60f;
 
-		public bool showAll = false;
+		public bool showAll;
 
 		public bool showCombat = true;
 
 		public bool showSocial = true;
 
-		public LogEntry logSeek = null;
+		public LogEntry logSeek;
 
 		public ITab_Pawn_Log_Utility.LogDrawData data = new ITab_Pawn_Log_Utility.LogDrawData();
 
@@ -50,6 +50,8 @@ namespace RimWorld
 		public int cachedLogDisplayLastTick = -1;
 
 		public int cachedLogPlayLastTick = -1;
+
+		private Pawn cachedLogForPawn;
 
 		private Vector2 scrollPosition = default(Vector2);
 
@@ -63,21 +65,16 @@ namespace RimWorld
 		{
 			get
 			{
-				Pawn result;
 				if (base.SelPawn != null)
 				{
-					result = base.SelPawn;
+					return base.SelPawn;
 				}
-				else
+				Corpse corpse = base.SelThing as Corpse;
+				if (corpse != null)
 				{
-					Corpse corpse = base.SelThing as Corpse;
-					if (corpse == null)
-					{
-						throw new InvalidOperationException("Social tab on non-pawn non-corpse " + base.SelThing);
-					}
-					result = corpse.InnerPawn;
+					return corpse.InnerPawn;
 				}
-				return result;
+				throw new InvalidOperationException("Social tab on non-pawn non-corpse " + base.SelThing);
 			}
 		}
 
@@ -106,11 +103,12 @@ namespace RimWorld
 			{
 				this.cachedLogDisplay = null;
 			}
-			if (this.cachedLogDisplay == null || this.cachedLogDisplayLastTick != selPawnForCombatInfo.records.LastBattleTick || this.cachedLogPlayLastTick != Find.PlayLog.LastTick)
+			if (this.cachedLogDisplay == null || this.cachedLogDisplayLastTick != selPawnForCombatInfo.records.LastBattleTick || this.cachedLogPlayLastTick != Find.PlayLog.LastTick || this.cachedLogForPawn != selPawnForCombatInfo)
 			{
 				this.cachedLogDisplay = ITab_Pawn_Log_Utility.GenerateLogLinesFor(selPawnForCombatInfo, this.showAll, this.showCombat, this.showSocial).ToList<ITab_Pawn_Log_Utility.LogLineDisplayable>();
 				this.cachedLogDisplayLastTick = selPawnForCombatInfo.records.LastBattleTick;
 				this.cachedLogPlayLastTick = Find.PlayLog.LastTick;
+				this.cachedLogForPawn = selPawnForCombatInfo;
 			}
 			Rect rect5 = new Rect(rect.width - ITab_Pawn_Log.ButtonOffset, 0f, 18f, 24f);
 			if (Widgets.ButtonImage(rect5, TexButton.Copy))
@@ -169,6 +167,12 @@ namespace RimWorld
 		{
 			this.data.highlightEntry = entry;
 			this.data.highlightIntensity = 1f;
+		}
+
+		public override void Notify_ClearingAllMapsMemory()
+		{
+			base.Notify_ClearingAllMapsMemory();
+			this.cachedLogForPawn = null;
 		}
 
 		// Note: this type is marked as 'beforefieldinit'.

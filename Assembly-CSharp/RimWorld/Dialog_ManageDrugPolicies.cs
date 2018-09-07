@@ -136,16 +136,14 @@ namespace RimWorld
 				Widgets.Label(rect4, "NoDrugPolicySelected".Translate());
 				Text.Anchor = TextAnchor.UpperLeft;
 				GUI.color = Color.white;
+				return;
 			}
-			else
-			{
-				GUI.BeginGroup(rect4);
-				Rect rect5 = new Rect(0f, 0f, 200f, 30f);
-				Dialog_ManageDrugPolicies.DoNameInputRect(rect5, ref this.SelectedPolicy.label);
-				Rect rect6 = new Rect(0f, 40f, rect4.width, rect4.height - 45f - 10f);
-				this.DoPolicyConfigArea(rect6);
-				GUI.EndGroup();
-			}
+			GUI.BeginGroup(rect4);
+			Rect rect5 = new Rect(0f, 0f, 200f, 30f);
+			Dialog_ManageDrugPolicies.DoNameInputRect(rect5, ref this.SelectedPolicy.label);
+			Rect rect6 = new Rect(0f, 40f, rect4.width, rect4.height - 45f - 10f);
+			this.DoPolicyConfigArea(rect6);
+			GUI.EndGroup();
 		}
 
 		public override void PostOpen()

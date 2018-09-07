@@ -41,16 +41,11 @@ namespace RimWorld
 
 		public static int Year(Map map)
 		{
-			int result;
 			if (Current.ProgramState != ProgramState.Playing)
 			{
-				result = 5500;
+				return 5500;
 			}
-			else
-			{
-				result = GenLocalDate.Year(map.Tile);
-			}
-			return result;
+			return GenLocalDate.Year(map.Tile);
 		}
 
 		public static int DayOfSeason(Map map)
@@ -61,6 +56,11 @@ namespace RimWorld
 		public static int DayOfQuadrum(Map map)
 		{
 			return GenLocalDate.DayOfQuadrum(map.Tile);
+		}
+
+		public static int DayTick(Map map)
+		{
+			return GenLocalDate.DayTick(map.Tile);
 		}
 
 		public static float DayPercent(Map map)
@@ -85,16 +85,11 @@ namespace RimWorld
 
 		public static int DayOfYear(Thing thing)
 		{
-			int result;
 			if (Current.ProgramState == ProgramState.Playing)
 			{
-				result = GenDate.DayOfYear((long)GenLocalDate.TicksAbs, GenLocalDate.LongitudeForDate(thing));
+				return GenDate.DayOfYear((long)GenLocalDate.TicksAbs, GenLocalDate.LongitudeForDate(thing));
 			}
-			else
-			{
-				result = 0;
-			}
-			return result;
+			return 0;
 		}
 
 		public static int HourOfDay(Thing thing)
@@ -119,16 +114,11 @@ namespace RimWorld
 
 		public static int Year(Thing thing)
 		{
-			int result;
 			if (Current.ProgramState != ProgramState.Playing)
 			{
-				result = 5500;
+				return 5500;
 			}
-			else
-			{
-				result = GenDate.Year((long)GenLocalDate.TicksAbs, GenLocalDate.LongitudeForDate(thing));
-			}
-			return result;
+			return GenDate.Year((long)GenLocalDate.TicksAbs, GenLocalDate.LongitudeForDate(thing));
 		}
 
 		public static int DayOfSeason(Thing thing)
@@ -139,6 +129,11 @@ namespace RimWorld
 		public static int DayOfQuadrum(Thing thing)
 		{
 			return GenDate.DayOfQuadrum((long)GenLocalDate.TicksAbs, GenLocalDate.LongitudeForDate(thing));
+		}
+
+		public static int DayTick(Thing thing)
+		{
+			return GenDate.DayTick((long)GenLocalDate.TicksAbs, GenLocalDate.LongitudeForDate(thing));
 		}
 
 		public static float DayPercent(Thing thing)
@@ -163,16 +158,11 @@ namespace RimWorld
 
 		public static int DayOfYear(int tile)
 		{
-			int result;
 			if (Current.ProgramState == ProgramState.Playing)
 			{
-				result = GenDate.DayOfYear((long)GenLocalDate.TicksAbs, Find.WorldGrid.LongLatOf(tile).x);
+				return GenDate.DayOfYear((long)GenLocalDate.TicksAbs, Find.WorldGrid.LongLatOf(tile).x);
 			}
-			else
-			{
-				result = 0;
-			}
-			return result;
+			return 0;
 		}
 
 		public static int HourOfDay(int tile)
@@ -197,16 +187,11 @@ namespace RimWorld
 
 		public static int Year(int tile)
 		{
-			int result;
 			if (Current.ProgramState != ProgramState.Playing)
 			{
-				result = 5500;
+				return 5500;
 			}
-			else
-			{
-				result = GenDate.Year((long)GenLocalDate.TicksAbs, Find.WorldGrid.LongLatOf(tile).x);
-			}
-			return result;
+			return GenDate.Year((long)GenLocalDate.TicksAbs, Find.WorldGrid.LongLatOf(tile).x);
 		}
 
 		public static int DayOfSeason(int tile)
@@ -217,6 +202,11 @@ namespace RimWorld
 		public static int DayOfQuadrum(int tile)
 		{
 			return GenDate.DayOfQuadrum((long)GenLocalDate.TicksAbs, Find.WorldGrid.LongLatOf(tile).x);
+		}
+
+		public static int DayTick(int tile)
+		{
+			return GenDate.DayTick((long)GenLocalDate.TicksAbs, Find.WorldGrid.LongLatOf(tile).x);
 		}
 
 		public static float DayPercent(int tile)
@@ -247,16 +237,11 @@ namespace RimWorld
 		private static Vector2 LocationForDate(Thing thing)
 		{
 			int tile = thing.Tile;
-			Vector2 result;
 			if (tile >= 0)
 			{
-				result = Find.WorldGrid.LongLatOf(tile);
+				return Find.WorldGrid.LongLatOf(tile);
 			}
-			else
-			{
-				result = Vector2.zero;
-			}
-			return result;
+			return Vector2.zero;
 		}
 	}
 }

@@ -5,7 +5,7 @@ namespace RimWorld
 {
 	public class CompProperties_Glower : CompProperties
 	{
-		public float overlightRadius = 0f;
+		public float overlightRadius;
 
 		public float glowRadius = 14f;
 

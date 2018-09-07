@@ -11,7 +11,7 @@ namespace Verse.AI
 		public string insertTag;
 
 		[Unsaved]
-		private List<ThinkTreeDef> matchedTrees = null;
+		private List<ThinkTreeDef> matchedTrees;
 
 		[CompilerGenerated]
 		private static Func<ThinkTreeDef, float> <>f__am$cache0;

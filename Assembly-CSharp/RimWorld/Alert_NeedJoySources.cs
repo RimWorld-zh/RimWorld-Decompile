@@ -51,22 +51,17 @@ namespace RimWorld
 
 		private bool NeedJoySource(Map map)
 		{
-			bool result;
 			if (!map.IsPlayerHome)
 			{
-				result = false;
+				return false;
 			}
-			else if (!map.mapPawns.AnyColonistSpawned)
+			if (!map.mapPawns.AnyColonistSpawned)
 			{
-				result = false;
+				return false;
 			}
-			else
-			{
-				int num = JoyUtility.JoyKindsOnMapCount(map);
-				int joyKindsNeeded = ExpectationsUtility.CurrentExpectationFor(map).joyKindsNeeded;
-				result = (num < joyKindsNeeded);
-			}
-			return result;
+			int num = JoyUtility.JoyKindsOnMapCount(map);
+			int joyKindsNeeded = ExpectationsUtility.CurrentExpectationFor(map).joyKindsNeeded;
+			return num < joyKindsNeeded;
 		}
 	}
 }

@@ -93,16 +93,15 @@ namespace RimWorld
 
 		public static bool PossibleToWeighNoMoreThan(ThingDef t, float maxMass, IEnumerable<ThingDef> allowedStuff)
 		{
-			bool result;
 			if (maxMass == 3.40282347E+38f || t.category == ThingCategory.Pawn)
 			{
-				result = true;
+				return true;
 			}
-			else if (maxMass < 0f)
+			if (maxMass < 0f)
 			{
-				result = false;
+				return false;
 			}
-			else if (t.MadeFromStuff)
+			if (t.MadeFromStuff)
 			{
 				foreach (ThingDef stuff in allowedStuff)
 				{
@@ -111,70 +110,56 @@ namespace RimWorld
 						return true;
 					}
 				}
-				result = false;
+				return false;
 			}
-			else
-			{
-				result = (t.GetStatValueAbstract(StatDefOf.Mass, null) <= maxMass);
-			}
-			return result;
+			return t.GetStatValueAbstract(StatDefOf.Mass, null) <= maxMass;
 		}
 
 		public static bool TryGetRandomThingWhichCanWeighNoMoreThan(IEnumerable<ThingDef> candidates, TechLevel stuffTechLevel, float maxMass, out ThingStuffPair thingStuffPair)
 		{
 			ThingDef thingDef;
-			bool result;
 			if (!(from x in candidates
 			where ThingSetMakerUtility.PossibleToWeighNoMoreThan(x, maxMass, GenStuff.AllowedStuffsFor(x, stuffTechLevel))
 			select x).TryRandomElement(out thingDef))
 			{
 				thingStuffPair = default(ThingStuffPair);
-				result = false;
+				return false;
+			}
+			ThingDef stuff;
+			if (thingDef.MadeFromStuff)
+			{
+				if (!(from x in GenStuff.AllowedStuffsFor(thingDef, stuffTechLevel)
+				where thingDef.GetStatValueAbstract(StatDefOf.Mass, x) <= maxMass
+				select x).TryRandomElementByWeight((ThingDef x) => x.stuffProps.commonality, out stuff))
+				{
+					thingStuffPair = default(ThingStuffPair);
+					return false;
+				}
 			}
 			else
 			{
-				ThingDef stuff;
-				if (thingDef.MadeFromStuff)
-				{
-					if (!(from x in GenStuff.AllowedStuffsFor(thingDef, stuffTechLevel)
-					where thingDef.GetStatValueAbstract(StatDefOf.Mass, x) <= maxMass
-					select x).TryRandomElementByWeight((ThingDef x) => x.stuffProps.commonality, out stuff))
-					{
-						thingStuffPair = default(ThingStuffPair);
-						return false;
-					}
-				}
-				else
-				{
-					stuff = null;
-				}
-				thingStuffPair = new ThingStuffPair(thingDef, stuff, 1f);
-				result = true;
+				stuff = null;
 			}
-			return result;
+			thingStuffPair = new ThingStuffPair(thingDef, stuff, 1f);
+			return true;
 		}
 
 		public static bool PossibleToWeighNoMoreThan(IEnumerable<ThingDef> candidates, TechLevel stuffTechLevel, float maxMass, int count)
 		{
-			bool result;
 			if (maxMass == 3.40282347E+38f || count <= 0)
 			{
-				result = true;
+				return true;
 			}
-			else if (maxMass < 0f)
+			if (maxMass < 0f)
 			{
-				result = false;
+				return false;
 			}
-			else
+			float num = float.MaxValue;
+			foreach (ThingDef thingDef in candidates)
 			{
-				float num = float.MaxValue;
-				foreach (ThingDef thingDef in candidates)
-				{
-					num = Mathf.Min(num, ThingSetMakerUtility.GetMinMass(thingDef, stuffTechLevel));
-				}
-				result = (num <= maxMass * (float)count);
+				num = Mathf.Min(num, ThingSetMakerUtility.GetMinMass(thingDef, stuffTechLevel));
 			}
-			return result;
+			return num <= maxMass * (float)count;
 		}
 
 		public static float GetMinMass(ThingDef thingDef, TechLevel stuffTechLevel)

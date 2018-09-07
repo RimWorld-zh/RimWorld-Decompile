@@ -7,7 +7,7 @@ namespace Verse
 	{
 		private Color color = Color.white;
 
-		private bool active = false;
+		private bool active;
 
 		public CompColorable()
 		{
@@ -17,25 +17,21 @@ namespace Verse
 		{
 			get
 			{
-				Color result;
 				if (!this.active)
 				{
-					result = this.parent.def.graphicData.color;
+					return this.parent.def.graphicData.color;
 				}
-				else
-				{
-					result = this.color;
-				}
-				return result;
+				return this.color;
 			}
 			set
 			{
-				if (!(value == this.color))
+				if (value == this.color)
 				{
-					this.active = true;
-					this.color = value;
-					this.parent.Notify_ColorChanged();
+					return;
 				}
+				this.active = true;
+				this.color = value;
+				this.parent.Notify_ColorChanged();
 			}
 		}
 
@@ -59,11 +55,12 @@ namespace Verse
 		public override void PostExposeData()
 		{
 			base.PostExposeData();
-			if (Scribe.mode != LoadSaveMode.Saving || this.active)
+			if (Scribe.mode == LoadSaveMode.Saving && !this.active)
 			{
-				Scribe_Values.Look<Color>(ref this.color, "color", default(Color), false);
-				Scribe_Values.Look<bool>(ref this.active, "colorActive", false, false);
+				return;
 			}
+			Scribe_Values.Look<Color>(ref this.color, "color", default(Color), false);
+			Scribe_Values.Look<bool>(ref this.active, "colorActive", false, false);
 		}
 
 		public override void PostSplitOff(Thing piece)

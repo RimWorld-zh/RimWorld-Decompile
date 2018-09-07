@@ -13,16 +13,11 @@ namespace Verse.AI
 		public override ThinkResult TryIssueJobPackage(Pawn pawn, JobIssueParams jobParams)
 		{
 			Job job = this.TryGiveJob(pawn);
-			ThinkResult result;
 			if (job == null)
 			{
-				result = ThinkResult.NoJob;
+				return ThinkResult.NoJob;
 			}
-			else
-			{
-				result = new ThinkResult(job, this, null, false);
-			}
-			return result;
+			return new ThinkResult(job, this, null, false);
 		}
 	}
 }

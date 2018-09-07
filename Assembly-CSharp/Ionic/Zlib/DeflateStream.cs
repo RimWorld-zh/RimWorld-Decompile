@@ -173,20 +173,15 @@ namespace Ionic.Zlib
 		{
 			get
 			{
-				long result;
 				if (this._baseStream._streamMode == ZlibBaseStream.StreamMode.Writer)
 				{
-					result = this._baseStream._z.TotalBytesOut;
+					return this._baseStream._z.TotalBytesOut;
 				}
-				else if (this._baseStream._streamMode == ZlibBaseStream.StreamMode.Reader)
+				if (this._baseStream._streamMode == ZlibBaseStream.StreamMode.Reader)
 				{
-					result = this._baseStream._z.TotalBytesIn;
+					return this._baseStream._z.TotalBytesIn;
 				}
-				else
-				{
-					result = 0L;
-				}
-				return result;
+				return 0L;
 			}
 			set
 			{

@@ -124,50 +124,51 @@ namespace RimWorld.Planet
 			this.textMesh.ForceMeshUpdate();
 			TMP_TextInfo textInfo = this.textMesh.textInfo;
 			int characterCount = textInfo.characterCount;
-			if (characterCount != 0)
+			if (characterCount == 0)
 			{
-				Vector3[] vertices = this.textMesh.mesh.vertices;
-				float num = this.textMesh.bounds.extents.x * 2f;
-				float num2 = Find.WorldGrid.DistOnSurfaceToAngle(num);
-				Matrix4x4 localToWorldMatrix = this.textMesh.transform.localToWorldMatrix;
-				Matrix4x4 worldToLocalMatrix = this.textMesh.transform.worldToLocalMatrix;
-				for (int i = 0; i < characterCount; i++)
-				{
-					TMP_CharacterInfo tmp_CharacterInfo = textInfo.characterInfo[i];
-					if (tmp_CharacterInfo.isVisible)
-					{
-						int vertexIndex = tmp_CharacterInfo.vertexIndex;
-						Vector3 vector = vertices[vertexIndex] + vertices[vertexIndex + 1] + vertices[vertexIndex + 2] + vertices[vertexIndex + 3];
-						vector /= 4f;
-						float num3 = vector.x / (num / 2f);
-						bool flag = num3 >= 0f;
-						num3 = Mathf.Abs(num3);
-						float num4 = num2 / 2f * num3;
-						float num5 = (180f - num4) / 2f;
-						float num6 = 200f * Mathf.Tan(num4 / 2f * 0.0174532924f);
-						Vector3 vector2 = new Vector3(Mathf.Sin(num5 * 0.0174532924f) * num6 * ((!flag) ? -1f : 1f), vector.y, Mathf.Cos(num5 * 0.0174532924f) * num6);
-						Vector3 b = vector2 - vector;
-						Vector3 vector3 = vertices[vertexIndex] + b;
-						Vector3 vector4 = vertices[vertexIndex + 1] + b;
-						Vector3 vector5 = vertices[vertexIndex + 2] + b;
-						Vector3 vector6 = vertices[vertexIndex + 3] + b;
-						Quaternion rotation = Quaternion.Euler(0f, num4 * ((!flag) ? 1f : -1f), 0f);
-						vector3 = rotation * (vector3 - vector2) + vector2;
-						vector4 = rotation * (vector4 - vector2) + vector2;
-						vector5 = rotation * (vector5 - vector2) + vector2;
-						vector6 = rotation * (vector6 - vector2) + vector2;
-						vector3 = worldToLocalMatrix.MultiplyPoint(localToWorldMatrix.MultiplyPoint(vector3).normalized * (100f + WorldAltitudeOffsets.WorldText));
-						vector4 = worldToLocalMatrix.MultiplyPoint(localToWorldMatrix.MultiplyPoint(vector4).normalized * (100f + WorldAltitudeOffsets.WorldText));
-						vector5 = worldToLocalMatrix.MultiplyPoint(localToWorldMatrix.MultiplyPoint(vector5).normalized * (100f + WorldAltitudeOffsets.WorldText));
-						vector6 = worldToLocalMatrix.MultiplyPoint(localToWorldMatrix.MultiplyPoint(vector6).normalized * (100f + WorldAltitudeOffsets.WorldText));
-						vertices[vertexIndex] = vector3;
-						vertices[vertexIndex + 1] = vector4;
-						vertices[vertexIndex + 2] = vector5;
-						vertices[vertexIndex + 3] = vector6;
-					}
-				}
-				this.textMesh.mesh.vertices = vertices;
+				return;
 			}
+			Vector3[] vertices = this.textMesh.mesh.vertices;
+			float num = this.textMesh.bounds.extents.x * 2f;
+			float num2 = Find.WorldGrid.DistOnSurfaceToAngle(num);
+			Matrix4x4 localToWorldMatrix = this.textMesh.transform.localToWorldMatrix;
+			Matrix4x4 worldToLocalMatrix = this.textMesh.transform.worldToLocalMatrix;
+			for (int i = 0; i < characterCount; i++)
+			{
+				TMP_CharacterInfo tmp_CharacterInfo = textInfo.characterInfo[i];
+				if (tmp_CharacterInfo.isVisible)
+				{
+					int vertexIndex = tmp_CharacterInfo.vertexIndex;
+					Vector3 vector = vertices[vertexIndex] + vertices[vertexIndex + 1] + vertices[vertexIndex + 2] + vertices[vertexIndex + 3];
+					vector /= 4f;
+					float num3 = vector.x / (num / 2f);
+					bool flag = num3 >= 0f;
+					num3 = Mathf.Abs(num3);
+					float num4 = num2 / 2f * num3;
+					float num5 = (180f - num4) / 2f;
+					float num6 = 200f * Mathf.Tan(num4 / 2f * 0.0174532924f);
+					Vector3 vector2 = new Vector3(Mathf.Sin(num5 * 0.0174532924f) * num6 * ((!flag) ? -1f : 1f), vector.y, Mathf.Cos(num5 * 0.0174532924f) * num6);
+					Vector3 b = vector2 - vector;
+					Vector3 vector3 = vertices[vertexIndex] + b;
+					Vector3 vector4 = vertices[vertexIndex + 1] + b;
+					Vector3 vector5 = vertices[vertexIndex + 2] + b;
+					Vector3 vector6 = vertices[vertexIndex + 3] + b;
+					Quaternion rotation = Quaternion.Euler(0f, num4 * ((!flag) ? 1f : -1f), 0f);
+					vector3 = rotation * (vector3 - vector2) + vector2;
+					vector4 = rotation * (vector4 - vector2) + vector2;
+					vector5 = rotation * (vector5 - vector2) + vector2;
+					vector6 = rotation * (vector6 - vector2) + vector2;
+					vector3 = worldToLocalMatrix.MultiplyPoint(localToWorldMatrix.MultiplyPoint(vector3).normalized * (100f + WorldAltitudeOffsets.WorldText));
+					vector4 = worldToLocalMatrix.MultiplyPoint(localToWorldMatrix.MultiplyPoint(vector4).normalized * (100f + WorldAltitudeOffsets.WorldText));
+					vector5 = worldToLocalMatrix.MultiplyPoint(localToWorldMatrix.MultiplyPoint(vector5).normalized * (100f + WorldAltitudeOffsets.WorldText));
+					vector6 = worldToLocalMatrix.MultiplyPoint(localToWorldMatrix.MultiplyPoint(vector6).normalized * (100f + WorldAltitudeOffsets.WorldText));
+					vertices[vertexIndex] = vector3;
+					vertices[vertexIndex + 1] = vector4;
+					vertices[vertexIndex + 2] = vector5;
+					vertices[vertexIndex + 3] = vector6;
+				}
+			}
+			this.textMesh.mesh.vertices = vertices;
 		}
 
 		// Note: this type is marked as 'beforefieldinit'.

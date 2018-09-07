@@ -14,24 +14,19 @@ namespace RimWorld
 
 		protected override bool CanFireNowSub(IncidentParms parms)
 		{
-			bool result;
 			if (!base.CanFireNowSub(parms))
 			{
-				result = false;
+				return false;
 			}
-			else
+			List<Map> maps = Find.Maps;
+			for (int i = 0; i < maps.Count; i++)
 			{
-				List<Map> maps = Find.Maps;
-				for (int i = 0; i < maps.Count; i++)
+				if (maps[i].IsPlayerHome && !this.AuroraWillEndSoon(maps[i]))
 				{
-					if (maps[i].IsPlayerHome && !this.AuroraWillEndSoon(maps[i]))
-					{
-						return true;
-					}
+					return true;
 				}
-				result = false;
 			}
-			return result;
+			return false;
 		}
 
 		private bool AuroraWillEndSoon(Map map)

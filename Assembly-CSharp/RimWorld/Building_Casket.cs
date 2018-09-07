@@ -6,9 +6,9 @@ namespace RimWorld
 {
 	public class Building_Casket : Building, IThingHolder, IOpenable
 	{
-		protected ThingOwner innerContainer = null;
+		protected ThingOwner innerContainer;
 
-		protected bool contentsKnown = false;
+		protected bool contentsKnown;
 
 		public Building_Casket()
 		{
@@ -63,10 +63,11 @@ namespace RimWorld
 
 		public virtual void Open()
 		{
-			if (this.HasAnyContents)
+			if (!this.HasAnyContents)
 			{
-				this.EjectContents();
+				return;
 			}
+			this.EjectContents();
 		}
 
 		public override void ExposeData()
@@ -90,7 +91,6 @@ namespace RimWorld
 
 		public override bool ClaimableBy(Faction fac)
 		{
-			bool result;
 			if (this.innerContainer.Any)
 			{
 				for (int i = 0; i < this.innerContainer.Count; i++)
@@ -100,13 +100,9 @@ namespace RimWorld
 						return true;
 					}
 				}
-				result = false;
+				return false;
 			}
-			else
-			{
-				result = base.ClaimableBy(fac);
-			}
-			return result;
+			return base.ClaimableBy(fac);
 		}
 
 		public virtual bool Accepts(Thing thing)
@@ -116,63 +112,52 @@ namespace RimWorld
 
 		public virtual bool TryAcceptThing(Thing thing, bool allowSpecialEffects = true)
 		{
-			bool result;
 			if (!this.Accepts(thing))
 			{
-				result = false;
+				return false;
+			}
+			bool flag;
+			if (thing.holdingOwner != null)
+			{
+				thing.holdingOwner.TryTransferToContainer(thing, this.innerContainer, thing.stackCount, true);
+				flag = true;
 			}
 			else
 			{
-				bool flag;
-				if (thing.holdingOwner != null)
-				{
-					thing.holdingOwner.TryTransferToContainer(thing, this.innerContainer, thing.stackCount, true);
-					flag = true;
-				}
-				else
-				{
-					flag = this.innerContainer.TryAdd(thing, true);
-				}
-				if (flag)
-				{
-					if (thing.Faction != null && thing.Faction.IsPlayer)
-					{
-						this.contentsKnown = true;
-					}
-					result = true;
-				}
-				else
-				{
-					result = false;
-				}
+				flag = this.innerContainer.TryAdd(thing, true);
 			}
-			return result;
+			if (flag)
+			{
+				if (thing.Faction != null && thing.Faction.IsPlayer)
+				{
+					this.contentsKnown = true;
+				}
+				return true;
+			}
+			return false;
 		}
 
 		public override void Destroy(DestroyMode mode = DestroyMode.Vanish)
 		{
-			if (this.innerContainer.Count > 0)
+			if (this.innerContainer.Count > 0 && (mode == DestroyMode.Deconstruct || mode == DestroyMode.KillFinalize))
 			{
-				if (mode == DestroyMode.Deconstruct || mode == DestroyMode.KillFinalize)
+				if (mode != DestroyMode.Deconstruct)
 				{
-					if (mode != DestroyMode.Deconstruct)
+					List<Pawn> list = new List<Pawn>();
+					foreach (Thing thing in ((IEnumerable<Thing>)this.innerContainer))
 					{
-						List<Pawn> list = new List<Pawn>();
-						foreach (Thing thing in ((IEnumerable<Thing>)this.innerContainer))
+						Pawn pawn = thing as Pawn;
+						if (pawn != null)
 						{
-							Pawn pawn = thing as Pawn;
-							if (pawn != null)
-							{
-								list.Add(pawn);
-							}
-						}
-						foreach (Pawn p in list)
-						{
-							HealthUtility.DamageUntilDowned(p, true);
+							list.Add(pawn);
 						}
 					}
-					this.EjectContents();
+					foreach (Pawn p in list)
+					{
+						HealthUtility.DamageUntilDowned(p, true);
+					}
 				}
+				this.EjectContents();
 			}
 			this.innerContainer.ClearAndDestroyContents(DestroyMode.Vanish);
 			base.Destroy(mode);

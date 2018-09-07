@@ -95,7 +95,7 @@ namespace RimWorld
 			yield return ThingDefOf.Turret_MiniTurret;
 			yield return ThingDefOf.OrbitalTradeBeacon;
 			yield return ThingDefOf.Battery;
-			yield return ThingDefOf.TrapDeadfall;
+			yield return ThingDefOf.TrapSpike;
 			yield return ThingDefOf.Cooler;
 			yield return ThingDefOf.Heater;
 			yield break;
@@ -274,7 +274,7 @@ namespace RimWorld
 					}
 					return true;
 				case 4u:
-					this.$current = ThingDefOf.TrapDeadfall;
+					this.$current = ThingDefOf.TrapSpike;
 					if (!this.$disposing)
 					{
 						this.$PC = 5;

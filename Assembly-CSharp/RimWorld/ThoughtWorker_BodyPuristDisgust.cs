@@ -11,36 +11,28 @@ namespace RimWorld
 
 		protected override ThoughtState CurrentSocialStateInternal(Pawn p, Pawn other)
 		{
-			ThoughtState result;
 			if (!p.RaceProps.Humanlike)
 			{
-				result = false;
+				return false;
 			}
-			else if (!p.story.traits.HasTrait(TraitDefOf.BodyPurist))
+			if (!p.story.traits.HasTrait(TraitDefOf.BodyPurist))
 			{
-				result = false;
+				return false;
 			}
-			else if (!RelationsUtility.PawnsKnowEachOther(p, other))
+			if (!RelationsUtility.PawnsKnowEachOther(p, other))
 			{
-				result = false;
+				return false;
 			}
-			else if (other.def != p.def)
+			if (other.def != p.def)
 			{
-				result = false;
+				return false;
 			}
-			else
+			int num = other.health.hediffSet.CountAddedParts();
+			if (num > 0)
 			{
-				int num = other.health.hediffSet.CountAddedParts();
-				if (num > 0)
-				{
-					result = ThoughtState.ActiveAtStage(num - 1);
-				}
-				else
-				{
-					result = false;
-				}
+				return ThoughtState.ActiveAtStage(num - 1);
 			}
-			return result;
+			return false;
 		}
 	}
 }

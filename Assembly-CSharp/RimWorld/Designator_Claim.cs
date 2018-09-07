@@ -31,26 +31,21 @@ namespace RimWorld
 
 		public override AcceptanceReport CanDesignateCell(IntVec3 c)
 		{
-			AcceptanceReport result;
 			if (!c.InBounds(base.Map))
 			{
-				result = false;
+				return false;
 			}
-			else if (c.Fogged(base.Map))
+			if (c.Fogged(base.Map))
 			{
-				result = false;
+				return false;
 			}
-			else if (!(from t in c.GetThingList(base.Map)
+			if (!(from t in c.GetThingList(base.Map)
 			where this.CanDesignateThing(t).Accepted
 			select t).Any<Thing>())
 			{
-				result = "MessageMustDesignateClaimable".Translate();
+				return "MessageMustDesignateClaimable".Translate();
 			}
-			else
-			{
-				result = true;
-			}
-			return result;
+			return true;
 		}
 
 		public override void DesignateSingleCell(IntVec3 c)

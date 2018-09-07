@@ -44,20 +44,21 @@ namespace Verse
 
 		private void DoField(FieldInfo fi)
 		{
-			if (!fi.IsLiteral)
+			if (fi.IsLiteral)
 			{
-				string label = GenText.SplitCamelCase(fi.Name).CapitalizeFirst();
-				bool flag = (bool)fi.GetValue(null);
-				bool flag2 = flag;
-				base.CheckboxLabeledDebug(label, ref flag);
-				if (flag != flag2)
+				return;
+			}
+			string label = GenText.SplitCamelCase(fi.Name).CapitalizeFirst();
+			bool flag = (bool)fi.GetValue(null);
+			bool flag2 = flag;
+			base.CheckboxLabeledDebug(label, ref flag);
+			if (flag != flag2)
+			{
+				fi.SetValue(null, flag);
+				MethodInfo method = fi.DeclaringType.GetMethod(fi.Name + "Toggled", BindingFlags.Static | BindingFlags.Public);
+				if (method != null)
 				{
-					fi.SetValue(null, flag);
-					MethodInfo method = fi.DeclaringType.GetMethod(fi.Name + "Toggled", BindingFlags.Static | BindingFlags.Public);
-					if (method != null)
-					{
-						method.Invoke(null, null);
-					}
+					method.Invoke(null, null);
 				}
 			}
 		}

@@ -26,7 +26,7 @@ namespace Verse
 
 		public bool buttonCClose = true;
 
-		public float interactionDelay = 0f;
+		public float interactionDelay;
 
 		public Action acceptAction;
 
@@ -125,41 +125,32 @@ namespace Verse
 				GUI.color = new Color(1f, 0.3f, 0.35f);
 			}
 			string label = (!this.InteractionDelayExpired) ? (this.buttonAText + "(" + Mathf.Ceil(this.TimeUntilInteractive).ToString("F0") + ")") : this.buttonAText;
-			if (Widgets.ButtonText(new Rect(num3 * (float)(num2 - 1) + 10f, inRect.height - 35f, width2, 35f), label, true, false, true))
+			if (Widgets.ButtonText(new Rect(num3 * (float)(num2 - 1) + 10f, inRect.height - 35f, width2, 35f), label, true, false, true) && this.InteractionDelayExpired)
 			{
-				if (this.InteractionDelayExpired)
+				if (this.buttonAAction != null)
 				{
-					if (this.buttonAAction != null)
-					{
-						this.buttonAAction();
-					}
-					this.Close(true);
+					this.buttonAAction();
 				}
+				this.Close(true);
 			}
 			GUI.color = Color.white;
-			if (this.buttonBText != null)
+			if (this.buttonBText != null && Widgets.ButtonText(new Rect(0f, inRect.height - 35f, width2, 35f), this.buttonBText, true, false, true))
 			{
-				if (Widgets.ButtonText(new Rect(0f, inRect.height - 35f, width2, 35f), this.buttonBText, true, false, true))
+				if (this.buttonBAction != null)
 				{
-					if (this.buttonBAction != null)
-					{
-						this.buttonBAction();
-					}
-					this.Close(true);
+					this.buttonBAction();
 				}
+				this.Close(true);
 			}
-			if (this.buttonCText != null)
+			if (this.buttonCText != null && Widgets.ButtonText(new Rect(num3 + 10f, inRect.height - 35f, width2, 35f), this.buttonCText, true, false, true))
 			{
-				if (Widgets.ButtonText(new Rect(num3 + 10f, inRect.height - 35f, width2, 35f), this.buttonCText, true, false, true))
+				if (this.buttonCAction != null)
 				{
-					if (this.buttonCAction != null)
-					{
-						this.buttonCAction();
-					}
-					if (this.buttonCClose)
-					{
-						this.Close(true);
-					}
+					this.buttonCAction();
+				}
+				if (this.buttonCClose)
+				{
+					this.Close(true);
 				}
 			}
 		}

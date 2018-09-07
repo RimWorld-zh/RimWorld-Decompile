@@ -5,7 +5,7 @@ namespace Verse.Sound
 	public class SoundParamSource_External : SoundParamSource
 	{
 		[Description("The name of the independent parameter that the game will change to drive this relationship.\n\nThis must exactly match a string that the code will use to modify this sound. If the code doesn't reference this, it will have no effect.\n\nOn the graph, this is the X axis.")]
-		public string inParamName = "";
+		public string inParamName = string.Empty;
 
 		[Description("If the code has never set this parameter on a sustainer, it will use this value.")]
 		private float defaultValue = 1f;
@@ -18,32 +18,22 @@ namespace Verse.Sound
 		{
 			get
 			{
-				string result;
-				if (this.inParamName == "")
+				if (this.inParamName == string.Empty)
 				{
-					result = "Undefined external";
+					return "Undefined external";
 				}
-				else
-				{
-					result = this.inParamName;
-				}
-				return result;
+				return this.inParamName;
 			}
 		}
 
 		public override float ValueFor(Sample samp)
 		{
-			float num;
 			float result;
-			if (samp.ExternalParams.TryGetValue(this.inParamName, out num))
+			if (samp.ExternalParams.TryGetValue(this.inParamName, out result))
 			{
-				result = num;
+				return result;
 			}
-			else
-			{
-				result = this.defaultValue;
-			}
-			return result;
+			return this.defaultValue;
 		}
 	}
 }

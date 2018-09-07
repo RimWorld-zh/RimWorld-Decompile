@@ -32,23 +32,23 @@ namespace RimWorld.Planet
 				true
 			},
 			{
-				new CurvePoint(1000f, 250f),
+				new CurvePoint(1000f, 300f),
 				true
 			},
 			{
-				new CurvePoint(2000f, 500f),
+				new CurvePoint(2000f, 600f),
 				true
 			},
 			{
-				new CurvePoint(3000f, 700f),
+				new CurvePoint(3000f, 800f),
 				true
 			},
 			{
-				new CurvePoint(4000f, 800f),
+				new CurvePoint(4000f, 900f),
 				true
 			},
 			{
-				new CurvePoint(5000f, 850f),
+				new CurvePoint(5000f, 1000f),
 				true
 			}
 		};
@@ -56,7 +56,7 @@ namespace RimWorld.Planet
 		public static readonly SimpleCurve QuestRewardMarketValueThreatPointsFactor = new SimpleCurve
 		{
 			{
-				new CurvePoint(300f, 0.7f),
+				new CurvePoint(300f, 0.8f),
 				true
 			},
 			{

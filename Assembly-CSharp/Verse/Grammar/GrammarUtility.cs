@@ -13,17 +13,12 @@ namespace Verse.Grammar
 	{
 		public static IEnumerable<Rule> RulesForPawn(string pawnSymbol, Pawn pawn, Dictionary<string, string> constants = null)
 		{
-			IEnumerable<Rule> result;
 			if (pawn == null)
 			{
 				Log.ErrorOnce(string.Format("Tried to insert rule {0} for null pawn", pawnSymbol), 16015097, false);
-				result = Enumerable.Empty<Rule>();
+				return Enumerable.Empty<Rule>();
 			}
-			else
-			{
-				result = GrammarUtility.RulesForPawn(pawnSymbol, pawn.Name, (pawn.story == null) ? null : pawn.story.Title, pawn.kindDef, pawn.gender, pawn.Faction, constants);
-			}
-			return result;
+			return GrammarUtility.RulesForPawn(pawnSymbol, pawn.Name, (pawn.story == null) ? null : pawn.story.Title, pawn.kindDef, pawn.gender, pawn.Faction, constants);
 		}
 
 		public static IEnumerable<Rule> RulesForPawn(string pawnSymbol, Name name, string title, PawnKindDef kind, Gender gender, Faction faction, Dictionary<string, string> constants = null)
@@ -76,6 +71,10 @@ namespace Verse.Grammar
 			if (faction != null)
 			{
 				yield return new Rule_String(pawnSymbol + "_factionName", faction.Name);
+			}
+			if (kind != null)
+			{
+				yield return new Rule_String(pawnSymbol + "_kind", GenLabel.BestKindLabel(kind, gender, false, -1));
 			}
 			if (title != null)
 			{
@@ -298,20 +297,32 @@ namespace Verse.Grammar
 				case 10u:
 					break;
 				case 11u:
-					goto IL_3AC;
+					goto IL_3B4;
+				case 12u:
+					goto IL_3F5;
 				default:
 					return false;
 				}
-				if (title != null)
+				if (kind != null)
 				{
-					this.$current = new Rule_String(pawnSymbol + "_title", title);
+					this.$current = new Rule_String(pawnSymbol + "_kind", GenLabel.BestKindLabel(kind, gender, false, -1));
 					if (!this.$disposing)
 					{
 						this.$PC = 11;
 					}
 					return true;
 				}
-				IL_3AC:
+				IL_3B4:
+				if (title != null)
+				{
+					this.$current = new Rule_String(pawnSymbol + "_title", title);
+					if (!this.$disposing)
+					{
+						this.$PC = 12;
+					}
+					return true;
+				}
+				IL_3F5:
 				if (constants != null && kind != null)
 				{
 					constants[pawnSymbol + "_flesh"] = kind.race.race.FleshType.defName;
@@ -658,9 +669,9 @@ namespace Verse.Grammar
 						}
 						return true;
 					}
-					goto IL_185;
+					goto IL_181;
 				case 3u:
-					goto IL_185;
+					goto IL_181;
 				default:
 					return false;
 				}
@@ -702,7 +713,7 @@ namespace Verse.Grammar
 					this.$PC = 2;
 				}
 				return true;
-				IL_185:
+				IL_181:
 				this.$PC = -1;
 				return false;
 			}

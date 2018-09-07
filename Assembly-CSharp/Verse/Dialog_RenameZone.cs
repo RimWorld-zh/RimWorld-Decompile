@@ -16,21 +16,16 @@ namespace Verse
 
 		protected override AcceptanceReport NameIsValid(string name)
 		{
-			AcceptanceReport acceptanceReport = base.NameIsValid(name);
-			AcceptanceReport result;
-			if (!acceptanceReport.Accepted)
+			AcceptanceReport result = base.NameIsValid(name);
+			if (!result.Accepted)
 			{
-				result = acceptanceReport;
+				return result;
 			}
-			else if (this.zone.Map.zoneManager.AllZones.Any((Zone z) => z != this.zone && z.label == name))
+			if (this.zone.Map.zoneManager.AllZones.Any((Zone z) => z != this.zone && z.label == name))
 			{
-				result = "NameIsInUse".Translate();
+				return "NameIsInUse".Translate();
 			}
-			else
-			{
-				result = true;
-			}
-			return result;
+			return true;
 		}
 
 		protected override void SetName(string name)

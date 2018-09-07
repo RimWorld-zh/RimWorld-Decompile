@@ -48,7 +48,7 @@ namespace Verse
 			return (float)indentLevel * this.nestIndentWidth;
 		}
 
-		protected void LabelLeft(string label, string tipText, int indentLevel)
+		protected void LabelLeft(string label, string tipText, int indentLevel, float widthOffset = 0f)
 		{
 			Rect rect = new Rect(0f, this.curY, base.ColumnWidth, this.lineHeight)
 			{
@@ -64,37 +64,29 @@ namespace Verse
 				TooltipHandler.TipRegion(rect, tipText);
 			}
 			Text.Anchor = TextAnchor.MiddleLeft;
-			rect.width = this.LabelWidth;
+			rect.width = this.LabelWidth - rect.xMin + widthOffset;
 			rect.yMax += 5f;
 			rect.yMin -= 5f;
-			Widgets.Label(rect, label);
+			Widgets.Label(rect, label.Truncate(rect.width, null));
 			Text.Anchor = TextAnchor.UpperLeft;
 		}
 
 		protected bool OpenCloseWidget(TreeNode node, int indentLevel, int openMask)
 		{
-			bool result;
 			if (!node.Openable)
 			{
-				result = false;
+				return false;
 			}
-			else
+			float x = this.XAtIndentLevel(indentLevel);
+			float y = this.curY + this.lineHeight / 2f - 9f;
+			Rect butRect = new Rect(x, y, 18f, 18f);
+			Texture2D tex = (!node.IsOpen(openMask)) ? TexButton.Reveal : TexButton.Collapse;
+			if (Widgets.ButtonImage(butRect, tex))
 			{
-				float x = this.XAtIndentLevel(indentLevel);
-				float y = this.curY + this.lineHeight / 2f - 9f;
-				Rect butRect = new Rect(x, y, 18f, 18f);
-				Texture2D tex = (!node.IsOpen(openMask)) ? TexButton.Reveal : TexButton.Collapse;
-				if (Widgets.ButtonImage(butRect, tex))
-				{
-					node.SetOpen(openMask, !node.IsOpen(openMask));
-					result = true;
-				}
-				else
-				{
-					result = false;
-				}
+				node.SetOpen(openMask, !node.IsOpen(openMask));
+				return true;
 			}
-			return result;
+			return false;
 		}
 
 		public void InfoText(string text, int indentLevel)

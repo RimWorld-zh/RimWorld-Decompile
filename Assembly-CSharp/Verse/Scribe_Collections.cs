@@ -309,14 +309,14 @@ namespace Verse
 									disposable8.Dispose();
 								}
 							}
-							Scribe.loader.crossRefs.loadIDs.RegisterLoadIDListReadFromXml(list2, "");
+							Scribe.loader.crossRefs.loadIDs.RegisterLoadIDListReadFromXml(list2, string.Empty);
 						}
 					}
 					else if (Scribe.mode == LoadSaveMode.ResolvingCrossRefs)
 					{
 						if (lookMode == LookMode.Reference)
 						{
-							list = Scribe.loader.crossRefs.TakeResolvedRefList<T>("");
+							list = Scribe.loader.crossRefs.TakeResolvedRefList<T>(string.Empty);
 						}
 						else if (lookMode == LookMode.LocalTargetInfo)
 						{
@@ -338,14 +338,11 @@ namespace Verse
 								}
 							}
 						}
-						else if (lookMode == LookMode.GlobalTargetInfo)
+						else if (lookMode == LookMode.GlobalTargetInfo && list != null)
 						{
-							if (list != null)
+							for (int k = 0; k < list.Count; k++)
 							{
-								for (int k = 0; k < list.Count; k++)
-								{
-									list[k] = (T)((object)ScribeExtractor.ResolveGlobalTargetInfo((GlobalTargetInfo)((object)list[k]), k.ToString()));
-								}
+								list[k] = (T)((object)ScribeExtractor.ResolveGlobalTargetInfo((GlobalTargetInfo)((object)list[k]), k.ToString()));
 							}
 						}
 					}
@@ -409,15 +406,12 @@ namespace Verse
 						{
 							keysWorkingList = new List<K>();
 							valuesWorkingList = new List<V>();
-							if (Scribe.mode == LoadSaveMode.Saving)
+							if (Scribe.mode == LoadSaveMode.Saving && dict != null)
 							{
-								if (dict != null)
+								foreach (KeyValuePair<K, V> keyValuePair in dict)
 								{
-									foreach (KeyValuePair<K, V> keyValuePair in dict)
-									{
-										keysWorkingList.Add(keyValuePair.Key);
-										valuesWorkingList.Add(keyValuePair.Value);
-									}
+									keysWorkingList.Add(keyValuePair.Key);
+									valuesWorkingList.Add(keyValuePair.Value);
 								}
 							}
 						}
@@ -437,63 +431,60 @@ namespace Verse
 							}
 						}
 						bool flag = keyLookMode == LookMode.Reference || valueLookMode == LookMode.Reference;
-						if ((flag && Scribe.mode == LoadSaveMode.ResolvingCrossRefs) || (!flag && Scribe.mode == LoadSaveMode.LoadingVars))
+						if (((flag && Scribe.mode == LoadSaveMode.ResolvingCrossRefs) || (!flag && Scribe.mode == LoadSaveMode.LoadingVars)) && dict != null)
 						{
-							if (dict != null)
+							if (keysWorkingList == null)
 							{
-								if (keysWorkingList == null)
+								Log.Error("Cannot fill dictionary because there are no keys. label=" + label, false);
+							}
+							else if (valuesWorkingList == null)
+							{
+								Log.Error("Cannot fill dictionary because there are no values. label=" + label, false);
+							}
+							else
+							{
+								if (keysWorkingList.Count != valuesWorkingList.Count)
 								{
-									Log.Error("Cannot fill dictionary because there are no keys. label=" + label, false);
+									Log.Error(string.Concat(new object[]
+									{
+										"Keys count does not match the values count while loading a dictionary (maybe keys and values were resolved during different passes?). Some elements will be skipped. keys=",
+										keysWorkingList.Count,
+										", values=",
+										valuesWorkingList.Count,
+										", label=",
+										label
+									}), false);
 								}
-								else if (valuesWorkingList == null)
+								int num = Math.Min(keysWorkingList.Count, valuesWorkingList.Count);
+								for (int i = 0; i < num; i++)
 								{
-									Log.Error("Cannot fill dictionary because there are no values. label=" + label, false);
-								}
-								else
-								{
-									if (keysWorkingList.Count != valuesWorkingList.Count)
+									if (keysWorkingList[i] == null)
 									{
 										Log.Error(string.Concat(new object[]
 										{
-											"Keys count does not match the values count while loading a dictionary (maybe keys and values were resolved during different passes?). Some elements will be skipped. keys=",
-											keysWorkingList.Count,
-											", values=",
-											valuesWorkingList.Count,
-											", label=",
+											"Null key while loading dictionary of ",
+											typeof(K),
+											" and ",
+											typeof(V),
+											". label=",
 											label
 										}), false);
 									}
-									int num = Math.Min(keysWorkingList.Count, valuesWorkingList.Count);
-									for (int i = 0; i < num; i++)
+									else
 									{
-										if (keysWorkingList[i] == null)
+										try
+										{
+											dict.Add(keysWorkingList[i], valuesWorkingList[i]);
+										}
+										catch (Exception ex)
 										{
 											Log.Error(string.Concat(new object[]
 											{
-												"Null key while loading dictionary of ",
-												typeof(K),
-												" and ",
-												typeof(V),
-												". label=",
-												label
+												"Exception in LookDictionary(label=",
+												label,
+												"): ",
+												ex
 											}), false);
-										}
-										else
-										{
-											try
-											{
-												dict.Add(keysWorkingList[i], valuesWorkingList[i]);
-											}
-											catch (Exception ex)
-											{
-												Log.Error(string.Concat(new object[]
-												{
-													"Exception in LookDictionary(label=",
-													label,
-													"): ",
-													ex
-												}), false);
-											}
 										}
 									}
 								}
@@ -533,15 +524,12 @@ namespace Verse
 		public static void Look<T>(ref HashSet<T> valueHashSet, bool saveDestroyedThings, string label, LookMode lookMode = LookMode.Undefined)
 		{
 			List<T> list = null;
-			if (Scribe.mode == LoadSaveMode.Saving)
+			if (Scribe.mode == LoadSaveMode.Saving && valueHashSet != null)
 			{
-				if (valueHashSet != null)
+				list = new List<T>();
+				foreach (T item in valueHashSet)
 				{
-					list = new List<T>();
-					foreach (T item in valueHashSet)
-					{
-						list.Add(item);
-					}
+					list.Add(item);
 				}
 			}
 			Scribe_Collections.Look<T>(ref list, saveDestroyedThings, label, lookMode, new object[0]);
@@ -565,15 +553,12 @@ namespace Verse
 		public static void Look<T>(ref Stack<T> valueStack, string label, LookMode lookMode = LookMode.Undefined)
 		{
 			List<T> list = null;
-			if (Scribe.mode == LoadSaveMode.Saving)
+			if (Scribe.mode == LoadSaveMode.Saving && valueStack != null)
 			{
-				if (valueStack != null)
+				list = new List<T>();
+				foreach (T item in valueStack)
 				{
-					list = new List<T>();
-					foreach (T item in valueStack)
-					{
-						list.Add(item);
-					}
+					list.Add(item);
 				}
 			}
 			Scribe_Collections.Look<T>(ref list, label, lookMode, new object[0]);

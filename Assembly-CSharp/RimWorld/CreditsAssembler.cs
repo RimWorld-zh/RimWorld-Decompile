@@ -18,23 +18,23 @@ namespace RimWorld
 		{
 			yield return new CreditRecord_Space(200f);
 			yield return new CreditRecord_Title("Credits_Developers".Translate());
-			yield return new CreditRecord_Role("", "Tynan Sylvester", null);
-			yield return new CreditRecord_Role("", "Piotr Walczak", null);
-			yield return new CreditRecord_Role("", "Ben Rog-Wilhelm", null);
+			yield return new CreditRecord_Role(string.Empty, "Tynan Sylvester", null);
+			yield return new CreditRecord_Role(string.Empty, "Piotr Walczak", null);
+			yield return new CreditRecord_Role(string.Empty, "Ben Rog-Wilhelm", null);
 			yield return new CreditRecord_Space(50f);
 			yield return new CreditRecord_Title("Credit_MusicAndSound".Translate());
-			yield return new CreditRecord_Role("", "Alistair Lindsay", null);
+			yield return new CreditRecord_Role(string.Empty, "Alistair Lindsay", null);
 			yield return new CreditRecord_Space(50f);
 			yield return new CreditRecord_Title("Credit_GameArt".Translate());
-			yield return new CreditRecord_Role("", "Rhopunzel", null);
-			yield return new CreditRecord_Role("", "Ricardo Tome", null);
-			yield return new CreditRecord_Role("", "Kay Fedewa", null);
-			yield return new CreditRecord_Role("", "Jon Larson", null);
+			yield return new CreditRecord_Role(string.Empty, "Rhopunzel", null);
+			yield return new CreditRecord_Role(string.Empty, "Ricardo Tome", null);
+			yield return new CreditRecord_Role(string.Empty, "Kay Fedewa", null);
+			yield return new CreditRecord_Role(string.Empty, "Jon Larson", null);
 			yield return new CreditRecord_Space(50f);
 			yield return new CreditRecord_Title("Credits_AdditionalDevelopment".Translate());
-			yield return new CreditRecord_Role("", "Gavan Woolery", null);
-			yield return new CreditRecord_Role("", "David 'Rez' Graham", null);
-			yield return new CreditRecord_Role("", "Ben Grob", null);
+			yield return new CreditRecord_Role(string.Empty, "Gavan Woolery", null);
+			yield return new CreditRecord_Role(string.Empty, "David 'Rez' Graham", null);
+			yield return new CreditRecord_Role(string.Empty, "Ben Grob", null);
 			yield return new CreditRecord_Space(50f);
 			yield return new CreditRecord_Title("Credits_TitleCommunity".Translate());
 			yield return new CreditRecord_Role("Credit_ModDonation", "Zhentar", null);
@@ -71,7 +71,7 @@ namespace RimWorld
 			yield return new CreditRecord_Role("Credit_Tester", "Gaesatae", null);
 			yield return new CreditRecord_Role("Credit_Tester", "Skullywag", null);
 			yield return new CreditRecord_Role("Credit_Tester", "Enystrom8734", null);
-			yield return new CreditRecord_Role("", "Many other gracious volunteers!", null);
+			yield return new CreditRecord_Role(string.Empty, "Many other gracious volunteers!", null);
 			yield return new CreditRecord_Space(200f);
 			foreach (LoadedLanguage lang in LanguageDatabase.AllLoadedLanguages)
 			{
@@ -134,21 +134,21 @@ namespace RimWorld
 					}
 					return true;
 				case 2u:
-					this.$current = new CreditRecord_Role("", "Tynan Sylvester", null);
+					this.$current = new CreditRecord_Role(string.Empty, "Tynan Sylvester", null);
 					if (!this.$disposing)
 					{
 						this.$PC = 3;
 					}
 					return true;
 				case 3u:
-					this.$current = new CreditRecord_Role("", "Piotr Walczak", null);
+					this.$current = new CreditRecord_Role(string.Empty, "Piotr Walczak", null);
 					if (!this.$disposing)
 					{
 						this.$PC = 4;
 					}
 					return true;
 				case 4u:
-					this.$current = new CreditRecord_Role("", "Ben Rog-Wilhelm", null);
+					this.$current = new CreditRecord_Role(string.Empty, "Ben Rog-Wilhelm", null);
 					if (!this.$disposing)
 					{
 						this.$PC = 5;
@@ -169,7 +169,7 @@ namespace RimWorld
 					}
 					return true;
 				case 7u:
-					this.$current = new CreditRecord_Role("", "Alistair Lindsay", null);
+					this.$current = new CreditRecord_Role(string.Empty, "Alistair Lindsay", null);
 					if (!this.$disposing)
 					{
 						this.$PC = 8;
@@ -190,28 +190,28 @@ namespace RimWorld
 					}
 					return true;
 				case 10u:
-					this.$current = new CreditRecord_Role("", "Rhopunzel", null);
+					this.$current = new CreditRecord_Role(string.Empty, "Rhopunzel", null);
 					if (!this.$disposing)
 					{
 						this.$PC = 11;
 					}
 					return true;
 				case 11u:
-					this.$current = new CreditRecord_Role("", "Ricardo Tome", null);
+					this.$current = new CreditRecord_Role(string.Empty, "Ricardo Tome", null);
 					if (!this.$disposing)
 					{
 						this.$PC = 12;
 					}
 					return true;
 				case 12u:
-					this.$current = new CreditRecord_Role("", "Kay Fedewa", null);
+					this.$current = new CreditRecord_Role(string.Empty, "Kay Fedewa", null);
 					if (!this.$disposing)
 					{
 						this.$PC = 13;
 					}
 					return true;
 				case 13u:
-					this.$current = new CreditRecord_Role("", "Jon Larson", null);
+					this.$current = new CreditRecord_Role(string.Empty, "Jon Larson", null);
 					if (!this.$disposing)
 					{
 						this.$PC = 14;
@@ -232,21 +232,21 @@ namespace RimWorld
 					}
 					return true;
 				case 16u:
-					this.$current = new CreditRecord_Role("", "Gavan Woolery", null);
+					this.$current = new CreditRecord_Role(string.Empty, "Gavan Woolery", null);
 					if (!this.$disposing)
 					{
 						this.$PC = 17;
 					}
 					return true;
 				case 17u:
-					this.$current = new CreditRecord_Role("", "David 'Rez' Graham", null);
+					this.$current = new CreditRecord_Role(string.Empty, "David 'Rez' Graham", null);
 					if (!this.$disposing)
 					{
 						this.$PC = 18;
 					}
 					return true;
 				case 18u:
-					this.$current = new CreditRecord_Role("", "Ben Grob", null);
+					this.$current = new CreditRecord_Role(string.Empty, "Ben Grob", null);
 					if (!this.$disposing)
 					{
 						this.$PC = 19;
@@ -505,7 +505,7 @@ namespace RimWorld
 					}
 					return true;
 				case 55u:
-					this.$current = new CreditRecord_Role("", "Many other gracious volunteers!", null);
+					this.$current = new CreditRecord_Role(string.Empty, "Many other gracious volunteers!", null);
 					if (!this.$disposing)
 					{
 						this.$PC = 56;
@@ -533,14 +533,14 @@ namespace RimWorld
 					switch (num)
 					{
 					case 58u:
-						IL_B05:
+						IL_B02:
 						enumerator2 = lang.info.credits.GetEnumerator();
 						num = 4294967293u;
 						break;
 					case 59u:
 						break;
 					default:
-						goto IL_B98;
+						goto IL_B91;
 					}
 					try
 					{
@@ -566,7 +566,7 @@ namespace RimWorld
 							((IDisposable)enumerator2).Dispose();
 						}
 					}
-					IL_B98:
+					IL_B91:
 					if (enumerator.MoveNext())
 					{
 						lang = enumerator.Current;
@@ -583,7 +583,7 @@ namespace RimWorld
 							flag = true;
 							return true;
 						}
-						goto IL_B05;
+						goto IL_B02;
 					}
 				}
 				finally

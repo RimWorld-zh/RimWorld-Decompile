@@ -14,28 +14,20 @@ namespace RimWorld
 
 		public override float ValueFor(Pawn pawn)
 		{
-			float result;
 			if (pawn.skills == null)
 			{
-				result = 1f;
+				return 1f;
 			}
-			else
+			int level = pawn.skills.GetSkill(this.skill).Level;
+			if (this.valuesPerLevel.Count > level)
 			{
-				int level = pawn.skills.GetSkill(this.skill).Level;
-				if (this.valuesPerLevel.Count > level)
-				{
-					result = this.valuesPerLevel[level];
-				}
-				else if (this.valuesPerLevel.Count > 0)
-				{
-					result = this.valuesPerLevel[this.valuesPerLevel.Count - 1];
-				}
-				else
-				{
-					result = 1f;
-				}
+				return this.valuesPerLevel[level];
 			}
-			return result;
+			if (this.valuesPerLevel.Count > 0)
+			{
+				return this.valuesPerLevel[this.valuesPerLevel.Count - 1];
+			}
+			return 1f;
 		}
 	}
 }

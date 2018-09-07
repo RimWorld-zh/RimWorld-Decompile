@@ -21,38 +21,30 @@ namespace RimWorld
 		public override float RandomSelectionWeight(Pawn initiator, Pawn recipient)
 		{
 			DirectPawnRelation directRelation = initiator.relations.GetDirectRelation(PawnRelationDefOf.Lover, recipient);
-			float result;
 			if (directRelation == null)
 			{
-				result = 0f;
+				return 0f;
 			}
-			else
+			Pawn spouse = recipient.GetSpouse();
+			Pawn spouse2 = initiator.GetSpouse();
+			if ((spouse != null && !spouse.Dead) || (spouse2 != null && !spouse2.Dead))
 			{
-				Pawn spouse = recipient.GetSpouse();
-				Pawn spouse2 = initiator.GetSpouse();
-				if ((spouse != null && !spouse.Dead) || (spouse2 != null && !spouse2.Dead))
-				{
-					result = 0f;
-				}
-				else
-				{
-					float num = 0.4f;
-					int ticksGame = Find.TickManager.TicksGame;
-					float value = (float)(ticksGame - directRelation.startTicks) / 60000f;
-					num *= Mathf.InverseLerp(0f, 60f, value);
-					num *= Mathf.InverseLerp(0f, 60f, (float)initiator.relations.OpinionOf(recipient));
-					if (recipient.relations.OpinionOf(initiator) < 0)
-					{
-						num *= 0.3f;
-					}
-					if (initiator.gender == Gender.Female)
-					{
-						num *= 0.2f;
-					}
-					result = num;
-				}
+				return 0f;
 			}
-			return result;
+			float num = 0.4f;
+			int ticksGame = Find.TickManager.TicksGame;
+			float value = (float)(ticksGame - directRelation.startTicks) / 60000f;
+			num *= Mathf.InverseLerp(0f, 60f, value);
+			num *= Mathf.InverseLerp(0f, 60f, (float)initiator.relations.OpinionOf(recipient));
+			if (recipient.relations.OpinionOf(initiator) < 0)
+			{
+				num *= 0.3f;
+			}
+			if (initiator.gender == Gender.Female)
+			{
+				num *= 0.2f;
+			}
+			return num;
 		}
 
 		public override void Interacted(Pawn initiator, Pawn recipient, List<RulePackDef> extraSentencePacks, out string letterText, out string letterLabel, out LetterDef letterDef)

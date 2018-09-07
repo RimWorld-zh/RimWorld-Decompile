@@ -41,12 +41,9 @@ namespace Verse
 				if (this.target.HasThing)
 				{
 					Pawn pawn = this.target.Thing as Pawn;
-					if (pawn != null)
+					if (pawn != null && this.distance >= 4.5f && pawn.GetPosture() != PawnPosture.Standing)
 					{
-						if (this.distance >= 4.5f && pawn.GetPosture() != PawnPosture.Standing)
-						{
-							return 0.2f;
-						}
+						return 0.2f;
 					}
 				}
 				return 1f;
@@ -60,12 +57,9 @@ namespace Verse
 				if (this.target.HasThing)
 				{
 					Pawn pawn = this.target.Thing as Pawn;
-					if (pawn != null)
+					if (pawn != null && this.distance <= 3.9f && pawn.GetPosture() != PawnPosture.Standing)
 					{
-						if (this.distance <= 3.9f && pawn.GetPosture() != PawnPosture.Standing)
-						{
-							return 7.5f;
-						}
+						return 7.5f;
 					}
 				}
 				return 1f;
@@ -76,16 +70,11 @@ namespace Verse
 		{
 			get
 			{
-				float result;
 				if (this.coveringGas != null)
 				{
-					result = 1f - this.coveringGas.gas.accuracyPenalty;
+					return 1f - this.coveringGas.gas.accuracyPenalty;
 				}
-				else
-				{
-					result = 1f;
-				}
-				return result;
+				return 1f;
 			}
 		}
 
@@ -186,7 +175,7 @@ namespace Verse
 				}
 				else
 				{
-					result.factorFromTargetSize = target.Thing.def.fillPercent * (float)target.Thing.def.size.x * (float)target.Thing.def.size.z * 1.7f;
+					result.factorFromTargetSize = target.Thing.def.fillPercent * (float)target.Thing.def.size.x * (float)target.Thing.def.size.z * 2.5f;
 				}
 				result.factorFromTargetSize = Mathf.Clamp(result.factorFromTargetSize, 0.5f, 2f);
 			}
@@ -200,8 +189,13 @@ namespace Verse
 
 		public static float HitFactorFromShooter(Thing caster, float distance)
 		{
-			float f = (!(caster is Pawn)) ? caster.GetStatValue(StatDefOf.ShootingAccuracyTurret, true) : caster.GetStatValue(StatDefOf.ShootingAccuracyPawn, true);
-			float a = Mathf.Pow(f, distance);
+			float accRating = (!(caster is Pawn)) ? caster.GetStatValue(StatDefOf.ShootingAccuracyTurret, true) : caster.GetStatValue(StatDefOf.ShootingAccuracyPawn, true);
+			return ShotReport.HitFactorFromShooter(accRating, distance);
+		}
+
+		public static float HitFactorFromShooter(float accRating, float distance)
+		{
+			float a = Mathf.Pow(accRating, distance);
 			return Mathf.Max(a, 0.0201f);
 		}
 
@@ -219,12 +213,9 @@ namespace Verse
 				stringBuilder.AppendLine(" " + this.TotalEstimatedHitChance.ToStringPercent());
 				stringBuilder.AppendLine("   " + "ShootReportShooterAbility".Translate() + "  " + this.factorFromShooterAndDist.ToStringPercent());
 				stringBuilder.AppendLine("   " + "ShootReportWeapon".Translate() + "        " + this.factorFromEquipment.ToStringPercent());
-				if (this.target.HasThing)
+				if (this.target.HasThing && this.factorFromTargetSize != 1f)
 				{
-					if (this.factorFromTargetSize != 1f)
-					{
-						stringBuilder.AppendLine("   " + "TargetSize".Translate() + "       " + this.factorFromTargetSize.ToStringPercent());
-					}
+					stringBuilder.AppendLine("   " + "TargetSize".Translate() + "       " + this.factorFromTargetSize.ToStringPercent());
 				}
 				if (this.factorFromWeather < 0.99f)
 				{
@@ -248,11 +239,14 @@ namespace Verse
 					for (int i = 0; i < this.covers.Count; i++)
 					{
 						CoverInfo coverInfo = this.covers[i];
-						stringBuilder.AppendLine("     " + "CoverThingBlocksPercentOfShots".Translate(new object[]
+						if (coverInfo.BlockChance > 0f)
 						{
-							coverInfo.Thing.LabelCap,
-							coverInfo.BlockChance.ToStringPercent()
-						}));
+							stringBuilder.AppendLine("     " + "CoverThingBlocksPercentOfShots".Translate(new object[]
+							{
+								coverInfo.Thing.LabelCap,
+								coverInfo.BlockChance.ToStringPercent()
+							}));
+						}
 					}
 				}
 				else
@@ -266,16 +260,11 @@ namespace Verse
 		public Thing GetRandomCoverToMissInto()
 		{
 			CoverInfo coverInfo;
-			Thing result;
 			if (this.covers.TryRandomElementByWeight((CoverInfo c) => c.BlockChance, out coverInfo))
 			{
-				result = coverInfo.Thing;
+				return coverInfo.Thing;
 			}
-			else
-			{
-				result = null;
-			}
-			return result;
+			return null;
 		}
 
 		[CompilerGenerated]

@@ -11,7 +11,7 @@ namespace Verse
 
 		public TargetType targetType;
 
-		public bool removeIfBuildingDespawned = false;
+		public bool removeIfBuildingDespawned;
 
 		public bool designateCancelable = true;
 

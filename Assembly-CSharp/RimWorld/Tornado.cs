@@ -271,25 +271,21 @@ namespace RimWorld
 			IntVec3 c = (from x in GenRadial.RadialCellsAround(base.Position, 10f, true)
 			where x.InBounds(base.Map)
 			select x).RandomElement<IntVec3>();
-			if (!this.CellImmuneToDamage(c))
+			if (this.CellImmuneToDamage(c))
 			{
-				this.DoDamage(c, 0.5f);
+				return;
 			}
+			this.DoDamage(c, 0.5f);
 		}
 
 		private bool CellImmuneToDamage(IntVec3 c)
 		{
-			bool result;
 			if (c.Roofed(base.Map) && c.GetRoof(base.Map).isThickRoof)
 			{
-				result = true;
+				return true;
 			}
-			else
-			{
-				Building edifice = c.GetEdifice(base.Map);
-				result = (edifice != null && edifice.def.category == ThingCategory.Building && (edifice.def.building.isNaturalRock || (edifice.def == ThingDefOf.Wall && edifice.Faction == null)));
-			}
-			return result;
+			Building edifice = c.GetEdifice(base.Map);
+			return edifice != null && edifice.def.category == ThingCategory.Building && (edifice.def.building.isNaturalRock || (edifice.def == ThingDefOf.Wall && edifice.Faction == null));
 		}
 
 		private void DoDamage(IntVec3 c, float damageFactor)

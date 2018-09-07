@@ -32,18 +32,29 @@ namespace RimWorld
 			return this.FromBed && JobInBedUtility.InBedOrRestSpotNow(this.pawn, this.job.GetTarget(TargetIndex.A));
 		}
 
-		public override bool TryMakePreToilReservations()
+		public override bool TryMakePreToilReservations(bool errorOnFailed)
 		{
 			if (this.FromBed)
 			{
-				if (!this.pawn.Reserve(this.job.GetTarget(TargetIndex.A), this.job, ((Building_Bed)this.job.GetTarget(TargetIndex.A).Thing).SleepingSlotsCount, 0, null))
+				Pawn pawn = this.pawn;
+				LocalTargetInfo target = this.job.GetTarget(TargetIndex.A);
+				Job job = this.job;
+				int sleepingSlotsCount = ((Building_Bed)this.job.GetTarget(TargetIndex.A).Thing).SleepingSlotsCount;
+				int stackCount = 0;
+				if (!pawn.Reserve(target, job, sleepingSlotsCount, stackCount, null, errorOnFailed))
 				{
 					return false;
 				}
 			}
-			else if (!this.pawn.Reserve(this.job.GetTarget(TargetIndex.A), this.job, 1, -1, null))
+			else
 			{
-				return false;
+				Pawn pawn = this.pawn;
+				LocalTargetInfo target = this.job.GetTarget(TargetIndex.A);
+				Job job = this.job;
+				if (!pawn.Reserve(target, job, 1, -1, null, errorOnFailed))
+				{
+					return false;
+				}
 			}
 			return true;
 		}

@@ -27,15 +27,15 @@ namespace Verse
 
 		public bool applyDamageToExplosionCellsNeighbors;
 
-		public ThingDef preExplosionSpawnThingDef = null;
+		public ThingDef preExplosionSpawnThingDef;
 
-		public float preExplosionSpawnChance = 0f;
+		public float preExplosionSpawnChance;
 
 		public int preExplosionSpawnThingCount = 1;
 
-		public ThingDef postExplosionSpawnThingDef = null;
+		public ThingDef postExplosionSpawnThingDef;
 
-		public float postExplosionSpawnChance = 0f;
+		public float postExplosionSpawnChance;
 
 		public int postExplosionSpawnThingCount = 1;
 
@@ -98,32 +98,30 @@ namespace Verse
 			if (!base.Spawned)
 			{
 				Log.Error("Called StartExplosion() on unspawned thing.", false);
+				return;
 			}
-			else
+			this.startTick = Find.TickManager.TicksGame;
+			this.cellsToAffect.Clear();
+			this.damagedThings.Clear();
+			this.addedCellsAffectedOnlyByDamage.Clear();
+			this.cellsToAffect.AddRange(this.damType.Worker.ExplosionCellsToHit(this));
+			if (this.applyDamageToExplosionCellsNeighbors)
 			{
-				this.startTick = Find.TickManager.TicksGame;
-				this.cellsToAffect.Clear();
-				this.damagedThings.Clear();
-				this.addedCellsAffectedOnlyByDamage.Clear();
-				this.cellsToAffect.AddRange(this.damType.Worker.ExplosionCellsToHit(this));
-				if (this.applyDamageToExplosionCellsNeighbors)
-				{
-					this.AddCellsNeighbors(this.cellsToAffect);
-				}
-				this.damType.Worker.ExplosionStart(this, this.cellsToAffect);
-				this.PlayExplosionSound(explosionSound);
-				MoteMaker.MakeWaterSplash(base.Position.ToVector3Shifted(), base.Map, this.radius * 6f, 20f);
-				this.cellsToAffect.Sort((IntVec3 a, IntVec3 b) => this.GetCellAffectTick(b).CompareTo(this.GetCellAffectTick(a)));
-				RegionTraverser.BreadthFirstTraverse(base.Position, base.Map, (Region from, Region to) => true, delegate(Region x)
-				{
-					List<Thing> list = x.ListerThings.ThingsInGroup(ThingRequestGroup.Pawn);
-					for (int i = list.Count - 1; i >= 0; i--)
-					{
-						((Pawn)list[i]).mindState.Notify_Explosion(this);
-					}
-					return false;
-				}, 25, RegionType.Set_Passable);
+				this.AddCellsNeighbors(this.cellsToAffect);
 			}
+			this.damType.Worker.ExplosionStart(this, this.cellsToAffect);
+			this.PlayExplosionSound(explosionSound);
+			MoteMaker.MakeWaterSplash(base.Position.ToVector3Shifted(), base.Map, this.radius * 6f, 20f);
+			this.cellsToAffect.Sort((IntVec3 a, IntVec3 b) => this.GetCellAffectTick(b).CompareTo(this.GetCellAffectTick(a)));
+			RegionTraverser.BreadthFirstTraverse(base.Position, base.Map, (Region from, Region to) => true, delegate(Region x)
+			{
+				List<Thing> list = x.ListerThings.ThingsInGroup(ThingRequestGroup.Pawn);
+				for (int i = list.Count - 1; i >= 0; i--)
+				{
+					((Pawn)list[i]).mindState.Notify_Explosion(this);
+				}
+				return false;
+			}, 25, RegionType.Set_Passable);
 		}
 
 		public override void Tick()
@@ -160,33 +158,23 @@ namespace Verse
 
 		public int GetDamageAmountAt(IntVec3 c)
 		{
-			int result;
 			if (!this.damageFalloff)
 			{
-				result = this.damAmount;
+				return this.damAmount;
 			}
-			else
-			{
-				float t = c.DistanceTo(base.Position) / this.radius;
-				int a = GenMath.RoundRandom(Mathf.Lerp((float)this.damAmount, (float)this.damAmount * 0.2f, t));
-				result = Mathf.Max(a, 1);
-			}
-			return result;
+			float t = c.DistanceTo(base.Position) / this.radius;
+			int a = GenMath.RoundRandom(Mathf.Lerp((float)this.damAmount, (float)this.damAmount * 0.2f, t));
+			return Mathf.Max(a, 1);
 		}
 
 		public float GetArmorPenetrationAt(IntVec3 c)
 		{
-			float result;
 			if (!this.damageFalloff)
 			{
-				result = this.armorPenetration;
+				return this.armorPenetration;
 			}
-			else
-			{
-				float t = c.DistanceTo(base.Position) / this.radius;
-				result = Mathf.Lerp(this.armorPenetration, this.armorPenetration * 0.2f, t);
-			}
-			return result;
+			float t = c.DistanceTo(base.Position) / this.radius;
+			return Mathf.Lerp(this.armorPenetration, this.armorPenetration * 0.2f, t);
 		}
 
 		public override void ExposeData()
@@ -226,50 +214,46 @@ namespace Verse
 
 		private void AffectCell(IntVec3 c)
 		{
-			if (c.InBounds(base.Map))
+			if (!c.InBounds(base.Map))
 			{
-				bool flag = this.ShouldCellBeAffectedOnlyByDamage(c);
-				if (!flag)
-				{
-					if (Rand.Chance(this.preExplosionSpawnChance) && c.Walkable(base.Map))
-					{
-						this.TrySpawnExplosionThing(this.preExplosionSpawnThingDef, c, this.preExplosionSpawnThingCount);
-					}
-				}
-				this.damType.Worker.ExplosionAffectCell(this, c, this.damagedThings, !flag);
-				if (!flag)
-				{
-					if (Rand.Chance(this.postExplosionSpawnChance) && c.Walkable(base.Map))
-					{
-						this.TrySpawnExplosionThing(this.postExplosionSpawnThingDef, c, this.postExplosionSpawnThingCount);
-					}
-				}
-				float num = this.chanceToStartFire;
-				if (this.damageFalloff)
-				{
-					num *= Mathf.Lerp(1f, 0.2f, c.DistanceTo(base.Position) / this.radius);
-				}
-				if (Rand.Chance(num))
-				{
-					FireUtility.TryStartFireIn(c, base.Map, Rand.Range(0.1f, 0.925f));
-				}
+				return;
+			}
+			bool flag = this.ShouldCellBeAffectedOnlyByDamage(c);
+			if (!flag && Rand.Chance(this.preExplosionSpawnChance) && c.Walkable(base.Map))
+			{
+				this.TrySpawnExplosionThing(this.preExplosionSpawnThingDef, c, this.preExplosionSpawnThingCount);
+			}
+			this.damType.Worker.ExplosionAffectCell(this, c, this.damagedThings, !flag);
+			if (!flag && Rand.Chance(this.postExplosionSpawnChance) && c.Walkable(base.Map))
+			{
+				this.TrySpawnExplosionThing(this.postExplosionSpawnThingDef, c, this.postExplosionSpawnThingCount);
+			}
+			float num = this.chanceToStartFire;
+			if (this.damageFalloff)
+			{
+				num *= Mathf.Lerp(1f, 0.2f, c.DistanceTo(base.Position) / this.radius);
+			}
+			if (Rand.Chance(num))
+			{
+				FireUtility.TryStartFireIn(c, base.Map, Rand.Range(0.1f, 0.925f));
 			}
 		}
 
 		private void TrySpawnExplosionThing(ThingDef thingDef, IntVec3 c, int count)
 		{
-			if (thingDef != null)
+			if (thingDef == null)
 			{
-				if (thingDef.IsFilth)
-				{
-					FilthMaker.MakeFilth(c, base.Map, thingDef, count);
-				}
-				else
-				{
-					Thing thing = ThingMaker.MakeThing(thingDef, null);
-					thing.stackCount = count;
-					GenSpawn.Spawn(thing, c, base.Map, WipeMode.Vanish);
-				}
+				return;
+			}
+			if (thingDef.IsFilth)
+			{
+				FilthMaker.MakeFilth(c, base.Map, thingDef, count);
+			}
+			else
+			{
+				Thing thing = ThingMaker.MakeThing(thingDef, null);
+				thing.stackCount = count;
+				GenSpawn.Spawn(thing, c, base.Map, WipeMode.Vanish);
 			}
 		}
 

@@ -80,42 +80,43 @@ namespace Verse
 			List<Thing> loadables = new List<Thing>();
 			MapSerializeUtility.LoadUshort(this.compressedData, this.map, delegate(IntVec3 c, ushort val)
 			{
-				if (val != 0)
+				if (val == 0)
 				{
-					ThingDef thingDef2 = BackCompatibility.BackCompatibleThingDefWithShortHash_Force(val, major, minor);
-					if (thingDef2 == null)
+					return;
+				}
+				ThingDef thingDef2 = BackCompatibility.BackCompatibleThingDefWithShortHash_Force(val, major, minor);
+				if (thingDef2 == null)
+				{
+					try
 					{
-						try
+						thingDef2 = thingDefsByShortHash[val];
+					}
+					catch (KeyNotFoundException)
+					{
+						ThingDef thingDef3 = BackCompatibility.BackCompatibleThingDefWithShortHash(val);
+						if (thingDef3 != null)
 						{
-							thingDef2 = thingDefsByShortHash[val];
+							thingDef2 = thingDef3;
+							thingDefsByShortHash.Add(val, thingDef3);
 						}
-						catch (KeyNotFoundException)
+						else
 						{
-							ThingDef thingDef3 = BackCompatibility.BackCompatibleThingDefWithShortHash(val);
-							if (thingDef3 != null)
-							{
-								thingDef2 = thingDef3;
-								thingDefsByShortHash.Add(val, thingDef3);
-							}
-							else
-							{
-								Log.Error("Map compressor decompression error: No thingDef with short hash " + val + ". Adding as null to dictionary.", false);
-								thingDefsByShortHash.Add(val, null);
-							}
+							Log.Error("Map compressor decompression error: No thingDef with short hash " + val + ". Adding as null to dictionary.", false);
+							thingDefsByShortHash.Add(val, null);
 						}
 					}
-					if (thingDef2 != null)
+				}
+				if (thingDef2 != null)
+				{
+					try
 					{
-						try
-						{
-							Thing thing = ThingMaker.MakeThing(thingDef2, null);
-							thing.SetPositionDirect(c);
-							loadables.Add(thing);
-						}
-						catch (Exception arg)
-						{
-							Log.Error("Could not instantiate compressed thing: " + arg, false);
-						}
+						Thing thing = ThingMaker.MakeThing(thingDef2, null);
+						thing.SetPositionDirect(c);
+						loadables.Add(thing);
+					}
+					catch (Exception arg)
+					{
+						Log.Error("Could not instantiate compressed thing: " + arg, false);
 					}
 				}
 			});
@@ -139,42 +140,43 @@ namespace Verse
 
 			internal void <>m__0(IntVec3 c, ushort val)
 			{
-				if (val != 0)
+				if (val == 0)
 				{
-					ThingDef thingDef = BackCompatibility.BackCompatibleThingDefWithShortHash_Force(val, this.major, this.minor);
-					if (thingDef == null)
+					return;
+				}
+				ThingDef thingDef = BackCompatibility.BackCompatibleThingDefWithShortHash_Force(val, this.major, this.minor);
+				if (thingDef == null)
+				{
+					try
 					{
-						try
+						thingDef = this.thingDefsByShortHash[val];
+					}
+					catch (KeyNotFoundException)
+					{
+						ThingDef thingDef2 = BackCompatibility.BackCompatibleThingDefWithShortHash(val);
+						if (thingDef2 != null)
 						{
-							thingDef = this.thingDefsByShortHash[val];
+							thingDef = thingDef2;
+							this.thingDefsByShortHash.Add(val, thingDef2);
 						}
-						catch (KeyNotFoundException)
+						else
 						{
-							ThingDef thingDef2 = BackCompatibility.BackCompatibleThingDefWithShortHash(val);
-							if (thingDef2 != null)
-							{
-								thingDef = thingDef2;
-								this.thingDefsByShortHash.Add(val, thingDef2);
-							}
-							else
-							{
-								Log.Error("Map compressor decompression error: No thingDef with short hash " + val + ". Adding as null to dictionary.", false);
-								this.thingDefsByShortHash.Add(val, null);
-							}
+							Log.Error("Map compressor decompression error: No thingDef with short hash " + val + ". Adding as null to dictionary.", false);
+							this.thingDefsByShortHash.Add(val, null);
 						}
 					}
-					if (thingDef != null)
+				}
+				if (thingDef != null)
+				{
+					try
 					{
-						try
-						{
-							Thing thing = ThingMaker.MakeThing(thingDef, null);
-							thing.SetPositionDirect(c);
-							this.loadables.Add(thing);
-						}
-						catch (Exception arg)
-						{
-							Log.Error("Could not instantiate compressed thing: " + arg, false);
-						}
+						Thing thing = ThingMaker.MakeThing(thingDef, null);
+						thing.SetPositionDirect(c);
+						this.loadables.Add(thing);
+					}
+					catch (Exception arg)
+					{
+						Log.Error("Could not instantiate compressed thing: " + arg, false);
 					}
 				}
 			}

@@ -88,18 +88,13 @@ namespace RimWorld.BaseGen
 			int num = (!horizontal) ? rect.Width : rect.Height;
 			spaceBetween = SymbolResolver_BasePart_Outdoors_Division_Split.SpaceBetweenRange.RandomInRange;
 			spaceBetween = Mathf.Min(spaceBetween, num - 10);
-			bool result;
 			if (spaceBetween < SymbolResolver_BasePart_Outdoors_Division_Split.SpaceBetweenRange.min)
 			{
 				splitPoint = -1;
-				result = false;
+				return false;
 			}
-			else
-			{
-				splitPoint = Rand.RangeInclusive(5, num - 5 - spaceBetween);
-				result = true;
-			}
-			return result;
+			splitPoint = Rand.RangeInclusive(5, num - 5 - spaceBetween);
+			return true;
 		}
 
 		// Note: this type is marked as 'beforefieldinit'.

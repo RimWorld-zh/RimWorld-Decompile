@@ -143,7 +143,7 @@ namespace Verse
 
 		public static string RemoveLineBreaks(string str)
 		{
-			return str.Replace("\n", "").Replace("\r", "");
+			return str.Replace("\n", string.Empty).Replace("\r", string.Empty);
 		}
 	}
 }

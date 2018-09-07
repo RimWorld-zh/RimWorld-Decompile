@@ -52,50 +52,48 @@ namespace Verse
 						" of type ",
 						typeof(T)
 					}), false);
+					return;
 				}
-				else
+				if (target == null)
 				{
-					if (target == null)
-					{
-						if (Scribe.EnterNode(label))
-						{
-							try
-							{
-								Scribe.saver.WriteAttribute("IsNull", "True");
-							}
-							finally
-							{
-								Scribe.ExitNode();
-							}
-						}
-					}
-					else if (Scribe.EnterNode(label))
+					if (Scribe.EnterNode(label))
 					{
 						try
 						{
-							if (target.GetType() != typeof(T) || typeof(T).IsGenericTypeDefinition)
-							{
-								Scribe.saver.WriteAttribute("Class", GenTypes.GetTypeNameWithoutIgnoredNamespaces(target.GetType()));
-							}
-							exposable.ExposeData();
-						}
-						catch (Exception ex)
-						{
-							Log.Error(string.Concat(new object[]
-							{
-								"Exception while saving ",
-								exposable.ToStringSafe<IExposable>(),
-								": ",
-								ex
-							}), false);
+							Scribe.saver.WriteAttribute("IsNull", "True");
 						}
 						finally
 						{
 							Scribe.ExitNode();
 						}
 					}
-					Scribe.saver.loadIDsErrorsChecker.RegisterDeepSaved(target, label);
 				}
+				else if (Scribe.EnterNode(label))
+				{
+					try
+					{
+						if (target.GetType() != typeof(T) || typeof(T).IsGenericTypeDefinition)
+						{
+							Scribe.saver.WriteAttribute("Class", GenTypes.GetTypeNameWithoutIgnoredNamespaces(target.GetType()));
+						}
+						exposable.ExposeData();
+					}
+					catch (Exception ex)
+					{
+						Log.Error(string.Concat(new object[]
+						{
+							"Exception while saving ",
+							exposable.ToStringSafe<IExposable>(),
+							": ",
+							ex
+						}), false);
+					}
+					finally
+					{
+						Scribe.ExitNode();
+					}
+				}
+				Scribe.saver.loadIDsErrorsChecker.RegisterDeepSaved(target, label);
 			}
 			else if (Scribe.mode == LoadSaveMode.LoadingVars)
 			{

@@ -81,29 +81,30 @@ namespace RimWorld
 
 		public override void Generate(Map map, GenStepParams parms)
 		{
-			if (Find.World.HasCaves(map.Tile))
+			if (!Find.World.HasCaves(map.Tile))
 			{
-				this.directionNoise = new Perlin(0.0020500000100582838, 2.0, 0.5, 4, Rand.Int, QualityMode.Medium);
-				MapGenFloatGrid elevation = MapGenerator.Elevation;
-				BoolGrid visited = new BoolGrid(map);
-				List<IntVec3> group = new List<IntVec3>();
-				foreach (IntVec3 intVec in map.AllCells)
+				return;
+			}
+			this.directionNoise = new Perlin(0.0020500000100582838, 2.0, 0.5, 4, Rand.Int, QualityMode.Medium);
+			MapGenFloatGrid elevation = MapGenerator.Elevation;
+			BoolGrid visited = new BoolGrid(map);
+			List<IntVec3> group = new List<IntVec3>();
+			foreach (IntVec3 intVec in map.AllCells)
+			{
+				if (!visited[intVec] && this.IsRock(intVec, elevation, map))
 				{
-					if (!visited[intVec] && this.IsRock(intVec, elevation, map))
+					group.Clear();
+					map.floodFiller.FloodFill(intVec, (IntVec3 x) => this.IsRock(x, elevation, map), delegate(IntVec3 x)
 					{
-						group.Clear();
-						map.floodFiller.FloodFill(intVec, (IntVec3 x) => this.IsRock(x, elevation, map), delegate(IntVec3 x)
-						{
-							visited[x] = true;
-							group.Add(x);
-						}, int.MaxValue, false, null);
-						this.Trim(group, map);
-						this.RemoveSmallDisconnectedSubGroups(group, map);
-						if (group.Count >= 300)
-						{
-							this.DoOpenTunnels(group, map);
-							this.DoClosedTunnels(group, map);
-						}
+						visited[x] = true;
+						group.Add(x);
+					}, int.MaxValue, false, null);
+					this.Trim(group, map);
+					this.RemoveSmallDisconnectedSubGroups(group, map);
+					if (group.Count >= 300)
+					{
+						this.DoOpenTunnels(group, map);
+						this.DoClosedTunnels(group, map);
 					}
 				}
 			}
@@ -203,17 +204,12 @@ namespace RimWorld
 					}
 				}
 			}
-			IntVec3 result;
 			if (!GenStep_Caves.tmpCells.Any<IntVec3>())
 			{
 				Log.Warning("Could not find any valid edge cell.", false);
-				result = group.RandomElement<IntVec3>();
+				return group.RandomElement<IntVec3>();
 			}
-			else
-			{
-				result = GenStep_Caves.tmpCells.RandomElement<IntVec3>();
-			}
-			return result;
+			return GenStep_Caves.tmpCells.RandomElement<IntVec3>();
 		}
 
 		private float FindBestInitialDir(IntVec3 start, List<IntVec3> group, out float dist)
@@ -290,7 +286,7 @@ namespace RimWorld
 				this.SetCaveAround(intVec, width, map, visited, out flag3);
 				if (flag3)
 				{
-					break;
+					return;
 				}
 				while (vector.ToIntVec3() == intVec)
 				{
@@ -299,7 +295,7 @@ namespace RimWorld
 				}
 				if (!GenStep_Caves.tmpGroupSet.Contains(vector.ToIntVec3()))
 				{
-					break;
+					return;
 				}
 				IntVec3 intVec3 = new IntVec3(intVec.x, 0, vector.ToIntVec3().z);
 				if (this.IsRock(intVec3, elevation, map))
@@ -312,7 +308,7 @@ namespace RimWorld
 				width -= 0.034f;
 				if (width < 1.4f)
 				{
-					break;
+					return;
 				}
 				num2++;
 			}
@@ -332,10 +328,11 @@ namespace RimWorld
 					dir = num2;
 				}
 			}
-			if (num >= 18)
+			if (num < 18)
 			{
-				this.Dig(curIntVec, dir, width, group, map, closed, visited);
+				return;
 			}
+			this.Dig(curIntVec, dir, width, group, map, closed, visited);
 		}
 
 		private void SetCaveAround(IntVec3 around, float tunnelWidth, Map map, HashSet<IntVec3> visited, out bool hitAnotherTunnel)

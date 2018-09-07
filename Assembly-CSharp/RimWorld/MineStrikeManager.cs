@@ -24,31 +24,32 @@ namespace RimWorld
 
 		public void CheckStruckOre(IntVec3 justMinedPos, ThingDef justMinedDef, Thing miner)
 		{
-			if (miner.Faction == Faction.OfPlayer)
+			if (miner.Faction != Faction.OfPlayer)
 			{
-				for (int i = 0; i < 4; i++)
+				return;
+			}
+			for (int i = 0; i < 4; i++)
+			{
+				IntVec3 intVec = justMinedPos + GenAdj.CardinalDirections[i];
+				if (intVec.InBounds(miner.Map))
 				{
-					IntVec3 intVec = justMinedPos + GenAdj.CardinalDirections[i];
-					if (intVec.InBounds(miner.Map))
+					Building edifice = intVec.GetEdifice(miner.Map);
+					if (edifice != null && edifice.def != justMinedDef && MineStrikeManager.MineableIsValuable(edifice.def) && !this.AlreadyVisibleNearby(intVec, miner.Map, edifice.def) && !this.RecentlyStruck(intVec, edifice.def))
 					{
-						Building edifice = intVec.GetEdifice(miner.Map);
-						if (edifice != null && edifice.def != justMinedDef && MineStrikeManager.MineableIsValuable(edifice.def) && !this.AlreadyVisibleNearby(intVec, miner.Map, edifice.def) && !this.RecentlyStruck(intVec, edifice.def))
+						StrikeRecord item = default(StrikeRecord);
+						item.cell = intVec;
+						item.def = edifice.def;
+						item.ticksGame = Find.TickManager.TicksGame;
+						this.strikeRecords.Add(item);
+						Messages.Message("StruckMineable".Translate(new object[]
 						{
-							StrikeRecord item = default(StrikeRecord);
-							item.cell = intVec;
-							item.def = edifice.def;
-							item.ticksGame = Find.TickManager.TicksGame;
-							this.strikeRecords.Add(item);
-							Messages.Message("StruckMineable".Translate(new object[]
-							{
-								edifice.def.label
-							}), edifice, MessageTypeDefOf.PositiveEvent, true);
-							TaleRecorder.RecordTale(TaleDefOf.StruckMineable, new object[]
-							{
-								miner,
-								edifice
-							});
-						}
+							edifice.def.label
+						}), edifice, MessageTypeDefOf.PositiveEvent, true);
+						TaleRecorder.RecordTale(TaleDefOf.StruckMineable, new object[]
+						{
+							miner,
+							edifice
+						});
 					}
 				}
 			}

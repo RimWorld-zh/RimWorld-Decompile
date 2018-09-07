@@ -25,33 +25,28 @@ namespace RimWorld
 
 		protected override bool CanScatterAt(IntVec3 c, Map map)
 		{
-			bool result;
 			if (!base.CanScatterAt(c, map))
 			{
-				result = false;
+				return false;
 			}
-			else if (!c.SupportsStructureType(map, TerrainAffordanceDefOf.Heavy))
+			if (!c.SupportsStructureType(map, TerrainAffordanceDefOf.Heavy))
 			{
-				result = false;
+				return false;
 			}
-			else if (!map.reachability.CanReachMapEdge(c, TraverseParms.For(TraverseMode.PassDoors, Danger.Deadly, false)))
+			if (!map.reachability.CanReachMapEdge(c, TraverseParms.For(TraverseMode.PassDoors, Danger.Deadly, false)))
 			{
-				result = false;
+				return false;
 			}
-			else
+			CellRect.CellRectIterator iterator = CellRect.CenteredOn(c, 7, 7).GetIterator();
+			while (!iterator.Done())
 			{
-				CellRect.CellRectIterator iterator = CellRect.CenteredOn(c, 7, 7).GetIterator();
-				while (!iterator.Done())
+				if (!iterator.Current.InBounds(map) || iterator.Current.GetEdifice(map) != null)
 				{
-					if (!iterator.Current.InBounds(map) || iterator.Current.GetEdifice(map) != null)
-					{
-						return false;
-					}
-					iterator.MoveNext();
+					return false;
 				}
-				result = true;
+				iterator.MoveNext();
 			}
-			return result;
+			return true;
 		}
 
 		protected override void ScatterAt(IntVec3 loc, Map map, int count = 1)

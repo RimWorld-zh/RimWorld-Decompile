@@ -25,7 +25,7 @@ namespace RimWorld.Planet
 
 		public override IEnumerable Regenerate()
 		{
-			IEnumerator enumerator = this.<Regenerate>__BaseCallProxy0().GetEnumerator();
+			IEnumerator enumerator = base.Regenerate().GetEnumerator();
 			try
 			{
 				while (enumerator.MoveNext())
@@ -174,7 +174,7 @@ namespace RimWorld.Planet
 				case 1u:
 					break;
 				case 2u:
-					IL_152:
+					IL_14D:
 					if (subMesh.verts.Count > 60000)
 					{
 						subMesh = base.GetSubMesh(WorldMaterials.Roads);
@@ -221,7 +221,7 @@ namespace RimWorld.Planet
 						}
 					}
 					i++;
-					goto IL_384;
+					goto IL_376;
 				default:
 					return false;
 				}
@@ -258,7 +258,7 @@ namespace RimWorld.Planet
 				orderby rwld.order
 				select rwld).ToList<RoadWorldLayerDef>();
 				i = 0;
-				IL_384:
+				IL_376:
 				if (i >= grid.TilesCount)
 				{
 					base.FinalizeMesh(MeshParts.All);
@@ -275,7 +275,7 @@ namespace RimWorld.Planet
 						}
 						return true;
 					}
-					goto IL_152;
+					goto IL_14D;
 				}
 				return false;
 			}

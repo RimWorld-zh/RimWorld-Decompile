@@ -8,7 +8,7 @@ namespace Verse
 {
 	public class DefMap<D, V> : IExposable, IEnumerable<KeyValuePair<D, V>>, IEnumerable where D : Def, new() where V : new()
 	{
-		private List<V> values = null;
+		private List<V> values;
 
 		public DefMap()
 		{

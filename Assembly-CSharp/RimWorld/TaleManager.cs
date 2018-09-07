@@ -76,11 +76,9 @@ namespace RimWorld
 			if (!tale.Unused)
 			{
 				Log.Warning("Tried to remove used tale " + tale, false);
+				return;
 			}
-			else
-			{
-				this.tales.Remove(tale);
-			}
+			this.tales.Remove(tale);
 		}
 
 		private void CheckCullTales(Tale addedTale)
@@ -118,34 +116,36 @@ namespace RimWorld
 
 		private void CheckCullUnusedTalesWithMaxPerPawnLimit(Tale addedTale)
 		{
-			if (addedTale.def.maxPerPawn >= 0)
+			if (addedTale.def.maxPerPawn < 0)
 			{
-				if (addedTale.DominantPawn != null)
+				return;
+			}
+			if (addedTale.DominantPawn == null)
+			{
+				return;
+			}
+			int i = 0;
+			for (int j = 0; j < this.tales.Count; j++)
+			{
+				if (this.tales[j].Unused && this.tales[j].def == addedTale.def && this.tales[j].DominantPawn == addedTale.DominantPawn)
 				{
-					int i = 0;
-					for (int j = 0; j < this.tales.Count; j++)
+					i++;
+				}
+			}
+			while (i > addedTale.def.maxPerPawn)
+			{
+				Tale tale = null;
+				int num = -1;
+				for (int k = 0; k < this.tales.Count; k++)
+				{
+					if (this.tales[k].Unused && this.tales[k].def == addedTale.def && this.tales[k].DominantPawn == addedTale.DominantPawn && this.tales[k].AgeTicks > num)
 					{
-						if (this.tales[j].Unused && this.tales[j].def == addedTale.def && this.tales[j].DominantPawn == addedTale.DominantPawn)
-						{
-							i++;
-						}
-					}
-					while (i > addedTale.def.maxPerPawn)
-					{
-						Tale tale = null;
-						int num = -1;
-						for (int k = 0; k < this.tales.Count; k++)
-						{
-							if (this.tales[k].Unused && this.tales[k].def == addedTale.def && this.tales[k].DominantPawn == addedTale.DominantPawn && this.tales[k].AgeTicks > num)
-							{
-								tale = this.tales[k];
-								num = this.tales[k].AgeTicks;
-							}
-						}
-						this.RemoveTale(tale);
-						i--;
+						tale = this.tales[k];
+						num = this.tales[k].AgeTicks;
 					}
 				}
+				this.RemoveTale(tale);
+				i--;
 			}
 		}
 
@@ -162,54 +162,44 @@ namespace RimWorld
 
 		public TaleReference GetRandomTaleReferenceForArt(ArtGenerationContext source)
 		{
-			TaleReference result;
-			Tale tale;
 			if (source == ArtGenerationContext.Outsider)
 			{
-				result = TaleReference.Taleless;
+				return TaleReference.Taleless;
 			}
-			else if (this.tales.Count == 0)
+			if (this.tales.Count == 0)
 			{
-				result = TaleReference.Taleless;
+				return TaleReference.Taleless;
 			}
-			else if (Rand.Value < 0.25f)
+			if (Rand.Value < 0.25f)
 			{
-				result = TaleReference.Taleless;
+				return TaleReference.Taleless;
 			}
-			else if (!(from x in this.tales
+			Tale tale;
+			if (!(from x in this.tales
 			where x.def.usableForArt
 			select x).TryRandomElementByWeight((Tale ta) => ta.InterestLevel, out tale))
 			{
-				result = TaleReference.Taleless;
+				return TaleReference.Taleless;
 			}
-			else
-			{
-				tale.Notify_NewlyUsed();
-				result = new TaleReference(tale);
-			}
-			return result;
+			tale.Notify_NewlyUsed();
+			return new TaleReference(tale);
 		}
 
 		public TaleReference GetRandomTaleReferenceForArtConcerning(Thing th)
 		{
-			TaleReference result;
-			Tale tale;
 			if (this.tales.Count == 0)
 			{
-				result = TaleReference.Taleless;
+				return TaleReference.Taleless;
 			}
-			else if (!(from x in this.tales
+			Tale tale;
+			if (!(from x in this.tales
 			where x.def.usableForArt && x.Concerns(th)
 			select x).TryRandomElementByWeight((Tale x) => x.InterestLevel, out tale))
 			{
-				result = TaleReference.Taleless;
+				return TaleReference.Taleless;
 			}
-			else
-			{
-				tale.Notify_NewlyUsed();
-				result = new TaleReference(tale);
-			}
-			return result;
+			tale.Notify_NewlyUsed();
+			return new TaleReference(tale);
 		}
 
 		public Tale GetLatestTale(TaleDef def, Pawn pawn)

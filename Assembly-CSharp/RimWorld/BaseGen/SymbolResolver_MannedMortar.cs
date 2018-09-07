@@ -21,26 +21,21 @@ namespace RimWorld.BaseGen
 		public override bool CanResolve(ResolveParams rp)
 		{
 			Map map = BaseGen.globalSettings.map;
-			bool result;
 			if (!base.CanResolve(rp))
 			{
-				result = false;
+				return false;
 			}
-			else
+			int num = 0;
+			CellRect.CellRectIterator iterator = rp.rect.GetIterator();
+			while (!iterator.Done())
 			{
-				int num = 0;
-				CellRect.CellRectIterator iterator = rp.rect.GetIterator();
-				while (!iterator.Done())
+				if (iterator.Current.Standable(map))
 				{
-					if (iterator.Current.Standable(map))
-					{
-						num++;
-					}
-					iterator.MoveNext();
+					num++;
 				}
-				result = (num >= 2);
+				iterator.MoveNext();
 			}
-			return result;
+			return num >= 2;
 		}
 
 		public override void Resolve(ResolveParams rp)
@@ -63,42 +58,43 @@ namespace RimWorld.BaseGen
 			}
 			ThingDef thingDef2 = thingDef;
 			IntVec3 intVec;
-			if (this.TryFindMortarSpawnCell(rp.rect, rot, thingDef2, out intVec))
+			if (!this.TryFindMortarSpawnCell(rp.rect, rot, thingDef2, out intVec))
 			{
-				if (thingDef2.HasComp(typeof(CompMannable)))
-				{
-					IntVec3 c = ThingUtility.InteractionCellWhenAt(thingDef2, intVec, rot, map);
-					Lord singlePawnLord = LordMaker.MakeNewLord(faction2, new LordJob_ManTurrets(), map, null);
-					PawnKindDef kind = faction2.RandomPawnKind();
-					Faction faction3 = faction2;
-					int tile = map.Tile;
-					PawnGenerationRequest value = new PawnGenerationRequest(kind, faction3, PawnGenerationContext.NonPlayer, tile, false, false, false, false, true, true, 1f, false, true, true, true, false, false, false, null, null, null, null, null, null, null, null);
-					ResolveParams resolveParams = rp;
-					resolveParams.faction = faction2;
-					resolveParams.singlePawnGenerationRequest = new PawnGenerationRequest?(value);
-					resolveParams.rect = CellRect.SingleCell(c);
-					resolveParams.singlePawnLord = singlePawnLord;
-					BaseGen.symbolStack.Push("pawn", resolveParams);
-				}
-				ThingDef turret = thingDef2;
-				bool allowEMP = false;
-				TechLevel techLevel = faction2.def.techLevel;
-				ThingDef thingDef3 = TurretGunUtility.TryFindRandomShellDef(turret, allowEMP, true, techLevel, false, 250f);
-				if (thingDef3 != null)
-				{
-					ResolveParams resolveParams2 = rp;
-					resolveParams2.faction = faction2;
-					resolveParams2.singleThingDef = thingDef3;
-					resolveParams2.singleThingStackCount = new int?(Rand.RangeInclusive(5, Mathf.Min(8, thingDef3.stackLimit)));
-					BaseGen.symbolStack.Push("thing", resolveParams2);
-				}
-				ResolveParams resolveParams3 = rp;
-				resolveParams3.faction = faction2;
-				resolveParams3.singleThingDef = thingDef2;
-				resolveParams3.rect = CellRect.SingleCell(intVec);
-				resolveParams3.thingRot = new Rot4?(rot);
-				BaseGen.symbolStack.Push("thing", resolveParams3);
+				return;
 			}
+			if (thingDef2.HasComp(typeof(CompMannable)))
+			{
+				IntVec3 c = ThingUtility.InteractionCellWhenAt(thingDef2, intVec, rot, map);
+				Lord singlePawnLord = LordMaker.MakeNewLord(faction2, new LordJob_ManTurrets(), map, null);
+				PawnKindDef kind = faction2.RandomPawnKind();
+				Faction faction3 = faction2;
+				int tile = map.Tile;
+				PawnGenerationRequest value = new PawnGenerationRequest(kind, faction3, PawnGenerationContext.NonPlayer, tile, false, false, false, false, true, true, 1f, false, true, true, true, false, false, false, null, null, null, null, null, null, null, null);
+				ResolveParams resolveParams = rp;
+				resolveParams.faction = faction2;
+				resolveParams.singlePawnGenerationRequest = new PawnGenerationRequest?(value);
+				resolveParams.rect = CellRect.SingleCell(c);
+				resolveParams.singlePawnLord = singlePawnLord;
+				BaseGen.symbolStack.Push("pawn", resolveParams);
+			}
+			ThingDef turret = thingDef2;
+			bool allowEMP = false;
+			TechLevel techLevel = faction2.def.techLevel;
+			ThingDef thingDef3 = TurretGunUtility.TryFindRandomShellDef(turret, allowEMP, true, techLevel, false, 250f);
+			if (thingDef3 != null)
+			{
+				ResolveParams resolveParams2 = rp;
+				resolveParams2.faction = faction2;
+				resolveParams2.singleThingDef = thingDef3;
+				resolveParams2.singleThingStackCount = new int?(Rand.RangeInclusive(5, Mathf.Min(8, thingDef3.stackLimit)));
+				BaseGen.symbolStack.Push("thing", resolveParams2);
+			}
+			ResolveParams resolveParams3 = rp;
+			resolveParams3.faction = faction2;
+			resolveParams3.singleThingDef = thingDef2;
+			resolveParams3.rect = CellRect.SingleCell(intVec);
+			resolveParams3.thingRot = new Rot4?(rot);
+			BaseGen.symbolStack.Push("thing", resolveParams3);
 		}
 
 		private bool TryFindMortarSpawnCell(CellRect rect, Rot4 rot, ThingDef mortarDef, out IntVec3 cell)

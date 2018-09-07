@@ -3,7 +3,6 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Runtime.CompilerServices;
 using UnityEngine;
-using UnityEngine.Profiling;
 
 namespace Verse
 {
@@ -13,11 +12,11 @@ namespace Verse
 
 		public Map map;
 
-		public MapMeshFlag dirtyFlags = MapMeshFlag.None;
+		public MapMeshFlag dirtyFlags;
 
 		private List<SectionLayer> layers = new List<SectionLayer>();
 
-		private bool foundRect = false;
+		private bool foundRect;
 
 		private CellRect calculatedRect;
 
@@ -98,13 +97,6 @@ namespace Verse
 				SectionLayer sectionLayer = this.layers[i];
 				if ((sectionLayer.relevantChangeTypes & changeType) != MapMeshFlag.None)
 				{
-					Profiler.BeginSample(string.Concat(new object[]
-					{
-						"Regen ",
-						sectionLayer.GetType().Name,
-						" ",
-						this.botLeft
-					}));
 					try
 					{
 						sectionLayer.Regenerate();
@@ -119,7 +111,6 @@ namespace Verse
 							ex
 						}), false);
 					}
-					Profiler.EndSample();
 				}
 			}
 		}

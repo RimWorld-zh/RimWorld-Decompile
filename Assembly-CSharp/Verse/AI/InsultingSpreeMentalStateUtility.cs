@@ -22,23 +22,24 @@ namespace Verse.AI
 		{
 			outCandidates.Clear();
 			Region region = bully.GetRegion(RegionType.Set_Passable);
-			if (region != null)
+			if (region == null)
 			{
-				TraverseParms traverseParams = TraverseParms.For(bully, Danger.Deadly, TraverseMode.ByPawn, false);
-				RegionTraverser.BreadthFirstTraverse(region, (Region from, Region to) => to.Allows(traverseParams, false), delegate(Region r)
-				{
-					List<Thing> list = r.ListerThings.ThingsInGroup(ThingRequestGroup.Pawn);
-					for (int i = 0; i < list.Count; i++)
-					{
-						Pawn pawn = (Pawn)list[i];
-						if (InsultingSpreeMentalStateUtility.CanChaseAndInsult(bully, pawn, true, allowPrisoners))
-						{
-							outCandidates.Add(pawn);
-						}
-					}
-					return false;
-				}, 40, RegionType.Set_Passable);
+				return;
 			}
+			TraverseParms traverseParams = TraverseParms.For(bully, Danger.Deadly, TraverseMode.ByPawn, false);
+			RegionTraverser.BreadthFirstTraverse(region, (Region from, Region to) => to.Allows(traverseParams, false), delegate(Region r)
+			{
+				List<Thing> list = r.ListerThings.ThingsInGroup(ThingRequestGroup.Pawn);
+				for (int i = 0; i < list.Count; i++)
+				{
+					Pawn pawn = (Pawn)list[i];
+					if (InsultingSpreeMentalStateUtility.CanChaseAndInsult(bully, pawn, true, allowPrisoners))
+					{
+						outCandidates.Add(pawn);
+					}
+				}
+				return false;
+			}, 40, RegionType.Set_Passable);
 		}
 
 		[CompilerGenerated]

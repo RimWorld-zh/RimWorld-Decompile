@@ -19,7 +19,7 @@ namespace Verse
 
 		private Pawn recipient;
 
-		private List<RulePackDef> extraSentencePacks = null;
+		private List<RulePackDef> extraSentencePacks;
 
 		public PlayLogEntry_Interaction() : base(null)
 		{
@@ -95,63 +95,58 @@ namespace Verse
 
 		protected override string ToGameStringFromPOV_Worker(Thing pov, bool forceLog)
 		{
-			string result;
 			if (this.initiator == null || this.recipient == null)
 			{
 				Log.ErrorOnce("PlayLogEntry_Interaction has a null pawn reference.", 34422, false);
-				result = "[" + this.intDef.label + " error: null pawn reference]";
+				return "[" + this.intDef.label + " error: null pawn reference]";
 			}
-			else
+			Rand.PushState();
+			Rand.Seed = this.logID;
+			GrammarRequest request = base.GenerateGrammarRequest();
+			string text;
+			if (pov == this.initiator)
 			{
-				Rand.PushState();
-				Rand.Seed = this.logID;
-				GrammarRequest request = base.GenerateGrammarRequest();
-				string text;
-				if (pov == this.initiator)
+				request.IncludesBare.Add(this.intDef.logRulesInitiator);
+				request.Rules.AddRange(GrammarUtility.RulesForPawn("ME", this.initiator, request.Constants));
+				request.Rules.AddRange(GrammarUtility.RulesForPawn("OTHER", this.recipient, request.Constants));
+				request.Rules.AddRange(GrammarUtility.RulesForPawn("INITIATOR", this.initiator, request.Constants));
+				request.Rules.AddRange(GrammarUtility.RulesForPawn("RECIPIENT", this.recipient, request.Constants));
+				text = GrammarResolver.Resolve("r_logentry", request, "interaction from initiator", forceLog, null);
+			}
+			else if (pov == this.recipient)
+			{
+				if (this.intDef.logRulesRecipient != null)
 				{
-					request.IncludesBare.Add(this.intDef.logRulesInitiator);
-					request.Rules.AddRange(GrammarUtility.RulesForPawn("ME", this.initiator, request.Constants));
-					request.Rules.AddRange(GrammarUtility.RulesForPawn("OTHER", this.recipient, request.Constants));
-					request.Rules.AddRange(GrammarUtility.RulesForPawn("INITIATOR", this.initiator, request.Constants));
-					request.Rules.AddRange(GrammarUtility.RulesForPawn("RECIPIENT", this.recipient, request.Constants));
-					text = GrammarResolver.Resolve("r_logentry", request, "interaction from initiator", forceLog);
-				}
-				else if (pov == this.recipient)
-				{
-					if (this.intDef.logRulesRecipient != null)
-					{
-						request.IncludesBare.Add(this.intDef.logRulesRecipient);
-					}
-					else
-					{
-						request.IncludesBare.Add(this.intDef.logRulesInitiator);
-					}
-					request.Rules.AddRange(GrammarUtility.RulesForPawn("ME", this.recipient, request.Constants));
-					request.Rules.AddRange(GrammarUtility.RulesForPawn("OTHER", this.initiator, request.Constants));
-					request.Rules.AddRange(GrammarUtility.RulesForPawn("INITIATOR", this.initiator, request.Constants));
-					request.Rules.AddRange(GrammarUtility.RulesForPawn("RECIPIENT", this.recipient, request.Constants));
-					text = GrammarResolver.Resolve("r_logentry", request, "interaction from recipient", forceLog);
+					request.IncludesBare.Add(this.intDef.logRulesRecipient);
 				}
 				else
 				{
-					Log.ErrorOnce("Cannot display PlayLogEntry_Interaction from POV who isn't initiator or recipient.", 51251, false);
-					text = this.ToString();
+					request.IncludesBare.Add(this.intDef.logRulesInitiator);
 				}
-				if (this.extraSentencePacks != null)
-				{
-					for (int i = 0; i < this.extraSentencePacks.Count; i++)
-					{
-						request.Clear();
-						request.Includes.Add(this.extraSentencePacks[i]);
-						request.Rules.AddRange(GrammarUtility.RulesForPawn("INITIATOR", this.initiator, request.Constants));
-						request.Rules.AddRange(GrammarUtility.RulesForPawn("RECIPIENT", this.recipient, request.Constants));
-						text = text + " " + GrammarResolver.Resolve(this.extraSentencePacks[i].RulesPlusIncludes[0].keyword, request, "extraSentencePack", forceLog);
-					}
-				}
-				Rand.PopState();
-				result = text;
+				request.Rules.AddRange(GrammarUtility.RulesForPawn("ME", this.recipient, request.Constants));
+				request.Rules.AddRange(GrammarUtility.RulesForPawn("OTHER", this.initiator, request.Constants));
+				request.Rules.AddRange(GrammarUtility.RulesForPawn("INITIATOR", this.initiator, request.Constants));
+				request.Rules.AddRange(GrammarUtility.RulesForPawn("RECIPIENT", this.recipient, request.Constants));
+				text = GrammarResolver.Resolve("r_logentry", request, "interaction from recipient", forceLog, null);
 			}
-			return result;
+			else
+			{
+				Log.ErrorOnce("Cannot display PlayLogEntry_Interaction from POV who isn't initiator or recipient.", 51251, false);
+				text = this.ToString();
+			}
+			if (this.extraSentencePacks != null)
+			{
+				for (int i = 0; i < this.extraSentencePacks.Count; i++)
+				{
+					request.Clear();
+					request.Includes.Add(this.extraSentencePacks[i]);
+					request.Rules.AddRange(GrammarUtility.RulesForPawn("INITIATOR", this.initiator, request.Constants));
+					request.Rules.AddRange(GrammarUtility.RulesForPawn("RECIPIENT", this.recipient, request.Constants));
+					text = text + " " + GrammarResolver.Resolve(this.extraSentencePacks[i].FirstRuleKeyword, request, "extraSentencePack", forceLog, this.extraSentencePacks[i].FirstUntranslatedRuleKeyword);
+				}
+			}
+			Rand.PopState();
+			return text;
 		}
 
 		public override void ExposeData()
@@ -211,7 +206,7 @@ namespace Verse
 				case 1u:
 					break;
 				case 2u:
-					goto IL_90;
+					goto IL_8F;
 				default:
 					return false;
 				}
@@ -224,7 +219,7 @@ namespace Verse
 					}
 					return true;
 				}
-				IL_90:
+				IL_8F:
 				this.$PC = -1;
 				return false;
 			}

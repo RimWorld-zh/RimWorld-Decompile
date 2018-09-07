@@ -14,27 +14,22 @@ namespace RimWorld
 
 		public static Faction DefaultFactionFrom(FactionDef ft)
 		{
-			Faction result;
-			Faction faction;
 			if (ft == null)
 			{
-				result = null;
+				return null;
 			}
-			else if (ft.isPlayer)
+			if (ft.isPlayer)
 			{
-				result = Faction.OfPlayer;
+				return Faction.OfPlayer;
 			}
-			else if ((from fac in Find.FactionManager.AllFactions
+			Faction result;
+			if ((from fac in Find.FactionManager.AllFactions
 			where fac.def == ft
-			select fac).TryRandomElement(out faction))
+			select fac).TryRandomElement(out result))
 			{
-				result = faction;
+				return result;
 			}
-			else
-			{
-				result = null;
-			}
-			return result;
+			return null;
 		}
 
 		public static bool IsPoliticallyProper(this Thing thing, Pawn pawn)

@@ -80,31 +80,21 @@ namespace RimWorld
 
 		public static implicit operator ThoughtState(bool value)
 		{
-			ThoughtState result;
 			if (value)
 			{
-				result = ThoughtState.ActiveDefault;
+				return ThoughtState.ActiveDefault;
 			}
-			else
-			{
-				result = ThoughtState.Inactive;
-			}
-			return result;
+			return ThoughtState.Inactive;
 		}
 
 		public bool ActiveFor(ThoughtDef thoughtDef)
 		{
-			bool result;
 			if (!this.Active)
 			{
-				result = false;
+				return false;
 			}
-			else
-			{
-				int num = this.StageIndexFor(thoughtDef);
-				result = (num >= 0 && thoughtDef.stages[num] != null);
-			}
-			return result;
+			int num = this.StageIndexFor(thoughtDef);
+			return num >= 0 && thoughtDef.stages[num] != null;
 		}
 
 		public int StageIndexFor(ThoughtDef thoughtDef)

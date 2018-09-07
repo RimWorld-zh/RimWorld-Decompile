@@ -24,16 +24,11 @@ namespace RimWorld
 			get
 			{
 				float num = 0.1f * (float)this.pawn.relations.OpinionOf(LovePartnerRelationUtility.ExistingMostLikedLovePartnerRel(this.pawn, false).otherPawn);
-				float result;
 				if (num < 0f)
 				{
-					result = Mathf.Min(num, -1f);
+					return Mathf.Min(num, -1f);
 				}
-				else
-				{
-					result = Mathf.Max(num, 1f);
-				}
-				return result;
+				return Mathf.Max(num, 1f);
 			}
 		}
 	}

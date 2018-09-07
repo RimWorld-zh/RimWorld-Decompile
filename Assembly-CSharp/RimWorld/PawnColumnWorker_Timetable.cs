@@ -17,18 +17,19 @@ namespace RimWorld
 
 		public override void DoCell(Rect rect, Pawn pawn, PawnTable table)
 		{
-			if (pawn.timetable != null)
+			if (pawn.timetable == null)
 			{
-				float num = rect.x;
-				float num2 = rect.width / 24f;
-				for (int i = 0; i < 24; i++)
-				{
-					Rect rect2 = new Rect(num, rect.y, num2, rect.height);
-					this.DoTimeAssignment(rect2, pawn, i);
-					num += num2;
-				}
-				GUI.color = Color.white;
+				return;
 			}
+			float num = rect.x;
+			float num2 = rect.width / 24f;
+			for (int i = 0; i < 24; i++)
+			{
+				Rect rect2 = new Rect(num, rect.y, num2, rect.height);
+				this.DoTimeAssignment(rect2, pawn, i);
+				num += num2;
+			}
+			GUI.color = Color.white;
 		}
 
 		public override void DoHeader(Rect rect, PawnTable table)
@@ -74,16 +75,11 @@ namespace RimWorld
 
 		private int GetValueToCompare(Pawn pawn)
 		{
-			int result;
 			if (pawn.timetable == null)
 			{
-				result = int.MinValue;
+				return int.MinValue;
 			}
-			else
-			{
-				result = pawn.timetable.times.FirstIndexOf((TimeAssignmentDef x) => x == TimeAssignmentDefOf.Work);
-			}
-			return result;
+			return pawn.timetable.times.FirstIndexOf((TimeAssignmentDef x) => x == TimeAssignmentDefOf.Work);
 		}
 
 		private void DoTimeAssignment(Rect rect, Pawn p, int hour)

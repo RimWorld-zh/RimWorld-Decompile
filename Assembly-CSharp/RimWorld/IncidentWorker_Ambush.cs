@@ -27,49 +27,36 @@ namespace RimWorld
 		protected override bool CanFireNowSub(IncidentParms parms)
 		{
 			Map map = parms.target as Map;
-			bool result;
 			if (map != null)
 			{
 				IntVec3 intVec;
-				result = this.TryFindEntryCell(map, out intVec);
+				return this.TryFindEntryCell(map, out intVec);
 			}
-			else
-			{
-				result = CaravanIncidentUtility.CanFireIncidentWhichWantsToGenerateMapAt(parms.target.Tile);
-			}
-			return result;
+			return CaravanIncidentUtility.CanFireIncidentWhichWantsToGenerateMapAt(parms.target.Tile);
 		}
 
 		protected override bool TryExecuteWorker(IncidentParms parms)
 		{
 			Map map = parms.target as Map;
 			IntVec3 existingMapEdgeCell = IntVec3.Invalid;
-			if (map != null)
+			if (map != null && !this.TryFindEntryCell(map, out existingMapEdgeCell))
 			{
-				if (!this.TryFindEntryCell(map, out existingMapEdgeCell))
-				{
-					return false;
-				}
+				return false;
 			}
 			List<Pawn> generatedEnemies = this.GeneratePawns(parms);
-			bool result;
 			if (!generatedEnemies.Any<Pawn>())
 			{
-				result = false;
+				return false;
 			}
-			else if (map != null)
+			if (map != null)
 			{
-				result = this.DoExecute(parms, generatedEnemies, existingMapEdgeCell);
+				return this.DoExecute(parms, generatedEnemies, existingMapEdgeCell);
 			}
-			else
+			LongEventHandler.QueueLongEvent(delegate()
 			{
-				LongEventHandler.QueueLongEvent(delegate()
-				{
-					this.DoExecute(parms, generatedEnemies, existingMapEdgeCell);
-				}, "GeneratingMapForNewEncounter", false, null);
-				result = true;
-			}
-			return result;
+				this.DoExecute(parms, generatedEnemies, existingMapEdgeCell);
+			}, "GeneratingMapForNewEncounter", false, null);
+			return true;
 		}
 
 		private bool DoExecute(IncidentParms parms, List<Pawn> generatedEnemies, IntVec3 existingMapEdgeCell)
@@ -101,7 +88,7 @@ namespace RimWorld
 			Find.LetterStack.ReceiveLetter(letterLabel, letterText, this.GetLetterDef(generatedEnemies[0], parms), generatedEnemies[0], parms.faction, null);
 			if (flag)
 			{
-				Find.TickManager.CurTimeSpeed = TimeSpeed.Paused;
+				Find.TickManager.Notify_GeneratedPotentiallyHostileMap();
 			}
 			return true;
 		}

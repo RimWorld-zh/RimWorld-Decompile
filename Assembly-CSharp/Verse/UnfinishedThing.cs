@@ -41,12 +41,10 @@ namespace Verse
 				if (value == null)
 				{
 					Log.Error("Cannot set creator to null.", false);
+					return;
 				}
-				else
-				{
-					this.creatorInt = value;
-					this.creatorName = value.LabelShort;
-				}
+				this.creatorInt = value;
+				this.creatorName = value.LabelShort;
 			}
 		}
 
@@ -62,32 +60,30 @@ namespace Verse
 		{
 			get
 			{
-				if (this.boundBillInt != null)
+				if (this.boundBillInt != null && (this.boundBillInt.DeletedOrDereferenced || this.boundBillInt.BoundUft != this))
 				{
-					if (this.boundBillInt.DeletedOrDereferenced || this.boundBillInt.BoundUft != this)
-					{
-						this.boundBillInt = null;
-					}
+					this.boundBillInt = null;
 				}
 				return this.boundBillInt;
 			}
 			set
 			{
-				if (value != this.boundBillInt)
+				if (value == this.boundBillInt)
 				{
-					Bill_ProductionWithUft bill_ProductionWithUft = this.boundBillInt;
-					this.boundBillInt = value;
-					if (bill_ProductionWithUft != null && bill_ProductionWithUft.BoundUft == this)
+					return;
+				}
+				Bill_ProductionWithUft bill_ProductionWithUft = this.boundBillInt;
+				this.boundBillInt = value;
+				if (bill_ProductionWithUft != null && bill_ProductionWithUft.BoundUft == this)
+				{
+					bill_ProductionWithUft.SetBoundUft(null, false);
+				}
+				if (value != null)
+				{
+					this.recipeInt = value.recipe;
+					if (value.BoundUft != this)
 					{
-						bill_ProductionWithUft.SetBoundUft(null, false);
-					}
-					if (value != null)
-					{
-						this.recipeInt = value.recipe;
-						if (value.BoundUft != this)
-						{
-							value.SetBoundUft(this, false);
-						}
+						value.SetBoundUft(this, false);
 					}
 				}
 			}
@@ -97,25 +93,17 @@ namespace Verse
 		{
 			get
 			{
-				Thing result;
 				if (this.BoundBill == null)
 				{
-					result = null;
+					return null;
 				}
-				else
+				IBillGiver billGiver = this.BoundBill.billStack.billGiver;
+				Thing thing = billGiver as Thing;
+				if (thing.Destroyed)
 				{
-					IBillGiver billGiver = this.BoundBill.billStack.billGiver;
-					Thing thing = billGiver as Thing;
-					if (thing.Destroyed)
-					{
-						result = null;
-					}
-					else
-					{
-						result = thing;
-					}
+					return null;
 				}
-				return result;
+				return thing;
 			}
 		}
 
@@ -123,27 +111,22 @@ namespace Verse
 		{
 			get
 			{
-				string result;
 				if (this.Recipe == null)
 				{
-					result = base.LabelNoCount;
+					return base.LabelNoCount;
 				}
-				else if (base.Stuff == null)
+				if (base.Stuff == null)
 				{
-					result = "UnfinishedItem".Translate(new object[]
+					return "UnfinishedItem".Translate(new object[]
 					{
 						this.Recipe.products[0].thingDef.label
 					});
 				}
-				else
+				return "UnfinishedItemWithStuff".Translate(new object[]
 				{
-					result = "UnfinishedItemWithStuff".Translate(new object[]
-					{
-						base.Stuff.LabelAsStuff,
-						this.Recipe.products[0].thingDef.label
-					});
-				}
-				return result;
+					base.Stuff.LabelAsStuff,
+					this.Recipe.products[0].thingDef.label
+				});
 			}
 		}
 
@@ -151,16 +134,11 @@ namespace Verse
 		{
 			get
 			{
-				string result;
 				if (this.Recipe == null)
 				{
-					result = base.LabelNoCount;
+					return base.LabelNoCount;
 				}
-				else
-				{
-					result = this.Recipe.ProducedThingDef.DescriptionDetailed;
-				}
-				return result;
+				return this.Recipe.ProducedThingDef.DescriptionDetailed;
 			}
 		}
 
@@ -168,16 +146,11 @@ namespace Verse
 		{
 			get
 			{
-				string result;
 				if (this.Recipe == null)
 				{
-					result = base.LabelNoCount;
+					return base.LabelNoCount;
 				}
-				else
-				{
-					result = this.Recipe.ProducedThingDef.description;
-				}
-				return result;
+				return this.Recipe.ProducedThingDef.description;
 			}
 		}
 
@@ -192,12 +165,9 @@ namespace Verse
 		public override void ExposeData()
 		{
 			base.ExposeData();
-			if (Scribe.mode == LoadSaveMode.Saving)
+			if (Scribe.mode == LoadSaveMode.Saving && this.boundBillInt != null && this.boundBillInt.DeletedOrDereferenced)
 			{
-				if (this.boundBillInt != null && this.boundBillInt.DeletedOrDereferenced)
-				{
-					this.boundBillInt = null;
-				}
+				this.boundBillInt = null;
 			}
 			Scribe_References.Look<Pawn>(ref this.creatorInt, "creator", false);
 			Scribe_Values.Look<string>(ref this.creatorName, "creatorName", null, false);
@@ -228,7 +198,7 @@ namespace Verse
 
 		public override IEnumerable<Gizmo> GetGizmos()
 		{
-			foreach (Gizmo c in this.<GetGizmos>__BaseCallProxy0())
+			foreach (Gizmo c in base.GetGizmos())
 			{
 				yield return c;
 			}

@@ -23,24 +23,19 @@ namespace RimWorld
 
 		public override AcceptanceReport CanDesignateCell(IntVec3 sq)
 		{
-			AcceptanceReport result;
 			if (!sq.InBounds(base.Map))
 			{
-				result = false;
+				return false;
 			}
-			else if (sq.Fogged(base.Map))
+			if (sq.Fogged(base.Map))
 			{
-				result = false;
+				return false;
 			}
-			else if (base.Map.zoneManager.ZoneAt(sq) == null)
+			if (base.Map.zoneManager.ZoneAt(sq) == null)
 			{
-				result = false;
+				return false;
 			}
-			else
-			{
-				result = true;
-			}
-			return result;
+			return true;
 		}
 
 		public override void DesignateSingleCell(IntVec3 c)

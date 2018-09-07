@@ -15,24 +15,19 @@ namespace RimWorld
 			float num2;
 			float num3;
 			LatitudeSectionUtility.GetLatitudeSection(latitude, out num, out num2, out num3);
-			LatitudeSection result;
 			if (num == 0f && num2 == 0f && num3 == 0f)
 			{
-				result = LatitudeSection.Undefined;
+				return LatitudeSection.Undefined;
 			}
-			else if (num == 1f)
+			if (num == 1f)
 			{
-				result = LatitudeSection.Equatorial;
+				return LatitudeSection.Equatorial;
 			}
-			else if (num3 == 1f)
+			if (num3 == 1f)
 			{
-				result = LatitudeSection.Polar;
+				return LatitudeSection.Polar;
 			}
-			else
-			{
-				result = LatitudeSection.Seasonal;
-			}
-			return result;
+			return LatitudeSection.Seasonal;
 		}
 
 		public static LatitudeSection GetDominantLatitudeSection(float latitude)
@@ -41,16 +36,11 @@ namespace RimWorld
 			float num2;
 			float num3;
 			LatitudeSectionUtility.GetLatitudeSection(latitude, out num, out num2, out num3);
-			LatitudeSection result;
 			if (num == 0f && num2 == 0f && num3 == 0f)
 			{
-				result = LatitudeSection.Undefined;
+				return LatitudeSection.Undefined;
 			}
-			else
-			{
-				result = GenMath.MaxBy<LatitudeSection>(LatitudeSection.Equatorial, num, LatitudeSection.Seasonal, num2, LatitudeSection.Polar, num3);
-			}
-			return result;
+			return GenMath.MaxBy<LatitudeSection>(LatitudeSection.Equatorial, num, LatitudeSection.Seasonal, num2, LatitudeSection.Polar, num3);
 		}
 
 		public static void GetLatitudeSection(float latitude, out float equatorial, out float seasonal, out float polar)
@@ -64,8 +54,9 @@ namespace RimWorld
 				equatorial = 1f;
 				seasonal = 0f;
 				polar = 0f;
+				return;
 			}
-			else if (num <= maxLatitude2)
+			if (num <= maxLatitude2)
 			{
 				equatorial = Mathf.InverseLerp(maxLatitude + 5f, maxLatitude, num);
 				float a = 1f - equatorial;
@@ -73,19 +64,18 @@ namespace RimWorld
 				float b = 1f - polar;
 				seasonal = Mathf.Min(a, b);
 				GenMath.NormalizeToSum1(ref equatorial, ref seasonal, ref polar);
+				return;
 			}
-			else if (num <= maxLatitude3)
+			if (num <= maxLatitude3)
 			{
 				equatorial = 0f;
 				seasonal = 0f;
 				polar = 1f;
+				return;
 			}
-			else
-			{
-				equatorial = 0f;
-				seasonal = 0f;
-				polar = 0f;
-			}
+			equatorial = 0f;
+			seasonal = 0f;
+			polar = 0f;
 		}
 
 		public static float GetMaxLatitude(this LatitudeSection latitudeSection)

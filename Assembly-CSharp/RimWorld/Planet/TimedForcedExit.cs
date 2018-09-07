@@ -10,8 +10,6 @@ namespace RimWorld.Planet
 	{
 		private int ticksLeftToForceExitAndRemoveMap = -1;
 
-		public const int DefaultForceExitAndRemoveMapCountdownHours = 24;
-
 		private static List<Pawn> tmpPawns = new List<Pawn>();
 
 		[CompilerGenerated]
@@ -39,16 +37,11 @@ namespace RimWorld.Planet
 		{
 			get
 			{
-				string result;
 				if (!this.ForceExitAndRemoveMapCountdownActive)
 				{
-					result = "";
+					return string.Empty;
 				}
-				else
-				{
-					result = TimedForcedExit.GetForceExitAndRemoveMapCountdownTimeLeftString(this.ticksLeftToForceExitAndRemoveMap);
-				}
-				return result;
+				return TimedForcedExit.GetForceExitAndRemoveMapCountdownTimeLeftString(this.ticksLeftToForceExitAndRemoveMap);
 			}
 		}
 
@@ -70,19 +63,14 @@ namespace RimWorld.Planet
 
 		public override string CompInspectStringExtra()
 		{
-			string result;
 			if (this.ForceExitAndRemoveMapCountdownActive)
 			{
-				result = "ForceExitAndRemoveMapCountdown".Translate(new object[]
+				return "ForceExitAndRemoveMapCountdown".Translate(new object[]
 				{
 					this.ForceExitAndRemoveMapCountdownTimeLeftString
 				}) + ".";
 			}
-			else
-			{
-				result = null;
-			}
-			return result;
+			return null;
 		}
 
 		public override void CompTick()
@@ -107,16 +95,11 @@ namespace RimWorld.Planet
 
 		public static string GetForceExitAndRemoveMapCountdownTimeLeftString(int ticksLeft)
 		{
-			string result;
 			if (ticksLeft < 0)
 			{
-				result = "";
+				return string.Empty;
 			}
-			else
-			{
-				result = ticksLeft.ToStringTicksToPeriod();
-			}
-			return result;
+			return ticksLeft.ToStringTicksToPeriod();
 		}
 
 		public static void ForceReform(MapParent mapParent)

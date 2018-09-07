@@ -6,11 +6,11 @@ namespace Verse
 {
 	public class ImmunityRecord : IExposable
 	{
-		public HediffDef hediffDef = null;
+		public HediffDef hediffDef;
 
-		public HediffDef source = null;
+		public HediffDef source;
 
-		public float immunity = 0f;
+		public float immunity;
 
 		public ImmunityRecord()
 		{
@@ -31,33 +31,25 @@ namespace Verse
 
 		public float ImmunityChangePerTick(Pawn pawn, bool sick, Hediff diseaseInstance)
 		{
-			float result;
 			if (!pawn.RaceProps.IsFlesh)
 			{
-				result = 0f;
+				return 0f;
 			}
-			else
+			HediffCompProperties_Immunizable hediffCompProperties_Immunizable = this.hediffDef.CompProps<HediffCompProperties_Immunizable>();
+			if (sick)
 			{
-				HediffCompProperties_Immunizable hediffCompProperties_Immunizable = this.hediffDef.CompProps<HediffCompProperties_Immunizable>();
-				if (sick)
+				float num = hediffCompProperties_Immunizable.immunityPerDaySick;
+				num *= pawn.GetStatValue(StatDefOf.ImmunityGainSpeed, true);
+				if (diseaseInstance != null)
 				{
-					float num = hediffCompProperties_Immunizable.immunityPerDaySick;
-					num *= pawn.GetStatValue(StatDefOf.ImmunityGainSpeed, true);
-					if (diseaseInstance != null)
-					{
-						Rand.PushState();
-						Rand.Seed = Gen.HashCombineInt(diseaseInstance.loadID ^ Find.World.info.randomValue, 156482735);
-						num *= Mathf.Lerp(0.8f, 1.2f, Rand.Value);
-						Rand.PopState();
-					}
-					result = num / 60000f;
+					Rand.PushState();
+					Rand.Seed = Gen.HashCombineInt(diseaseInstance.loadID ^ Find.World.info.persistentRandomValue, 156482735);
+					num *= Mathf.Lerp(0.8f, 1.2f, Rand.Value);
+					Rand.PopState();
 				}
-				else
-				{
-					result = hediffCompProperties_Immunizable.immunityPerDayNotSick / 60000f;
-				}
+				return num / 60000f;
 			}
-			return result;
+			return hediffCompProperties_Immunizable.immunityPerDayNotSick / 60000f;
 		}
 	}
 }

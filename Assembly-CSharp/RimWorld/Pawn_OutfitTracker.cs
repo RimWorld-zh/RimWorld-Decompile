@@ -32,13 +32,14 @@ namespace RimWorld
 			}
 			set
 			{
-				if (this.curOutfit != value)
+				if (this.curOutfit == value)
 				{
-					this.curOutfit = value;
-					if (this.pawn.mindState != null)
-					{
-						this.pawn.mindState.Notify_OutfitChanged();
-					}
+					return;
+				}
+				this.curOutfit = value;
+				if (this.pawn.mindState != null)
+				{
+					this.pawn.mindState.Notify_OutfitChanged();
 				}
 			}
 		}

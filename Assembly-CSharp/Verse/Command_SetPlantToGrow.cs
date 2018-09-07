@@ -96,32 +96,33 @@ namespace Verse
 				list.Add(new FloatMenuOption(text, delegate()
 				{
 					string s = this.tutorTag + "-" + plantDef.defName;
-					if (TutorSystem.AllowAction(s))
+					if (!TutorSystem.AllowAction(s))
 					{
-						bool flag = true;
-						for (int j = 0; j < this.settables.Count; j++)
+						return;
+					}
+					bool flag = true;
+					for (int j = 0; j < this.settables.Count; j++)
+					{
+						this.settables[j].SetPlantDefToGrow(plantDef);
+						if (flag && plantDef.plant.interferesWithRoof)
 						{
-							this.settables[j].SetPlantDefToGrow(plantDef);
-							if (flag && plantDef.plant.interferesWithRoof)
+							foreach (IntVec3 c in this.settables[j].Cells)
 							{
-								foreach (IntVec3 c in this.settables[j].Cells)
+								if (c.Roofed(this.settables[j].Map))
 								{
-									if (c.Roofed(this.settables[j].Map))
+									Messages.Message("MessagePlantIncompatibleWithRoof".Translate(new object[]
 									{
-										Messages.Message("MessagePlantIncompatibleWithRoof".Translate(new object[]
-										{
-											Find.ActiveLanguageWorker.Pluralize(plantDef.LabelCap, -1)
-										}), MessageTypeDefOf.CautionInput, false);
-										flag = false;
-										break;
-									}
+										Find.ActiveLanguageWorker.Pluralize(plantDef.LabelCap, -1)
+									}), MessageTypeDefOf.CautionInput, false);
+									flag = false;
+									break;
 								}
 							}
 						}
-						PlayerKnowledgeDatabase.KnowledgeDemonstrated(ConceptDefOf.SetGrowingZonePlant, KnowledgeAmount.Total);
-						this.WarnAsAppropriate(plantDef);
-						TutorSystem.Notify_Event(s);
 					}
+					PlayerKnowledgeDatabase.KnowledgeDemonstrated(ConceptDefOf.SetGrowingZonePlant, KnowledgeAmount.Total);
+					this.WarnAsAppropriate(plantDef);
+					TutorSystem.Notify_Event(s);
 				}, MenuOptionPriority.Default, null, null, 29f, (Rect rect) => Widgets.InfoCardButton(rect.x + 5f, rect.y + (rect.height - 24f) / 2f, plantDef), null));
 			}
 			Find.WindowStack.Add(new FloatMenu(list));
@@ -185,54 +186,39 @@ namespace Verse
 		private bool IsPlantAvailable(ThingDef plantDef, Map map)
 		{
 			List<ResearchProjectDef> sowResearchPrerequisites = plantDef.plant.sowResearchPrerequisites;
-			bool result;
 			if (sowResearchPrerequisites == null)
 			{
-				result = true;
+				return true;
 			}
-			else
+			for (int i = 0; i < sowResearchPrerequisites.Count; i++)
 			{
-				for (int i = 0; i < sowResearchPrerequisites.Count; i++)
+				if (!sowResearchPrerequisites[i].IsFinished)
 				{
-					if (!sowResearchPrerequisites[i].IsFinished)
-					{
-						return false;
-					}
+					return false;
 				}
-				result = (!plantDef.plant.mustBeWildToSow || map.Biome.AllWildPlants.Contains(plantDef));
 			}
-			return result;
+			return !plantDef.plant.mustBeWildToSow || map.Biome.AllWildPlants.Contains(plantDef);
 		}
 
 		private float GetPlantListPriority(ThingDef plantDef)
 		{
-			float result;
 			if (plantDef.plant.IsTree)
 			{
-				result = 1f;
+				return 1f;
 			}
-			else
+			switch (plantDef.plant.purpose)
 			{
-				switch (plantDef.plant.purpose)
-				{
-				case PlantPurpose.Food:
-					result = 4f;
-					break;
-				case PlantPurpose.Health:
-					result = 3f;
-					break;
-				case PlantPurpose.Beauty:
-					result = 2f;
-					break;
-				case PlantPurpose.Misc:
-					result = 0f;
-					break;
-				default:
-					result = 0f;
-					break;
-				}
+			case PlantPurpose.Food:
+				return 4f;
+			case PlantPurpose.Health:
+				return 3f;
+			case PlantPurpose.Beauty:
+				return 2f;
+			case PlantPurpose.Misc:
+				return 0f;
+			default:
+				return 0f;
 			}
-			return result;
 		}
 
 		// Note: this type is marked as 'beforefieldinit'.
@@ -266,32 +252,33 @@ namespace Verse
 			internal void <>m__0()
 			{
 				string s = this.$this.tutorTag + "-" + this.plantDef.defName;
-				if (TutorSystem.AllowAction(s))
+				if (!TutorSystem.AllowAction(s))
 				{
-					bool flag = true;
-					for (int i = 0; i < this.$this.settables.Count; i++)
+					return;
+				}
+				bool flag = true;
+				for (int i = 0; i < this.$this.settables.Count; i++)
+				{
+					this.$this.settables[i].SetPlantDefToGrow(this.plantDef);
+					if (flag && this.plantDef.plant.interferesWithRoof)
 					{
-						this.$this.settables[i].SetPlantDefToGrow(this.plantDef);
-						if (flag && this.plantDef.plant.interferesWithRoof)
+						foreach (IntVec3 c in this.$this.settables[i].Cells)
 						{
-							foreach (IntVec3 c in this.$this.settables[i].Cells)
+							if (c.Roofed(this.$this.settables[i].Map))
 							{
-								if (c.Roofed(this.$this.settables[i].Map))
+								Messages.Message("MessagePlantIncompatibleWithRoof".Translate(new object[]
 								{
-									Messages.Message("MessagePlantIncompatibleWithRoof".Translate(new object[]
-									{
-										Find.ActiveLanguageWorker.Pluralize(this.plantDef.LabelCap, -1)
-									}), MessageTypeDefOf.CautionInput, false);
-									flag = false;
-									break;
-								}
+									Find.ActiveLanguageWorker.Pluralize(this.plantDef.LabelCap, -1)
+								}), MessageTypeDefOf.CautionInput, false);
+								flag = false;
+								break;
 							}
 						}
 					}
-					PlayerKnowledgeDatabase.KnowledgeDemonstrated(ConceptDefOf.SetGrowingZonePlant, KnowledgeAmount.Total);
-					this.$this.WarnAsAppropriate(this.plantDef);
-					TutorSystem.Notify_Event(s);
 				}
+				PlayerKnowledgeDatabase.KnowledgeDemonstrated(ConceptDefOf.SetGrowingZonePlant, KnowledgeAmount.Total);
+				this.$this.WarnAsAppropriate(this.plantDef);
+				TutorSystem.Notify_Event(s);
 			}
 
 			internal bool <>m__1(Rect rect)

@@ -17,7 +17,7 @@ namespace RimWorld
 
 		public override IEnumerable<BodyPartRecord> GetPartsToApplyOn(Pawn pawn, RecipeDef recipe)
 		{
-			IEnumerable<BodyPartRecord> parts = pawn.health.hediffSet.GetNotMissingParts(BodyPartHeight.Undefined, BodyPartDepth.Undefined, null);
+			IEnumerable<BodyPartRecord> parts = pawn.health.hediffSet.GetNotMissingParts(BodyPartHeight.Undefined, BodyPartDepth.Undefined, null, null);
 			using (IEnumerator<BodyPartRecord> enumerator = parts.GetEnumerator())
 			{
 				while (enumerator.MoveNext())
@@ -75,7 +75,7 @@ namespace RimWorld
 				}
 				ThoughtUtility.GiveThoughtsForPawnOrganHarvested(pawn);
 			}
-			if (flag2 && pawn.Faction != null && billDoer.Faction != null)
+			if (flag2 && pawn.Faction != null && billDoer != null && billDoer.Faction != null)
 			{
 				Faction faction = pawn.Faction;
 				Faction faction2 = billDoer.Faction;
@@ -91,32 +91,27 @@ namespace RimWorld
 
 		public override string GetLabelWhenUsedOn(Pawn pawn, BodyPartRecord part)
 		{
-			string result;
 			if (pawn.RaceProps.IsMechanoid || pawn.health.hediffSet.PartOrAnyAncestorHasDirectlyAddedParts(part))
 			{
-				result = RecipeDefOf.RemoveBodyPart.label;
+				return RecipeDefOf.RemoveBodyPart.label;
+			}
+			BodyPartRemovalIntent bodyPartRemovalIntent = HealthUtility.PartRemovalIntent(pawn, part);
+			if (bodyPartRemovalIntent != BodyPartRemovalIntent.Amputate)
+			{
+				if (bodyPartRemovalIntent != BodyPartRemovalIntent.Harvest)
+				{
+					throw new InvalidOperationException();
+				}
+				return "HarvestOrgan".Translate();
 			}
 			else
 			{
-				BodyPartRemovalIntent bodyPartRemovalIntent = HealthUtility.PartRemovalIntent(pawn, part);
-				if (bodyPartRemovalIntent != BodyPartRemovalIntent.Amputate)
+				if (part.depth == BodyPartDepth.Inside || part.def.socketed)
 				{
-					if (bodyPartRemovalIntent != BodyPartRemovalIntent.Harvest)
-					{
-						throw new InvalidOperationException();
-					}
-					result = "HarvestOrgan".Translate();
+					return "RemoveOrgan".Translate();
 				}
-				else if (part.depth == BodyPartDepth.Inside || part.def.socketed)
-				{
-					result = "RemoveOrgan".Translate();
-				}
-				else
-				{
-					result = "Amputate".Translate();
-				}
+				return "Amputate".Translate();
 			}
-			return result;
 		}
 
 		[CompilerGenerated]
@@ -149,7 +144,7 @@ namespace RimWorld
 				switch (num)
 				{
 				case 0u:
-					parts = pawn.health.hediffSet.GetNotMissingParts(BodyPartHeight.Undefined, BodyPartDepth.Undefined, null);
+					parts = pawn.health.hediffSet.GetNotMissingParts(BodyPartHeight.Undefined, BodyPartDepth.Undefined, null, null);
 					enumerator = parts.GetEnumerator();
 					num = 4294967293u;
 					break;
@@ -165,8 +160,7 @@ namespace RimWorld
 					switch (num)
 					{
 					}
-					IL_1DA:
-					if (enumerator.MoveNext())
+					while (enumerator.MoveNext())
 					{
 						BodyPartRecord part = enumerator.Current;
 						if (pawn.health.hediffSet.HasDirectlyAddedPartFor(part))
@@ -199,7 +193,6 @@ namespace RimWorld
 							flag = true;
 							return true;
 						}
-						goto IL_1DA;
 					}
 				}
 				finally

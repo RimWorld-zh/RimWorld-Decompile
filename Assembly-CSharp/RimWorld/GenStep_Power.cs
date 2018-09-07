@@ -90,6 +90,7 @@ namespace RimWorld
 						map.powerNetManager.UpdatePowerNetsAndConnections_First();
 						PowerNet powerNet2;
 						IntVec3 dest;
+						Building building2;
 						if (this.TryFindClosestReachableNet(compPowerBattery.parent.Position, (PowerNet x) => this.HasAnyPowerGenerator(x), map, out powerNet2, out dest))
 						{
 							map.floodFiller.ReconstructLastFloodFillPath(dest, this.tmpCells);
@@ -97,14 +98,11 @@ namespace RimWorld
 							{
 								int count = this.tmpCells.Count;
 								float chance = Mathf.InverseLerp((float)GenStep_Power.MaxDistanceBetweenBatteryAndTransmitter.min, (float)GenStep_Power.MaxDistanceBetweenBatteryAndTransmitter.max, (float)count);
-								if (Rand.Chance(chance))
+								Building building;
+								if (Rand.Chance(chance) && this.TrySpawnPowerGeneratorNear(compPowerBattery.parent.Position, map, compPowerBattery.parent.Faction, out building))
 								{
-									Building building;
-									if (this.TrySpawnPowerGeneratorNear(compPowerBattery.parent.Position, map, compPowerBattery.parent.Faction, out building))
-									{
-										this.SpawnTransmitters(compPowerBattery.parent.Position, building.Position, map, compPowerBattery.parent.Faction);
-										powerNet2 = null;
-									}
+									this.SpawnTransmitters(compPowerBattery.parent.Position, building.Position, map, compPowerBattery.parent.Faction);
+									powerNet2 = null;
 								}
 							}
 							if (powerNet2 != null)
@@ -112,13 +110,9 @@ namespace RimWorld
 								this.SpawnTransmitters(this.tmpCells, map, compPowerBattery.parent.Faction);
 							}
 						}
-						else if (this.canSpawnPowerGenerators)
+						else if (this.canSpawnPowerGenerators && this.TrySpawnPowerGeneratorNear(compPowerBattery.parent.Position, map, compPowerBattery.parent.Faction, out building2))
 						{
-							Building building2;
-							if (this.TrySpawnPowerGeneratorNear(compPowerBattery.parent.Position, map, compPowerBattery.parent.Faction, out building2))
-							{
-								this.SpawnTransmitters(compPowerBattery.parent.Position, building2.Position, map, compPowerBattery.parent.Faction);
-							}
+							this.SpawnTransmitters(compPowerBattery.parent.Position, building2.Position, map, compPowerBattery.parent.Faction);
 						}
 					}
 				}
@@ -144,6 +138,7 @@ namespace RimWorld
 						map.powerNetManager.UpdatePowerNetsAndConnections_First();
 						PowerNet powerNet2;
 						IntVec3 dest;
+						Building building;
 						if (this.TryFindClosestReachableNet(powerComp.parent.Position, (PowerNet x) => x.CurrentEnergyGainRate() - powerComp.Props.basePowerConsumption * CompPower.WattsToWattDaysPerTick > 1E-07f, map, out powerNet2, out dest))
 						{
 							map.floodFiller.ReconstructLastFloodFillPath(dest, this.tmpCells);
@@ -167,16 +162,12 @@ namespace RimWorld
 							map.floodFiller.ReconstructLastFloodFillPath(dest, this.tmpCells);
 							this.SpawnTransmitters(this.tmpCells, map, this.tmpThings[i].Faction);
 						}
-						else if (this.canSpawnBatteries)
+						else if (this.canSpawnBatteries && this.TrySpawnBatteryNear(this.tmpThings[i].Position, map, this.tmpThings[i].Faction, out building))
 						{
-							Building building;
-							if (this.TrySpawnBatteryNear(this.tmpThings[i].Position, map, this.tmpThings[i].Faction, out building))
+							this.SpawnTransmitters(this.tmpThings[i].Position, building.Position, map, this.tmpThings[i].Faction);
+							if (building.GetComp<CompPowerBattery>().StoredEnergy > 0f)
 							{
-								this.SpawnTransmitters(this.tmpThings[i].Position, building.Position, map, this.tmpThings[i].Faction);
-								if (building.GetComp<CompPowerBattery>().StoredEnergy > 0f)
-								{
-									this.TryTurnOnImmediately(powerComp, map);
-								}
+								this.TryTurnOnImmediately(powerComp, map);
 							}
 						}
 					}
@@ -216,17 +207,12 @@ namespace RimWorld
 
 		private bool IsPowerGenerator(Thing thing)
 		{
-			bool result;
 			if (thing.TryGetComp<CompPowerPlant>() != null)
 			{
-				result = true;
+				return true;
 			}
-			else
-			{
-				CompPowerTrader compPowerTrader = thing.TryGetComp<CompPowerTrader>();
-				result = (compPowerTrader != null && (compPowerTrader.PowerOutput > 0f || (!compPowerTrader.PowerOn && compPowerTrader.Props.basePowerConsumption < 0f)));
-			}
-			return result;
+			CompPowerTrader compPowerTrader = thing.TryGetComp<CompPowerTrader>();
+			return compPowerTrader != null && (compPowerTrader.PowerOutput > 0f || (!compPowerTrader.PowerOn && compPowerTrader.Props.basePowerConsumption < 0f));
 		}
 
 		private bool HasAnyPowerGenerator(PowerNet net)
@@ -264,47 +250,34 @@ namespace RimWorld
 			{
 				Building transmitter = x.GetTransmitter(map);
 				PowerNet powerNet = (transmitter == null) ? null : transmitter.GetComp<CompPower>().PowerNet;
-				bool result2;
 				if (powerNet == null)
 				{
-					result2 = false;
+					return false;
 				}
-				else
+				bool flag;
+				if (!this.tmpPowerNetPredicateResults.TryGetValue(powerNet, out flag))
 				{
-					bool flag;
-					if (!this.tmpPowerNetPredicateResults.TryGetValue(powerNet, out flag))
-					{
-						flag = predicate(powerNet);
-						this.tmpPowerNetPredicateResults.Add(powerNet, flag);
-					}
-					if (flag)
-					{
-						foundNetLocal = powerNet;
-						closestTransmitterLocal = x;
-						result2 = true;
-					}
-					else
-					{
-						result2 = false;
-					}
+					flag = predicate(powerNet);
+					this.tmpPowerNetPredicateResults.Add(powerNet, flag);
 				}
-				return result2;
+				if (flag)
+				{
+					foundNetLocal = powerNet;
+					closestTransmitterLocal = x;
+					return true;
+				}
+				return false;
 			}, int.MaxValue, true, null);
 			this.tmpPowerNetPredicateResults.Clear();
-			bool result;
 			if (foundNetLocal != null)
 			{
 				foundNet = foundNetLocal;
 				closestTransmitter = closestTransmitterLocal;
-				result = true;
+				return true;
 			}
-			else
-			{
-				foundNet = null;
-				closestTransmitter = IntVec3.Invalid;
-				result = false;
-			}
-			return result;
+			foundNet = null;
+			closestTransmitter = IntVec3.Invalid;
+			return false;
 		}
 
 		private void SpawnTransmitters(List<IntVec3> cells, Map map, Faction faction)
@@ -324,17 +297,12 @@ namespace RimWorld
 			bool foundPath = false;
 			map.floodFiller.FloodFill(start, (IntVec3 x) => this.EverPossibleToTransmitPowerAt(x, map), delegate(IntVec3 x)
 			{
-				bool result;
 				if (x == end)
 				{
 					foundPath = true;
-					result = true;
+					return true;
 				}
-				else
-				{
-					result = false;
-				}
-				return result;
+				return false;
 			}, int.MaxValue, true, null);
 			if (foundPath)
 			{
@@ -347,61 +315,46 @@ namespace RimWorld
 		{
 			TraverseParms traverseParams = TraverseParms.For(TraverseMode.PassAllDestroyableThings, Danger.Deadly, false);
 			IntVec3 loc;
-			bool result;
 			if (RCellFinder.TryFindRandomCellNearWith(position, delegate(IntVec3 x)
 			{
-				bool result2;
 				if (!x.Standable(map) || x.Roofed(map) || !this.EverPossibleToTransmitPowerAt(x, map))
 				{
-					result2 = false;
+					return false;
 				}
-				else if (!map.reachability.CanReach(position, x, PathEndMode.OnCell, traverseParams))
+				if (!map.reachability.CanReach(position, x, PathEndMode.OnCell, traverseParams))
 				{
-					result2 = false;
+					return false;
 				}
-				else
+				CellRect.CellRectIterator iterator = GenAdj.OccupiedRect(x, Rot4.North, def.size).GetIterator();
+				while (!iterator.Done())
 				{
-					CellRect.CellRectIterator iterator = GenAdj.OccupiedRect(x, Rot4.North, def.size).GetIterator();
-					while (!iterator.Done())
+					IntVec3 c = iterator.Current;
+					if (!c.InBounds(map) || c.Roofed(map) || c.GetEdifice(map) != null || c.GetFirstItem(map) != null || c.GetTransmitter(map) != null)
 					{
-						IntVec3 c = iterator.Current;
-						if (!c.InBounds(map) || c.Roofed(map) || c.GetEdifice(map) != null || c.GetFirstItem(map) != null || c.GetTransmitter(map) != null)
-						{
-							return false;
-						}
-						iterator.MoveNext();
+						return false;
 					}
-					result2 = (extraValidator == null || extraValidator(x));
+					iterator.MoveNext();
 				}
-				return result2;
+				return extraValidator == null || extraValidator(x);
 			}, map, out loc, 8, 2147483647))
 			{
 				newBuilding = (Building)GenSpawn.Spawn(ThingMaker.MakeThing(def, null), loc, map, Rot4.North, WipeMode.Vanish, false);
 				newBuilding.SetFaction(faction, null);
-				result = true;
+				return true;
 			}
-			else
-			{
-				newBuilding = null;
-				result = false;
-			}
-			return result;
+			newBuilding = null;
+			return false;
 		}
 
 		private bool TrySpawnPowerGeneratorNear(IntVec3 position, Map map, Faction faction, out Building newPowerGenerator)
 		{
-			bool result;
 			if (this.TrySpawnPowerTransmittingBuildingNear(position, map, faction, ThingDefOf.SolarGenerator, out newPowerGenerator, null))
 			{
 				map.powerNetManager.UpdatePowerNetsAndConnections_First();
 				newPowerGenerator.GetComp<CompPowerPlant>().UpdateDesiredPowerOutput();
-				result = true;
+				return true;
 			}
-			else
-			{
-				result = false;
-			}
-			return result;
+			return false;
 		}
 
 		private bool TrySpawnBatteryNear(IntVec3 position, Map map, Faction faction, out Building newBattery)
@@ -434,7 +387,6 @@ namespace RimWorld
 					return true;
 				};
 			}
-			bool result;
 			if (this.TrySpawnPowerTransmittingBuildingNear(position, map, faction, ThingDefOf.Battery, out newBattery, extraValidator))
 			{
 				float randomInRange = this.newBatteriesInitialStoredEnergyPctRange.RandomInRange;
@@ -443,50 +395,35 @@ namespace RimWorld
 				{
 					this.SpawnRoofOver(newBattery);
 				}
-				result = true;
+				return true;
 			}
-			else
-			{
-				result = false;
-			}
-			return result;
+			return false;
 		}
 
 		private bool TrySpawnPowerGeneratorAndBatteryIfCanAndConnect(Thing forThing, Map map)
 		{
-			bool result;
 			if (!this.canSpawnPowerGenerators)
 			{
-				result = false;
+				return false;
 			}
-			else
+			IntVec3 position = forThing.Position;
+			if (this.canSpawnBatteries)
 			{
-				IntVec3 position = forThing.Position;
-				if (this.canSpawnBatteries)
+				float chance = (!(forThing is Building_Turret)) ? 0.1f : 1f;
+				Building building;
+				if (Rand.Chance(chance) && this.TrySpawnBatteryNear(forThing.Position, map, forThing.Faction, out building))
 				{
-					float chance = (!(forThing is Building_Turret)) ? 0.1f : 1f;
-					if (Rand.Chance(chance))
-					{
-						Building building;
-						if (this.TrySpawnBatteryNear(forThing.Position, map, forThing.Faction, out building))
-						{
-							this.SpawnTransmitters(forThing.Position, building.Position, map, forThing.Faction);
-							position = building.Position;
-						}
-					}
-				}
-				Building building2;
-				if (this.TrySpawnPowerGeneratorNear(position, map, forThing.Faction, out building2))
-				{
-					this.SpawnTransmitters(position, building2.Position, map, forThing.Faction);
-					result = true;
-				}
-				else
-				{
-					result = false;
+					this.SpawnTransmitters(forThing.Position, building.Position, map, forThing.Faction);
+					position = building.Position;
 				}
 			}
-			return result;
+			Building building2;
+			if (this.TrySpawnPowerGeneratorNear(position, map, forThing.Faction, out building2))
+			{
+				this.SpawnTransmitters(position, building2.Position, map, forThing.Faction);
+				return true;
+			}
+			return false;
 		}
 
 		private bool EverPossibleToTransmitPowerAt(IntVec3 c, Map map)
@@ -496,13 +433,14 @@ namespace RimWorld
 
 		private void TryTurnOnImmediately(CompPowerTrader powerComp, Map map)
 		{
-			if (!powerComp.PowerOn)
+			if (powerComp.PowerOn)
 			{
-				map.powerNetManager.UpdatePowerNetsAndConnections_First();
-				if (powerComp.PowerNet != null && powerComp.PowerNet.CurrentEnergyGainRate() > 1E-07f)
-				{
-					powerComp.PowerOn = true;
-				}
+				return;
+			}
+			map.powerNetManager.UpdatePowerNetsAndConnections_First();
+			if (powerComp.PowerNet != null && powerComp.PowerNet.CurrentEnergyGainRate() > 1E-07f)
+			{
+				powerComp.PowerOn = true;
 			}
 		}
 
@@ -520,56 +458,57 @@ namespace RimWorld
 				}
 				iterator.MoveNext();
 			}
-			if (!flag)
+			if (flag)
 			{
-				int num = 0;
-				CellRect cellRect2 = cellRect.ExpandedBy(2);
-				CellRect.CellRectIterator iterator2 = cellRect2.GetIterator();
-				while (!iterator2.Done())
+				return;
+			}
+			int num = 0;
+			CellRect cellRect2 = cellRect.ExpandedBy(2);
+			CellRect.CellRectIterator iterator2 = cellRect2.GetIterator();
+			while (!iterator2.Done())
+			{
+				if (iterator2.Current.InBounds(thing.Map) && iterator2.Current.GetRoofHolderOrImpassable(thing.Map) != null)
 				{
-					if (iterator2.Current.InBounds(thing.Map) && iterator2.Current.GetRoofHolderOrImpassable(thing.Map) != null)
-					{
-						num++;
-					}
-					iterator2.MoveNext();
+					num++;
 				}
-				if (num < 2)
+				iterator2.MoveNext();
+			}
+			if (num < 2)
+			{
+				ThingDef stuff = Rand.Element<ThingDef>(ThingDefOf.WoodLog, ThingDefOf.Steel);
+				foreach (IntVec3 intVec in cellRect2.Corners)
 				{
-					ThingDef stuff = Rand.Element<ThingDef>(ThingDefOf.WoodLog, ThingDefOf.Steel);
-					foreach (IntVec3 intVec in cellRect2.Corners)
+					if (intVec.InBounds(thing.Map))
 					{
-						if (intVec.InBounds(thing.Map))
+						if (intVec.Standable(thing.Map))
 						{
-							if (intVec.Standable(thing.Map))
+							if (intVec.GetFirstItem(thing.Map) == null && intVec.GetFirstBuilding(thing.Map) == null && intVec.GetFirstPawn(thing.Map) == null)
 							{
-								if (intVec.GetFirstItem(thing.Map) == null && intVec.GetFirstBuilding(thing.Map) == null && intVec.GetFirstPawn(thing.Map) == null)
+								if (!GenAdj.CellsAdjacent8Way(new TargetInfo(intVec, thing.Map, false)).Any((IntVec3 x) => !x.InBounds(thing.Map) || !x.Walkable(thing.Map)))
 								{
-									if (!GenAdj.CellsAdjacent8Way(new TargetInfo(intVec, thing.Map, false)).Any((IntVec3 x) => !x.InBounds(thing.Map) || !x.Walkable(thing.Map)))
+									if (intVec.SupportsStructureType(thing.Map, ThingDefOf.Wall.terrainAffordanceNeeded))
 									{
-										if (intVec.SupportsStructureType(thing.Map, ThingDefOf.Wall.terrainAffordanceNeeded))
-										{
-											Thing thing2 = ThingMaker.MakeThing(ThingDefOf.Wall, stuff);
-											GenSpawn.Spawn(thing2, intVec, thing.Map, WipeMode.Vanish);
-											thing2.SetFaction(thing.Faction, null);
-											num++;
-										}
+										Thing thing2 = ThingMaker.MakeThing(ThingDefOf.Wall, stuff);
+										GenSpawn.Spawn(thing2, intVec, thing.Map, WipeMode.Vanish);
+										thing2.SetFaction(thing.Faction, null);
+										num++;
 									}
 								}
 							}
 						}
 					}
 				}
-				if (num > 0)
+			}
+			if (num > 0)
+			{
+				CellRect.CellRectIterator iterator3 = cellRect2.GetIterator();
+				while (!iterator3.Done())
 				{
-					CellRect.CellRectIterator iterator3 = cellRect2.GetIterator();
-					while (!iterator3.Done())
+					if (iterator3.Current.InBounds(thing.Map) && !iterator3.Current.Roofed(thing.Map))
 					{
-						if (iterator3.Current.InBounds(thing.Map) && !iterator3.Current.Roofed(thing.Map))
-						{
-							thing.Map.roofGrid.SetRoof(iterator3.Current, RoofDefOf.RoofConstructed);
-						}
-						iterator3.MoveNext();
+						thing.Map.roofGrid.SetRoof(iterator3.Current, RoofDefOf.RoofConstructed);
 					}
+					iterator3.MoveNext();
 				}
 			}
 		}
@@ -638,31 +577,23 @@ namespace RimWorld
 			{
 				Building transmitter = x.GetTransmitter(this.map);
 				PowerNet powerNet = (transmitter == null) ? null : transmitter.GetComp<CompPower>().PowerNet;
-				bool result;
 				if (powerNet == null)
 				{
-					result = false;
+					return false;
 				}
-				else
+				bool flag;
+				if (!this.$this.tmpPowerNetPredicateResults.TryGetValue(powerNet, out flag))
 				{
-					bool flag;
-					if (!this.$this.tmpPowerNetPredicateResults.TryGetValue(powerNet, out flag))
-					{
-						flag = this.predicate(powerNet);
-						this.$this.tmpPowerNetPredicateResults.Add(powerNet, flag);
-					}
-					if (flag)
-					{
-						this.foundNetLocal = powerNet;
-						this.closestTransmitterLocal = x;
-						result = true;
-					}
-					else
-					{
-						result = false;
-					}
+					flag = this.predicate(powerNet);
+					this.$this.tmpPowerNetPredicateResults.Add(powerNet, flag);
 				}
-				return result;
+				if (flag)
+				{
+					this.foundNetLocal = powerNet;
+					this.closestTransmitterLocal = x;
+					return true;
+				}
+				return false;
 			}
 		}
 
@@ -688,17 +619,12 @@ namespace RimWorld
 
 			internal bool <>m__1(IntVec3 x)
 			{
-				bool result;
 				if (x == this.end)
 				{
 					this.foundPath = true;
-					result = true;
+					return true;
 				}
-				else
-				{
-					result = false;
-				}
-				return result;
+				return false;
 			}
 		}
 
@@ -723,30 +649,25 @@ namespace RimWorld
 
 			internal bool <>m__0(IntVec3 x)
 			{
-				bool result;
 				if (!x.Standable(this.map) || x.Roofed(this.map) || !this.$this.EverPossibleToTransmitPowerAt(x, this.map))
 				{
-					result = false;
+					return false;
 				}
-				else if (!this.map.reachability.CanReach(this.position, x, PathEndMode.OnCell, this.traverseParams))
+				if (!this.map.reachability.CanReach(this.position, x, PathEndMode.OnCell, this.traverseParams))
 				{
-					result = false;
+					return false;
 				}
-				else
+				CellRect.CellRectIterator iterator = GenAdj.OccupiedRect(x, Rot4.North, this.def.size).GetIterator();
+				while (!iterator.Done())
 				{
-					CellRect.CellRectIterator iterator = GenAdj.OccupiedRect(x, Rot4.North, this.def.size).GetIterator();
-					while (!iterator.Done())
+					IntVec3 c = iterator.Current;
+					if (!c.InBounds(this.map) || c.Roofed(this.map) || c.GetEdifice(this.map) != null || c.GetFirstItem(this.map) != null || c.GetTransmitter(this.map) != null)
 					{
-						IntVec3 c = iterator.Current;
-						if (!c.InBounds(this.map) || c.Roofed(this.map) || c.GetEdifice(this.map) != null || c.GetFirstItem(this.map) != null || c.GetTransmitter(this.map) != null)
-						{
-							return false;
-						}
-						iterator.MoveNext();
+						return false;
 					}
-					result = (this.extraValidator == null || this.extraValidator(x));
+					iterator.MoveNext();
 				}
-				return result;
+				return this.extraValidator == null || this.extraValidator(x);
 			}
 		}
 

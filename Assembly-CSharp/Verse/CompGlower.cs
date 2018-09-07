@@ -5,7 +5,7 @@ namespace Verse
 {
 	public class CompGlower : ThingComp
 	{
-		private bool glowOnInt = false;
+		private bool glowOnInt;
 
 		public CompGlower()
 		{
@@ -23,48 +23,41 @@ namespace Verse
 		{
 			get
 			{
-				bool result;
 				if (!this.parent.Spawned)
 				{
-					result = false;
+					return false;
 				}
-				else if (!FlickUtility.WantsToBeOn(this.parent))
+				if (!FlickUtility.WantsToBeOn(this.parent))
 				{
-					result = false;
+					return false;
 				}
-				else
+				CompPowerTrader compPowerTrader = this.parent.TryGetComp<CompPowerTrader>();
+				if (compPowerTrader != null && !compPowerTrader.PowerOn)
 				{
-					CompPowerTrader compPowerTrader = this.parent.TryGetComp<CompPowerTrader>();
-					if (compPowerTrader != null && !compPowerTrader.PowerOn)
-					{
-						result = false;
-					}
-					else
-					{
-						CompRefuelable compRefuelable = this.parent.TryGetComp<CompRefuelable>();
-						result = (compRefuelable == null || compRefuelable.HasFuel);
-					}
+					return false;
 				}
-				return result;
+				CompRefuelable compRefuelable = this.parent.TryGetComp<CompRefuelable>();
+				return compRefuelable == null || compRefuelable.HasFuel;
 			}
 		}
 
 		public void UpdateLit(Map map)
 		{
 			bool shouldBeLitNow = this.ShouldBeLitNow;
-			if (this.glowOnInt != shouldBeLitNow)
+			if (this.glowOnInt == shouldBeLitNow)
 			{
-				this.glowOnInt = shouldBeLitNow;
-				if (!this.glowOnInt)
-				{
-					map.mapDrawer.MapMeshDirty(this.parent.Position, MapMeshFlag.Things);
-					map.glowGrid.DeRegisterGlower(this);
-				}
-				else
-				{
-					map.mapDrawer.MapMeshDirty(this.parent.Position, MapMeshFlag.Things);
-					map.glowGrid.RegisterGlower(this);
-				}
+				return;
+			}
+			this.glowOnInt = shouldBeLitNow;
+			if (!this.glowOnInt)
+			{
+				map.mapDrawer.MapMeshDirty(this.parent.Position, MapMeshFlag.Things);
+				map.glowGrid.DeRegisterGlower(this);
+			}
+			else
+			{
+				map.mapDrawer.MapMeshDirty(this.parent.Position, MapMeshFlag.Things);
+				map.glowGrid.RegisterGlower(this);
 			}
 		}
 

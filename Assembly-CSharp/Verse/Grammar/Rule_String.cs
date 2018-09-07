@@ -24,36 +24,34 @@ namespace Verse.Grammar
 			if (!match.Success)
 			{
 				Log.Error(string.Format("Bad string pass when reading rule {0}", rawString), false);
+				return;
 			}
-			else
+			this.keyword = match.Groups["keyword"].Value;
+			this.output = match.Groups["output"].Value;
+			for (int i = 0; i < match.Groups["paramname"].Captures.Count; i++)
 			{
-				this.keyword = match.Groups["keyword"].Value;
-				this.output = match.Groups["output"].Value;
-				for (int i = 0; i < match.Groups["paramname"].Captures.Count; i++)
+				string value = match.Groups["paramname"].Captures[i].Value;
+				string value2 = match.Groups["paramoperator"].Captures[i].Value;
+				string value3 = match.Groups["paramvalue"].Captures[i].Value;
+				if (value == "p")
 				{
-					string value = match.Groups["paramname"].Captures[i].Value;
-					string value2 = match.Groups["paramoperator"].Captures[i].Value;
-					string value3 = match.Groups["paramvalue"].Captures[i].Value;
-					if (value == "p")
+					if (value2 != "=")
 					{
-						if (value2 != "=")
-						{
-							Log.Error(string.Format("Attempt to compare p instead of assigning in rule {0}", rawString), false);
-						}
-						this.weight = float.Parse(value3);
+						Log.Error(string.Format("Attempt to compare p instead of assigning in rule {0}", rawString), false);
 					}
-					else if (value == "debug")
-					{
-						Log.Error(string.Format("Rule {0} contains debug flag; fix before commit", rawString), false);
-					}
-					else if (value2 == "==" || value2 == "!=")
-					{
-						base.AddConstantConstraint(value, value3, value2 == "==");
-					}
-					else
-					{
-						Log.Error(string.Format("Unknown parameter {0} in rule {1}", value, rawString), false);
-					}
+					this.weight = float.Parse(value3);
+				}
+				else if (value == "debug")
+				{
+					Log.Error(string.Format("Rule {0} contains debug flag; fix before commit", rawString), false);
+				}
+				else if (value2 == "==" || value2 == "!=")
+				{
+					base.AddConstantConstraint(value, value3, value2 == "==");
+				}
+				else
+				{
+					Log.Error(string.Format("Unknown parameter {0} in rule {1}", value, rawString), false);
 				}
 			}
 		}
@@ -64,6 +62,14 @@ namespace Verse.Grammar
 			{
 				return this.weight;
 			}
+		}
+
+		public override Rule DeepCopy()
+		{
+			Rule_String rule_String = (Rule_String)base.DeepCopy();
+			rule_String.output = this.output;
+			rule_String.weight = this.weight;
+			return rule_String;
 		}
 
 		public override string Generate()

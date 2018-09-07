@@ -49,26 +49,28 @@ namespace RimWorld
 
 		public override void CompTick()
 		{
-			if (this.parent.Spawned)
+			if (!this.parent.Spawned)
 			{
-				this.ticksToIncreaseDroneLevel--;
-				if (this.ticksToIncreaseDroneLevel <= 0)
-				{
-					this.IncreaseDroneLevel();
-					this.ticksToIncreaseDroneLevel = this.Props.droneLevelIncreaseInterval;
-				}
+				return;
+			}
+			this.ticksToIncreaseDroneLevel--;
+			if (this.ticksToIncreaseDroneLevel <= 0)
+			{
+				this.IncreaseDroneLevel();
+				this.ticksToIncreaseDroneLevel = this.Props.droneLevelIncreaseInterval;
 			}
 		}
 
 		private void IncreaseDroneLevel()
 		{
-			if (this.droneLevel != PsychicDroneLevel.BadExtreme)
+			if (this.droneLevel == PsychicDroneLevel.BadExtreme)
 			{
-				this.droneLevel += 1;
-				string text = "LetterPsychicDroneLevelIncreased".Translate();
-				Find.LetterStack.ReceiveLetter("LetterLabelPsychicDroneLevelIncreased".Translate(), text, LetterDefOf.NegativeEvent, null);
-				SoundDefOf.PsychicPulseGlobal.PlayOneShotOnCamera(this.parent.Map);
+				return;
 			}
+			this.droneLevel += 1;
+			string text = "LetterPsychicDroneLevelIncreased".Translate();
+			Find.LetterStack.ReceiveLetter("LetterLabelPsychicDroneLevelIncreased".Translate(), text, LetterDefOf.NegativeEvent, null);
+			SoundDefOf.PsychicPulseGlobal.PlayOneShotOnCamera(this.parent.Map);
 		}
 
 		public override string CompInspectStringExtra()

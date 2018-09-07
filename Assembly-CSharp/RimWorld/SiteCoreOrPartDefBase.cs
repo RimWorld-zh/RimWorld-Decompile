@@ -21,7 +21,7 @@ namespace RimWorld
 
 		public bool requiresFaction;
 
-		public TechLevel minFactionTechLevel = TechLevel.Undefined;
+		public TechLevel minFactionTechLevel;
 
 		[MustTranslate]
 		public string approachOrderString;
@@ -112,27 +112,7 @@ namespace RimWorld
 
 		public virtual bool FactionCanOwn(Faction faction)
 		{
-			bool result;
-			if (this.requiresFaction && faction == null)
-			{
-				result = false;
-			}
-			else if (this.minFactionTechLevel != TechLevel.Undefined && (faction == null || faction.def.techLevel < this.minFactionTechLevel))
-			{
-				result = false;
-			}
-			else
-			{
-				if (faction != null)
-				{
-					if (faction.IsPlayer || faction.defeated || faction.def.hidden)
-					{
-						return false;
-					}
-				}
-				result = true;
-			}
-			return result;
+			return (!this.requiresFaction || faction != null) && (this.minFactionTechLevel == TechLevel.Undefined || (faction != null && faction.def.techLevel >= this.minFactionTechLevel)) && (faction == null || (!faction.IsPlayer && !faction.defeated && !faction.def.hidden));
 		}
 
 		protected abstract SiteCoreOrPartWorkerBase CreateWorker();

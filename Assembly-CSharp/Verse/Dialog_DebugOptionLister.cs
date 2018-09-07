@@ -37,22 +37,23 @@ namespace Verse
 
 		protected void DebugToolMap(string label, Action toolAction)
 		{
-			if (!WorldRendererUtility.WorldRenderedNow)
+			if (WorldRendererUtility.WorldRenderedNow)
 			{
-				if (!base.FilterAllows(label))
-				{
-					GUI.color = new Color(1f, 1f, 1f, 0.3f);
-				}
-				if (this.listing.ButtonDebug(label))
-				{
-					this.Close(true);
-					DebugTools.curTool = new DebugTool(label, toolAction, null);
-				}
-				GUI.color = Color.white;
-				if (Event.current.type == EventType.Layout)
-				{
-					this.totalOptionsHeight += 24f;
-				}
+				return;
+			}
+			if (!base.FilterAllows(label))
+			{
+				GUI.color = new Color(1f, 1f, 1f, 0.3f);
+			}
+			if (this.listing.ButtonDebug(label))
+			{
+				this.Close(true);
+				DebugTools.curTool = new DebugTool(label, toolAction, null);
+			}
+			GUI.color = Color.white;
+			if (Event.current.type == EventType.Layout)
+			{
+				this.totalOptionsHeight += 24f;
 			}
 		}
 
@@ -74,22 +75,23 @@ namespace Verse
 
 		protected void DebugToolWorld(string label, Action toolAction)
 		{
-			if (WorldRendererUtility.WorldRenderedNow)
+			if (!WorldRendererUtility.WorldRenderedNow)
 			{
-				if (!base.FilterAllows(label))
-				{
-					GUI.color = new Color(1f, 1f, 1f, 0.3f);
-				}
-				if (this.listing.ButtonDebug(label))
-				{
-					this.Close(true);
-					DebugTools.curTool = new DebugTool(label, toolAction, null);
-				}
-				GUI.color = Color.white;
-				if (Event.current.type == EventType.Layout)
-				{
-					this.totalOptionsHeight += 24f;
-				}
+				return;
+			}
+			if (!base.FilterAllows(label))
+			{
+				GUI.color = new Color(1f, 1f, 1f, 0.3f);
+			}
+			if (this.listing.ButtonDebug(label))
+			{
+				this.Close(true);
+				DebugTools.curTool = new DebugTool(label, toolAction, null);
+			}
+			GUI.color = Color.white;
+			if (Event.current.type == EventType.Layout)
+			{
+				this.totalOptionsHeight += 24f;
 			}
 		}
 

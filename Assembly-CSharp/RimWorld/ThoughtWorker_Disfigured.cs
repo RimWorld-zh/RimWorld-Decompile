@@ -11,28 +11,23 @@ namespace RimWorld
 
 		protected override ThoughtState CurrentSocialStateInternal(Pawn pawn, Pawn other)
 		{
-			ThoughtState result;
 			if (!other.RaceProps.Humanlike || other.Dead)
 			{
-				result = false;
+				return false;
 			}
-			else if (!RelationsUtility.PawnsKnowEachOther(pawn, other))
+			if (!RelationsUtility.PawnsKnowEachOther(pawn, other))
 			{
-				result = false;
+				return false;
 			}
-			else if (!RelationsUtility.IsDisfigured(other))
+			if (!RelationsUtility.IsDisfigured(other))
 			{
-				result = false;
+				return false;
 			}
-			else if (!pawn.health.capacities.CapableOf(PawnCapacityDefOf.Sight))
+			if (!pawn.health.capacities.CapableOf(PawnCapacityDefOf.Sight))
 			{
-				result = false;
+				return false;
 			}
-			else
-			{
-				result = true;
-			}
-			return result;
+			return true;
 		}
 	}
 }

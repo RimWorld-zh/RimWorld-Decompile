@@ -27,15 +27,17 @@ namespace Verse.AI
 			if (target == null)
 			{
 				Log.Warning(claimant + " tried to reserve null attack target.", false);
+				return;
 			}
-			else if (!this.IsReservedBy(claimant, target))
+			if (this.IsReservedBy(claimant, target))
 			{
-				AttackTargetReservationManager.AttackTargetReservation attackTargetReservation = new AttackTargetReservationManager.AttackTargetReservation();
-				attackTargetReservation.target = target;
-				attackTargetReservation.claimant = claimant;
-				attackTargetReservation.job = job;
-				this.reservations.Add(attackTargetReservation);
+				return;
 			}
+			AttackTargetReservationManager.AttackTargetReservation attackTargetReservation = new AttackTargetReservationManager.AttackTargetReservation();
+			attackTargetReservation.target = target;
+			attackTargetReservation.claimant = claimant;
+			attackTargetReservation.job = job;
+			this.reservations.Add(attackTargetReservation);
 		}
 
 		public void Release(Pawn claimant, Job job, IAttackTarget target)
@@ -43,44 +45,37 @@ namespace Verse.AI
 			if (target == null)
 			{
 				Log.Warning(claimant + " tried to release reservation on null attack target.", false);
+				return;
 			}
-			else
+			for (int i = 0; i < this.reservations.Count; i++)
 			{
-				for (int i = 0; i < this.reservations.Count; i++)
+				AttackTargetReservationManager.AttackTargetReservation attackTargetReservation = this.reservations[i];
+				if (attackTargetReservation.target == target && attackTargetReservation.claimant == claimant && attackTargetReservation.job == job)
 				{
-					AttackTargetReservationManager.AttackTargetReservation attackTargetReservation = this.reservations[i];
-					if (attackTargetReservation.target == target && attackTargetReservation.claimant == claimant && attackTargetReservation.job == job)
-					{
-						this.reservations.RemoveAt(i);
-						return;
-					}
+					this.reservations.RemoveAt(i);
+					return;
 				}
-				Log.Warning(string.Concat(new object[]
-				{
-					claimant,
-					" with job ",
-					job,
-					" tried to release reservation on target ",
-					target,
-					", but it's not reserved by him."
-				}), false);
 			}
+			Log.Warning(string.Concat(new object[]
+			{
+				claimant,
+				" with job ",
+				job,
+				" tried to release reservation on target ",
+				target,
+				", but it's not reserved by him."
+			}), false);
 		}
 
 		public bool CanReserve(Pawn claimant, IAttackTarget target)
 		{
-			bool result;
 			if (this.IsReservedBy(claimant, target))
 			{
-				result = true;
+				return true;
 			}
-			else
-			{
-				int reservationsCount = this.GetReservationsCount(target, claimant.Faction);
-				int maxPreferredReservationsCount = this.GetMaxPreferredReservationsCount(target);
-				result = (reservationsCount < maxPreferredReservationsCount);
-			}
-			return result;
+			int reservationsCount = this.GetReservationsCount(target, claimant.Faction);
+			int maxPreferredReservationsCount = this.GetMaxPreferredReservationsCount(target);
+			return reservationsCount < maxPreferredReservationsCount;
 		}
 
 		public bool IsReservedBy(Pawn claimant, IAttackTarget target)

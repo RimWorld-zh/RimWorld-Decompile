@@ -15,16 +15,11 @@ namespace RimWorld
 			get
 			{
 				Pawn mostDislikedNonPartnerBedOwner = LovePartnerRelationUtility.GetMostDislikedNonPartnerBedOwner(this.pawn);
-				float result;
 				if (mostDislikedNonPartnerBedOwner == null)
 				{
-					result = 0f;
+					return 0f;
 				}
-				else
-				{
-					result = Mathf.Min(0.05f * (float)this.pawn.relations.OpinionOf(mostDislikedNonPartnerBedOwner) - 5f, 0f);
-				}
-				return result;
+				return Mathf.Min(0.05f * (float)this.pawn.relations.OpinionOf(mostDislikedNonPartnerBedOwner) - 5f, 0f);
 			}
 		}
 	}

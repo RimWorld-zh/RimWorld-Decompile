@@ -40,7 +40,7 @@ namespace RimWorld
 					request.Rules.AddRange(tale.GetTextGenerationRules());
 				}
 			}
-			string result = GrammarResolver.Resolve(rootKeyword, request, (tale == null) ? "null_tale" : tale.def.defName, false);
+			string result = GrammarResolver.Resolve(rootKeyword, request, (tale == null) ? "null_tale" : tale.def.defName, false, null);
 			Rand.PopState();
 			return result;
 		}

@@ -79,35 +79,36 @@ namespace RimWorld.Planet
 		{
 			Find.WorldPathGrid.RecalculateAllPerceivedPathCosts();
 			List<int> coastalWaterTiles = this.GetCoastalWaterTiles();
-			if (coastalWaterTiles.Any<int>())
+			if (!coastalWaterTiles.Any<int>())
 			{
-				List<int> neighbors = new List<int>();
-				List<int>[] array = Find.WorldPathFinder.FloodPathsWithCostForTree(coastalWaterTiles, delegate(int st, int ed)
+				return;
+			}
+			List<int> neighbors = new List<int>();
+			List<int>[] array = Find.WorldPathFinder.FloodPathsWithCostForTree(coastalWaterTiles, delegate(int st, int ed)
+			{
+				Tile tile = Find.WorldGrid[ed];
+				Tile tile2 = Find.WorldGrid[st];
+				Find.WorldGrid.GetTileNeighbors(ed, neighbors);
+				int num = neighbors[0];
+				for (int j = 0; j < neighbors.Count; j++)
 				{
-					Tile tile = Find.WorldGrid[ed];
-					Tile tile2 = Find.WorldGrid[st];
-					Find.WorldGrid.GetTileNeighbors(ed, neighbors);
-					int num = neighbors[0];
-					for (int j = 0; j < neighbors.Count; j++)
+					if (WorldGenStep_Rivers.GetImpliedElevation(Find.WorldGrid[neighbors[j]]) < WorldGenStep_Rivers.GetImpliedElevation(Find.WorldGrid[num]))
 					{
-						if (WorldGenStep_Rivers.GetImpliedElevation(Find.WorldGrid[neighbors[j]]) < WorldGenStep_Rivers.GetImpliedElevation(Find.WorldGrid[num]))
-						{
-							num = neighbors[j];
-						}
+						num = neighbors[j];
 					}
-					float num2 = 1f;
-					if (num != st)
-					{
-						num2 = 2f;
-					}
-					return Mathf.RoundToInt(num2 * WorldGenStep_Rivers.ElevationChangeCost.Evaluate(WorldGenStep_Rivers.GetImpliedElevation(tile2) - WorldGenStep_Rivers.GetImpliedElevation(tile)));
-				}, (int tid) => Find.WorldGrid[tid].WaterCovered, null);
-				float[] flow = new float[array.Length];
-				for (int i = 0; i < coastalWaterTiles.Count; i++)
-				{
-					this.AccumulateFlow(flow, array, coastalWaterTiles[i]);
-					this.CreateRivers(flow, array, coastalWaterTiles[i]);
 				}
+				float num2 = 1f;
+				if (num != st)
+				{
+					num2 = 2f;
+				}
+				return Mathf.RoundToInt(num2 * WorldGenStep_Rivers.ElevationChangeCost.Evaluate(WorldGenStep_Rivers.GetImpliedElevation(tile2) - WorldGenStep_Rivers.GetImpliedElevation(tile)));
+			}, (int tid) => Find.WorldGrid[tid].WaterCovered, null);
+			float[] flow = new float[array.Length];
+			for (int i = 0; i < coastalWaterTiles.Count; i++)
+			{
+				this.AccumulateFlow(flow, array, coastalWaterTiles[i]);
+				this.CreateRivers(flow, array, coastalWaterTiles[i]);
 			}
 		}
 
@@ -197,36 +198,37 @@ namespace RimWorld.Planet
 
 		private void ExtendRiver(float[] flow, List<int>[] riverPaths, int index, RiverDef incomingRiver)
 		{
-			if (riverPaths[index] != null)
+			if (riverPaths[index] == null)
 			{
-				int bestOutput = riverPaths[index].MaxBy((int ni) => flow[ni]);
-				RiverDef riverDef = incomingRiver;
-				while (riverDef != null && (float)riverDef.degradeThreshold > flow[bestOutput])
+				return;
+			}
+			int bestOutput = riverPaths[index].MaxBy((int ni) => flow[ni]);
+			RiverDef riverDef = incomingRiver;
+			while (riverDef != null && (float)riverDef.degradeThreshold > flow[bestOutput])
+			{
+				riverDef = riverDef.degradeChild;
+			}
+			if (riverDef != null)
+			{
+				Find.WorldGrid.OverlayRiver(index, bestOutput, riverDef);
+				this.ExtendRiver(flow, riverPaths, bestOutput, riverDef);
+			}
+			if (incomingRiver.branches != null)
+			{
+				using (IEnumerator<int> enumerator = (from ni in riverPaths[index]
+				where ni != bestOutput
+				select ni).GetEnumerator())
 				{
-					riverDef = riverDef.degradeChild;
-				}
-				if (riverDef != null)
-				{
-					Find.WorldGrid.OverlayRiver(index, bestOutput, riverDef);
-					this.ExtendRiver(flow, riverPaths, bestOutput, riverDef);
-				}
-				if (incomingRiver.branches != null)
-				{
-					using (IEnumerator<int> enumerator = (from ni in riverPaths[index]
-					where ni != bestOutput
-					select ni).GetEnumerator())
+					while (enumerator.MoveNext())
 					{
-						while (enumerator.MoveNext())
+						int alternateRiver = enumerator.Current;
+						RiverDef.Branch branch2 = (from branch in incomingRiver.branches
+						where (float)branch.minFlow <= flow[alternateRiver]
+						select branch).MaxByWithFallback((RiverDef.Branch branch) => branch.minFlow, null);
+						if (branch2 != null && Rand.Value < branch2.chance)
 						{
-							int alternateRiver = enumerator.Current;
-							RiverDef.Branch branch2 = (from branch in incomingRiver.branches
-							where (float)branch.minFlow <= flow[alternateRiver]
-							select branch).MaxByWithFallback((RiverDef.Branch branch) => branch.minFlow, null);
-							if (branch2 != null && Rand.Value < branch2.chance)
-							{
-								Find.WorldGrid.OverlayRiver(index, alternateRiver, branch2.child);
-								this.ExtendRiver(flow, riverPaths, alternateRiver, branch2.child);
-							}
+							Find.WorldGrid.OverlayRiver(index, alternateRiver, branch2.child);
+							this.ExtendRiver(flow, riverPaths, alternateRiver, branch2.child);
 						}
 					}
 				}

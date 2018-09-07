@@ -36,7 +36,7 @@ namespace Ionic.Zlib
 
 		public int WindowBits = 15;
 
-		public CompressionStrategy Strategy = CompressionStrategy.Default;
+		public CompressionStrategy Strategy;
 
 		public ZlibCodec()
 		{
@@ -211,20 +211,15 @@ namespace Ionic.Zlib
 
 		public int SetDictionary(byte[] dictionary)
 		{
-			int result;
 			if (this.istate != null)
 			{
-				result = this.istate.SetDictionary(dictionary);
+				return this.istate.SetDictionary(dictionary);
 			}
-			else
+			if (this.dstate != null)
 			{
-				if (this.dstate == null)
-				{
-					throw new ZlibException("No Inflate or Deflate state!");
-				}
-				result = this.dstate.SetDictionary(dictionary);
+				return this.dstate.SetDictionary(dictionary);
 			}
-			return result;
+			throw new ZlibException("No Inflate or Deflate state!");
 		}
 
 		internal void flush_pending()
@@ -234,22 +229,23 @@ namespace Ionic.Zlib
 			{
 				num = this.AvailableBytesOut;
 			}
-			if (num != 0)
+			if (num == 0)
 			{
-				if (this.dstate.pending.Length <= this.dstate.nextPending || this.OutputBuffer.Length <= this.NextOut || this.dstate.pending.Length < this.dstate.nextPending + num || this.OutputBuffer.Length < this.NextOut + num)
-				{
-					throw new ZlibException(string.Format("Invalid State. (pending.Length={0}, pendingCount={1})", this.dstate.pending.Length, this.dstate.pendingCount));
-				}
-				Array.Copy(this.dstate.pending, this.dstate.nextPending, this.OutputBuffer, this.NextOut, num);
-				this.NextOut += num;
-				this.dstate.nextPending += num;
-				this.TotalBytesOut += (long)num;
-				this.AvailableBytesOut -= num;
-				this.dstate.pendingCount -= num;
-				if (this.dstate.pendingCount == 0)
-				{
-					this.dstate.nextPending = 0;
-				}
+				return;
+			}
+			if (this.dstate.pending.Length <= this.dstate.nextPending || this.OutputBuffer.Length <= this.NextOut || this.dstate.pending.Length < this.dstate.nextPending + num || this.OutputBuffer.Length < this.NextOut + num)
+			{
+				throw new ZlibException(string.Format("Invalid State. (pending.Length={0}, pendingCount={1})", this.dstate.pending.Length, this.dstate.pendingCount));
+			}
+			Array.Copy(this.dstate.pending, this.dstate.nextPending, this.OutputBuffer, this.NextOut, num);
+			this.NextOut += num;
+			this.dstate.nextPending += num;
+			this.TotalBytesOut += (long)num;
+			this.AvailableBytesOut -= num;
+			this.dstate.pendingCount -= num;
+			if (this.dstate.pendingCount == 0)
+			{
+				this.dstate.nextPending = 0;
 			}
 		}
 
@@ -260,24 +256,19 @@ namespace Ionic.Zlib
 			{
 				num = size;
 			}
-			int result;
 			if (num == 0)
 			{
-				result = 0;
+				return 0;
 			}
-			else
+			this.AvailableBytesIn -= num;
+			if (this.dstate.WantRfc1950HeaderBytes)
 			{
-				this.AvailableBytesIn -= num;
-				if (this.dstate.WantRfc1950HeaderBytes)
-				{
-					this._Adler32 = Adler.Adler32(this._Adler32, this.InputBuffer, this.NextIn, num);
-				}
-				Array.Copy(this.InputBuffer, this.NextIn, buf, start, num);
-				this.NextIn += num;
-				this.TotalBytesIn += (long)num;
-				result = num;
+				this._Adler32 = Adler.Adler32(this._Adler32, this.InputBuffer, this.NextIn, num);
 			}
-			return result;
+			Array.Copy(this.InputBuffer, this.NextIn, buf, start, num);
+			this.NextIn += num;
+			this.TotalBytesIn += (long)num;
+			return num;
 		}
 	}
 }

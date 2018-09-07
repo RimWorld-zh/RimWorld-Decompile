@@ -13,7 +13,9 @@ namespace RimWorld
 {
 	public class CompLongRangeMineralScanner : ThingComp
 	{
-		private ThingDef targetMineable = null;
+		private ThingDef targetMineable;
+
+		private float daysWorkingSinceLastMinerals;
 
 		private CompPowerTrader powerComp;
 
@@ -40,6 +42,7 @@ namespace RimWorld
 		public override void PostExposeData()
 		{
 			Scribe_Defs.Look<ThingDef>(ref this.targetMineable, "targetMineable");
+			Scribe_Values.Look<float>(ref this.daysWorkingSinceLastMinerals, "daysWorkingSinceLastMinerals", 0f, false);
 			if (Scribe.mode == LoadSaveMode.PostLoadInit && this.targetMineable == null)
 			{
 				this.SetDefaultTargetMineral();
@@ -69,11 +72,12 @@ namespace RimWorld
 			{
 				Log.Error("Used while CanUseNow is false.", false);
 			}
+			float statValue = worker.GetStatValue(StatDefOf.ResearchSpeed, true);
+			this.daysWorkingSinceLastMinerals += statValue / 60000f;
 			if (Find.TickManager.TicksGame % 59 == 0)
 			{
-				float statValue = worker.GetStatValue(StatDefOf.ResearchSpeed, true);
 				float mtb = this.Props.mtbDays / statValue;
-				if (Rand.MTBEventOccurs(mtb, 60000f, 59f))
+				if (this.daysWorkingSinceLastMinerals >= this.Props.guaranteedToFindLumpAfterDaysWorking || Rand.MTBEventOccurs(mtb, 60000f, 59f))
 				{
 					this.FoundMinerals(worker);
 				}
@@ -82,30 +86,32 @@ namespace RimWorld
 
 		private void FoundMinerals(Pawn worker)
 		{
+			this.daysWorkingSinceLastMinerals = 0f;
 			IntRange preciousLumpSiteDistanceRange = SiteTuning.PreciousLumpSiteDistanceRange;
 			int tile2;
 			ref int tile = ref tile2;
 			int min = preciousLumpSiteDistanceRange.min;
 			int max = preciousLumpSiteDistanceRange.max;
 			int tile3 = this.parent.Tile;
-			if (TileFinder.TryFindNewSiteTile(out tile, min, max, false, true, tile3))
+			if (!TileFinder.TryFindNewSiteTile(out tile, min, max, false, true, tile3))
 			{
-				Site site = SiteMaker.TryMakeSite_SingleSitePart(SiteCoreDefOf.PreciousLump, (!Rand.Chance(0.6f)) ? "MineralScannerPreciousLumpThreat" : null, tile2, null, true, null, true, null);
-				if (site != null)
+				return;
+			}
+			Site site = SiteMaker.TryMakeSite_SingleSitePart(SiteCoreDefOf.PreciousLump, (!Rand.Chance(0.6f)) ? "MineralScannerPreciousLumpThreat" : null, tile2, null, true, null, true, null);
+			if (site != null)
+			{
+				site.sitePartsKnown = true;
+				site.core.parms.preciousLumpResources = this.targetMineable;
+				int randomInRange = SiteTuning.MineralScannerPreciousLumpTimeoutDaysRange.RandomInRange;
+				site.GetComponent<TimeoutComp>().StartTimeout(randomInRange * 60000);
+				Find.WorldObjects.Add(site);
+				Find.LetterStack.ReceiveLetter("LetterLabelFoundPreciousLump".Translate(), "LetterFoundPreciousLump".Translate(new object[]
 				{
-					site.sitePartsKnown = true;
-					site.core.parms.preciousLumpResources = this.targetMineable;
-					int randomInRange = SiteTuning.MineralScannerPreciousLumpTimeoutDaysRange.RandomInRange;
-					site.GetComponent<TimeoutComp>().StartTimeout(randomInRange * 60000);
-					Find.WorldObjects.Add(site);
-					Find.LetterStack.ReceiveLetter("LetterLabelFoundPreciousLump".Translate(), "LetterFoundPreciousLump".Translate(new object[]
-					{
-						this.targetMineable.label,
-						randomInRange,
-						SitePartUtility.GetDescriptionDialogue(site, site.parts.FirstOrDefault<SitePart>()).CapitalizeFirst(),
-						worker.LabelShort
-					}), LetterDefOf.PositiveEvent, site, null, null);
-				}
+					this.targetMineable.label,
+					randomInRange,
+					SitePartUtility.GetDescriptionDialogue(site, site.parts.FirstOrDefault<SitePart>()).CapitalizeFirst(),
+					worker.LabelShort
+				}), LetterDefOf.PositiveEvent, site, null, null);
 			}
 		}
 
@@ -237,7 +243,7 @@ namespace RimWorld
 				case 1u:
 					break;
 				case 2u:
-					goto IL_17A;
+					goto IL_175;
 				default:
 					return false;
 				}
@@ -256,7 +262,7 @@ namespace RimWorld
 					}
 					return true;
 				}
-				IL_17A:
+				IL_175:
 				this.$PC = -1;
 				return false;
 			}

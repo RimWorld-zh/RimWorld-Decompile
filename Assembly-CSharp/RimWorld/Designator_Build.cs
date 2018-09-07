@@ -12,9 +12,9 @@ namespace RimWorld
 	{
 		protected BuildableDef entDef;
 
-		private ThingDef stuffDef = null;
+		private ThingDef stuffDef;
 
-		private bool writeStuff = false;
+		private bool writeStuff;
 
 		private static readonly Vector2 TerrainTextureCroppedSize = new Vector2(64f, 64f);
 
@@ -63,20 +63,15 @@ namespace RimWorld
 			get
 			{
 				ThingDef thingDef = this.entDef as ThingDef;
-				string result;
 				if (thingDef != null && this.writeStuff)
 				{
-					result = GenLabel.ThingLabel(thingDef, this.stuffDef, 1);
+					return GenLabel.ThingLabel(thingDef, this.stuffDef, 1);
 				}
-				else if (thingDef != null && thingDef.MadeFromStuff)
+				if (thingDef != null && thingDef.MadeFromStuff)
 				{
-					result = this.entDef.label + "...";
+					return this.entDef.label + "...";
 				}
-				else
-				{
-					result = this.entDef.label;
-				}
-				return result;
+				return this.entDef.label;
 			}
 		}
 
@@ -92,16 +87,11 @@ namespace RimWorld
 		{
 			get
 			{
-				Color result;
 				if (this.stuffDef != null)
 				{
-					result = this.stuffDef.stuffProps.color;
+					return this.stuffDef.stuffProps.color;
 				}
-				else
-				{
-					result = this.entDef.uiIconColor;
-				}
-				return result;
+				return this.entDef.uiIconColor;
 			}
 		}
 
@@ -109,38 +99,33 @@ namespace RimWorld
 		{
 			get
 			{
-				bool result;
 				if (DebugSettings.godMode)
 				{
-					result = true;
+					return true;
 				}
-				else if (this.entDef.minTechLevelToBuild != TechLevel.Undefined && Faction.OfPlayer.def.techLevel < this.entDef.minTechLevelToBuild)
+				if (this.entDef.minTechLevelToBuild != TechLevel.Undefined && Faction.OfPlayer.def.techLevel < this.entDef.minTechLevelToBuild)
 				{
-					result = false;
+					return false;
 				}
-				else if (this.entDef.maxTechLevelToBuild != TechLevel.Undefined && Faction.OfPlayer.def.techLevel > this.entDef.maxTechLevelToBuild)
+				if (this.entDef.maxTechLevelToBuild != TechLevel.Undefined && Faction.OfPlayer.def.techLevel > this.entDef.maxTechLevelToBuild)
 				{
-					result = false;
+					return false;
 				}
-				else if (!this.entDef.IsResearchFinished)
+				if (!this.entDef.IsResearchFinished)
 				{
-					result = false;
+					return false;
 				}
-				else
+				if (this.entDef.buildingPrerequisites != null)
 				{
-					if (this.entDef.buildingPrerequisites != null)
+					for (int i = 0; i < this.entDef.buildingPrerequisites.Count; i++)
 					{
-						for (int i = 0; i < this.entDef.buildingPrerequisites.Count; i++)
+						if (!base.Map.listerBuildings.ColonistsHaveBuilding(this.entDef.buildingPrerequisites[i]))
 						{
-							if (!base.Map.listerBuildings.ColonistsHaveBuilding(this.entDef.buildingPrerequisites[i]))
-							{
-								return false;
-							}
+							return false;
 						}
 					}
-					result = true;
 				}
-				return result;
+				return true;
 			}
 		}
 
@@ -233,49 +218,50 @@ namespace RimWorld
 
 		public override void ProcessInput(Event ev)
 		{
-			if (base.CheckCanInteract())
+			if (!base.CheckCanInteract())
 			{
-				ThingDef thingDef = this.entDef as ThingDef;
-				if (thingDef == null || !thingDef.MadeFromStuff)
+				return;
+			}
+			ThingDef thingDef = this.entDef as ThingDef;
+			if (thingDef == null || !thingDef.MadeFromStuff)
+			{
+				base.ProcessInput(ev);
+			}
+			else
+			{
+				List<FloatMenuOption> list = new List<FloatMenuOption>();
+				foreach (ThingDef thingDef2 in base.Map.resourceCounter.AllCountedAmounts.Keys)
 				{
-					base.ProcessInput(ev);
+					if (thingDef2.IsStuff && thingDef2.stuffProps.CanMake(thingDef) && (DebugSettings.godMode || base.Map.listerThings.ThingsOfDef(thingDef2).Count > 0))
+					{
+						ThingDef localStuffDef = thingDef2;
+						string label = GenLabel.ThingLabel(this.entDef, localStuffDef, 1).CapitalizeFirst();
+						list.Add(new FloatMenuOption(label, delegate()
+						{
+							this.<ProcessInput>__BaseCallProxy0(ev);
+							Find.DesignatorManager.Select(this);
+							this.stuffDef = localStuffDef;
+							this.writeStuff = true;
+						}, MenuOptionPriority.Default, null, null, 0f, null, null)
+						{
+							tutorTag = "SelectStuff-" + thingDef.defName + "-" + localStuffDef.defName
+						});
+					}
+				}
+				if (list.Count == 0)
+				{
+					Messages.Message("NoStuffsToBuildWith".Translate(), MessageTypeDefOf.RejectInput, false);
 				}
 				else
 				{
-					List<FloatMenuOption> list = new List<FloatMenuOption>();
-					foreach (ThingDef thingDef2 in base.Map.resourceCounter.AllCountedAmounts.Keys)
+					FloatMenu floatMenu = new FloatMenu(list);
+					floatMenu.vanishIfMouseDistant = true;
+					floatMenu.onCloseCallback = delegate()
 					{
-						if (thingDef2.IsStuff && thingDef2.stuffProps.CanMake(thingDef) && (DebugSettings.godMode || base.Map.listerThings.ThingsOfDef(thingDef2).Count > 0))
-						{
-							ThingDef localStuffDef = thingDef2;
-							string label = GenLabel.ThingLabel(this.entDef, localStuffDef, 1).CapitalizeFirst();
-							list.Add(new FloatMenuOption(label, delegate()
-							{
-								this.<ProcessInput>__BaseCallProxy0(ev);
-								Find.DesignatorManager.Select(this);
-								this.stuffDef = localStuffDef;
-								this.writeStuff = true;
-							}, MenuOptionPriority.Default, null, null, 0f, null, null)
-							{
-								tutorTag = "SelectStuff-" + thingDef.defName + "-" + localStuffDef.defName
-							});
-						}
-					}
-					if (list.Count == 0)
-					{
-						Messages.Message("NoStuffsToBuildWith".Translate(), MessageTypeDefOf.RejectInput, false);
-					}
-					else
-					{
-						FloatMenu floatMenu = new FloatMenu(list);
-						floatMenu.vanishIfMouseDistant = true;
-						floatMenu.onCloseCallback = delegate()
-						{
-							this.writeStuff = true;
-						};
-						Find.WindowStack.Add(floatMenu);
-						Find.DesignatorManager.Select(this);
-					}
+						this.writeStuff = true;
+					};
+					Find.WindowStack.Add(floatMenu);
+					Find.DesignatorManager.Select(this);
 				}
 			}
 		}
@@ -287,42 +273,43 @@ namespace RimWorld
 
 		public override void DesignateSingleCell(IntVec3 c)
 		{
-			if (!TutorSystem.TutorialMode || TutorSystem.AllowAction(new EventPack(base.TutorTagDesignate, c)))
+			if (TutorSystem.TutorialMode && !TutorSystem.AllowAction(new EventPack(base.TutorTagDesignate, c)))
 			{
-				if (DebugSettings.godMode || this.entDef.GetStatValueAbstract(StatDefOf.WorkToBuild, this.stuffDef) == 0f)
+				return;
+			}
+			if (DebugSettings.godMode || this.entDef.GetStatValueAbstract(StatDefOf.WorkToBuild, this.stuffDef) == 0f)
+			{
+				if (this.entDef is TerrainDef)
 				{
-					if (this.entDef is TerrainDef)
-					{
-						base.Map.terrainGrid.SetTerrain(c, (TerrainDef)this.entDef);
-					}
-					else
-					{
-						Thing thing = ThingMaker.MakeThing((ThingDef)this.entDef, this.stuffDef);
-						thing.SetFactionDirect(Faction.OfPlayer);
-						GenSpawn.Spawn(thing, c, base.Map, this.placingRot, WipeMode.Vanish, false);
-					}
+					base.Map.terrainGrid.SetTerrain(c, (TerrainDef)this.entDef);
 				}
 				else
 				{
-					GenSpawn.WipeExistingThings(c, this.placingRot, this.entDef.blueprintDef, base.Map, DestroyMode.Deconstruct);
-					GenConstruct.PlaceBlueprintForBuild(this.entDef, c, base.Map, this.placingRot, Faction.OfPlayer, this.stuffDef);
+					Thing thing = ThingMaker.MakeThing((ThingDef)this.entDef, this.stuffDef);
+					thing.SetFactionDirect(Faction.OfPlayer);
+					GenSpawn.Spawn(thing, c, base.Map, this.placingRot, WipeMode.Vanish, false);
 				}
-				MoteMaker.ThrowMetaPuffs(GenAdj.OccupiedRect(c, this.placingRot, this.entDef.Size), base.Map);
-				ThingDef thingDef = this.entDef as ThingDef;
-				if (thingDef != null && thingDef.IsOrbitalTradeBeacon)
+			}
+			else
+			{
+				GenSpawn.WipeExistingThings(c, this.placingRot, this.entDef.blueprintDef, base.Map, DestroyMode.Deconstruct);
+				GenConstruct.PlaceBlueprintForBuild(this.entDef, c, base.Map, this.placingRot, Faction.OfPlayer, this.stuffDef);
+			}
+			MoteMaker.ThrowMetaPuffs(GenAdj.OccupiedRect(c, this.placingRot, this.entDef.Size), base.Map);
+			ThingDef thingDef = this.entDef as ThingDef;
+			if (thingDef != null && thingDef.IsOrbitalTradeBeacon)
+			{
+				PlayerKnowledgeDatabase.KnowledgeDemonstrated(ConceptDefOf.BuildOrbitalTradeBeacon, KnowledgeAmount.Total);
+			}
+			if (TutorSystem.TutorialMode)
+			{
+				TutorSystem.Notify_Event(new EventPack(base.TutorTagDesignate, c));
+			}
+			if (this.entDef.PlaceWorkers != null)
+			{
+				for (int i = 0; i < this.entDef.PlaceWorkers.Count; i++)
 				{
-					PlayerKnowledgeDatabase.KnowledgeDemonstrated(ConceptDefOf.BuildOrbitalTradeBeacon, KnowledgeAmount.Total);
-				}
-				if (TutorSystem.TutorialMode)
-				{
-					TutorSystem.Notify_Event(new EventPack(base.TutorTagDesignate, c));
-				}
-				if (this.entDef.PlaceWorkers != null)
-				{
-					for (int i = 0; i < this.entDef.PlaceWorkers.Count; i++)
-					{
-						this.entDef.PlaceWorkers[i].PostPlace(base.Map, this.entDef, c, this.placingRot);
-					}
+					this.entDef.PlaceWorkers[i].PostPlace(base.Map, this.entDef, c, this.placingRot);
 				}
 			}
 		}

@@ -7,7 +7,7 @@ namespace Verse
 	{
 		public Vector2 minWindowSize = new Vector2(150f, 150f);
 
-		private bool isResizing = false;
+		private bool isResizing;
 
 		private Rect resizeStart = default(Rect);
 

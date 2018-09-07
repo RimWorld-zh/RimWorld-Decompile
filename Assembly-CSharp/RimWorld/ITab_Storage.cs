@@ -26,24 +26,16 @@ namespace RimWorld
 			get
 			{
 				Thing thing = base.SelObject as Thing;
-				IStoreSettingsParent result;
-				if (thing != null)
+				if (thing == null)
 				{
-					IStoreSettingsParent thingOrThingCompStoreSettingsParent = this.GetThingOrThingCompStoreSettingsParent(thing);
-					if (thingOrThingCompStoreSettingsParent != null)
-					{
-						result = thingOrThingCompStoreSettingsParent;
-					}
-					else
-					{
-						result = null;
-					}
+					return base.SelObject as IStoreSettingsParent;
 				}
-				else
+				IStoreSettingsParent thingOrThingCompStoreSettingsParent = this.GetThingOrThingCompStoreSettingsParent(thing);
+				if (thingOrThingCompStoreSettingsParent != null)
 				{
-					result = (base.SelObject as IStoreSettingsParent);
+					return thingOrThingCompStoreSettingsParent;
 				}
-				return result;
+				return null;
 			}
 		}
 
@@ -143,29 +135,24 @@ namespace RimWorld
 		protected IStoreSettingsParent GetThingOrThingCompStoreSettingsParent(Thing t)
 		{
 			IStoreSettingsParent storeSettingsParent = t as IStoreSettingsParent;
-			IStoreSettingsParent result;
 			if (storeSettingsParent != null)
 			{
-				result = storeSettingsParent;
+				return storeSettingsParent;
 			}
-			else
+			ThingWithComps thingWithComps = t as ThingWithComps;
+			if (thingWithComps != null)
 			{
-				ThingWithComps thingWithComps = t as ThingWithComps;
-				if (thingWithComps != null)
+				List<ThingComp> allComps = thingWithComps.AllComps;
+				for (int i = 0; i < allComps.Count; i++)
 				{
-					List<ThingComp> allComps = thingWithComps.AllComps;
-					for (int i = 0; i < allComps.Count; i++)
+					storeSettingsParent = (allComps[i] as IStoreSettingsParent);
+					if (storeSettingsParent != null)
 					{
-						storeSettingsParent = (allComps[i] as IStoreSettingsParent);
-						if (storeSettingsParent != null)
-						{
-							return storeSettingsParent;
-						}
+						return storeSettingsParent;
 					}
 				}
-				result = null;
 			}
-			return result;
+			return null;
 		}
 
 		// Note: this type is marked as 'beforefieldinit'.

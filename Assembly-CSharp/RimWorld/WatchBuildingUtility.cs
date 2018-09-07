@@ -70,15 +70,15 @@ namespace RimWorld
 								if (rotation != rot.Opposite)
 								{
 									intVec = intVec2;
-									goto IL_191;
+									goto IL_17F;
 								}
 							}
 							result = intVec2;
 							chair = building;
 							return true;
 						}
-						IL_191:;
 					}
+					IL_17F:;
 				}
 			}
 			if (intVec.IsValid)
@@ -94,45 +94,40 @@ namespace RimWorld
 
 		public static bool CanWatchFromBed(Pawn pawn, Building_Bed bed, Thing toWatch)
 		{
-			bool result;
 			if (!WatchBuildingUtility.EverPossibleToWatchFrom(pawn.Position, toWatch.Position, pawn.Map, true))
 			{
-				result = false;
+				return false;
 			}
-			else
+			if (toWatch.def.rotatable)
 			{
-				if (toWatch.def.rotatable)
+				Rot4 rotation = bed.Rotation;
+				CellRect cellRect = toWatch.OccupiedRect();
+				if (rotation == Rot4.North && cellRect.maxZ < pawn.Position.z)
 				{
-					Rot4 rotation = bed.Rotation;
-					CellRect cellRect = toWatch.OccupiedRect();
-					if (rotation == Rot4.North && cellRect.maxZ < pawn.Position.z)
-					{
-						return false;
-					}
-					if (rotation == Rot4.South && cellRect.minZ > pawn.Position.z)
-					{
-						return false;
-					}
-					if (rotation == Rot4.East && cellRect.maxX < pawn.Position.x)
-					{
-						return false;
-					}
-					if (rotation == Rot4.West && cellRect.minX > pawn.Position.x)
-					{
-						return false;
-					}
+					return false;
 				}
-				List<int> list = WatchBuildingUtility.CalculateAllowedDirections(toWatch.def, toWatch.Rotation);
-				for (int i = 0; i < list.Count; i++)
+				if (rotation == Rot4.South && cellRect.minZ > pawn.Position.z)
 				{
-					if (WatchBuildingUtility.GetWatchCellRect(toWatch.def, toWatch.Position, toWatch.Rotation, list[i]).Contains(pawn.Position))
-					{
-						return true;
-					}
+					return false;
 				}
-				result = false;
+				if (rotation == Rot4.East && cellRect.maxX < pawn.Position.x)
+				{
+					return false;
+				}
+				if (rotation == Rot4.West && cellRect.minX > pawn.Position.x)
+				{
+					return false;
+				}
 			}
-			return result;
+			List<int> list = WatchBuildingUtility.CalculateAllowedDirections(toWatch.def, toWatch.Rotation);
+			for (int i = 0; i < list.Count; i++)
+			{
+				if (WatchBuildingUtility.GetWatchCellRect(toWatch.def, toWatch.Position, toWatch.Rotation, list[i]).Contains(pawn.Position))
+				{
+					return true;
+				}
+			}
+			return false;
 		}
 
 		private static CellRect GetWatchCellRect(ThingDef def, IntVec3 center, Rot4 rot, int watchRot)
@@ -258,11 +253,8 @@ namespace RimWorld
 					{
 						switch (num)
 						{
-						case 1u:
-							IL_E4:
-							break;
 						}
-						if (enumerator.MoveNext())
+						while (enumerator.MoveNext())
 						{
 							c = enumerator.Current;
 							if (WatchBuildingUtility.EverPossibleToWatchFrom(c, center, map, true))
@@ -275,7 +267,6 @@ namespace RimWorld
 								flag = true;
 								return true;
 							}
-							goto IL_E4;
 						}
 					}
 					finally

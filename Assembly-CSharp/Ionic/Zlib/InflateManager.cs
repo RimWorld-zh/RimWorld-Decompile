@@ -105,7 +105,7 @@ namespace Ionic.Zlib
 				case InflateManager.InflateManagerMode.METHOD:
 					if (this._codec.AvailableBytesIn == 0)
 					{
-						goto Block_3;
+						return num2;
 					}
 					num2 = num;
 					this._codec.AvailableBytesIn--;
@@ -130,7 +130,7 @@ namespace Ionic.Zlib
 				{
 					if (this._codec.AvailableBytesIn == 0)
 					{
-						goto Block_6;
+						return num2;
 					}
 					num2 = num;
 					this._codec.AvailableBytesIn--;
@@ -149,7 +149,7 @@ namespace Ionic.Zlib
 				case InflateManager.InflateManagerMode.DICT4:
 					if (this._codec.AvailableBytesIn == 0)
 					{
-						goto Block_9;
+						return num2;
 					}
 					num2 = num;
 					this._codec.AvailableBytesIn--;
@@ -160,7 +160,7 @@ namespace Ionic.Zlib
 				case InflateManager.InflateManagerMode.DICT3:
 					if (this._codec.AvailableBytesIn == 0)
 					{
-						goto Block_10;
+						return num2;
 					}
 					num2 = num;
 					this._codec.AvailableBytesIn--;
@@ -171,7 +171,7 @@ namespace Ionic.Zlib
 				case InflateManager.InflateManagerMode.DICT2:
 					if (this._codec.AvailableBytesIn == 0)
 					{
-						goto Block_11;
+						return num2;
 					}
 					num2 = num;
 					this._codec.AvailableBytesIn--;
@@ -180,9 +180,9 @@ namespace Ionic.Zlib
 					this.mode = InflateManager.InflateManagerMode.DICT1;
 					continue;
 				case InflateManager.InflateManagerMode.DICT1:
-					goto IL_3C3;
+					goto IL_39F;
 				case InflateManager.InflateManagerMode.DICT0:
-					goto IL_45B;
+					goto IL_42B;
 				case InflateManager.InflateManagerMode.BLOCKS:
 					num2 = this.blocks.Process(num2);
 					if (num2 == -3)
@@ -197,7 +197,7 @@ namespace Ionic.Zlib
 					}
 					if (num2 != 1)
 					{
-						goto Block_15;
+						return num2;
 					}
 					num2 = num;
 					this.computedCheck = this.blocks.Reset();
@@ -210,7 +210,7 @@ namespace Ionic.Zlib
 				case InflateManager.InflateManagerMode.CHECK4:
 					if (this._codec.AvailableBytesIn == 0)
 					{
-						goto Block_17;
+						return num2;
 					}
 					num2 = num;
 					this._codec.AvailableBytesIn--;
@@ -221,7 +221,7 @@ namespace Ionic.Zlib
 				case InflateManager.InflateManagerMode.CHECK3:
 					if (this._codec.AvailableBytesIn == 0)
 					{
-						goto Block_18;
+						return num2;
 					}
 					num2 = num;
 					this._codec.AvailableBytesIn--;
@@ -232,7 +232,7 @@ namespace Ionic.Zlib
 				case InflateManager.InflateManagerMode.CHECK2:
 					if (this._codec.AvailableBytesIn == 0)
 					{
-						goto Block_19;
+						return num2;
 					}
 					num2 = num;
 					this._codec.AvailableBytesIn--;
@@ -243,7 +243,7 @@ namespace Ionic.Zlib
 				case InflateManager.InflateManagerMode.CHECK1:
 					if (this._codec.AvailableBytesIn == 0)
 					{
-						goto Block_20;
+						return num2;
 					}
 					num2 = num;
 					this._codec.AvailableBytesIn--;
@@ -256,26 +256,16 @@ namespace Ionic.Zlib
 						this.marker = 5;
 						continue;
 					}
-					goto IL_740;
+					goto IL_6E3;
 				case InflateManager.InflateManagerMode.DONE:
-					goto IL_750;
+					return 1;
 				case InflateManager.InflateManagerMode.BAD:
-					goto IL_758;
+					goto IL_6EF;
 				}
 				break;
 			}
 			throw new ZlibException("Stream error.");
-			Block_3:
-			return num2;
-			Block_6:
-			return num2;
-			Block_9:
-			return num2;
-			Block_10:
-			return num2;
-			Block_11:
-			return num2;
-			IL_3C3:
+			IL_39F:
 			if (this._codec.AvailableBytesIn == 0)
 			{
 				return num2;
@@ -286,30 +276,18 @@ namespace Ionic.Zlib
 			this._codec._Adler32 = this.expectedCheck;
 			this.mode = InflateManager.InflateManagerMode.DICT0;
 			return 2;
-			IL_45B:
+			IL_42B:
 			this.mode = InflateManager.InflateManagerMode.BAD;
 			this._codec.Message = "need dictionary";
 			this.marker = 0;
 			return -2;
-			Block_15:
-			return num2;
 			Block_16:
 			this.mode = InflateManager.InflateManagerMode.DONE;
 			return 1;
-			Block_17:
-			return num2;
-			Block_18:
-			return num2;
-			Block_19:
-			return num2;
-			Block_20:
-			return num2;
-			IL_740:
+			IL_6E3:
 			this.mode = InflateManager.InflateManagerMode.DONE;
 			return 1;
-			IL_750:
-			return 1;
-			IL_758:
+			IL_6EF:
 			throw new ZlibException(string.Format("Bad state ({0})", this._codec.Message));
 		}
 
@@ -321,24 +299,19 @@ namespace Ionic.Zlib
 			{
 				throw new ZlibException("Stream error.");
 			}
-			int result;
 			if (Adler.Adler32(1u, dictionary, 0, dictionary.Length) != this._codec._Adler32)
 			{
-				result = -3;
+				return -3;
 			}
-			else
+			this._codec._Adler32 = Adler.Adler32(0u, null, 0, 0);
+			if (num >= 1 << this.wbits)
 			{
-				this._codec._Adler32 = Adler.Adler32(0u, null, 0, 0);
-				if (num >= 1 << this.wbits)
-				{
-					num = (1 << this.wbits) - 1;
-					start = dictionary.Length - num;
-				}
-				this.blocks.SetDictionary(dictionary, start, num);
-				this.mode = InflateManager.InflateManagerMode.BLOCKS;
-				result = 0;
+				num = (1 << this.wbits) - 1;
+				start = dictionary.Length - num;
 			}
-			return result;
+			this.blocks.SetDictionary(dictionary, start, num);
+			this.mode = InflateManager.InflateManagerMode.BLOCKS;
+			return 0;
 		}
 
 		internal int Sync()
@@ -349,52 +322,44 @@ namespace Ionic.Zlib
 				this.marker = 0;
 			}
 			int num;
-			int result;
 			if ((num = this._codec.AvailableBytesIn) == 0)
 			{
-				result = -5;
+				return -5;
 			}
-			else
+			int num2 = this._codec.NextIn;
+			int num3 = this.marker;
+			while (num != 0 && num3 < 4)
 			{
-				int num2 = this._codec.NextIn;
-				int num3 = this.marker;
-				while (num != 0 && num3 < 4)
+				if (this._codec.InputBuffer[num2] == InflateManager.mark[num3])
 				{
-					if (this._codec.InputBuffer[num2] == InflateManager.mark[num3])
-					{
-						num3++;
-					}
-					else if (this._codec.InputBuffer[num2] != 0)
-					{
-						num3 = 0;
-					}
-					else
-					{
-						num3 = 4 - num3;
-					}
-					num2++;
-					num--;
+					num3++;
 				}
-				this._codec.TotalBytesIn += (long)(num2 - this._codec.NextIn);
-				this._codec.NextIn = num2;
-				this._codec.AvailableBytesIn = num;
-				this.marker = num3;
-				if (num3 != 4)
+				else if (this._codec.InputBuffer[num2] != 0)
 				{
-					result = -3;
+					num3 = 0;
 				}
 				else
 				{
-					long totalBytesIn = this._codec.TotalBytesIn;
-					long totalBytesOut = this._codec.TotalBytesOut;
-					this.Reset();
-					this._codec.TotalBytesIn = totalBytesIn;
-					this._codec.TotalBytesOut = totalBytesOut;
-					this.mode = InflateManager.InflateManagerMode.BLOCKS;
-					result = 0;
+					num3 = 4 - num3;
 				}
+				num2++;
+				num--;
 			}
-			return result;
+			this._codec.TotalBytesIn += (long)(num2 - this._codec.NextIn);
+			this._codec.NextIn = num2;
+			this._codec.AvailableBytesIn = num;
+			this.marker = num3;
+			if (num3 != 4)
+			{
+				return -3;
+			}
+			long totalBytesIn = this._codec.TotalBytesIn;
+			long totalBytesOut = this._codec.TotalBytesOut;
+			this.Reset();
+			this._codec.TotalBytesIn = totalBytesIn;
+			this._codec.TotalBytesOut = totalBytesOut;
+			this.mode = InflateManager.InflateManagerMode.BLOCKS;
+			return 0;
 		}
 
 		internal int SyncPoint(ZlibCodec z)

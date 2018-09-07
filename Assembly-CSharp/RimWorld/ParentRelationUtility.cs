@@ -9,48 +9,38 @@ namespace RimWorld
 	{
 		public static Pawn GetFather(this Pawn pawn)
 		{
-			Pawn result;
 			if (!pawn.RaceProps.IsFlesh)
 			{
-				result = null;
+				return null;
 			}
-			else
+			List<DirectPawnRelation> directRelations = pawn.relations.DirectRelations;
+			for (int i = 0; i < directRelations.Count; i++)
 			{
-				List<DirectPawnRelation> directRelations = pawn.relations.DirectRelations;
-				for (int i = 0; i < directRelations.Count; i++)
+				DirectPawnRelation directPawnRelation = directRelations[i];
+				if (directPawnRelation.def == PawnRelationDefOf.Parent && directPawnRelation.otherPawn.gender != Gender.Female)
 				{
-					DirectPawnRelation directPawnRelation = directRelations[i];
-					if (directPawnRelation.def == PawnRelationDefOf.Parent && directPawnRelation.otherPawn.gender != Gender.Female)
-					{
-						return directPawnRelation.otherPawn;
-					}
+					return directPawnRelation.otherPawn;
 				}
-				result = null;
 			}
-			return result;
+			return null;
 		}
 
 		public static Pawn GetMother(this Pawn pawn)
 		{
-			Pawn result;
 			if (!pawn.RaceProps.IsFlesh)
 			{
-				result = null;
+				return null;
 			}
-			else
+			List<DirectPawnRelation> directRelations = pawn.relations.DirectRelations;
+			for (int i = 0; i < directRelations.Count; i++)
 			{
-				List<DirectPawnRelation> directRelations = pawn.relations.DirectRelations;
-				for (int i = 0; i < directRelations.Count; i++)
+				DirectPawnRelation directPawnRelation = directRelations[i];
+				if (directPawnRelation.def == PawnRelationDefOf.Parent && directPawnRelation.otherPawn.gender == Gender.Female)
 				{
-					DirectPawnRelation directPawnRelation = directRelations[i];
-					if (directPawnRelation.def == PawnRelationDefOf.Parent && directPawnRelation.otherPawn.gender == Gender.Female)
-					{
-						return directPawnRelation.otherPawn;
-					}
+					return directPawnRelation.otherPawn;
 				}
-				result = null;
 			}
-			return result;
+			return null;
 		}
 
 		public static void SetFather(this Pawn pawn, Pawn newFather)
@@ -67,20 +57,18 @@ namespace RimWorld
 					pawn,
 					"'s father."
 				}), false);
+				return;
 			}
-			else
+			Pawn father = pawn.GetFather();
+			if (father != newFather)
 			{
-				Pawn father = pawn.GetFather();
-				if (father != newFather)
+				if (father != null)
 				{
-					if (father != null)
-					{
-						pawn.relations.RemoveDirectRelation(PawnRelationDefOf.Parent, father);
-					}
-					if (newFather != null)
-					{
-						pawn.relations.AddDirectRelation(PawnRelationDefOf.Parent, newFather);
-					}
+					pawn.relations.RemoveDirectRelation(PawnRelationDefOf.Parent, father);
+				}
+				if (newFather != null)
+				{
+					pawn.relations.AddDirectRelation(PawnRelationDefOf.Parent, newFather);
 				}
 			}
 		}
@@ -99,20 +87,18 @@ namespace RimWorld
 					pawn,
 					"'s mother."
 				}), false);
+				return;
 			}
-			else
+			Pawn mother = pawn.GetMother();
+			if (mother != newMother)
 			{
-				Pawn mother = pawn.GetMother();
-				if (mother != newMother)
+				if (mother != null)
 				{
-					if (mother != null)
-					{
-						pawn.relations.RemoveDirectRelation(PawnRelationDefOf.Parent, mother);
-					}
-					if (newMother != null)
-					{
-						pawn.relations.AddDirectRelation(PawnRelationDefOf.Parent, newMother);
-					}
+					pawn.relations.RemoveDirectRelation(PawnRelationDefOf.Parent, mother);
+				}
+				if (newMother != null)
+				{
+					pawn.relations.AddDirectRelation(PawnRelationDefOf.Parent, newMother);
 				}
 			}
 		}

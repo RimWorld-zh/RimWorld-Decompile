@@ -306,7 +306,7 @@ namespace RimWorld
 				Autotests_ColonyMaker.DoToColonists(0.4f, delegate(Pawn col)
 				{
 					DamageDef def3 = (from d in DefDatabase<DamageDef>.AllDefs
-					where d.externalViolence
+					where d.ExternalViolenceFor(null)
 					select d).RandomElement<DamageDef>();
 					col.TakeDamage(new DamageInfo(def3, 10f, 0f, -1f, null, null, null, DamageInfo.SourceCategory.ThingOrUnknown, null));
 				});
@@ -421,23 +421,17 @@ namespace RimWorld
 		private static Thing TryMakeBuilding(ThingDef def)
 		{
 			CellRect cellRect;
-			Thing result;
 			if (!Autotests_ColonyMaker.TryGetFreeRect(def.size.x + 2, def.size.z + 2, out cellRect))
 			{
-				result = null;
+				return null;
 			}
-			else
+			foreach (IntVec3 c in cellRect)
 			{
-				foreach (IntVec3 c in cellRect)
-				{
-					Autotests_ColonyMaker.Map.terrainGrid.SetTerrain(c, TerrainDefOf.Concrete);
-				}
-				Designator_Build designator_Build = new Designator_Build(def);
-				designator_Build.DesignateSingleCell(cellRect.CenterCell);
-				Thing edifice = cellRect.CenterCell.GetEdifice(Find.CurrentMap);
-				result = edifice;
+				Autotests_ColonyMaker.Map.terrainGrid.SetTerrain(c, TerrainDefOf.Concrete);
 			}
-			return result;
+			Designator_Build designator_Build = new Designator_Build(def);
+			designator_Build.DesignateSingleCell(cellRect.CenterCell);
+			return cellRect.CenterCell.GetEdifice(Find.CurrentMap);
 		}
 
 		private static bool TryGetFreeRect(int width, int height, out CellRect result)
@@ -589,7 +583,7 @@ namespace RimWorld
 		private static void <MakeColony>m__7(Pawn col)
 		{
 			DamageDef def = (from d in DefDatabase<DamageDef>.AllDefs
-			where d.externalViolence
+			where d.ExternalViolenceFor(null)
 			select d).RandomElement<DamageDef>();
 			col.TakeDamage(new DamageInfo(def, 10f, 0f, -1f, null, null, null, DamageInfo.SourceCategory.ThingOrUnknown, null));
 		}
@@ -609,7 +603,7 @@ namespace RimWorld
 		[CompilerGenerated]
 		private static bool <MakeColony>m__A(DamageDef d)
 		{
-			return d.externalViolence;
+			return d.ExternalViolenceFor(null);
 		}
 
 		[CompilerGenerated]

@@ -9,7 +9,7 @@ namespace RimWorld
 {
 	public class Dialog_ModSettings : Window
 	{
-		private Mod selMod = null;
+		private Mod selMod;
 
 		private const float TopAreaHeight = 40f;
 

@@ -127,20 +127,15 @@ namespace RimWorld.Planet
 			float altitude = Find.WorldCameraDriver.altitude;
 			float num2 = 1f / (altitude / WorldFeatures.AlphaScale * (altitude / WorldFeatures.AlphaScale));
 			num *= num2;
-			bool result;
 			if (Find.WorldCameraDriver.CurrentZoom <= WorldCameraZoomRange.VeryClose && num >= 0.56f)
 			{
-				result = false;
+				return false;
 			}
-			else if (num < WorldFeatures.VisibleMinimumSize)
+			if (num < WorldFeatures.VisibleMinimumSize)
 			{
-				result = (Find.WorldCameraDriver.AltitudePercent <= 0.07f);
+				return Find.WorldCameraDriver.AltitudePercent <= 0.07f;
 			}
-			else
-			{
-				result = (num <= WorldFeatures.VisibleMaximumSize || Find.WorldCameraDriver.AltitudePercent >= 0.35f);
-			}
-			return result;
+			return num <= WorldFeatures.VisibleMaximumSize || Find.WorldCameraDriver.AltitudePercent >= 0.35f;
 		}
 
 		private void CreateTextsAndSetPosition()
@@ -203,25 +198,20 @@ namespace RimWorld.Planet
 		private bool HasCharacter(TMP_FontAsset font, char character)
 		{
 			string characters = TMP_FontAsset.GetCharacters(font);
-			bool result;
 			if (characters.IndexOf(character) >= 0)
 			{
-				result = true;
+				return true;
 			}
-			else
+			List<TMP_FontAsset> fallbackFontAssets = font.fallbackFontAssets;
+			for (int i = 0; i < fallbackFontAssets.Count; i++)
 			{
-				List<TMP_FontAsset> fallbackFontAssets = font.fallbackFontAssets;
-				for (int i = 0; i < fallbackFontAssets.Count; i++)
+				characters = TMP_FontAsset.GetCharacters(fallbackFontAssets[i]);
+				if (characters.IndexOf(character) >= 0)
 				{
-					characters = TMP_FontAsset.GetCharacters(fallbackFontAssets[i]);
-					if (characters.IndexOf(character) >= 0)
-					{
-						return true;
-					}
+					return true;
 				}
-				result = false;
 			}
-			return result;
+			return false;
 		}
 
 		// Note: this type is marked as 'beforefieldinit'.

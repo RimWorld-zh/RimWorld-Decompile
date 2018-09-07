@@ -29,16 +29,11 @@ namespace RimWorld
 			get
 			{
 				DifficultyDef difficulty = Find.Storyteller.difficulty;
-				float result;
 				if (difficulty.deepDrillInfestationChanceFactor <= 0f)
 				{
-					result = -1f;
+					return -1f;
 				}
-				else
-				{
-					result = this.Props.baseMtbDaysPerDrill / difficulty.deepDrillInfestationChanceFactor;
-				}
-				return result;
+				return this.Props.baseMtbDaysPerDrill / difficulty.deepDrillInfestationChanceFactor;
 			}
 		}
 
@@ -54,14 +49,11 @@ namespace RimWorld
 			float mtb = this.DeepDrillInfestationMTBDaysPerDrill;
 			for (int i = 0; i < StorytellerComp_DeepDrillInfestation.tmpDrills.Count; i++)
 			{
-				if (Rand.MTBEventOccurs(mtb, 60000f, 1000f))
+				IncidentDef def;
+				if (Rand.MTBEventOccurs(mtb, 60000f, 1000f) && base.UsableIncidentsInCategory(IncidentCategoryDefOf.DeepDrillInfestation, target).TryRandomElement(out def))
 				{
-					IncidentDef def;
-					if (base.UsableIncidentsInCategory(IncidentCategoryDefOf.DeepDrillInfestation, target).TryRandomElement(out def))
-					{
-						IncidentParms parms = this.GenerateParms(def.category, target);
-						yield return new FiringIncident(def, this, parms);
-					}
+					IncidentParms parms = this.GenerateParms(def.category, target);
+					yield return new FiringIncident(def, this, parms);
 				}
 			}
 			yield break;
@@ -116,27 +108,21 @@ namespace RimWorld
 					}
 					mtb = base.DeepDrillInfestationMTBDaysPerDrill;
 					i = 0;
-					goto IL_125;
+					break;
 				case 1u:
+					IL_110:
+					i++;
 					break;
 				default:
 					return false;
 				}
-				IL_115:
-				IL_116:
-				i++;
-				IL_125:
 				if (i >= StorytellerComp_DeepDrillInfestation.tmpDrills.Count)
 				{
 					this.$PC = -1;
 				}
 				else
 				{
-					if (!Rand.MTBEventOccurs(mtb, 60000f, 1000f))
-					{
-						goto IL_116;
-					}
-					if (base.UsableIncidentsInCategory(IncidentCategoryDefOf.DeepDrillInfestation, target).TryRandomElement(out def))
+					if (Rand.MTBEventOccurs(mtb, 60000f, 1000f) && base.UsableIncidentsInCategory(IncidentCategoryDefOf.DeepDrillInfestation, target).TryRandomElement(out def))
 					{
 						parms = this.GenerateParms(def.category, target);
 						this.$current = new FiringIncident(def, this, parms);
@@ -146,7 +132,7 @@ namespace RimWorld
 						}
 						return true;
 					}
-					goto IL_115;
+					goto IL_110;
 				}
 				return false;
 			}

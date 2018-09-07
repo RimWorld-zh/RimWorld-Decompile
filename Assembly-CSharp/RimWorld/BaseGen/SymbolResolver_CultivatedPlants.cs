@@ -26,71 +26,64 @@ namespace RimWorld.BaseGen
 		{
 			Map map = BaseGen.globalSettings.map;
 			ThingDef thingDef = rp.cultivatedPlantDef ?? SymbolResolver_CultivatedPlants.DeterminePlantDef(rp.rect);
-			if (thingDef != null)
+			if (thingDef == null)
 			{
-				float growth = Rand.Range(0.2f, 1f);
-				int age = (!thingDef.plant.LimitedLifespan) ? 0 : Rand.Range(0, Mathf.Max(thingDef.plant.LifespanTicks - 2500, 0));
-				CellRect.CellRectIterator iterator = rp.rect.GetIterator();
-				while (!iterator.Done())
+				return;
+			}
+			float growth = Rand.Range(0.2f, 1f);
+			int age = (!thingDef.plant.LimitedLifespan) ? 0 : Rand.Range(0, Mathf.Max(thingDef.plant.LifespanTicks - 2500, 0));
+			CellRect.CellRectIterator iterator = rp.rect.GetIterator();
+			while (!iterator.Done())
+			{
+				float num = map.fertilityGrid.FertilityAt(iterator.Current);
+				if (num >= thingDef.plant.fertilityMin)
 				{
-					float num = map.fertilityGrid.FertilityAt(iterator.Current);
-					if (num >= thingDef.plant.fertilityMin)
+					if (this.TryDestroyBlockingThingsAt(iterator.Current))
 					{
-						if (this.TryDestroyBlockingThingsAt(iterator.Current))
+						Plant plant = (Plant)GenSpawn.Spawn(thingDef, iterator.Current, map, WipeMode.Vanish);
+						plant.Growth = growth;
+						if (plant.def.plant.LimitedLifespan)
 						{
-							Plant plant = (Plant)GenSpawn.Spawn(thingDef, iterator.Current, map, WipeMode.Vanish);
-							plant.Growth = growth;
-							if (plant.def.plant.LimitedLifespan)
-							{
-								plant.Age = age;
-							}
+							plant.Age = age;
 						}
 					}
-					iterator.MoveNext();
 				}
+				iterator.MoveNext();
 			}
 		}
 
 		public static ThingDef DeterminePlantDef(CellRect rect)
 		{
 			Map map = BaseGen.globalSettings.map;
-			ThingDef result;
 			if (map.mapTemperature.OutdoorTemp < 0f || map.mapTemperature.OutdoorTemp > 58f)
 			{
-				result = null;
+				return null;
 			}
-			else
+			float minFertility = float.MaxValue;
+			bool flag = false;
+			CellRect.CellRectIterator iterator = rect.GetIterator();
+			while (!iterator.Done())
 			{
-				float minFertility = float.MaxValue;
-				bool flag = false;
-				CellRect.CellRectIterator iterator = rect.GetIterator();
-				while (!iterator.Done())
+				float num = map.fertilityGrid.FertilityAt(iterator.Current);
+				if (num > 0f)
 				{
-					float num = map.fertilityGrid.FertilityAt(iterator.Current);
-					if (num > 0f)
-					{
-						flag = true;
-						minFertility = Mathf.Min(minFertility, num);
-					}
-					iterator.MoveNext();
+					flag = true;
+					minFertility = Mathf.Min(minFertility, num);
 				}
-				ThingDef thingDef;
-				if (!flag)
-				{
-					result = null;
-				}
-				else if ((from x in DefDatabase<ThingDef>.AllDefsListForReading
-				where x.category == ThingCategory.Plant && x.plant.Sowable && !x.plant.IsTree && !x.plant.cavePlant && x.plant.fertilityMin <= minFertility && x.plant.Harvestable
-				select x).TryRandomElement(out thingDef))
-				{
-					result = thingDef;
-				}
-				else
-				{
-					result = null;
-				}
+				iterator.MoveNext();
 			}
-			return result;
+			if (!flag)
+			{
+				return null;
+			}
+			ThingDef result;
+			if ((from x in DefDatabase<ThingDef>.AllDefsListForReading
+			where x.category == ThingCategory.Plant && x.plant.Sowable && !x.plant.IsTree && !x.plant.cavePlant && x.plant.fertilityMin <= minFertility && x.plant.Harvestable
+			select x).TryRandomElement(out result))
+			{
+				return result;
+			}
+			return null;
 		}
 
 		private bool TryDestroyBlockingThingsAt(IntVec3 c)

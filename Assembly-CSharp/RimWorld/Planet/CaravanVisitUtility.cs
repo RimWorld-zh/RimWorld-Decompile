@@ -14,25 +14,20 @@ namespace RimWorld.Planet
 
 		public static SettlementBase SettlementVisitedNow(Caravan caravan)
 		{
-			SettlementBase result;
 			if (!caravan.Spawned || caravan.pather.Moving)
 			{
-				result = null;
+				return null;
 			}
-			else
+			List<SettlementBase> settlementBases = Find.WorldObjects.SettlementBases;
+			for (int i = 0; i < settlementBases.Count; i++)
 			{
-				List<SettlementBase> settlementBases = Find.WorldObjects.SettlementBases;
-				for (int i = 0; i < settlementBases.Count; i++)
+				SettlementBase settlementBase = settlementBases[i];
+				if (settlementBase.Tile == caravan.Tile && settlementBase.Faction != caravan.Faction && settlementBase.Visitable)
 				{
-					SettlementBase settlementBase = settlementBases[i];
-					if (settlementBase.Tile == caravan.Tile && settlementBase.Faction != caravan.Faction && settlementBase.Visitable)
-					{
-						return settlementBase;
-					}
+					return settlementBase;
 				}
-				result = null;
 			}
-			return result;
+			return null;
 		}
 
 		public static Command TradeCommand(Caravan caravan)

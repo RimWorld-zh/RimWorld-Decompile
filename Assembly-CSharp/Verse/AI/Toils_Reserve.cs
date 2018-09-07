@@ -11,7 +11,7 @@ namespace Verse.AI
 			Toil toil = new Toil();
 			toil.initAction = delegate()
 			{
-				if (!toil.actor.Reserve(toil.actor.jobs.curJob.GetTarget(ind), toil.actor.CurJob, maxPawns, stackCount, layer))
+				if (!toil.actor.Reserve(toil.actor.jobs.curJob.GetTarget(ind), toil.actor.CurJob, maxPawns, stackCount, layer, true))
 				{
 					toil.actor.jobs.EndCurrentJob(JobCondition.Incompletable, true);
 				}
@@ -31,7 +31,7 @@ namespace Verse.AI
 				{
 					for (int i = 0; i < targetQueue.Count; i++)
 					{
-						if (!toil.actor.Reserve(targetQueue[i], toil.actor.CurJob, maxPawns, stackCount, layer))
+						if (!toil.actor.Reserve(targetQueue[i], toil.actor.CurJob, maxPawns, stackCount, layer, true))
 						{
 							toil.actor.jobs.EndCurrentJob(JobCondition.Incompletable, true);
 						}
@@ -74,7 +74,7 @@ namespace Verse.AI
 
 			internal void <>m__0()
 			{
-				if (!this.toil.actor.Reserve(this.toil.actor.jobs.curJob.GetTarget(this.ind), this.toil.actor.CurJob, this.maxPawns, this.stackCount, this.layer))
+				if (!this.toil.actor.Reserve(this.toil.actor.jobs.curJob.GetTarget(this.ind), this.toil.actor.CurJob, this.maxPawns, this.stackCount, this.layer, true))
 				{
 					this.toil.actor.jobs.EndCurrentJob(JobCondition.Incompletable, true);
 				}
@@ -105,7 +105,7 @@ namespace Verse.AI
 				{
 					for (int i = 0; i < targetQueue.Count; i++)
 					{
-						if (!this.toil.actor.Reserve(targetQueue[i], this.toil.actor.CurJob, this.maxPawns, this.stackCount, this.layer))
+						if (!this.toil.actor.Reserve(targetQueue[i], this.toil.actor.CurJob, this.maxPawns, this.stackCount, this.layer, true))
 						{
 							this.toil.actor.jobs.EndCurrentJob(JobCondition.Incompletable, true);
 						}

@@ -1,10 +1,15 @@
 ﻿using System;
+using UnityEngine;
 using Verse;
 
 namespace RimWorld
 {
 	public sealed class DifficultyDef : Def
 	{
+		public Color drawColor = Color.white;
+
+		public bool isExtreme;
+
 		public int difficulty = -1;
 
 		public float threatScale = 1f;
@@ -15,13 +20,13 @@ namespace RimWorld
 
 		public bool allowCaveHives = true;
 
-		public bool peacefulTemples = false;
+		public bool peacefulTemples;
 
 		public bool predatorsHuntHumanlikes = true;
 
-		public float colonistMoodOffset = 0f;
+		public float colonistMoodOffset;
 
-		public float tradePriceFactorLoss = 0f;
+		public float tradePriceFactorLoss;
 
 		public float cropYieldFactor = 1f;
 
@@ -41,13 +46,15 @@ namespace RimWorld
 
 		public float foodPoisonChanceFactor = 1f;
 
-		public float raidBeaconThreatMtbFactor = 1f;
+		public float raidBeaconThreatCountFactor = 1f;
 
 		public float maintenanceCostFactor = 1f;
 
 		public float enemyDeathOnDownedChanceFactor = 1f;
 
 		public float adaptationGrowthRateFactorOverZero = 1f;
+
+		public float adaptationEffectFactor = 1f;
 
 		public DifficultyDef()
 		{

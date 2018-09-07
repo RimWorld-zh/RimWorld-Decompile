@@ -52,71 +52,66 @@ namespace RimWorld
 				{
 					Log.Error("Cannot generate trader caravan for " + parms.faction + ".", false);
 				}
+				return;
 			}
-			else if (!parms.faction.def.caravanTraderKinds.Any<TraderKindDef>())
+			if (!parms.faction.def.caravanTraderKinds.Any<TraderKindDef>())
 			{
 				Log.Error("Cannot generate trader caravan for " + parms.faction + " because it has no trader kinds.", false);
+				return;
+			}
+			PawnGenOption pawnGenOption = groupMaker.traders.FirstOrDefault((PawnGenOption x) => !x.kind.trader);
+			if (pawnGenOption != null)
+			{
+				Log.Error(string.Concat(new object[]
+				{
+					"Cannot generate arriving trader caravan for ",
+					parms.faction,
+					" because there is a pawn kind (",
+					pawnGenOption.kind.LabelCap,
+					") who is not a trader but is in a traders list."
+				}), false);
+				return;
+			}
+			PawnGenOption pawnGenOption2 = groupMaker.carriers.FirstOrDefault((PawnGenOption x) => !x.kind.RaceProps.packAnimal);
+			if (pawnGenOption2 != null)
+			{
+				Log.Error(string.Concat(new object[]
+				{
+					"Cannot generate arriving trader caravan for ",
+					parms.faction,
+					" because there is a pawn kind (",
+					pawnGenOption2.kind.LabelCap,
+					") who is not a carrier but is in a carriers list."
+				}), false);
+				return;
+			}
+			if (parms.seed != null)
+			{
+				Log.Warning("Deterministic seed not implemented for this pawn group kind worker. The result will be random anyway.", false);
+			}
+			TraderKindDef traderKindDef;
+			if (parms.traderKind != null)
+			{
+				traderKindDef = parms.traderKind;
 			}
 			else
 			{
-				PawnGenOption pawnGenOption = groupMaker.traders.FirstOrDefault((PawnGenOption x) => !x.kind.trader);
-				if (pawnGenOption != null)
-				{
-					Log.Error(string.Concat(new object[]
-					{
-						"Cannot generate arriving trader caravan for ",
-						parms.faction,
-						" because there is a pawn kind (",
-						pawnGenOption.kind.LabelCap,
-						") who is not a trader but is in a traders list."
-					}), false);
-				}
-				else
-				{
-					PawnGenOption pawnGenOption2 = groupMaker.carriers.FirstOrDefault((PawnGenOption x) => !x.kind.RaceProps.packAnimal);
-					if (pawnGenOption2 != null)
-					{
-						Log.Error(string.Concat(new object[]
-						{
-							"Cannot generate arriving trader caravan for ",
-							parms.faction,
-							" because there is a pawn kind (",
-							pawnGenOption2.kind.LabelCap,
-							") who is not a carrier but is in a carriers list."
-						}), false);
-					}
-					else
-					{
-						if (parms.seed != null)
-						{
-							Log.Warning("Deterministic seed not implemented for this pawn group kind worker. The result will be random anyway.", false);
-						}
-						TraderKindDef traderKindDef;
-						if (parms.traderKind != null)
-						{
-							traderKindDef = parms.traderKind;
-						}
-						else
-						{
-							traderKindDef = parms.faction.def.caravanTraderKinds.RandomElementByWeight((TraderKindDef traderDef) => traderDef.CalculatedCommonality);
-						}
-						TraderKindDef traderKindDef2 = traderKindDef;
-						Pawn pawn = this.GenerateTrader(parms, groupMaker, traderKindDef2);
-						outPawns.Add(pawn);
-						ThingSetMakerParams parms2 = default(ThingSetMakerParams);
-						parms2.traderDef = traderKindDef2;
-						parms2.tile = new int?(parms.tile);
-						parms2.traderFaction = parms.faction;
-						List<Thing> wares = ThingSetMakerDefOf.TraderStock.root.Generate(parms2).InRandomOrder(null).ToList<Thing>();
-						foreach (Pawn item in this.GetSlavesAndAnimalsFromWares(parms, pawn, wares))
-						{
-							outPawns.Add(item);
-						}
-						this.GenerateCarriers(parms, groupMaker, pawn, wares, outPawns);
-						this.GenerateGuards(parms, groupMaker, pawn, wares, outPawns);
-					}
-				}
+				traderKindDef = parms.faction.def.caravanTraderKinds.RandomElementByWeight((TraderKindDef traderDef) => traderDef.CalculatedCommonality);
 			}
+			TraderKindDef traderKindDef2 = traderKindDef;
+			Pawn pawn = this.GenerateTrader(parms, groupMaker, traderKindDef2);
+			outPawns.Add(pawn);
+			ThingSetMakerParams parms2 = default(ThingSetMakerParams);
+			parms2.traderDef = traderKindDef2;
+			parms2.tile = new int?(parms.tile);
+			parms2.traderFaction = parms.faction;
+			List<Thing> wares = ThingSetMakerDefOf.TraderStock.root.Generate(parms2).InRandomOrder(null).ToList<Thing>();
+			foreach (Pawn item in this.GetSlavesAndAnimalsFromWares(parms, pawn, wares))
+			{
+				outPawns.Add(item);
+			}
+			this.GenerateCarriers(parms, groupMaker, pawn, wares, outPawns);
+			this.GenerateGuards(parms, groupMaker, pawn, wares, outPawns);
 		}
 
 		private Pawn GenerateTrader(PawnGroupMakerParms parms, PawnGroupMaker groupMaker, TraderKindDef traderKind)
@@ -185,19 +180,20 @@ namespace RimWorld
 
 		private void GenerateGuards(PawnGroupMakerParms parms, PawnGroupMaker groupMaker, Pawn trader, List<Thing> wares, List<Pawn> outPawns)
 		{
-			if (groupMaker.guards.Any<PawnGenOption>())
+			if (!groupMaker.guards.Any<PawnGenOption>())
 			{
-				float points = parms.points;
-				foreach (PawnGenOption pawnGenOption in PawnGroupMakerUtility.ChoosePawnGenOptionsByPoints(points, groupMaker.guards, parms))
-				{
-					PawnKindDef kind = pawnGenOption.kind;
-					Faction faction = parms.faction;
-					int tile = parms.tile;
-					bool inhabitants = parms.inhabitants;
-					PawnGenerationRequest request = new PawnGenerationRequest(kind, faction, PawnGenerationContext.NonPlayer, tile, false, false, false, false, true, true, 1f, false, true, true, inhabitants, false, false, false, null, null, null, null, null, null, null, null);
-					Pawn item = PawnGenerator.GeneratePawn(request);
-					outPawns.Add(item);
-				}
+				return;
+			}
+			float points = parms.points;
+			foreach (PawnGenOption pawnGenOption in PawnGroupMakerUtility.ChoosePawnGenOptionsByPoints(points, groupMaker.guards, parms))
+			{
+				PawnKindDef kind = pawnGenOption.kind;
+				Faction faction = parms.faction;
+				int tile = parms.tile;
+				bool inhabitants = parms.inhabitants;
+				PawnGenerationRequest request = new PawnGenerationRequest(kind, faction, PawnGenerationContext.NonPlayer, tile, false, false, false, false, true, true, 1f, false, true, true, inhabitants, false, false, false, null, null, null, null, null, null, null, null);
+				Pawn item = PawnGenerator.GeneratePawn(request);
+				outPawns.Add(item);
 			}
 		}
 
@@ -302,15 +298,14 @@ namespace RimWorld
 				{
 				case 0u:
 					i = 0;
-					goto IL_BC;
+					break;
 				case 1u:
+					IL_AB:
+					i++;
 					break;
 				default:
 					return false;
 				}
-				IL_AE:
-				i++;
-				IL_BC:
 				if (i >= wares.Count)
 				{
 					this.$PC = -1;
@@ -320,7 +315,7 @@ namespace RimWorld
 					p = (wares[i] as Pawn);
 					if (p == null)
 					{
-						goto IL_AE;
+						goto IL_AB;
 					}
 					if (p.Faction != parms.faction)
 					{

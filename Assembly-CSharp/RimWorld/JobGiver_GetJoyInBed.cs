@@ -1,5 +1,4 @@
 ﻿using System;
-using UnityEngine.Profiling;
 using Verse;
 using Verse.AI;
 
@@ -33,27 +32,16 @@ namespace RimWorld
 
 		protected override Job TryGiveJob(Pawn pawn)
 		{
-			Job result;
 			if (pawn.CurJob == null || !pawn.InBed() || !pawn.Awake() || pawn.needs.joy == null)
 			{
-				result = null;
+				return null;
 			}
-			else
+			float curLevel = pawn.needs.joy.CurLevel;
+			if (curLevel > 0.5f)
 			{
-				float curLevel = pawn.needs.joy.CurLevel;
-				if (curLevel > 0.5f)
-				{
-					result = null;
-				}
-				else
-				{
-					Profiler.BeginSample("GetFunWhileInBed");
-					Job job = base.TryGiveJob(pawn);
-					Profiler.EndSample();
-					result = job;
-				}
+				return null;
 			}
-			return result;
+			return base.TryGiveJob(pawn);
 		}
 	}
 }

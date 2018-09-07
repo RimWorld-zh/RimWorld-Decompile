@@ -94,9 +94,9 @@ namespace Verse
 				{
 					components[i].MapRemoved();
 				}
-				catch (Exception ex)
+				catch (Exception arg)
 				{
-					Log.Error(ex.ToString(), false);
+					Log.Error("Could not notify map component: " + arg, false);
 				}
 			}
 		}

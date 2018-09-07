@@ -73,27 +73,19 @@ namespace RimWorld
 		private bool ShouldDrawPropsBelow(IntVec3 c, TerrainGrid terrGrid)
 		{
 			TerrainDef terrainDef = terrGrid.TerrainAt(c);
-			bool result;
 			if (terrainDef == null || terrainDef != TerrainDefOf.Bridge)
 			{
-				result = false;
+				return false;
 			}
-			else
+			IntVec3 c2 = c;
+			c2.z--;
+			Map map = base.Map;
+			if (!c2.InBounds(map))
 			{
-				IntVec3 c2 = c;
-				c2.z--;
-				Map map = base.Map;
-				if (!c2.InBounds(map))
-				{
-					result = false;
-				}
-				else
-				{
-					TerrainDef terrainDef2 = terrGrid.TerrainAt(c2);
-					result = (terrainDef2 != TerrainDefOf.Bridge && (terrainDef2.passability == Traversability.Impassable || c2.SupportsStructureType(map, TerrainDefOf.Bridge.terrainAffordanceNeeded)));
-				}
+				return false;
 			}
-			return result;
+			TerrainDef terrainDef2 = terrGrid.TerrainAt(c2);
+			return terrainDef2 != TerrainDefOf.Bridge && (terrainDef2.passability == Traversability.Impassable || c2.SupportsStructureType(map, TerrainDefOf.Bridge.terrainAffordanceNeeded));
 		}
 
 		// Note: this type is marked as 'beforefieldinit'.

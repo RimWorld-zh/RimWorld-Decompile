@@ -21,20 +21,15 @@ namespace RimWorld
 
 		public static bool InBedOrRestSpotNow(Pawn pawn, LocalTargetInfo bedOrRestSpot)
 		{
-			bool result;
 			if (!bedOrRestSpot.IsValid || !pawn.Spawned)
 			{
-				result = false;
+				return false;
 			}
-			else if (bedOrRestSpot.HasThing)
+			if (bedOrRestSpot.HasThing)
 			{
-				result = (bedOrRestSpot.Thing.Map == pawn.Map && RestUtility.GetBedSleepingSlotPosFor(pawn, (Building_Bed)bedOrRestSpot.Thing) == pawn.Position);
+				return bedOrRestSpot.Thing.Map == pawn.Map && RestUtility.GetBedSleepingSlotPosFor(pawn, (Building_Bed)bedOrRestSpot.Thing) == pawn.Position;
 			}
-			else
-			{
-				result = (bedOrRestSpot.Cell == pawn.Position);
-			}
-			return result;
+			return bedOrRestSpot.Cell == pawn.Position;
 		}
 
 		[CompilerGenerated]

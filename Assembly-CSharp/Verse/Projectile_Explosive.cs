@@ -4,7 +4,7 @@ namespace Verse
 {
 	public class Projectile_Explosive : Projectile
 	{
-		private int ticksToDetonation = 0;
+		private int ticksToDetonation;
 
 		public Projectile_Explosive()
 		{
@@ -34,13 +34,11 @@ namespace Verse
 			if (this.def.projectile.explosionDelay == 0)
 			{
 				this.Explode();
+				return;
 			}
-			else
-			{
-				this.landed = true;
-				this.ticksToDetonation = this.def.projectile.explosionDelay;
-				GenExplosion.NotifyNearbyPawnsOfDangerousExplosive(this, this.def.projectile.damageDef, this.launcher.Faction);
-			}
+			this.landed = true;
+			this.ticksToDetonation = this.def.projectile.explosionDelay;
+			GenExplosion.NotifyNearbyPawnsOfDangerousExplosive(this, this.def.projectile.damageDef, this.launcher.Faction);
 		}
 
 		protected virtual void Explode()

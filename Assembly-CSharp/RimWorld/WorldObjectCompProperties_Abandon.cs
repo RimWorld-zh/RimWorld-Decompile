@@ -17,7 +17,7 @@ namespace RimWorld
 
 		public override IEnumerable<string> ConfigErrors(WorldObjectDef parentDef)
 		{
-			foreach (string e in this.<ConfigErrors>__BaseCallProxy0(parentDef))
+			foreach (string e in base.ConfigErrors(parentDef))
 			{
 				yield return e;
 			}
@@ -71,7 +71,7 @@ namespace RimWorld
 				case 1u:
 					break;
 				case 2u:
-					goto IL_10C;
+					goto IL_108;
 				default:
 					return false;
 				}
@@ -104,7 +104,7 @@ namespace RimWorld
 				}
 				if (typeof(MapParent).IsAssignableFrom(parentDef.worldObjectClass))
 				{
-					goto IL_10C;
+					goto IL_108;
 				}
 				this.$current = parentDef.defName + " has WorldObjectCompProperties_Abandon but it's not MapParent.";
 				if (!this.$disposing)
@@ -112,7 +112,7 @@ namespace RimWorld
 					this.$PC = 2;
 				}
 				return true;
-				IL_10C:
+				IL_108:
 				this.$PC = -1;
 				return false;
 			}

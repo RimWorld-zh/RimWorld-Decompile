@@ -20,85 +20,60 @@ namespace RimWorld
 
 		public override Job JobOnThing(Pawn pawn, Thing t, bool forced = false)
 		{
-			Job result;
 			if (t.Faction != pawn.Faction)
 			{
-				result = null;
+				return null;
 			}
-			else
+			Blueprint blueprint = t as Blueprint;
+			if (blueprint == null)
 			{
-				Blueprint blueprint = t as Blueprint;
-				if (blueprint == null)
-				{
-					result = null;
-				}
-				else if (GenConstruct.FirstBlockingThing(blueprint, pawn) != null)
-				{
-					result = GenConstruct.HandleBlockingThingJob(blueprint, pawn, forced);
-				}
-				else
-				{
-					bool flag = this.def.workType == WorkTypeDefOf.Construction;
-					if (!GenConstruct.CanConstruct(blueprint, pawn, flag, forced))
-					{
-						result = null;
-					}
-					else if (!flag && WorkGiver_ConstructDeliverResources.ShouldRemoveExistingFloorFirst(pawn, blueprint))
-					{
-						result = null;
-					}
-					else
-					{
-						Job job = base.RemoveExistingFloorJob(pawn, blueprint);
-						if (job != null)
-						{
-							result = job;
-						}
-						else
-						{
-							Job job2 = base.ResourceDeliverJobFor(pawn, blueprint, true);
-							if (job2 != null)
-							{
-								result = job2;
-							}
-							else
-							{
-								Job job3 = this.NoCostFrameMakeJobFor(pawn, blueprint);
-								if (job3 != null)
-								{
-									result = job3;
-								}
-								else
-								{
-									result = null;
-								}
-							}
-						}
-					}
-				}
+				return null;
 			}
-			return result;
+			if (GenConstruct.FirstBlockingThing(blueprint, pawn) != null)
+			{
+				return GenConstruct.HandleBlockingThingJob(blueprint, pawn, forced);
+			}
+			bool flag = this.def.workType == WorkTypeDefOf.Construction;
+			if (!GenConstruct.CanConstruct(blueprint, pawn, flag, forced))
+			{
+				return null;
+			}
+			if (!flag && WorkGiver_ConstructDeliverResources.ShouldRemoveExistingFloorFirst(pawn, blueprint))
+			{
+				return null;
+			}
+			Job job = base.RemoveExistingFloorJob(pawn, blueprint);
+			if (job != null)
+			{
+				return job;
+			}
+			Job job2 = base.ResourceDeliverJobFor(pawn, blueprint, true);
+			if (job2 != null)
+			{
+				return job2;
+			}
+			Job job3 = this.NoCostFrameMakeJobFor(pawn, blueprint);
+			if (job3 != null)
+			{
+				return job3;
+			}
+			return null;
 		}
 
 		private Job NoCostFrameMakeJobFor(Pawn pawn, IConstructible c)
 		{
-			Job result;
 			if (c is Blueprint_Install)
 			{
-				result = null;
+				return null;
 			}
-			else if (c is Blueprint && c.MaterialsNeeded().Count == 0)
+			if (c is Blueprint && c.MaterialsNeeded().Count == 0)
 			{
-				result = new Job(JobDefOf.PlaceNoCostFrame)
+				return new Job(JobDefOf.PlaceNoCostFrame)
 				{
 					targetA = (Thing)c
 				};
 			}
-			else
-			{
-				result = null;
-			}
-			return result;
+			return null;
 		}
 	}
 }

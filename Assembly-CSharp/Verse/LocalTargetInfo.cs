@@ -66,16 +66,11 @@ namespace Verse
 		{
 			get
 			{
-				IntVec3 positionHeld;
 				if (this.thingInt != null)
 				{
-					positionHeld = this.thingInt.PositionHeld;
+					return this.thingInt.PositionHeld;
 				}
-				else
-				{
-					positionHeld = this.cellInt;
-				}
-				return positionHeld;
+				return this.cellInt;
 			}
 		}
 
@@ -83,31 +78,26 @@ namespace Verse
 		{
 			get
 			{
-				Vector3 result;
 				if (this.thingInt != null)
 				{
 					if (this.thingInt.Spawned)
 					{
-						result = this.thingInt.DrawPos;
+						return this.thingInt.DrawPos;
 					}
-					else if (this.thingInt.SpawnedOrAnyParentSpawned)
+					if (this.thingInt.SpawnedOrAnyParentSpawned)
 					{
-						result = this.thingInt.PositionHeld.ToVector3Shifted();
+						return this.thingInt.PositionHeld.ToVector3Shifted();
 					}
-					else
-					{
-						result = this.thingInt.Position.ToVector3Shifted();
-					}
-				}
-				else if (this.cellInt.IsValid)
-				{
-					result = this.cellInt.ToVector3Shifted();
+					return this.thingInt.Position.ToVector3Shifted();
 				}
 				else
 				{
-					result = default(Vector3);
+					if (this.cellInt.IsValid)
+					{
+						return this.cellInt.ToVector3Shifted();
+					}
+					return default(Vector3);
 				}
-				return result;
 			}
 		}
 
@@ -141,52 +131,37 @@ namespace Verse
 
 		public TargetInfo ToTargetInfo(Map map)
 		{
-			TargetInfo result;
 			if (!this.IsValid)
 			{
-				result = TargetInfo.Invalid;
+				return TargetInfo.Invalid;
 			}
-			else if (this.Thing != null)
+			if (this.Thing != null)
 			{
-				result = new TargetInfo(this.Thing);
+				return new TargetInfo(this.Thing);
 			}
-			else
-			{
-				result = new TargetInfo(this.Cell, map, false);
-			}
-			return result;
+			return new TargetInfo(this.Cell, map, false);
 		}
 
 		public GlobalTargetInfo ToGlobalTargetInfo(Map map)
 		{
-			GlobalTargetInfo result;
 			if (!this.IsValid)
 			{
-				result = GlobalTargetInfo.Invalid;
+				return GlobalTargetInfo.Invalid;
 			}
-			else if (this.Thing != null)
+			if (this.Thing != null)
 			{
-				result = new GlobalTargetInfo(this.Thing);
+				return new GlobalTargetInfo(this.Thing);
 			}
-			else
-			{
-				result = new GlobalTargetInfo(this.Cell, map, false);
-			}
-			return result;
+			return new GlobalTargetInfo(this.Cell, map, false);
 		}
 
 		public static bool operator ==(LocalTargetInfo a, LocalTargetInfo b)
 		{
-			bool result;
 			if (a.Thing != null || b.Thing != null)
 			{
-				result = (a.Thing == b.Thing);
+				return a.Thing == b.Thing;
 			}
-			else
-			{
-				result = ((!a.cellInt.IsValid && !b.cellInt.IsValid) || a.cellInt == b.cellInt);
-			}
-			return result;
+			return (!a.cellInt.IsValid && !b.cellInt.IsValid) || a.cellInt == b.cellInt;
 		}
 
 		public static bool operator !=(LocalTargetInfo a, LocalTargetInfo b)
@@ -206,34 +181,24 @@ namespace Verse
 
 		public override int GetHashCode()
 		{
-			int hashCode;
 			if (this.thingInt != null)
 			{
-				hashCode = this.thingInt.GetHashCode();
+				return this.thingInt.GetHashCode();
 			}
-			else
-			{
-				hashCode = this.cellInt.GetHashCode();
-			}
-			return hashCode;
+			return this.cellInt.GetHashCode();
 		}
 
 		public override string ToString()
 		{
-			string result;
 			if (this.Thing != null)
 			{
-				result = this.Thing.GetUniqueLoadID();
+				return this.Thing.GetUniqueLoadID();
 			}
-			else if (this.Cell.IsValid)
+			if (this.Cell.IsValid)
 			{
-				result = this.Cell.ToString();
+				return this.Cell.ToString();
 			}
-			else
-			{
-				result = "null";
-			}
-			return result;
+			return "null";
 		}
 	}
 }

@@ -38,16 +38,11 @@ namespace RimWorld
 
 		public override string GetLabel()
 		{
-			string result;
 			if (this.ColonistsNeedingRescue.Count<Pawn>() == 1)
 			{
-				result = "ColonistNeedsRescue".Translate();
+				return "ColonistNeedsRescue".Translate();
 			}
-			else
-			{
-				result = "ColonistsNeedRescue".Translate();
-			}
-			return result;
+			return "ColonistsNeedRescue".Translate();
 		}
 
 		public override string GetExplanation()
@@ -103,11 +98,8 @@ namespace RimWorld
 				{
 					switch (num)
 					{
-					case 1u:
-						IL_8D:
-						break;
 					}
-					if (enumerator.MoveNext())
+					while (enumerator.MoveNext())
 					{
 						p = enumerator.Current;
 						if (Alert_ColonistNeedsRescuing.NeedsRescue(p))
@@ -120,7 +112,6 @@ namespace RimWorld
 							flag = true;
 							return true;
 						}
-						goto IL_8D;
 					}
 				}
 				finally

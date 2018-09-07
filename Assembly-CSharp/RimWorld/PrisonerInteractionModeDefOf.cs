@@ -7,9 +7,9 @@ namespace RimWorld
 	{
 		public static PrisonerInteractionModeDef NoInteraction;
 
-		public static PrisonerInteractionModeDef Chat;
-
 		public static PrisonerInteractionModeDef AttemptRecruit;
+
+		public static PrisonerInteractionModeDef ReduceResistance;
 
 		public static PrisonerInteractionModeDef Release;
 

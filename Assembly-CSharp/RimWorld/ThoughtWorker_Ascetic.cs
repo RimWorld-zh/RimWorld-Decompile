@@ -11,32 +11,21 @@ namespace RimWorld
 
 		protected override ThoughtState CurrentStateInternal(Pawn p)
 		{
-			ThoughtState result;
 			if (!p.IsColonist)
 			{
-				result = false;
+				return false;
 			}
-			else
+			Room ownedRoom = p.ownership.OwnedRoom;
+			if (ownedRoom == null)
 			{
-				Room ownedRoom = p.ownership.OwnedRoom;
-				if (ownedRoom == null)
-				{
-					result = false;
-				}
-				else
-				{
-					int scoreStageIndex = RoomStatDefOf.Impressiveness.GetScoreStageIndex(ownedRoom.GetStat(RoomStatDefOf.Impressiveness));
-					if (this.def.stages[scoreStageIndex] != null)
-					{
-						result = ThoughtState.ActiveAtStage(scoreStageIndex);
-					}
-					else
-					{
-						result = ThoughtState.Inactive;
-					}
-				}
+				return false;
 			}
-			return result;
+			int scoreStageIndex = RoomStatDefOf.Impressiveness.GetScoreStageIndex(ownedRoom.GetStat(RoomStatDefOf.Impressiveness));
+			if (this.def.stages[scoreStageIndex] != null)
+			{
+				return ThoughtState.ActiveAtStage(scoreStageIndex);
+			}
+			return ThoughtState.Inactive;
 		}
 	}
 }

@@ -88,42 +88,32 @@ namespace RimWorld
 		public override bool TryMerge(ScenPart other)
 		{
 			ScenPart_ForcedHediff scenPart_ForcedHediff = other as ScenPart_ForcedHediff;
-			bool result;
 			if (scenPart_ForcedHediff != null && this.hediff == scenPart_ForcedHediff.hediff)
 			{
 				this.chance = GenMath.ChanceEitherHappens(this.chance, scenPart_ForcedHediff.chance);
-				result = true;
+				return true;
 			}
-			else
-			{
-				result = false;
-			}
-			return result;
+			return false;
 		}
 
 		public override bool AllowPlayerStartingPawn(Pawn pawn, bool tryingToRedress, PawnGenerationRequest req)
 		{
-			bool result;
 			if (!base.AllowPlayerStartingPawn(pawn, tryingToRedress, req))
 			{
-				result = false;
+				return false;
 			}
-			else
+			if (this.hideOffMap)
 			{
-				if (this.hideOffMap)
+				if (!req.AllowDead && pawn.health.WouldDieAfterAddingHediff(this.hediff, null, this.severityRange.max))
 				{
-					if (!req.AllowDead && pawn.health.WouldDieAfterAddingHediff(this.hediff, null, this.severityRange.max))
-					{
-						return false;
-					}
-					if (!req.AllowDowned && pawn.health.WouldBeDownedAfterAddingHediff(this.hediff, null, this.severityRange.max))
-					{
-						return false;
-					}
+					return false;
 				}
-				result = true;
+				if (!req.AllowDowned && pawn.health.WouldBeDownedAfterAddingHediff(this.hediff, null, this.severityRange.max))
+				{
+					return false;
+				}
 			}
-			return result;
+			return true;
 		}
 
 		protected override void ModifyNewPawn(Pawn p)

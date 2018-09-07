@@ -9,17 +9,12 @@ namespace Verse
 
 		public static T Get()
 		{
-			T result;
 			if (FullPool<T>.freeItems.Count == 0)
 			{
-				result = Activator.CreateInstance<T>();
+				return Activator.CreateInstance<T>();
 			}
-			else
-			{
-				T t = FullPool<T>.freeItems[FullPool<T>.freeItems.Count - 1];
-				FullPool<T>.freeItems.RemoveAt(FullPool<T>.freeItems.Count - 1);
-				result = t;
-			}
+			T result = FullPool<T>.freeItems[FullPool<T>.freeItems.Count - 1];
+			FullPool<T>.freeItems.RemoveAt(FullPool<T>.freeItems.Count - 1);
 			return result;
 		}
 

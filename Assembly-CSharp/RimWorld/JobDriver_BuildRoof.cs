@@ -30,7 +30,7 @@ namespace RimWorld
 			this.FailOn(() => !base.Map.areaManager.BuildRoof[base.Cell]);
 			this.FailOn(() => !RoofCollapseUtility.WithinRangeOfRoofHolder(base.Cell, base.Map, false));
 			this.FailOn(() => !RoofCollapseUtility.ConnectedToRoofHolder(base.Cell, base.Map, true));
-			foreach (Toil t in this.<MakeNewToils>__BaseCallProxy0())
+			foreach (Toil t in base.MakeNewToils())
 			{
 				yield return t;
 			}

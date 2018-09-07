@@ -14,44 +14,36 @@ namespace RimWorld
 
 		public override AlertReport GetReport()
 		{
-			AlertReport result;
 			if (Find.AnyPlayerHomeMap == null)
 			{
-				result = false;
+				return false;
 			}
-			else if (Find.ResearchManager.currentProj != null)
+			if (Find.ResearchManager.currentProj != null)
 			{
-				result = false;
+				return false;
 			}
-			else
+			bool flag = false;
+			List<Map> maps = Find.Maps;
+			for (int i = 0; i < maps.Count; i++)
 			{
-				bool flag = false;
-				List<Map> maps = Find.Maps;
-				for (int i = 0; i < maps.Count; i++)
+				if (maps[i].IsPlayerHome)
 				{
-					if (maps[i].IsPlayerHome)
+					if (maps[i].listerBuildings.ColonistsHaveResearchBench())
 					{
-						if (maps[i].listerBuildings.ColonistsHaveResearchBench())
-						{
-							flag = true;
-							break;
-						}
+						flag = true;
+						break;
 					}
 				}
-				if (!flag)
-				{
-					result = false;
-				}
-				else if (!Find.ResearchManager.AnyProjectIsAvailable)
-				{
-					result = false;
-				}
-				else
-				{
-					result = true;
-				}
 			}
-			return result;
+			if (!flag)
+			{
+				return false;
+			}
+			if (!Find.ResearchManager.AnyProjectIsAvailable)
+			{
+				return false;
+			}
+			return true;
 		}
 	}
 }

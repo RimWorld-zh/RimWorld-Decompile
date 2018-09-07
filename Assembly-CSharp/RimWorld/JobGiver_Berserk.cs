@@ -26,41 +26,33 @@ namespace RimWorld
 
 		protected override Job TryGiveJob(Pawn pawn)
 		{
-			Job result;
 			if (Rand.Value < 0.5f)
 			{
-				result = new Job(JobDefOf.Wait_Combat)
+				return new Job(JobDefOf.Wait_Combat)
 				{
 					expiryInterval = 90
 				};
 			}
-			else if (pawn.TryGetAttackVerb(null, false) == null)
+			if (pawn.TryGetAttackVerb(null, false) == null)
 			{
-				result = null;
+				return null;
 			}
-			else
+			Pawn pawn2 = this.FindPawnTarget(pawn);
+			if (pawn2 != null)
 			{
-				Pawn pawn2 = this.FindPawnTarget(pawn);
-				if (pawn2 != null)
+				return new Job(JobDefOf.AttackMelee, pawn2)
 				{
-					result = new Job(JobDefOf.AttackMelee, pawn2)
-					{
-						maxNumMeleeAttacks = 1,
-						expiryInterval = Rand.Range(420, 900),
-						canBash = true
-					};
-				}
-				else
-				{
-					result = null;
-				}
+					maxNumMeleeAttacks = 1,
+					expiryInterval = Rand.Range(420, 900),
+					canBash = true
+				};
 			}
-			return result;
+			return null;
 		}
 
 		private Pawn FindPawnTarget(Pawn pawn)
 		{
-			return (Pawn)AttackTargetFinder.BestAttackTarget(pawn, TargetScanFlags.NeedReachable | TargetScanFlags.NeedThreat, (Thing x) => x is Pawn, 0f, 40f, default(IntVec3), float.MaxValue, true);
+			return (Pawn)AttackTargetFinder.BestAttackTarget(pawn, TargetScanFlags.NeedReachable | TargetScanFlags.NeedThreat, (Thing x) => x is Pawn, 0f, 40f, default(IntVec3), float.MaxValue, true, true);
 		}
 
 		[CompilerGenerated]

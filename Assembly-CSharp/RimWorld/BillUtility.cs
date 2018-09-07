@@ -11,7 +11,7 @@ namespace RimWorld
 {
 	public static class BillUtility
 	{
-		public static Bill Clipboard = null;
+		public static Bill Clipboard;
 
 		public static void TryDrawIngredientSearchRadiusOnMap(this Bill bill, IntVec3 center)
 		{
@@ -23,16 +23,11 @@ namespace RimWorld
 
 		public static Bill MakeNewBill(this RecipeDef recipe)
 		{
-			Bill result;
 			if (recipe.UsesUnfinishedThing)
 			{
-				result = new Bill_ProductionWithUft(recipe);
+				return new Bill_ProductionWithUft(recipe);
 			}
-			else
-			{
-				result = new Bill_Production(recipe);
-			}
-			return result;
+			return new Bill_Production(recipe);
 		}
 
 		public static IEnumerable<IBillGiver> GlobalBillGivers()
@@ -109,31 +104,26 @@ namespace RimWorld
 		public static WorkGiverDef GetWorkgiver(this IBillGiver billGiver)
 		{
 			Thing thing = billGiver as Thing;
-			WorkGiverDef result;
 			if (thing == null)
 			{
 				Log.ErrorOnce(string.Format("Attempting to get the workgiver for a non-Thing IBillGiver {0}", billGiver.ToString()), 96810282, false);
-				result = null;
+				return null;
 			}
-			else
+			List<WorkGiverDef> allDefsListForReading = DefDatabase<WorkGiverDef>.AllDefsListForReading;
+			for (int i = 0; i < allDefsListForReading.Count; i++)
 			{
-				List<WorkGiverDef> allDefsListForReading = DefDatabase<WorkGiverDef>.AllDefsListForReading;
-				for (int i = 0; i < allDefsListForReading.Count; i++)
+				WorkGiverDef workGiverDef = allDefsListForReading[i];
+				WorkGiver_DoBill workGiver_DoBill = workGiverDef.Worker as WorkGiver_DoBill;
+				if (workGiver_DoBill != null)
 				{
-					WorkGiverDef workGiverDef = allDefsListForReading[i];
-					WorkGiver_DoBill workGiver_DoBill = workGiverDef.Worker as WorkGiver_DoBill;
-					if (workGiver_DoBill != null)
+					if (workGiver_DoBill.ThingIsUsableBillGiver(thing))
 					{
-						if (workGiver_DoBill.ThingIsUsableBillGiver(thing))
-						{
-							return workGiverDef;
-						}
+						return workGiverDef;
 					}
 				}
-				Log.ErrorOnce(string.Format("Can't find a WorkGiver for a BillGiver {0}", thing.ToString()), 57348705, false);
-				result = null;
 			}
-			return result;
+			Log.ErrorOnce(string.Format("Can't find a WorkGiver for a BillGiver {0}", thing.ToString()), 57348705, false);
+			return null;
 		}
 
 		// Note: this type is marked as 'beforefieldinit'.
@@ -196,7 +186,7 @@ namespace RimWorld
 				case 2u:
 					break;
 				case 3u:
-					goto IL_22D;
+					goto IL_221;
 				default:
 					return false;
 				}
@@ -241,17 +231,14 @@ namespace RimWorld
 					case 2u:
 						break;
 					default:
-						goto IL_1E9;
+						goto IL_1DE;
 					}
 					try
 					{
 						switch (num)
 						{
-						case 2u:
-							IL_1BC:
-							break;
 						}
-						if (enumerator3.MoveNext())
+						while (enumerator3.MoveNext())
 						{
 							thing2 = enumerator3.Current;
 							billgiver2 = (thing2.GetInnerIfMinified() as IBillGiver);
@@ -265,7 +252,6 @@ namespace RimWorld
 								flag = true;
 								return true;
 							}
-							goto IL_1BC;
 						}
 					}
 					finally
@@ -275,7 +261,7 @@ namespace RimWorld
 							((IDisposable)enumerator3).Dispose();
 						}
 					}
-					IL_1E9:
+					IL_1DE:
 					if (enumerator.MoveNext())
 					{
 						map = enumerator.Current;
@@ -295,7 +281,7 @@ namespace RimWorld
 				num = 4294967293u;
 				try
 				{
-					IL_22D:
+					IL_221:
 					switch (num)
 					{
 					case 3u:
@@ -304,11 +290,8 @@ namespace RimWorld
 						{
 							switch (num)
 							{
-							case 3u:
-								IL_2D0:
-								break;
 							}
-							if (enumerator5.MoveNext())
+							while (enumerator5.MoveNext())
 							{
 								thing3 = enumerator5.Current;
 								billgiver3 = (thing3.GetInnerIfMinified() as IBillGiver);
@@ -322,7 +305,6 @@ namespace RimWorld
 									flag = true;
 									return true;
 								}
-								goto IL_2D0;
 							}
 						}
 						finally
@@ -494,7 +476,7 @@ namespace RimWorld
 				case 1u:
 					break;
 				case 2u:
-					goto IL_149;
+					goto IL_142;
 				default:
 					return false;
 				}
@@ -553,7 +535,7 @@ namespace RimWorld
 				}
 				if (BillUtility.Clipboard == null)
 				{
-					goto IL_149;
+					goto IL_142;
 				}
 				this.$current = BillUtility.Clipboard;
 				if (!this.$disposing)
@@ -561,7 +543,7 @@ namespace RimWorld
 					this.$PC = 2;
 				}
 				return true;
-				IL_149:
+				IL_142:
 				this.$PC = -1;
 				return false;
 			}

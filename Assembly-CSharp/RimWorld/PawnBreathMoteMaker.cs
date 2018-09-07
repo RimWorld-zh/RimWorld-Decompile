@@ -8,7 +8,7 @@ namespace RimWorld
 	{
 		private Pawn pawn;
 
-		private bool doThisBreath = false;
+		private bool doThisBreath;
 
 		private const int BreathDuration = 80;
 
@@ -29,17 +29,18 @@ namespace RimWorld
 
 		public void BreathMoteMakerTick()
 		{
-			if (this.pawn.RaceProps.Humanlike && !this.pawn.RaceProps.IsMechanoid)
+			if (!this.pawn.RaceProps.Humanlike || this.pawn.RaceProps.IsMechanoid)
 			{
-				int num = Mathf.Abs(Find.TickManager.TicksGame + this.pawn.HashOffset()) % 320;
-				if (num == 0)
-				{
-					this.doThisBreath = (this.pawn.AmbientTemperature < 0f && this.pawn.GetPosture() == PawnPosture.Standing);
-				}
-				if (this.doThisBreath && num < 80 && num % 8 == 0)
-				{
-					this.TryMakeBreathMote();
-				}
+				return;
+			}
+			int num = Mathf.Abs(Find.TickManager.TicksGame + this.pawn.HashOffset()) % 320;
+			if (num == 0)
+			{
+				this.doThisBreath = (this.pawn.AmbientTemperature < 0f && this.pawn.GetPosture() == PawnPosture.Standing);
+			}
+			if (this.doThisBreath && num < 80 && num % 8 == 0)
+			{
+				this.TryMakeBreathMote();
 			}
 		}
 

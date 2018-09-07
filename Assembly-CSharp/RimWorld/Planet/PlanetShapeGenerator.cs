@@ -154,8 +154,7 @@ namespace RimWorld.Planet
 					j++;
 				}
 			}
-			int l = 0;
-			while (l < count)
+			for (int l = 0; l < count; l++)
 			{
 				PackedListOfLists.GetList<int>(PlanetShapeGenerator.vertToTris_offsets, PlanetShapeGenerator.vertToTris_values, l, PlanetShapeGenerator.adjacentTris);
 				int count4 = PlanetShapeGenerator.adjacentTris.Count;
@@ -204,10 +203,6 @@ namespace RimWorld.Planet
 					}
 					PlanetShapeGenerator.FinalizeGeneratedTile(PlanetShapeGenerator.generatedTileVerts);
 				}
-				IL_344:
-				l++;
-				continue;
-				goto IL_344;
 			}
 			PlanetShapeGenerator.tris.Clear();
 			PlanetShapeGenerator.tris.AddRange(PlanetShapeGenerator.newTris);
@@ -218,22 +213,24 @@ namespace RimWorld.Planet
 			if ((generatedTileVerts.Count != 5 && generatedTileVerts.Count != 6) || generatedTileVerts.Count > 6)
 			{
 				Log.Error("Planet shape generation internal error: generated a tile with " + generatedTileVerts.Count + " vertices. Only 5 and 6 are allowed.", false);
+				return;
 			}
-			else if (!PlanetShapeGenerator.ShouldDiscardGeneratedTile(generatedTileVerts))
+			if (PlanetShapeGenerator.ShouldDiscardGeneratedTile(generatedTileVerts))
 			{
-				int count = PlanetShapeGenerator.tileIDToFinalVerts_offsets.Count;
-				PlanetShapeGenerator.tileIDToFinalVerts_offsets.Add(PlanetShapeGenerator.finalVerts.Count);
-				int i = 0;
-				int count2 = generatedTileVerts.Count;
-				while (i < count2)
-				{
-					int index = generatedTileVerts[i];
-					PlanetShapeGenerator.finalVerts.Add(PlanetShapeGenerator.verts[index]);
-					PlanetShapeGenerator.vertToTileIDs_values[PlanetShapeGenerator.vertToTileIDs_values.IndexOf(-1, PlanetShapeGenerator.vertToTileIDs_offsets[index])] = count;
-					i++;
-				}
-				PackedListOfLists.AddList<int>(PlanetShapeGenerator.tileIDToVerts_offsets, PlanetShapeGenerator.tileIDToVerts_values, generatedTileVerts);
+				return;
 			}
+			int count = PlanetShapeGenerator.tileIDToFinalVerts_offsets.Count;
+			PlanetShapeGenerator.tileIDToFinalVerts_offsets.Add(PlanetShapeGenerator.finalVerts.Count);
+			int i = 0;
+			int count2 = generatedTileVerts.Count;
+			while (i < count2)
+			{
+				int index = generatedTileVerts[i];
+				PlanetShapeGenerator.finalVerts.Add(PlanetShapeGenerator.verts[index]);
+				PlanetShapeGenerator.vertToTileIDs_values[PlanetShapeGenerator.vertToTileIDs_values.IndexOf(-1, PlanetShapeGenerator.vertToTileIDs_offsets[index])] = count;
+				i++;
+			}
+			PackedListOfLists.AddList<int>(PlanetShapeGenerator.tileIDToVerts_offsets, PlanetShapeGenerator.tileIDToVerts_values, generatedTileVerts);
 		}
 
 		private static bool ShouldDiscardGeneratedTile(List<int> generatedTileVerts)

@@ -97,7 +97,7 @@ namespace Verse
 							'.'
 						});
 						string methodName = array[array.Length - 1];
-						string typeName;
+						string typeName = string.Empty;
 						if (array.Length == 3)
 						{
 							typeName = array[0] + "." + array[1];

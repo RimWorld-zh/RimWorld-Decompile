@@ -54,62 +54,61 @@ namespace RimWorld
 			if (!pawn.Dead)
 			{
 				Log.Error("Tried to resurrect a pawn who is not dead: " + pawn.ToStringSafe<Pawn>(), false);
+				return;
 			}
-			else if (pawn.Discarded)
+			if (pawn.Discarded)
 			{
 				Log.Error("Tried to resurrect a discarded pawn: " + pawn.ToStringSafe<Pawn>(), false);
+				return;
 			}
-			else
+			Corpse corpse = pawn.Corpse;
+			bool flag = false;
+			IntVec3 loc = IntVec3.Invalid;
+			Map map = null;
+			if (corpse != null)
 			{
-				Corpse corpse = pawn.Corpse;
-				bool flag = false;
-				IntVec3 loc = IntVec3.Invalid;
-				Map map = null;
-				if (corpse != null)
-				{
-					flag = corpse.Spawned;
-					loc = corpse.Position;
-					map = corpse.Map;
-					corpse.InnerPawn = null;
-					corpse.Destroy(DestroyMode.Vanish);
-				}
-				if (flag && pawn.IsWorldPawn())
-				{
-					Find.WorldPawns.RemovePawn(pawn);
-				}
-				pawn.ForceSetStateToUnspawned();
-				PawnComponentsUtility.CreateInitialComponents(pawn);
-				pawn.health.Notify_Resurrected();
-				if (pawn.Faction != null && pawn.Faction.IsPlayer)
-				{
-					if (pawn.workSettings != null)
-					{
-						pawn.workSettings.EnableAndInitialize();
-					}
-					Find.Storyteller.intenderPopulation.Notify_PopulationGained();
-				}
-				if (flag)
-				{
-					GenSpawn.Spawn(pawn, loc, map, WipeMode.Vanish);
-					for (int i = 0; i < 10; i++)
-					{
-						MoteMaker.ThrowAirPuffUp(pawn.DrawPos, map);
-					}
-					if (pawn.Faction != null && pawn.Faction != Faction.OfPlayer && pawn.HostileTo(Faction.OfPlayer))
-					{
-						LordMaker.MakeNewLord(pawn.Faction, new LordJob_AssaultColony(pawn.Faction, true, true, false, false, true), pawn.Map, Gen.YieldSingle<Pawn>(pawn));
-					}
-					if (pawn.apparel != null)
-					{
-						List<Apparel> wornApparel = pawn.apparel.WornApparel;
-						for (int j = 0; j < wornApparel.Count; j++)
-						{
-							wornApparel[j].Notify_PawnResurrected();
-						}
-					}
-				}
-				PawnDiedOrDownedThoughtsUtility.RemoveDiedThoughts(pawn);
+				flag = corpse.Spawned;
+				loc = corpse.Position;
+				map = corpse.Map;
+				corpse.InnerPawn = null;
+				corpse.Destroy(DestroyMode.Vanish);
 			}
+			if (flag && pawn.IsWorldPawn())
+			{
+				Find.WorldPawns.RemovePawn(pawn);
+			}
+			pawn.ForceSetStateToUnspawned();
+			PawnComponentsUtility.CreateInitialComponents(pawn);
+			pawn.health.Notify_Resurrected();
+			if (pawn.Faction != null && pawn.Faction.IsPlayer)
+			{
+				if (pawn.workSettings != null)
+				{
+					pawn.workSettings.EnableAndInitialize();
+				}
+				Find.StoryWatcher.watcherPopAdaptation.Notify_PawnEvent(pawn, PopAdaptationEvent.GainedColonist);
+			}
+			if (flag)
+			{
+				GenSpawn.Spawn(pawn, loc, map, WipeMode.Vanish);
+				for (int i = 0; i < 10; i++)
+				{
+					MoteMaker.ThrowAirPuffUp(pawn.DrawPos, map);
+				}
+				if (pawn.Faction != null && pawn.Faction != Faction.OfPlayer && pawn.HostileTo(Faction.OfPlayer))
+				{
+					LordMaker.MakeNewLord(pawn.Faction, new LordJob_AssaultColony(pawn.Faction, true, true, false, false, true), pawn.Map, Gen.YieldSingle<Pawn>(pawn));
+				}
+				if (pawn.apparel != null)
+				{
+					List<Apparel> wornApparel = pawn.apparel.WornApparel;
+					for (int j = 0; j < wornApparel.Count; j++)
+					{
+						wornApparel[j].Notify_PawnResurrected();
+					}
+				}
+			}
+			PawnDiedOrDownedThoughtsUtility.RemoveDiedThoughts(pawn);
 		}
 
 		public static void ResurrectWithSideEffects(Pawn pawn)
@@ -144,7 +143,7 @@ namespace RimWorld
 			float chance2 = ResurrectionUtility.BlindnessChancePerRotDaysCurve.Evaluate(x2);
 			if (Rand.Chance(chance2))
 			{
-				IEnumerable<BodyPartRecord> enumerable = from x in pawn.health.hediffSet.GetNotMissingParts(BodyPartHeight.Undefined, BodyPartDepth.Undefined, null)
+				IEnumerable<BodyPartRecord> enumerable = from x in pawn.health.hediffSet.GetNotMissingParts(BodyPartHeight.Undefined, BodyPartDepth.Undefined, null, null)
 				where x.def == BodyPartDefOf.Eye
 				select x;
 				foreach (BodyPartRecord partRecord in enumerable)

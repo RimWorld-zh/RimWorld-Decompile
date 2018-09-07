@@ -49,20 +49,15 @@ namespace Verse
 		{
 			get
 			{
-				Def result;
 				if (this.thing != null)
 				{
-					result = this.thing.def;
+					return this.thing.def;
 				}
-				else if (this.worldObject != null)
+				if (this.worldObject != null)
 				{
-					result = this.worldObject.def;
+					return this.worldObject.def;
 				}
-				else
-				{
-					result = this.def;
-				}
-				return result;
+				return this.def;
 			}
 		}
 
@@ -185,28 +180,20 @@ namespace Verse
 
 		private string GetTitle()
 		{
-			string result;
 			if (this.thing != null)
 			{
-				result = this.thing.LabelCapNoCount;
+				return this.thing.LabelCapNoCount;
 			}
-			else if (this.worldObject != null)
+			if (this.worldObject != null)
 			{
-				result = this.worldObject.LabelCap;
+				return this.worldObject.LabelCap;
 			}
-			else
+			ThingDef thingDef = this.Def as ThingDef;
+			if (thingDef != null)
 			{
-				ThingDef thingDef = this.Def as ThingDef;
-				if (thingDef != null)
-				{
-					result = GenLabel.ThingLabel(thingDef, this.stuff, 1).CapitalizeFirst();
-				}
-				else
-				{
-					result = this.Def.LabelCap;
-				}
+				return GenLabel.ThingLabel(thingDef, this.stuff, 1).CapitalizeFirst();
 			}
-			return result;
+			return this.Def.LabelCap;
 		}
 
 		[CompilerGenerated]

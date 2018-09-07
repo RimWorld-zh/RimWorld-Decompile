@@ -15,11 +15,9 @@ namespace RimWorld.Planet
 				if (!caravan.PawnsListForReading.Any((Pawn x) => x != p && caravan.IsOwner(x)))
 				{
 					Messages.Message("MessageCantBanishLastColonist".Translate(), caravan, MessageTypeDefOf.RejectInput, false);
+					return;
 				}
-				else
-				{
-					PawnBanishUtility.ShowBanishPawnConfirmationDialog(p);
-				}
+				PawnBanishUtility.ShowBanishPawnConfirmationDialog(p);
 			}
 			else
 			{
@@ -32,14 +30,12 @@ namespace RimWorld.Planet
 					if (ownerOf == null)
 					{
 						Log.Error("Could not find owner of " + t, false);
+						return;
 					}
-					else
-					{
-						ownerOf.inventory.innerContainer.Remove(t);
-						t.Destroy(DestroyMode.Vanish);
-						caravan.RecacheImmobilizedNow();
-						caravan.RecacheDaysWorthOfFood();
-					}
+					ownerOf.inventory.innerContainer.Remove(t);
+					t.Destroy(DestroyMode.Vanish);
+					caravan.RecacheImmobilizedNow();
+					caravan.RecacheDaysWorthOfFood();
 				}, true, null);
 				Find.WindowStack.Add(window);
 			}
@@ -89,21 +85,19 @@ namespace RimWorld.Planet
 				if (ownerOf == null)
 				{
 					Log.Error("Could not find owner of " + t, false);
+					return;
+				}
+				if (x >= t.stackCount)
+				{
+					ownerOf.inventory.innerContainer.Remove(t);
+					t.Destroy(DestroyMode.Vanish);
 				}
 				else
 				{
-					if (x >= t.stackCount)
-					{
-						ownerOf.inventory.innerContainer.Remove(t);
-						t.Destroy(DestroyMode.Vanish);
-					}
-					else
-					{
-						t.SplitOff(x).Destroy(DestroyMode.Vanish);
-					}
-					caravan.RecacheImmobilizedNow();
-					caravan.RecacheDaysWorthOfFood();
+					t.SplitOff(x).Destroy(DestroyMode.Vanish);
 				}
+				caravan.RecacheImmobilizedNow();
+				caravan.RecacheDaysWorthOfFood();
 			}, int.MinValue));
 		}
 
@@ -148,31 +142,21 @@ namespace RimWorld.Planet
 		public static string GetAbandonOrBanishButtonTooltip(Thing t, bool abandonSpecificCount)
 		{
 			Pawn pawn = t as Pawn;
-			string result;
 			if (pawn != null)
 			{
-				result = PawnBanishUtility.GetBanishButtonTip(pawn);
+				return PawnBanishUtility.GetBanishButtonTip(pawn);
 			}
-			else
-			{
-				result = CaravanAbandonOrBanishUtility.GetAbandonItemButtonTooltip(t.stackCount, abandonSpecificCount);
-			}
-			return result;
+			return CaravanAbandonOrBanishUtility.GetAbandonItemButtonTooltip(t.stackCount, abandonSpecificCount);
 		}
 
 		public static string GetAbandonOrBanishButtonTooltip(TransferableImmutable t, bool abandonSpecificCount)
 		{
 			Pawn pawn = t.AnyThing as Pawn;
-			string result;
 			if (pawn != null)
 			{
-				result = PawnBanishUtility.GetBanishButtonTip(pawn);
+				return PawnBanishUtility.GetBanishButtonTip(pawn);
 			}
-			else
-			{
-				result = CaravanAbandonOrBanishUtility.GetAbandonItemButtonTooltip(t.TotalStackCount, abandonSpecificCount);
-			}
-			return result;
+			return CaravanAbandonOrBanishUtility.GetAbandonItemButtonTooltip(t.TotalStackCount, abandonSpecificCount);
 		}
 
 		private static string GetAbandonItemButtonTooltip(int currentStackCount, bool abandonSpecificCount)
@@ -219,14 +203,12 @@ namespace RimWorld.Planet
 				if (ownerOf == null)
 				{
 					Log.Error("Could not find owner of " + this.t, false);
+					return;
 				}
-				else
-				{
-					ownerOf.inventory.innerContainer.Remove(this.t);
-					this.t.Destroy(DestroyMode.Vanish);
-					this.caravan.RecacheImmobilizedNow();
-					this.caravan.RecacheDaysWorthOfFood();
-				}
+				ownerOf.inventory.innerContainer.Remove(this.t);
+				this.t.Destroy(DestroyMode.Vanish);
+				this.caravan.RecacheImmobilizedNow();
+				this.caravan.RecacheDaysWorthOfFood();
 			}
 		}
 
@@ -277,21 +259,19 @@ namespace RimWorld.Planet
 				if (ownerOf == null)
 				{
 					Log.Error("Could not find owner of " + this.t, false);
+					return;
+				}
+				if (x >= this.t.stackCount)
+				{
+					ownerOf.inventory.innerContainer.Remove(this.t);
+					this.t.Destroy(DestroyMode.Vanish);
 				}
 				else
 				{
-					if (x >= this.t.stackCount)
-					{
-						ownerOf.inventory.innerContainer.Remove(this.t);
-						this.t.Destroy(DestroyMode.Vanish);
-					}
-					else
-					{
-						this.t.SplitOff(x).Destroy(DestroyMode.Vanish);
-					}
-					this.caravan.RecacheImmobilizedNow();
-					this.caravan.RecacheDaysWorthOfFood();
+					this.t.SplitOff(x).Destroy(DestroyMode.Vanish);
 				}
+				this.caravan.RecacheImmobilizedNow();
+				this.caravan.RecacheDaysWorthOfFood();
 			}
 		}
 

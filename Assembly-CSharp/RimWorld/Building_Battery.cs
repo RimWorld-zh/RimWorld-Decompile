@@ -8,9 +8,9 @@ namespace RimWorld
 	[StaticConstructorOnStartup]
 	public class Building_Battery : Building
 	{
-		private int ticksToExplode = 0;
+		private int ticksToExplode;
 
-		private Sustainer wickSustainer = null;
+		private Sustainer wickSustainer;
 
 		private static readonly Vector2 BarSize = new Vector2(1.3f, 0.4f);
 

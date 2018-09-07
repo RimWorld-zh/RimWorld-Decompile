@@ -76,16 +76,11 @@ namespace Verse
 		{
 			get
 			{
-				float result;
 				if (this.x == 0 && this.z == 0)
 				{
-					result = 0f;
+					return 0f;
 				}
-				else
-				{
-					result = Quaternion.LookRotation(this.ToVector3()).eulerAngles.y;
-				}
-				return result;
+				return Quaternion.LookRotation(this.ToVector3()).eulerAngles.y;
 			}
 		}
 
@@ -253,33 +248,25 @@ namespace Verse
 
 		public bool AdjacentToCardinal(Room room)
 		{
-			bool result;
 			if (!this.IsValid)
 			{
-				result = false;
+				return false;
 			}
-			else
+			Map map = room.Map;
+			if (this.InBounds(map) && this.GetRoom(map, RegionType.Set_All) == room)
 			{
-				Map map = room.Map;
-				if (this.InBounds(map) && this.GetRoom(map, RegionType.Set_All) == room)
+				return true;
+			}
+			IntVec3[] cardinalDirections = GenAdj.CardinalDirections;
+			for (int i = 0; i < cardinalDirections.Length; i++)
+			{
+				IntVec3 intVec = this + cardinalDirections[i];
+				if (intVec.InBounds(map) && intVec.GetRoom(map, RegionType.Set_All) == room)
 				{
-					result = true;
-				}
-				else
-				{
-					IntVec3[] cardinalDirections = GenAdj.CardinalDirections;
-					for (int i = 0; i < cardinalDirections.Length; i++)
-					{
-						IntVec3 intVec = this + cardinalDirections[i];
-						if (intVec.InBounds(map) && intVec.GetRoom(map, RegionType.Set_All) == room)
-						{
-							return true;
-						}
-					}
-					result = false;
+					return true;
 				}
 			}
-			return result;
+			return false;
 		}
 
 		public IntVec3 ClampInsideMap(Map map)

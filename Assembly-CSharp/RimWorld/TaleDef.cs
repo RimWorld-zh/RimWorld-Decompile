@@ -12,9 +12,9 @@ namespace RimWorld
 {
 	public class TaleDef : Def
 	{
-		public TaleType type = TaleType.Volatile;
+		public TaleType type;
 
-		public Type taleClass = null;
+		public Type taleClass;
 
 		public bool usableForArt = true;
 
@@ -22,24 +22,24 @@ namespace RimWorld
 
 		public int maxPerPawn = -1;
 
-		public float ignoreChance = 0f;
+		public float ignoreChance;
 
 		public float expireDays = -1f;
 
 		public RulePack rulePack;
 
 		[NoTranslate]
-		public string firstPawnSymbol = null;
+		public string firstPawnSymbol;
 
 		[NoTranslate]
-		public string secondPawnSymbol = null;
+		public string secondPawnSymbol;
 
 		[NoTranslate]
-		public string defSymbol = null;
+		public string defSymbol;
 
 		public Type defType = typeof(ThingDef);
 
-		public float baseInterest = 0f;
+		public float baseInterest;
 
 		public Color historyGraphColor = Color.white;
 
@@ -49,7 +49,7 @@ namespace RimWorld
 
 		public override IEnumerable<string> ConfigErrors()
 		{
-			foreach (string err in this.<ConfigErrors>__BaseCallProxy0())
+			foreach (string err in base.ConfigErrors())
 			{
 				yield return err;
 			}
@@ -125,15 +125,15 @@ namespace RimWorld
 				case 1u:
 					break;
 				case 2u:
-					goto IL_107;
+					goto IL_103;
 				case 3u:
-					goto IL_14D;
+					goto IL_148;
 				case 4u:
-					goto IL_183;
+					goto IL_17D;
 				case 5u:
-					goto IL_1C7;
+					goto IL_1C1;
 				case 6u:
-					goto IL_21A;
+					goto IL_214;
 				default:
 					return false;
 				}
@@ -173,7 +173,7 @@ namespace RimWorld
 					}
 					return true;
 				}
-				IL_107:
+				IL_103:
 				if (this.expireDays < 0f)
 				{
 					if (this.type == TaleType.Expirable)
@@ -195,8 +195,8 @@ namespace RimWorld
 					}
 					return true;
 				}
-				IL_14D:
-				IL_183:
+				IL_148:
+				IL_17D:
 				if (this.baseInterest > 1E-06f && !this.usableForArt)
 				{
 					this.$current = "Non-zero baseInterest but not usable for art";
@@ -206,7 +206,7 @@ namespace RimWorld
 					}
 					return true;
 				}
-				IL_1C7:
+				IL_1C1:
 				if (this.firstPawnSymbol == "pawn" || this.secondPawnSymbol == "pawn")
 				{
 					this.$current = "pawn symbols should not be 'pawn', this is the default and only choice for SinglePawn tales so using it here is confusing.";
@@ -216,7 +216,7 @@ namespace RimWorld
 					}
 					return true;
 				}
-				IL_21A:
+				IL_214:
 				this.$PC = -1;
 				return false;
 			}

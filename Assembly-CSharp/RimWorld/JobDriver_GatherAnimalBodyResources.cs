@@ -11,7 +11,7 @@ namespace RimWorld
 {
 	public abstract class JobDriver_GatherAnimalBodyResources : JobDriver
 	{
-		private float gatherProgress = 0f;
+		private float gatherProgress;
 
 		protected const TargetIndex AnimalInd = TargetIndex.A;
 
@@ -29,9 +29,12 @@ namespace RimWorld
 			Scribe_Values.Look<float>(ref this.gatherProgress, "gatherProgress", 0f, false);
 		}
 
-		public override bool TryMakePreToilReservations()
+		public override bool TryMakePreToilReservations(bool errorOnFailed)
 		{
-			return this.pawn.Reserve(this.job.GetTarget(TargetIndex.A), this.job, 1, -1, null);
+			Pawn pawn = this.pawn;
+			LocalTargetInfo target = this.job.GetTarget(TargetIndex.A);
+			Job job = this.job;
+			return pawn.Reserve(target, job, 1, -1, null, errorOnFailed);
 		}
 
 		protected override IEnumerable<Toil> MakeNewToils()
@@ -51,7 +54,7 @@ namespace RimWorld
 			wait.tickAction = delegate()
 			{
 				Pawn actor = wait.actor;
-				actor.skills.Learn(SkillDefOf.Animals, 0.142999992f, false);
+				actor.skills.Learn(SkillDefOf.Animals, 0.13f, false);
 				this.gatherProgress += actor.GetStatValue(StatDefOf.AnimalGatherSpeed, true);
 				if (this.gatherProgress >= this.WorkTotal)
 				{
@@ -71,16 +74,11 @@ namespace RimWorld
 			wait.FailOnCannotTouch(TargetIndex.A, PathEndMode.Touch);
 			wait.AddEndCondition(delegate
 			{
-				JobCondition result;
 				if (!this.GetComp((Pawn)((Thing)this.job.GetTarget(TargetIndex.A))).ActiveAndFull)
 				{
-					result = JobCondition.Incompletable;
+					return JobCondition.Incompletable;
 				}
-				else
-				{
-					result = JobCondition.Ongoing;
-				}
-				return result;
+				return JobCondition.Ongoing;
 			});
 			wait.defaultCompleteMode = ToilCompleteMode.Never;
 			wait.WithProgressBar(TargetIndex.A, () => this.gatherProgress / this.WorkTotal, false, -0.5f);
@@ -137,7 +135,7 @@ namespace RimWorld
 					<MakeNewToils>c__AnonStorey.wait.tickAction = delegate()
 					{
 						Pawn actor = <MakeNewToils>c__AnonStorey.wait.actor;
-						actor.skills.Learn(SkillDefOf.Animals, 0.142999992f, false);
+						actor.skills.Learn(SkillDefOf.Animals, 0.13f, false);
 						<MakeNewToils>c__AnonStorey.<>f__ref$0.$this.gatherProgress += actor.GetStatValue(StatDefOf.AnimalGatherSpeed, true);
 						if (<MakeNewToils>c__AnonStorey.<>f__ref$0.$this.gatherProgress >= <MakeNewToils>c__AnonStorey.<>f__ref$0.$this.WorkTotal)
 						{
@@ -157,16 +155,11 @@ namespace RimWorld
 					<MakeNewToils>c__AnonStorey.wait.FailOnCannotTouch(TargetIndex.A, PathEndMode.Touch);
 					<MakeNewToils>c__AnonStorey.wait.AddEndCondition(delegate
 					{
-						JobCondition result;
 						if (!<MakeNewToils>c__AnonStorey.<>f__ref$0.$this.GetComp((Pawn)((Thing)<MakeNewToils>c__AnonStorey.<>f__ref$0.$this.job.GetTarget(TargetIndex.A))).ActiveAndFull)
 						{
-							result = JobCondition.Incompletable;
+							return JobCondition.Incompletable;
 						}
-						else
-						{
-							result = JobCondition.Ongoing;
-						}
-						return result;
+						return JobCondition.Ongoing;
 					});
 					<MakeNewToils>c__AnonStorey.wait.defaultCompleteMode = ToilCompleteMode.Never;
 					<MakeNewToils>c__AnonStorey.wait.WithProgressBar(TargetIndex.A, () => <MakeNewToils>c__AnonStorey.<>f__ref$0.$this.gatherProgress / <MakeNewToils>c__AnonStorey.<>f__ref$0.$this.WorkTotal, false, -0.5f);
@@ -259,7 +252,7 @@ namespace RimWorld
 				internal void <>m__1()
 				{
 					Pawn actor = this.wait.actor;
-					actor.skills.Learn(SkillDefOf.Animals, 0.142999992f, false);
+					actor.skills.Learn(SkillDefOf.Animals, 0.13f, false);
 					this.<>f__ref$0.$this.gatherProgress += actor.GetStatValue(StatDefOf.AnimalGatherSpeed, true);
 					if (this.<>f__ref$0.$this.gatherProgress >= this.<>f__ref$0.$this.WorkTotal)
 					{
@@ -279,16 +272,11 @@ namespace RimWorld
 
 				internal JobCondition <>m__3()
 				{
-					JobCondition result;
 					if (!this.<>f__ref$0.$this.GetComp((Pawn)((Thing)this.<>f__ref$0.$this.job.GetTarget(TargetIndex.A))).ActiveAndFull)
 					{
-						result = JobCondition.Incompletable;
+						return JobCondition.Incompletable;
 					}
-					else
-					{
-						result = JobCondition.Ongoing;
-					}
-					return result;
+					return JobCondition.Ongoing;
 				}
 
 				internal float <>m__4()

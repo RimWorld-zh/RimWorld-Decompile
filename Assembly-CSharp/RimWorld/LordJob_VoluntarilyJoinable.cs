@@ -14,5 +14,13 @@ namespace RimWorld
 		{
 			return 0f;
 		}
+
+		public override bool AddFleeToil
+		{
+			get
+			{
+				return false;
+			}
+		}
 	}
 }

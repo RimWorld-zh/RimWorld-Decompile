@@ -28,20 +28,15 @@ namespace Verse
 						colorOption = this.options[i];
 					}
 				}
-				Color result;
 				if (colorOption == null)
 				{
-					result = Color.white;
+					return Color.white;
 				}
-				else if (colorOption.only.a >= 0f)
+				if (colorOption.only.a >= 0f)
 				{
-					result = colorOption.only;
+					return colorOption.only;
 				}
-				else
-				{
-					result = new Color((colorOption.min.r + colorOption.max.r) / 2f, (colorOption.min.g + colorOption.max.g) / 2f, (colorOption.min.b + colorOption.max.b) / 2f, (colorOption.min.a + colorOption.max.a) / 2f);
-				}
-				return result;
+				return new Color((colorOption.min.r + colorOption.max.r) / 2f, (colorOption.min.g + colorOption.max.g) / 2f, (colorOption.min.b + colorOption.max.b) / 2f, (colorOption.min.a + colorOption.max.a) / 2f);
 			}
 		}
 

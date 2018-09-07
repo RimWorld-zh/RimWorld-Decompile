@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Runtime.CompilerServices;
 using UnityEngine;
 using Verse;
@@ -23,16 +24,11 @@ namespace RimWorld
 		public static Vector3 TrueCenter(this Thing t)
 		{
 			Pawn pawn = t as Pawn;
-			Vector3 result;
 			if (pawn != null)
 			{
-				result = pawn.Drawer.DrawPos;
+				return pawn.Drawer.DrawPos;
 			}
-			else
-			{
-				result = GenThing.TrueCenter(t.Position, t.Rotation, t.def.size, t.def.Altitude);
-			}
-			return result;
+			return GenThing.TrueCenter(t.Position, t.Rotation, t.def.size, t.def.Altitude);
 		}
 
 		public static Vector3 TrueCenter(IntVec3 loc, Rot4 rotation, IntVec2 thingSize, float altitude)
@@ -95,21 +91,16 @@ namespace RimWorld
 
 		public static bool TryDropAndSetForbidden(Thing th, IntVec3 pos, Map map, ThingPlaceMode mode, out Thing resultingThing, bool forbidden)
 		{
-			bool result;
 			if (GenDrop.TryDropSpawn(th, pos, map, ThingPlaceMode.Near, out resultingThing, null, null))
 			{
 				if (resultingThing != null)
 				{
 					resultingThing.SetForbidden(forbidden, false);
 				}
-				result = true;
+				return true;
 			}
-			else
-			{
-				resultingThing = null;
-				result = false;
-			}
-			return result;
+			resultingThing = null;
+			return false;
 		}
 
 		public static string ThingsToCommaList(IList<Thing> things, bool useAnd = false, bool aggregate = true, int maxCount = -1)
@@ -178,6 +169,22 @@ namespace RimWorld
 			return num;
 		}
 
+		public static void TryAppendSingleRewardInfo(ref string text, IList<Thing> rewards)
+		{
+			if (rewards.Count == 1 || (rewards.Count >= 2 && rewards.All((Thing x) => x.def == rewards[0].def)))
+			{
+				string text2 = text;
+				text = string.Concat(new string[]
+				{
+					text2,
+					"\n\n---\n\n",
+					rewards[0].LabelCapNoCount,
+					": ",
+					rewards[0].DescriptionFlavor
+				});
+			}
+		}
+
 		// Note: this type is marked as 'beforefieldinit'.
 		static GenThing()
 		{
@@ -193,6 +200,21 @@ namespace RimWorld
 		private static float <ThingsToCommaList>m__1(Thing x)
 		{
 			return x.MarketValue * (float)x.stackCount;
+		}
+
+		[CompilerGenerated]
+		private sealed class <TryAppendSingleRewardInfo>c__AnonStorey0
+		{
+			internal IList<Thing> rewards;
+
+			public <TryAppendSingleRewardInfo>c__AnonStorey0()
+			{
+			}
+
+			internal bool <>m__0(Thing x)
+			{
+				return x.def == this.rewards[0].def;
+			}
 		}
 	}
 }

@@ -13,18 +13,13 @@ namespace Verse.AI
 
 		public override bool StateCanOccur(Pawn pawn)
 		{
-			bool result;
 			if (!base.StateCanOccur(pawn))
 			{
-				result = false;
+				return false;
 			}
-			else
-			{
-				InsultingSpreeMentalStateUtility.GetInsultCandidatesFor(pawn, MentalStateWorker_InsultingSpreeAll.candidates, true);
-				bool flag = MentalStateWorker_InsultingSpreeAll.candidates.Count >= 2;
-				MentalStateWorker_InsultingSpreeAll.candidates.Clear();
-				result = flag;
-			}
+			InsultingSpreeMentalStateUtility.GetInsultCandidatesFor(pawn, MentalStateWorker_InsultingSpreeAll.candidates, true);
+			bool result = MentalStateWorker_InsultingSpreeAll.candidates.Count >= 2;
+			MentalStateWorker_InsultingSpreeAll.candidates.Clear();
 			return result;
 		}
 

@@ -62,25 +62,35 @@ namespace Verse
 			foreach (ModMetaData modMetaData in ModsConfig.ActiveModsInLoadOrder.ToList<ModMetaData>())
 			{
 				DeepProfiler.Start("Initializing " + modMetaData);
-				if (!modMetaData.RootDir.Exists)
+				try
 				{
-					ModsConfig.SetActive(modMetaData.Identifier, false);
-					Log.Warning(string.Concat(new object[]
+					if (!modMetaData.RootDir.Exists)
 					{
-						"Failed to find active mod ",
-						modMetaData.Name,
-						"(",
-						modMetaData.Identifier,
-						") at ",
-						modMetaData.RootDir
-					}), false);
-					DeepProfiler.End();
+						ModsConfig.SetActive(modMetaData.Identifier, false);
+						Log.Warning(string.Concat(new object[]
+						{
+							"Failed to find active mod ",
+							modMetaData.Name,
+							"(",
+							modMetaData.Identifier,
+							") at ",
+							modMetaData.RootDir
+						}), false);
+					}
+					else
+					{
+						ModContentPack item = new ModContentPack(modMetaData.RootDir, num, modMetaData.Name);
+						num++;
+						LoadedModManager.runningMods.Add(item);
+					}
 				}
-				else
+				catch (Exception arg)
 				{
-					ModContentPack item = new ModContentPack(modMetaData.RootDir, num, modMetaData.Name);
-					num++;
-					LoadedModManager.runningMods.Add(item);
+					Log.Error("Error initializing mod: " + arg, false);
+					ModsConfig.SetActive(modMetaData.Identifier, false);
+				}
+				finally
+				{
 					DeepProfiler.End();
 				}
 			}
@@ -92,8 +102,24 @@ namespace Verse
 			{
 				ModContentPack modContentPack = LoadedModManager.runningMods[i];
 				DeepProfiler.Start("Loading " + modContentPack + " content");
-				modContentPack.ReloadContent();
-				DeepProfiler.End();
+				try
+				{
+					modContentPack.ReloadContent();
+				}
+				catch (Exception ex)
+				{
+					Log.Error(string.Concat(new object[]
+					{
+						"Could not reload mod content for mod ",
+						modContentPack.Identifier,
+						": ",
+						ex
+					}), false);
+				}
+				finally
+				{
+					DeepProfiler.End();
+				}
 			}
 		}
 
@@ -104,15 +130,28 @@ namespace Verse
 				while (enumerator.MoveNext())
 				{
 					Type type = enumerator.Current;
-					if (!LoadedModManager.runningModClasses.ContainsKey(type))
+					try
 					{
-						ModContentPack modContentPack = (from modpack in LoadedModManager.runningMods
-						where modpack.assemblies.loadedAssemblies.Contains(type.Assembly)
-						select modpack).FirstOrDefault<ModContentPack>();
-						LoadedModManager.runningModClasses[type] = (Mod)Activator.CreateInstance(type, new object[]
+						if (!LoadedModManager.runningModClasses.ContainsKey(type))
 						{
-							modContentPack
-						});
+							ModContentPack modContentPack = (from modpack in LoadedModManager.runningMods
+							where modpack.assemblies.loadedAssemblies.Contains(type.Assembly)
+							select modpack).FirstOrDefault<ModContentPack>();
+							LoadedModManager.runningModClasses[type] = (Mod)Activator.CreateInstance(type, new object[]
+							{
+								modContentPack
+							});
+						}
+					}
+					catch (Exception ex)
+					{
+						Log.Error(string.Concat(new object[]
+						{
+							"Error while instantiating a mod of type ",
+							type,
+							": ",
+							ex
+						}), false);
 					}
 				}
 			}
@@ -125,8 +164,24 @@ namespace Verse
 			{
 				ModContentPack modContentPack = LoadedModManager.runningMods[i];
 				DeepProfiler.Start("Loading " + modContentPack);
-				list.AddRange(modContentPack.LoadDefs());
-				DeepProfiler.End();
+				try
+				{
+					list.AddRange(modContentPack.LoadDefs());
+				}
+				catch (Exception ex)
+				{
+					Log.Error(string.Concat(new object[]
+					{
+						"Could not load defs for mod ",
+						modContentPack.Identifier,
+						": ",
+						ex
+					}), false);
+				}
+				finally
+				{
+					DeepProfiler.End();
+				}
 			}
 			return list;
 		}
@@ -135,7 +190,14 @@ namespace Verse
 		{
 			foreach (PatchOperation patchOperation in LoadedModManager.runningMods.SelectMany((ModContentPack rm) => rm.Patches))
 			{
-				patchOperation.Apply(xmlDoc);
+				try
+				{
+					patchOperation.Apply(xmlDoc);
+				}
+				catch (Exception arg)
+				{
+					Log.Error("Error in patch.Apply(): " + arg, false);
+				}
 			}
 		}
 
@@ -192,7 +254,7 @@ namespace Verse
 				}
 			}
 			XmlInheritance.Resolve();
-			DefPackage defPackage = new DefPackage("(unknown)", "(unknown)");
+			DefPackage defPackage = new DefPackage("Unknown", string.Empty);
 			ModContentPack modContentPack = LoadedModManager.runningMods.FirstOrDefault<ModContentPack>();
 			modContentPack.AddDefPackage(defPackage);
 			IEnumerator enumerator = xmlDoc.DocumentElement.ChildNodes.GetEnumerator();
@@ -228,7 +290,14 @@ namespace Verse
 			{
 				foreach (PatchOperation patchOperation in modContentPack.Patches)
 				{
-					patchOperation.Complete(modContentPack.Name);
+					try
+					{
+						patchOperation.Complete(modContentPack.Name);
+					}
+					catch (Exception arg)
+					{
+						Log.Error("Error in patch.Complete(): " + arg, false);
+					}
 				}
 				modContentPack.ClearPatchesCache();
 			}
@@ -238,7 +307,14 @@ namespace Verse
 		{
 			foreach (ModContentPack modContentPack in LoadedModManager.runningMods)
 			{
-				modContentPack.ClearDestroy();
+				try
+				{
+					modContentPack.ClearDestroy();
+				}
+				catch (Exception arg)
+				{
+					Log.Error("Error in mod.ClearDestroy(): " + arg, false);
+				}
 			}
 			LoadedModManager.runningMods.Clear();
 		}
@@ -250,18 +326,13 @@ namespace Verse
 
 		public static Mod GetMod(Type type)
 		{
-			Mod result;
 			if (LoadedModManager.runningModClasses.ContainsKey(type))
 			{
-				result = LoadedModManager.runningModClasses[type];
+				return LoadedModManager.runningModClasses[type];
 			}
-			else
-			{
-				result = (from kvp in LoadedModManager.runningModClasses
-				where type.IsAssignableFrom(kvp.Key)
-				select kvp).FirstOrDefault<KeyValuePair<Type, Mod>>().Value;
-			}
-			return result;
+			return (from kvp in LoadedModManager.runningModClasses
+			where type.IsAssignableFrom(kvp.Key)
+			select kvp).FirstOrDefault<KeyValuePair<Type, Mod>>().Value;
 		}
 
 		private static string GetSettingsFilename(string modIdentifier, string modHandleName)
@@ -278,8 +349,14 @@ namespace Verse
 				if (File.Exists(settingsFilename))
 				{
 					Scribe.loader.InitLoading(settingsFilename);
-					Scribe_Deep.Look<T>(ref t, "ModSettings", new object[0]);
-					Scribe.loader.FinalizeLoading();
+					try
+					{
+						Scribe_Deep.Look<T>(ref t, "ModSettings", new object[0]);
+					}
+					finally
+					{
+						Scribe.loader.FinalizeLoading();
+					}
 				}
 			}
 			catch (Exception ex)
@@ -297,8 +374,14 @@ namespace Verse
 		public static void WriteModSettings(string modIdentifier, string modHandleName, ModSettings settings)
 		{
 			Scribe.saver.InitSaving(LoadedModManager.GetSettingsFilename(modIdentifier, modHandleName), "SettingsBlock");
-			Scribe_Deep.Look<ModSettings>(ref settings, "ModSettings", new object[0]);
-			Scribe.saver.FinalizeSaving();
+			try
+			{
+				Scribe_Deep.Look<ModSettings>(ref settings, "ModSettings", new object[0]);
+			}
+			finally
+			{
+				Scribe.saver.FinalizeSaving();
+			}
 		}
 
 		// Note: this type is marked as 'beforefieldinit'.

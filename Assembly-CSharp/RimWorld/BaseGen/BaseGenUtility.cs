@@ -8,6 +8,8 @@ namespace RimWorld.BaseGen
 {
 	public static class BaseGenUtility
 	{
+		private static List<IntVec3> bridgeCells = new List<IntVec3>();
+
 		[CompilerGenerated]
 		private static Func<TerrainDef, bool> <>f__am$cache0;
 
@@ -19,18 +21,13 @@ namespace RimWorld.BaseGen
 
 		public static ThingDef RandomCheapWallStuff(TechLevel techLevel, bool notVeryFlammable = false)
 		{
-			ThingDef result;
 			if (techLevel.IsNeolithicOrWorse())
 			{
-				result = ThingDefOf.WoodLog;
+				return ThingDefOf.WoodLog;
 			}
-			else
-			{
-				result = (from d in DefDatabase<ThingDef>.AllDefsListForReading
-				where BaseGenUtility.IsCheapWallStuff(d) && (!notVeryFlammable || d.BaseFlammability < 0.5f)
-				select d).RandomElement<ThingDef>();
-			}
-			return result;
+			return (from d in DefDatabase<ThingDef>.AllDefsListForReading
+			where BaseGenUtility.IsCheapWallStuff(d) && (!notVeryFlammable || d.BaseFlammability < 0.5f)
+			select d).RandomElement<ThingDef>();
 		}
 
 		public static bool IsCheapWallStuff(ThingDef d)
@@ -40,16 +37,11 @@ namespace RimWorld.BaseGen
 
 		public static ThingDef RandomHightechWallStuff()
 		{
-			ThingDef result;
 			if (Rand.Value < 0.15f)
 			{
-				result = ThingDefOf.Plasteel;
+				return ThingDefOf.Plasteel;
 			}
-			else
-			{
-				result = ThingDefOf.Steel;
-			}
-			return result;
+			return ThingDefOf.Steel;
 		}
 
 		public static TerrainDef RandomHightechFloorDef()
@@ -59,18 +51,13 @@ namespace RimWorld.BaseGen
 
 		public static TerrainDef RandomBasicFloorDef(Faction faction, bool allowCarpet = false)
 		{
-			TerrainDef result;
 			if (allowCarpet && (faction == null || !faction.def.techLevel.IsNeolithicOrWorse()) && Rand.Chance(0.1f))
 			{
-				result = (from x in DefDatabase<TerrainDef>.AllDefsListForReading
+				return (from x in DefDatabase<TerrainDef>.AllDefsListForReading
 				where x.IsCarpet
 				select x).RandomElement<TerrainDef>();
 			}
-			else
-			{
-				result = Rand.Element<TerrainDef>(TerrainDefOf.MetalTile, TerrainDefOf.PavedTile, TerrainDefOf.WoodPlankFloor, TerrainDefOf.TileSandstone);
-			}
-			return result;
+			return Rand.Element<TerrainDef>(TerrainDefOf.MetalTile, TerrainDefOf.PavedTile, TerrainDefOf.WoodPlankFloor, TerrainDefOf.TileSandstone);
 		}
 
 		public static TerrainDef CorrespondingTerrainDef(ThingDef stuffDef, bool beautiful)
@@ -83,12 +70,9 @@ namespace RimWorld.BaseGen
 				{
 					for (int j = 0; j < allDefsListForReading[i].costList.Count; j++)
 					{
-						if (allDefsListForReading[i].costList[j].thingDef == stuffDef)
+						if (allDefsListForReading[i].costList[j].thingDef == stuffDef && (terrainDef == null || ((!beautiful) ? (terrainDef.statBases.GetStatOffsetFromList(StatDefOf.Beauty) > allDefsListForReading[i].statBases.GetStatOffsetFromList(StatDefOf.Beauty)) : (terrainDef.statBases.GetStatOffsetFromList(StatDefOf.Beauty) < allDefsListForReading[i].statBases.GetStatOffsetFromList(StatDefOf.Beauty)))))
 						{
-							if (terrainDef == null || ((!beautiful) ? (terrainDef.statBases.GetStatOffsetFromList(StatDefOf.Beauty) > allDefsListForReading[i].statBases.GetStatOffsetFromList(StatDefOf.Beauty)) : (terrainDef.statBases.GetStatOffsetFromList(StatDefOf.Beauty) < allDefsListForReading[i].statBases.GetStatOffsetFromList(StatDefOf.Beauty))))
-							{
-								terrainDef = allDefsListForReading[i];
-							}
+							terrainDef = allDefsListForReading[i];
 						}
 					}
 				}
@@ -139,16 +123,58 @@ namespace RimWorld.BaseGen
 		public static ThingDef WallStuffAt(IntVec3 c, Map map)
 		{
 			Building edifice = c.GetEdifice(map);
-			ThingDef result;
 			if (edifice != null && edifice.def == ThingDefOf.Wall)
 			{
-				result = edifice.Stuff;
+				return edifice.Stuff;
 			}
-			else
+			return null;
+		}
+
+		public static void CheckSpawnBridgeUnder(ThingDef thingDef, IntVec3 c, Rot4 rot)
+		{
+			if (thingDef.category != ThingCategory.Building)
 			{
-				result = null;
+				return;
 			}
-			return result;
+			Map map = BaseGen.globalSettings.map;
+			CellRect cellRect = GenAdj.OccupiedRect(c, rot, thingDef.size);
+			BaseGenUtility.bridgeCells.Clear();
+			CellRect.CellRectIterator iterator = cellRect.GetIterator();
+			while (!iterator.Done())
+			{
+				if (!iterator.Current.SupportsStructureType(map, thingDef.terrainAffordanceNeeded) && GenConstruct.CanBuildOnTerrain(TerrainDefOf.Bridge, iterator.Current, map, Rot4.North, null))
+				{
+					BaseGenUtility.bridgeCells.Add(iterator.Current);
+				}
+				iterator.MoveNext();
+			}
+			if (!BaseGenUtility.bridgeCells.Any<IntVec3>())
+			{
+				return;
+			}
+			if (thingDef.size.x != 1 || thingDef.size.z != 1)
+			{
+				for (int i = BaseGenUtility.bridgeCells.Count - 1; i >= 0; i--)
+				{
+					for (int j = 0; j < 8; j++)
+					{
+						IntVec3 intVec = BaseGenUtility.bridgeCells[i] + GenAdj.AdjacentCells[j];
+						if (!BaseGenUtility.bridgeCells.Contains(intVec) && intVec.InBounds(map) && !intVec.SupportsStructureType(map, thingDef.terrainAffordanceNeeded) && GenConstruct.CanBuildOnTerrain(TerrainDefOf.Bridge, intVec, map, Rot4.North, null))
+						{
+							BaseGenUtility.bridgeCells.Add(intVec);
+						}
+					}
+				}
+			}
+			for (int k = 0; k < BaseGenUtility.bridgeCells.Count; k++)
+			{
+				map.terrainGrid.SetTerrain(BaseGenUtility.bridgeCells[k], TerrainDefOf.Bridge);
+			}
+		}
+
+		// Note: this type is marked as 'beforefieldinit'.
+		static BaseGenUtility()
+		{
 		}
 
 		[CompilerGenerated]

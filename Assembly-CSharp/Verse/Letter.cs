@@ -41,39 +41,34 @@ namespace Verse
 		{
 			get
 			{
-				bool result;
 				if (this.lookTargets == null || !this.lookTargets.Any)
 				{
-					result = true;
+					return true;
 				}
-				else
+				int i = 0;
+				while (i < this.lookTargets.targets.Count)
 				{
-					int i = 0;
-					while (i < this.lookTargets.targets.Count)
+					GlobalTargetInfo globalTargetInfo = this.lookTargets.targets[i];
+					if (this.def == LetterDefOf.Death || globalTargetInfo.Thing == null || !globalTargetInfo.Thing.Destroyed)
 					{
-						GlobalTargetInfo globalTargetInfo = this.lookTargets.targets[i];
-						if (this.def == LetterDefOf.Death || globalTargetInfo.Thing == null || !globalTargetInfo.Thing.Destroyed)
-						{
-							goto IL_B5;
-						}
-						Pawn pawn = globalTargetInfo.Thing as Pawn;
-						if (pawn != null && !pawn.Corpse.DestroyedOrNull() && (pawn.Corpse.Spawned || pawn.Corpse.ParentHolder != null))
-						{
-							goto IL_B5;
-						}
-						IL_DE:
-						i++;
-						continue;
-						IL_B5:
-						if (globalTargetInfo.WorldObject != null && !globalTargetInfo.WorldObject.Spawned)
-						{
-							goto IL_DE;
-						}
-						return true;
+						goto IL_AB;
 					}
-					result = false;
+					Pawn pawn = globalTargetInfo.Thing as Pawn;
+					if (pawn != null && !pawn.Corpse.DestroyedOrNull() && (pawn.Corpse.Spawned || pawn.Corpse.ParentHolder != null))
+					{
+						goto IL_AB;
+					}
+					IL_CF:
+					i++;
+					continue;
+					IL_AB:
+					if (globalTargetInfo.WorldObject != null && !globalTargetInfo.WorldObject.Spawned)
+					{
+						goto IL_CF;
+					}
+					return true;
 				}
-				return result;
+				return false;
 			}
 		}
 
@@ -171,15 +166,12 @@ namespace Verse
 				rect2.y -= (1f - num2) * 200f;
 				color.a = num2 / 1f;
 			}
-			if (!Mouse.IsOver(rect) && this.def.bounce && num2 > 15f)
+			if (!Mouse.IsOver(rect) && this.def.bounce && num2 > 15f && num2 % 5f < 1f)
 			{
-				if (num2 % 5f < 1f)
-				{
-					float num3 = (float)UI.screenWidth * 0.06f;
-					float num4 = 2f * (num2 % 1f) - 1f;
-					float num5 = num3 * (1f - num4 * num4);
-					rect2.x -= num5;
-				}
+				float num3 = (float)UI.screenWidth * 0.06f;
+				float num4 = 2f * (num2 % 1f) - 1f;
+				float num5 = num3 * (1f - num4 * num4);
+				rect2.x -= num5;
 			}
 			if (Event.current.type == EventType.Repaint)
 			{

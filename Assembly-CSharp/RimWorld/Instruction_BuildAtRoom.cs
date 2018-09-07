@@ -15,16 +15,11 @@ namespace RimWorld
 		{
 			get
 			{
-				float result;
 				if (this.def.targetCount <= 1)
 				{
-					result = -1f;
+					return -1f;
 				}
-				else
-				{
-					result = (float)this.NumPlaced() / (float)this.def.targetCount;
-				}
-				return result;
+				return (float)this.NumPlaced() / (float)this.def.targetCount;
 			}
 		}
 
@@ -54,16 +49,11 @@ namespace RimWorld
 
 		public override AcceptanceReport AllowAction(EventPack ep)
 		{
-			AcceptanceReport result;
 			if (ep.Tag == "Designate-" + this.def.thingDef.defName)
 			{
-				result = this.AllowBuildAt(ep.Cell);
+				return this.AllowBuildAt(ep.Cell);
 			}
-			else
-			{
-				result = base.AllowAction(ep);
-			}
-			return result;
+			return base.AllowAction(ep);
 		}
 
 		protected virtual bool AllowBuildAt(IntVec3 c)

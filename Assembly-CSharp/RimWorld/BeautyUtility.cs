@@ -16,82 +16,75 @@ namespace RimWorld
 
 		public static float AverageBeautyPerceptible(IntVec3 root, Map map)
 		{
-			float result;
 			if (!root.IsValid || !root.InBounds(map))
 			{
-				result = 0f;
+				return 0f;
 			}
-			else
+			BeautyUtility.tempCountedThings.Clear();
+			float num = 0f;
+			int num2 = 0;
+			BeautyUtility.FillBeautyRelevantCells(root, map);
+			for (int i = 0; i < BeautyUtility.beautyRelevantCells.Count; i++)
 			{
-				BeautyUtility.tempCountedThings.Clear();
-				float num = 0f;
-				int num2 = 0;
-				BeautyUtility.FillBeautyRelevantCells(root, map);
-				for (int i = 0; i < BeautyUtility.beautyRelevantCells.Count; i++)
-				{
-					num += BeautyUtility.CellBeauty(BeautyUtility.beautyRelevantCells[i], map, BeautyUtility.tempCountedThings);
-					num2++;
-				}
-				BeautyUtility.tempCountedThings.Clear();
-				if (num2 == 0)
-				{
-					result = 0f;
-				}
-				else
-				{
-					result = num / (float)num2;
-				}
+				num += BeautyUtility.CellBeauty(BeautyUtility.beautyRelevantCells[i], map, BeautyUtility.tempCountedThings);
+				num2++;
 			}
-			return result;
+			BeautyUtility.tempCountedThings.Clear();
+			if (num2 == 0)
+			{
+				return 0f;
+			}
+			return num / (float)num2;
 		}
 
 		public static void FillBeautyRelevantCells(IntVec3 root, Map map)
 		{
 			BeautyUtility.beautyRelevantCells.Clear();
 			Room room = root.GetRoom(map, RegionType.Set_Passable);
-			if (room != null)
+			if (room == null)
 			{
-				BeautyUtility.visibleRooms.Clear();
-				BeautyUtility.visibleRooms.Add(room);
-				if (room.Regions.Count == 1 && room.Regions[0].type == RegionType.Portal)
-				{
-					foreach (Region region in room.Regions[0].Neighbors)
-					{
-						if (!BeautyUtility.visibleRooms.Contains(region.Room))
-						{
-							BeautyUtility.visibleRooms.Add(region.Room);
-						}
-					}
-				}
-				for (int i = 0; i < BeautyUtility.SampleNumCells_Beauty; i++)
-				{
-					IntVec3 intVec = root + GenRadial.RadialPattern[i];
-					if (intVec.InBounds(map) && !intVec.Fogged(map))
-					{
-						Room room2 = intVec.GetRoom(map, RegionType.Set_Passable);
-						if (!BeautyUtility.visibleRooms.Contains(room2))
-						{
-							bool flag = false;
-							for (int j = 0; j < 8; j++)
-							{
-								IntVec3 loc = intVec + GenAdj.AdjacentCells[j];
-								if (BeautyUtility.visibleRooms.Contains(loc.GetRoom(map, RegionType.Set_Passable)))
-								{
-									flag = true;
-									break;
-								}
-							}
-							if (!flag)
-							{
-								goto IL_192;
-							}
-						}
-						BeautyUtility.beautyRelevantCells.Add(intVec);
-					}
-					IL_192:;
-				}
-				BeautyUtility.visibleRooms.Clear();
+				return;
 			}
+			BeautyUtility.visibleRooms.Clear();
+			BeautyUtility.visibleRooms.Add(room);
+			if (room.Regions.Count == 1 && room.Regions[0].type == RegionType.Portal)
+			{
+				foreach (Region region in room.Regions[0].Neighbors)
+				{
+					if (!BeautyUtility.visibleRooms.Contains(region.Room))
+					{
+						BeautyUtility.visibleRooms.Add(region.Room);
+					}
+				}
+			}
+			for (int i = 0; i < BeautyUtility.SampleNumCells_Beauty; i++)
+			{
+				IntVec3 intVec = root + GenRadial.RadialPattern[i];
+				if (intVec.InBounds(map) && !intVec.Fogged(map))
+				{
+					Room room2 = intVec.GetRoom(map, RegionType.Set_Passable);
+					if (!BeautyUtility.visibleRooms.Contains(room2))
+					{
+						bool flag = false;
+						for (int j = 0; j < 8; j++)
+						{
+							IntVec3 loc = intVec + GenAdj.AdjacentCells[j];
+							if (BeautyUtility.visibleRooms.Contains(loc.GetRoom(map, RegionType.Set_Passable)))
+							{
+								flag = true;
+								break;
+							}
+						}
+						if (!flag)
+						{
+							goto IL_181;
+						}
+					}
+					BeautyUtility.beautyRelevantCells.Add(intVec);
+				}
+				IL_181:;
+			}
+			BeautyUtility.visibleRooms.Clear();
 		}
 
 		public static float CellBeauty(IntVec3 c, Map map, List<Thing> countedThings = null)
@@ -109,7 +102,7 @@ namespace RimWorld
 					{
 						if (countedThings.Contains(thing))
 						{
-							goto IL_EE;
+							goto IL_E7;
 						}
 						countedThings.Add(thing);
 					}
@@ -132,19 +125,13 @@ namespace RimWorld
 						}
 					}
 				}
-				IL_EE:;
+				IL_E7:;
 			}
-			float result;
 			if (flag)
 			{
-				result = num2;
+				return num2;
 			}
-			else
-			{
-				num += map.terrainGrid.TerrainAt(c).GetStatValueAbstract(StatDefOf.Beauty, null);
-				result = num;
-			}
-			return result;
+			return num + map.terrainGrid.TerrainAt(c).GetStatValueAbstract(StatDefOf.Beauty, null);
 		}
 
 		public static bool BeautyRelevant(ThingCategory cat)

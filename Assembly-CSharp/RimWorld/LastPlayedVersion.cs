@@ -6,9 +6,9 @@ namespace RimWorld
 {
 	public static class LastPlayedVersion
 	{
-		private static bool initialized = false;
+		private static bool initialized;
 
-		private static Version lastPlayedVersionInt = null;
+		private static Version lastPlayedVersionInt;
 
 		public static Version Version
 		{
@@ -21,42 +21,43 @@ namespace RimWorld
 
 		public static void InitializeIfNeeded()
 		{
-			if (!LastPlayedVersion.initialized)
+			if (LastPlayedVersion.initialized)
 			{
-				try
+				return;
+			}
+			try
+			{
+				string text = null;
+				if (File.Exists(GenFilePaths.LastPlayedVersionFilePath))
 				{
-					string text = null;
-					if (File.Exists(GenFilePaths.LastPlayedVersionFilePath))
+					try
 					{
-						try
-						{
-							text = File.ReadAllText(GenFilePaths.LastPlayedVersionFilePath);
-						}
-						catch (Exception ex)
-						{
-							Log.Error("Exception getting last played version data. Path: " + GenFilePaths.LastPlayedVersionFilePath + ". Exception: " + ex.ToString(), false);
-						}
+						text = File.ReadAllText(GenFilePaths.LastPlayedVersionFilePath);
 					}
-					if (text != null)
+					catch (Exception ex)
 					{
-						try
-						{
-							LastPlayedVersion.lastPlayedVersionInt = VersionControl.VersionFromString(text);
-						}
-						catch (Exception ex2)
-						{
-							Log.Error("Exception parsing last version from string '" + text + "': " + ex2.ToString(), false);
-						}
-					}
-					if (LastPlayedVersion.lastPlayedVersionInt != VersionControl.CurrentVersion)
-					{
-						File.WriteAllText(GenFilePaths.LastPlayedVersionFilePath, VersionControl.CurrentVersionString);
+						Log.Error("Exception getting last played version data. Path: " + GenFilePaths.LastPlayedVersionFilePath + ". Exception: " + ex.ToString(), false);
 					}
 				}
-				finally
+				if (text != null)
 				{
-					LastPlayedVersion.initialized = true;
+					try
+					{
+						LastPlayedVersion.lastPlayedVersionInt = VersionControl.VersionFromString(text);
+					}
+					catch (Exception ex2)
+					{
+						Log.Error("Exception parsing last version from string '" + text + "': " + ex2.ToString(), false);
+					}
 				}
+				if (LastPlayedVersion.lastPlayedVersionInt != VersionControl.CurrentVersion)
+				{
+					File.WriteAllText(GenFilePaths.LastPlayedVersionFilePath, VersionControl.CurrentVersionString);
+				}
+			}
+			finally
+			{
+				LastPlayedVersion.initialized = true;
 			}
 		}
 

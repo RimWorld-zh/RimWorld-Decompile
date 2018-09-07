@@ -56,12 +56,11 @@ namespace Verse
 		{
 			get
 			{
-				ThingCount result;
 				if (this.innerContainer.Count == 0)
 				{
-					result = default(ThingCount);
+					return default(ThingCount);
 				}
-				else if (this.pawn.drugs != null && this.pawn.drugs.CurrentPolicy != null)
+				if (this.pawn.drugs != null && this.pawn.drugs.CurrentPolicy != null)
 				{
 					DrugPolicy currentPolicy = this.pawn.drugs.CurrentPolicy;
 					Pawn_InventoryTracker.tmpDrugsToKeep.Clear();
@@ -97,13 +96,9 @@ namespace Verse
 						}
 						Pawn_InventoryTracker.tmpDrugsToKeep[num] = new ThingDefCount(Pawn_InventoryTracker.tmpDrugsToKeep[num].ThingDef, Pawn_InventoryTracker.tmpDrugsToKeep[num].Count - this.innerContainer[j].stackCount);
 					}
-					result = default(ThingCount);
+					return default(ThingCount);
 				}
-				else
-				{
-					result = new ThingCount(this.innerContainer[0], this.innerContainer[0].stackCount);
-				}
-				return result;
+				return new ThingCount(this.innerContainer[0], this.innerContainer[0].stackCount);
 			}
 		}
 
@@ -144,30 +139,28 @@ namespace Verse
 			if (this.pawn.MapHeld == null)
 			{
 				Log.Error("Tried to drop all inventory near pawn but the pawn is unspawned. pawn=" + this.pawn, false);
+				return;
 			}
-			else
+			Pawn_InventoryTracker.tmpThingList.Clear();
+			Pawn_InventoryTracker.tmpThingList.AddRange(this.innerContainer);
+			for (int i = 0; i < Pawn_InventoryTracker.tmpThingList.Count; i++)
 			{
-				Pawn_InventoryTracker.tmpThingList.Clear();
-				Pawn_InventoryTracker.tmpThingList.AddRange(this.innerContainer);
-				for (int i = 0; i < Pawn_InventoryTracker.tmpThingList.Count; i++)
+				Thing thing;
+				this.innerContainer.TryDrop(Pawn_InventoryTracker.tmpThingList[i], pos, this.pawn.MapHeld, ThingPlaceMode.Near, out thing, delegate(Thing t, int unused)
 				{
-					Thing thing;
-					this.innerContainer.TryDrop(Pawn_InventoryTracker.tmpThingList[i], pos, this.pawn.MapHeld, ThingPlaceMode.Near, out thing, delegate(Thing t, int unused)
+					if (forbid)
 					{
-						if (forbid)
-						{
-							t.SetForbiddenIfOutsideHomeArea();
-						}
-						if (unforbid)
-						{
-							t.SetForbidden(false, false);
-						}
-						if (t.def.IsPleasureDrug)
-						{
-							LessonAutoActivator.TeachOpportunity(ConceptDefOf.DrugBurning, OpportunityType.Important);
-						}
-					}, null);
-				}
+						t.SetForbiddenIfOutsideHomeArea();
+					}
+					if (unforbid)
+					{
+						t.SetForbidden(false, false);
+					}
+					if (t.def.IsPleasureDrug)
+					{
+						LessonAutoActivator.TeachOpportunity(ConceptDefOf.DrugBurning, OpportunityType.Important);
+					}
+				}, null);
 			}
 		}
 

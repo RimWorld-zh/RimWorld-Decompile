@@ -43,13 +43,13 @@ namespace RimWorld
 			Scribe_Values.Look<float>(ref this.workLeft, "workLeft", 0f, false);
 		}
 
-		public override bool TryMakePreToilReservations()
+		public override bool TryMakePreToilReservations(bool errorOnFailed)
 		{
 			Pawn pawn = this.pawn;
 			LocalTargetInfo target = this.Cell;
 			Job job = this.job;
 			ReservationLayerDef ceiling = ReservationLayerDefOf.Ceiling;
-			return pawn.Reserve(target, job, 1, -1, ceiling);
+			return pawn.Reserve(target, job, 1, -1, ceiling, errorOnFailed);
 		}
 
 		protected override IEnumerable<Toil> MakeNewToils()
@@ -69,6 +69,7 @@ namespace RimWorld
 				{
 					this.DoEffect();
 					this.ReadyForNextToil();
+					return;
 				}
 			};
 			doWork.FailOnCannotTouch(TargetIndex.B, this.PathEndMode);
@@ -128,6 +129,7 @@ namespace RimWorld
 						{
 							<MakeNewToils>c__AnonStorey.<>f__ref$0.$this.DoEffect();
 							<MakeNewToils>c__AnonStorey.<>f__ref$0.$this.ReadyForNextToil();
+							return;
 						}
 					};
 					<MakeNewToils>c__AnonStorey.doWork.FailOnCannotTouch(TargetIndex.B, this.PathEndMode);
@@ -222,6 +224,7 @@ namespace RimWorld
 					{
 						this.<>f__ref$0.$this.DoEffect();
 						this.<>f__ref$0.$this.ReadyForNextToil();
+						return;
 					}
 				}
 

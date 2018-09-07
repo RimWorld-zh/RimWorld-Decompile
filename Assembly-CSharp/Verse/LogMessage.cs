@@ -7,11 +7,11 @@ namespace Verse
 	{
 		public string text;
 
-		public LogMessageType type = LogMessageType.Message;
+		public LogMessageType type;
 
 		public int repeats = 1;
 
-		private string stackTrace = null;
+		private string stackTrace;
 
 		public LogMessage(string text)
 		{
@@ -32,30 +32,19 @@ namespace Verse
 			get
 			{
 				LogMessageType logMessageType = this.type;
-				Color result;
-				if (logMessageType != LogMessageType.Message)
+				if (logMessageType == LogMessageType.Message)
 				{
-					if (logMessageType != LogMessageType.Warning)
-					{
-						if (logMessageType != LogMessageType.Error)
-						{
-							result = Color.white;
-						}
-						else
-						{
-							result = Color.red;
-						}
-					}
-					else
-					{
-						result = Color.yellow;
-					}
+					return Color.white;
 				}
-				else
+				if (logMessageType == LogMessageType.Warning)
 				{
-					result = Color.white;
+					return Color.yellow;
 				}
-				return result;
+				if (logMessageType != LogMessageType.Error)
+				{
+					return Color.white;
+				}
+				return Color.red;
 			}
 		}
 
@@ -63,31 +52,21 @@ namespace Verse
 		{
 			get
 			{
-				string result;
 				if (this.stackTrace != null)
 				{
-					result = this.stackTrace;
+					return this.stackTrace;
 				}
-				else
-				{
-					result = "No stack trace.";
-				}
-				return result;
+				return "No stack trace.";
 			}
 		}
 
 		public override string ToString()
 		{
-			string result;
 			if (this.repeats > 1)
 			{
-				result = "(" + this.repeats.ToString() + ") " + this.text;
+				return "(" + this.repeats.ToString() + ") " + this.text;
 			}
-			else
-			{
-				result = this.text;
-			}
-			return result;
+			return this.text;
 		}
 
 		public bool CanCombineWith(LogMessage other)

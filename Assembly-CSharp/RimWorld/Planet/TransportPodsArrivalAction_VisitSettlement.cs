@@ -27,38 +27,28 @@ namespace RimWorld.Planet
 		public override FloatMenuAcceptanceReport StillValid(IEnumerable<IThingHolder> pods, int destinationTile)
 		{
 			FloatMenuAcceptanceReport floatMenuAcceptanceReport = base.StillValid(pods, destinationTile);
-			FloatMenuAcceptanceReport result;
 			if (!floatMenuAcceptanceReport)
 			{
-				result = floatMenuAcceptanceReport;
+				return floatMenuAcceptanceReport;
 			}
-			else if (this.settlement != null && this.settlement.Tile != destinationTile)
+			if (this.settlement != null && this.settlement.Tile != destinationTile)
 			{
-				result = false;
+				return false;
 			}
-			else
-			{
-				result = TransportPodsArrivalAction_VisitSettlement.CanVisit(pods, this.settlement);
-			}
-			return result;
+			return TransportPodsArrivalAction_VisitSettlement.CanVisit(pods, this.settlement);
 		}
 
 		public static FloatMenuAcceptanceReport CanVisit(IEnumerable<IThingHolder> pods, SettlementBase settlement)
 		{
-			FloatMenuAcceptanceReport result;
 			if (settlement == null || !settlement.Spawned || !settlement.Visitable)
 			{
-				result = false;
+				return false;
 			}
-			else if (!TransportPodsArrivalActionUtility.AnyPotentialCaravanOwner(pods, Faction.OfPlayer))
+			if (!TransportPodsArrivalActionUtility.AnyPotentialCaravanOwner(pods, Faction.OfPlayer))
 			{
-				result = false;
+				return false;
 			}
-			else
-			{
-				result = true;
-			}
-			return result;
+			return true;
 		}
 
 		public static IEnumerable<FloatMenuOption> GetFloatMenuOptions(CompLaunchable representative, IEnumerable<IThingHolder> pods, SettlementBase settlement)

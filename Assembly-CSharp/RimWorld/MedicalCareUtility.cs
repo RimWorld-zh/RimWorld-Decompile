@@ -19,7 +19,7 @@ namespace RimWorld
 
 		public const float CareSetterWidth = 140f;
 
-		private static bool medicalCarePainting = false;
+		private static bool medicalCarePainting;
 
 		[CompilerGenerated]
 		private static Action <>f__am$cache0;
@@ -81,28 +81,21 @@ namespace RimWorld
 
 		public static bool AllowsMedicine(this MedicalCareCategory cat, ThingDef meds)
 		{
-			bool result;
 			switch (cat)
 			{
 			case MedicalCareCategory.NoCare:
-				result = false;
-				break;
+				return false;
 			case MedicalCareCategory.NoMeds:
-				result = false;
-				break;
+				return false;
 			case MedicalCareCategory.HerbalOrWorse:
-				result = (meds.GetStatValueAbstract(StatDefOf.MedicalPotency, null) <= ThingDefOf.MedicineHerbal.GetStatValueAbstract(StatDefOf.MedicalPotency, null));
-				break;
+				return meds.GetStatValueAbstract(StatDefOf.MedicalPotency, null) <= ThingDefOf.MedicineHerbal.GetStatValueAbstract(StatDefOf.MedicalPotency, null);
 			case MedicalCareCategory.NormalOrWorse:
-				result = (meds.GetStatValueAbstract(StatDefOf.MedicalPotency, null) <= ThingDefOf.MedicineIndustrial.GetStatValueAbstract(StatDefOf.MedicalPotency, null));
-				break;
+				return meds.GetStatValueAbstract(StatDefOf.MedicalPotency, null) <= ThingDefOf.MedicineIndustrial.GetStatValueAbstract(StatDefOf.MedicalPotency, null);
 			case MedicalCareCategory.Best:
-				result = true;
-				break;
+				return true;
 			default:
 				throw new InvalidOperationException();
 			}
-			return result;
 		}
 
 		public static void MedicalCareSelectButton(Rect rect, Pawn pawn)

@@ -7,7 +7,6 @@ using System.Linq;
 using System.Runtime.CompilerServices;
 using System.Threading;
 using UnityEngine;
-using UnityEngine.Profiling;
 using Verse;
 using Verse.Profile;
 
@@ -15,7 +14,7 @@ namespace RimWorld
 {
 	public sealed class Autosaver
 	{
-		private int ticksSinceSave = 0;
+		private int ticksSinceSave;
 
 		private const int NumAutosaves = 5;
 
@@ -78,9 +77,7 @@ namespace RimWorld
 
 		private void DoMemoryCleanup()
 		{
-			Profiler.BeginSample("UnloadUnusedAssets");
 			MemoryUtility.UnloadUnusedUnityAssets();
-			Profiler.EndSample();
 		}
 
 		private string NewAutosaveFileName()
@@ -88,17 +85,11 @@ namespace RimWorld
 			string text = (from name in this.AutoSaveNames()
 			where !SaveGameFilesUtility.SavedGameNamedExists(name)
 			select name).FirstOrDefault<string>();
-			string result;
 			if (text != null)
 			{
-				result = text;
+				return text;
 			}
-			else
-			{
-				string text2 = this.AutoSaveNames().MinBy((string name) => new FileInfo(GenFilePaths.FilePathForSavedGame(name)).LastWriteTime);
-				result = text2;
-			}
-			return result;
+			return this.AutoSaveNames().MinBy((string name) => new FileInfo(GenFilePaths.FilePathForSavedGame(name)).LastWriteTime);
 		}
 
 		private IEnumerable<string> AutoSaveNames()

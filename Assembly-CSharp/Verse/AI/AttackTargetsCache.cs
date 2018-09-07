@@ -42,14 +42,15 @@ namespace Verse.AI
 
 		public void UpdateTarget(IAttackTarget t)
 		{
-			if (this.allTargets.Contains(t))
+			if (!this.allTargets.Contains(t))
 			{
-				this.DeregisterTarget(t);
-				Thing thing = t.Thing;
-				if (thing.Spawned && thing.Map == this.map)
-				{
-					this.RegisterTarget(t);
-				}
+				return;
+			}
+			this.DeregisterTarget(t);
+			Thing thing = t.Thing;
+			if (thing.Spawned && thing.Map == this.map)
+			{
+				this.RegisterTarget(t);
 			}
 		}
 
@@ -97,21 +98,16 @@ namespace Verse.AI
 
 		public HashSet<IAttackTarget> TargetsHostileToFaction(Faction f)
 		{
-			HashSet<IAttackTarget> result;
 			if (f == null)
 			{
 				Log.Warning("Called TargetsHostileToFaction with null faction.", false);
-				result = AttackTargetsCache.emptySet;
+				return AttackTargetsCache.emptySet;
 			}
-			else if (this.targetsHostileToFaction.ContainsKey(f))
+			if (this.targetsHostileToFaction.ContainsKey(f))
 			{
-				result = this.targetsHostileToFaction[f];
+				return this.targetsHostileToFaction[f];
 			}
-			else
-			{
-				result = AttackTargetsCache.emptySet;
-			}
-			return result;
+			return AttackTargetsCache.emptySet;
 		}
 
 		public void Notify_ThingSpawned(Thing th)
@@ -138,7 +134,8 @@ namespace Verse.AI
 			foreach (IAttackTarget attackTarget in this.allTargets)
 			{
 				Thing thing = attackTarget.Thing;
-				if (thing.Faction == f1 || thing.Faction == f2)
+				Pawn pawn = thing as Pawn;
+				if (thing.Faction == f1 || thing.Faction == f2 || (pawn != null && pawn.HostFaction == f1) || (pawn != null && pawn.HostFaction == f2))
 				{
 					AttackTargetsCache.tmpTargets.Add(attackTarget);
 				}
@@ -161,45 +158,42 @@ namespace Verse.AI
 					" in ",
 					base.GetType()
 				}), false);
+				return;
 			}
-			else
+			Thing thing = target.Thing;
+			if (!thing.Spawned)
 			{
-				Thing thing = target.Thing;
-				if (!thing.Spawned)
+				Log.Warning(string.Concat(new object[]
 				{
-					Log.Warning(string.Concat(new object[]
+					"Tried to register unspawned thing ",
+					thing.ToStringSafe<Thing>(),
+					" in ",
+					base.GetType()
+				}), false);
+				return;
+			}
+			if (thing.Map != this.map)
+			{
+				Log.Warning("Tried to register attack target " + thing.ToStringSafe<Thing>() + " but its Map is not this one.", false);
+				return;
+			}
+			this.allTargets.Add(target);
+			List<Faction> allFactionsListForReading = Find.FactionManager.AllFactionsListForReading;
+			for (int i = 0; i < allFactionsListForReading.Count; i++)
+			{
+				if (thing.HostileTo(allFactionsListForReading[i]))
+				{
+					if (!this.targetsHostileToFaction.ContainsKey(allFactionsListForReading[i]))
 					{
-						"Tried to register unspawned thing ",
-						thing.ToStringSafe<Thing>(),
-						" in ",
-						base.GetType()
-					}), false);
-				}
-				else if (thing.Map != this.map)
-				{
-					Log.Warning("Tried to register attack target " + thing.ToStringSafe<Thing>() + " but its Map is not this one.", false);
-				}
-				else
-				{
-					this.allTargets.Add(target);
-					List<Faction> allFactionsListForReading = Find.FactionManager.AllFactionsListForReading;
-					for (int i = 0; i < allFactionsListForReading.Count; i++)
-					{
-						if (thing.HostileTo(allFactionsListForReading[i]))
-						{
-							if (!this.targetsHostileToFaction.ContainsKey(allFactionsListForReading[i]))
-							{
-								this.targetsHostileToFaction.Add(allFactionsListForReading[i], new HashSet<IAttackTarget>());
-							}
-							this.targetsHostileToFaction[allFactionsListForReading[i]].Add(target);
-						}
+						this.targetsHostileToFaction.Add(allFactionsListForReading[i], new HashSet<IAttackTarget>());
 					}
-					Pawn pawn = target as Pawn;
-					if (pawn != null && pawn.InAggroMentalState)
-					{
-						this.pawnsInAggroMentalState.Add(pawn);
-					}
+					this.targetsHostileToFaction[allFactionsListForReading[i]].Add(target);
 				}
+			}
+			Pawn pawn = target as Pawn;
+			if (pawn != null && pawn.InAggroMentalState)
+			{
+				this.pawnsInAggroMentalState.Add(pawn);
 			}
 		}
 
@@ -214,20 +208,18 @@ namespace Verse.AI
 					" but it's not in ",
 					base.GetType()
 				}), false);
+				return;
 			}
-			else
+			this.allTargets.Remove(target);
+			foreach (KeyValuePair<Faction, HashSet<IAttackTarget>> keyValuePair in this.targetsHostileToFaction)
 			{
-				this.allTargets.Remove(target);
-				foreach (KeyValuePair<Faction, HashSet<IAttackTarget>> keyValuePair in this.targetsHostileToFaction)
-				{
-					HashSet<IAttackTarget> value = keyValuePair.Value;
-					value.Remove(target);
-				}
-				Pawn pawn = target as Pawn;
-				if (pawn != null)
-				{
-					this.pawnsInAggroMentalState.Remove(pawn);
-				}
+				HashSet<IAttackTarget> value = keyValuePair.Value;
+				value.Remove(target);
+			}
+			Pawn pawn = target as Pawn;
+			if (pawn != null)
+			{
+				this.pawnsInAggroMentalState.Remove(pawn);
 			}
 		}
 

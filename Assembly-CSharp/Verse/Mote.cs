@@ -7,11 +7,11 @@ namespace Verse
 	{
 		public Vector3 exactPosition;
 
-		public float exactRotation = 0f;
+		public float exactRotation;
 
 		public Vector3 exactScale = new Vector3(1f, 1f, 1f);
 
-		public float rotationRate = 0f;
+		public float rotationRate;
 
 		public Color instanceColor = Color.white;
 
@@ -43,16 +43,11 @@ namespace Verse
 		{
 			get
 			{
-				float result;
 				if (this.def.mote.realTime)
 				{
-					result = Time.realtimeSinceStartup - this.spawnRealTime;
+					return Time.realtimeSinceStartup - this.spawnRealTime;
 				}
-				else
-				{
-					result = (float)(Find.TickManager.TicksGame - this.spawnTick) / 60f;
-				}
-				return result;
+				return (float)(Find.TickManager.TicksGame - this.spawnTick) / 60f;
 			}
 		}
 
@@ -77,31 +72,26 @@ namespace Verse
 			get
 			{
 				float ageSecs = this.AgeSecs;
-				float result;
 				if (ageSecs <= this.def.mote.fadeInTime)
 				{
 					if (this.def.mote.fadeInTime > 0f)
 					{
-						result = ageSecs / this.def.mote.fadeInTime;
+						return ageSecs / this.def.mote.fadeInTime;
 					}
-					else
-					{
-						result = 1f;
-					}
-				}
-				else if (ageSecs <= this.def.mote.fadeInTime + this.def.mote.solidTime)
-				{
-					result = 1f;
-				}
-				else if (this.def.mote.fadeOutTime > 0f)
-				{
-					result = 1f - Mathf.InverseLerp(this.def.mote.fadeInTime + this.def.mote.solidTime, this.def.mote.fadeInTime + this.def.mote.solidTime + this.def.mote.fadeOutTime, ageSecs);
+					return 1f;
 				}
 				else
 				{
-					result = 1f;
+					if (ageSecs <= this.def.mote.fadeInTime + this.def.mote.solidTime)
+					{
+						return 1f;
+					}
+					if (this.def.mote.fadeOutTime > 0f)
+					{
+						return 1f - Mathf.InverseLerp(this.def.mote.fadeInTime + this.def.mote.solidTime, this.def.mote.fadeInTime + this.def.mote.solidTime + this.def.mote.fadeOutTime, ageSecs);
+					}
+					return 1f;
 				}
-				return result;
 			}
 		}
 
@@ -144,12 +134,14 @@ namespace Verse
 			if (this.EndOfLife && !base.Destroyed)
 			{
 				this.Destroy(DestroyMode.Vanish);
+				return;
 			}
-			else if (this.def.mote.needsMaintenance && Find.TickManager.TicksGame - 1 > this.lastMaintainTick)
+			if (this.def.mote.needsMaintenance && Find.TickManager.TicksGame - 1 > this.lastMaintainTick)
 			{
 				this.Destroy(DestroyMode.Vanish);
+				return;
 			}
-			else if (this.def.mote.growthRate != 0f)
+			if (this.def.mote.growthRate != 0f)
 			{
 				this.exactScale = new Vector3(this.exactScale.x + this.def.mote.growthRate * deltaTime, this.exactScale.y, this.exactScale.z + this.def.mote.growthRate * deltaTime);
 				this.exactScale.x = Mathf.Max(this.exactScale.x, 0.0001f);

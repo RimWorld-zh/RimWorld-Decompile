@@ -27,28 +27,30 @@ namespace RimWorld
 		{
 			CellRect around;
 			IntVec3 near;
-			if (SiteGenStepUtility.TryFindRootToSpawnAroundRectOfInterest(out around, out near, map))
+			if (!SiteGenStepUtility.TryFindRootToSpawnAroundRectOfInterest(out around, out near, map))
 			{
-				List<Pawn> list = new List<Pawn>();
-				foreach (Pawn pawn in this.GeneratePawns(parms, map))
+				return;
+			}
+			List<Pawn> list = new List<Pawn>();
+			foreach (Pawn pawn in this.GeneratePawns(parms, map))
+			{
+				IntVec3 loc;
+				if (!SiteGenStepUtility.TryFindSpawnCellAroundOrNear(around, near, map, out loc))
 				{
-					IntVec3 loc;
-					if (!SiteGenStepUtility.TryFindSpawnCellAroundOrNear(around, near, map, out loc))
-					{
-						Find.WorldPawns.PassToWorld(pawn, PawnDiscardDecideMode.Decide);
-						break;
-					}
-					GenSpawn.Spawn(pawn, loc, map, WipeMode.Vanish);
-					list.Add(pawn);
+					Find.WorldPawns.PassToWorld(pawn, PawnDiscardDecideMode.Decide);
+					break;
 				}
-				if (list.Any<Pawn>())
-				{
-					LordMaker.MakeNewLord(Faction.OfMechanoids, new LordJob_SleepThenAssaultColony(Faction.OfMechanoids, Rand.Bool), map, list);
-					for (int i = 0; i < list.Count; i++)
-					{
-						list[i].jobs.EndCurrentJob(JobCondition.InterruptForced, true);
-					}
-				}
+				GenSpawn.Spawn(pawn, loc, map, WipeMode.Vanish);
+				list.Add(pawn);
+			}
+			if (!list.Any<Pawn>())
+			{
+				return;
+			}
+			LordMaker.MakeNewLord(Faction.OfMechanoids, new LordJob_SleepThenAssaultColony(Faction.OfMechanoids, Rand.Bool), map, list);
+			for (int i = 0; i < list.Count; i++)
+			{
+				list[i].jobs.EndCurrentJob(JobCondition.InterruptForced, true);
 			}
 		}
 

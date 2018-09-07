@@ -17,7 +17,7 @@ namespace Verse.AI
 		{
 		}
 
-		public override bool TryMakePreToilReservations()
+		public override bool TryMakePreToilReservations(bool errorOnFailed)
 		{
 			return true;
 		}
@@ -30,16 +30,18 @@ namespace Verse.AI
 				tickAction = delegate()
 				{
 					Pawn pawn = (Pawn)this.job.GetTarget(TargetIndex.A).Thing;
-					if (!this.pawn.Position.InHorDistOf(pawn.Position, 4f) || !this.pawn.Position.WithinRegions(pawn.Position, base.Map, 2, TraverseParms.For(this.pawn, Danger.Deadly, TraverseMode.ByPawn, false), RegionType.Set_Passable))
+					if (this.pawn.Position.InHorDistOf(pawn.Position, 4f) && this.pawn.Position.WithinRegions(pawn.Position, base.Map, 2, TraverseParms.For(this.pawn, Danger.Deadly, TraverseMode.ByPawn, false), RegionType.Set_Passable))
 					{
-						if (!this.pawn.CanReach(pawn, PathEndMode.Touch, Danger.Deadly, false, TraverseMode.ByPawn))
-						{
-							base.EndJobWith(JobCondition.Incompletable);
-						}
-						else if (!this.pawn.pather.Moving || this.pawn.pather.Destination != pawn)
-						{
-							this.pawn.pather.StartPath(pawn, PathEndMode.Touch);
-						}
+						return;
+					}
+					if (!this.pawn.CanReach(pawn, PathEndMode.Touch, Danger.Deadly, false, TraverseMode.ByPawn))
+					{
+						base.EndJobWith(JobCondition.Incompletable);
+						return;
+					}
+					if (!this.pawn.pather.Moving || this.pawn.pather.Destination != pawn)
+					{
+						this.pawn.pather.StartPath(pawn, PathEndMode.Touch);
 					}
 				},
 				defaultCompleteMode = ToilCompleteMode.Never
@@ -83,16 +85,18 @@ namespace Verse.AI
 					follow.tickAction = delegate()
 					{
 						Pawn pawn = (Pawn)this.job.GetTarget(TargetIndex.A).Thing;
-						if (!this.pawn.Position.InHorDistOf(pawn.Position, 4f) || !this.pawn.Position.WithinRegions(pawn.Position, base.Map, 2, TraverseParms.For(this.pawn, Danger.Deadly, TraverseMode.ByPawn, false), RegionType.Set_Passable))
+						if (this.pawn.Position.InHorDistOf(pawn.Position, 4f) && this.pawn.Position.WithinRegions(pawn.Position, base.Map, 2, TraverseParms.For(this.pawn, Danger.Deadly, TraverseMode.ByPawn, false), RegionType.Set_Passable))
 						{
-							if (!this.pawn.CanReach(pawn, PathEndMode.Touch, Danger.Deadly, false, TraverseMode.ByPawn))
-							{
-								base.EndJobWith(JobCondition.Incompletable);
-							}
-							else if (!this.pawn.pather.Moving || this.pawn.pather.Destination != pawn)
-							{
-								this.pawn.pather.StartPath(pawn, PathEndMode.Touch);
-							}
+							return;
+						}
+						if (!this.pawn.CanReach(pawn, PathEndMode.Touch, Danger.Deadly, false, TraverseMode.ByPawn))
+						{
+							base.EndJobWith(JobCondition.Incompletable);
+							return;
+						}
+						if (!this.pawn.pather.Moving || this.pawn.pather.Destination != pawn)
+						{
+							this.pawn.pather.StartPath(pawn, PathEndMode.Touch);
 						}
 					};
 					follow.defaultCompleteMode = ToilCompleteMode.Never;
@@ -162,16 +166,18 @@ namespace Verse.AI
 			internal void <>m__0()
 			{
 				Pawn pawn = (Pawn)this.job.GetTarget(TargetIndex.A).Thing;
-				if (!this.pawn.Position.InHorDistOf(pawn.Position, 4f) || !this.pawn.Position.WithinRegions(pawn.Position, base.Map, 2, TraverseParms.For(this.pawn, Danger.Deadly, TraverseMode.ByPawn, false), RegionType.Set_Passable))
+				if (this.pawn.Position.InHorDistOf(pawn.Position, 4f) && this.pawn.Position.WithinRegions(pawn.Position, base.Map, 2, TraverseParms.For(this.pawn, Danger.Deadly, TraverseMode.ByPawn, false), RegionType.Set_Passable))
 				{
-					if (!this.pawn.CanReach(pawn, PathEndMode.Touch, Danger.Deadly, false, TraverseMode.ByPawn))
-					{
-						base.EndJobWith(JobCondition.Incompletable);
-					}
-					else if (!this.pawn.pather.Moving || this.pawn.pather.Destination != pawn)
-					{
-						this.pawn.pather.StartPath(pawn, PathEndMode.Touch);
-					}
+					return;
+				}
+				if (!this.pawn.CanReach(pawn, PathEndMode.Touch, Danger.Deadly, false, TraverseMode.ByPawn))
+				{
+					base.EndJobWith(JobCondition.Incompletable);
+					return;
+				}
+				if (!this.pawn.pather.Moving || this.pawn.pather.Destination != pawn)
+				{
+					this.pawn.pather.StartPath(pawn, PathEndMode.Touch);
 				}
 			}
 		}

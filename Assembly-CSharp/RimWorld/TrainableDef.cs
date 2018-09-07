@@ -13,26 +13,26 @@ namespace RimWorld
 	{
 		public float difficulty = -1f;
 
-		public float minBodySize = 0f;
+		public float minBodySize;
 
-		public List<TrainableDef> prerequisites = null;
+		public List<TrainableDef> prerequisites;
 
 		[NoTranslate]
 		public List<string> tags = new List<string>();
 
-		public bool defaultTrainable = false;
+		public bool defaultTrainable;
 
 		public TrainabilityDef requiredTrainability;
 
 		public int steps = 1;
 
-		public float listPriority = 0f;
+		public float listPriority;
 
 		[NoTranslate]
 		public string icon;
 
 		[Unsaved]
-		public int indent = 0;
+		public int indent;
 
 		[Unsaved]
 		private Texture2D iconTex;
@@ -55,28 +55,23 @@ namespace RimWorld
 
 		public bool MatchesTag(string tag)
 		{
-			bool result;
 			if (tag == this.defName)
 			{
-				result = true;
+				return true;
 			}
-			else
+			for (int i = 0; i < this.tags.Count; i++)
 			{
-				for (int i = 0; i < this.tags.Count; i++)
+				if (this.tags[i] == tag)
 				{
-					if (this.tags[i] == tag)
-					{
-						return true;
-					}
+					return true;
 				}
-				result = false;
 			}
-			return result;
+			return false;
 		}
 
 		public override IEnumerable<string> ConfigErrors()
 		{
-			foreach (string e in this.<ConfigErrors>__BaseCallProxy0())
+			foreach (string e in base.ConfigErrors())
 			{
 				yield return e;
 			}
@@ -128,7 +123,7 @@ namespace RimWorld
 				case 1u:
 					break;
 				case 2u:
-					goto IL_EC;
+					goto IL_E8;
 				default:
 					return false;
 				}
@@ -161,7 +156,7 @@ namespace RimWorld
 				}
 				if (this.difficulty >= 0f)
 				{
-					goto IL_EC;
+					goto IL_E8;
 				}
 				this.$current = "difficulty not set";
 				if (!this.$disposing)
@@ -169,7 +164,7 @@ namespace RimWorld
 					this.$PC = 2;
 				}
 				return true;
-				IL_EC:
+				IL_E8:
 				this.$PC = -1;
 				return false;
 			}

@@ -24,20 +24,15 @@ namespace RimWorld.Planet
 
 		public int GetNextOrderedVertex(int root)
 		{
-			int result;
 			if (this.v1 == root)
 			{
-				result = this.v2;
+				return this.v2;
 			}
-			else if (this.v2 == root)
+			if (this.v2 == root)
 			{
-				result = this.v3;
+				return this.v3;
 			}
-			else
-			{
-				result = this.v1;
-			}
-			return result;
+			return this.v1;
 		}
 	}
 }

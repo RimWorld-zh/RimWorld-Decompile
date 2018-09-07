@@ -100,7 +100,6 @@ namespace RimWorld
 		{
 			List<string> list = this.NamesFor(slot, gender);
 			int num = 0;
-			string result;
 			if (list.Count == 0)
 			{
 				Log.Error(string.Concat(new object[]
@@ -111,29 +110,23 @@ namespace RimWorld
 					slot,
 					" is empty."
 				}), false);
-				result = "Errorname";
+				return "Errorname";
 			}
-			else
+			string text;
+			for (;;)
 			{
-				string text;
-				for (;;)
+				text = list.RandomElement<string>();
+				if (checkIfAlreadyUsed && !NameUseChecker.NameWordIsUsed(text))
 				{
-					text = list.RandomElement<string>();
-					if (checkIfAlreadyUsed && !NameUseChecker.NameWordIsUsed(text))
-					{
-						break;
-					}
-					num++;
-					if (num > 50)
-					{
-						goto Block_4;
-					}
+					break;
 				}
-				return text;
-				Block_4:
-				result = text;
+				num++;
+				if (num > 50)
+				{
+					return text;
+				}
 			}
-			return result;
+			return text;
 		}
 
 		// Note: this type is marked as 'beforefieldinit'.
@@ -187,14 +180,14 @@ namespace RimWorld
 				{
 				case 0u:
 					i = 0;
-					goto IL_A0;
+					goto IL_9B;
 				case 1u:
 					j++;
 					break;
 				default:
 					return false;
 				}
-				IL_81:
+				IL_7D:
 				if (j < NameBank.numSlots)
 				{
 					this.$current = this.names[i, j];
@@ -205,11 +198,11 @@ namespace RimWorld
 					return true;
 				}
 				i++;
-				IL_A0:
+				IL_9B:
 				if (i < NameBank.numGenders)
 				{
 					j = 0;
-					goto IL_81;
+					goto IL_7D;
 				}
 				this.$PC = -1;
 				return false;

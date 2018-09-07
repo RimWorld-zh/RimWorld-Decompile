@@ -23,25 +23,23 @@ namespace Verse
 
 		public void RenderStatusOverlays(Vector3 bodyLoc, Quaternion quat, Mesh headMesh)
 		{
-			if (this.pawn.IsColonistPlayerControlled)
+			if (!this.pawn.IsColonistPlayerControlled)
 			{
-				Vector3 headLoc = bodyLoc + new Vector3(0f, 0f, 0.32f);
-				if (this.pawn.needs.mood != null && !this.pawn.Downed && this.pawn.HitPoints > 0)
+				return;
+			}
+			Vector3 headLoc = bodyLoc + new Vector3(0f, 0f, 0.32f);
+			if (this.pawn.needs.mood != null && !this.pawn.Downed && this.pawn.HitPoints > 0)
+			{
+				if (this.pawn.mindState.mentalBreaker.BreakExtremeIsImminent)
 				{
-					if (this.pawn.mindState.mentalBreaker.BreakExtremeIsImminent)
+					if (Time.time % 1.2f < 0.4f)
 					{
-						if (Time.time % 1.2f < 0.4f)
-						{
-							this.DrawHeadGlow(headLoc, PawnHeadOverlays.MentalStateImminentMat);
-						}
+						this.DrawHeadGlow(headLoc, PawnHeadOverlays.MentalStateImminentMat);
 					}
-					else if (this.pawn.mindState.mentalBreaker.BreakExtremeIsApproaching)
-					{
-						if (Time.time % 1.2f < 0.4f)
-						{
-							this.DrawHeadGlow(headLoc, PawnHeadOverlays.UnhappyMat);
-						}
-					}
+				}
+				else if (this.pawn.mindState.mentalBreaker.BreakExtremeIsApproaching && Time.time % 1.2f < 0.4f)
+				{
+					this.DrawHeadGlow(headLoc, PawnHeadOverlays.UnhappyMat);
 				}
 			}
 		}

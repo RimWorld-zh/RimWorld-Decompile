@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Runtime.CompilerServices;
+using System.Text;
 using UnityEngine;
 using Verse;
 
@@ -36,7 +37,7 @@ namespace RimWorld
 		[CompilerGenerated]
 		private static Func<SkillRecord, float> <>f__am$cache0;
 
-		public static float PawnQualityPriceFactor(Pawn pawn)
+		public static float PawnQualityPriceFactor(Pawn pawn, StringBuilder explanation = null)
 		{
 			float num = 1f;
 			num *= Mathf.Lerp(0.199999988f, 1f, pawn.health.summaryHealth.SummaryHealthPercent);
@@ -68,6 +69,40 @@ namespace RimWorld
 			if (num < 0.1f)
 			{
 				num = 0.1f;
+			}
+			if (explanation != null)
+			{
+				if (explanation.Length > 0)
+				{
+					explanation.AppendLine();
+				}
+				explanation.Append("StatsReport_CharacterQuality".Translate() + ": x" + num.ToStringPercent());
+			}
+			return num;
+		}
+
+		public static float PawnQualityPriceOffset(Pawn pawn, StringBuilder explanation = null)
+		{
+			float num = 0f;
+			List<Hediff> hediffs = pawn.health.hediffSet.hediffs;
+			for (int i = 0; i < hediffs.Count; i++)
+			{
+				if (hediffs[i] is Hediff_AddedPart && hediffs[i].def.spawnThingOnRemoved != null)
+				{
+					float baseMarketValue = hediffs[i].def.spawnThingOnRemoved.BaseMarketValue;
+					if (baseMarketValue >= 1f)
+					{
+						num += baseMarketValue;
+						if (explanation != null)
+						{
+							if (explanation.Length > 0)
+							{
+								explanation.AppendLine();
+							}
+							explanation.Append(hediffs[i].LabelBaseCap + ": " + baseMarketValue.ToStringMoneyOffset(null));
+						}
+					}
+				}
 			}
 			return num;
 		}

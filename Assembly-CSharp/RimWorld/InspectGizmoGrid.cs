@@ -50,11 +50,12 @@ namespace RimWorld
 								command_Action.order = ((!(des is Designator_Uninstall)) ? -20f : -11f);
 								command_Action.action = delegate()
 								{
-									if (TutorSystem.AllowAction(des.TutorTagDesignate))
+									if (!TutorSystem.AllowAction(des.TutorTagDesignate))
 									{
-										des.DesignateThing(t);
-										des.Finalize(true);
+										return;
 									}
+									des.DesignateThing(t);
+									des.Finalize(true);
 								};
 								command_Action.hotKey = des.hotKey;
 								command_Action.groupKey = des.groupKey;
@@ -101,11 +102,12 @@ namespace RimWorld
 
 			internal void <>m__0()
 			{
-				if (TutorSystem.AllowAction(this.des.TutorTagDesignate))
+				if (!TutorSystem.AllowAction(this.des.TutorTagDesignate))
 				{
-					this.des.DesignateThing(this.<>f__ref$1.t);
-					this.des.Finalize(true);
+					return;
 				}
+				this.des.DesignateThing(this.<>f__ref$1.t);
+				this.des.Finalize(true);
 			}
 		}
 	}

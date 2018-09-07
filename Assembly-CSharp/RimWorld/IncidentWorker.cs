@@ -85,6 +85,10 @@ namespace RimWorld
 						}
 					}
 				}
+				if (this.def.minGreatestPopulation > 0 && Find.StoryWatcher.statsRecord.greatestPopulation < this.def.minGreatestPopulation)
+				{
+					return false;
+				}
 			}
 			return this.CanFireNowSub(parms);
 		}
@@ -97,27 +101,38 @@ namespace RimWorld
 		public bool TryExecute(IncidentParms parms)
 		{
 			bool flag = this.TryExecuteWorker(parms);
-			if (flag && this.def.tale != null)
+			if (flag)
 			{
-				Pawn pawn = null;
-				if (parms.target is Caravan)
+				if (this.def.tale != null)
 				{
-					pawn = ((Caravan)parms.target).RandomOwner();
-				}
-				else if (parms.target is Map)
-				{
-					pawn = ((Map)parms.target).mapPawns.FreeColonistsSpawned.RandomElementWithFallback(null);
-				}
-				else if (parms.target is World)
-				{
-					pawn = PawnsFinder.AllMapsCaravansAndTravelingTransportPods_Alive_FreeColonists_NoCryptosleep.RandomElementWithFallback(null);
-				}
-				if (pawn != null)
-				{
-					TaleRecorder.RecordTale(this.def.tale, new object[]
+					Pawn pawn = null;
+					if (parms.target is Caravan)
 					{
-						pawn
-					});
+						pawn = ((Caravan)parms.target).RandomOwner();
+					}
+					else if (parms.target is Map)
+					{
+						pawn = ((Map)parms.target).mapPawns.FreeColonistsSpawned.RandomElementWithFallback(null);
+					}
+					else if (parms.target is World)
+					{
+						pawn = PawnsFinder.AllMapsCaravansAndTravelingTransportPods_Alive_FreeColonists_NoCryptosleep.RandomElementWithFallback(null);
+					}
+					if (pawn != null)
+					{
+						TaleRecorder.RecordTale(this.def.tale, new object[]
+						{
+							pawn
+						});
+					}
+				}
+				if (this.def.category.tale != null)
+				{
+					Tale tale = TaleRecorder.RecordTale(this.def.category.tale, new object[0]);
+					if (tale != null)
+					{
+						tale.customLabel = this.def.label;
+					}
 				}
 			}
 			return flag;

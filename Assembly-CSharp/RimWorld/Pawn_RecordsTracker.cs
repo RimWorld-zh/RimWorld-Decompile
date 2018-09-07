@@ -11,13 +11,13 @@ namespace RimWorld
 
 		private DefMap<RecordDef, float> records = new DefMap<RecordDef, float>();
 
-		private double storyRelevance = 0.0;
+		private double storyRelevance;
 
-		private Battle battleActive = null;
+		private Battle battleActive;
 
-		private int battleExitTick = 0;
+		private int battleExitTick;
 
-		private float storyRelevanceBonus = 0f;
+		private float storyRelevanceBonus;
 
 		private const int UpdateTimeRecordsIntervalTicks = 80;
 
@@ -46,24 +46,19 @@ namespace RimWorld
 		{
 			get
 			{
-				Battle result;
 				if (this.battleExitTick < Find.TickManager.TicksGame)
 				{
-					result = null;
+					return null;
 				}
-				else if (this.battleActive == null)
+				if (this.battleActive == null)
 				{
-					result = null;
+					return null;
 				}
-				else
+				while (this.battleActive.AbsorbedBy != null)
 				{
-					while (this.battleActive.AbsorbedBy != null)
-					{
-						this.battleActive = this.battleActive.AbsorbedBy;
-					}
-					result = this.battleActive;
+					this.battleActive = this.battleActive.AbsorbedBy;
 				}
-				return result;
+				return this.battleActive;
 			}
 		}
 
@@ -77,13 +72,14 @@ namespace RimWorld
 
 		public void RecordsTick()
 		{
-			if (!this.pawn.Dead)
+			if (this.pawn.Dead)
 			{
-				if (this.pawn.IsHashIntervalTick(80))
-				{
-					this.RecordsTickUpdate(80);
-					this.battleActive = this.BattleActive;
-				}
+				return;
+			}
+			if (this.pawn.IsHashIntervalTick(80))
+			{
+				this.RecordsTickUpdate(80);
+				this.battleActive = this.BattleActive;
 			}
 		}
 
@@ -97,14 +93,11 @@ namespace RimWorld
 			List<RecordDef> allDefsListForReading = DefDatabase<RecordDef>.AllDefsListForReading;
 			for (int i = 0; i < allDefsListForReading.Count; i++)
 			{
-				if (allDefsListForReading[i].type == RecordType.Time)
+				if (allDefsListForReading[i].type == RecordType.Time && allDefsListForReading[i].Worker.ShouldMeasureTimeNow(this.pawn))
 				{
-					if (allDefsListForReading[i].Worker.ShouldMeasureTimeNow(this.pawn))
-					{
-						DefMap<RecordDef, float> defMap;
-						RecordDef def;
-						(defMap = this.records)[def = allDefsListForReading[i]] = defMap[def] + (float)interval;
-					}
+					DefMap<RecordDef, float> defMap;
+					RecordDef def;
+					(defMap = this.records)[def = allDefsListForReading[i]] = defMap[def] + (float)interval;
 				}
 			}
 			this.storyRelevance *= Math.Pow(0.20000000298023224, (double)(0 * interval));
@@ -122,11 +115,9 @@ namespace RimWorld
 					def.type,
 					"\"."
 				}), false);
+				return;
 			}
-			else
-			{
-				this.records[def] = Mathf.Round(this.records[def] + 1f);
-			}
+			this.records[def] = Mathf.Round(this.records[def] + 1f);
 		}
 
 		public void AddTo(RecordDef def, float value)
@@ -135,37 +126,33 @@ namespace RimWorld
 			{
 				this.records[def] = Mathf.Round(this.records[def] + Mathf.Round(value));
 			}
-			else if (def.type == RecordType.Float)
-			{
-				DefMap<RecordDef, float> defMap;
-				(defMap = this.records)[def] = defMap[def] + value;
-			}
 			else
 			{
-				Log.Error(string.Concat(new object[]
+				if (def.type != RecordType.Float)
 				{
-					"Tried to add value to record \"",
-					def.defName,
-					"\" whose record type is \"",
-					def.type,
-					"\"."
-				}), false);
+					Log.Error(string.Concat(new object[]
+					{
+						"Tried to add value to record \"",
+						def.defName,
+						"\" whose record type is \"",
+						def.type,
+						"\"."
+					}), false);
+					return;
+				}
+				DefMap<RecordDef, float> defMap;
+				(defMap = this.records)[def] = defMap[def] + value;
 			}
 		}
 
 		public float GetValue(RecordDef def)
 		{
 			float num = this.records[def];
-			float result;
 			if (def.type == RecordType.Int || def.type == RecordType.Time)
 			{
-				result = Mathf.Round(num);
+				return Mathf.Round(num);
 			}
-			else
-			{
-				result = num;
-			}
-			return result;
+			return num;
 		}
 
 		public int GetAsInt(RecordDef def)

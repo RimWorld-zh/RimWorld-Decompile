@@ -20,17 +20,12 @@ namespace RimWorld
 
 		public override float ValueFor(Pawn pawn)
 		{
-			float result;
 			if (pawn.skills == null)
 			{
-				result = 1f;
+				return 1f;
 			}
-			else
-			{
-				int level = pawn.skills.GetSkill(this.skill).Level;
-				result = this.ValueAtLevel(level);
-			}
-			return result;
+			int level = pawn.skills.GetSkill(this.skill).Level;
+			return this.ValueAtLevel(level);
 		}
 
 		private float ValueAtLevel(int level)
@@ -40,7 +35,7 @@ namespace RimWorld
 
 		public override IEnumerable<string> ConfigErrors()
 		{
-			foreach (string error in this.<ConfigErrors>__BaseCallProxy0())
+			foreach (string error in base.ConfigErrors())
 			{
 				yield return error;
 			}
@@ -100,7 +95,9 @@ namespace RimWorld
 				case 1u:
 					break;
 				case 2u:
-					goto IL_11B;
+					IL_116:
+					i++;
+					goto IL_124;
 				default:
 					return false;
 				}
@@ -132,10 +129,7 @@ namespace RimWorld
 					}
 				}
 				i = 1;
-				goto IL_12A;
-				IL_11B:
-				i++;
-				IL_12A:
+				IL_124:
 				if (i > 20)
 				{
 					this.$PC = -1;
@@ -152,7 +146,7 @@ namespace RimWorld
 						}
 						return true;
 					}
-					goto IL_11B;
+					goto IL_116;
 				}
 				return false;
 			}

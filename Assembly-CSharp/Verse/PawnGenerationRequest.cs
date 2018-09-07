@@ -523,11 +523,9 @@ namespace Verse
 			if (this.FixedLastName != null)
 			{
 				Log.Error("Last name is already a fixed value: " + this.FixedLastName + ".", false);
+				return;
 			}
-			else
-			{
-				this.FixedLastName = fixedLastName;
-			}
+			this.FixedLastName = fixedLastName;
 		}
 
 		public void SetFixedMelanin(float fixedMelanin)
@@ -535,11 +533,9 @@ namespace Verse
 			if (this.FixedMelanin != null)
 			{
 				Log.Error("Melanin is already a fixed value: " + this.FixedMelanin + ".", false);
+				return;
 			}
-			else
-			{
-				this.FixedMelanin = new float?(fixedMelanin);
-			}
+			this.FixedMelanin = new float?(fixedMelanin);
 		}
 
 		public override string ToString()

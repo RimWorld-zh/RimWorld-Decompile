@@ -5,7 +5,7 @@ namespace RimWorld
 {
 	public class CompProperties_SpawnerFilth : CompProperties
 	{
-		public ThingDef filthDef = null;
+		public ThingDef filthDef;
 
 		public int spawnCountOnSpawn = 5;
 

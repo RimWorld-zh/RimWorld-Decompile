@@ -85,28 +85,20 @@ namespace RimWorld
 
 		public AcceptanceReport CanAdjustTo(int destination)
 		{
-			AcceptanceReport result;
 			if (destination == this.CountToTransfer)
 			{
-				result = AcceptanceReport.WasAccepted;
+				return AcceptanceReport.WasAccepted;
 			}
-			else
+			int num = this.ClampAmount(destination);
+			if (num != this.CountToTransfer)
 			{
-				int num = this.ClampAmount(destination);
-				if (num != this.CountToTransfer)
-				{
-					result = AcceptanceReport.WasAccepted;
-				}
-				else if (destination < this.CountToTransfer)
-				{
-					result = this.UnderflowReport();
-				}
-				else
-				{
-					result = this.OverflowReport();
-				}
+				return AcceptanceReport.WasAccepted;
 			}
-			return result;
+			if (destination < this.CountToTransfer)
+			{
+				return this.UnderflowReport();
+			}
+			return this.OverflowReport();
 		}
 
 		public void AdjustBy(int adjustment)
@@ -119,11 +111,9 @@ namespace RimWorld
 			if (!this.CanAdjustTo(destination).Accepted)
 			{
 				Log.Error("Failed to adjust transferable counts", false);
+				return;
 			}
-			else
-			{
-				this.CountToTransfer = this.ClampAmount(destination);
-			}
+			this.CountToTransfer = this.ClampAmount(destination);
 		}
 
 		public void ForceTo(int value)

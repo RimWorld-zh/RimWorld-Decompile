@@ -8,7 +8,9 @@ namespace Verse
 
 		public bool solid = true;
 
-		public bool isGoodWeapon = false;
+		public bool isGoodWeapon;
+
+		public bool betterThanNatural = true;
 
 		public AddedBodyPartProps()
 		{

@@ -29,20 +29,15 @@ namespace RimWorld
 
 		private float GetFactor(float baseFactor)
 		{
-			float result;
 			if (Mathf.Abs(baseFactor) < 1f)
 			{
-				result = baseFactor;
+				return baseFactor;
 			}
-			else if (baseFactor > 0f)
+			if (baseFactor > 0f)
 			{
-				result = 1f + Mathf.Log(baseFactor);
+				return 1f + Mathf.Log(baseFactor);
 			}
-			else
-			{
-				result = -1f - Mathf.Log(-baseFactor);
-			}
-			return result;
+			return -1f - Mathf.Log(-baseFactor);
 		}
 	}
 }

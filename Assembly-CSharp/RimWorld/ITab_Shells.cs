@@ -15,24 +15,16 @@ namespace RimWorld
 			get
 			{
 				IStoreSettingsParent selStoreSettingsParent = base.SelStoreSettingsParent;
-				IStoreSettingsParent result;
 				if (selStoreSettingsParent != null)
 				{
-					result = selStoreSettingsParent;
+					return selStoreSettingsParent;
 				}
-				else
+				Building_TurretGun building_TurretGun = base.SelObject as Building_TurretGun;
+				if (building_TurretGun != null)
 				{
-					Building_TurretGun building_TurretGun = base.SelObject as Building_TurretGun;
-					if (building_TurretGun != null)
-					{
-						result = base.GetThingOrThingCompStoreSettingsParent(building_TurretGun.gun);
-					}
-					else
-					{
-						result = null;
-					}
+					return base.GetThingOrThingCompStoreSettingsParent(building_TurretGun.gun);
 				}
-				return result;
+				return null;
 			}
 		}
 

@@ -41,9 +41,24 @@ namespace RimWorld
 			}
 		}
 
-		public override bool TryMakePreToilReservations()
+		public override bool TryMakePreToilReservations(bool errorOnFailed)
 		{
-			return this.pawn.Reserve(this.job.targetA, this.job, 1, -1, null) && this.pawn.Reserve(this.job.targetA.Cell, this.job, 1, -1, null);
+			Pawn pawn = this.pawn;
+			LocalTargetInfo target = this.job.targetA;
+			Job job = this.job;
+			bool result;
+			if (pawn.Reserve(target, job, 1, -1, null, errorOnFailed))
+			{
+				pawn = this.pawn;
+				target = this.job.targetA.Cell;
+				job = this.job;
+				result = pawn.Reserve(target, job, 1, -1, null, errorOnFailed);
+			}
+			else
+			{
+				result = false;
+			}
+			return result;
 		}
 
 		protected override IEnumerable<Toil> MakeNewToils()
@@ -62,7 +77,7 @@ namespace RimWorld
 				this.workLeft -= num;
 				if (doWork.actor.skills != null)
 				{
-					doWork.actor.skills.Learn(SkillDefOf.Construction, 0.11f, false);
+					doWork.actor.skills.Learn(SkillDefOf.Construction, 0.1f, false);
 				}
 				if (this.workLeft <= 0f)
 				{
@@ -73,6 +88,7 @@ namespace RimWorld
 						designation.Delete();
 					}
 					this.ReadyForNextToil();
+					return;
 				}
 			};
 			doWork.FailOnCannotTouch(TargetIndex.A, PathEndMode.Touch);
@@ -141,7 +157,7 @@ namespace RimWorld
 						<MakeNewToils>c__AnonStorey.<>f__ref$0.$this.workLeft -= num2;
 						if (<MakeNewToils>c__AnonStorey.doWork.actor.skills != null)
 						{
-							<MakeNewToils>c__AnonStorey.doWork.actor.skills.Learn(SkillDefOf.Construction, 0.11f, false);
+							<MakeNewToils>c__AnonStorey.doWork.actor.skills.Learn(SkillDefOf.Construction, 0.1f, false);
 						}
 						if (<MakeNewToils>c__AnonStorey.<>f__ref$0.$this.workLeft <= 0f)
 						{
@@ -152,6 +168,7 @@ namespace RimWorld
 								designation.Delete();
 							}
 							<MakeNewToils>c__AnonStorey.<>f__ref$0.$this.ReadyForNextToil();
+							return;
 						}
 					};
 					<MakeNewToils>c__AnonStorey.doWork.FailOnCannotTouch(TargetIndex.A, PathEndMode.Touch);
@@ -251,7 +268,7 @@ namespace RimWorld
 					this.<>f__ref$0.$this.workLeft -= num;
 					if (this.doWork.actor.skills != null)
 					{
-						this.doWork.actor.skills.Learn(SkillDefOf.Construction, 0.11f, false);
+						this.doWork.actor.skills.Learn(SkillDefOf.Construction, 0.1f, false);
 					}
 					if (this.<>f__ref$0.$this.workLeft <= 0f)
 					{
@@ -262,6 +279,7 @@ namespace RimWorld
 							designation.Delete();
 						}
 						this.<>f__ref$0.$this.ReadyForNextToil();
+						return;
 					}
 				}
 

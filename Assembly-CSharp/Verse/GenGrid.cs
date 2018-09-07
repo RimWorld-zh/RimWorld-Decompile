@@ -35,29 +35,24 @@ namespace Verse
 
 		public static bool OnEdge(this IntVec3 c, Map map, Rot4 dir)
 		{
-			bool result;
 			if (dir == Rot4.North)
 			{
-				result = (c.z == 0);
+				return c.z == 0;
 			}
-			else if (dir == Rot4.South)
+			if (dir == Rot4.South)
 			{
-				result = (c.z == map.Size.z - 1);
+				return c.z == map.Size.z - 1;
 			}
-			else if (dir == Rot4.West)
+			if (dir == Rot4.West)
 			{
-				result = (c.x == 0);
+				return c.x == 0;
 			}
-			else if (dir == Rot4.East)
+			if (dir == Rot4.East)
 			{
-				result = (c.x == map.Size.x - 1);
+				return c.x == map.Size.x - 1;
 			}
-			else
-			{
-				Log.ErrorOnce("Invalid edge direction", 55370769, false);
-				result = false;
-			}
-			return result;
+			Log.ErrorOnce("Invalid edge direction", 55370769, false);
+			return false;
 		}
 
 		public static bool InBounds(this IntVec3 c, Map map)
@@ -79,24 +74,19 @@ namespace Verse
 
 		public static bool Standable(this IntVec3 c, Map map)
 		{
-			bool result;
 			if (!map.pathGrid.Walkable(c))
 			{
-				result = false;
+				return false;
 			}
-			else
+			List<Thing> list = map.thingGrid.ThingsListAt(c);
+			for (int i = 0; i < list.Count; i++)
 			{
-				List<Thing> list = map.thingGrid.ThingsListAt(c);
-				for (int i = 0; i < list.Count; i++)
+				if (list[i].def.passability != Traversability.Standable)
 				{
-					if (list[i].def.passability != Traversability.Standable)
-					{
-						return false;
-					}
+					return false;
 				}
-				result = true;
 			}
-			return result;
+			return true;
 		}
 
 		public static bool Impassable(this IntVec3 c, Map map)
@@ -119,17 +109,12 @@ namespace Verse
 
 		public static bool CanBeSeenOver(this IntVec3 c, Map map)
 		{
-			bool result;
 			if (!c.InBounds(map))
 			{
-				result = false;
+				return false;
 			}
-			else
-			{
-				Building edifice = c.GetEdifice(map);
-				result = (edifice == null || edifice.CanBeSeenOver());
-			}
-			return result;
+			Building edifice = c.GetEdifice(map);
+			return edifice == null || edifice.CanBeSeenOver();
 		}
 
 		public static bool CanBeSeenOverFast(this IntVec3 c, Map map)
@@ -140,39 +125,29 @@ namespace Verse
 
 		public static bool CanBeSeenOver(this Building b)
 		{
-			bool result;
 			if (b.def.Fillage == FillCategory.Full)
 			{
 				Building_Door building_Door = b as Building_Door;
-				result = (building_Door != null && building_Door.Open);
+				return building_Door != null && building_Door.Open;
 			}
-			else
-			{
-				result = true;
-			}
-			return result;
+			return true;
 		}
 
 		public static SurfaceType GetSurfaceType(this IntVec3 c, Map map)
 		{
-			SurfaceType result;
 			if (!c.InBounds(map))
 			{
-				result = SurfaceType.None;
+				return SurfaceType.None;
 			}
-			else
+			List<Thing> thingList = c.GetThingList(map);
+			for (int i = 0; i < thingList.Count; i++)
 			{
-				List<Thing> thingList = c.GetThingList(map);
-				for (int i = 0; i < thingList.Count; i++)
+				if (thingList[i].def.surfaceType != SurfaceType.None)
 				{
-					if (thingList[i].def.surfaceType != SurfaceType.None)
-					{
-						return thingList[i].def.surfaceType;
-					}
+					return thingList[i].def.surfaceType;
 				}
-				result = SurfaceType.None;
 			}
-			return result;
+			return SurfaceType.None;
 		}
 
 		public static bool HasEatSurface(this IntVec3 c, Map map)

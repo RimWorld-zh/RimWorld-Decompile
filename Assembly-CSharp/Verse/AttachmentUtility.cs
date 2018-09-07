@@ -7,16 +7,11 @@ namespace Verse
 		public static Thing GetAttachment(this Thing t, ThingDef def)
 		{
 			CompAttachBase compAttachBase = t.TryGetComp<CompAttachBase>();
-			Thing result;
 			if (compAttachBase == null)
 			{
-				result = null;
+				return null;
 			}
-			else
-			{
-				result = compAttachBase.GetAttachment(def);
-			}
-			return result;
+			return compAttachBase.GetAttachment(def);
 		}
 
 		public static bool HasAttachment(this Thing t, ThingDef def)

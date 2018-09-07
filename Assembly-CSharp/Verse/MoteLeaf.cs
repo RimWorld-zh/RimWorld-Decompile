@@ -43,44 +43,33 @@ namespace Verse
 			get
 			{
 				float num = base.AgeSecs;
-				float result;
 				if (num <= this.spawnDelay)
 				{
-					result = 0f;
+					return 0f;
+				}
+				num -= this.spawnDelay;
+				if (num <= this.def.mote.fadeInTime)
+				{
+					if (this.def.mote.fadeInTime > 0f)
+					{
+						return num / this.def.mote.fadeInTime;
+					}
+					return 1f;
 				}
 				else
 				{
-					num -= this.spawnDelay;
-					if (num <= this.def.mote.fadeInTime)
+					if (num <= this.FallTime + this.def.mote.solidTime)
 					{
-						if (this.def.mote.fadeInTime > 0f)
-						{
-							result = num / this.def.mote.fadeInTime;
-						}
-						else
-						{
-							result = 1f;
-						}
+						return 1f;
 					}
-					else if (num <= this.FallTime + this.def.mote.solidTime)
+					num -= this.FallTime + this.def.mote.solidTime;
+					if (num <= this.def.mote.fadeOutTime)
 					{
-						result = 1f;
+						return 1f - Mathf.InverseLerp(0f, this.def.mote.fadeOutTime, num);
 					}
-					else
-					{
-						num -= this.FallTime + this.def.mote.solidTime;
-						if (num <= this.def.mote.fadeOutTime)
-						{
-							result = 1f - Mathf.InverseLerp(0f, this.def.mote.fadeOutTime, num);
-						}
-						else
-						{
-							num -= this.def.mote.fadeOutTime;
-							result = 0f;
-						}
-					}
+					num -= this.def.mote.fadeOutTime;
+					return 0f;
 				}
-				return result;
 			}
 		}
 
@@ -96,19 +85,20 @@ namespace Verse
 		protected override void TimeInterval(float deltaTime)
 		{
 			base.TimeInterval(deltaTime);
-			if (!base.Destroyed)
+			if (base.Destroyed)
 			{
-				float ageSecs = base.AgeSecs;
-				this.exactPosition = this.startSpatialPosition;
-				if (ageSecs > this.spawnDelay)
-				{
-					this.exactPosition.y = this.exactPosition.y - MoteLeaf.FallSpeed * (ageSecs - this.spawnDelay);
-				}
-				this.exactPosition.y = Mathf.Max(this.exactPosition.y, 0f);
-				this.currentSpatialPosition = this.exactPosition;
-				this.exactPosition.z = this.exactPosition.z + this.exactPosition.y;
-				this.exactPosition.y = 0f;
+				return;
 			}
+			float ageSecs = base.AgeSecs;
+			this.exactPosition = this.startSpatialPosition;
+			if (ageSecs > this.spawnDelay)
+			{
+				this.exactPosition.y = this.exactPosition.y - MoteLeaf.FallSpeed * (ageSecs - this.spawnDelay);
+			}
+			this.exactPosition.y = Mathf.Max(this.exactPosition.y, 0f);
+			this.currentSpatialPosition = this.exactPosition;
+			this.exactPosition.z = this.exactPosition.z + this.exactPosition.y;
+			this.exactPosition.y = 0f;
 		}
 
 		public override void Draw()

@@ -58,21 +58,22 @@ namespace RimWorld
 			}
 			set
 			{
-				if (this.switchOnInt != value)
+				if (this.switchOnInt == value)
 				{
-					this.switchOnInt = value;
-					if (this.switchOnInt)
-					{
-						this.parent.BroadcastCompSignal("FlickedOn");
-					}
-					else
-					{
-						this.parent.BroadcastCompSignal("FlickedOff");
-					}
-					if (this.parent.Spawned)
-					{
-						this.parent.Map.mapDrawer.MapMeshDirty(this.parent.Position, MapMeshFlag.Things | MapMeshFlag.Buildings);
-					}
+					return;
+				}
+				this.switchOnInt = value;
+				if (this.switchOnInt)
+				{
+					this.parent.BroadcastCompSignal("FlickedOn");
+				}
+				else
+				{
+					this.parent.BroadcastCompSignal("FlickedOff");
+				}
+				if (this.parent.Spawned)
+				{
+					this.parent.Map.mapDrawer.MapMeshDirty(this.parent.Position, MapMeshFlag.Things | MapMeshFlag.Buildings);
 				}
 			}
 		}
@@ -81,20 +82,15 @@ namespace RimWorld
 		{
 			get
 			{
-				Graphic defaultGraphic;
 				if (this.SwitchIsOn)
 				{
-					defaultGraphic = this.parent.DefaultGraphic;
+					return this.parent.DefaultGraphic;
 				}
-				else
+				if (this.offGraphic == null)
 				{
-					if (this.offGraphic == null)
-					{
-						this.offGraphic = GraphicDatabase.Get(this.parent.def.graphicData.graphicClass, this.parent.def.graphicData.texPath + "_Off", this.parent.def.graphicData.shaderType.Shader, this.parent.def.graphicData.drawSize, this.parent.DrawColor, this.parent.DrawColorTwo);
-					}
-					defaultGraphic = this.offGraphic;
+					this.offGraphic = GraphicDatabase.Get(this.parent.def.graphicData.graphicClass, this.parent.def.graphicData.texPath + "_Off", this.parent.def.graphicData.shaderType.Shader, this.parent.def.graphicData.drawSize, this.parent.DrawColor, this.parent.DrawColorTwo);
 				}
-				return defaultGraphic;
+				return this.offGraphic;
 			}
 		}
 
@@ -124,7 +120,7 @@ namespace RimWorld
 
 		public override IEnumerable<Gizmo> CompGetGizmosExtra()
 		{
-			foreach (Gizmo c in this.<CompGetGizmosExtra>__BaseCallProxy0())
+			foreach (Gizmo c in base.CompGetGizmosExtra())
 			{
 				yield return c;
 			}
@@ -190,7 +186,7 @@ namespace RimWorld
 				case 1u:
 					break;
 				case 2u:
-					goto IL_193;
+					goto IL_18D;
 				default:
 					return false;
 				}
@@ -223,7 +219,7 @@ namespace RimWorld
 				}
 				if (this.parent.Faction != Faction.OfPlayer)
 				{
-					goto IL_193;
+					goto IL_18D;
 				}
 				Command_Toggle com = new Command_Toggle();
 				com.hotKey = KeyBindingDefOf.Command_TogglePower;
@@ -242,7 +238,7 @@ namespace RimWorld
 					this.$PC = 2;
 				}
 				return true;
-				IL_193:
+				IL_18D:
 				this.$PC = -1;
 				return false;
 			}

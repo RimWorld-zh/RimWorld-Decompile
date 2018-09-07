@@ -1,5 +1,4 @@
 ﻿using System;
-using System.Diagnostics;
 
 namespace Verse.Noise
 {
@@ -17,8 +16,6 @@ namespace Verse.Noise
 
 		public override double GetValue(double x, double y, double z)
 		{
-			Debug.Assert(this.modules[0] != null);
-			Debug.Assert(this.modules[1] != null);
 			double value = this.modules[0].GetValue(x, y, z);
 			double value2 = this.modules[1].GetValue(x, y, z);
 			return Math.Min(value, value2);

@@ -98,11 +98,12 @@ namespace RimWorld
 		public override void PreApplyDamage(ref DamageInfo dinfo, out bool absorbed)
 		{
 			base.PreApplyDamage(ref dinfo, out absorbed);
-			if (!absorbed)
+			if (absorbed)
 			{
-				this.stunner.Notify_DamageApplied(dinfo, true);
-				absorbed = false;
+				return;
 			}
+			this.stunner.Notify_DamageApplied(dinfo, true);
+			absorbed = false;
 		}
 
 		public abstract void OrderAttack(LocalTargetInfo targ);
@@ -110,25 +111,16 @@ namespace RimWorld
 		public bool ThreatDisabled(IAttackTargetSearcher disabledFor)
 		{
 			CompPowerTrader comp = base.GetComp<CompPowerTrader>();
-			bool result;
 			if (comp != null && !comp.PowerOn)
 			{
-				result = true;
+				return true;
 			}
-			else
-			{
-				CompMannable comp2 = base.GetComp<CompMannable>();
-				result = (comp2 != null && !comp2.MannedNow);
-			}
-			return result;
+			CompMannable comp2 = base.GetComp<CompMannable>();
+			return comp2 != null && !comp2.MannedNow;
 		}
 
 		protected void OnAttackedTarget(LocalTargetInfo target)
 		{
-			if (base.Faction == Faction.OfPlayer || (target.HasThing && target.Thing.Faction == Faction.OfPlayer))
-			{
-				Find.TickManager.slower.SignalForceNormalSpeed();
-			}
 			this.lastAttackTargetTick = Find.TickManager.TicksGame;
 			this.lastAttackedTarget = target;
 		}

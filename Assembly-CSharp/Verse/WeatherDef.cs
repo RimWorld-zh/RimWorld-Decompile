@@ -12,17 +12,17 @@ namespace Verse
 	{
 		public IntRange durationRange = new IntRange(16000, 160000);
 
-		public bool repeatable = false;
+		public bool repeatable;
 
 		public Favorability favorability = Favorability.Neutral;
 
 		public FloatRange temperatureRange = new FloatRange(-999f, 999f);
 
-		public SimpleCurve commonalityRainfallFactor = null;
+		public SimpleCurve commonalityRainfallFactor;
 
-		public float rainRate = 0f;
+		public float rainRate;
 
-		public float snowRate = 0f;
+		public float snowRate;
 
 		public float windSpeedFactor = 1f;
 
@@ -32,7 +32,7 @@ namespace Verse
 
 		public float perceivePriority;
 
-		public ThoughtDef exposedThought = null;
+		public ThoughtDef exposedThought;
 
 		public List<SoundDef> ambientSounds = new List<SoundDef>();
 

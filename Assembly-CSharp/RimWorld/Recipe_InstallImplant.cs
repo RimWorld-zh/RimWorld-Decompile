@@ -26,7 +26,7 @@ namespace RimWorld
 					BodyPartRecord record = bpList[j];
 					if (record.def == part)
 					{
-						if (pawn.health.hediffSet.GetNotMissingParts(BodyPartHeight.Undefined, BodyPartDepth.Undefined, null).Contains(record))
+						if (pawn.health.hediffSet.GetNotMissingParts(BodyPartHeight.Undefined, BodyPartDepth.Undefined, null, null).Contains(record))
 						{
 							if (!pawn.health.hediffSet.PartOrAnyAncestorHasDirectlyAddedParts(record))
 							{
@@ -97,15 +97,15 @@ namespace RimWorld
 				{
 				case 0u:
 					i = 0;
-					goto IL_1EE;
+					goto IL_1EA;
 				case 1u:
+					IL_1B8:
+					j++;
 					break;
 				default:
 					return false;
 				}
-				IL_1BB:
-				j++;
-				IL_1C9:
+				IL_1C6:
 				if (j >= bpList.Count)
 				{
 					i++;
@@ -115,19 +115,19 @@ namespace RimWorld
 					BodyPartRecord record = bpList[j];
 					if (record.def != part)
 					{
-						goto IL_1BB;
+						goto IL_1B8;
 					}
-					if (!pawn.health.hediffSet.GetNotMissingParts(BodyPartHeight.Undefined, BodyPartDepth.Undefined, null).Contains(record))
+					if (!pawn.health.hediffSet.GetNotMissingParts(BodyPartHeight.Undefined, BodyPartDepth.Undefined, null, null).Contains(record))
 					{
-						goto IL_1BB;
+						goto IL_1B8;
 					}
 					if (pawn.health.hediffSet.PartOrAnyAncestorHasDirectlyAddedParts(record))
 					{
-						goto IL_1BB;
+						goto IL_1B8;
 					}
 					if (pawn.health.hediffSet.hediffs.Any((Hediff x) => x.Part == record && x.def == <GetPartsToApplyOn>c__AnonStorey.recipe.addsHediff))
 					{
-						goto IL_1BB;
+						goto IL_1B8;
 					}
 					this.$current = record;
 					if (!this.$disposing)
@@ -136,13 +136,13 @@ namespace RimWorld
 					}
 					return true;
 				}
-				IL_1EE:
+				IL_1EA:
 				if (i < <GetPartsToApplyOn>c__AnonStorey.recipe.appliedOnFixedBodyParts.Count)
 				{
 					part = <GetPartsToApplyOn>c__AnonStorey.recipe.appliedOnFixedBodyParts[i];
 					bpList = pawn.RaceProps.body.AllParts;
 					j = 0;
-					goto IL_1C9;
+					goto IL_1C6;
 				}
 				this.$PC = -1;
 				return false;

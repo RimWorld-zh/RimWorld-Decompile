@@ -15,15 +15,15 @@ namespace RimWorld
 	{
 		protected float growthInt = 0.05f;
 
-		protected int ageInt = 0;
+		protected int ageInt;
 
-		protected int unlitTicks = 0;
+		protected int unlitTicks;
 
 		protected int madeLeaflessTick = -99999;
 
-		public bool sown = false;
+		public bool sown;
 
-		private string cachedLabelMouseover = null;
+		private string cachedLabelMouseover;
 
 		private static Color32[] workingColors = new Color32[4];
 
@@ -108,24 +108,19 @@ namespace RimWorld
 		{
 			get
 			{
-				bool result;
 				if (this.HarvestableNow)
 				{
-					result = true;
+					return true;
 				}
-				else if (!this.def.plant.Harvestable)
+				if (!this.def.plant.Harvestable)
 				{
-					result = false;
+					return false;
 				}
-				else
-				{
-					float num = Mathf.Max(1f - this.Growth, 0f);
-					float num2 = num * this.def.plant.growDays;
-					float num3 = Mathf.Max(1f - this.def.plant.harvestMinGrowth, 0f);
-					float num4 = num3 * this.def.plant.growDays;
-					result = ((num2 <= 10f || num4 <= 1f) && this.GrowthRateFactor_Fertility > 0f && this.GrowthRateFactor_Temperature > 0f);
-				}
-				return result;
+				float num = Mathf.Max(1f - this.Growth, 0f);
+				float num2 = num * this.def.plant.growDays;
+				float num3 = Mathf.Max(1f - this.def.plant.harvestMinGrowth, 0f);
+				float num4 = num3 * this.def.plant.growDays;
+				return (num2 <= 10f || num4 <= 1f) && this.GrowthRateFactor_Fertility > 0f && this.GrowthRateFactor_Temperature > 0f;
 			}
 		}
 
@@ -141,16 +136,11 @@ namespace RimWorld
 		{
 			get
 			{
-				Blight result;
 				if (!base.Spawned || !this.def.plant.Blightable)
 				{
-					result = null;
+					return null;
 				}
-				else
-				{
-					result = base.Position.GetFirstBlight(base.Map);
-				}
-				return result;
+				return base.Position.GetFirstBlight(base.Map);
 			}
 		}
 
@@ -174,30 +164,25 @@ namespace RimWorld
 		{
 			get
 			{
-				float result;
 				if (!base.Spawned)
 				{
-					result = 0f;
+					return 0f;
 				}
-				else
+				float num = 0f;
+				if (this.def.plant.LimitedLifespan && this.ageInt > this.def.plant.LifespanTicks)
 				{
-					float num = 0f;
-					if (this.def.plant.LimitedLifespan && this.ageInt > this.def.plant.LifespanTicks)
-					{
-						num = Mathf.Max(num, 0.005f);
-					}
-					if (!this.def.plant.cavePlant && this.unlitTicks > 450000)
-					{
-						num = Mathf.Max(num, 0.005f);
-					}
-					if (this.DyingBecauseExposedToLight)
-					{
-						float lerpPct = base.Map.glowGrid.GameGlowAt(base.Position, true);
-						num = Mathf.Max(num, Plant.DyingDamagePerTickBecauseExposedToLight.LerpThroughRange(lerpPct));
-					}
-					result = num;
+					num = Mathf.Max(num, 0.005f);
 				}
-				return result;
+				if (!this.def.plant.cavePlant && this.unlitTicks > 450000)
+				{
+					num = Mathf.Max(num, 0.005f);
+				}
+				if (this.DyingBecauseExposedToLight)
+				{
+					float lerpPct = base.Map.glowGrid.GameGlowAt(base.Position, true);
+					num = Mathf.Max(num, Plant.DyingDamagePerTickBecauseExposedToLight.LerpThroughRange(lerpPct));
+				}
+				return num;
 			}
 		}
 
@@ -229,20 +214,15 @@ namespace RimWorld
 		{
 			get
 			{
-				float result;
 				if (this.Blighted)
 				{
-					result = 0f;
+					return 0f;
 				}
-				else if (base.Spawned && !PlantUtility.GrowthSeasonNow(base.Position, base.Map, false))
+				if (base.Spawned && !PlantUtility.GrowthSeasonNow(base.Position, base.Map, false))
 				{
-					result = 0f;
+					return 0f;
 				}
-				else
-				{
-					result = this.GrowthRateFactor_Fertility * this.GrowthRateFactor_Temperature * this.GrowthRateFactor_Light;
-				}
-				return result;
+				return this.GrowthRateFactor_Fertility * this.GrowthRateFactor_Temperature * this.GrowthRateFactor_Light;
 			}
 		}
 
@@ -250,17 +230,12 @@ namespace RimWorld
 		{
 			get
 			{
-				float result;
 				if (this.LifeStage != PlantLifeStage.Growing || this.Resting)
 				{
-					result = 0f;
+					return 0f;
 				}
-				else
-				{
-					float num = 1f / (60000f * this.def.plant.growDays);
-					result = num * this.GrowthRate;
-				}
-				return result;
+				float num = 1f / (60000f * this.def.plant.growDays);
+				return num * this.GrowthRate;
 			}
 		}
 
@@ -277,16 +252,11 @@ namespace RimWorld
 			get
 			{
 				float num = base.Map.glowGrid.GameGlowAt(base.Position, false);
-				float result;
 				if (this.def.plant.growMinGlow == this.def.plant.growOptimalGlow && num == this.def.plant.growOptimalGlow)
 				{
-					result = 1f;
+					return 1f;
 				}
-				else
-				{
-					result = GenMath.InverseLerp(this.def.plant.growMinGlow, this.def.plant.growOptimalGlow, num);
-				}
-				return result;
+				return GenMath.InverseLerp(this.def.plant.growMinGlow, this.def.plant.growOptimalGlow, num);
 			}
 		}
 
@@ -295,24 +265,19 @@ namespace RimWorld
 			get
 			{
 				float num;
-				float result;
 				if (!GenTemperature.TryGetTemperatureForCell(base.Position, base.Map, out num))
 				{
-					result = 1f;
+					return 1f;
 				}
-				else if (num < 10f)
+				if (num < 10f)
 				{
-					result = Mathf.InverseLerp(0f, 10f, num);
+					return Mathf.InverseLerp(0f, 10f, num);
 				}
-				else if (num > 42f)
+				if (num > 42f)
 				{
-					result = Mathf.InverseLerp(58f, 42f, num);
+					return Mathf.InverseLerp(58f, 42f, num);
 				}
-				else
-				{
-					result = 1f;
-				}
-				return result;
+				return 1f;
 			}
 		}
 
@@ -320,24 +285,16 @@ namespace RimWorld
 		{
 			get
 			{
-				int result;
 				if (this.growthInt > 0.9999f)
 				{
-					result = 0;
+					return 0;
 				}
-				else
+				float growthPerTick = this.GrowthPerTick;
+				if (growthPerTick == 0f)
 				{
-					float growthPerTick = this.GrowthPerTick;
-					if (growthPerTick == 0f)
-					{
-						result = int.MaxValue;
-					}
-					else
-					{
-						result = (int)((1f - this.growthInt) / growthPerTick);
-					}
+					return int.MaxValue;
 				}
-				return result;
+				return (int)((1f - this.growthInt) / growthPerTick);
 			}
 		}
 
@@ -384,20 +341,15 @@ namespace RimWorld
 		{
 			get
 			{
-				PlantLifeStage result;
 				if (this.growthInt < 0.001f)
 				{
-					result = PlantLifeStage.Sowing;
+					return PlantLifeStage.Sowing;
 				}
-				else if (this.growthInt > 0.999f)
+				if (this.growthInt > 0.999f)
 				{
-					result = PlantLifeStage.Mature;
+					return PlantLifeStage.Mature;
 				}
-				else
-				{
-					result = PlantLifeStage.Growing;
-				}
-				return result;
+				return PlantLifeStage.Growing;
 			}
 		}
 
@@ -405,24 +357,19 @@ namespace RimWorld
 		{
 			get
 			{
-				Graphic result;
 				if (this.LifeStage == PlantLifeStage.Sowing)
 				{
-					result = Plant.GraphicSowing;
+					return Plant.GraphicSowing;
 				}
-				else if (this.def.plant.leaflessGraphic != null && this.LeaflessNow && (!this.sown || !this.HarvestableNow))
+				if (this.def.plant.leaflessGraphic != null && this.LeaflessNow && (!this.sown || !this.HarvestableNow))
 				{
-					result = this.def.plant.leaflessGraphic;
+					return this.def.plant.leaflessGraphic;
 				}
-				else if (this.def.plant.immatureGraphic != null && !this.HarvestableNow)
+				if (this.def.plant.immatureGraphic != null && !this.HarvestableNow)
 				{
-					result = this.def.plant.immatureGraphic;
+					return this.def.plant.immatureGraphic;
 				}
-				else
-				{
-					result = base.Graphic;
-				}
-				return result;
+				return base.Graphic;
 			}
 		}
 
@@ -447,21 +394,16 @@ namespace RimWorld
 		{
 			get
 			{
-				bool result;
 				if (!this.def.plant.Sowable)
 				{
-					result = false;
+					return false;
 				}
-				else if (!base.Spawned)
+				if (!base.Spawned)
 				{
 					Log.Warning("Can't determine if crop when unspawned.", false);
-					result = false;
+					return false;
 				}
-				else
-				{
-					result = (this.def == WorkGiver_Grower.CalculateWantedPlantDef(base.Position, base.Map));
-				}
-				return result;
+				return this.def == WorkGiver_Grower.CalculateWantedPlantDef(base.Position, base.Map);
 			}
 		}
 
@@ -549,15 +491,12 @@ namespace RimWorld
 			Map map = base.Map;
 			if (cause == Plant.LeaflessCause.Poison && this.def.plant.leaflessGraphic == null)
 			{
-				if (this.IsCrop)
+				if (this.IsCrop && MessagesRepeatAvoider.MessageShowAllowed("MessagePlantDiedOfPoison-" + this.def.defName, 240f))
 				{
-					if (MessagesRepeatAvoider.MessageShowAllowed("MessagePlantDiedOfPoison-" + this.def.defName, 240f))
+					Messages.Message("MessagePlantDiedOfPoison".Translate(new object[]
 					{
-						Messages.Message("MessagePlantDiedOfPoison".Translate(new object[]
-						{
-							this.GetCustomLabelNoCount(false)
-						}).CapitalizeFirst(), new TargetInfo(base.Position, map, false), MessageTypeDefOf.NegativeEvent, true);
-					}
+						this.GetCustomLabelNoCount(false)
+					}).CapitalizeFirst(), new TargetInfo(base.Position, map, false), MessageTypeDefOf.NegativeEvent, true);
 				}
 				base.TakeDamage(new DamageInfo(DamageDefOf.Rotting, 99999f, 0f, -1f, null, null, null, DamageInfo.SourceCategory.ThingOrUnknown, null));
 			}
@@ -575,15 +514,12 @@ namespace RimWorld
 							}).CapitalizeFirst(), new TargetInfo(base.Position, map, false), MessageTypeDefOf.NegativeEvent, true);
 						}
 					}
-					else if (cause == Plant.LeaflessCause.Poison)
+					else if (cause == Plant.LeaflessCause.Poison && MessagesRepeatAvoider.MessageShowAllowed("MessagePlantDiedOfPoison-" + this.def.defName, 240f))
 					{
-						if (MessagesRepeatAvoider.MessageShowAllowed("MessagePlantDiedOfPoison-" + this.def.defName, 240f))
+						Messages.Message("MessagePlantDiedOfPoison".Translate(new object[]
 						{
-							Messages.Message("MessagePlantDiedOfPoison".Translate(new object[]
-							{
-								this.GetCustomLabelNoCount(false)
-							}).CapitalizeFirst(), new TargetInfo(base.Position, map, false), MessageTypeDefOf.NegativeEvent, true);
-						}
+							this.GetCustomLabelNoCount(false)
+						}).CapitalizeFirst(), new TargetInfo(base.Position, map, false), MessageTypeDefOf.NegativeEvent, true);
 					}
 				}
 				base.TakeDamage(new DamageInfo(DamageDefOf.Rotting, 99999f, 0f, -1f, null, null, null, DamageInfo.SourceCategory.ThingOrUnknown, null));
@@ -601,107 +537,97 @@ namespace RimWorld
 		public override void TickLong()
 		{
 			this.CheckTemperatureMakeLeafless();
-			if (!base.Destroyed)
+			if (base.Destroyed)
 			{
-				if (PlantUtility.GrowthSeasonNow(base.Position, base.Map, false))
+				return;
+			}
+			if (PlantUtility.GrowthSeasonNow(base.Position, base.Map, false))
+			{
+				float num = this.growthInt;
+				bool flag = this.LifeStage == PlantLifeStage.Mature;
+				this.growthInt += this.GrowthPerTick * 2000f;
+				if (this.growthInt > 1f)
 				{
-					float num = this.growthInt;
-					bool flag = this.LifeStage == PlantLifeStage.Mature;
-					this.growthInt += this.GrowthPerTick * 2000f;
-					if (this.growthInt > 1f)
+					this.growthInt = 1f;
+				}
+				if (((!flag && this.LifeStage == PlantLifeStage.Mature) || (int)(num * 10f) != (int)(this.growthInt * 10f)) && this.CurrentlyCultivated())
+				{
+					base.Map.mapDrawer.MapMeshDirty(base.Position, MapMeshFlag.Things);
+				}
+			}
+			if (!this.HasEnoughLightToGrow)
+			{
+				this.unlitTicks += 2000;
+			}
+			else
+			{
+				this.unlitTicks = 0;
+			}
+			this.ageInt += 2000;
+			if (this.Dying)
+			{
+				Map map = base.Map;
+				bool isCrop = this.IsCrop;
+				bool harvestableNow = this.HarvestableNow;
+				bool dyingBecauseExposedToLight = this.DyingBecauseExposedToLight;
+				int num2 = Mathf.CeilToInt(this.CurrentDyingDamagePerTick * 2000f);
+				base.TakeDamage(new DamageInfo(DamageDefOf.Rotting, (float)num2, 0f, -1f, null, null, null, DamageInfo.SourceCategory.ThingOrUnknown, null));
+				if (base.Destroyed)
+				{
+					if (isCrop && this.def.plant.Harvestable && MessagesRepeatAvoider.MessageShowAllowed("MessagePlantDiedOfRot-" + this.def.defName, 240f))
 					{
-						this.growthInt = 1f;
-					}
-					if ((!flag && this.LifeStage == PlantLifeStage.Mature) || (int)(num * 10f) != (int)(this.growthInt * 10f))
-					{
-						if (this.CurrentlyCultivated())
+						string key;
+						if (harvestableNow)
 						{
-							base.Map.mapDrawer.MapMeshDirty(base.Position, MapMeshFlag.Things);
+							key = "MessagePlantDiedOfRot_LeftUnharvested";
 						}
-					}
-				}
-				if (!this.HasEnoughLightToGrow)
-				{
-					this.unlitTicks += 2000;
-				}
-				else
-				{
-					this.unlitTicks = 0;
-				}
-				this.ageInt += 2000;
-				if (this.Dying)
-				{
-					Map map = base.Map;
-					bool isCrop = this.IsCrop;
-					bool harvestableNow = this.HarvestableNow;
-					bool dyingBecauseExposedToLight = this.DyingBecauseExposedToLight;
-					int num2 = Mathf.CeilToInt(this.CurrentDyingDamagePerTick * 2000f);
-					base.TakeDamage(new DamageInfo(DamageDefOf.Rotting, (float)num2, 0f, -1f, null, null, null, DamageInfo.SourceCategory.ThingOrUnknown, null));
-					if (base.Destroyed)
-					{
-						if (isCrop && this.def.plant.Harvestable && MessagesRepeatAvoider.MessageShowAllowed("MessagePlantDiedOfRot-" + this.def.defName, 240f))
+						else if (dyingBecauseExposedToLight)
 						{
-							string key;
-							if (harvestableNow)
-							{
-								key = "MessagePlantDiedOfRot_LeftUnharvested";
-							}
-							else if (dyingBecauseExposedToLight)
-							{
-								key = "MessagePlantDiedOfRot_ExposedToLight";
-							}
-							else
-							{
-								key = "MessagePlantDiedOfRot";
-							}
-							Messages.Message(key.Translate(new object[]
-							{
-								this.GetCustomLabelNoCount(false)
-							}).CapitalizeFirst(), new TargetInfo(base.Position, map, false), MessageTypeDefOf.NegativeEvent, true);
+							key = "MessagePlantDiedOfRot_ExposedToLight";
 						}
-						return;
+						else
+						{
+							key = "MessagePlantDiedOfRot";
+						}
+						Messages.Message(key.Translate(new object[]
+						{
+							this.GetCustomLabelNoCount(false)
+						}).CapitalizeFirst(), new TargetInfo(base.Position, map, false), MessageTypeDefOf.NegativeEvent, true);
 					}
+					return;
 				}
-				this.cachedLabelMouseover = null;
-				if (this.def.plant.dropLeaves)
+			}
+			this.cachedLabelMouseover = null;
+			if (this.def.plant.dropLeaves)
+			{
+				MoteLeaf moteLeaf = MoteMaker.MakeStaticMote(Vector3.zero, base.Map, ThingDefOf.Mote_Leaf, 1f) as MoteLeaf;
+				if (moteLeaf != null)
 				{
-					MoteLeaf moteLeaf = MoteMaker.MakeStaticMote(Vector3.zero, base.Map, ThingDefOf.Mote_Leaf, 1f) as MoteLeaf;
-					if (moteLeaf != null)
-					{
-						float num3 = this.def.plant.visualSizeRange.LerpThroughRange(this.growthInt);
-						float treeHeight = this.def.graphicData.drawSize.x * num3;
-						Vector3 b = Rand.InsideUnitCircleVec3 * Plant.LeafSpawnRadius;
-						moteLeaf.Initialize(base.Position.ToVector3Shifted() + Vector3.up * Rand.Range(Plant.LeafSpawnYMin, Plant.LeafSpawnYMax) + b + Vector3.forward * this.def.graphicData.shadowData.offset.z, Rand.Value * 2000.TicksToSeconds(), b.z > 0f, treeHeight);
-					}
+					float num3 = this.def.plant.visualSizeRange.LerpThroughRange(this.growthInt);
+					float treeHeight = this.def.graphicData.drawSize.x * num3;
+					Vector3 b = Rand.InsideUnitCircleVec3 * Plant.LeafSpawnRadius;
+					moteLeaf.Initialize(base.Position.ToVector3Shifted() + Vector3.up * Rand.Range(Plant.LeafSpawnYMin, Plant.LeafSpawnYMax) + b + Vector3.forward * this.def.graphicData.shadowData.offset.z, Rand.Value * 2000.TicksToSeconds(), b.z > 0f, treeHeight);
 				}
 			}
 		}
 
 		protected virtual bool CurrentlyCultivated()
 		{
-			bool result;
 			if (!this.def.plant.Sowable)
 			{
-				result = false;
+				return false;
 			}
-			else if (!base.Spawned)
+			if (!base.Spawned)
 			{
-				result = false;
+				return false;
 			}
-			else
+			Zone zone = base.Map.zoneManager.ZoneAt(base.Position);
+			if (zone != null && zone is Zone_Growing)
 			{
-				Zone zone = base.Map.zoneManager.ZoneAt(base.Position);
-				if (zone != null && zone is Zone_Growing)
-				{
-					result = true;
-				}
-				else
-				{
-					Building edifice = base.Position.GetEdifice(base.Map);
-					result = (edifice != null && edifice.def.building.SupportsPlants);
-				}
+				return true;
 			}
-			return result;
+			Building edifice = base.Position.GetEdifice(base.Map);
+			return edifice != null && edifice.def.building.SupportsPlants;
 		}
 
 		public virtual bool CanYieldNow()
@@ -711,22 +637,17 @@ namespace RimWorld
 
 		public virtual int YieldNow()
 		{
-			int result;
 			if (!this.CanYieldNow())
 			{
-				result = 0;
+				return 0;
 			}
-			else
-			{
-				float num = this.def.plant.harvestYield;
-				float num2 = Mathf.InverseLerp(this.def.plant.harvestMinGrowth, 1f, this.growthInt);
-				num2 = 0.5f + num2 * 0.5f;
-				num *= num2;
-				num *= Mathf.Lerp(0.5f, 1f, (float)this.HitPoints / (float)base.MaxHitPoints);
-				num *= Find.Storyteller.difficulty.cropYieldFactor;
-				result = GenMath.RoundRandom(num);
-			}
-			return result;
+			float num = this.def.plant.harvestYield;
+			float num2 = Mathf.InverseLerp(this.def.plant.harvestMinGrowth, 1f, this.growthInt);
+			num2 = 0.5f + num2 * 0.5f;
+			num *= num2;
+			num *= Mathf.Lerp(0.5f, 1f, (float)this.HitPoints / (float)base.MaxHitPoints);
+			num *= Find.Storyteller.difficulty.cropYieldFactor;
+			return GenMath.RoundRandom(num);
 		}
 
 		public override void Print(SectionLayer layer)
@@ -904,7 +825,7 @@ namespace RimWorld
 
 		public override IEnumerable<Gizmo> GetGizmos()
 		{
-			foreach (Gizmo gizmo in this.<GetGizmos>__BaseCallProxy0())
+			foreach (Gizmo gizmo in base.GetGizmos())
 			{
 				yield return gizmo;
 			}
@@ -976,7 +897,7 @@ namespace RimWorld
 				case 1u:
 					break;
 				case 2u:
-					goto IL_126;
+					goto IL_120;
 				default:
 					return false;
 				}
@@ -1009,7 +930,7 @@ namespace RimWorld
 				}
 				if (!Prefs.DevMode || !base.Blighted)
 				{
-					goto IL_126;
+					goto IL_120;
 				}
 				Command_Action spread = new Command_Action();
 				spread.defaultLabel = "Dev: Spread blight";
@@ -1023,7 +944,7 @@ namespace RimWorld
 					this.$PC = 2;
 				}
 				return true;
-				IL_126:
+				IL_120:
 				this.$PC = -1;
 				return false;
 			}

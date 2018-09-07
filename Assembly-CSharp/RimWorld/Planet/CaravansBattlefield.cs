@@ -27,18 +27,13 @@ namespace RimWorld.Planet
 
 		public override bool ShouldRemoveMapNow(out bool alsoRemoveWorldObject)
 		{
-			bool result;
 			if (!base.Map.mapPawns.AnyPawnBlockingMapRemoval)
 			{
 				alsoRemoveWorldObject = true;
-				result = true;
+				return true;
 			}
-			else
-			{
-				alsoRemoveWorldObject = false;
-				result = false;
-			}
-			return result;
+			alsoRemoveWorldObject = false;
+			return false;
 		}
 
 		public override void Tick()
@@ -52,23 +47,25 @@ namespace RimWorld.Planet
 
 		private void CheckWonBattle()
 		{
-			if (!this.wonBattle)
+			if (this.wonBattle)
 			{
-				if (!GenHostility.AnyHostileActiveThreatToPlayer(base.Map))
-				{
-					string forceExitAndRemoveMapCountdownTimeLeftString = TimedForcedExit.GetForceExitAndRemoveMapCountdownTimeLeftString(60000);
-					Find.LetterStack.ReceiveLetter("LetterLabelCaravansBattlefieldVictory".Translate(), "LetterCaravansBattlefieldVictory".Translate(new object[]
-					{
-						forceExitAndRemoveMapCountdownTimeLeftString
-					}), LetterDefOf.PositiveEvent, this, null, null);
-					TaleRecorder.RecordTale(TaleDefOf.CaravanAmbushDefeated, new object[]
-					{
-						base.Map.mapPawns.FreeColonists.RandomElement<Pawn>()
-					});
-					this.wonBattle = true;
-					base.GetComponent<TimedForcedExit>().StartForceExitAndRemoveMapCountdown();
-				}
+				return;
 			}
+			if (GenHostility.AnyHostileActiveThreatToPlayer(base.Map))
+			{
+				return;
+			}
+			string forceExitAndRemoveMapCountdownTimeLeftString = TimedForcedExit.GetForceExitAndRemoveMapCountdownTimeLeftString(60000);
+			Find.LetterStack.ReceiveLetter("LetterLabelCaravansBattlefieldVictory".Translate(), "LetterCaravansBattlefieldVictory".Translate(new object[]
+			{
+				forceExitAndRemoveMapCountdownTimeLeftString
+			}), LetterDefOf.PositiveEvent, this, null, null);
+			TaleRecorder.RecordTale(TaleDefOf.CaravanAmbushDefeated, new object[]
+			{
+				base.Map.mapPawns.FreeColonists.RandomElement<Pawn>()
+			});
+			this.wonBattle = true;
+			base.GetComponent<TimedForcedExit>().StartForceExitAndRemoveMapCountdown();
 		}
 	}
 }

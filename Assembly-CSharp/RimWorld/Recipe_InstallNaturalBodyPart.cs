@@ -28,7 +28,7 @@ namespace RimWorld
 					{
 						if (pawn.health.hediffSet.hediffs.Any((Hediff x) => x.Part == record))
 						{
-							if (record.parent == null || pawn.health.hediffSet.GetNotMissingParts(BodyPartHeight.Undefined, BodyPartDepth.Undefined, null).Contains(record.parent))
+							if (record.parent == null || pawn.health.hediffSet.GetNotMissingParts(BodyPartHeight.Undefined, BodyPartDepth.Undefined, null, null).Contains(record.parent))
 							{
 								if (!pawn.health.hediffSet.PartOrAnyAncestorHasDirectlyAddedParts(record) || pawn.health.hediffSet.HasDirectlyAddedPartFor(record))
 								{
@@ -46,15 +46,16 @@ namespace RimWorld
 		{
 			if (billDoer != null)
 			{
-				if (!base.CheckSurgeryFail(billDoer, pawn, ingredients, part, bill))
+				if (base.CheckSurgeryFail(billDoer, pawn, ingredients, part, bill))
 				{
-					TaleRecorder.RecordTale(TaleDefOf.DidSurgery, new object[]
-					{
-						billDoer,
-						pawn
-					});
-					MedicalRecipesUtility.RestorePartAndSpawnAllPreviousParts(pawn, part, billDoer.Position, billDoer.Map);
+					return;
 				}
+				TaleRecorder.RecordTale(TaleDefOf.DidSurgery, new object[]
+				{
+					billDoer,
+					pawn
+				});
+				MedicalRecipesUtility.RestorePartAndSpawnAllPreviousParts(pawn, part, billDoer.Position, billDoer.Map);
 			}
 		}
 
@@ -94,15 +95,15 @@ namespace RimWorld
 				{
 				case 0u:
 					i = 0;
-					goto IL_1EF;
+					goto IL_1EB;
 				case 1u:
+					IL_1B9:
+					j++;
 					break;
 				default:
 					return false;
 				}
-				IL_1BC:
-				j++;
-				IL_1CA:
+				IL_1C7:
 				if (j >= bpList.Count)
 				{
 					i++;
@@ -112,19 +113,19 @@ namespace RimWorld
 					BodyPartRecord record = bpList[j];
 					if (record.def != recipePart)
 					{
-						goto IL_1BC;
+						goto IL_1B9;
 					}
 					if (!pawn.health.hediffSet.hediffs.Any((Hediff x) => x.Part == record))
 					{
-						goto IL_1BC;
+						goto IL_1B9;
 					}
-					if (record.parent != null && !pawn.health.hediffSet.GetNotMissingParts(BodyPartHeight.Undefined, BodyPartDepth.Undefined, null).Contains(record.parent))
+					if (record.parent != null && !pawn.health.hediffSet.GetNotMissingParts(BodyPartHeight.Undefined, BodyPartDepth.Undefined, null, null).Contains(record.parent))
 					{
-						goto IL_1BC;
+						goto IL_1B9;
 					}
 					if (pawn.health.hediffSet.PartOrAnyAncestorHasDirectlyAddedParts(record) && !pawn.health.hediffSet.HasDirectlyAddedPartFor(record))
 					{
-						goto IL_1BC;
+						goto IL_1B9;
 					}
 					this.$current = record;
 					if (!this.$disposing)
@@ -133,13 +134,13 @@ namespace RimWorld
 					}
 					return true;
 				}
-				IL_1EF:
+				IL_1EB:
 				if (i < recipe.appliedOnFixedBodyParts.Count)
 				{
 					recipePart = recipe.appliedOnFixedBodyParts[i];
 					bpList = pawn.RaceProps.body.AllParts;
 					j = 0;
-					goto IL_1CA;
+					goto IL_1C7;
 				}
 				this.$PC = -1;
 				return false;

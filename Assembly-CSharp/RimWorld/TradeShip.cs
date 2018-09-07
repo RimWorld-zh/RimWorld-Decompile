@@ -191,16 +191,17 @@ namespace RimWorld
 
 		public override void TryOpenComms(Pawn negotiator)
 		{
-			if (this.CanTradeNow)
+			if (!this.CanTradeNow)
 			{
-				Find.WindowStack.Add(new Dialog_Trade(negotiator, this, false));
-				LessonAutoActivator.TeachOpportunity(ConceptDefOf.BuildOrbitalTradeBeacon, OpportunityType.Critical);
-				PawnRelationUtility.Notify_PawnsSeenByPlayer_Letter_Send(this.Goods.OfType<Pawn>(), "LetterRelatedPawnsTradeShip".Translate(new object[]
-				{
-					Faction.OfPlayer.def.pawnsPlural
-				}), LetterDefOf.NeutralEvent, false, true);
-				TutorUtility.DoModalDialogIfNotKnown(ConceptDefOf.TradeGoodsMustBeNearBeacon);
+				return;
 			}
+			Find.WindowStack.Add(new Dialog_Trade(negotiator, this, false));
+			LessonAutoActivator.TeachOpportunity(ConceptDefOf.BuildOrbitalTradeBeacon, OpportunityType.Critical);
+			PawnRelationUtility.Notify_PawnsSeenByPlayer_Letter_Send(this.Goods.OfType<Pawn>(), "LetterRelatedPawnsTradeShip".Translate(new object[]
+			{
+				Faction.OfPlayer.def.pawnsPlural
+			}), LetterDefOf.NeutralEvent, false, true);
+			TutorUtility.DoModalDialogIfNotKnown(ConceptDefOf.TradeGoodsMustBeNearBeacon);
 		}
 
 		public override void Depart()
@@ -218,16 +219,11 @@ namespace RimWorld
 		public int CountHeldOf(ThingDef thingDef, ThingDef stuffDef = null)
 		{
 			Thing thing = this.HeldThingMatching(thingDef, stuffDef);
-			int result;
 			if (thing != null)
 			{
-				result = thing.stackCount;
+				return thing.stackCount;
 			}
-			else
-			{
-				result = 0;
-			}
-			return result;
+			return 0;
 		}
 
 		public void GiveSoldThingToTrader(Thing toGive, int countToGive, Pawn playerNegotiator)
@@ -347,15 +343,14 @@ namespace RimWorld
 				{
 				case 0u:
 					i = 0;
-					goto IL_BA;
+					break;
 				case 1u:
+					IL_A9:
+					i++;
 					break;
 				default:
 					return false;
 				}
-				IL_AC:
-				i++;
-				IL_BA:
 				if (i >= this.things.Count)
 				{
 					this.$PC = -1;
@@ -365,7 +360,7 @@ namespace RimWorld
 					p = (this.things[i] as Pawn);
 					if (p != null && this.soldPrisoners.Contains(p))
 					{
-						goto IL_AC;
+						goto IL_A9;
 					}
 					this.$current = this.things[i];
 					if (!this.$disposing)
@@ -465,7 +460,7 @@ namespace RimWorld
 				case 1u:
 					break;
 				case 2u:
-					goto IL_DC;
+					goto IL_D7;
 				default:
 					return false;
 				}
@@ -500,7 +495,7 @@ namespace RimWorld
 				num = 4294967293u;
 				try
 				{
-					IL_DC:
+					IL_D7:
 					switch (num)
 					{
 					}

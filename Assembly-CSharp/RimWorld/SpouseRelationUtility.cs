@@ -9,35 +9,25 @@ namespace RimWorld
 
 		public static Pawn GetSpouse(this Pawn pawn)
 		{
-			Pawn result;
 			if (!pawn.RaceProps.IsFlesh)
 			{
-				result = null;
+				return null;
 			}
-			else
-			{
-				result = pawn.relations.GetFirstDirectRelationPawn(PawnRelationDefOf.Spouse, null);
-			}
-			return result;
+			return pawn.relations.GetFirstDirectRelationPawn(PawnRelationDefOf.Spouse, null);
 		}
 
 		public static Pawn GetSpouseOppositeGender(this Pawn pawn)
 		{
 			Pawn spouse = pawn.GetSpouse();
-			Pawn result;
 			if (spouse == null)
 			{
-				result = null;
+				return null;
 			}
-			else if ((pawn.gender == Gender.Male && spouse.gender == Gender.Female) || (pawn.gender == Gender.Female && spouse.gender == Gender.Male))
+			if ((pawn.gender == Gender.Male && spouse.gender == Gender.Female) || (pawn.gender == Gender.Female && spouse.gender == Gender.Male))
 			{
-				result = spouse;
+				return spouse;
 			}
-			else
-			{
-				result = null;
-			}
-			return result;
+			return null;
 		}
 	}
 }

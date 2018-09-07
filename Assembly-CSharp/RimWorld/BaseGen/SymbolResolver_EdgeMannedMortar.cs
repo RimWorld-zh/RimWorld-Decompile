@@ -20,30 +20,31 @@ namespace RimWorld.BaseGen
 		public override void Resolve(ResolveParams rp)
 		{
 			CellRect rect;
-			if (this.TryFindRandomInnerRectTouchingEdge(rp.rect, out rect))
+			if (!this.TryFindRandomInnerRectTouchingEdge(rp.rect, out rect))
 			{
-				Rot4 value;
-				if (rect.Cells.Any((IntVec3 x) => x.x == rp.rect.minX))
-				{
-					value = Rot4.West;
-				}
-				else if (rect.Cells.Any((IntVec3 x) => x.x == rp.rect.maxX))
-				{
-					value = Rot4.East;
-				}
-				else if (rect.Cells.Any((IntVec3 x) => x.z == rp.rect.minZ))
-				{
-					value = Rot4.South;
-				}
-				else
-				{
-					value = Rot4.North;
-				}
-				ResolveParams rp2 = rp;
-				rp2.rect = rect;
-				rp2.thingRot = new Rot4?(value);
-				BaseGen.symbolStack.Push("mannedMortar", rp2);
+				return;
 			}
+			Rot4 value;
+			if (rect.Cells.Any((IntVec3 x) => x.x == rp.rect.minX))
+			{
+				value = Rot4.West;
+			}
+			else if (rect.Cells.Any((IntVec3 x) => x.x == rp.rect.maxX))
+			{
+				value = Rot4.East;
+			}
+			else if (rect.Cells.Any((IntVec3 x) => x.z == rp.rect.minZ))
+			{
+				value = Rot4.South;
+			}
+			else
+			{
+				value = Rot4.North;
+			}
+			ResolveParams rp2 = rp;
+			rp2.rect = rect;
+			rp2.thingRot = new Rot4?(value);
+			BaseGen.symbolStack.Push("mannedMortar", rp2);
 		}
 
 		private bool TryFindRandomInnerRectTouchingEdge(CellRect rect, out CellRect mortarRect)

@@ -68,47 +68,48 @@ namespace RimWorld
 			if (!this.powerNetCells.TryGetValue(deadNet, out list))
 			{
 				Log.Warning("Net " + deadNet + " does not exist in PowerNetGrid's dictionary.", false);
+				return;
 			}
-			else
+			for (int i = 0; i < list.Count; i++)
 			{
-				for (int i = 0; i < list.Count; i++)
+				int num = this.map.cellIndices.CellToIndex(list[i]);
+				if (this.netGrid[num] == deadNet)
 				{
-					int num = this.map.cellIndices.CellToIndex(list[i]);
-					if (this.netGrid[num] == deadNet)
-					{
-						this.netGrid[num] = null;
-					}
-					else
-					{
-						Log.Warning("Multiple nets on the same cell " + list[i] + ". This is probably a result of an earlier error.", false);
-					}
+					this.netGrid[num] = null;
 				}
-				this.powerNetCells.Remove(deadNet);
+				else
+				{
+					Log.Warning("Multiple nets on the same cell " + list[i] + ". This is probably a result of an earlier error.", false);
+				}
 			}
+			this.powerNetCells.Remove(deadNet);
 		}
 
 		public void DrawDebugPowerNetGrid()
 		{
-			if (DebugViewSettings.drawPowerNetGrid)
+			if (!DebugViewSettings.drawPowerNetGrid)
 			{
-				if (Current.ProgramState == ProgramState.Playing)
+				return;
+			}
+			if (Current.ProgramState != ProgramState.Playing)
+			{
+				return;
+			}
+			if (this.map != Find.CurrentMap)
+			{
+				return;
+			}
+			Rand.PushState();
+			foreach (IntVec3 c in Find.CameraDriver.CurrentViewRect.ClipInsideMap(this.map))
+			{
+				PowerNet powerNet = this.netGrid[this.map.cellIndices.CellToIndex(c)];
+				if (powerNet != null)
 				{
-					if (this.map == Find.CurrentMap)
-					{
-						Rand.PushState();
-						foreach (IntVec3 c in Find.CameraDriver.CurrentViewRect.ClipInsideMap(this.map))
-						{
-							PowerNet powerNet = this.netGrid[this.map.cellIndices.CellToIndex(c)];
-							if (powerNet != null)
-							{
-								Rand.Seed = powerNet.GetHashCode();
-								CellRenderer.RenderCell(c, Rand.Value);
-							}
-						}
-						Rand.PopState();
-					}
+					Rand.Seed = powerNet.GetHashCode();
+					CellRenderer.RenderCell(c, Rand.Value);
 				}
 			}
+			Rand.PopState();
 		}
 	}
 }

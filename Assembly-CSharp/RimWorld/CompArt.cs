@@ -5,11 +5,11 @@ namespace RimWorld
 {
 	public class CompArt : ThingComp
 	{
-		private string authorNameInt = null;
+		private string authorNameInt;
 
-		private string titleInt = null;
+		private string titleInt;
 
-		private TaleReference taleRef = null;
+		private TaleReference taleRef;
 
 		public CompArt()
 		{
@@ -19,16 +19,11 @@ namespace RimWorld
 		{
 			get
 			{
-				string result;
 				if (this.authorNameInt.NullOrEmpty())
 				{
-					result = "UnknownLower".Translate().CapitalizeFirst();
+					return "UnknownLower".Translate().CapitalizeFirst();
 				}
-				else
-				{
-					result = this.authorNameInt;
-				}
-				return result;
+				return this.authorNameInt;
 			}
 		}
 
@@ -158,26 +153,20 @@ namespace RimWorld
 
 		public override string CompInspectStringExtra()
 		{
-			string result;
 			if (!this.Active)
 			{
-				result = null;
+				return null;
 			}
-			else
+			string text = "Author".Translate() + ": " + this.AuthorName;
+			string text2 = text;
+			return string.Concat(new string[]
 			{
-				string text = "Author".Translate() + ": " + this.AuthorName;
-				string text2 = text;
-				text = string.Concat(new string[]
-				{
-					text2,
-					"\n",
-					"Title".Translate(),
-					": ",
-					this.Title
-				});
-				result = text;
-			}
-			return result;
+				text2,
+				"\n",
+				"Title".Translate(),
+				": ",
+				this.Title
+			});
 		}
 
 		public override void PostDestroy(DestroyMode mode, Map previousMap)
@@ -192,22 +181,16 @@ namespace RimWorld
 
 		public override string GetDescriptionPart()
 		{
-			string result;
 			if (!this.Active)
 			{
-				result = null;
+				return null;
 			}
-			else
-			{
-				string text = "";
-				text += this.Title;
-				text += "\n\n";
-				text += this.GenerateImageDescription();
-				text += "\n\n";
-				text = text + "Author".Translate() + ": " + this.AuthorName;
-				result = text;
-			}
-			return result;
+			string str = string.Empty;
+			str += this.Title;
+			str += "\n\n";
+			str += this.GenerateImageDescription();
+			str += "\n\n";
+			return str + "Author".Translate() + ": " + this.AuthorName;
 		}
 
 		public override bool AllowStackWith(Thing other)

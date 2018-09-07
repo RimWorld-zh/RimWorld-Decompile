@@ -27,47 +27,36 @@ namespace RimWorld
 		private float GetArmorPenetration(StatRequest req, bool applyPostProcess = true)
 		{
 			Pawn pawn = req.Thing as Pawn;
-			float result;
 			if (pawn == null)
 			{
-				result = 0f;
+				return 0f;
 			}
-			else
+			List<VerbEntry> updatedAvailableVerbsList = pawn.meleeVerbs.GetUpdatedAvailableVerbsList(false);
+			if (updatedAvailableVerbsList.Count == 0)
 			{
-				List<VerbEntry> updatedAvailableVerbsList = pawn.meleeVerbs.GetUpdatedAvailableVerbsList(false);
-				if (updatedAvailableVerbsList.Count == 0)
+				return 0f;
+			}
+			float num = 0f;
+			for (int i = 0; i < updatedAvailableVerbsList.Count; i++)
+			{
+				if (updatedAvailableVerbsList[i].IsMeleeAttack)
 				{
-					result = 0f;
-				}
-				else
-				{
-					float num = 0f;
-					for (int i = 0; i < updatedAvailableVerbsList.Count; i++)
-					{
-						if (updatedAvailableVerbsList[i].IsMeleeAttack)
-						{
-							num += updatedAvailableVerbsList[i].GetSelectionWeight(null);
-						}
-					}
-					if (num == 0f)
-					{
-						result = 0f;
-					}
-					else
-					{
-						float num2 = 0f;
-						for (int j = 0; j < updatedAvailableVerbsList.Count; j++)
-						{
-							if (updatedAvailableVerbsList[j].IsMeleeAttack)
-							{
-								num2 += updatedAvailableVerbsList[j].GetSelectionWeight(null) / num * updatedAvailableVerbsList[j].verb.verbProps.AdjustedArmorPenetration(updatedAvailableVerbsList[j].verb, pawn);
-							}
-						}
-						result = num2;
-					}
+					num += updatedAvailableVerbsList[i].GetSelectionWeight(null);
 				}
 			}
-			return result;
+			if (num == 0f)
+			{
+				return 0f;
+			}
+			float num2 = 0f;
+			for (int j = 0; j < updatedAvailableVerbsList.Count; j++)
+			{
+				if (updatedAvailableVerbsList[j].IsMeleeAttack)
+				{
+					num2 += updatedAvailableVerbsList[j].GetSelectionWeight(null) / num * updatedAvailableVerbsList[j].verb.verbProps.AdjustedArmorPenetration(updatedAvailableVerbsList[j].verb, pawn);
+				}
+			}
+			return num2;
 		}
 	}
 }

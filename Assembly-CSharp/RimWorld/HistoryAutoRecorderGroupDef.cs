@@ -7,15 +7,15 @@ namespace RimWorld
 {
 	public class HistoryAutoRecorderGroupDef : Def
 	{
-		public bool useFixedScale = false;
+		public bool useFixedScale;
 
 		public Vector2 fixedScale = default(Vector2);
 
-		public bool integersOnly = false;
+		public bool integersOnly;
 
 		public bool onlyPositiveValues = true;
 
-		public bool devModeOnly = false;
+		public bool devModeOnly;
 
 		public List<HistoryAutoRecorderDef> historyAutoRecorderDefs = new List<HistoryAutoRecorderDef>();
 

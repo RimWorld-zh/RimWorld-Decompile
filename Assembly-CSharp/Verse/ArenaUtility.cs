@@ -15,17 +15,12 @@ namespace Verse
 
 		public static bool ValidateArenaCapability()
 		{
-			bool result;
 			if (Find.World.info.planetCoverage < 0.299f)
 			{
 				Log.Error("Planet coverage must be 30%+ to ensure a representative mix of biomes.", false);
-				result = false;
+				return false;
 			}
-			else
-			{
-				result = true;
-			}
-			return result;
+			return true;
 		}
 
 		public static void BeginArenaFight(List<PawnKindDef> lhs, List<PawnKindDef> rhs, Action<ArenaUtility.ArenaResult> callback)
@@ -62,12 +57,11 @@ namespace Verse
 
 		private static bool ArenaFightQueue(List<PawnKindDef> lhs, List<PawnKindDef> rhs, Action<ArenaUtility.ArenaResult> callback, ArenaUtility.ArenaSetState state)
 		{
-			bool result2;
 			if (!ArenaUtility.ValidateArenaCapability())
 			{
-				result2 = false;
+				return false;
 			}
-			else if (state.live < 15)
+			if (state.live < 15)
 			{
 				ArenaUtility.BeginArenaFight(lhs, rhs, delegate(ArenaUtility.ArenaResult result)
 				{
@@ -75,108 +69,98 @@ namespace Verse
 					callback(result);
 				});
 				state.live++;
-				result2 = true;
+				return true;
 			}
-			else
-			{
-				result2 = false;
-			}
-			return result2;
+			return false;
 		}
 
 		public static void BeginArenaFightSet(int count, List<PawnKindDef> lhs, List<PawnKindDef> rhs, Action<ArenaUtility.ArenaResult> callback, Action report)
 		{
-			if (ArenaUtility.ValidateArenaCapability())
+			if (!ArenaUtility.ValidateArenaCapability())
 			{
-				int remaining = count;
-				ArenaUtility.ArenaSetState state = new ArenaUtility.ArenaSetState();
-				for (int i = 0; i < count; i++)
+				return;
+			}
+			int remaining = count;
+			ArenaUtility.ArenaSetState state = new ArenaUtility.ArenaSetState();
+			for (int i = 0; i < count; i++)
+			{
+				Current.Game.GetComponent<GameComponent_DebugTools>().AddPerFrameCallback(() => ArenaUtility.ArenaFightQueue(lhs, rhs, delegate(ArenaUtility.ArenaResult result)
 				{
-					Current.Game.GetComponent<GameComponent_DebugTools>().AddPerFrameCallback(() => ArenaUtility.ArenaFightQueue(lhs, rhs, delegate(ArenaUtility.ArenaResult result)
+					callback(result);
+					remaining--;
+					if (remaining % 10 == 0)
 					{
-						callback(result);
-						remaining--;
-						if (remaining % 10 == 0)
-						{
-							report();
-						}
-					}, state));
-				}
+						report();
+					}
+				}, state));
 			}
 		}
 
 		public static void PerformBattleRoyale(IEnumerable<PawnKindDef> kindsEnumerable)
 		{
-			if (ArenaUtility.ValidateArenaCapability())
+			if (!ArenaUtility.ValidateArenaCapability())
 			{
-				List<PawnKindDef> kinds = kindsEnumerable.ToList<PawnKindDef>();
-				Dictionary<PawnKindDef, float> ratings = new Dictionary<PawnKindDef, float>();
-				foreach (PawnKindDef pawnKindDef in kinds)
-				{
-					ratings[pawnKindDef] = EloUtility.CalculateRating(pawnKindDef.combatPower, 1500f, 60f);
-				}
-				int currentFights = 0;
-				int completeFights = 0;
-				Current.Game.GetComponent<GameComponent_DebugTools>().AddPerFrameCallback(delegate
-				{
-					bool result2;
-					if (currentFights >= 15)
-					{
-						result2 = false;
-					}
-					else
-					{
-						PawnKindDef lhsDef = kinds.RandomElement<PawnKindDef>();
-						PawnKindDef rhsDef = kinds.RandomElement<PawnKindDef>();
-						float num = EloUtility.CalculateExpectation(ratings[lhsDef], ratings[rhsDef]);
-						float num2 = 1f - num;
-						float num3 = num;
-						float num4 = Mathf.Min(num2, num3);
-						num2 /= num4;
-						num3 /= num4;
-						float num5 = Mathf.Max(num2, num3);
-						if (num5 > 40f)
-						{
-							result2 = false;
-						}
-						else
-						{
-							float num6 = 40f / num5;
-							float num7 = (float)Math.Exp((double)Rand.Range(0f, (float)Math.Log((double)num6)));
-							num2 *= num7;
-							num3 *= num7;
-							List<PawnKindDef> lhs = Enumerable.Repeat<PawnKindDef>(lhsDef, GenMath.RoundRandom(num2)).ToList<PawnKindDef>();
-							List<PawnKindDef> rhs = Enumerable.Repeat<PawnKindDef>(rhsDef, GenMath.RoundRandom(num3)).ToList<PawnKindDef>();
-							currentFights++;
-							ArenaUtility.BeginArenaFight(lhs, rhs, delegate(ArenaUtility.ArenaResult result)
-							{
-								currentFights--;
-								completeFights++;
-								if (result.winner != ArenaUtility.ArenaResult.Winner.Other)
-								{
-									float value = ratings[lhsDef];
-									float value2 = ratings[rhsDef];
-									float kfactor = 8f * Mathf.Pow(0.5f, Time.realtimeSinceStartup / 900f);
-									EloUtility.Update(ref value, ref value2, 0.5f, (float)((result.winner != ArenaUtility.ArenaResult.Winner.Lhs) ? 0 : 1), kfactor);
-									ratings[lhsDef] = value;
-									ratings[rhsDef] = value2;
-									Log.Message(string.Format("Scores after {0} trials:\n\n{1}", completeFights, (from v in ratings
-									orderby v.Value
-									select string.Format("  {0}: {1}->{2} (rating {2})", new object[]
-									{
-										v.Key.label,
-										v.Key.combatPower,
-										EloUtility.CalculateLinearScore(v.Value, 1500f, 60f).ToString("F0"),
-										v.Value.ToString("F0")
-									})).ToLineList("")), false);
-								}
-							});
-							result2 = false;
-						}
-					}
-					return result2;
-				});
+				return;
 			}
+			List<PawnKindDef> kinds = kindsEnumerable.ToList<PawnKindDef>();
+			Dictionary<PawnKindDef, float> ratings = new Dictionary<PawnKindDef, float>();
+			foreach (PawnKindDef pawnKindDef in kinds)
+			{
+				ratings[pawnKindDef] = EloUtility.CalculateRating(pawnKindDef.combatPower, 1500f, 60f);
+			}
+			int currentFights = 0;
+			int completeFights = 0;
+			Current.Game.GetComponent<GameComponent_DebugTools>().AddPerFrameCallback(delegate
+			{
+				if (currentFights >= 15)
+				{
+					return false;
+				}
+				PawnKindDef lhsDef = kinds.RandomElement<PawnKindDef>();
+				PawnKindDef rhsDef = kinds.RandomElement<PawnKindDef>();
+				float num = EloUtility.CalculateExpectation(ratings[lhsDef], ratings[rhsDef]);
+				float num2 = 1f - num;
+				float num3 = num;
+				float num4 = Mathf.Min(num2, num3);
+				num2 /= num4;
+				num3 /= num4;
+				float num5 = Mathf.Max(num2, num3);
+				if (num5 > 40f)
+				{
+					return false;
+				}
+				float num6 = 40f / num5;
+				float num7 = (float)Math.Exp((double)Rand.Range(0f, (float)Math.Log((double)num6)));
+				num2 *= num7;
+				num3 *= num7;
+				List<PawnKindDef> lhs = Enumerable.Repeat<PawnKindDef>(lhsDef, GenMath.RoundRandom(num2)).ToList<PawnKindDef>();
+				List<PawnKindDef> rhs = Enumerable.Repeat<PawnKindDef>(rhsDef, GenMath.RoundRandom(num3)).ToList<PawnKindDef>();
+				currentFights++;
+				ArenaUtility.BeginArenaFight(lhs, rhs, delegate(ArenaUtility.ArenaResult result)
+				{
+					currentFights--;
+					completeFights++;
+					if (result.winner != ArenaUtility.ArenaResult.Winner.Other)
+					{
+						float value = ratings[lhsDef];
+						float value2 = ratings[rhsDef];
+						float kfactor = 8f * Mathf.Pow(0.5f, Time.realtimeSinceStartup / 900f);
+						EloUtility.Update(ref value, ref value2, 0.5f, (float)((result.winner != ArenaUtility.ArenaResult.Winner.Lhs) ? 0 : 1), kfactor);
+						ratings[lhsDef] = value;
+						ratings[rhsDef] = value2;
+						Log.Message(string.Format("Scores after {0} trials:\n\n{1}", completeFights, (from v in ratings
+						orderby v.Value
+						select string.Format("  {0}: {1}->{2} (rating {2})", new object[]
+						{
+							v.Key.label,
+							v.Key.combatPower,
+							EloUtility.CalculateLinearScore(v.Value, 1500f, 60f).ToString("F0"),
+							v.Value.ToString("F0")
+						})).ToLineList(null)), false);
+					}
+				});
+				return false;
+			});
 		}
 
 		public struct ArenaResult
@@ -195,7 +179,7 @@ namespace Verse
 
 		private class ArenaSetState
 		{
-			public int live = 0;
+			public int live;
 
 			public ArenaSetState()
 			{
@@ -313,62 +297,54 @@ namespace Verse
 
 			internal bool <>m__0()
 			{
-				bool result2;
 				if (this.currentFights >= 15)
 				{
-					result2 = false;
+					return false;
 				}
-				else
+				PawnKindDef lhsDef = this.kinds.RandomElement<PawnKindDef>();
+				PawnKindDef rhsDef = this.kinds.RandomElement<PawnKindDef>();
+				float num = EloUtility.CalculateExpectation(this.ratings[lhsDef], this.ratings[rhsDef]);
+				float num2 = 1f - num;
+				float num3 = num;
+				float num4 = Mathf.Min(num2, num3);
+				num2 /= num4;
+				num3 /= num4;
+				float num5 = Mathf.Max(num2, num3);
+				if (num5 > 40f)
 				{
-					PawnKindDef lhsDef = this.kinds.RandomElement<PawnKindDef>();
-					PawnKindDef rhsDef = this.kinds.RandomElement<PawnKindDef>();
-					float num = EloUtility.CalculateExpectation(this.ratings[lhsDef], this.ratings[rhsDef]);
-					float num2 = 1f - num;
-					float num3 = num;
-					float num4 = Mathf.Min(num2, num3);
-					num2 /= num4;
-					num3 /= num4;
-					float num5 = Mathf.Max(num2, num3);
-					if (num5 > 40f)
-					{
-						result2 = false;
-					}
-					else
-					{
-						float num6 = 40f / num5;
-						float num7 = (float)Math.Exp((double)Rand.Range(0f, (float)Math.Log((double)num6)));
-						num2 *= num7;
-						num3 *= num7;
-						List<PawnKindDef> lhs = Enumerable.Repeat<PawnKindDef>(lhsDef, GenMath.RoundRandom(num2)).ToList<PawnKindDef>();
-						List<PawnKindDef> rhs = Enumerable.Repeat<PawnKindDef>(rhsDef, GenMath.RoundRandom(num3)).ToList<PawnKindDef>();
-						this.currentFights++;
-						ArenaUtility.BeginArenaFight(lhs, rhs, delegate(ArenaUtility.ArenaResult result)
-						{
-							this.currentFights--;
-							this.completeFights++;
-							if (result.winner != ArenaUtility.ArenaResult.Winner.Other)
-							{
-								float value = this.ratings[lhsDef];
-								float value2 = this.ratings[rhsDef];
-								float kfactor = 8f * Mathf.Pow(0.5f, Time.realtimeSinceStartup / 900f);
-								EloUtility.Update(ref value, ref value2, 0.5f, (float)((result.winner != ArenaUtility.ArenaResult.Winner.Lhs) ? 0 : 1), kfactor);
-								this.ratings[lhsDef] = value;
-								this.ratings[rhsDef] = value2;
-								Log.Message(string.Format("Scores after {0} trials:\n\n{1}", this.completeFights, (from v in this.ratings
-								orderby v.Value
-								select string.Format("  {0}: {1}->{2} (rating {2})", new object[]
-								{
-									v.Key.label,
-									v.Key.combatPower,
-									EloUtility.CalculateLinearScore(v.Value, 1500f, 60f).ToString("F0"),
-									v.Value.ToString("F0")
-								})).ToLineList("")), false);
-							}
-						});
-						result2 = false;
-					}
+					return false;
 				}
-				return result2;
+				float num6 = 40f / num5;
+				float num7 = (float)Math.Exp((double)Rand.Range(0f, (float)Math.Log((double)num6)));
+				num2 *= num7;
+				num3 *= num7;
+				List<PawnKindDef> lhs = Enumerable.Repeat<PawnKindDef>(lhsDef, GenMath.RoundRandom(num2)).ToList<PawnKindDef>();
+				List<PawnKindDef> rhs = Enumerable.Repeat<PawnKindDef>(rhsDef, GenMath.RoundRandom(num3)).ToList<PawnKindDef>();
+				this.currentFights++;
+				ArenaUtility.BeginArenaFight(lhs, rhs, delegate(ArenaUtility.ArenaResult result)
+				{
+					this.currentFights--;
+					this.completeFights++;
+					if (result.winner != ArenaUtility.ArenaResult.Winner.Other)
+					{
+						float value = this.ratings[lhsDef];
+						float value2 = this.ratings[rhsDef];
+						float kfactor = 8f * Mathf.Pow(0.5f, Time.realtimeSinceStartup / 900f);
+						EloUtility.Update(ref value, ref value2, 0.5f, (float)((result.winner != ArenaUtility.ArenaResult.Winner.Lhs) ? 0 : 1), kfactor);
+						this.ratings[lhsDef] = value;
+						this.ratings[rhsDef] = value2;
+						Log.Message(string.Format("Scores after {0} trials:\n\n{1}", this.completeFights, (from v in this.ratings
+						orderby v.Value
+						select string.Format("  {0}: {1}->{2} (rating {2})", new object[]
+						{
+							v.Key.label,
+							v.Key.combatPower,
+							EloUtility.CalculateLinearScore(v.Value, 1500f, 60f).ToString("F0"),
+							v.Value.ToString("F0")
+						})).ToLineList(null)), false);
+					}
+				});
+				return false;
 			}
 
 			private sealed class <PerformBattleRoyale>c__AnonStorey5
@@ -407,7 +383,7 @@ namespace Verse
 							v.Key.combatPower,
 							EloUtility.CalculateLinearScore(v.Value, 1500f, 60f).ToString("F0"),
 							v.Value.ToString("F0")
-						})).ToLineList("")), false);
+						})).ToLineList(null)), false);
 					}
 				}
 

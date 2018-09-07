@@ -27,33 +27,28 @@ namespace RimWorld
 
 		public static bool SelectableByMapClick(Thing t)
 		{
-			bool result;
 			if (!t.def.selectable)
 			{
-				result = false;
+				return false;
 			}
-			else if (!t.Spawned)
+			if (!t.Spawned)
 			{
-				result = false;
+				return false;
 			}
-			else if (t.def.size.x == 1 && t.def.size.z == 1)
+			if (t.def.size.x == 1 && t.def.size.z == 1)
 			{
-				result = !t.Position.Fogged(t.Map);
+				return !t.Position.Fogged(t.Map);
 			}
-			else
+			CellRect.CellRectIterator iterator = t.OccupiedRect().GetIterator();
+			while (!iterator.Done())
 			{
-				CellRect.CellRectIterator iterator = t.OccupiedRect().GetIterator();
-				while (!iterator.Done())
+				if (!iterator.Current.Fogged(t.Map))
 				{
-					if (!iterator.Current.Fogged(t.Map))
-					{
-						return true;
-					}
-					iterator.MoveNext();
+					return true;
 				}
-				result = false;
+				iterator.MoveNext();
 			}
-			return result;
+			return false;
 		}
 
 		public static bool SelectableByHotkey(Thing t)
@@ -151,28 +146,29 @@ namespace RimWorld
 				ThingSelectionUtility.<>f__mg$cache0 = new Func<Pawn, bool>(ThingSelectionUtility.SelectableByHotkey);
 			}
 			list.AddRange(colonistsInOrder.Where(ThingSelectionUtility.<>f__mg$cache0));
-			if (ThingSelectionUtility.tmpColonists.Count != 0)
+			if (ThingSelectionUtility.tmpColonists.Count == 0)
 			{
-				bool worldRenderedNow = WorldRendererUtility.WorldRenderedNow;
-				int num = -1;
-				for (int i = ThingSelectionUtility.tmpColonists.Count - 1; i >= 0; i--)
-				{
-					if ((!worldRenderedNow && Find.Selector.IsSelected(ThingSelectionUtility.tmpColonists[i])) || (worldRenderedNow && ThingSelectionUtility.tmpColonists[i].IsCaravanMember() && Find.WorldSelector.IsSelected(ThingSelectionUtility.tmpColonists[i].GetCaravan())))
-					{
-						num = i;
-						break;
-					}
-				}
-				if (num == -1)
-				{
-					CameraJumper.TryJumpAndSelect(ThingSelectionUtility.tmpColonists[0]);
-				}
-				else
-				{
-					CameraJumper.TryJumpAndSelect(ThingSelectionUtility.tmpColonists[(num + 1) % ThingSelectionUtility.tmpColonists.Count]);
-				}
-				ThingSelectionUtility.tmpColonists.Clear();
+				return;
 			}
+			bool worldRenderedNow = WorldRendererUtility.WorldRenderedNow;
+			int num = -1;
+			for (int i = ThingSelectionUtility.tmpColonists.Count - 1; i >= 0; i--)
+			{
+				if ((!worldRenderedNow && Find.Selector.IsSelected(ThingSelectionUtility.tmpColonists[i])) || (worldRenderedNow && ThingSelectionUtility.tmpColonists[i].IsCaravanMember() && Find.WorldSelector.IsSelected(ThingSelectionUtility.tmpColonists[i].GetCaravan())))
+				{
+					num = i;
+					break;
+				}
+			}
+			if (num == -1)
+			{
+				CameraJumper.TryJumpAndSelect(ThingSelectionUtility.tmpColonists[0]);
+			}
+			else
+			{
+				CameraJumper.TryJumpAndSelect(ThingSelectionUtility.tmpColonists[(num + 1) % ThingSelectionUtility.tmpColonists.Count]);
+			}
+			ThingSelectionUtility.tmpColonists.Clear();
 		}
 
 		public static void SelectPreviousColonist()
@@ -185,28 +181,29 @@ namespace RimWorld
 				ThingSelectionUtility.<>f__mg$cache1 = new Func<Pawn, bool>(ThingSelectionUtility.SelectableByHotkey);
 			}
 			list.AddRange(colonistsInOrder.Where(ThingSelectionUtility.<>f__mg$cache1));
-			if (ThingSelectionUtility.tmpColonists.Count != 0)
+			if (ThingSelectionUtility.tmpColonists.Count == 0)
 			{
-				bool worldRenderedNow = WorldRendererUtility.WorldRenderedNow;
-				int num = -1;
-				for (int i = 0; i < ThingSelectionUtility.tmpColonists.Count; i++)
-				{
-					if ((!worldRenderedNow && Find.Selector.IsSelected(ThingSelectionUtility.tmpColonists[i])) || (worldRenderedNow && ThingSelectionUtility.tmpColonists[i].IsCaravanMember() && Find.WorldSelector.IsSelected(ThingSelectionUtility.tmpColonists[i].GetCaravan())))
-					{
-						num = i;
-						break;
-					}
-				}
-				if (num == -1)
-				{
-					CameraJumper.TryJumpAndSelect(ThingSelectionUtility.tmpColonists[ThingSelectionUtility.tmpColonists.Count - 1]);
-				}
-				else
-				{
-					CameraJumper.TryJumpAndSelect(ThingSelectionUtility.tmpColonists[GenMath.PositiveMod(num - 1, ThingSelectionUtility.tmpColonists.Count)]);
-				}
-				ThingSelectionUtility.tmpColonists.Clear();
+				return;
 			}
+			bool worldRenderedNow = WorldRendererUtility.WorldRenderedNow;
+			int num = -1;
+			for (int i = 0; i < ThingSelectionUtility.tmpColonists.Count; i++)
+			{
+				if ((!worldRenderedNow && Find.Selector.IsSelected(ThingSelectionUtility.tmpColonists[i])) || (worldRenderedNow && ThingSelectionUtility.tmpColonists[i].IsCaravanMember() && Find.WorldSelector.IsSelected(ThingSelectionUtility.tmpColonists[i].GetCaravan())))
+				{
+					num = i;
+					break;
+				}
+			}
+			if (num == -1)
+			{
+				CameraJumper.TryJumpAndSelect(ThingSelectionUtility.tmpColonists[ThingSelectionUtility.tmpColonists.Count - 1]);
+			}
+			else
+			{
+				CameraJumper.TryJumpAndSelect(ThingSelectionUtility.tmpColonists[GenMath.PositiveMod(num - 1, ThingSelectionUtility.tmpColonists.Count)]);
+			}
+			ThingSelectionUtility.tmpColonists.Clear();
 		}
 
 		// Note: this type is marked as 'beforefieldinit'.
@@ -276,9 +273,9 @@ namespace RimWorld
 						{
 						case 1u:
 							ThingSelectionUtility.yieldedThings.Add(t);
-							goto IL_15B;
+							goto IL_153;
 						}
-						IL_182:
+						IL_177:
 						while (enumerator.MoveNext())
 						{
 							c = enumerator.Current;
@@ -288,30 +285,30 @@ namespace RimWorld
 								if (cellThings != null)
 								{
 									i = 0;
-									goto IL_16A;
+									goto IL_161;
 								}
 							}
 						}
-						goto IL_1B2;
-						IL_15B:
+						goto IL_1A7;
+						IL_153:
 						i++;
-						IL_16A:
-						if (i < cellThings.Count)
+						IL_161:
+						if (i >= cellThings.Count)
 						{
-							t = cellThings[i];
-							if (ThingSelectionUtility.SelectableByMapClick(t) && !t.def.neverMultiSelect && !ThingSelectionUtility.yieldedThings.Contains(t))
-							{
-								this.$current = t;
-								if (!this.$disposing)
-								{
-									this.$PC = 1;
-								}
-								flag = true;
-								return true;
-							}
-							goto IL_15B;
+							goto IL_177;
 						}
-						goto IL_182;
+						t = cellThings[i];
+						if (ThingSelectionUtility.SelectableByMapClick(t) && !t.def.neverMultiSelect && !ThingSelectionUtility.yieldedThings.Contains(t))
+						{
+							this.$current = t;
+							if (!this.$disposing)
+							{
+								this.$PC = 1;
+							}
+							flag = true;
+							return true;
+						}
+						goto IL_153;
 					}
 					finally
 					{
@@ -323,7 +320,7 @@ namespace RimWorld
 							}
 						}
 					}
-					IL_1B2:;
+					IL_1A7:;
 				}
 				finally
 				{
@@ -474,7 +471,6 @@ namespace RimWorld
 							ThingSelectionUtility.yieldedZones.Add(zone);
 							break;
 						}
-						IL_127:
 						while (enumerator.MoveNext())
 						{
 							c = enumerator.Current;
@@ -499,8 +495,6 @@ namespace RimWorld
 								}
 							}
 						}
-						goto IL_157;
-						goto IL_127;
 					}
 					finally
 					{
@@ -512,7 +506,6 @@ namespace RimWorld
 							}
 						}
 					}
-					IL_157:;
 				}
 				finally
 				{

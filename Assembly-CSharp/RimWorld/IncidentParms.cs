@@ -34,6 +34,8 @@ namespace RimWorld
 
 		public Dictionary<Pawn, int> pawnGroups;
 
+		public int? pawnGroupMakerSeed;
+
 		public TraderKindDef traderKind;
 
 		public int podOpenDelay = 140;
@@ -62,6 +64,7 @@ namespace RimWorld
 			Scribe_Values.Look<bool>(ref this.raidNeverFleeIndividual, "raidNeverFleeIndividual", false, false);
 			Scribe_Values.Look<bool>(ref this.raidArrivalModeForQuickMilitaryAid, "raidArrivalModeForQuickMilitaryAid", false, false);
 			Scribe_Collections.Look<Pawn, int>(ref this.pawnGroups, "pawnGroups", LookMode.Reference, LookMode.Value, ref this.tmpPawns, ref this.tmpGroups);
+			Scribe_Values.Look<int?>(ref this.pawnGroupMakerSeed, "pawnGroupMakerSeed", null, false);
 			Scribe_Defs.Look<TraderKindDef>(ref this.traderKind, "traderKind");
 			Scribe_Values.Look<int>(ref this.podOpenDelay, "podOpenDelay", 140, false);
 		}

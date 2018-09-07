@@ -133,26 +133,21 @@ namespace RimWorld
 			{
 				thing3 = thing2;
 			}
-			bool result;
 			if (thing3 == null)
 			{
-				result = false;
+				return false;
 			}
-			else if (thing3 is Pawn && !((Pawn)thing3).Downed)
+			if (thing3 is Pawn && !((Pawn)thing3).Downed)
 			{
 				p.mindState.duty = new PawnDuty(DutyDefOf.Escort, thing3, escortRadius);
-				result = true;
+				return true;
 			}
-			else if (!GenHostility.AnyHostileActiveThreatTo(base.Map, this.lord.faction))
+			if (!GenHostility.AnyHostileActiveThreatTo(base.Map, this.lord.faction))
 			{
-				result = false;
+				return false;
 			}
-			else
-			{
-				p.mindState.duty = new PawnDuty(DutyDefOf.Defend, thing3.Position, 16f);
-				result = true;
-			}
-			return result;
+			p.mindState.duty = new PawnDuty(DutyDefOf.Defend, thing3.Position, 16f);
+			return true;
 		}
 
 		public static bool IsDefendingPosition(Pawn pawn)

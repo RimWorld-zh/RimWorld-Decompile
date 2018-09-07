@@ -82,29 +82,30 @@ namespace Verse
 
 		private static void CheckGlobalInit()
 		{
-			if (!Root.globalInitDone)
+			if (Root.globalInitDone)
 			{
-				UnityDataInitializer.CopyUnityData();
-				SteamManager.InitIfNeeded();
-				string[] commandLineArgs = Environment.GetCommandLineArgs();
-				if (commandLineArgs != null && commandLineArgs.Length > 1)
-				{
-					Log.Message("Command line arguments: " + GenText.ToSpaceList(commandLineArgs.Skip(1)), false);
-				}
-				VersionControl.LogVersionNumber();
-				Application.targetFrameRate = 60;
-				Prefs.Init();
-				if (Prefs.DevMode)
-				{
-					StaticConstructorOnStartupUtility.ReportProbablyMissingAttributes();
-				}
-				if (Root.<>f__mg$cache0 == null)
-				{
-					Root.<>f__mg$cache0 = new Action(StaticConstructorOnStartupUtility.CallAll);
-				}
-				LongEventHandler.QueueLongEvent(Root.<>f__mg$cache0, null, false, null);
-				Root.globalInitDone = true;
+				return;
 			}
+			UnityDataInitializer.CopyUnityData();
+			SteamManager.InitIfNeeded();
+			string[] commandLineArgs = Environment.GetCommandLineArgs();
+			if (commandLineArgs != null && commandLineArgs.Length > 1)
+			{
+				Log.Message("Command line arguments: " + GenText.ToSpaceList(commandLineArgs.Skip(1)), false);
+			}
+			VersionControl.LogVersionNumber();
+			Application.targetFrameRate = 60;
+			Prefs.Init();
+			if (Prefs.DevMode)
+			{
+				StaticConstructorOnStartupUtility.ReportProbablyMissingAttributes();
+			}
+			if (Root.<>f__mg$cache0 == null)
+			{
+				Root.<>f__mg$cache0 = new Action(StaticConstructorOnStartupUtility.CallAll);
+			}
+			LongEventHandler.QueueLongEvent(Root.<>f__mg$cache0, null, false, null);
+			Root.globalInitDone = true;
 		}
 
 		public virtual void Update()

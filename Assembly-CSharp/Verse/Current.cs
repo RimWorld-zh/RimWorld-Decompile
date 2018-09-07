@@ -7,7 +7,7 @@ namespace Verse
 {
 	public static class Current
 	{
-		private static ProgramState programStateInt = ProgramState.Entry;
+		private static ProgramState programStateInt;
 
 		private static Root rootInt;
 

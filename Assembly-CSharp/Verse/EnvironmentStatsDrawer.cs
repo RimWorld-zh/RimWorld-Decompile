@@ -50,21 +50,16 @@ namespace Verse
 
 		private static bool ShouldShowRoomStats()
 		{
-			bool result;
 			if (!Find.PlaySettings.showRoomStats)
 			{
-				result = false;
+				return false;
 			}
-			else if (!UI.MouseCell().InBounds(Find.CurrentMap) || UI.MouseCell().Fogged(Find.CurrentMap))
+			if (!UI.MouseCell().InBounds(Find.CurrentMap) || UI.MouseCell().Fogged(Find.CurrentMap))
 			{
-				result = false;
+				return false;
 			}
-			else
-			{
-				Room room = UI.MouseCell().GetRoom(Find.CurrentMap, RegionType.Set_All);
-				result = (room != null && room.Role != RoomRoleDefOf.None);
-			}
-			return result;
+			Room room = UI.MouseCell().GetRoom(Find.CurrentMap, RegionType.Set_All);
+			return room != null && room.Role != RoomRoleDefOf.None;
 		}
 
 		private static bool ShouldShowBeauty()
@@ -74,10 +69,11 @@ namespace Verse
 
 		public static void EnvironmentStatsOnGUI()
 		{
-			if (Event.current.type == EventType.Repaint && EnvironmentStatsDrawer.ShouldShowWindowNow())
+			if (Event.current.type != EventType.Repaint || !EnvironmentStatsDrawer.ShouldShowWindowNow())
 			{
-				EnvironmentStatsDrawer.DrawInfoWindow();
+				return;
 			}
+			EnvironmentStatsDrawer.DrawInfoWindow();
 		}
 
 		private static void DrawInfoWindow()
@@ -174,7 +170,7 @@ namespace Verse
 						string label = roomStatDef.ScoreToString(stat);
 						Widgets.Label(rect4, label);
 						Rect rect5 = new Rect(rect4.xMax + 35f, num, 160f, 23f);
-						Widgets.Label(rect5, (scoreStage != null) ? scoreStage.label : "");
+						Widgets.Label(rect5, (scoreStage != null) ? scoreStage.label : string.Empty);
 						num += 25f;
 					}
 				}

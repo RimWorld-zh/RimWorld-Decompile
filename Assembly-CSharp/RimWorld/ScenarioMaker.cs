@@ -228,14 +228,14 @@ namespace RimWorld
 					select d;
 					numYielded = 0;
 					numTries = 0;
-					goto IL_197;
+					goto IL_191;
 				case 1u:
 					numYielded++;
 					break;
 				default:
 					return false;
 				}
-				IL_130:
+				IL_12C:
 				numTries++;
 				if (numTries > 100)
 				{
@@ -249,7 +249,7 @@ namespace RimWorld
 					}), false);
 					return false;
 				}
-				IL_197:
+				IL_191:
 				if (numYielded >= count)
 				{
 					this.$PC = -1;
@@ -267,7 +267,7 @@ namespace RimWorld
 						}
 						return true;
 					}
-					goto IL_130;
+					goto IL_12C;
 				}
 				return false;
 			}

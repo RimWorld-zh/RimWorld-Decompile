@@ -10,13 +10,14 @@ namespace Verse
 
 		public static void Update()
 		{
-			if (!LongEventHandler.ShouldWaitForEvent)
+			if (LongEventHandler.ShouldWaitForEvent)
 			{
-				if (KeyBindingDefOf.TakeScreenshot.JustPressed || ScreenshotTaker.takeScreenshot)
-				{
-					ScreenshotTaker.TakeShot();
-					ScreenshotTaker.takeScreenshot = false;
-				}
+				return;
+			}
+			if (KeyBindingDefOf.TakeScreenshot.JustPressed || ScreenshotTaker.takeScreenshot)
+			{
+				ScreenshotTaker.TakeShot();
+				ScreenshotTaker.takeScreenshot = false;
 			}
 		}
 

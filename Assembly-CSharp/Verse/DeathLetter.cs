@@ -67,7 +67,7 @@ namespace Verse
 			select entry)
 			orderby entry.Age
 			select entry).Take(5).Reverse<LogEntry>()
-			select "  " + entry.ToGameStringFromPOV(null, false)).ToLineList("");
+			select "  " + entry.ToGameStringFromPOV(null, false)).ToLineList(null);
 			if (text2.Length > 0)
 			{
 				text = string.Format("{0}\n\n{1}\n{2}", text, "LastEventsInLife".Translate(new object[]

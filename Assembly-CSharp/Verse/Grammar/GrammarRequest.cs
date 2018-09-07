@@ -67,6 +67,10 @@ namespace Verse.Grammar
 			{
 				this.rules.Clear();
 			}
+			if (this.includesBare != null)
+			{
+				this.includesBare.Clear();
+			}
 			if (this.includes != null)
 			{
 				this.includes.Clear();

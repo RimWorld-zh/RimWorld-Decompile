@@ -71,7 +71,7 @@ namespace RimWorld
 		{
 			return new ThingDef
 			{
-				isFrame = true,
+				isFrameInt = true,
 				category = ThingCategory.Building,
 				label = "Unspecified building frame",
 				thingClass = typeof(Frame),
@@ -301,7 +301,7 @@ namespace RimWorld
 					break;
 				case 4u:
 				case 5u:
-					goto IL_16D;
+					goto IL_164;
 				default:
 					return false;
 				}
@@ -320,11 +320,11 @@ namespace RimWorld
 					case 2u:
 						break;
 					case 3u:
-						goto IL_12D;
+						goto IL_126;
 					default:
-						goto IL_12E;
+						goto IL_126;
 					}
-					IL_ED:
+					IL_E8:
 					if (def.Minifiable)
 					{
 						this.$current = ThingDefGenerator_Buildings.NewBlueprintDef_Thing(def, true, blueprint);
@@ -335,8 +335,7 @@ namespace RimWorld
 						flag = true;
 						return true;
 					}
-					IL_12D:
-					IL_12E:
+					IL_126:
 					if (enumerator.MoveNext())
 					{
 						def = enumerator.Current;
@@ -352,7 +351,7 @@ namespace RimWorld
 							flag = true;
 							return true;
 						}
-						goto IL_ED;
+						goto IL_E8;
 					}
 				}
 				finally
@@ -366,7 +365,7 @@ namespace RimWorld
 				num = 4294967293u;
 				try
 				{
-					IL_16D:
+					IL_164:
 					switch (num)
 					{
 					case 4u:

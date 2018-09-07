@@ -18,66 +18,59 @@ namespace RimWorld
 
 		protected override bool CanGenerateSub(ThingSetMakerParams parms)
 		{
-			bool result;
 			if (!this.AllowedThingDefs(parms).Any<ThingDef>())
 			{
-				result = false;
+				return false;
 			}
-			else
+			IntRange? countRange = parms.countRange;
+			if (countRange != null && parms.countRange.Value.max <= 0)
 			{
-				IntRange? countRange = parms.countRange;
-				if (countRange != null && parms.countRange.Value.max <= 0)
+				return false;
+			}
+			float? maxTotalMass = parms.maxTotalMass;
+			if (maxTotalMass != null && parms.maxTotalMass != 3.40282347E+38f)
+			{
+				IEnumerable<ThingDef> candidates = this.AllowedThingDefs(parms);
+				TechLevel? techLevel = parms.techLevel;
+				TechLevel stuffTechLevel = (techLevel == null) ? TechLevel.Undefined : techLevel.Value;
+				float value = parms.maxTotalMass.Value;
+				IntRange? countRange2 = parms.countRange;
+				if (!ThingSetMakerUtility.PossibleToWeighNoMoreThan(candidates, stuffTechLevel, value, (countRange2 == null) ? 1 : parms.countRange.Value.max))
 				{
-					result = false;
-				}
-				else
-				{
-					float? maxTotalMass = parms.maxTotalMass;
-					if (maxTotalMass != null && parms.maxTotalMass != 3.40282347E+38f)
-					{
-						IEnumerable<ThingDef> candidates = this.AllowedThingDefs(parms);
-						TechLevel? techLevel = parms.techLevel;
-						TechLevel stuffTechLevel = (techLevel == null) ? TechLevel.Undefined : techLevel.Value;
-						float value = parms.maxTotalMass.Value;
-						IntRange? countRange2 = parms.countRange;
-						if (!ThingSetMakerUtility.PossibleToWeighNoMoreThan(candidates, stuffTechLevel, value, (countRange2 == null) ? 1 : parms.countRange.Value.max))
-						{
-							return false;
-						}
-					}
-					result = true;
+					return false;
 				}
 			}
-			return result;
+			return true;
 		}
 
 		protected override void Generate(ThingSetMakerParams parms, List<Thing> outThings)
 		{
 			IEnumerable<ThingDef> enumerable = this.AllowedThingDefs(parms);
-			if (enumerable.Any<ThingDef>())
+			if (!enumerable.Any<ThingDef>())
 			{
-				TechLevel? techLevel = parms.techLevel;
-				TechLevel stuffTechLevel = (techLevel == null) ? TechLevel.Undefined : techLevel.Value;
-				IntRange? countRange = parms.countRange;
-				IntRange intRange = (countRange == null) ? IntRange.one : countRange.Value;
-				float? maxTotalMass = parms.maxTotalMass;
-				float num = (maxTotalMass == null) ? float.MaxValue : maxTotalMass.Value;
-				int num2 = Mathf.Max(intRange.RandomInRange, 1);
-				float num3 = 0f;
-				for (int i = 0; i < num2; i++)
+				return;
+			}
+			TechLevel? techLevel = parms.techLevel;
+			TechLevel stuffTechLevel = (techLevel == null) ? TechLevel.Undefined : techLevel.Value;
+			IntRange? countRange = parms.countRange;
+			IntRange intRange = (countRange == null) ? IntRange.one : countRange.Value;
+			float? maxTotalMass = parms.maxTotalMass;
+			float num = (maxTotalMass == null) ? float.MaxValue : maxTotalMass.Value;
+			int num2 = Mathf.Max(intRange.RandomInRange, 1);
+			float num3 = 0f;
+			for (int i = 0; i < num2; i++)
+			{
+				ThingStuffPair thingStuffPair;
+				if (!ThingSetMakerUtility.TryGetRandomThingWhichCanWeighNoMoreThan(enumerable, stuffTechLevel, (num != 3.40282347E+38f) ? (num - num3) : 3.40282347E+38f, out thingStuffPair))
 				{
-					ThingStuffPair thingStuffPair;
-					if (!ThingSetMakerUtility.TryGetRandomThingWhichCanWeighNoMoreThan(enumerable, stuffTechLevel, (num != 3.40282347E+38f) ? (num - num3) : 3.40282347E+38f, out thingStuffPair))
-					{
-						break;
-					}
-					Thing thing = ThingMaker.MakeThing(thingStuffPair.thing, thingStuffPair.stuff);
-					ThingSetMakerUtility.AssignQuality(thing, parms.qualityGenerator);
-					outThings.Add(thing);
-					if (!(thing is Pawn))
-					{
-						num3 += thing.GetStatValue(StatDefOf.Mass, true) * (float)thing.stackCount;
-					}
+					break;
+				}
+				Thing thing = ThingMaker.MakeThing(thingStuffPair.thing, thingStuffPair.stuff);
+				ThingSetMakerUtility.AssignQuality(thing, parms.qualityGenerator);
+				outThings.Add(thing);
+				if (!(thing is Pawn))
+				{
+					num3 += thing.GetStatValue(StatDefOf.Mass, true) * (float)thing.stackCount;
 				}
 			}
 		}

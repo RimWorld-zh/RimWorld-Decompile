@@ -7,16 +7,11 @@ namespace Verse
 		public static T TryGetComp<T>(this Thing thing) where T : ThingComp
 		{
 			ThingWithComps thingWithComps = thing as ThingWithComps;
-			T result;
 			if (thingWithComps == null)
 			{
-				result = (T)((object)null);
+				return (T)((object)null);
 			}
-			else
-			{
-				result = thingWithComps.GetComp<T>();
-			}
-			return result;
+			return thingWithComps.GetComp<T>();
 		}
 	}
 }

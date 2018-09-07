@@ -28,20 +28,15 @@ namespace RimWorld
 		{
 			get
 			{
-				DrugDesireCategory result;
 				if (this.CurLevel > 0.3f)
 				{
-					result = DrugDesireCategory.Satisfied;
+					return DrugDesireCategory.Satisfied;
 				}
-				else if (this.CurLevel > 0.01f)
+				if (this.CurLevel > 0.01f)
 				{
-					result = DrugDesireCategory.Desire;
+					return DrugDesireCategory.Desire;
 				}
-				else
-				{
-					result = DrugDesireCategory.Withdrawal;
-				}
-				return result;
+				return DrugDesireCategory.Withdrawal;
 			}
 		}
 

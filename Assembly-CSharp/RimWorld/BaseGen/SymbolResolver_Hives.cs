@@ -22,24 +22,25 @@ namespace RimWorld.BaseGen
 		public override void Resolve(ResolveParams rp)
 		{
 			IntVec3 loc;
-			if (this.TryFindFirstHivePos(rp.rect, out loc))
+			if (!this.TryFindFirstHivePos(rp.rect, out loc))
 			{
-				int? hivesCount = rp.hivesCount;
-				int num = (hivesCount == null) ? SymbolResolver_Hives.DefaultHivesCountRange.RandomInRange : hivesCount.Value;
-				Hive hive = (Hive)ThingMaker.MakeThing(ThingDefOf.Hive, null);
-				hive.SetFaction(Faction.OfInsects, null);
-				if (rp.disableHives != null && rp.disableHives.Value)
+				return;
+			}
+			int? hivesCount = rp.hivesCount;
+			int num = (hivesCount == null) ? SymbolResolver_Hives.DefaultHivesCountRange.RandomInRange : hivesCount.Value;
+			Hive hive = (Hive)ThingMaker.MakeThing(ThingDefOf.Hive, null);
+			hive.SetFaction(Faction.OfInsects, null);
+			if (rp.disableHives != null && rp.disableHives.Value)
+			{
+				hive.active = false;
+			}
+			hive = (Hive)GenSpawn.Spawn(hive, loc, BaseGen.globalSettings.map, WipeMode.Vanish);
+			for (int i = 0; i < num - 1; i++)
+			{
+				Hive hive2;
+				if (hive.GetComp<CompSpawnerHives>().TrySpawnChildHive(true, out hive2))
 				{
-					hive.active = false;
-				}
-				hive = (Hive)GenSpawn.Spawn(hive, loc, BaseGen.globalSettings.map, WipeMode.Vanish);
-				for (int i = 0; i < num - 1; i++)
-				{
-					Hive hive2;
-					if (hive.GetComp<CompSpawnerHives>().TrySpawnChildHive(true, out hive2))
-					{
-						hive = hive2;
-					}
+					hive = hive2;
 				}
 			}
 		}

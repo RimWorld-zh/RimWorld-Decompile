@@ -31,32 +31,27 @@ namespace Verse
 		public float DiseaseContractChanceFactor(HediffDef diseaseDef, out HediffDef immunityCause, BodyPartRecord part = null)
 		{
 			immunityCause = null;
-			float result;
 			if (!this.pawn.RaceProps.IsFlesh)
 			{
-				result = 0f;
+				return 0f;
 			}
-			else
+			List<Hediff> hediffs = this.pawn.health.hediffSet.hediffs;
+			for (int i = 0; i < hediffs.Count; i++)
 			{
-				List<Hediff> hediffs = this.pawn.health.hediffSet.hediffs;
-				for (int i = 0; i < hediffs.Count; i++)
+				if (hediffs[i].def == diseaseDef && hediffs[i].Part == part)
 				{
-					if (hediffs[i].def == diseaseDef && hediffs[i].Part == part)
-					{
-						return 0f;
-					}
+					return 0f;
 				}
-				for (int j = 0; j < this.immunityList.Count; j++)
-				{
-					if (this.immunityList[j].hediffDef == diseaseDef)
-					{
-						immunityCause = this.immunityList[j].source;
-						return Mathf.Lerp(1f, 0f, this.immunityList[j].immunity / 0.6f);
-					}
-				}
-				result = 1f;
 			}
-			return result;
+			for (int j = 0; j < this.immunityList.Count; j++)
+			{
+				if (this.immunityList[j].hediffDef == diseaseDef)
+				{
+					immunityCause = this.immunityList[j].source;
+					return Mathf.Lerp(1f, 0f, this.immunityList[j].immunity / 0.6f);
+				}
+			}
+			return 1f;
 		}
 
 		public float GetImmunity(HediffDef def)
@@ -163,16 +158,18 @@ namespace Verse
 
 		private void TryAddImmunityRecord(HediffDef def, HediffDef source)
 		{
-			if (def.CompProps<HediffCompProperties_Immunizable>() != null)
+			if (def.CompProps<HediffCompProperties_Immunizable>() == null)
 			{
-				if (!this.ImmunityRecordExists(def))
-				{
-					ImmunityRecord immunityRecord = new ImmunityRecord();
-					immunityRecord.hediffDef = def;
-					immunityRecord.source = source;
-					this.immunityList.Add(immunityRecord);
-				}
+				return;
 			}
+			if (this.ImmunityRecordExists(def))
+			{
+				return;
+			}
+			ImmunityRecord immunityRecord = new ImmunityRecord();
+			immunityRecord.hediffDef = def;
+			immunityRecord.source = source;
+			this.immunityList.Add(immunityRecord);
 		}
 
 		public ImmunityRecord GetImmunityRecord(HediffDef def)

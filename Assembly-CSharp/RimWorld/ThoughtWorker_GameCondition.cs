@@ -11,20 +11,15 @@ namespace RimWorld
 
 		protected override ThoughtState CurrentStateInternal(Pawn p)
 		{
-			ThoughtState result;
 			if (p.SpawnedOrAnyParentSpawned && p.MapHeld.gameConditionManager.ConditionIsActive(this.def.gameCondition))
 			{
-				result = true;
+				return true;
 			}
-			else if (Find.World.gameConditionManager.ConditionIsActive(this.def.gameCondition))
+			if (Find.World.gameConditionManager.ConditionIsActive(this.def.gameCondition))
 			{
-				result = true;
+				return true;
 			}
-			else
-			{
-				result = false;
-			}
-			return result;
+			return false;
 		}
 	}
 }

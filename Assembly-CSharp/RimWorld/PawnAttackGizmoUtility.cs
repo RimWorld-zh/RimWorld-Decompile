@@ -153,44 +153,39 @@ namespace RimWorld
 
 		private static bool AtLeastTwoSelectedColonistsHaveDifferentWeapons()
 		{
-			bool result;
 			if (Find.Selector.NumSelected <= 1)
 			{
-				result = false;
+				return false;
 			}
-			else
+			ThingDef thingDef = null;
+			bool flag = false;
+			List<object> selectedObjectsListForReading = Find.Selector.SelectedObjectsListForReading;
+			for (int i = 0; i < selectedObjectsListForReading.Count; i++)
 			{
-				ThingDef thingDef = null;
-				bool flag = false;
-				List<object> selectedObjectsListForReading = Find.Selector.SelectedObjectsListForReading;
-				for (int i = 0; i < selectedObjectsListForReading.Count; i++)
+				Pawn pawn = selectedObjectsListForReading[i] as Pawn;
+				if (pawn != null && pawn.IsColonistPlayerControlled)
 				{
-					Pawn pawn = selectedObjectsListForReading[i] as Pawn;
-					if (pawn != null && pawn.IsColonistPlayerControlled)
+					ThingDef thingDef2;
+					if (pawn.equipment == null || pawn.equipment.Primary == null)
 					{
-						ThingDef thingDef2;
-						if (pawn.equipment == null || pawn.equipment.Primary == null)
-						{
-							thingDef2 = null;
-						}
-						else
-						{
-							thingDef2 = pawn.equipment.Primary.def;
-						}
-						if (!flag)
-						{
-							thingDef = thingDef2;
-							flag = true;
-						}
-						else if (thingDef2 != thingDef)
-						{
-							return true;
-						}
+						thingDef2 = null;
+					}
+					else
+					{
+						thingDef2 = pawn.equipment.Primary.def;
+					}
+					if (!flag)
+					{
+						thingDef = thingDef2;
+						flag = true;
+					}
+					else if (thingDef2 != thingDef)
+					{
+						return true;
 					}
 				}
-				result = false;
 			}
-			return result;
+			return false;
 		}
 
 		[CompilerGenerated]
@@ -281,7 +276,7 @@ namespace RimWorld
 				case 1u:
 					break;
 				case 2u:
-					goto IL_8A;
+					goto IL_89;
 				default:
 					return false;
 				}
@@ -294,7 +289,7 @@ namespace RimWorld
 					}
 					return true;
 				}
-				IL_8A:
+				IL_89:
 				this.$PC = -1;
 				return false;
 			}

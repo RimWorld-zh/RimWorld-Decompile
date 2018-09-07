@@ -91,6 +91,10 @@ namespace Verse
 
 		public static implicit operator ThingDefCount(ThingDefCountClass t)
 		{
+			if (t == null)
+			{
+				return new ThingDefCount(null, 0);
+			}
 			return new ThingDefCount(t.thingDef, t.count);
 		}
 	}

@@ -12,39 +12,31 @@ namespace RimWorld
 
 		public override Job JobOnThing(Pawn pawn, Thing t, bool forced = false)
 		{
-			Job result;
 			if (!base.ShouldTakeCareOfPrisoner(pawn, t))
 			{
-				result = null;
+				return null;
 			}
-			else
+			Pawn pawn2 = (Pawn)t;
+			if (!WardenFeedUtility.ShouldBeFed(pawn2))
 			{
-				Pawn pawn2 = (Pawn)t;
-				Thing thing;
-				ThingDef thingDef;
-				if (!WardenFeedUtility.ShouldBeFed(pawn2))
-				{
-					result = null;
-				}
-				else if (pawn2.needs.food.CurLevelPercentage >= pawn2.needs.food.PercentageThreshHungry + 0.02f)
-				{
-					result = null;
-				}
-				else if (!FoodUtility.TryFindBestFoodSourceFor(pawn, pawn2, pawn2.needs.food.CurCategory == HungerCategory.Starving, out thing, out thingDef, false, true, false, false, false, false, false))
-				{
-					JobFailReason.Is("NoFood".Translate(), null);
-					result = null;
-				}
-				else
-				{
-					float nutrition = FoodUtility.GetNutrition(thing, thingDef);
-					result = new Job(JobDefOf.FeedPatient, thing, pawn2)
-					{
-						count = FoodUtility.WillIngestStackCountOf(pawn2, thingDef, nutrition)
-					};
-				}
+				return null;
 			}
-			return result;
+			if (pawn2.needs.food.CurLevelPercentage >= pawn2.needs.food.PercentageThreshHungry + 0.02f)
+			{
+				return null;
+			}
+			Thing thing;
+			ThingDef thingDef;
+			if (!FoodUtility.TryFindBestFoodSourceFor(pawn, pawn2, pawn2.needs.food.CurCategory == HungerCategory.Starving, out thing, out thingDef, false, true, false, false, false, false, false))
+			{
+				JobFailReason.Is("NoFood".Translate(), null);
+				return null;
+			}
+			float nutrition = FoodUtility.GetNutrition(thing, thingDef);
+			return new Job(JobDefOf.FeedPatient, thing, pawn2)
+			{
+				count = FoodUtility.WillIngestStackCountOf(pawn2, thingDef, nutrition)
+			};
 		}
 	}
 }

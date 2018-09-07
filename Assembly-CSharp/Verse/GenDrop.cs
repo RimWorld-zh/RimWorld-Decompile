@@ -7,14 +7,13 @@ namespace Verse
 	{
 		public static bool TryDropSpawn(Thing thing, IntVec3 dropCell, Map map, ThingPlaceMode mode, out Thing resultingThing, Action<Thing, int> placedAction = null, Predicate<IntVec3> nearPlaceValidator = null)
 		{
-			bool result;
 			if (map == null)
 			{
 				Log.Error("Dropped " + thing + " in a null map.", false);
 				resultingThing = null;
-				result = false;
+				return false;
 			}
-			else if (!dropCell.InBounds(map))
+			if (!dropCell.InBounds(map))
 			{
 				Log.Error(string.Concat(new object[]
 				{
@@ -24,23 +23,19 @@ namespace Verse
 					dropCell
 				}), false);
 				resultingThing = null;
-				result = false;
+				return false;
 			}
-			else if (thing.def.destroyOnDrop)
+			if (thing.def.destroyOnDrop)
 			{
 				thing.Destroy(DestroyMode.Vanish);
 				resultingThing = null;
-				result = true;
+				return true;
 			}
-			else
+			if (thing.def.soundDrop != null)
 			{
-				if (thing.def.soundDrop != null)
-				{
-					thing.def.soundDrop.PlayOneShot(new TargetInfo(dropCell, map, false));
-				}
-				result = GenPlace.TryPlaceThing(thing, dropCell, map, mode, out resultingThing, placedAction, nearPlaceValidator);
+				thing.def.soundDrop.PlayOneShot(new TargetInfo(dropCell, map, false));
 			}
-			return result;
+			return GenPlace.TryPlaceThing(thing, dropCell, map, mode, out resultingThing, placedAction, nearPlaceValidator);
 		}
 	}
 }

@@ -245,7 +245,7 @@ namespace Verse
 						{
 							Pawn pawn = CombatLogTester.GenerateRandom();
 							Pawn initiator = CombatLogTester.GenerateRandom();
-							BodyPartRecord partRecord = pawn.health.hediffSet.GetNotMissingParts(BodyPartHeight.Undefined, BodyPartDepth.Undefined, null).RandomElement<BodyPartRecord>();
+							BodyPartRecord partRecord = pawn.health.hediffSet.GetNotMissingParts(BodyPartHeight.Undefined, BodyPartDepth.Undefined, null, null).RandomElement<BodyPartRecord>();
 							BattleLogEntry_StateTransition battleLogEntry_StateTransition = new BattleLogEntry_StateTransition(pawn, transition, initiator, HediffMaker.MakeHediff(DefDatabase<HediffDef>.AllDefsListForReading.RandomElement<HediffDef>(), pawn, partRecord), pawn.RaceProps.body.AllParts.RandomElement<BodyPartRecord>());
 							battleLogEntry_StateTransition.Debug_OverrideTicks(Rand.Int);
 							stringBuilder.AppendLine(battleLogEntry_StateTransition.ToGameStringFromPOV(null, false));
@@ -966,7 +966,7 @@ namespace Verse
 				{
 					Pawn pawn = CombatLogTester.GenerateRandom();
 					Pawn initiator = CombatLogTester.GenerateRandom();
-					BodyPartRecord partRecord = pawn.health.hediffSet.GetNotMissingParts(BodyPartHeight.Undefined, BodyPartDepth.Undefined, null).RandomElement<BodyPartRecord>();
+					BodyPartRecord partRecord = pawn.health.hediffSet.GetNotMissingParts(BodyPartHeight.Undefined, BodyPartDepth.Undefined, null, null).RandomElement<BodyPartRecord>();
 					BattleLogEntry_StateTransition battleLogEntry_StateTransition = new BattleLogEntry_StateTransition(pawn, this.transition, initiator, HediffMaker.MakeHediff(DefDatabase<HediffDef>.AllDefsListForReading.RandomElement<HediffDef>(), pawn, partRecord), pawn.RaceProps.body.AllParts.RandomElement<BodyPartRecord>());
 					battleLogEntry_StateTransition.Debug_OverrideTicks(Rand.Int);
 					stringBuilder.AppendLine(battleLogEntry_StateTransition.ToGameStringFromPOV(null, false));

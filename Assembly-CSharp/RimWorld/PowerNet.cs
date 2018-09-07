@@ -2,7 +2,6 @@
 using System.Collections.Generic;
 using System.Text;
 using UnityEngine;
-using UnityEngine.Profiling;
 using Verse;
 
 namespace RimWorld
@@ -86,23 +85,18 @@ namespace RimWorld
 		{
 			get
 			{
-				bool result;
 				if (!this.hasPowerSource)
 				{
-					result = false;
+					return false;
 				}
-				else
+				for (int i = 0; i < this.transmitters.Count; i++)
 				{
-					for (int i = 0; i < this.transmitters.Count; i++)
+					if (this.IsActivePowerSource(this.transmitters[i]))
 					{
-						if (this.IsActivePowerSource(this.transmitters[i]))
-						{
-							return true;
-						}
+						return true;
 					}
-					result = false;
 				}
-				return result;
+				return false;
 			}
 		}
 
@@ -114,17 +108,12 @@ namespace RimWorld
 		private bool IsActivePowerSource(CompPower cp)
 		{
 			CompPowerBattery compPowerBattery = cp as CompPowerBattery;
-			bool result;
 			if (compPowerBattery != null && compPowerBattery.StoredEnergy > 0f)
 			{
-				result = true;
+				return true;
 			}
-			else
-			{
-				CompPowerTrader compPowerTrader = cp as CompPowerTrader;
-				result = (compPowerTrader != null && compPowerTrader.PowerOutput > 0f);
-			}
-			return result;
+			CompPowerTrader compPowerTrader = cp as CompPowerTrader;
+			return compPowerTrader != null && compPowerTrader.PowerOutput > 0f;
 		}
 
 		public void RegisterConnector(CompPower b)
@@ -132,12 +121,10 @@ namespace RimWorld
 			if (this.connectors.Contains(b))
 			{
 				Log.Error("PowerNet registered connector it already had: " + b, false);
+				return;
 			}
-			else
-			{
-				this.connectors.Add(b);
-				this.RegisterAllComponentsOf(b.parent);
-			}
+			this.connectors.Add(b);
+			this.RegisterAllComponentsOf(b.parent);
 		}
 
 		public void DeregisterConnector(CompPower b)
@@ -190,24 +177,19 @@ namespace RimWorld
 
 		public float CurrentEnergyGainRate()
 		{
-			float result;
 			if (DebugSettings.unlimitedPower)
 			{
-				result = 100000f;
+				return 100000f;
 			}
-			else
+			float num = 0f;
+			for (int i = 0; i < this.powerComps.Count; i++)
 			{
-				float num = 0f;
-				for (int i = 0; i < this.powerComps.Count; i++)
+				if (this.powerComps[i].PowerOn)
 				{
-					if (this.powerComps[i].PowerOn)
-					{
-						num += this.powerComps[i].EnergyOutputPerTick;
-					}
+					num += this.powerComps[i].EnergyOutputPerTick;
 				}
-				result = num;
 			}
-			return result;
+			return num;
 		}
 
 		public float CurrentStoredEnergy()
@@ -226,7 +208,6 @@ namespace RimWorld
 			float num2 = this.CurrentStoredEnergy();
 			if (num2 + num >= -1E-07f && !this.Map.gameConditionManager.ConditionIsActive(GameConditionDefOf.SolarFlare))
 			{
-				Profiler.BeginSample("PowerNetTick Excess Energy");
 				float num3;
 				if (this.batteryComps.Count > 0 && num2 >= 0.1f)
 				{
@@ -278,31 +259,25 @@ namespace RimWorld
 					}
 				}
 				this.ChangeStoredEnergy(num);
-				Profiler.EndSample();
 			}
-			else
+			else if (Find.TickManager.TicksGame % 20 == 0)
 			{
-				Profiler.BeginSample("PowerNetTick Shutdown");
-				if (Find.TickManager.TicksGame % 20 == 0)
+				PowerNet.potentialShutdownParts.Clear();
+				for (int k = 0; k < this.powerComps.Count; k++)
 				{
-					PowerNet.potentialShutdownParts.Clear();
-					for (int k = 0; k < this.powerComps.Count; k++)
+					if (this.powerComps[k].PowerOn && this.powerComps[k].EnergyOutputPerTick < 0f)
 					{
-						if (this.powerComps[k].PowerOn && this.powerComps[k].EnergyOutputPerTick < 0f)
-						{
-							PowerNet.potentialShutdownParts.Add(this.powerComps[k]);
-						}
-					}
-					if (PowerNet.potentialShutdownParts.Count > 0)
-					{
-						int num6 = Mathf.Max(1, Mathf.RoundToInt((float)PowerNet.potentialShutdownParts.Count * 0.05f));
-						for (int l = 0; l < num6; l++)
-						{
-							PowerNet.potentialShutdownParts.RandomElement<CompPowerTrader>().PowerOn = false;
-						}
+						PowerNet.potentialShutdownParts.Add(this.powerComps[k]);
 					}
 				}
-				Profiler.EndSample();
+				if (PowerNet.potentialShutdownParts.Count > 0)
+				{
+					int num6 = Mathf.Max(1, Mathf.RoundToInt((float)PowerNet.potentialShutdownParts.Count * 0.05f));
+					for (int l = 0; l < num6; l++)
+					{
+						PowerNet.potentialShutdownParts.RandomElement<CompPowerTrader>().PowerOn = false;
+					}
+				}
 			}
 		}
 
@@ -352,60 +327,61 @@ namespace RimWorld
 
 		private void DistributeEnergyAmongBatteries(float energy)
 		{
-			if (energy > 0f && this.batteryComps.Any<CompPowerBattery>())
+			if (energy <= 0f || !this.batteryComps.Any<CompPowerBattery>())
 			{
-				PowerNet.batteriesShuffled.Clear();
-				PowerNet.batteriesShuffled.AddRange(this.batteryComps);
-				PowerNet.batteriesShuffled.Shuffle<CompPowerBattery>();
-				int num = 0;
-				for (;;)
-				{
-					num++;
-					if (num > 10000)
-					{
-						break;
-					}
-					float num2 = float.MaxValue;
-					for (int i = 0; i < PowerNet.batteriesShuffled.Count; i++)
-					{
-						num2 = Mathf.Min(num2, PowerNet.batteriesShuffled[i].AmountCanAccept);
-					}
-					if (energy < num2 * (float)PowerNet.batteriesShuffled.Count)
-					{
-						goto IL_139;
-					}
-					for (int j = PowerNet.batteriesShuffled.Count - 1; j >= 0; j--)
-					{
-						float amountCanAccept = PowerNet.batteriesShuffled[j].AmountCanAccept;
-						bool flag = amountCanAccept <= 0f || amountCanAccept == num2;
-						if (num2 > 0f)
-						{
-							PowerNet.batteriesShuffled[j].AddEnergy(num2);
-							energy -= num2;
-						}
-						if (flag)
-						{
-							PowerNet.batteriesShuffled.RemoveAt(j);
-						}
-					}
-					if (energy < 0.0005f || !PowerNet.batteriesShuffled.Any<CompPowerBattery>())
-					{
-						goto IL_1A3;
-					}
-				}
-				Log.Error("Too many iterations.", false);
-				goto IL_1AE;
-				IL_139:
-				float amount = energy / (float)PowerNet.batteriesShuffled.Count;
-				for (int k = 0; k < PowerNet.batteriesShuffled.Count; k++)
-				{
-					PowerNet.batteriesShuffled[k].AddEnergy(amount);
-				}
-				energy = 0f;
-				IL_1A3:
-				IL_1AE:
-				PowerNet.batteriesShuffled.Clear();
+				return;
 			}
+			PowerNet.batteriesShuffled.Clear();
+			PowerNet.batteriesShuffled.AddRange(this.batteryComps);
+			PowerNet.batteriesShuffled.Shuffle<CompPowerBattery>();
+			int num = 0;
+			for (;;)
+			{
+				num++;
+				if (num > 10000)
+				{
+					break;
+				}
+				float num2 = float.MaxValue;
+				for (int i = 0; i < PowerNet.batteriesShuffled.Count; i++)
+				{
+					num2 = Mathf.Min(num2, PowerNet.batteriesShuffled[i].AmountCanAccept);
+				}
+				if (energy < num2 * (float)PowerNet.batteriesShuffled.Count)
+				{
+					goto IL_129;
+				}
+				for (int j = PowerNet.batteriesShuffled.Count - 1; j >= 0; j--)
+				{
+					float amountCanAccept = PowerNet.batteriesShuffled[j].AmountCanAccept;
+					bool flag = amountCanAccept <= 0f || amountCanAccept == num2;
+					if (num2 > 0f)
+					{
+						PowerNet.batteriesShuffled[j].AddEnergy(num2);
+						energy -= num2;
+					}
+					if (flag)
+					{
+						PowerNet.batteriesShuffled.RemoveAt(j);
+					}
+				}
+				if (energy < 0.0005f || !PowerNet.batteriesShuffled.Any<CompPowerBattery>())
+				{
+					goto IL_190;
+				}
+			}
+			Log.Error("Too many iterations.", false);
+			goto IL_19A;
+			IL_129:
+			float amount = energy / (float)PowerNet.batteriesShuffled.Count;
+			for (int k = 0; k < PowerNet.batteriesShuffled.Count; k++)
+			{
+				PowerNet.batteriesShuffled[k].AddEnergy(amount);
+			}
+			energy = 0f;
+			IL_190:
+			IL_19A:
+			PowerNet.batteriesShuffled.Clear();
 		}
 
 		public string DebugString()

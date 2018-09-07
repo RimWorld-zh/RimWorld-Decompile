@@ -35,6 +35,8 @@ namespace RimWorld.BaseGen
 
 		public bool? skipSingleThingIfHasToWipeBuildingOrDoesntFit;
 
+		public bool? spawnBridgeIfTerrainCantSupportThing;
+
 		public Pawn singlePawnToSpawn;
 
 		public PawnKindDef singlePawnKindDef;
@@ -143,48 +145,39 @@ namespace RimWorld.BaseGen
 
 		public void RemoveCustom(string name)
 		{
-			if (this.custom != null)
+			if (this.custom == null)
 			{
-				this.custom = new Dictionary<string, object>(this.custom);
-				this.custom.Remove(name);
+				return;
 			}
+			this.custom = new Dictionary<string, object>(this.custom);
+			this.custom.Remove(name);
 		}
 
 		public bool TryGetCustom<T>(string name, out T obj)
 		{
 			object obj2;
-			bool result;
 			if (this.custom == null || !this.custom.TryGetValue(name, out obj2))
 			{
 				obj = default(T);
-				result = false;
+				return false;
 			}
-			else
-			{
-				obj = (T)((object)obj2);
-				result = true;
-			}
-			return result;
+			obj = (T)((object)obj2);
+			return true;
 		}
 
 		public T GetCustom<T>(string name)
 		{
 			object obj;
-			T result;
 			if (this.custom == null || !this.custom.TryGetValue(name, out obj))
 			{
-				result = default(T);
+				return default(T);
 			}
-			else
-			{
-				result = (T)((object)obj);
-			}
-			return result;
+			return (T)((object)obj);
 		}
 
 		public override string ToString()
 		{
-			object[] array = new object[112];
+			object[] array = new object[114];
 			array[0] = "rect=";
 			array[1] = this.rect;
 			array[2] = ", faction=";
@@ -223,146 +216,150 @@ namespace RimWorld.BaseGen
 			int num7 = 27;
 			bool? flag3 = this.skipSingleThingIfHasToWipeBuildingOrDoesntFit;
 			array[num7] = ((flag3 == null) ? "null" : this.skipSingleThingIfHasToWipeBuildingOrDoesntFit.ToString());
-			array[28] = ", singlePawnToSpawn=";
-			array[29] = ((this.singlePawnToSpawn == null) ? "null" : this.singlePawnToSpawn.ToString());
-			array[30] = ", singlePawnKindDef=";
-			array[31] = ((this.singlePawnKindDef == null) ? "null" : this.singlePawnKindDef.ToString());
-			array[32] = ", disableSinglePawn=";
-			int num8 = 33;
-			bool? flag4 = this.disableSinglePawn;
-			array[num8] = ((flag4 == null) ? "null" : this.disableSinglePawn.ToString());
-			array[34] = ", singlePawnLord=";
-			array[35] = ((this.singlePawnLord == null) ? "null" : this.singlePawnLord.ToString());
-			array[36] = ", singlePawnSpawnCellExtraPredicate=";
-			array[37] = ((this.singlePawnSpawnCellExtraPredicate == null) ? "null" : this.singlePawnSpawnCellExtraPredicate.ToString());
-			array[38] = ", singlePawnGenerationRequest=";
-			int num9 = 39;
+			array[28] = ", spawnBridgeIfTerrainCantSupportThing=";
+			int num8 = 29;
+			bool? flag4 = this.spawnBridgeIfTerrainCantSupportThing;
+			array[num8] = ((flag4 == null) ? "null" : this.spawnBridgeIfTerrainCantSupportThing.ToString());
+			array[30] = ", singlePawnToSpawn=";
+			array[31] = ((this.singlePawnToSpawn == null) ? "null" : this.singlePawnToSpawn.ToString());
+			array[32] = ", singlePawnKindDef=";
+			array[33] = ((this.singlePawnKindDef == null) ? "null" : this.singlePawnKindDef.ToString());
+			array[34] = ", disableSinglePawn=";
+			int num9 = 35;
+			bool? flag5 = this.disableSinglePawn;
+			array[num9] = ((flag5 == null) ? "null" : this.disableSinglePawn.ToString());
+			array[36] = ", singlePawnLord=";
+			array[37] = ((this.singlePawnLord == null) ? "null" : this.singlePawnLord.ToString());
+			array[38] = ", singlePawnSpawnCellExtraPredicate=";
+			array[39] = ((this.singlePawnSpawnCellExtraPredicate == null) ? "null" : this.singlePawnSpawnCellExtraPredicate.ToString());
+			array[40] = ", singlePawnGenerationRequest=";
+			int num10 = 41;
 			PawnGenerationRequest? pawnGenerationRequest = this.singlePawnGenerationRequest;
-			array[num9] = ((pawnGenerationRequest == null) ? "null" : this.singlePawnGenerationRequest.ToString());
-			array[40] = ", postThingSpawn=";
-			array[41] = ((this.postThingSpawn == null) ? "null" : this.postThingSpawn.ToString());
-			array[42] = ", postThingGenerate=";
-			array[43] = ((this.postThingGenerate == null) ? "null" : this.postThingGenerate.ToString());
-			array[44] = ", mechanoidsCount=";
-			int num10 = 45;
-			int? num11 = this.mechanoidsCount;
-			array[num10] = ((num11 == null) ? "null" : this.mechanoidsCount.ToString());
-			array[46] = ", hivesCount=";
-			int num12 = 47;
-			int? num13 = this.hivesCount;
-			array[num12] = ((num13 == null) ? "null" : this.hivesCount.ToString());
-			array[48] = ", disableHives=";
-			int num14 = 49;
-			bool? flag5 = this.disableHives;
-			array[num14] = ((flag5 == null) ? "null" : this.disableHives.ToString());
-			array[50] = ", thingRot=";
+			array[num10] = ((pawnGenerationRequest == null) ? "null" : this.singlePawnGenerationRequest.ToString());
+			array[42] = ", postThingSpawn=";
+			array[43] = ((this.postThingSpawn == null) ? "null" : this.postThingSpawn.ToString());
+			array[44] = ", postThingGenerate=";
+			array[45] = ((this.postThingGenerate == null) ? "null" : this.postThingGenerate.ToString());
+			array[46] = ", mechanoidsCount=";
+			int num11 = 47;
+			int? num12 = this.mechanoidsCount;
+			array[num11] = ((num12 == null) ? "null" : this.mechanoidsCount.ToString());
+			array[48] = ", hivesCount=";
+			int num13 = 49;
+			int? num14 = this.hivesCount;
+			array[num13] = ((num14 == null) ? "null" : this.hivesCount.ToString());
+			array[50] = ", disableHives=";
 			int num15 = 51;
+			bool? flag6 = this.disableHives;
+			array[num15] = ((flag6 == null) ? "null" : this.disableHives.ToString());
+			array[52] = ", thingRot=";
+			int num16 = 53;
 			Rot4? rot = this.thingRot;
-			array[num15] = ((rot == null) ? "null" : this.thingRot.ToString());
-			array[52] = ", wallStuff=";
-			array[53] = ((this.wallStuff == null) ? "null" : this.wallStuff.ToString());
-			array[54] = ", chanceToSkipWallBlock=";
-			int num16 = 55;
-			float? num17 = this.chanceToSkipWallBlock;
-			array[num16] = ((num17 == null) ? "null" : this.chanceToSkipWallBlock.ToString());
-			array[56] = ", floorDef=";
-			array[57] = ((this.floorDef == null) ? "null" : this.floorDef.ToString());
-			array[58] = ", chanceToSkipFloor=";
-			int num18 = 59;
-			float? num19 = this.chanceToSkipFloor;
-			array[num18] = ((num19 == null) ? "null" : this.chanceToSkipFloor.ToString());
-			array[60] = ", filthDef=";
-			array[61] = ((this.filthDef == null) ? "null" : this.filthDef.ToString());
-			array[62] = ", filthDensity=";
-			int num20 = 63;
-			FloatRange? floatRange = this.filthDensity;
-			array[num20] = ((floatRange == null) ? "null" : this.filthDensity.ToString());
-			array[64] = ", clearEdificeOnly=";
+			array[num16] = ((rot == null) ? "null" : this.thingRot.ToString());
+			array[54] = ", wallStuff=";
+			array[55] = ((this.wallStuff == null) ? "null" : this.wallStuff.ToString());
+			array[56] = ", chanceToSkipWallBlock=";
+			int num17 = 57;
+			float? num18 = this.chanceToSkipWallBlock;
+			array[num17] = ((num18 == null) ? "null" : this.chanceToSkipWallBlock.ToString());
+			array[58] = ", floorDef=";
+			array[59] = ((this.floorDef == null) ? "null" : this.floorDef.ToString());
+			array[60] = ", chanceToSkipFloor=";
+			int num19 = 61;
+			float? num20 = this.chanceToSkipFloor;
+			array[num19] = ((num20 == null) ? "null" : this.chanceToSkipFloor.ToString());
+			array[62] = ", filthDef=";
+			array[63] = ((this.filthDef == null) ? "null" : this.filthDef.ToString());
+			array[64] = ", filthDensity=";
 			int num21 = 65;
-			bool? flag6 = this.clearEdificeOnly;
-			array[num21] = ((flag6 == null) ? "null" : this.clearEdificeOnly.ToString());
-			array[66] = ", clearFillageOnly=";
+			FloatRange? floatRange = this.filthDensity;
+			array[num21] = ((floatRange == null) ? "null" : this.filthDensity.ToString());
+			array[66] = ", clearEdificeOnly=";
 			int num22 = 67;
-			bool? flag7 = this.clearFillageOnly;
-			array[num22] = ((flag7 == null) ? "null" : this.clearFillageOnly.ToString());
-			array[68] = ", clearRoof=";
+			bool? flag7 = this.clearEdificeOnly;
+			array[num22] = ((flag7 == null) ? "null" : this.clearEdificeOnly.ToString());
+			array[68] = ", clearFillageOnly=";
 			int num23 = 69;
-			bool? flag8 = this.clearRoof;
-			array[num23] = ((flag8 == null) ? "null" : this.clearRoof.ToString());
-			array[70] = ", ancientCryptosleepCasketGroupID=";
+			bool? flag8 = this.clearFillageOnly;
+			array[num23] = ((flag8 == null) ? "null" : this.clearFillageOnly.ToString());
+			array[70] = ", clearRoof=";
 			int num24 = 71;
-			int? num25 = this.ancientCryptosleepCasketGroupID;
-			array[num24] = ((num25 == null) ? "null" : this.ancientCryptosleepCasketGroupID.ToString());
-			array[72] = ", podContentsType=";
-			int num26 = 73;
+			bool? flag9 = this.clearRoof;
+			array[num24] = ((flag9 == null) ? "null" : this.clearRoof.ToString());
+			array[72] = ", ancientCryptosleepCasketGroupID=";
+			int num25 = 73;
+			int? num26 = this.ancientCryptosleepCasketGroupID;
+			array[num25] = ((num26 == null) ? "null" : this.ancientCryptosleepCasketGroupID.ToString());
+			array[74] = ", podContentsType=";
+			int num27 = 75;
 			PodContentsType? podContentsType = this.podContentsType;
-			array[num26] = ((podContentsType == null) ? "null" : this.podContentsType.ToString());
-			array[74] = ", thingSetMakerDef=";
-			array[75] = ((this.thingSetMakerDef == null) ? "null" : this.thingSetMakerDef.ToString());
-			array[76] = ", thingSetMakerParams=";
-			int num27 = 77;
+			array[num27] = ((podContentsType == null) ? "null" : this.podContentsType.ToString());
+			array[76] = ", thingSetMakerDef=";
+			array[77] = ((this.thingSetMakerDef == null) ? "null" : this.thingSetMakerDef.ToString());
+			array[78] = ", thingSetMakerParams=";
+			int num28 = 79;
 			ThingSetMakerParams? thingSetMakerParams = this.thingSetMakerParams;
-			array[num27] = ((thingSetMakerParams == null) ? "null" : this.thingSetMakerParams.ToString());
-			array[78] = ", stockpileConcreteContents=";
-			array[79] = ((this.stockpileConcreteContents == null) ? "null" : this.stockpileConcreteContents.Count.ToString());
-			array[80] = ", stockpileMarketValue=";
-			int num28 = 81;
-			float? num29 = this.stockpileMarketValue;
-			array[num28] = ((num29 == null) ? "null" : this.stockpileMarketValue.ToString());
-			array[82] = ", innerStockpileSize=";
-			int num30 = 83;
-			int? num31 = this.innerStockpileSize;
-			array[num30] = ((num31 == null) ? "null" : this.innerStockpileSize.ToString());
-			array[84] = ", edgeDefenseWidth=";
-			int num32 = 85;
-			int? num33 = this.edgeDefenseWidth;
-			array[num32] = ((num33 == null) ? "null" : this.edgeDefenseWidth.ToString());
-			array[86] = ", edgeDefenseTurretsCount=";
-			int num34 = 87;
-			int? num35 = this.edgeDefenseTurretsCount;
-			array[num34] = ((num35 == null) ? "null" : this.edgeDefenseTurretsCount.ToString());
-			array[88] = ", edgeDefenseMortarsCount=";
-			int num36 = 89;
-			int? num37 = this.edgeDefenseMortarsCount;
-			array[num36] = ((num37 == null) ? "null" : this.edgeDefenseMortarsCount.ToString());
-			array[90] = ", edgeDefenseGuardsCount=";
-			int num38 = 91;
-			int? num39 = this.edgeDefenseGuardsCount;
-			array[num38] = ((num39 == null) ? "null" : this.edgeDefenseGuardsCount.ToString());
-			array[92] = ", mortarDef=";
-			array[93] = ((this.mortarDef == null) ? "null" : this.mortarDef.ToString());
-			array[94] = ", pathwayFloorDef=";
-			array[95] = ((this.pathwayFloorDef == null) ? "null" : this.pathwayFloorDef.ToString());
-			array[96] = ", cultivatedPlantDef=";
-			array[97] = ((this.cultivatedPlantDef == null) ? "null" : this.cultivatedPlantDef.ToString());
-			array[98] = ", fillWithThingsPadding=";
-			int num40 = 99;
-			int? num41 = this.fillWithThingsPadding;
-			array[num40] = ((num41 == null) ? "null" : this.fillWithThingsPadding.ToString());
-			array[100] = ", settlementPawnGroupPoints=";
-			int num42 = 101;
-			float? num43 = this.settlementPawnGroupPoints;
-			array[num42] = ((num43 == null) ? "null" : this.settlementPawnGroupPoints.ToString());
-			array[102] = ", settlementPawnGroupSeed=";
-			int num44 = 103;
-			int? num45 = this.settlementPawnGroupSeed;
-			array[num44] = ((num45 == null) ? "null" : this.settlementPawnGroupSeed.ToString());
-			array[104] = ", streetHorizontal=";
-			int num46 = 105;
-			bool? flag9 = this.streetHorizontal;
-			array[num46] = ((flag9 == null) ? "null" : this.streetHorizontal.ToString());
-			array[106] = ", edgeThingAvoidOtherEdgeThings=";
+			array[num28] = ((thingSetMakerParams == null) ? "null" : this.thingSetMakerParams.ToString());
+			array[80] = ", stockpileConcreteContents=";
+			array[81] = ((this.stockpileConcreteContents == null) ? "null" : this.stockpileConcreteContents.Count.ToString());
+			array[82] = ", stockpileMarketValue=";
+			int num29 = 83;
+			float? num30 = this.stockpileMarketValue;
+			array[num29] = ((num30 == null) ? "null" : this.stockpileMarketValue.ToString());
+			array[84] = ", innerStockpileSize=";
+			int num31 = 85;
+			int? num32 = this.innerStockpileSize;
+			array[num31] = ((num32 == null) ? "null" : this.innerStockpileSize.ToString());
+			array[86] = ", edgeDefenseWidth=";
+			int num33 = 87;
+			int? num34 = this.edgeDefenseWidth;
+			array[num33] = ((num34 == null) ? "null" : this.edgeDefenseWidth.ToString());
+			array[88] = ", edgeDefenseTurretsCount=";
+			int num35 = 89;
+			int? num36 = this.edgeDefenseTurretsCount;
+			array[num35] = ((num36 == null) ? "null" : this.edgeDefenseTurretsCount.ToString());
+			array[90] = ", edgeDefenseMortarsCount=";
+			int num37 = 91;
+			int? num38 = this.edgeDefenseMortarsCount;
+			array[num37] = ((num38 == null) ? "null" : this.edgeDefenseMortarsCount.ToString());
+			array[92] = ", edgeDefenseGuardsCount=";
+			int num39 = 93;
+			int? num40 = this.edgeDefenseGuardsCount;
+			array[num39] = ((num40 == null) ? "null" : this.edgeDefenseGuardsCount.ToString());
+			array[94] = ", mortarDef=";
+			array[95] = ((this.mortarDef == null) ? "null" : this.mortarDef.ToString());
+			array[96] = ", pathwayFloorDef=";
+			array[97] = ((this.pathwayFloorDef == null) ? "null" : this.pathwayFloorDef.ToString());
+			array[98] = ", cultivatedPlantDef=";
+			array[99] = ((this.cultivatedPlantDef == null) ? "null" : this.cultivatedPlantDef.ToString());
+			array[100] = ", fillWithThingsPadding=";
+			int num41 = 101;
+			int? num42 = this.fillWithThingsPadding;
+			array[num41] = ((num42 == null) ? "null" : this.fillWithThingsPadding.ToString());
+			array[102] = ", settlementPawnGroupPoints=";
+			int num43 = 103;
+			float? num44 = this.settlementPawnGroupPoints;
+			array[num43] = ((num44 == null) ? "null" : this.settlementPawnGroupPoints.ToString());
+			array[104] = ", settlementPawnGroupSeed=";
+			int num45 = 105;
+			int? num46 = this.settlementPawnGroupSeed;
+			array[num45] = ((num46 == null) ? "null" : this.settlementPawnGroupSeed.ToString());
+			array[106] = ", streetHorizontal=";
 			int num47 = 107;
-			bool? flag10 = this.edgeThingAvoidOtherEdgeThings;
-			array[num47] = ((flag10 == null) ? "null" : this.edgeThingAvoidOtherEdgeThings.ToString());
-			array[108] = ", allowPlacementOffEdge=";
+			bool? flag10 = this.streetHorizontal;
+			array[num47] = ((flag10 == null) ? "null" : this.streetHorizontal.ToString());
+			array[108] = ", edgeThingAvoidOtherEdgeThings=";
 			int num48 = 109;
-			bool? flag11 = this.allowPlacementOffEdge;
-			array[num48] = ((flag11 == null) ? "null" : this.allowPlacementOffEdge.ToString());
-			array[110] = ", thrustAxis=";
+			bool? flag11 = this.edgeThingAvoidOtherEdgeThings;
+			array[num48] = ((flag11 == null) ? "null" : this.edgeThingAvoidOtherEdgeThings.ToString());
+			array[110] = ", allowPlacementOffEdge=";
 			int num49 = 111;
+			bool? flag12 = this.allowPlacementOffEdge;
+			array[num49] = ((flag12 == null) ? "null" : this.allowPlacementOffEdge.ToString());
+			array[112] = ", thrustAxis=";
+			int num50 = 113;
 			Rot4? rot2 = this.thrustAxis;
-			array[num49] = ((rot2 == null) ? "null" : this.thrustAxis.ToString());
+			array[num50] = ((rot2 == null) ? "null" : this.thrustAxis.ToString());
 			return string.Concat(array);
 		}
 	}

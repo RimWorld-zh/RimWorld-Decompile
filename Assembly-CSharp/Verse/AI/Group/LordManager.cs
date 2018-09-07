@@ -72,7 +72,7 @@ namespace Verse.AI.Group
 				{
 					if (pawn.Spawned)
 					{
-						string text = "";
+						string text = string.Empty;
 						if (!pawn.Dead && pawn.mindState.duty != null)
 						{
 							text = pawn.mindState.duty.ToString();

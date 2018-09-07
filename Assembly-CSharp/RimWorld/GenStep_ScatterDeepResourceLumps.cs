@@ -24,21 +24,22 @@ namespace RimWorld
 
 		public override void Generate(Map map, GenStepParams parms)
 		{
-			if (!map.TileInfo.WaterCovered)
+			if (map.TileInfo.WaterCovered)
 			{
-				int num = base.CalculateFinalCount(map);
-				for (int i = 0; i < num; i++)
-				{
-					IntVec3 intVec;
-					if (!this.TryFindScatterCell(map, out intVec))
-					{
-						return;
-					}
-					this.ScatterAt(intVec, map, 1);
-					this.usedSpots.Add(intVec);
-				}
-				this.usedSpots.Clear();
+				return;
 			}
+			int num = base.CalculateFinalCount(map);
+			for (int i = 0; i < num; i++)
+			{
+				IntVec3 intVec;
+				if (!this.TryFindScatterCell(map, out intVec))
+				{
+					return;
+				}
+				this.ScatterAt(intVec, map, 1);
+				this.usedSpots.Add(intVec);
+			}
+			this.usedSpots.Clear();
 		}
 
 		protected ThingDef ChooseThingDef()

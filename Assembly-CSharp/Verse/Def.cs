@@ -18,17 +18,17 @@ namespace Verse
 		[DefaultValue(null)]
 		[Description("A human-readable label used to identify this in game.")]
 		[MustTranslate]
-		public string label = null;
+		public string label;
 
 		[DefaultValue(null)]
 		[Description("A human-readable description given when the Def is inspected by players.")]
 		[MustTranslate]
-		public string description = null;
+		public string description;
 
 		[DefaultValue(false)]
 		[Description("Disables config error checking. Intended for mod use. (Be careful!)")]
 		[MustTranslate]
-		public bool ignoreConfigErrors = false;
+		public bool ignoreConfigErrors;
 
 		[DefaultValue(null)]
 		[Description("Mod-specific data. Not used by core game code.")]
@@ -44,7 +44,10 @@ namespace Verse
 		public ModContentPack modContentPack;
 
 		[Unsaved]
-		private string cachedLabelCap = null;
+		public DefPackage defPackage;
+
+		[Unsaved]
+		private string cachedLabelCap;
 
 		[Unsaved]
 		public bool generated;
@@ -64,20 +67,15 @@ namespace Verse
 		{
 			get
 			{
-				string result;
 				if (this.label.NullOrEmpty())
 				{
-					result = null;
+					return null;
 				}
-				else
+				if (this.cachedLabelCap.NullOrEmpty())
 				{
-					if (this.cachedLabelCap.NullOrEmpty())
-					{
-						this.cachedLabelCap = this.label.CapitalizeFirst();
-					}
-					result = this.cachedLabelCap;
+					this.cachedLabelCap = this.label.CapitalizeFirst();
 				}
-				return result;
+				return this.cachedLabelCap;
 			}
 		}
 
@@ -112,7 +110,7 @@ namespace Verse
 			}
 			if (this.description != null)
 			{
-				if (this.description == "")
+				if (this.description == string.Empty)
 				{
 					yield return "empty description";
 				}
@@ -145,23 +143,18 @@ namespace Verse
 
 		public T GetModExtension<T>() where T : DefModExtension
 		{
-			T result;
 			if (this.modExtensions == null)
 			{
-				result = (T)((object)null);
+				return (T)((object)null);
 			}
-			else
+			for (int i = 0; i < this.modExtensions.Count; i++)
 			{
-				for (int i = 0; i < this.modExtensions.Count; i++)
+				if (this.modExtensions[i] is T)
 				{
-					if (this.modExtensions[i] is T)
-					{
-						return this.modExtensions[i] as T;
-					}
+					return this.modExtensions[i] as T;
 				}
-				result = (T)((object)null);
 			}
-			return result;
+			return (T)((object)null);
 		}
 
 		public bool HasModExtension<T>() where T : DefModExtension
@@ -287,9 +280,9 @@ namespace Verse
 				case 1u:
 					break;
 				case 2u:
-					goto IL_C9;
+					goto IL_C8;
 				case 3u:
-					goto IL_117;
+					goto IL_116;
 				case 4u:
 					Block_9:
 					try
@@ -320,9 +313,9 @@ namespace Verse
 						}
 					}
 					i++;
-					goto IL_1E4;
+					goto IL_1DD;
 				case 5u:
-					IL_24A:
+					IL_241:
 					if (char.IsWhiteSpace(this.description[0]))
 					{
 						this.$current = "description has leading whitespace";
@@ -332,11 +325,11 @@ namespace Verse
 						}
 						return true;
 					}
-					goto IL_284;
+					goto IL_27B;
 				case 6u:
-					goto IL_284;
+					goto IL_27B;
 				case 7u:
-					goto IL_2CF;
+					goto IL_2C6;
 				default:
 					return false;
 				}
@@ -349,7 +342,7 @@ namespace Verse
 					}
 					return true;
 				}
-				IL_C9:
+				IL_C8:
 				if (!Def.AllowedDefnamesRegex.IsMatch(this.defName))
 				{
 					this.$current = "defName " + this.defName + " should only contain letters, numbers, underscores, or dashes.";
@@ -359,25 +352,25 @@ namespace Verse
 					}
 					return true;
 				}
-				IL_117:
+				IL_116:
 				if (this.modExtensions == null)
 				{
-					goto IL_200;
+					goto IL_1F8;
 				}
 				i = 0;
-				IL_1E4:
+				IL_1DD:
 				if (i < this.modExtensions.Count)
 				{
 					enumerator = this.modExtensions[i].ConfigErrors().GetEnumerator();
 					num = 4294967293u;
 					goto Block_9;
 				}
-				IL_200:
+				IL_1F8:
 				if (this.description == null)
 				{
-					goto IL_2D0;
+					goto IL_2C6;
 				}
-				if (this.description == "")
+				if (this.description == string.Empty)
 				{
 					this.$current = "empty description";
 					if (!this.$disposing)
@@ -386,8 +379,8 @@ namespace Verse
 					}
 					return true;
 				}
-				goto IL_24A;
-				IL_284:
+				goto IL_241;
+				IL_27B:
 				if (char.IsWhiteSpace(this.description[this.description.Length - 1]))
 				{
 					this.$current = "description has trailing whitespace";
@@ -397,8 +390,7 @@ namespace Verse
 					}
 					return true;
 				}
-				IL_2CF:
-				IL_2D0:
+				IL_2C6:
 				this.$PC = -1;
 				return false;
 			}

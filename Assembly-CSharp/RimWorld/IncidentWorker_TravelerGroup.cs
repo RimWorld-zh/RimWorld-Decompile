@@ -42,63 +42,56 @@ namespace RimWorld
 		protected override bool TryExecuteWorker(IncidentParms parms)
 		{
 			Map map = (Map)parms.target;
-			bool result;
-			IntVec3 travelDest;
 			if (!base.TryResolveParms(parms))
 			{
-				result = false;
+				return false;
 			}
-			else if (!RCellFinder.TryFindTravelDestFrom(parms.spawnCenter, map, out travelDest))
+			IntVec3 travelDest;
+			if (!RCellFinder.TryFindTravelDestFrom(parms.spawnCenter, map, out travelDest))
 			{
 				Log.Warning("Failed to do traveler incident from " + parms.spawnCenter + ": Couldn't find anywhere for the traveler to go.", false);
-				result = false;
+				return false;
+			}
+			List<Pawn> list = base.SpawnPawns(parms);
+			if (list.Count == 0)
+			{
+				return false;
+			}
+			string text;
+			if (list.Count == 1)
+			{
+				text = "SingleTravelerPassing".Translate(new object[]
+				{
+					list[0].story.Title,
+					parms.faction.Name,
+					list[0].Name
+				});
+				text = text.AdjustedFor(list[0], "PAWN");
 			}
 			else
 			{
-				List<Pawn> list = base.SpawnPawns(parms);
-				if (list.Count == 0)
+				text = "GroupTravelersPassing".Translate(new object[]
 				{
-					result = false;
-				}
-				else
-				{
-					string text;
-					if (list.Count == 1)
-					{
-						text = "SingleTravelerPassing".Translate(new object[]
-						{
-							list[0].story.Title,
-							parms.faction.Name,
-							list[0].Name
-						});
-						text = text.AdjustedFor(list[0], "PAWN");
-					}
-					else
-					{
-						text = "GroupTravelersPassing".Translate(new object[]
-						{
-							parms.faction.Name
-						});
-					}
-					Messages.Message(text, list[0], MessageTypeDefOf.NeutralEvent, true);
-					LordJob_TravelAndExit lordJob = new LordJob_TravelAndExit(travelDest);
-					LordMaker.MakeNewLord(parms.faction, lordJob, map, list);
-					PawnRelationUtility.Notify_PawnsSeenByPlayer_Letter_Send(list, "LetterRelatedPawnsNeutralGroup".Translate(new object[]
-					{
-						Faction.OfPlayer.def.pawnsPlural
-					}), LetterDefOf.NeutralEvent, true, true);
-					result = true;
-				}
+					parms.faction.Name
+				});
 			}
-			return result;
+			Messages.Message(text, list[0], MessageTypeDefOf.NeutralEvent, true);
+			LordJob_TravelAndExit lordJob = new LordJob_TravelAndExit(travelDest);
+			LordMaker.MakeNewLord(parms.faction, lordJob, map, list);
+			PawnRelationUtility.Notify_PawnsSeenByPlayer_Letter_Send(list, "LetterRelatedPawnsNeutralGroup".Translate(new object[]
+			{
+				Faction.OfPlayer.def.pawnsPlural
+			}), LetterDefOf.NeutralEvent, true, true);
+			return true;
 		}
 
 		protected override void ResolveParmsPoints(IncidentParms parms)
 		{
-			if (parms.points < 0f)
+			if (parms.points >= 0f)
 			{
-				parms.points = Rand.ByCurve(IncidentWorker_TravelerGroup.PointsCurve);
+				return;
 			}
+			parms.points = Rand.ByCurve(IncidentWorker_TravelerGroup.PointsCurve);
 		}
 
 		// Note: this type is marked as 'beforefieldinit'.

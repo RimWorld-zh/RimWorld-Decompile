@@ -35,20 +35,17 @@ namespace RimWorld
 			BiomeDef biome = Find.WorldGrid[target.Tile].biome;
 			float mtb = biome.diseaseMtbDays;
 			mtb *= Find.Storyteller.difficulty.diseaseIntervalFactor;
-			if (Rand.MTBEventOccurs(mtb, 60000f, 1000f))
+			IncidentDef inc;
+			if (Rand.MTBEventOccurs(mtb, 60000f, 1000f) && base.UsableIncidentsInCategory(this.Props.category, target).TryRandomElementByWeight((IncidentDef d) => biome.CommonalityOfDisease(d), out inc))
 			{
-				IncidentDef inc;
-				if (base.UsableIncidentsInCategory(this.Props.incidentCategory, target).TryRandomElementByWeight((IncidentDef d) => biome.CommonalityOfDisease(d), out inc))
-				{
-					yield return new FiringIncident(inc, this, this.GenerateParms(inc.category, target));
-				}
+				yield return new FiringIncident(inc, this, this.GenerateParms(inc.category, target));
 			}
 			yield break;
 		}
 
 		public override string ToString()
 		{
-			return base.ToString() + " " + this.Props.incidentCategory;
+			return base.ToString() + " " + this.Props.category;
 		}
 
 		[CompilerGenerated]
@@ -94,17 +91,14 @@ namespace RimWorld
 					BiomeDef biome = Find.WorldGrid[target.Tile].biome;
 					mtb = biome.diseaseMtbDays;
 					mtb *= Find.Storyteller.difficulty.diseaseIntervalFactor;
-					if (Rand.MTBEventOccurs(mtb, 60000f, 1000f))
+					if (Rand.MTBEventOccurs(mtb, 60000f, 1000f) && base.UsableIncidentsInCategory(base.Props.category, target).TryRandomElementByWeight((IncidentDef d) => biome.CommonalityOfDisease(d), out inc))
 					{
-						if (base.UsableIncidentsInCategory(base.Props.incidentCategory, target).TryRandomElementByWeight((IncidentDef d) => biome.CommonalityOfDisease(d), out inc))
+						this.$current = new FiringIncident(inc, this, this.GenerateParms(inc.category, target));
+						if (!this.$disposing)
 						{
-							this.$current = new FiringIncident(inc, this, this.GenerateParms(inc.category, target));
-							if (!this.$disposing)
-							{
-								this.$PC = 1;
-							}
-							return true;
+							this.$PC = 1;
 						}
+						return true;
 					}
 					break;
 				}

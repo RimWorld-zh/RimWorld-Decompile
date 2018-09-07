@@ -14,27 +14,31 @@ namespace Verse
 
 		public override void GameComponentTick()
 		{
-			if (Find.TickManager.TicksGame % 2000 == 0 && Rand.Chance(0.05f))
+			if (Find.TickManager.TicksGame % 2000 != 0 || !Rand.Chance(0.05f))
 			{
-				if (this.sendAICoreRequestReminder)
+				return;
+			}
+			if (this.sendAICoreRequestReminder)
+			{
+				if (ResearchProjectTagDefOf.ShipRelated.CompletedProjects() < 2)
 				{
-					if (ResearchProjectTagDefOf.ShipRelated.CompletedProjects() >= 2)
-					{
-						if (!PlayerItemAccessibilityUtility.PlayerOrItemStashHas(ThingDefOf.AIPersonaCore) && !PlayerItemAccessibilityUtility.PlayerOrItemStashHas(ThingDefOf.Ship_ComputerCore))
-						{
-							Faction faction = Find.FactionManager.RandomNonHostileFaction(false, false, true, TechLevel.Undefined);
-							if (faction != null && faction.leader != null)
-							{
-								Find.LetterStack.ReceiveLetter("LetterLabelAICoreOffer".Translate(), "LetterAICoreOffer".Translate(new object[]
-								{
-									faction.leader.LabelDefinite(),
-									faction.Name
-								}).CapitalizeFirst(), LetterDefOf.NeutralEvent, GlobalTargetInfo.Invalid, faction, null);
-								this.sendAICoreRequestReminder = false;
-							}
-						}
-					}
+					return;
 				}
+				if (PlayerItemAccessibilityUtility.PlayerOrQuestRewardHas(ThingDefOf.AIPersonaCore) || PlayerItemAccessibilityUtility.PlayerOrQuestRewardHas(ThingDefOf.Ship_ComputerCore))
+				{
+					return;
+				}
+				Faction faction = Find.FactionManager.RandomNonHostileFaction(false, false, true, TechLevel.Undefined);
+				if (faction == null || faction.leader == null)
+				{
+					return;
+				}
+				Find.LetterStack.ReceiveLetter("LetterLabelAICoreOffer".Translate(), "LetterAICoreOffer".Translate(new object[]
+				{
+					faction.leader.LabelDefinite(),
+					faction.Name
+				}).CapitalizeFirst(), LetterDefOf.NeutralEvent, GlobalTargetInfo.Invalid, faction, null);
+				this.sendAICoreRequestReminder = false;
 			}
 		}
 

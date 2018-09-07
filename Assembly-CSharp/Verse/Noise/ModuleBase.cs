@@ -1,5 +1,4 @@
 ﻿using System;
-using System.Diagnostics;
 using System.Xml.Serialization;
 using UnityEngine;
 
@@ -7,11 +6,11 @@ namespace Verse.Noise
 {
 	public abstract class ModuleBase : IDisposable
 	{
-		protected ModuleBase[] modules = null;
+		protected ModuleBase[] modules;
 
 		[XmlIgnore]
 		[NonSerialized]
-		private bool m_disposed = false;
+		private bool m_disposed;
 
 		protected ModuleBase(int count)
 		{
@@ -33,8 +32,6 @@ namespace Verse.Noise
 		{
 			get
 			{
-				System.Diagnostics.Debug.Assert(this.modules != null);
-				System.Diagnostics.Debug.Assert(this.modules.Length > 0);
 				if (index < 0 || index >= this.modules.Length)
 				{
 					throw new ArgumentOutOfRangeException("Index out of valid module range");
@@ -47,7 +44,6 @@ namespace Verse.Noise
 			}
 			set
 			{
-				System.Diagnostics.Debug.Assert(this.modules.Length > 0);
 				if (index < 0 || index >= this.modules.Length)
 				{
 					throw new ArgumentOutOfRangeException("Index out of valid module range");

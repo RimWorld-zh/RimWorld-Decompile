@@ -19,6 +19,13 @@ namespace Verse.Grammar
 			}
 		}
 
+		public override Rule DeepCopy()
+		{
+			Rule_NamePerson rule_NamePerson = (Rule_NamePerson)base.DeepCopy();
+			rule_NamePerson.gender = this.gender;
+			return rule_NamePerson;
+		}
+
 		public override string Generate()
 		{
 			NameBank nameBank = PawnNameDatabaseShuffled.BankOf(PawnNameCategory.HumanStandard);

@@ -23,7 +23,6 @@ namespace RimWorld
 		{
 			Dictionary<Pawn, PortraitsCache.CachedPortrait> dictionary = PortraitsCache.GetOrCreateCachedPortraitsWithParams(size, cameraOffset, cameraZoom).CachedPortraits;
 			PortraitsCache.CachedPortrait cachedPortrait;
-			RenderTexture result;
 			if (dictionary.TryGetValue(pawn, out cachedPortrait))
 			{
 				if (!cachedPortrait.RenderTexture.IsCreated())
@@ -37,16 +36,12 @@ namespace RimWorld
 				}
 				dictionary.Remove(pawn);
 				dictionary.Add(pawn, new PortraitsCache.CachedPortrait(cachedPortrait.RenderTexture, false, Time.time));
-				result = cachedPortrait.RenderTexture;
+				return cachedPortrait.RenderTexture;
 			}
-			else
-			{
-				RenderTexture renderTexture = PortraitsCache.NewRenderTexture(size);
-				PortraitsCache.RenderPortrait(pawn, renderTexture, cameraOffset, cameraZoom);
-				dictionary.Add(pawn, new PortraitsCache.CachedPortrait(renderTexture, false, Time.time));
-				result = renderTexture;
-			}
-			return result;
+			RenderTexture renderTexture = PortraitsCache.NewRenderTexture(size);
+			PortraitsCache.RenderPortrait(pawn, renderTexture, cameraOffset, cameraZoom);
+			dictionary.Add(pawn, new PortraitsCache.CachedPortrait(renderTexture, false, Time.time));
+			return renderTexture;
 		}
 
 		public static void SetDirty(Pawn pawn)
@@ -154,19 +149,13 @@ namespace RimWorld
 		private static RenderTexture NewRenderTexture(Vector2 size)
 		{
 			int num = PortraitsCache.renderTexturesPool.FindLastIndex((RenderTexture x) => x.width == (int)size.x && x.height == (int)size.y);
-			RenderTexture result;
 			if (num != -1)
 			{
-				RenderTexture renderTexture = PortraitsCache.renderTexturesPool[num];
+				RenderTexture result = PortraitsCache.renderTexturesPool[num];
 				PortraitsCache.renderTexturesPool.RemoveAt(num);
-				result = renderTexture;
+				return result;
 			}
-			else
-			{
-				RenderTexture renderTexture2 = new RenderTexture((int)size.x, (int)size.y, 24);
-				result = renderTexture2;
-			}
-			return result;
+			return new RenderTexture((int)size.x, (int)size.y, 24);
 		}
 
 		private static void RenderPortrait(Pawn pawn, RenderTexture renderTexture, Vector3 cameraOffset, float cameraZoom)

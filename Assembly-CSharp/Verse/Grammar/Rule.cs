@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Linq;
 
 namespace Verse.Grammar
 {
@@ -15,6 +16,17 @@ namespace Verse.Grammar
 		}
 
 		public abstract float BaseSelectionWeight { get; }
+
+		public virtual Rule DeepCopy()
+		{
+			Rule rule = (Rule)Activator.CreateInstance(base.GetType());
+			rule.keyword = this.keyword;
+			if (this.constantConstraints != null)
+			{
+				rule.constantConstraints = this.constantConstraints.ToList<Rule.ConstantConstraint>();
+			}
+			return rule;
+		}
 
 		public abstract string Generate();
 

@@ -114,11 +114,12 @@ namespace RimWorld
 
 		private static void DrawMood(WidgetRow row, Pawn pawn)
 		{
-			if (pawn.needs != null && pawn.needs.mood != null)
+			if (pawn.needs == null || pawn.needs.mood == null)
 			{
-				row.Gap(6f);
-				row.FillableBar(93f, 16f, pawn.needs.mood.CurLevelPercentage, pawn.needs.mood.MoodString.CapitalizeFirst(), InspectPaneFiller.MoodTex, InspectPaneFiller.BarBGTex);
+				return;
 			}
+			row.Gap(6f);
+			row.FillableBar(93f, 16f, pawn.needs.mood.CurLevelPercentage, pawn.needs.mood.MoodString.CapitalizeFirst(), InspectPaneFiller.MoodTex, InspectPaneFiller.BarBGTex);
 		}
 
 		private static void DrawTimetableSetting(WidgetRow row, Pawn pawn)
@@ -129,36 +130,37 @@ namespace RimWorld
 
 		private static void DrawAreaAllowed(WidgetRow row, Pawn pawn)
 		{
-			if (pawn.playerSettings != null && pawn.playerSettings.RespectsAllowedArea)
+			if (pawn.playerSettings == null || !pawn.playerSettings.RespectsAllowedArea)
 			{
-				row.Gap(6f);
-				bool flag = pawn.playerSettings != null && pawn.playerSettings.AreaRestriction != null;
-				Texture2D fillTex;
+				return;
+			}
+			row.Gap(6f);
+			bool flag = pawn.playerSettings != null && pawn.playerSettings.EffectiveAreaRestriction != null;
+			Texture2D fillTex;
+			if (flag)
+			{
+				fillTex = pawn.playerSettings.EffectiveAreaRestriction.ColorTexture;
+			}
+			else
+			{
+				fillTex = BaseContent.GreyTex;
+			}
+			Rect rect = row.FillableBar(93f, 16f, 1f, AreaUtility.AreaAllowedLabel(pawn), fillTex, null);
+			if (Mouse.IsOver(rect))
+			{
 				if (flag)
 				{
-					fillTex = pawn.playerSettings.AreaRestriction.ColorTexture;
+					pawn.playerSettings.EffectiveAreaRestriction.MarkForDraw();
 				}
-				else
+				Rect rect2 = rect.ContractedBy(-1f);
+				Widgets.DrawBox(rect2, 1);
+			}
+			if (Widgets.ButtonInvisible(rect, false))
+			{
+				AreaUtility.MakeAllowedAreaListFloatMenu(delegate(Area a)
 				{
-					fillTex = BaseContent.GreyTex;
-				}
-				Rect rect = row.FillableBar(93f, 16f, 1f, AreaUtility.AreaAllowedLabel(pawn), fillTex, null);
-				if (Mouse.IsOver(rect))
-				{
-					if (flag)
-					{
-						pawn.playerSettings.AreaRestriction.MarkForDraw();
-					}
-					Rect rect2 = rect.ContractedBy(-1f);
-					Widgets.DrawBox(rect2, 1);
-				}
-				if (Widgets.ButtonInvisible(rect, false))
-				{
-					AreaUtility.MakeAllowedAreaListFloatMenu(delegate(Area a)
-					{
-						pawn.playerSettings.AreaRestriction = a;
-					}, true, true, pawn.Map);
-				}
+					pawn.playerSettings.AreaRestriction = a;
+				}, true, true, pawn.Map);
 			}
 		}
 
@@ -201,7 +203,7 @@ namespace RimWorld
 		public static void DrawInspectString(string str, Rect rect)
 		{
 			Text.Font = GameFont.Small;
-			Widgets.LabelScrollable(rect, str, ref InspectPaneFiller.inspectStringScrollPos, true);
+			Widgets.LabelScrollable(rect, str, ref InspectPaneFiller.inspectStringScrollPos, true, true);
 		}
 
 		// Note: this type is marked as 'beforefieldinit'.

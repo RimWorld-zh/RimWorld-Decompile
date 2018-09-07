@@ -5,7 +5,7 @@ namespace RimWorld
 {
 	public class PrisonerInteractionModeDef : Def
 	{
-		public int listOrder = 0;
+		public int listOrder;
 
 		public PrisonerInteractionModeDef()
 		{

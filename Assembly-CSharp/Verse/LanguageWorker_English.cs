@@ -12,7 +12,7 @@ namespace Verse
 		{
 			if (str.NullOrEmpty())
 			{
-				throw new ArgumentException();
+				return string.Empty;
 			}
 			return "a " + str;
 		}
@@ -21,7 +21,7 @@ namespace Verse
 		{
 			if (str.NullOrEmpty())
 			{
-				throw new ArgumentException();
+				return string.Empty;
 			}
 			return "the " + str;
 		}
@@ -29,12 +29,9 @@ namespace Verse
 		public override string PostProcessed(string str)
 		{
 			str = base.PostProcessed(str);
-			if (str.StartsWith("a ", StringComparison.OrdinalIgnoreCase) && str.Length >= 3)
+			if (str.StartsWith("a ", StringComparison.OrdinalIgnoreCase) && str.Length >= 3 && (str.Substring(2) == "hour" || str[2] == 'a' || str[2] == 'e' || str[2] == 'i' || str[2] == 'o' || str[2] == 'u'))
 			{
-				if (str.Substring(2) == "hour" || str[2] == 'a' || str[2] == 'e' || str[2] == 'i' || str[2] == 'o' || str[2] == 'u')
-				{
-					str = str.Insert(1, "n");
-				}
+				str = str.Insert(1, "n");
 			}
 			str = str.Replace(" a a", " an a");
 			str = str.Replace(" a e", " an e");
@@ -87,27 +84,19 @@ namespace Verse
 
 		public override string Pluralize(string str, int count = -1)
 		{
-			string result;
 			if (str.NullOrEmpty())
 			{
-				result = str;
+				return str;
 			}
-			else
+			char c = str[str.Length - 1];
+			char c2 = (str.Length != 1) ? str[str.Length - 2] : '\0';
+			bool flag = char.IsLetter(c2) && "oaieuyOAIEUY".IndexOf(c2) >= 0;
+			bool flag2 = char.IsLetter(c2) && !flag;
+			if (c == 'y' && flag2)
 			{
-				char c = str[str.Length - 1];
-				char c2 = (str.Length != 1) ? str[str.Length - 2] : '\0';
-				bool flag = char.IsLetter(c2) && "oaieuyOAIEUY".IndexOf(c2) >= 0;
-				bool flag2 = char.IsLetter(c2) && !flag;
-				if (c == 'y' && flag2)
-				{
-					result = str.Substring(0, str.Length - 1) + "ies";
-				}
-				else
-				{
-					result = str + "s";
-				}
+				return str.Substring(0, str.Length - 1) + "ies";
 			}
-			return result;
+			return str + "s";
 		}
 	}
 }

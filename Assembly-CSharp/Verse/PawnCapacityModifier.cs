@@ -6,7 +6,7 @@ namespace Verse
 	{
 		public PawnCapacityDef capacity;
 
-		public float offset = 0f;
+		public float offset;
 
 		public float setMax = 999f;
 

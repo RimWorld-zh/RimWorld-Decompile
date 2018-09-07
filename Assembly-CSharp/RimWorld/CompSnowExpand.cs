@@ -39,12 +39,13 @@ namespace RimWorld
 
 		public override void CompTick()
 		{
-			if (this.parent.Spawned)
+			if (!this.parent.Spawned)
 			{
-				if (this.parent.IsHashIntervalTick(this.Props.expandInterval))
-				{
-					this.TryExpandSnow();
-				}
+				return;
+			}
+			if (this.parent.IsHashIntervalTick(this.Props.expandInterval))
+			{
+				this.TryExpandSnow();
 			}
 		}
 
@@ -53,57 +54,55 @@ namespace RimWorld
 			if (this.parent.Map.mapTemperature.OutdoorTemp > 10f)
 			{
 				this.snowRadius = 0f;
+				return;
+			}
+			if (this.snowNoise == null)
+			{
+				this.snowNoise = new Perlin(0.054999999701976776, 2.0, 0.5, 5, Rand.Range(0, 651431), QualityMode.Medium);
+			}
+			if (this.snowRadius < 8f)
+			{
+				this.snowRadius += 1.3f;
+			}
+			else if (this.snowRadius < 17f)
+			{
+				this.snowRadius += 0.7f;
+			}
+			else if (this.snowRadius < 30f)
+			{
+				this.snowRadius += 0.4f;
 			}
 			else
 			{
-				if (this.snowNoise == null)
+				this.snowRadius += 0.1f;
+			}
+			this.snowRadius = Mathf.Min(this.snowRadius, this.Props.maxRadius);
+			CellRect occupiedRect = this.parent.OccupiedRect();
+			CompSnowExpand.reachableCells.Clear();
+			this.parent.Map.floodFiller.FloodFill(this.parent.Position, (IntVec3 x) => (float)x.DistanceToSquared(this.parent.Position) <= this.snowRadius * this.snowRadius && (occupiedRect.Contains(x) || !x.Filled(this.parent.Map)), delegate(IntVec3 x)
+			{
+				CompSnowExpand.reachableCells.Add(x);
+			}, int.MaxValue, false, null);
+			int num = GenRadial.NumCellsInRadius(this.snowRadius);
+			for (int i = 0; i < num; i++)
+			{
+				IntVec3 intVec = this.parent.Position + GenRadial.RadialPattern[i];
+				if (intVec.InBounds(this.parent.Map))
 				{
-					this.snowNoise = new Perlin(0.054999999701976776, 2.0, 0.5, 5, Rand.Range(0, 651431), QualityMode.Medium);
-				}
-				if (this.snowRadius < 8f)
-				{
-					this.snowRadius += 1.3f;
-				}
-				else if (this.snowRadius < 17f)
-				{
-					this.snowRadius += 0.7f;
-				}
-				else if (this.snowRadius < 30f)
-				{
-					this.snowRadius += 0.4f;
-				}
-				else
-				{
-					this.snowRadius += 0.1f;
-				}
-				this.snowRadius = Mathf.Min(this.snowRadius, this.Props.maxRadius);
-				CellRect occupiedRect = this.parent.OccupiedRect();
-				CompSnowExpand.reachableCells.Clear();
-				this.parent.Map.floodFiller.FloodFill(this.parent.Position, (IntVec3 x) => (float)x.DistanceToSquared(this.parent.Position) <= this.snowRadius * this.snowRadius && (occupiedRect.Contains(x) || !x.Filled(this.parent.Map)), delegate(IntVec3 x)
-				{
-					CompSnowExpand.reachableCells.Add(x);
-				}, int.MaxValue, false, null);
-				int num = GenRadial.NumCellsInRadius(this.snowRadius);
-				for (int i = 0; i < num; i++)
-				{
-					IntVec3 intVec = this.parent.Position + GenRadial.RadialPattern[i];
-					if (intVec.InBounds(this.parent.Map))
+					if (CompSnowExpand.reachableCells.Contains(intVec))
 					{
-						if (CompSnowExpand.reachableCells.Contains(intVec))
+						float num2 = this.snowNoise.GetValue(intVec);
+						num2 += 1f;
+						num2 *= 0.5f;
+						if (num2 < 0.1f)
 						{
-							float num2 = this.snowNoise.GetValue(intVec);
-							num2 += 1f;
-							num2 *= 0.5f;
-							if (num2 < 0.1f)
-							{
-								num2 = 0.1f;
-							}
-							if (this.parent.Map.snowGrid.GetDepth(intVec) <= num2)
-							{
-								float lengthHorizontal = (intVec - this.parent.Position).LengthHorizontal;
-								float num3 = 1f - lengthHorizontal / this.snowRadius;
-								this.parent.Map.snowGrid.AddDepth(intVec, num3 * this.Props.addAmount * num2);
-							}
+							num2 = 0.1f;
+						}
+						if (this.parent.Map.snowGrid.GetDepth(intVec) <= num2)
+						{
+							float lengthHorizontal = (intVec - this.parent.Position).LengthHorizontal;
+							float num3 = 1f - lengthHorizontal / this.snowRadius;
+							this.parent.Map.snowGrid.AddDepth(intVec, num3 * this.Props.addAmount * num2);
 						}
 					}
 				}

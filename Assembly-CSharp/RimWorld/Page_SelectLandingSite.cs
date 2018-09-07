@@ -91,35 +91,24 @@ namespace RimWorld
 
 		protected override bool CanDoNext()
 		{
-			bool result;
 			if (!base.CanDoNext())
 			{
-				result = false;
+				return false;
 			}
-			else
+			int selectedTile = Find.WorldInterface.SelectedTile;
+			if (selectedTile < 0)
 			{
-				int selectedTile = Find.WorldInterface.SelectedTile;
-				if (selectedTile < 0)
-				{
-					Messages.Message("MustSelectLandingSite".Translate(), MessageTypeDefOf.RejectInput, false);
-					result = false;
-				}
-				else
-				{
-					StringBuilder stringBuilder = new StringBuilder();
-					if (!TileFinder.IsValidTileForNewSettlement(selectedTile, stringBuilder))
-					{
-						Messages.Message(stringBuilder.ToString(), MessageTypeDefOf.RejectInput, false);
-						result = false;
-					}
-					else
-					{
-						Tile tile = Find.WorldGrid[selectedTile];
-						result = TutorSystem.AllowAction("ChooseBiome-" + tile.biome.defName + "-" + tile.hilliness.ToString());
-					}
-				}
+				Messages.Message("MustSelectLandingSite".Translate(), MessageTypeDefOf.RejectInput, false);
+				return false;
 			}
-			return result;
+			StringBuilder stringBuilder = new StringBuilder();
+			if (!TileFinder.IsValidTileForNewSettlement(selectedTile, stringBuilder))
+			{
+				Messages.Message(stringBuilder.ToString(), MessageTypeDefOf.RejectInput, false);
+				return false;
+			}
+			Tile tile = Find.WorldGrid[selectedTile];
+			return TutorSystem.AllowAction("ChooseBiome-" + tile.biome.defName + "-" + tile.hilliness.ToString());
 		}
 
 		protected override void DoNext()
@@ -157,12 +146,9 @@ namespace RimWorld
 			float num6 = rect.xMin + 10f;
 			float num7 = rect.yMin + 10f;
 			Text.Font = GameFont.Small;
-			if (Widgets.ButtonText(new Rect(num6, num7, Page.BottomButSize.x, Page.BottomButSize.y), "Back".Translate(), true, false, true))
+			if (Widgets.ButtonText(new Rect(num6, num7, Page.BottomButSize.x, Page.BottomButSize.y), "Back".Translate(), true, false, true) && this.CanDoBack())
 			{
-				if (this.CanDoBack())
-				{
-					this.DoBack();
-				}
+				this.DoBack();
 			}
 			num6 += Page.BottomButSize.x + 10f;
 			if (!TutorSystem.TutorialMode)
@@ -190,12 +176,9 @@ namespace RimWorld
 				Find.WindowStack.Add(new Dialog_FactionDuringLanding());
 			}
 			num6 += Page.BottomButSize.x + 10f;
-			if (Widgets.ButtonText(new Rect(num6, num7, Page.BottomButSize.x, Page.BottomButSize.y), "Next".Translate(), true, false, true))
+			if (Widgets.ButtonText(new Rect(num6, num7, Page.BottomButSize.x, Page.BottomButSize.y), "Next".Translate(), true, false, true) && this.CanDoNext())
 			{
-				if (this.CanDoNext())
-				{
-					this.DoNext();
-				}
+				this.DoNext();
 			}
 			num6 += Page.BottomButSize.x + 10f;
 			GenUI.AbsorbClicksInRect(rect);

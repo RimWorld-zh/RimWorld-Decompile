@@ -75,9 +75,7 @@ namespace RimWorld
 
 		public static StatDef ConstructionSpeed;
 
-		public static StatDef DiplomacyPower;
-
-		public static StatDef TradePriceImprovement;
+		public static StatDef HuntingStealth;
 
 		public static StatDef PlantWorkSpeed;
 
@@ -93,15 +91,19 @@ namespace RimWorld
 
 		public static StatDef ConstructSuccessChance;
 
+		public static StatDef UnskilledLaborSpeed;
+
 		public static StatDef MedicalTendSpeed;
 
 		public static StatDef MedicalTendQuality;
 
 		public static StatDef MedicalSurgerySuccessChance;
 
-		public static StatDef SocialImpact;
+		public static StatDef NegotiationAbility;
 
-		public static StatDef RecruitPrisonerChance;
+		public static StatDef TradePriceImprovement;
+
+		public static StatDef SocialImpact;
 
 		public static StatDef AnimalGatherSpeed;
 

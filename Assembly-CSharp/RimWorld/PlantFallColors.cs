@@ -16,13 +16,13 @@ namespace RimWorld
 		private static float FallSlopeComponent = 15f;
 
 		[TweakValue("Graphics", 0f, 100f)]
-		private static bool FallIntensityOverride = false;
+		private static bool FallIntensityOverride;
 
 		[TweakValue("Graphics", 0f, 1f)]
-		private static float FallIntensity = 0f;
+		private static float FallIntensity;
 
 		[TweakValue("Graphics", 0f, 100f)]
-		private static bool FallGlobalControls = false;
+		private static bool FallGlobalControls;
 
 		[TweakValue("Graphics", 0f, 1f)]
 		private static float FallSrcR = 0.3803f;

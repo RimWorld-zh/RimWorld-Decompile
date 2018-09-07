@@ -27,11 +27,11 @@ namespace Verse
 
 		public CellRect extentsLimit;
 
-		public Building_Door portal;
+		public Building_Door door;
 
 		private int precalculatedHashCode;
 
-		public bool touchesMapEdge = false;
+		public bool touchesMapEdge;
 
 		private int cachedCellCount = -1;
 
@@ -41,11 +41,11 @@ namespace Verse
 
 		public uint[] closedIndex = new uint[RegionTraverser.NumWorkers];
 
-		public uint reachedIndex = 0u;
+		public uint reachedIndex;
 
 		public int newRegionGroupIndex = -1;
 
-		private Dictionary<Area, AreaOverlap> cachedAreaOverlaps = null;
+		private Dictionary<Area, AreaOverlap> cachedAreaOverlaps;
 
 		public int mark;
 
@@ -155,17 +155,18 @@ namespace Verse
 			}
 			set
 			{
-				if (value != this.roomInt)
+				if (value == this.roomInt)
 				{
-					if (this.roomInt != null)
-					{
-						this.roomInt.RemoveRegion(this);
-					}
-					this.roomInt = value;
-					if (this.roomInt != null)
-					{
-						this.roomInt.AddRegion(this);
-					}
+					return;
+				}
+				if (this.roomInt != null)
+				{
+					this.roomInt.RemoveRegion(this);
+				}
+				this.roomInt = value;
+				if (this.roomInt != null)
+				{
+					this.roomInt.AddRegion(this);
 				}
 			}
 		}
@@ -256,6 +257,14 @@ namespace Verse
 			}
 		}
 
+		public bool IsDoorway
+		{
+			get
+			{
+				return this.door != null;
+			}
+		}
+
 		public static Region MakeNewUnfilled(IntVec3 root, Map map)
 		{
 			Region region = new Region();
@@ -278,69 +287,54 @@ namespace Verse
 
 		public bool Allows(TraverseParms tp, bool isDestination)
 		{
-			bool result;
 			if (tp.mode != TraverseMode.PassAllDestroyableThings && tp.mode != TraverseMode.PassAllDestroyableThingsNotWater && !this.type.Passable())
 			{
-				result = false;
+				return false;
 			}
-			else
+			if (tp.maxDanger < Danger.Deadly && tp.pawn != null)
 			{
-				if (tp.maxDanger < Danger.Deadly && tp.pawn != null)
+				Danger danger = this.DangerFor(tp.pawn);
+				if (isDestination || danger == Danger.Deadly)
 				{
-					Danger danger = this.DangerFor(tp.pawn);
-					if (isDestination || danger == Danger.Deadly)
+					Region region = tp.pawn.GetRegion(RegionType.Set_All);
+					if ((region == null || danger > region.DangerFor(tp.pawn)) && danger > tp.maxDanger)
 					{
-						Region region = tp.pawn.GetRegion(RegionType.Set_All);
-						if ((region == null || danger > region.DangerFor(tp.pawn)) && danger > tp.maxDanger)
-						{
-							return false;
-						}
+						return false;
 					}
-				}
-				switch (tp.mode)
-				{
-				case TraverseMode.ByPawn:
-					if (this.portal != null)
-					{
-						ByteGrid avoidGrid = tp.pawn.GetAvoidGrid();
-						if (avoidGrid != null && avoidGrid[this.portal.Position] == 255)
-						{
-							result = false;
-						}
-						else if (tp.pawn.HostileTo(this.portal))
-						{
-							result = (this.portal.CanPhysicallyPass(tp.pawn) || tp.canBash);
-						}
-						else
-						{
-							result = (this.portal.CanPhysicallyPass(tp.pawn) && !this.portal.IsForbiddenToPass(tp.pawn));
-						}
-					}
-					else
-					{
-						result = true;
-					}
-					break;
-				case TraverseMode.PassDoors:
-					result = true;
-					break;
-				case TraverseMode.NoPassClosedDoors:
-					result = (this.portal == null || this.portal.FreePassage);
-					break;
-				case TraverseMode.PassAllDestroyableThings:
-					result = true;
-					break;
-				case TraverseMode.NoPassClosedDoorsOrWater:
-					result = (this.portal == null || this.portal.FreePassage);
-					break;
-				case TraverseMode.PassAllDestroyableThingsNotWater:
-					result = true;
-					break;
-				default:
-					throw new NotImplementedException();
 				}
 			}
-			return result;
+			switch (tp.mode)
+			{
+			case TraverseMode.ByPawn:
+			{
+				if (this.door == null)
+				{
+					return true;
+				}
+				ByteGrid avoidGrid = tp.pawn.GetAvoidGrid();
+				if (avoidGrid != null && avoidGrid[this.door.Position] == 255)
+				{
+					return false;
+				}
+				if (tp.pawn.HostileTo(this.door))
+				{
+					return this.door.CanPhysicallyPass(tp.pawn) || tp.canBash;
+				}
+				return this.door.CanPhysicallyPass(tp.pawn) && !this.door.IsForbiddenToPass(tp.pawn);
+			}
+			case TraverseMode.PassDoors:
+				return true;
+			case TraverseMode.NoPassClosedDoors:
+				return this.door == null || this.door.FreePassage;
+			case TraverseMode.PassAllDestroyableThings:
+				return true;
+			case TraverseMode.NoPassClosedDoorsOrWater:
+				return this.door == null || this.door.FreePassage;
+			case TraverseMode.PassAllDestroyableThingsNotWater:
+				return true;
+			default:
+				throw new NotImplementedException();
+			}
 		}
 
 		public Danger DangerFor(Pawn p)
@@ -389,82 +383,73 @@ namespace Verse
 		public float GetBaseDesiredPlantsCount(bool allowCache = true)
 		{
 			int ticksGame = Find.TickManager.TicksGame;
-			float result;
 			if (allowCache && ticksGame - this.cachedBaseDesiredPlantsCountForTick < 2500)
 			{
-				result = this.cachedBaseDesiredPlantsCount;
+				return this.cachedBaseDesiredPlantsCount;
 			}
-			else
+			this.cachedBaseDesiredPlantsCount = 0f;
+			Map map = this.Map;
+			foreach (IntVec3 c in this.Cells)
 			{
-				this.cachedBaseDesiredPlantsCount = 0f;
-				Map map = this.Map;
-				foreach (IntVec3 c in this.Cells)
-				{
-					this.cachedBaseDesiredPlantsCount += map.wildPlantSpawner.GetBaseDesiredPlantsCountAt(c);
-				}
-				this.cachedBaseDesiredPlantsCountForTick = ticksGame;
-				result = this.cachedBaseDesiredPlantsCount;
+				this.cachedBaseDesiredPlantsCount += map.wildPlantSpawner.GetBaseDesiredPlantsCountAt(c);
 			}
-			return result;
+			this.cachedBaseDesiredPlantsCountForTick = ticksGame;
+			return this.cachedBaseDesiredPlantsCount;
 		}
 
 		public AreaOverlap OverlapWith(Area a)
 		{
-			AreaOverlap result;
 			if (a.TrueCount == 0)
 			{
-				result = AreaOverlap.None;
+				return AreaOverlap.None;
 			}
-			else if (this.Map != a.Map)
+			if (this.Map != a.Map)
 			{
-				result = AreaOverlap.None;
+				return AreaOverlap.None;
 			}
-			else
+			if (this.cachedAreaOverlaps == null)
 			{
-				if (this.cachedAreaOverlaps == null)
-				{
-					this.cachedAreaOverlaps = new Dictionary<Area, AreaOverlap>();
-				}
-				AreaOverlap areaOverlap;
-				if (!this.cachedAreaOverlaps.TryGetValue(a, out areaOverlap))
-				{
-					int num = 0;
-					int num2 = 0;
-					foreach (IntVec3 c in this.Cells)
-					{
-						num2++;
-						if (a[c])
-						{
-							num++;
-						}
-					}
-					if (num == 0)
-					{
-						areaOverlap = AreaOverlap.None;
-					}
-					else if (num == num2)
-					{
-						areaOverlap = AreaOverlap.Entire;
-					}
-					else
-					{
-						areaOverlap = AreaOverlap.Partial;
-					}
-					this.cachedAreaOverlaps.Add(a, areaOverlap);
-				}
-				result = areaOverlap;
+				this.cachedAreaOverlaps = new Dictionary<Area, AreaOverlap>();
 			}
-			return result;
+			AreaOverlap areaOverlap;
+			if (!this.cachedAreaOverlaps.TryGetValue(a, out areaOverlap))
+			{
+				int num = 0;
+				int num2 = 0;
+				foreach (IntVec3 c in this.Cells)
+				{
+					num2++;
+					if (a[c])
+					{
+						num++;
+					}
+				}
+				if (num == 0)
+				{
+					areaOverlap = AreaOverlap.None;
+				}
+				else if (num == num2)
+				{
+					areaOverlap = AreaOverlap.Entire;
+				}
+				else
+				{
+					areaOverlap = AreaOverlap.Partial;
+				}
+				this.cachedAreaOverlaps.Add(a, areaOverlap);
+			}
+			return areaOverlap;
 		}
 
 		public void Notify_AreaChanged(Area a)
 		{
-			if (this.cachedAreaOverlaps != null)
+			if (this.cachedAreaOverlaps == null)
 			{
-				if (this.cachedAreaOverlaps.ContainsKey(a))
-				{
-					this.cachedAreaOverlaps.Remove(a);
-				}
+				return;
+			}
+			if (this.cachedAreaOverlaps.ContainsKey(a))
+			{
+				this.cachedAreaOverlaps.Remove(a);
 			}
 		}
 
@@ -479,11 +464,9 @@ namespace Verse
 					", but mapIndex=",
 					this.mapIndex
 				}), false);
+				return;
 			}
-			else
-			{
-				this.mapIndex = (sbyte)((int)this.mapIndex - 1);
-			}
+			this.mapIndex = (sbyte)((int)this.mapIndex - 1);
 		}
 
 		public void Notify_MyMapRemoved()
@@ -495,9 +478,9 @@ namespace Verse
 		public override string ToString()
 		{
 			string str;
-			if (this.portal != null)
+			if (this.door != null)
 			{
-				str = this.portal.ToString();
+				str = this.door.ToString();
 			}
 			else
 			{
@@ -515,20 +498,17 @@ namespace Verse
 				this.links.Count,
 				", cells=",
 				this.CellCount,
-				(this.portal == null) ? null : (", portal=" + str),
+				(this.door == null) ? null : (", portal=" + str),
 				")"
 			});
 		}
 
 		public void DebugDraw()
 		{
-			if (DebugViewSettings.drawRegionTraversal)
+			if (DebugViewSettings.drawRegionTraversal && Find.TickManager.TicksGame < this.debug_lastTraverseTick + 60)
 			{
-				if (Find.TickManager.TicksGame < this.debug_lastTraverseTick + 60)
-				{
-					float a = 1f - (float)(Find.TickManager.TicksGame - this.debug_lastTraverseTick) / 60f;
-					GenDraw.DrawFieldEdges(this.Cells.ToList<IntVec3>(), new Color(0f, 0f, 1f, a));
-				}
+				float a = 1f - (float)(Find.TickManager.TicksGame - this.debug_lastTraverseTick) / 60f;
+				GenDraw.DrawFieldEdges(this.Cells.ToList<IntVec3>(), new Color(0f, 0f, 1f, a));
 			}
 		}
 
@@ -590,17 +570,12 @@ namespace Verse
 
 		public override bool Equals(object obj)
 		{
-			bool result;
 			if (obj == null)
 			{
-				result = false;
+				return false;
 			}
-			else
-			{
-				Region region = obj as Region;
-				result = (region != null && region.id == this.id);
-			}
-			return result;
+			Region region = obj as Region;
+			return region != null && region.id == this.id;
 		}
 
 		// Note: this type is marked as 'beforefieldinit'.
@@ -641,15 +616,15 @@ namespace Verse
 				case 0u:
 					regions = base.Map.regionGrid;
 					z = this.extentsClose.minZ;
-					goto IL_FD;
+					goto IL_F8;
 				case 1u:
-					IL_C4:
+					IL_C1:
 					x++;
 					break;
 				default:
 					return false;
 				}
-				IL_D3:
+				IL_CF:
 				if (x > this.extentsClose.maxX)
 				{
 					z++;
@@ -666,13 +641,13 @@ namespace Verse
 						}
 						return true;
 					}
-					goto IL_C4;
+					goto IL_C1;
 				}
-				IL_FD:
+				IL_F8:
 				if (z <= this.extentsClose.maxZ)
 				{
 					x = this.extentsClose.minX;
-					goto IL_D3;
+					goto IL_CF;
 				}
 				this.$PC = -1;
 				return false;
@@ -758,15 +733,15 @@ namespace Verse
 				{
 				case 0u:
 					li = 0;
-					goto IL_100;
+					goto IL_F9;
 				case 1u:
+					IL_D1:
+					ri++;
 					break;
 				default:
 					return false;
 				}
-				IL_D6:
-				ri++;
-				IL_E5:
+				IL_DF:
 				if (ri >= 2)
 				{
 					li++;
@@ -782,14 +757,14 @@ namespace Verse
 						}
 						return true;
 					}
-					goto IL_D6;
+					goto IL_D1;
 				}
-				IL_100:
+				IL_F9:
 				if (li < this.links.Count)
 				{
 					link = this.links[li];
 					ri = 0;
-					goto IL_E5;
+					goto IL_DF;
 				}
 				this.$PC = -1;
 				return false;
@@ -875,15 +850,15 @@ namespace Verse
 				{
 				case 0u:
 					li = 0;
-					goto IL_127;
+					goto IL_120;
 				case 1u:
+					IL_F8:
+					ri++;
 					break;
 				default:
 					return false;
 				}
-				IL_FD:
-				ri++;
-				IL_10C:
+				IL_106:
 				if (ri >= 2)
 				{
 					li++;
@@ -899,14 +874,14 @@ namespace Verse
 						}
 						return true;
 					}
-					goto IL_FD;
+					goto IL_F8;
 				}
-				IL_127:
+				IL_120:
 				if (li < this.links.Count)
 				{
 					link = this.links[li];
 					ri = 0;
-					goto IL_10C;
+					goto IL_106;
 				}
 				this.$PC = -1;
 				return false;

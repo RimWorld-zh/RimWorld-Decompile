@@ -10,9 +10,9 @@ namespace Verse
 {
 	public class HediffCompProperties_VerbGiver : HediffCompProperties
 	{
-		public List<VerbProperties> verbs = null;
+		public List<VerbProperties> verbs;
 
-		public List<Tool> tools = null;
+		public List<Tool> tools;
 
 		public HediffCompProperties_VerbGiver()
 		{
@@ -33,7 +33,7 @@ namespace Verse
 
 		public override IEnumerable<string> ConfigErrors(HediffDef parentDef)
 		{
-			foreach (string err in this.<ConfigErrors>__BaseCallProxy0(parentDef))
+			foreach (string err in base.ConfigErrors(parentDef))
 			{
 				yield return err;
 			}
@@ -110,9 +110,9 @@ namespace Verse
 				case 1u:
 					break;
 				case 2u:
-					goto IL_134;
+					goto IL_12F;
 				case 3u:
-					goto IL_14E;
+					goto IL_148;
 				default:
 					return false;
 				}
@@ -145,7 +145,7 @@ namespace Verse
 				}
 				if (this.tools == null)
 				{
-					goto IL_22E;
+					goto IL_222;
 				}
 				dupeTool = this.tools.SelectMany((Tool lhs) => from rhs in this.tools
 				where lhs != rhs && lhs.id == rhs.id
@@ -159,12 +159,12 @@ namespace Verse
 					}
 					return true;
 				}
-				IL_134:
+				IL_12F:
 				enumerator2 = this.tools.GetEnumerator();
 				num = 4294967293u;
 				try
 				{
-					IL_14E:
+					IL_148:
 					switch (num)
 					{
 					case 3u:
@@ -213,7 +213,7 @@ namespace Verse
 						((IDisposable)enumerator2).Dispose();
 					}
 				}
-				IL_22E:
+				IL_222:
 				this.$PC = -1;
 				return false;
 			}

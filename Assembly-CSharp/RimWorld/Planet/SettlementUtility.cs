@@ -13,29 +13,24 @@ namespace RimWorld.Planet
 
 		public static bool IsPlayerAttackingAnySettlementOf(Faction faction)
 		{
-			bool result;
 			if (faction == Faction.OfPlayer)
 			{
-				result = false;
+				return false;
 			}
-			else if (!faction.HostileTo(Faction.OfPlayer))
+			if (!faction.HostileTo(Faction.OfPlayer))
 			{
-				result = false;
+				return false;
 			}
-			else
+			List<Map> maps = Find.Maps;
+			for (int i = 0; i < maps.Count; i++)
 			{
-				List<Map> maps = Find.Maps;
-				for (int i = 0; i < maps.Count; i++)
+				SettlementBase settlementBase = maps[i].info.parent as SettlementBase;
+				if (settlementBase != null && settlementBase.Faction == faction)
 				{
-					SettlementBase settlementBase = maps[i].info.parent as SettlementBase;
-					if (settlementBase != null && settlementBase.Faction == faction)
-					{
-						return true;
-					}
+					return true;
 				}
-				result = false;
 			}
-			return result;
+			return false;
 		}
 
 		public static void Attack(Caravan caravan, SettlementBase settlement)
@@ -67,7 +62,7 @@ namespace RimWorld.Planet
 			SettlementUtility.AffectRelationsOnAttacked(settlement, ref text);
 			if (flag)
 			{
-				Find.TickManager.CurTimeSpeed = TimeSpeed.Paused;
+				Find.TickManager.Notify_GeneratedPotentiallyHostileMap();
 				PawnRelationUtility.Notify_PawnsSeenByPlayer_Letter(orGenerateMap.mapPawns.AllPawns, ref label, ref text, "LetterRelatedPawnsSettlement".Translate(new object[]
 				{
 					Faction.OfPlayer.def.pawnsPlural

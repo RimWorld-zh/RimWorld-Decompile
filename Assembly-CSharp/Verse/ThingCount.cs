@@ -104,6 +104,10 @@ namespace Verse
 
 		public static implicit operator ThingCount(ThingCountClass t)
 		{
+			if (t == null)
+			{
+				return new ThingCount(null, 0);
+			}
 			return new ThingCount(t.thing, t.Count);
 		}
 	}

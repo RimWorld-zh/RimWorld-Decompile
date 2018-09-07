@@ -27,44 +27,22 @@ namespace RimWorld
 			{
 				JoyGiver_ViewArt.candidates.AddRange(pawn.Map.listerThings.ThingsInGroup(ThingRequestGroup.Art).Where(delegate(Thing thing)
 				{
-					bool result2;
 					if (thing.Faction != Faction.OfPlayer || thing.IsForbidden(pawn) || (!allowedOutside && !thing.Position.Roofed(thing.Map)) || !pawn.CanReserveAndReach(thing, PathEndMode.Touch, Danger.None, 1, -1, null, false) || !thing.IsPoliticallyProper(pawn))
 					{
-						result2 = false;
+						return false;
 					}
-					else
+					CompArt compArt = thing.TryGetComp<CompArt>();
+					if (compArt == null)
 					{
-						CompArt compArt = thing.TryGetComp<CompArt>();
-						if (compArt == null)
-						{
-							Log.Error("No CompArt on thing being considered for viewing: " + thing, false);
-							result2 = false;
-						}
-						else if (!compArt.CanShowArt || !compArt.Props.canBeEnjoyedAsArt)
-						{
-							result2 = false;
-						}
-						else
-						{
-							Room room = thing.GetRoom(RegionType.Set_Passable);
-							if (room == null)
-							{
-								result2 = false;
-							}
-							else
-							{
-								if (room.Role == RoomRoleDefOf.Bedroom || room.Role == RoomRoleDefOf.Barracks || room.Role == RoomRoleDefOf.PrisonCell || room.Role == RoomRoleDefOf.PrisonBarracks || room.Role == RoomRoleDefOf.Hospital)
-								{
-									if (pawn.ownership == null || pawn.ownership.OwnedRoom == null || pawn.ownership.OwnedRoom != room)
-									{
-										return false;
-									}
-								}
-								result2 = true;
-							}
-						}
+						Log.Error("No CompArt on thing being considered for viewing: " + thing, false);
+						return false;
 					}
-					return result2;
+					if (!compArt.CanShowArt || !compArt.Props.canBeEnjoyedAsArt)
+					{
+						return false;
+					}
+					Room room = thing.GetRoom(RegionType.Set_Passable);
+					return room != null && ((room.Role != RoomRoleDefOf.Bedroom && room.Role != RoomRoleDefOf.Barracks && room.Role != RoomRoleDefOf.PrisonCell && room.Role != RoomRoleDefOf.PrisonBarracks && room.Role != RoomRoleDefOf.Hospital) || (pawn.ownership != null && pawn.ownership.OwnedRoom != null && pawn.ownership.OwnedRoom == room));
 				}));
 				Thing t;
 				if (!JoyGiver_ViewArt.candidates.TryRandomElementByWeight((Thing target) => Mathf.Max(target.GetStatValue(StatDefOf.Beauty, true), 0.5f), out t))
@@ -107,44 +85,22 @@ namespace RimWorld
 
 			internal bool <>m__0(Thing thing)
 			{
-				bool result;
 				if (thing.Faction != Faction.OfPlayer || thing.IsForbidden(this.pawn) || (!this.allowedOutside && !thing.Position.Roofed(thing.Map)) || !this.pawn.CanReserveAndReach(thing, PathEndMode.Touch, Danger.None, 1, -1, null, false) || !thing.IsPoliticallyProper(this.pawn))
 				{
-					result = false;
+					return false;
 				}
-				else
+				CompArt compArt = thing.TryGetComp<CompArt>();
+				if (compArt == null)
 				{
-					CompArt compArt = thing.TryGetComp<CompArt>();
-					if (compArt == null)
-					{
-						Log.Error("No CompArt on thing being considered for viewing: " + thing, false);
-						result = false;
-					}
-					else if (!compArt.CanShowArt || !compArt.Props.canBeEnjoyedAsArt)
-					{
-						result = false;
-					}
-					else
-					{
-						Room room = thing.GetRoom(RegionType.Set_Passable);
-						if (room == null)
-						{
-							result = false;
-						}
-						else
-						{
-							if (room.Role == RoomRoleDefOf.Bedroom || room.Role == RoomRoleDefOf.Barracks || room.Role == RoomRoleDefOf.PrisonCell || room.Role == RoomRoleDefOf.PrisonBarracks || room.Role == RoomRoleDefOf.Hospital)
-							{
-								if (this.pawn.ownership == null || this.pawn.ownership.OwnedRoom == null || this.pawn.ownership.OwnedRoom != room)
-								{
-									return false;
-								}
-							}
-							result = true;
-						}
-					}
+					Log.Error("No CompArt on thing being considered for viewing: " + thing, false);
+					return false;
 				}
-				return result;
+				if (!compArt.CanShowArt || !compArt.Props.canBeEnjoyedAsArt)
+				{
+					return false;
+				}
+				Room room = thing.GetRoom(RegionType.Set_Passable);
+				return room != null && ((room.Role != RoomRoleDefOf.Bedroom && room.Role != RoomRoleDefOf.Barracks && room.Role != RoomRoleDefOf.PrisonCell && room.Role != RoomRoleDefOf.PrisonBarracks && room.Role != RoomRoleDefOf.Hospital) || (this.pawn.ownership != null && this.pawn.ownership.OwnedRoom != null && this.pawn.ownership.OwnedRoom == room));
 			}
 		}
 	}

@@ -12,7 +12,7 @@ namespace Verse
 
 		private FastPriorityQueue<int> openSet;
 
-		private uint statusUnseenValue = 0u;
+		private uint statusUnseenValue;
 
 		private uint statusOpenValue = 1u;
 
@@ -117,7 +117,7 @@ namespace Verse
 							{
 								if (this.blockers[i].def.blockLight)
 								{
-									goto IL_3B3;
+									goto IL_3A4;
 								}
 								this.blockers[i] = null;
 							}
@@ -140,25 +140,25 @@ namespace Verse
 									case 4:
 										if (this.blockers[0] != null && this.blockers[1] != null)
 										{
-											goto IL_3B3;
+											goto IL_3A4;
 										}
 										break;
 									case 5:
 										if (this.blockers[1] != null && this.blockers[2] != null)
 										{
-											goto IL_3B3;
+											goto IL_3A4;
 										}
 										break;
 									case 6:
 										if (this.blockers[2] != null && this.blockers[3] != null)
 										{
-											goto IL_3B3;
+											goto IL_3A4;
 										}
 										break;
 									case 7:
 										if (this.blockers[0] != null && this.blockers[3] != null)
 										{
-											goto IL_3B3;
+											goto IL_3A4;
 										}
 										break;
 									}
@@ -177,7 +177,7 @@ namespace Verse
 							}
 						}
 					}
-					IL_3B3:;
+					IL_3A4:;
 				}
 			}
 		}

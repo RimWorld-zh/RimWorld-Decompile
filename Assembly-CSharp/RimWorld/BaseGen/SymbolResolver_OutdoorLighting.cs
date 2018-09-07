@@ -17,14 +17,14 @@ namespace RimWorld.BaseGen
 		public override void Resolve(ResolveParams rp)
 		{
 			Map map = BaseGen.globalSettings.map;
-			ThingDef def;
+			ThingDef thingDef;
 			if (rp.faction == null || rp.faction.def.techLevel >= TechLevel.Industrial)
 			{
-				def = ThingDefOf.StandingLamp;
+				thingDef = ThingDefOf.StandingLamp;
 			}
 			else
 			{
-				def = ThingDefOf.TorchLamp;
+				thingDef = ThingDefOf.TorchLamp;
 			}
 			this.FindNearbyGlowers(rp.rect);
 			for (int i = 0; i < rp.rect.Area / 4; i++)
@@ -39,7 +39,11 @@ namespace RimWorld.BaseGen
 						{
 							if (!BaseGenUtility.AnyDoorAdjacentCardinalTo(randomCell, map))
 							{
-								Thing thing = GenSpawn.Spawn(def, randomCell, map, WipeMode.Vanish);
+								if (rp.spawnBridgeIfTerrainCantSupportThing == null || rp.spawnBridgeIfTerrainCantSupportThing.Value)
+								{
+									BaseGenUtility.CheckSpawnBridgeUnder(thingDef, randomCell, Rot4.North);
+								}
+								Thing thing = GenSpawn.Spawn(thingDef, randomCell, map, WipeMode.Vanish);
 								if (thing.def.CanHaveFaction && thing.Faction != rp.faction)
 								{
 									thing.SetFaction(rp.faction, null);

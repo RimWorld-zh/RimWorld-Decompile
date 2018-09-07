@@ -18,55 +18,50 @@ namespace RimWorld
 
 		private static float HairChoiceLikelihoodFor(HairDef hair, Pawn pawn)
 		{
-			float result;
 			if (pawn.gender == Gender.None)
 			{
-				result = 100f;
+				return 100f;
 			}
-			else
+			if (pawn.gender == Gender.Male)
 			{
-				if (pawn.gender == Gender.Male)
+				switch (hair.hairGender)
 				{
-					switch (hair.hairGender)
-					{
-					case HairGender.Male:
-						return 70f;
-					case HairGender.MaleUsually:
-						return 30f;
-					case HairGender.Any:
-						return 60f;
-					case HairGender.FemaleUsually:
-						return 5f;
-					case HairGender.Female:
-						return 1f;
-					}
+				case HairGender.Male:
+					return 70f;
+				case HairGender.MaleUsually:
+					return 30f;
+				case HairGender.Any:
+					return 60f;
+				case HairGender.FemaleUsually:
+					return 5f;
+				case HairGender.Female:
+					return 1f;
 				}
-				if (pawn.gender == Gender.Female)
-				{
-					switch (hair.hairGender)
-					{
-					case HairGender.Male:
-						return 1f;
-					case HairGender.MaleUsually:
-						return 5f;
-					case HairGender.Any:
-						return 60f;
-					case HairGender.FemaleUsually:
-						return 30f;
-					case HairGender.Female:
-						return 70f;
-					}
-				}
-				Log.Error(string.Concat(new object[]
-				{
-					"Unknown hair likelihood for ",
-					hair,
-					" with ",
-					pawn
-				}), false);
-				result = 0f;
 			}
-			return result;
+			if (pawn.gender == Gender.Female)
+			{
+				switch (hair.hairGender)
+				{
+				case HairGender.Male:
+					return 1f;
+				case HairGender.MaleUsually:
+					return 5f;
+				case HairGender.Any:
+					return 60f;
+				case HairGender.FemaleUsually:
+					return 30f;
+				case HairGender.Female:
+					return 70f;
+				}
+			}
+			Log.Error(string.Concat(new object[]
+			{
+				"Unknown hair likelihood for ",
+				hair,
+				" with ",
+				pawn
+			}), false);
+			return 0f;
 		}
 
 		[CompilerGenerated]

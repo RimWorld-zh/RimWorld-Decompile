@@ -22,38 +22,28 @@ namespace RimWorld
 
 		protected override bool TryExecuteWorker(IncidentParms parms)
 		{
-			bool result;
 			if (!base.TryExecuteWorker(parms))
 			{
-				result = false;
+				return false;
 			}
-			else
-			{
-				Find.TickManager.slower.SignalForceNormalSpeedShort();
-				Find.StoryWatcher.statsRecord.numRaidsEnemy++;
-				result = true;
-			}
-			return result;
+			Find.TickManager.slower.SignalForceNormalSpeedShort();
+			Find.StoryWatcher.statsRecord.numRaidsEnemy++;
+			return true;
 		}
 
 		protected override bool TryResolveRaidFaction(IncidentParms parms)
 		{
 			Map map = (Map)parms.target;
-			bool result;
 			if (parms.faction != null)
 			{
-				result = true;
+				return true;
 			}
-			else
+			float num = parms.points;
+			if (num <= 0f)
 			{
-				float num = parms.points;
-				if (num <= 0f)
-				{
-					num = 999999f;
-				}
-				result = (PawnGroupMakerUtility.TryGetRandomFactionForCombatPawnGroup(num, out parms.faction, (Faction f) => this.FactionCanBeGroupSource(f, map, false), true, true, true, true) || PawnGroupMakerUtility.TryGetRandomFactionForCombatPawnGroup(num, out parms.faction, (Faction f) => this.FactionCanBeGroupSource(f, map, true), true, true, true, true));
+				num = 999999f;
 			}
-			return result;
+			return PawnGroupMakerUtility.TryGetRandomFactionForCombatPawnGroup(num, out parms.faction, (Faction f) => this.FactionCanBeGroupSource(f, map, false), true, true, true, true) || PawnGroupMakerUtility.TryGetRandomFactionForCombatPawnGroup(num, out parms.faction, (Faction f) => this.FactionCanBeGroupSource(f, map, true), true, true, true, true);
 		}
 
 		protected override void ResolveRaidPoints(IncidentParms parms)
@@ -67,28 +57,29 @@ namespace RimWorld
 
 		protected override void ResolveRaidStrategy(IncidentParms parms, PawnGroupKindDef groupKind)
 		{
-			if (parms.raidStrategy == null)
+			if (parms.raidStrategy != null)
 			{
-				Map map = (Map)parms.target;
-				if (!(from d in DefDatabase<RaidStrategyDef>.AllDefs
-				where d.Worker.CanUseWith(parms, groupKind) && (parms.raidArrivalMode != null || (d.arriveModes != null && d.arriveModes.Any((PawnsArrivalModeDef x) => x.Worker.CanUseWith(parms))))
-				select d).TryRandomElementByWeight((RaidStrategyDef d) => d.Worker.SelectionWeight(map, parms.points), out parms.raidStrategy))
+				return;
+			}
+			Map map = (Map)parms.target;
+			if (!(from d in DefDatabase<RaidStrategyDef>.AllDefs
+			where d.Worker.CanUseWith(parms, groupKind) && (parms.raidArrivalMode != null || (d.arriveModes != null && d.arriveModes.Any((PawnsArrivalModeDef x) => x.Worker.CanUseWith(parms))))
+			select d).TryRandomElementByWeight((RaidStrategyDef d) => d.Worker.SelectionWeight(map, parms.points), out parms.raidStrategy))
+			{
+				Log.Error(string.Concat(new object[]
 				{
-					Log.Error(string.Concat(new object[]
-					{
-						"No raid stategy for ",
-						parms.faction,
-						" with points ",
-						parms.points,
-						", groupKind=",
-						groupKind,
-						"\nparms=",
-						parms
-					}), false);
-					if (!Prefs.DevMode)
-					{
-						parms.raidStrategy = RaidStrategyDefOf.ImmediateAttack;
-					}
+					"No raid stategy for ",
+					parms.faction,
+					" with points ",
+					parms.points,
+					", groupKind=",
+					groupKind,
+					"\nparms=",
+					parms
+				}), false);
+				if (!Prefs.DevMode)
+				{
+					parms.raidStrategy = RaidStrategyDefOf.ImmediateAttack;
 				}
 			}
 		}

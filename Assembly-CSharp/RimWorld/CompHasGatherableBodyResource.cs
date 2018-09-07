@@ -6,7 +6,7 @@ namespace RimWorld
 {
 	public abstract class CompHasGatherableBodyResource : ThingComp
 	{
-		protected float fullness = 0f;
+		protected float fullness;
 
 		protected CompHasGatherableBodyResource()
 		{

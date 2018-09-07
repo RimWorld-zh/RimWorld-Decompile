@@ -37,16 +37,11 @@ namespace RimWorld
 		{
 			get
 			{
-				float result;
 				if (this.lastComfortUseTick > Find.TickManager.TicksGame - 10)
 				{
-					result = Mathf.Clamp01(this.lastComfortUsed);
+					return Mathf.Clamp01(this.lastComfortUsed);
 				}
-				else
-				{
-					result = 0f;
-				}
-				return result;
+				return 0f;
 			}
 		}
 
@@ -54,32 +49,27 @@ namespace RimWorld
 		{
 			get
 			{
-				ComfortCategory result;
 				if (this.CurLevel < 0.1f)
 				{
-					result = ComfortCategory.Uncomfortable;
+					return ComfortCategory.Uncomfortable;
 				}
-				else if (this.CurLevel < 0.6f)
+				if (this.CurLevel < 0.6f)
 				{
-					result = ComfortCategory.Normal;
+					return ComfortCategory.Normal;
 				}
-				else if (this.CurLevel < 0.7f)
+				if (this.CurLevel < 0.7f)
 				{
-					result = ComfortCategory.Comfortable;
+					return ComfortCategory.Comfortable;
 				}
-				else if (this.CurLevel < 0.8f)
+				if (this.CurLevel < 0.8f)
 				{
-					result = ComfortCategory.VeryComfortable;
+					return ComfortCategory.VeryComfortable;
 				}
-				else if (this.CurLevel < 0.9f)
+				if (this.CurLevel < 0.9f)
 				{
-					result = ComfortCategory.ExtremelyComfortable;
+					return ComfortCategory.ExtremelyComfortable;
 				}
-				else
-				{
-					result = ComfortCategory.LuxuriantlyComfortable;
-				}
-				return result;
+				return ComfortCategory.LuxuriantlyComfortable;
 			}
 		}
 

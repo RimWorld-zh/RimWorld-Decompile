@@ -14,9 +14,9 @@ namespace UnityStandardAssets.ImageEffects
 		[Range(0f, 1.5f)]
 		public float strengthY = 0.05f;
 
-		public Shader fishEyeShader = null;
+		public Shader fishEyeShader;
 
-		private Material fisheyeMaterial = null;
+		private Material fisheyeMaterial;
 
 		public Fisheye()
 		{
@@ -38,14 +38,12 @@ namespace UnityStandardAssets.ImageEffects
 			if (!this.CheckResources())
 			{
 				Graphics.Blit(source, destination);
+				return;
 			}
-			else
-			{
-				float num = 0.15625f;
-				float num2 = (float)source.width * 1f / ((float)source.height * 1f);
-				this.fisheyeMaterial.SetVector("intensity", new Vector4(this.strengthX * num2 * num, this.strengthY * num, this.strengthX * num2 * num, this.strengthY * num));
-				Graphics.Blit(source, destination, this.fisheyeMaterial);
-			}
+			float num = 0.15625f;
+			float num2 = (float)source.width * 1f / ((float)source.height * 1f);
+			this.fisheyeMaterial.SetVector("intensity", new Vector4(this.strengthX * num2 * num, this.strengthY * num, this.strengthX * num2 * num, this.strengthY * num));
+			Graphics.Blit(source, destination, this.fisheyeMaterial);
 		}
 	}
 }

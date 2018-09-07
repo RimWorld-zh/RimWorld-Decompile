@@ -23,6 +23,8 @@ namespace Verse
 
 		public bool pauseIfPauseOnUrgentLetter;
 
+		public bool forcedSlowdown;
+
 		[Unsaved]
 		private Texture2D iconTex;
 

@@ -28,16 +28,11 @@ namespace RimWorld
 		public override string ExplanationPart(StatRequest req)
 		{
 			float num;
-			string result;
 			if (this.TryGetIsFleshFactor(req, out num) && num != 1f)
 			{
-				result = "StatsReport_NotFlesh".Translate() + ": x" + num.ToStringPercent();
+				return "StatsReport_NotFlesh".Translate() + ": x" + num.ToStringPercent();
 			}
-			else
-			{
-				result = null;
-			}
-			return result;
+			return null;
 		}
 
 		private bool TryGetIsFleshFactor(StatRequest req, out float bodySize)

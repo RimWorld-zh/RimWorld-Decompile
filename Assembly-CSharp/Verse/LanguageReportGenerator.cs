@@ -26,20 +26,18 @@ namespace Verse
 		{
 			LoadedLanguage activeLanguage = LanguageDatabase.activeLanguage;
 			LoadedLanguage defaultLanguage = LanguageDatabase.defaultLanguage;
-			if (activeLanguage == defaultLanguage)
+			if (activeLanguage == defaultLanguage && !defaultLanguage.anyError)
 			{
 				Messages.Message("Please activate a non-English language to scan.", MessageTypeDefOf.RejectInput, false);
+				return;
 			}
-			else
+			activeLanguage.LoadData();
+			defaultLanguage.LoadData();
+			if (LanguageReportGenerator.<>f__mg$cache0 == null)
 			{
-				activeLanguage.LoadData();
-				defaultLanguage.LoadData();
-				if (LanguageReportGenerator.<>f__mg$cache0 == null)
-				{
-					LanguageReportGenerator.<>f__mg$cache0 = new Action(LanguageReportGenerator.DoSaveTranslationReport);
-				}
-				LongEventHandler.QueueLongEvent(LanguageReportGenerator.<>f__mg$cache0, "GeneratingTranslationReport", true, null);
+				LanguageReportGenerator.<>f__mg$cache0 = new Action(LanguageReportGenerator.DoSaveTranslationReport);
 			}
+			LongEventHandler.QueueLongEvent(LanguageReportGenerator.<>f__mg$cache0, "GeneratingTranslationReport", true, null);
 		}
 
 		private static void DoSaveTranslationReport()
@@ -222,22 +220,31 @@ namespace Verse
 		{
 			LoadedLanguage activeLanguage = LanguageDatabase.activeLanguage;
 			LoadedLanguage defaultLanguage = LanguageDatabase.defaultLanguage;
+			if (activeLanguage == defaultLanguage)
+			{
+				return;
+			}
 			StringBuilder stringBuilder = new StringBuilder();
 			int num = 0;
-			foreach (KeyValuePair<string, string> keyValuePair in defaultLanguage.keyedReplacements)
+			foreach (KeyValuePair<string, LoadedLanguage.KeyedReplacement> keyValuePair in defaultLanguage.keyedReplacements)
 			{
-				if (!activeLanguage.HaveTextForKey(keyValuePair.Key))
+				if (!activeLanguage.HaveTextForKey(keyValuePair.Key, false))
 				{
-					num++;
-					stringBuilder.AppendLine(string.Concat(new string[]
+					string text = string.Concat(new string[]
 					{
 						keyValuePair.Key,
 						" '",
-						keyValuePair.Value.Replace("\n", "\\n"),
-						"' (",
+						keyValuePair.Value.value.Replace("\n", "\\n"),
+						"' (English file: ",
 						defaultLanguage.GetKeySourceFileAndLine(keyValuePair.Key),
 						")"
-					}));
+					});
+					if (activeLanguage.HaveTextForKey(keyValuePair.Key, true))
+					{
+						text = text + " (placeholder exists in " + activeLanguage.GetKeySourceFileAndLine(keyValuePair.Key) + ")";
+					}
+					num++;
+					stringBuilder.AppendLine(text);
 				}
 			}
 			sb.AppendLine();
@@ -248,6 +255,11 @@ namespace Verse
 		private static void AppendMissingDefInjections(StringBuilder sb, List<string> outUnnecessaryDefInjections)
 		{
 			LoadedLanguage activeLanguage = LanguageDatabase.activeLanguage;
+			LoadedLanguage defaultLanguage = LanguageDatabase.defaultLanguage;
+			if (activeLanguage == defaultLanguage)
+			{
+				return;
+			}
 			StringBuilder stringBuilder = new StringBuilder();
 			int num = 0;
 			foreach (DefInjectionPackage defInjectionPackage in activeLanguage.defInjections)
@@ -266,6 +278,11 @@ namespace Verse
 		private static void AppendMissingBackstories(StringBuilder sb)
 		{
 			LoadedLanguage activeLanguage = LanguageDatabase.activeLanguage;
+			LoadedLanguage defaultLanguage = LanguageDatabase.defaultLanguage;
+			if (activeLanguage == defaultLanguage)
+			{
+				return;
+			}
 			StringBuilder stringBuilder = new StringBuilder();
 			int num = 0;
 			foreach (string value in BackstoryTranslationUtility.MissingBackstoryTranslations(activeLanguage))
@@ -341,22 +358,29 @@ namespace Verse
 		{
 			LoadedLanguage activeLanguage = LanguageDatabase.activeLanguage;
 			LoadedLanguage defaultLanguage = LanguageDatabase.defaultLanguage;
+			if (activeLanguage == defaultLanguage)
+			{
+				return;
+			}
 			StringBuilder stringBuilder = new StringBuilder();
 			int num = 0;
 			foreach (string text in defaultLanguage.keyedReplacements.Keys.Intersect(activeLanguage.keyedReplacements.Keys))
 			{
-				int num2 = LanguageReportGenerator.CountParametersInString(defaultLanguage.keyedReplacements[text]);
-				int num3 = LanguageReportGenerator.CountParametersInString(activeLanguage.keyedReplacements[text]);
-				if (num2 != num3)
+				if (!activeLanguage.keyedReplacements[text].isPlaceholder)
 				{
-					num++;
-					stringBuilder.AppendLine(string.Format("{0} ({1})\n  - '{2}'\n  - '{3}'", new object[]
+					int num2 = LanguageReportGenerator.CountParametersInString(defaultLanguage.keyedReplacements[text].value);
+					int num3 = LanguageReportGenerator.CountParametersInString(activeLanguage.keyedReplacements[text].value);
+					if (num2 != num3)
 					{
-						text,
-						activeLanguage.GetKeySourceFileAndLine(text),
-						defaultLanguage.keyedReplacements[text].Replace("\n", "\\n"),
-						activeLanguage.keyedReplacements[text].Replace("\n", "\\n")
-					}));
+						num++;
+						stringBuilder.AppendLine(string.Format("{0} ({1})\n  - '{2}'\n  - '{3}'", new object[]
+						{
+							text,
+							activeLanguage.GetKeySourceFileAndLine(text),
+							defaultLanguage.keyedReplacements[text].value.Replace("\n", "\\n"),
+							activeLanguage.keyedReplacements[text].value.Replace("\n", "\\n")
+						}));
+					}
 				}
 			}
 			sb.AppendLine();
@@ -368,18 +392,22 @@ namespace Verse
 		{
 			LoadedLanguage activeLanguage = LanguageDatabase.activeLanguage;
 			LoadedLanguage defaultLanguage = LanguageDatabase.defaultLanguage;
+			if (activeLanguage == defaultLanguage)
+			{
+				return;
+			}
 			StringBuilder stringBuilder = new StringBuilder();
 			int num = 0;
-			foreach (KeyValuePair<string, string> keyValuePair in activeLanguage.keyedReplacements)
+			foreach (KeyValuePair<string, LoadedLanguage.KeyedReplacement> keyValuePair in activeLanguage.keyedReplacements)
 			{
-				if (!defaultLanguage.HaveTextForKey(keyValuePair.Key))
+				if (!defaultLanguage.HaveTextForKey(keyValuePair.Key, false))
 				{
 					num++;
 					stringBuilder.AppendLine(string.Concat(new string[]
 					{
 						keyValuePair.Key,
 						" '",
-						keyValuePair.Value.Replace("\n", "\\n"),
+						keyValuePair.Value.value.Replace("\n", "\\n"),
 						"' (",
 						activeLanguage.GetKeySourceFileAndLine(keyValuePair.Key),
 						")"
@@ -395,23 +423,30 @@ namespace Verse
 		{
 			LoadedLanguage activeLanguage = LanguageDatabase.activeLanguage;
 			LoadedLanguage defaultLanguage = LanguageDatabase.defaultLanguage;
+			if (activeLanguage == defaultLanguage)
+			{
+				return;
+			}
 			StringBuilder stringBuilder = new StringBuilder();
 			int num = 0;
-			foreach (KeyValuePair<string, string> keyValuePair in activeLanguage.keyedReplacements)
+			foreach (KeyValuePair<string, LoadedLanguage.KeyedReplacement> keyValuePair in activeLanguage.keyedReplacements)
 			{
-				string b;
-				if (defaultLanguage.TryGetTextFromKey(keyValuePair.Key, out b) && keyValuePair.Value == b)
+				if (!keyValuePair.Value.isPlaceholder)
 				{
-					num++;
-					stringBuilder.AppendLine(string.Concat(new string[]
+					string b;
+					if (defaultLanguage.TryGetTextFromKey(keyValuePair.Key, out b) && keyValuePair.Value.value == b)
 					{
-						keyValuePair.Key,
-						" '",
-						keyValuePair.Value.Replace("\n", "\\n"),
-						"' (",
-						activeLanguage.GetKeySourceFileAndLine(keyValuePair.Key),
-						")"
-					}));
+						num++;
+						stringBuilder.AppendLine(string.Concat(new string[]
+						{
+							keyValuePair.Key,
+							" '",
+							keyValuePair.Value.value.Replace("\n", "\\n"),
+							"' (",
+							activeLanguage.GetKeySourceFileAndLine(keyValuePair.Key),
+							")"
+						}));
+					}
 				}
 			}
 			sb.AppendLine();
@@ -422,6 +457,11 @@ namespace Verse
 		private static void AppendBackstoriesMatchingEnglish(StringBuilder sb)
 		{
 			LoadedLanguage activeLanguage = LanguageDatabase.activeLanguage;
+			LoadedLanguage defaultLanguage = LanguageDatabase.defaultLanguage;
+			if (activeLanguage == defaultLanguage)
+			{
+				return;
+			}
 			StringBuilder stringBuilder = new StringBuilder();
 			int num = 0;
 			foreach (string value in BackstoryTranslationUtility.BackstoryTranslationsMatchingEnglish(activeLanguage))
@@ -447,27 +487,23 @@ namespace Verse
 					stringBuilder.AppendLine(value);
 				}
 			}
-			if (num != 0)
+			if (num == 0)
 			{
-				sb.AppendLine();
-				sb.AppendLine("========== Def-injected translations syntax suggestions (" + num + ") ==========");
-				sb.Append(stringBuilder);
+				return;
 			}
+			sb.AppendLine();
+			sb.AppendLine("========== Def-injected translations syntax suggestions (" + num + ") ==========");
+			sb.Append(stringBuilder);
 		}
 
 		public static int CountParametersInString(string input)
 		{
 			MatchCollection matchCollection = Regex.Matches(input, "(?<!\\{)\\{([0-9]+).*?\\}(?!})");
-			int result;
 			if (matchCollection.Count == 0)
 			{
-				result = 0;
+				return 0;
 			}
-			else
-			{
-				result = matchCollection.Cast<Match>().Max((Match m) => int.Parse(m.Groups[1].Value)) + 1;
-			}
-			return result;
+			return matchCollection.Cast<Match>().Max((Match m) => int.Parse(m.Groups[1].Value)) + 1;
 		}
 
 		[CompilerGenerated]

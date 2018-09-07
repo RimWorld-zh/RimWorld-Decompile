@@ -8,9 +8,9 @@ namespace Verse
 	{
 		private string label;
 
-		private Action clickAction = null;
+		private Action clickAction;
 
-		private Action onGUIAction = null;
+		private Action onGUIAction;
 
 		public DebugTool(string label, Action clickAction, Action onGUIAction = null)
 		{

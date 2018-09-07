@@ -5,6 +5,10 @@ namespace RimWorld
 {
 	public class Projectile_DoomsdayRocket : Projectile
 	{
+		private const int ExtraExplosionCount = 3;
+
+		private const int ExtraExplosionRadius = 5;
+
 		public Projectile_DoomsdayRocket()
 		{
 		}
@@ -22,16 +26,16 @@ namespace RimWorld
 			float armorPenetration = base.ArmorPenetration;
 			ThingDef equipmentDef = this.equipmentDef;
 			GenExplosion.DoExplosion(position, map2, explosionRadius, bomb, launcher, damageAmount, armorPenetration, null, equipmentDef, this.def, this.intendedTarget.Thing, null, 0f, 1, false, null, 0f, 1, 0f, false);
-			CellRect cellRect = CellRect.CenteredOn(base.Position, 10);
+			CellRect cellRect = CellRect.CenteredOn(base.Position, 5);
 			cellRect.ClipInsideMap(map);
-			for (int i = 0; i < 5; i++)
+			for (int i = 0; i < 3; i++)
 			{
 				IntVec3 randomCell = cellRect.RandomCell;
-				this.FireExplosion(randomCell, map, 3.9f);
+				this.DoFireExplosion(randomCell, map, 3.9f);
 			}
 		}
 
-		protected void FireExplosion(IntVec3 pos, Map map, float radius)
+		protected void DoFireExplosion(IntVec3 pos, Map map, float radius)
 		{
 			DamageDef flame = DamageDefOf.Flame;
 			Thing launcher = this.launcher;

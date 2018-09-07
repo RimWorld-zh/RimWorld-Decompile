@@ -12,53 +12,45 @@ namespace Verse
 	{
 		public static T Get(string itemPath, bool reportFailure = true)
 		{
-			T result;
 			if (!UnityData.IsInMainThread)
 			{
 				Log.Error("Tried to get a resource \"" + itemPath + "\" from a different thread. All resources must be loaded in the main thread.", false);
-				result = (T)((object)null);
+				return (T)((object)null);
 			}
-			else
+			T t = (T)((object)null);
+			List<ModContentPack> runningModsListForReading = LoadedModManager.RunningModsListForReading;
+			for (int i = runningModsListForReading.Count - 1; i >= 0; i--)
 			{
-				T t = (T)((object)null);
-				List<ModContentPack> runningModsListForReading = LoadedModManager.RunningModsListForReading;
-				for (int i = runningModsListForReading.Count - 1; i >= 0; i--)
-				{
-					t = runningModsListForReading[i].GetContentHolder<T>().Get(itemPath);
-					if (t != null)
-					{
-						return t;
-					}
-				}
-				if (typeof(T) == typeof(Texture2D))
-				{
-					t = (T)((object)Resources.Load<Texture2D>(GenFilePaths.ContentPath<Texture2D>() + itemPath));
-				}
-				if (typeof(T) == typeof(AudioClip))
-				{
-					t = (T)((object)Resources.Load<AudioClip>(GenFilePaths.ContentPath<AudioClip>() + itemPath));
-				}
+				t = runningModsListForReading[i].GetContentHolder<T>().Get(itemPath);
 				if (t != null)
 				{
-					result = t;
-				}
-				else
-				{
-					if (reportFailure)
-					{
-						Log.Error(string.Concat(new object[]
-						{
-							"Could not load ",
-							typeof(T),
-							" at ",
-							itemPath,
-							" in any active mod or in base resources."
-						}), false);
-					}
-					result = (T)((object)null);
+					return t;
 				}
 			}
-			return result;
+			if (typeof(T) == typeof(Texture2D))
+			{
+				t = (T)((object)Resources.Load<Texture2D>(GenFilePaths.ContentPath<Texture2D>() + itemPath));
+			}
+			if (typeof(T) == typeof(AudioClip))
+			{
+				t = (T)((object)Resources.Load<AudioClip>(GenFilePaths.ContentPath<AudioClip>() + itemPath));
+			}
+			if (t != null)
+			{
+				return t;
+			}
+			if (reportFailure)
+			{
+				Log.Error(string.Concat(new object[]
+				{
+					"Could not load ",
+					typeof(T),
+					" at ",
+					itemPath,
+					" in any active mod or in base resources."
+				}), false);
+			}
+			return (T)((object)null);
 		}
 
 		public static IEnumerable<T> GetAllInFolder(string folderPath)
@@ -146,7 +138,7 @@ namespace Verse
 					break;
 				case 2u:
 					i++;
-					goto IL_23B;
+					goto IL_22F;
 				default:
 					return false;
 				}
@@ -214,11 +206,11 @@ namespace Verse
 				}
 				if (items == null)
 				{
-					goto IL_24F;
+					goto IL_242;
 				}
 				array = items;
 				i = 0;
-				IL_23B:
+				IL_22F:
 				if (i < array.Length)
 				{
 					item2 = array[i];
@@ -229,7 +221,7 @@ namespace Verse
 					}
 					return true;
 				}
-				IL_24F:
+				IL_242:
 				this.$PC = -1;
 				return false;
 			}

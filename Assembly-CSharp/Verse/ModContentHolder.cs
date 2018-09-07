@@ -58,17 +58,12 @@ namespace Verse
 
 		public T Get(string path)
 		{
-			T t;
 			T result;
-			if (this.contentList.TryGetValue(path, out t))
+			if (this.contentList.TryGetValue(path, out result))
 			{
-				result = t;
+				return result;
 			}
-			else
-			{
-				result = (T)((object)null);
-			}
-			return result;
+			return (T)((object)null);
 		}
 
 		public IEnumerable<T> GetAllUnderPath(string pathRoot)
@@ -141,8 +136,7 @@ namespace Verse
 					switch (num)
 					{
 					}
-					IL_A5:
-					if (enumerator.MoveNext())
+					while (enumerator.MoveNext())
 					{
 						kvp = enumerator.Current;
 						if (kvp.Key.StartsWith(pathRoot))
@@ -155,7 +149,6 @@ namespace Verse
 							flag = true;
 							return true;
 						}
-						goto IL_A5;
 					}
 				}
 				finally

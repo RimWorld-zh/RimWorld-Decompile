@@ -27,17 +27,19 @@ namespace Verse.Sound
 
 		public static void DoRegion(Rect rect, SoundDef sound)
 		{
-			if (sound != null)
+			if (sound == null)
 			{
-				if (Event.current.type == EventType.Repaint)
-				{
-					MouseoverSounds.MouseoverRegionCall item = default(MouseoverSounds.MouseoverRegionCall);
-					item.rect = rect;
-					item.sound = sound;
-					item.mouseIsOver = Mouse.IsOver(rect);
-					MouseoverSounds.frameCalls.Add(item);
-				}
+				return;
 			}
+			if (Event.current.type != EventType.Repaint)
+			{
+				return;
+			}
+			MouseoverSounds.MouseoverRegionCall item = default(MouseoverSounds.MouseoverRegionCall);
+			item.rect = rect;
+			item.sound = sound;
+			item.mouseIsOver = Mouse.IsOver(rect);
+			MouseoverSounds.frameCalls.Add(item);
 		}
 
 		public static void ResolveFrame()
@@ -46,12 +48,9 @@ namespace Verse.Sound
 			{
 				if (MouseoverSounds.frameCalls[i].mouseIsOver)
 				{
-					if (MouseoverSounds.lastUsedCallInd != i && !MouseoverSounds.frameCalls[i].Matches(MouseoverSounds.lastUsedCall))
+					if (MouseoverSounds.lastUsedCallInd != i && !MouseoverSounds.frameCalls[i].Matches(MouseoverSounds.lastUsedCall) && MouseoverSounds.forceSilenceUntilFrame < Time.frameCount)
 					{
-						if (MouseoverSounds.forceSilenceUntilFrame < Time.frameCount)
-						{
-							MouseoverSounds.frameCalls[i].sound.PlayOneShotOnCamera(null);
-						}
+						MouseoverSounds.frameCalls[i].sound.PlayOneShotOnCamera(null);
 					}
 					MouseoverSounds.lastUsedCallInd = i;
 					MouseoverSounds.lastUsedCall = MouseoverSounds.frameCalls[i];
@@ -103,22 +102,17 @@ namespace Verse.Sound
 
 			public override string ToString()
 			{
-				string result;
 				if (!this.IsValid)
 				{
-					result = "(Invalid)";
+					return "(Invalid)";
 				}
-				else
+				return string.Concat(new object[]
 				{
-					result = string.Concat(new object[]
-					{
-						"(rect=",
-						this.rect,
-						(!this.mouseIsOver) ? "" : "mouseIsOver",
-						")"
-					});
-				}
-				return result;
+					"(rect=",
+					this.rect,
+					(!this.mouseIsOver) ? string.Empty : "mouseIsOver",
+					")"
+				});
 			}
 		}
 	}

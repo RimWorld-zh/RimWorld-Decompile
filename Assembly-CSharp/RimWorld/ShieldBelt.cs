@@ -14,7 +14,7 @@ namespace RimWorld
 	[StaticConstructorOnStartup]
 	public class ShieldBelt : Apparel
 	{
-		private float energy = 0f;
+		private float energy;
 
 		private int ticksToReset = -1;
 
@@ -76,16 +76,11 @@ namespace RimWorld
 		{
 			get
 			{
-				ShieldState result;
 				if (this.ticksToReset > 0)
 				{
-					result = ShieldState.Resetting;
+					return ShieldState.Resetting;
 				}
-				else
-				{
-					result = ShieldState.Active;
-				}
-				return result;
+				return ShieldState.Active;
 			}
 		}
 
@@ -129,8 +124,9 @@ namespace RimWorld
 			if (base.Wearer == null)
 			{
 				this.energy = 0f;
+				return;
 			}
-			else if (this.ShieldState == ShieldState.Resetting)
+			if (this.ShieldState == ShieldState.Resetting)
 			{
 				this.ticksToReset--;
 				if (this.ticksToReset <= 0)
@@ -150,33 +146,30 @@ namespace RimWorld
 
 		public override bool CheckPreAbsorbDamage(DamageInfo dinfo)
 		{
-			if (this.ShieldState == ShieldState.Active)
+			if (this.ShieldState == ShieldState.Active && ((dinfo.Instigator != null && !dinfo.Instigator.Position.AdjacentTo8WayOrInside(base.Wearer.Position)) || dinfo.Def.isExplosive))
 			{
-				if ((dinfo.Instigator != null && !dinfo.Instigator.Position.AdjacentTo8WayOrInside(base.Wearer.Position)) || dinfo.Def.isExplosive)
+				if (dinfo.Instigator != null)
 				{
-					if (dinfo.Instigator != null)
+					AttachableThing attachableThing = dinfo.Instigator as AttachableThing;
+					if (attachableThing != null && attachableThing.parent == base.Wearer)
 					{
-						AttachableThing attachableThing = dinfo.Instigator as AttachableThing;
-						if (attachableThing != null && attachableThing.parent == base.Wearer)
-						{
-							return false;
-						}
+						return false;
 					}
-					this.energy -= dinfo.Amount * this.EnergyLossPerDamage;
-					if (dinfo.Def == DamageDefOf.EMP)
-					{
-						this.energy = -1f;
-					}
-					if (this.energy < 0f)
-					{
-						this.Break();
-					}
-					else
-					{
-						this.AbsorbedDamage(dinfo);
-					}
-					return true;
 				}
+				this.energy -= dinfo.Amount * this.EnergyLossPerDamage;
+				if (dinfo.Def == DamageDefOf.EMP)
+				{
+					this.energy = -1f;
+				}
+				if (this.energy < 0f)
+				{
+					this.Break();
+				}
+				else
+				{
+					this.AbsorbedDamage(dinfo);
+				}
+				return true;
 			}
 			return false;
 		}

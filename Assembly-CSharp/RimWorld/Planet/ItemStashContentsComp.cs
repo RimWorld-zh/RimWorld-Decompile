@@ -40,20 +40,16 @@ namespace RimWorld.Planet
 
 		public override string CompInspectStringExtra()
 		{
-			string result;
 			if (this.contents.Any)
 			{
 				string text = GenThing.ThingsToCommaList(this.contents, true, true, 5).CapitalizeFirst();
-				result = "ItemStashContents".Translate(new object[]
+				return "ItemStashContents".Translate(new object[]
 				{
-					text
+					text,
+					GenThing.GetMarketValue(this.contents).ToStringMoney(null)
 				});
 			}
-			else
-			{
-				result = null;
-			}
-			return result;
+			return null;
 		}
 	}
 }

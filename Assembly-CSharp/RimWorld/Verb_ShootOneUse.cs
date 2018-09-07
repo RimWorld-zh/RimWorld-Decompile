@@ -11,24 +11,19 @@ namespace RimWorld
 
 		protected override bool TryCastShot()
 		{
-			bool result;
 			if (base.TryCastShot())
 			{
 				if (this.burstShotsLeft <= 1)
 				{
 					this.SelfConsume();
 				}
-				result = true;
+				return true;
 			}
-			else
+			if (this.burstShotsLeft < this.verbProps.burstShotCount)
 			{
-				if (this.burstShotsLeft < this.verbProps.burstShotCount)
-				{
-					this.SelfConsume();
-				}
-				result = false;
+				this.SelfConsume();
 			}
-			return result;
+			return false;
 		}
 
 		public override void Notify_EquipmentLost()

@@ -14,70 +14,65 @@ namespace Ionic.Zlib
 
 		public static uint Adler32(uint adler, byte[] buf, int index, int len)
 		{
-			uint result;
 			if (buf == null)
 			{
-				result = 1u;
+				return 1u;
 			}
-			else
+			uint num = adler & 65535u;
+			uint num2 = adler >> 16 & 65535u;
+			while (len > 0)
 			{
-				uint num = adler & 65535u;
-				uint num2 = adler >> 16 & 65535u;
-				while (len > 0)
+				int i = (len >= Adler.NMAX) ? Adler.NMAX : len;
+				len -= i;
+				while (i >= 16)
 				{
-					int i = (len >= Adler.NMAX) ? Adler.NMAX : len;
-					len -= i;
-					while (i >= 16)
-					{
-						num += (uint)buf[index++];
-						num2 += num;
-						num += (uint)buf[index++];
-						num2 += num;
-						num += (uint)buf[index++];
-						num2 += num;
-						num += (uint)buf[index++];
-						num2 += num;
-						num += (uint)buf[index++];
-						num2 += num;
-						num += (uint)buf[index++];
-						num2 += num;
-						num += (uint)buf[index++];
-						num2 += num;
-						num += (uint)buf[index++];
-						num2 += num;
-						num += (uint)buf[index++];
-						num2 += num;
-						num += (uint)buf[index++];
-						num2 += num;
-						num += (uint)buf[index++];
-						num2 += num;
-						num += (uint)buf[index++];
-						num2 += num;
-						num += (uint)buf[index++];
-						num2 += num;
-						num += (uint)buf[index++];
-						num2 += num;
-						num += (uint)buf[index++];
-						num2 += num;
-						num += (uint)buf[index++];
-						num2 += num;
-						i -= 16;
-					}
-					if (i != 0)
-					{
-						do
-						{
-							num += (uint)buf[index++];
-							num2 += num;
-						}
-						while (--i != 0);
-					}
-					num %= Adler.BASE;
-					num2 %= Adler.BASE;
+					num += (uint)buf[index++];
+					num2 += num;
+					num += (uint)buf[index++];
+					num2 += num;
+					num += (uint)buf[index++];
+					num2 += num;
+					num += (uint)buf[index++];
+					num2 += num;
+					num += (uint)buf[index++];
+					num2 += num;
+					num += (uint)buf[index++];
+					num2 += num;
+					num += (uint)buf[index++];
+					num2 += num;
+					num += (uint)buf[index++];
+					num2 += num;
+					num += (uint)buf[index++];
+					num2 += num;
+					num += (uint)buf[index++];
+					num2 += num;
+					num += (uint)buf[index++];
+					num2 += num;
+					num += (uint)buf[index++];
+					num2 += num;
+					num += (uint)buf[index++];
+					num2 += num;
+					num += (uint)buf[index++];
+					num2 += num;
+					num += (uint)buf[index++];
+					num2 += num;
+					num += (uint)buf[index++];
+					num2 += num;
+					i -= 16;
 				}
-				result = (num2 << 16 | num);
+				if (i != 0)
+				{
+					do
+					{
+						num += (uint)buf[index++];
+						num2 += num;
+					}
+					while (--i != 0);
+				}
+				num %= Adler.BASE;
+				num2 %= Adler.BASE;
 			}
-			return result;
+			return num2 << 16 | num;
 		}
 
 		// Note: this type is marked as 'beforefieldinit'.

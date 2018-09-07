@@ -42,20 +42,15 @@ namespace RimWorld
 		{
 			get
 			{
-				float result;
 				if (this.configuredTargetFuelLevel >= 0f)
 				{
-					result = this.configuredTargetFuelLevel;
+					return this.configuredTargetFuelLevel;
 				}
-				else if (this.Props.targetFuelLevelConfigurable)
+				if (this.Props.targetFuelLevelConfigurable)
 				{
-					result = this.Props.initialConfigurableTargetFuelLevel;
+					return this.Props.initialConfigurableTargetFuelLevel;
 				}
-				else
-				{
-					result = this.Props.fuelCapacity;
-				}
-				return result;
+				return this.Props.fuelCapacity;
 			}
 			set
 			{
@@ -234,18 +229,19 @@ namespace RimWorld
 
 		public void ConsumeFuel(float amount)
 		{
-			if (this.fuel > 0f)
+			if (this.fuel <= 0f)
 			{
-				this.fuel -= amount;
-				if (this.fuel <= 0f)
+				return;
+			}
+			this.fuel -= amount;
+			if (this.fuel <= 0f)
+			{
+				this.fuel = 0f;
+				if (this.Props.destroyOnNoFuel)
 				{
-					this.fuel = 0f;
-					if (this.Props.destroyOnNoFuel)
-					{
-						this.parent.Destroy(DestroyMode.Vanish);
-					}
-					this.parent.BroadcastCompSignal("RanOutOfFuel");
+					this.parent.Destroy(DestroyMode.Vanish);
 				}
+				this.parent.BroadcastCompSignal("RanOutOfFuel");
 			}
 		}
 
@@ -287,17 +283,12 @@ namespace RimWorld
 
 		public int GetFuelCountToFullyRefuel()
 		{
-			int result;
 			if (this.Props.atomicFueling)
 			{
-				result = Mathf.CeilToInt(this.Props.fuelCapacity / this.Props.FuelMultiplierCurrentDifficulty);
+				return Mathf.CeilToInt(this.Props.fuelCapacity / this.Props.FuelMultiplierCurrentDifficulty);
 			}
-			else
-			{
-				float f = (this.TargetFuelLevel - this.fuel) / this.Props.FuelMultiplierCurrentDifficulty;
-				result = Mathf.Max(Mathf.CeilToInt(f), 1);
-			}
-			return result;
+			float f = (this.TargetFuelLevel - this.fuel) / this.Props.FuelMultiplierCurrentDifficulty;
+			return Mathf.Max(Mathf.CeilToInt(f), 1);
 		}
 
 		public override IEnumerable<Gizmo> CompGetGizmosExtra()
@@ -414,7 +405,7 @@ namespace RimWorld
 				case 1u:
 					break;
 				case 2u:
-					goto IL_12C;
+					goto IL_127;
 				case 3u:
 				{
 					Command_Action defuel = new Command_Action();
@@ -448,7 +439,7 @@ namespace RimWorld
 					return true;
 				}
 				case 5u:
-					goto IL_22E;
+					goto IL_227;
 				default:
 					return false;
 				}
@@ -463,7 +454,7 @@ namespace RimWorld
 					}
 					return true;
 				}
-				IL_12C:
+				IL_127:
 				if (Prefs.DevMode)
 				{
 					Command_Action zerofuel = new Command_Action();
@@ -480,7 +471,7 @@ namespace RimWorld
 					}
 					return true;
 				}
-				IL_22E:
+				IL_227:
 				this.$PC = -1;
 				return false;
 			}

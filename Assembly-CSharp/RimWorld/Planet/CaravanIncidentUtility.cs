@@ -22,28 +22,23 @@ namespace RimWorld.Planet
 
 		public static bool CanFireIncidentWhichWantsToGenerateMapAt(int tile)
 		{
-			bool result;
 			if (Current.Game.FindMap(tile) != null)
 			{
-				result = false;
+				return false;
 			}
-			else if (!Find.WorldGrid[tile].biome.implemented)
+			if (!Find.WorldGrid[tile].biome.implemented)
 			{
-				result = false;
+				return false;
 			}
-			else
+			List<WorldObject> allWorldObjects = Find.WorldObjects.AllWorldObjects;
+			for (int i = 0; i < allWorldObjects.Count; i++)
 			{
-				List<WorldObject> allWorldObjects = Find.WorldObjects.AllWorldObjects;
-				for (int i = 0; i < allWorldObjects.Count; i++)
+				if (allWorldObjects[i].Tile == tile && !allWorldObjects[i].def.allowCaravanIncidentsWhichGenerateMap)
 				{
-					if (allWorldObjects[i].Tile == tile && !allWorldObjects[i].def.allowCaravanIncidentsWhichGenerateMap)
-					{
-						return false;
-					}
+					return false;
 				}
-				result = true;
 			}
-			return result;
+			return true;
 		}
 
 		public static Map SetupCaravanAttackMap(Caravan caravan, List<Pawn> enemies, bool sendLetterIfRelatedPawns)

@@ -11,24 +11,19 @@ namespace RimWorld
 		public override float OpinionOffset()
 		{
 			int num = this.otherPawn.story.traits.DegreeOfTrait(TraitDefOf.Industriousness);
-			float result;
 			if (num > 0)
 			{
-				result = 0f;
+				return 0f;
 			}
-			else if (num == 0)
+			if (num == 0)
 			{
-				result = -5f;
+				return -5f;
 			}
-			else if (num == -1)
+			if (num == -1)
 			{
-				result = -20f;
+				return -20f;
 			}
-			else
-			{
-				result = -30f;
-			}
-			return result;
+			return -30f;
 		}
 	}
 }

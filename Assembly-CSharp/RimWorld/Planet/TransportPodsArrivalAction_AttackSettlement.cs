@@ -34,20 +34,15 @@ namespace RimWorld.Planet
 		public override FloatMenuAcceptanceReport StillValid(IEnumerable<IThingHolder> pods, int destinationTile)
 		{
 			FloatMenuAcceptanceReport floatMenuAcceptanceReport = base.StillValid(pods, destinationTile);
-			FloatMenuAcceptanceReport result;
 			if (!floatMenuAcceptanceReport)
 			{
-				result = floatMenuAcceptanceReport;
+				return floatMenuAcceptanceReport;
 			}
-			else if (this.settlement != null && this.settlement.Tile != destinationTile)
+			if (this.settlement != null && this.settlement.Tile != destinationTile)
 			{
-				result = false;
+				return false;
 			}
-			else
-			{
-				result = TransportPodsArrivalAction_AttackSettlement.CanAttack(pods, this.settlement);
-			}
-			return result;
+			return TransportPodsArrivalAction_AttackSettlement.CanAttack(pods, this.settlement);
 		}
 
 		public override bool ShouldUseLongEvent(List<ActiveDropPodInfo> pods, int tile)
@@ -68,7 +63,7 @@ namespace RimWorld.Planet
 			SettlementUtility.AffectRelationsOnAttacked(this.settlement, ref text);
 			if (flag)
 			{
-				Find.TickManager.CurTimeSpeed = TimeSpeed.Paused;
+				Find.TickManager.Notify_GeneratedPotentiallyHostileMap();
 				PawnRelationUtility.Notify_PawnsSeenByPlayer_Letter(orGenerateMap.mapPawns.AllPawns, ref label, ref text, "LetterRelatedPawnsInMapWherePlayerLanded".Translate(new object[]
 				{
 					Faction.OfPlayer.def.pawnsPlural
@@ -80,27 +75,22 @@ namespace RimWorld.Planet
 
 		public static FloatMenuAcceptanceReport CanAttack(IEnumerable<IThingHolder> pods, SettlementBase settlement)
 		{
-			FloatMenuAcceptanceReport result;
 			if (settlement == null || !settlement.Spawned || !settlement.Attackable)
 			{
-				result = false;
+				return false;
 			}
-			else if (!TransportPodsArrivalActionUtility.AnyNonDownedColonist(pods))
+			if (!TransportPodsArrivalActionUtility.AnyNonDownedColonist(pods))
 			{
-				result = false;
+				return false;
 			}
-			else if (settlement.EnterCooldownBlocksEntering())
+			if (settlement.EnterCooldownBlocksEntering())
 			{
-				result = FloatMenuAcceptanceReport.WithFailMessage("MessageEnterCooldownBlocksEntering".Translate(new object[]
+				return FloatMenuAcceptanceReport.WithFailMessage("MessageEnterCooldownBlocksEntering".Translate(new object[]
 				{
 					settlement.EnterCooldownDaysLeft().ToString("0.#")
 				}));
 			}
-			else
-			{
-				result = true;
-			}
-			return result;
+			return true;
 		}
 
 		public static IEnumerable<FloatMenuOption> GetFloatMenuOptions(CompLaunchable representative, IEnumerable<IThingHolder> pods, SettlementBase settlement)
@@ -169,7 +159,7 @@ namespace RimWorld.Planet
 				case 1u:
 					break;
 				case 2u:
-					goto IL_1A9;
+					goto IL_1A4;
 				default:
 					return false;
 				}
@@ -207,7 +197,7 @@ namespace RimWorld.Planet
 				num = 4294967293u;
 				try
 				{
-					IL_1A9:
+					IL_1A4:
 					switch (num)
 					{
 					}

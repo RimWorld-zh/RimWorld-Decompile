@@ -13,7 +13,7 @@ namespace RimWorld
 	{
 		private Vector2 scrollPosition;
 
-		private Outfit selOutfitInt = null;
+		private Outfit selOutfitInt;
 
 		private const float TopAreaHeight = 40f;
 
@@ -124,22 +124,20 @@ namespace RimWorld
 				Widgets.Label(rect4, "NoOutfitSelected".Translate());
 				Text.Anchor = TextAnchor.UpperLeft;
 				GUI.color = Color.white;
+				return;
 			}
-			else
-			{
-				GUI.BeginGroup(rect4);
-				Rect rect5 = new Rect(0f, 0f, 200f, 30f);
-				Dialog_ManageOutfits.DoNameInputRect(rect5, ref this.SelectedOutfit.label);
-				Rect rect6 = new Rect(0f, 40f, 300f, rect4.height - 45f - 10f);
-				Rect rect7 = rect6;
-				ref Vector2 ptr = ref this.scrollPosition;
-				ThingFilter filter = this.SelectedOutfit.filter;
-				ThingFilter parentFilter = Dialog_ManageOutfits.apparelGlobalFilter;
-				int openMask = 16;
-				IEnumerable<SpecialThingFilterDef> forceHiddenFilters = this.HiddenSpecialThingFilters();
-				ThingFilterUI.DoThingFilterConfigWindow(rect7, ref ptr, filter, parentFilter, openMask, null, forceHiddenFilters, null, null);
-				GUI.EndGroup();
-			}
+			GUI.BeginGroup(rect4);
+			Rect rect5 = new Rect(0f, 0f, 200f, 30f);
+			Dialog_ManageOutfits.DoNameInputRect(rect5, ref this.SelectedOutfit.label);
+			Rect rect6 = new Rect(0f, 40f, 300f, rect4.height - 45f - 10f);
+			Rect rect7 = rect6;
+			ref Vector2 ptr = ref this.scrollPosition;
+			ThingFilter filter = this.SelectedOutfit.filter;
+			ThingFilter parentFilter = Dialog_ManageOutfits.apparelGlobalFilter;
+			int openMask = 16;
+			IEnumerable<SpecialThingFilterDef> forceHiddenFilters = this.HiddenSpecialThingFilters();
+			ThingFilterUI.DoThingFilterConfigWindow(rect7, ref ptr, filter, parentFilter, openMask, null, forceHiddenFilters, null, null);
+			GUI.EndGroup();
 		}
 
 		private IEnumerable<SpecialThingFilterDef> HiddenSpecialThingFilters()

@@ -12,28 +12,23 @@ namespace RimWorld
 
 		public override float GetScore(Room room)
 		{
-			float result;
 			if (room.PsychologicallyOutdoors)
 			{
-				result = 350f;
+				return 350f;
 			}
-			else
+			float num = 0f;
+			foreach (IntVec3 c in room.Cells)
 			{
-				float num = 0f;
-				foreach (IntVec3 c in room.Cells)
+				if (c.Standable(room.Map))
 				{
-					if (c.Standable(room.Map))
-					{
-						num += 1.4f;
-					}
-					else if (c.Walkable(room.Map))
-					{
-						num += 0.5f;
-					}
+					num += 1.4f;
 				}
-				result = Mathf.Min(num, 350f);
+				else if (c.Walkable(room.Map))
+				{
+					num += 0.5f;
+				}
 			}
-			return result;
+			return Mathf.Min(num, 350f);
 		}
 	}
 }

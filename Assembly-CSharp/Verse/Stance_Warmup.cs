@@ -64,21 +64,15 @@ namespace Verse
 			{
 				this.sustainer.Maintain();
 			}
-			if (!this.targetStartedDowned)
+			if (!this.targetStartedDowned && this.focusTarg.HasThing && this.focusTarg.Thing is Pawn && ((Pawn)this.focusTarg.Thing).Downed)
 			{
-				if (this.focusTarg.HasThing && this.focusTarg.Thing is Pawn && ((Pawn)this.focusTarg.Thing).Downed)
-				{
-					this.stanceTracker.SetStance(new Stance_Mobile());
-					return;
-				}
+				this.stanceTracker.SetStance(new Stance_Mobile());
+				return;
 			}
-			if (this.focusTarg.HasThing)
+			if (this.focusTarg.HasThing && (!this.focusTarg.Thing.Spawned || this.verb == null || !this.verb.CanHitTargetFrom(base.Pawn.Position, this.focusTarg)))
 			{
-				if (!this.focusTarg.Thing.Spawned || !this.verb.CanHitTargetFrom(base.Pawn.Position, this.focusTarg))
-				{
-					this.stanceTracker.SetStance(new Stance_Mobile());
-					return;
-				}
+				this.stanceTracker.SetStance(new Stance_Mobile());
+				return;
 			}
 			if (this.focusTarg == base.Pawn.mindState.enemyTarget)
 			{

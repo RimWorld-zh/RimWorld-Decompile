@@ -6,7 +6,7 @@ namespace RimWorld
 {
 	public class DateNotifier : IExposable
 	{
-		private Season lastSeason = Season.Undefined;
+		private Season lastSeason;
 
 		public DateNotifier()
 		{

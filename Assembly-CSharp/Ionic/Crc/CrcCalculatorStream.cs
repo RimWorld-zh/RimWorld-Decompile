@@ -152,16 +152,11 @@ namespace Ionic.Crc
 		{
 			get
 			{
-				long result;
 				if (this._lengthLimit == CrcCalculatorStream.UnsetLengthLimit)
 				{
-					result = this._innerStream.Length;
+					return this._innerStream.Length;
 				}
-				else
-				{
-					result = this._lengthLimit;
-				}
-				return result;
+				return this._lengthLimit;
 			}
 		}
 

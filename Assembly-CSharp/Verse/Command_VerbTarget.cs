@@ -20,16 +20,11 @@ namespace Verse
 		{
 			get
 			{
-				Color result;
 				if (this.verb.EquipmentSource != null)
 				{
-					result = this.verb.EquipmentSource.DrawColor;
+					return this.verb.EquipmentSource.DrawColor;
 				}
-				else
-				{
-					result = base.IconDrawColor;
-				}
-				return result;
+				return base.IconDrawColor;
 			}
 		}
 
@@ -52,18 +47,16 @@ namespace Verse
 			if (command_VerbTarget == null)
 			{
 				Log.ErrorOnce("Tried to merge Command_VerbTarget with unexpected type", 73406263, false);
+				return;
 			}
-			else
+			if (this.groupedVerbs == null)
 			{
-				if (this.groupedVerbs == null)
-				{
-					this.groupedVerbs = new List<Verb>();
-				}
-				this.groupedVerbs.Add(command_VerbTarget.verb);
-				if (command_VerbTarget.groupedVerbs != null)
-				{
-					this.groupedVerbs.AddRange(command_VerbTarget.groupedVerbs);
-				}
+				this.groupedVerbs = new List<Verb>();
+			}
+			this.groupedVerbs.Add(command_VerbTarget.verb);
+			if (command_VerbTarget.groupedVerbs != null)
+			{
+				this.groupedVerbs.AddRange(command_VerbTarget.groupedVerbs);
 			}
 		}
 

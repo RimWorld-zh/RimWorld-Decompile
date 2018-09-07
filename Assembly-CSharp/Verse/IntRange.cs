@@ -74,17 +74,12 @@ namespace Verse
 			{
 				'~'
 			});
-			IntRange result;
 			if (array.Length == 1)
 			{
 				int num = Convert.ToInt32(array[0]);
-				result = new IntRange(num, num);
+				return new IntRange(num, num);
 			}
-			else
-			{
-				result = new IntRange(Convert.ToInt32(array[0]), Convert.ToInt32(array[1]));
-			}
-			return result;
+			return new IntRange(Convert.ToInt32(array[0]), Convert.ToInt32(array[1]));
 		}
 
 		public override string ToString()

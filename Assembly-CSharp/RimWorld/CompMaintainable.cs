@@ -23,20 +23,15 @@ namespace RimWorld
 		{
 			get
 			{
-				MaintainableStage result;
 				if (this.ticksSinceMaintain < this.Props.ticksHealthy)
 				{
-					result = MaintainableStage.Healthy;
+					return MaintainableStage.Healthy;
 				}
-				else if (this.ticksSinceMaintain < this.Props.ticksHealthy + this.Props.ticksNeedsMaintenance)
+				if (this.ticksSinceMaintain < this.Props.ticksHealthy + this.Props.ticksNeedsMaintenance)
 				{
-					result = MaintainableStage.NeedsMaintenance;
+					return MaintainableStage.NeedsMaintenance;
 				}
-				else
-				{
-					result = MaintainableStage.Damaging;
-				}
-				return result;
+				return MaintainableStage.Damaging;
 			}
 		}
 
@@ -57,24 +52,26 @@ namespace RimWorld
 		public override void CompTick()
 		{
 			base.CompTick();
-			if (this.Active)
+			if (!this.Active)
 			{
-				this.ticksSinceMaintain++;
-				if (Find.TickManager.TicksGame % 250 == 0)
-				{
-					this.CheckTakeDamage();
-				}
+				return;
+			}
+			this.ticksSinceMaintain++;
+			if (Find.TickManager.TicksGame % 250 == 0)
+			{
+				this.CheckTakeDamage();
 			}
 		}
 
 		public override void CompTickRare()
 		{
 			base.CompTickRare();
-			if (this.Active)
+			if (!this.Active)
 			{
-				this.ticksSinceMaintain += 250;
-				this.CheckTakeDamage();
+				return;
 			}
+			this.ticksSinceMaintain += 250;
+			this.CheckTakeDamage();
 		}
 
 		private void CheckTakeDamage()
@@ -93,23 +90,15 @@ namespace RimWorld
 		public override string CompInspectStringExtra()
 		{
 			MaintainableStage curStage = this.CurStage;
-			string result;
-			if (curStage != MaintainableStage.NeedsMaintenance)
+			if (curStage == MaintainableStage.NeedsMaintenance)
 			{
-				if (curStage != MaintainableStage.Damaging)
-				{
-					result = null;
-				}
-				else
-				{
-					result = "DeterioratingDueToLackOfMaintenance".Translate();
-				}
+				return "DueForMaintenance".Translate();
 			}
-			else
+			if (curStage != MaintainableStage.Damaging)
 			{
-				result = "DueForMaintenance".Translate();
+				return null;
 			}
-			return result;
+			return "DeterioratingDueToLackOfMaintenance".Translate();
 		}
 	}
 }

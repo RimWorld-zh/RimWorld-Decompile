@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using RimWorld;
 
 namespace Verse
 {
@@ -17,7 +18,7 @@ namespace Verse
 				if (intVec.InBounds(map))
 				{
 					CoverInfo item;
-					if (CoverUtility.TryFindAdjustedCoverInCell(shooterLoc, target, intVec, map, out item))
+					if (CoverUtility.TryFindAdjustedCoverInCell(shooterLoc, target, intVec, map, out item) && item.BlockChance > 0f)
 					{
 						list.Add(item);
 					}
@@ -49,74 +50,74 @@ namespace Verse
 		{
 			IntVec3 cell = target.Cell;
 			Thing cover = adjCell.GetCover(map);
-			bool result2;
 			if (cover == null || cover == target.Thing || shooterLoc == cell)
 			{
 				result = CoverInfo.Invalid;
-				result2 = false;
+				return false;
+			}
+			float angleFlat = (shooterLoc - cell).AngleFlat;
+			float angleFlat2 = (adjCell - cell).AngleFlat;
+			float num = GenGeo.AngleDifferenceBetween(angleFlat2, angleFlat);
+			if (!cell.AdjacentToCardinal(adjCell))
+			{
+				num *= 1.75f;
+			}
+			float num2 = cover.BaseBlockChance();
+			if (num < 15f)
+			{
+				num2 *= 1f;
+			}
+			else if (num < 27f)
+			{
+				num2 *= 0.8f;
+			}
+			else if (num < 40f)
+			{
+				num2 *= 0.6f;
+			}
+			else if (num < 52f)
+			{
+				num2 *= 0.4f;
 			}
 			else
 			{
-				float angleFlat = (shooterLoc - cell).AngleFlat;
-				float angleFlat2 = (adjCell - cell).AngleFlat;
-				float num = GenGeo.AngleDifferenceBetween(angleFlat2, angleFlat);
-				if (!cell.AdjacentToCardinal(adjCell))
+				if (num >= 65f)
 				{
-					num *= 1.75f;
+					result = CoverInfo.Invalid;
+					return false;
 				}
-				float num2 = cover.def.BaseBlockChance();
-				if (num < 15f)
-				{
-					num2 *= 1f;
-				}
-				else if (num < 27f)
-				{
-					num2 *= 0.8f;
-				}
-				else if (num < 40f)
-				{
-					num2 *= 0.6f;
-				}
-				else if (num < 52f)
-				{
-					num2 *= 0.4f;
-				}
-				else
-				{
-					if (num >= 65f)
-					{
-						result = CoverInfo.Invalid;
-						return false;
-					}
-					num2 *= 0.2f;
-				}
-				float lengthHorizontal = (shooterLoc - adjCell).LengthHorizontal;
-				if (lengthHorizontal < 1.9f)
-				{
-					num2 *= 0.3333f;
-				}
-				else if (lengthHorizontal < 2.9f)
-				{
-					num2 *= 0.66666f;
-				}
-				result = new CoverInfo(cover, num2);
-				result2 = true;
+				num2 *= 0.2f;
 			}
-			return result2;
+			float lengthHorizontal = (shooterLoc - adjCell).LengthHorizontal;
+			if (lengthHorizontal < 1.9f)
+			{
+				num2 *= 0.3333f;
+			}
+			else if (lengthHorizontal < 2.9f)
+			{
+				num2 *= 0.66666f;
+			}
+			result = new CoverInfo(cover, num2);
+			return true;
 		}
 
 		public static float BaseBlockChance(this ThingDef def)
 		{
-			float result;
 			if (def.Fillage == FillCategory.Full)
 			{
-				result = 0.75f;
+				return 0.75f;
 			}
-			else
+			return def.fillPercent;
+		}
+
+		public static float BaseBlockChance(this Thing thing)
+		{
+			Building_Door building_Door = thing as Building_Door;
+			if (building_Door != null && building_Door.Open)
 			{
-				result = def.fillPercent;
+				return 0f;
 			}
-			return result;
+			return thing.def.BaseBlockChance();
 		}
 
 		public static float TotalSurroundingCoverScore(IntVec3 c, Map map)
@@ -130,7 +131,7 @@ namespace Verse
 					Thing cover = c2.GetCover(map);
 					if (cover != null)
 					{
-						num += cover.def.BaseBlockChance();
+						num += cover.BaseBlockChance();
 					}
 				}
 			}

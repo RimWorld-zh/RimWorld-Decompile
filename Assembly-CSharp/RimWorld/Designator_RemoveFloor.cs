@@ -37,36 +37,28 @@ namespace RimWorld
 
 		public override AcceptanceReport CanDesignateCell(IntVec3 c)
 		{
-			AcceptanceReport result;
 			if (!c.InBounds(base.Map) || c.Fogged(base.Map))
 			{
-				result = false;
+				return false;
 			}
-			else if (base.Map.designationManager.DesignationAt(c, DesignationDefOf.RemoveFloor) != null)
+			if (base.Map.designationManager.DesignationAt(c, DesignationDefOf.RemoveFloor) != null)
 			{
-				result = false;
+				return false;
 			}
-			else
+			Building edifice = c.GetEdifice(base.Map);
+			if (edifice != null && edifice.def.Fillage == FillCategory.Full && edifice.def.passability == Traversability.Impassable)
 			{
-				Building edifice = c.GetEdifice(base.Map);
-				if (edifice != null && edifice.def.Fillage == FillCategory.Full && edifice.def.passability == Traversability.Impassable)
-				{
-					result = false;
-				}
-				else if (!base.Map.terrainGrid.CanRemoveTopLayerAt(c))
-				{
-					result = "TerrainMustBeRemovable".Translate();
-				}
-				else if (WorkGiver_ConstructRemoveFloor.AnyBuildingBlockingFloorRemoval(c, base.Map))
-				{
-					result = false;
-				}
-				else
-				{
-					result = AcceptanceReport.WasAccepted;
-				}
+				return false;
 			}
-			return result;
+			if (!base.Map.terrainGrid.CanRemoveTopLayerAt(c))
+			{
+				return "TerrainMustBeRemovable".Translate();
+			}
+			if (WorkGiver_ConstructRemoveFloor.AnyBuildingBlockingFloorRemoval(c, base.Map))
+			{
+				return false;
+			}
+			return AcceptanceReport.WasAccepted;
 		}
 
 		public override void DesignateSingleCell(IntVec3 c)
@@ -74,11 +66,9 @@ namespace RimWorld
 			if (DebugSettings.godMode)
 			{
 				base.Map.terrainGrid.RemoveTopLayer(c, true);
+				return;
 			}
-			else
-			{
-				base.Map.designationManager.AddDesignation(new Designation(c, DesignationDefOf.RemoveFloor));
-			}
+			base.Map.designationManager.AddDesignation(new Designation(c, DesignationDefOf.RemoveFloor));
 		}
 
 		public override void SelectedUpdate()

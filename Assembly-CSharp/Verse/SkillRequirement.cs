@@ -18,16 +18,11 @@ namespace Verse
 		{
 			get
 			{
-				string result;
 				if (this.skill == null)
 				{
-					result = "";
+					return string.Empty;
 				}
-				else
-				{
-					result = string.Format("{0} ({1})", this.skill.LabelCap, this.minLevel);
-				}
-				return result;
+				return string.Format("{0} ({1})", this.skill.LabelCap, this.minLevel);
 			}
 		}
 
@@ -44,16 +39,11 @@ namespace Verse
 
 		public override string ToString()
 		{
-			string result;
 			if (this.skill == null)
 			{
-				result = "null-skill-requirement";
+				return "null-skill-requirement";
 			}
-			else
-			{
-				result = this.skill.defName + "-" + this.minLevel;
-			}
-			return result;
+			return this.skill.defName + "-" + this.minLevel;
 		}
 	}
 }

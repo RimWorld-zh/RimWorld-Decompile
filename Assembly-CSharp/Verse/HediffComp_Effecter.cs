@@ -18,16 +18,11 @@ namespace Verse
 
 		public EffecterDef CurrentStateEffecter()
 		{
-			EffecterDef result;
 			if (this.parent.CurStageIndex >= this.Props.severityIndices.min && (this.Props.severityIndices.max < 0 || this.parent.CurStageIndex <= this.Props.severityIndices.max))
 			{
-				result = this.Props.stateEffecter;
+				return this.Props.stateEffecter;
 			}
-			else
-			{
-				result = null;
-			}
-			return result;
+			return null;
 		}
 	}
 }

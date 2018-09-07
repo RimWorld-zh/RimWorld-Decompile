@@ -123,107 +123,87 @@ namespace RimWorld.Planet
 
 		public float GetHeadingFromTo(Vector3 from, Vector3 to)
 		{
-			float result;
 			if (from == to)
 			{
-				result = 0f;
+				return 0f;
 			}
-			else
+			Vector3 northPolePos = this.NorthPolePos;
+			Vector3 from2;
+			Vector3 rhs;
+			WorldRendererUtility.GetTangentialVectorFacing(from, northPolePos, out from2, out rhs);
+			Vector3 vector;
+			Vector3 vector2;
+			WorldRendererUtility.GetTangentialVectorFacing(from, to, out vector, out vector2);
+			float num = Vector3.Angle(from2, vector);
+			float num2 = Vector3.Dot(vector, rhs);
+			if (num2 < 0f)
 			{
-				Vector3 northPolePos = this.NorthPolePos;
-				Vector3 from2;
-				Vector3 rhs;
-				WorldRendererUtility.GetTangentialVectorFacing(from, northPolePos, out from2, out rhs);
-				Vector3 vector;
-				Vector3 vector2;
-				WorldRendererUtility.GetTangentialVectorFacing(from, to, out vector, out vector2);
-				float num = Vector3.Angle(from2, vector);
-				float num2 = Vector3.Dot(vector, rhs);
-				if (num2 < 0f)
-				{
-					num = 360f - num;
-				}
-				result = num;
+				num = 360f - num;
 			}
-			return result;
+			return num;
 		}
 
 		public float GetHeadingFromTo(int fromTileID, int toTileID)
 		{
-			float result;
 			if (fromTileID == toTileID)
 			{
-				result = 0f;
+				return 0f;
 			}
-			else
-			{
-				Vector3 tileCenter = this.GetTileCenter(fromTileID);
-				Vector3 tileCenter2 = this.GetTileCenter(toTileID);
-				result = this.GetHeadingFromTo(tileCenter, tileCenter2);
-			}
-			return result;
+			Vector3 tileCenter = this.GetTileCenter(fromTileID);
+			Vector3 tileCenter2 = this.GetTileCenter(toTileID);
+			return this.GetHeadingFromTo(tileCenter, tileCenter2);
 		}
 
 		public Direction8Way GetDirection8WayFromTo(int fromTileID, int toTileID)
 		{
 			float headingFromTo = this.GetHeadingFromTo(fromTileID, toTileID);
-			Direction8Way result;
 			if (headingFromTo >= 337.5f || headingFromTo < 22.5f)
 			{
-				result = Direction8Way.North;
+				return Direction8Way.North;
 			}
-			else if (headingFromTo < 67.5f)
+			if (headingFromTo < 67.5f)
 			{
-				result = Direction8Way.NorthEast;
+				return Direction8Way.NorthEast;
 			}
-			else if (headingFromTo < 112.5f)
+			if (headingFromTo < 112.5f)
 			{
-				result = Direction8Way.East;
+				return Direction8Way.East;
 			}
-			else if (headingFromTo < 157.5f)
+			if (headingFromTo < 157.5f)
 			{
-				result = Direction8Way.SouthEast;
+				return Direction8Way.SouthEast;
 			}
-			else if (headingFromTo < 202.5f)
+			if (headingFromTo < 202.5f)
 			{
-				result = Direction8Way.South;
+				return Direction8Way.South;
 			}
-			else if (headingFromTo < 247.5f)
+			if (headingFromTo < 247.5f)
 			{
-				result = Direction8Way.SouthWest;
+				return Direction8Way.SouthWest;
 			}
-			else if (headingFromTo < 292.5f)
+			if (headingFromTo < 292.5f)
 			{
-				result = Direction8Way.West;
+				return Direction8Way.West;
 			}
-			else
-			{
-				result = Direction8Way.NorthWest;
-			}
-			return result;
+			return Direction8Way.NorthWest;
 		}
 
 		public Rot4 GetRotFromTo(int fromTileID, int toTileID)
 		{
 			float headingFromTo = this.GetHeadingFromTo(fromTileID, toTileID);
-			Rot4 result;
 			if (headingFromTo >= 315f || headingFromTo < 45f)
 			{
-				result = Rot4.North;
+				return Rot4.North;
 			}
-			else if (headingFromTo < 135f)
+			if (headingFromTo < 135f)
 			{
-				result = Rot4.East;
+				return Rot4.East;
 			}
-			else if (headingFromTo < 225f)
+			if (headingFromTo < 225f)
 			{
-				result = Rot4.South;
+				return Rot4.South;
 			}
-			else
-			{
-				result = Rot4.West;
-			}
-			return result;
+			return Rot4.West;
 		}
 
 		public void GetTileVertices(int tileID, List<Vector3> outVerts)
@@ -319,74 +299,65 @@ namespace RimWorld.Planet
 			if (roadDef == null)
 			{
 				Log.ErrorOnce("Attempted to remove road with overlayRoad; not supported", 90292249, false);
+				return;
 			}
-			else
+			RoadDef roadDef2 = this.GetRoadDef(fromTile, toTile, false);
+			if (roadDef2 == roadDef)
 			{
-				RoadDef roadDef2 = this.GetRoadDef(fromTile, toTile, false);
-				if (roadDef2 != roadDef)
-				{
-					Tile tile = this[fromTile];
-					Tile tile2 = this[toTile];
-					if (roadDef2 != null)
-					{
-						if (roadDef2.priority >= roadDef.priority)
-						{
-							return;
-						}
-						tile.potentialRoads.RemoveAll((Tile.RoadLink rl) => rl.neighbor == toTile);
-						tile2.potentialRoads.RemoveAll((Tile.RoadLink rl) => rl.neighbor == fromTile);
-					}
-					if (tile.potentialRoads == null)
-					{
-						tile.potentialRoads = new List<Tile.RoadLink>();
-					}
-					if (tile2.potentialRoads == null)
-					{
-						tile2.potentialRoads = new List<Tile.RoadLink>();
-					}
-					tile.potentialRoads.Add(new Tile.RoadLink
-					{
-						neighbor = toTile,
-						road = roadDef
-					});
-					tile2.potentialRoads.Add(new Tile.RoadLink
-					{
-						neighbor = fromTile,
-						road = roadDef
-					});
-				}
+				return;
 			}
+			Tile tile = this[fromTile];
+			Tile tile2 = this[toTile];
+			if (roadDef2 != null)
+			{
+				if (roadDef2.priority >= roadDef.priority)
+				{
+					return;
+				}
+				tile.potentialRoads.RemoveAll((Tile.RoadLink rl) => rl.neighbor == toTile);
+				tile2.potentialRoads.RemoveAll((Tile.RoadLink rl) => rl.neighbor == fromTile);
+			}
+			if (tile.potentialRoads == null)
+			{
+				tile.potentialRoads = new List<Tile.RoadLink>();
+			}
+			if (tile2.potentialRoads == null)
+			{
+				tile2.potentialRoads = new List<Tile.RoadLink>();
+			}
+			tile.potentialRoads.Add(new Tile.RoadLink
+			{
+				neighbor = toTile,
+				road = roadDef
+			});
+			tile2.potentialRoads.Add(new Tile.RoadLink
+			{
+				neighbor = fromTile,
+				road = roadDef
+			});
 		}
 
 		public RoadDef GetRoadDef(int fromTile, int toTile, bool visibleOnly = true)
 		{
-			RoadDef result;
 			if (!this.IsNeighbor(fromTile, toTile))
 			{
 				Log.ErrorOnce("Tried to find road information between non-neighboring tiles", 12390444, false);
-				result = null;
+				return null;
 			}
-			else
+			Tile tile = this.tiles[fromTile];
+			List<Tile.RoadLink> list = (!visibleOnly) ? tile.potentialRoads : tile.Roads;
+			if (list == null)
 			{
-				Tile tile = this.tiles[fromTile];
-				List<Tile.RoadLink> list = (!visibleOnly) ? tile.potentialRoads : tile.Roads;
-				if (list == null)
+				return null;
+			}
+			for (int i = 0; i < list.Count; i++)
+			{
+				if (list[i].neighbor == toTile)
 				{
-					result = null;
-				}
-				else
-				{
-					for (int i = 0; i < list.Count; i++)
-					{
-						if (list[i].neighbor == toTile)
-						{
-							return list[i].road;
-						}
-					}
-					result = null;
+					return list[i].road;
 				}
 			}
-			return result;
+			return null;
 		}
 
 		public void OverlayRiver(int fromTile, int toTile, RiverDef riverDef)
@@ -394,109 +365,95 @@ namespace RimWorld.Planet
 			if (riverDef == null)
 			{
 				Log.ErrorOnce("Attempted to remove river with overlayRiver; not supported", 90292250, false);
+				return;
 			}
-			else
+			RiverDef riverDef2 = this.GetRiverDef(fromTile, toTile, false);
+			if (riverDef2 == riverDef)
 			{
-				RiverDef riverDef2 = this.GetRiverDef(fromTile, toTile, false);
-				if (riverDef2 != riverDef)
-				{
-					Tile tile = this[fromTile];
-					Tile tile2 = this[toTile];
-					if (riverDef2 != null)
-					{
-						if (riverDef2.degradeThreshold >= riverDef.degradeThreshold)
-						{
-							return;
-						}
-						tile.potentialRivers.RemoveAll((Tile.RiverLink rl) => rl.neighbor == toTile);
-						tile2.potentialRivers.RemoveAll((Tile.RiverLink rl) => rl.neighbor == fromTile);
-					}
-					if (tile.potentialRivers == null)
-					{
-						tile.potentialRivers = new List<Tile.RiverLink>();
-					}
-					if (tile2.potentialRivers == null)
-					{
-						tile2.potentialRivers = new List<Tile.RiverLink>();
-					}
-					tile.potentialRivers.Add(new Tile.RiverLink
-					{
-						neighbor = toTile,
-						river = riverDef
-					});
-					tile2.potentialRivers.Add(new Tile.RiverLink
-					{
-						neighbor = fromTile,
-						river = riverDef
-					});
-				}
+				return;
 			}
+			Tile tile = this[fromTile];
+			Tile tile2 = this[toTile];
+			if (riverDef2 != null)
+			{
+				if (riverDef2.degradeThreshold >= riverDef.degradeThreshold)
+				{
+					return;
+				}
+				tile.potentialRivers.RemoveAll((Tile.RiverLink rl) => rl.neighbor == toTile);
+				tile2.potentialRivers.RemoveAll((Tile.RiverLink rl) => rl.neighbor == fromTile);
+			}
+			if (tile.potentialRivers == null)
+			{
+				tile.potentialRivers = new List<Tile.RiverLink>();
+			}
+			if (tile2.potentialRivers == null)
+			{
+				tile2.potentialRivers = new List<Tile.RiverLink>();
+			}
+			tile.potentialRivers.Add(new Tile.RiverLink
+			{
+				neighbor = toTile,
+				river = riverDef
+			});
+			tile2.potentialRivers.Add(new Tile.RiverLink
+			{
+				neighbor = fromTile,
+				river = riverDef
+			});
 		}
 
 		public RiverDef GetRiverDef(int fromTile, int toTile, bool visibleOnly = true)
 		{
-			RiverDef result;
 			if (!this.IsNeighbor(fromTile, toTile))
 			{
 				Log.ErrorOnce("Tried to find river information between non-neighboring tiles", 12390444, false);
-				result = null;
+				return null;
 			}
-			else
+			Tile tile = this.tiles[fromTile];
+			List<Tile.RiverLink> list = (!visibleOnly) ? tile.potentialRivers : tile.Rivers;
+			if (list == null)
 			{
-				Tile tile = this.tiles[fromTile];
-				List<Tile.RiverLink> list = (!visibleOnly) ? tile.potentialRivers : tile.Rivers;
-				if (list == null)
+				return null;
+			}
+			for (int i = 0; i < list.Count; i++)
+			{
+				if (list[i].neighbor == toTile)
 				{
-					result = null;
-				}
-				else
-				{
-					for (int i = 0; i < list.Count; i++)
-					{
-						if (list[i].neighbor == toTile)
-						{
-							return list[i].river;
-						}
-					}
-					result = null;
+					return list[i].river;
 				}
 			}
-			return result;
+			return null;
 		}
 
 		public float GetRoadMovementDifficultyMultiplier(int fromTile, int toTile, StringBuilder explanation = null)
 		{
 			List<Tile.RoadLink> roads = this.tiles[fromTile].Roads;
-			float result;
 			if (roads == null)
 			{
-				result = 1f;
+				return 1f;
 			}
-			else
+			if (toTile == -1)
 			{
-				if (toTile == -1)
-				{
-					toTile = this.FindMostReasonableAdjacentTileForDisplayedPathCost(fromTile);
-				}
-				for (int i = 0; i < roads.Count; i++)
-				{
-					if (roads[i].neighbor == toTile)
-					{
-						float movementCostMultiplier = roads[i].road.movementCostMultiplier;
-						if (explanation != null)
-						{
-							if (explanation.Length > 0)
-							{
-								explanation.AppendLine();
-							}
-							explanation.Append(roads[i].road.LabelCap + ": " + movementCostMultiplier.ToStringPercent());
-						}
-						return movementCostMultiplier;
-					}
-				}
-				result = 1f;
+				toTile = this.FindMostReasonableAdjacentTileForDisplayedPathCost(fromTile);
 			}
-			return result;
+			for (int i = 0; i < roads.Count; i++)
+			{
+				if (roads[i].neighbor == toTile)
+				{
+					float movementCostMultiplier = roads[i].road.movementCostMultiplier;
+					if (explanation != null)
+					{
+						if (explanation.Length > 0)
+						{
+							explanation.AppendLine();
+						}
+						explanation.Append(roads[i].road.LabelCap + ": " + movementCostMultiplier.ToStringPercent());
+					}
+					return movementCostMultiplier;
+				}
+			}
+			return 1f;
 		}
 
 		public int FindMostReasonableAdjacentTileForDisplayedPathCost(int fromTile)
@@ -517,83 +474,63 @@ namespace RimWorld.Planet
 					}
 				}
 			}
-			int result;
 			if (num2 != -1)
 			{
-				result = num2;
+				return num2;
 			}
-			else
+			WorldGrid.tmpNeighbors.Clear();
+			this.GetTileNeighbors(fromTile, WorldGrid.tmpNeighbors);
+			for (int j = 0; j < WorldGrid.tmpNeighbors.Count; j++)
 			{
-				WorldGrid.tmpNeighbors.Clear();
-				this.GetTileNeighbors(fromTile, WorldGrid.tmpNeighbors);
-				for (int j = 0; j < WorldGrid.tmpNeighbors.Count; j++)
+				if (!Find.World.Impassable(WorldGrid.tmpNeighbors[j]))
 				{
-					if (!Find.World.Impassable(WorldGrid.tmpNeighbors[j]))
-					{
-						return WorldGrid.tmpNeighbors[j];
-					}
+					return WorldGrid.tmpNeighbors[j];
 				}
-				result = fromTile;
 			}
-			return result;
+			return fromTile;
 		}
 
 		public int TraversalDistanceBetween(int start, int end, bool passImpassable = true, int maxDist = 2147483647)
 		{
-			int result;
 			if (start < 0 || end < 0)
 			{
-				result = int.MaxValue;
+				return int.MaxValue;
 			}
-			else if (this.cachedTraversalDistanceForStart == start && this.cachedTraversalDistanceForEnd == end && passImpassable && maxDist == 2147483647)
+			if (this.cachedTraversalDistanceForStart == start && this.cachedTraversalDistanceForEnd == end && passImpassable && maxDist == 2147483647)
 			{
-				result = this.cachedTraversalDistance;
+				return this.cachedTraversalDistance;
 			}
-			else if (!passImpassable && !Find.WorldReachability.CanReach(start, end))
+			if (!passImpassable && !Find.WorldReachability.CanReach(start, end))
 			{
-				result = int.MaxValue;
+				return int.MaxValue;
 			}
-			else
+			int finalDist = int.MaxValue;
+			int maxTilesToProcess = (maxDist != int.MaxValue) ? this.TilesNumWithinTraversalDistance(maxDist + 1) : int.MaxValue;
+			Find.WorldFloodFiller.FloodFill(start, (int x) => passImpassable || !Find.World.Impassable(x), delegate(int tile, int dist)
 			{
-				int finalDist = int.MaxValue;
-				int maxTilesToProcess = (maxDist != int.MaxValue) ? this.TilesNumWithinTraversalDistance(maxDist + 1) : int.MaxValue;
-				Find.WorldFloodFiller.FloodFill(start, (int x) => passImpassable || !Find.World.Impassable(x), delegate(int tile, int dist)
+				if (tile == end)
 				{
-					bool result2;
-					if (tile == end)
-					{
-						finalDist = dist;
-						result2 = true;
-					}
-					else
-					{
-						result2 = false;
-					}
-					return result2;
-				}, maxTilesToProcess, null);
-				if (passImpassable && maxDist == 2147483647)
-				{
-					this.cachedTraversalDistance = finalDist;
-					this.cachedTraversalDistanceForStart = start;
-					this.cachedTraversalDistanceForEnd = end;
+					finalDist = dist;
+					return true;
 				}
-				result = finalDist;
+				return false;
+			}, maxTilesToProcess, null);
+			if (passImpassable && maxDist == 2147483647)
+			{
+				this.cachedTraversalDistance = finalDist;
+				this.cachedTraversalDistanceForStart = start;
+				this.cachedTraversalDistanceForEnd = end;
 			}
-			return result;
+			return finalDist;
 		}
 
 		public int TilesNumWithinTraversalDistance(int traversalDist)
 		{
-			int result;
 			if (traversalDist < 0)
 			{
-				result = 0;
+				return 0;
 			}
-			else
-			{
-				result = 3 * traversalDist * (traversalDist + 1) + 1;
-			}
-			return result;
+			return 3 * traversalDist * (traversalDist + 1) + 1;
 		}
 
 		public bool IsOnEdge(int tileID)
@@ -988,17 +925,12 @@ namespace RimWorld.Planet
 
 			internal bool <>m__1(int tile, int dist)
 			{
-				bool result;
 				if (tile == this.end)
 				{
 					this.finalDist = dist;
-					result = true;
+					return true;
 				}
-				else
-				{
-					result = false;
-				}
-				return result;
+				return false;
 			}
 		}
 	}

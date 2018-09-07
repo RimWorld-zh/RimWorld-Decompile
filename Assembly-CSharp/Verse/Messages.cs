@@ -24,12 +24,9 @@ namespace Verse
 
 		public static void Update()
 		{
-			if (Current.ProgramState == ProgramState.Playing)
+			if (Current.ProgramState == ProgramState.Playing && Messages.mouseoverMessageIndex >= 0 && Messages.mouseoverMessageIndex < Messages.liveMessages.Count)
 			{
-				if (Messages.mouseoverMessageIndex >= 0 && Messages.mouseoverMessageIndex < Messages.liveMessages.Count)
-				{
-					Messages.liveMessages[Messages.mouseoverMessageIndex].lookTargets.TryHighlight(true, true, false);
-				}
+				Messages.liveMessages[Messages.mouseoverMessageIndex].lookTargets.TryHighlight(true, true, false);
 			}
 			Messages.mouseoverMessageIndex = -1;
 			Messages.liveMessages.RemoveAll((Message m) => m.Expired);
@@ -37,39 +34,42 @@ namespace Verse
 
 		public static void Message(string text, LookTargets lookTargets, MessageTypeDef def, bool historical = true)
 		{
-			if (Messages.AcceptsMessage(text, lookTargets))
+			if (!Messages.AcceptsMessage(text, lookTargets))
 			{
-				Message msg = new Message(text, def, lookTargets);
-				Messages.Message(msg, historical);
+				return;
 			}
+			Message msg = new Message(text, def, lookTargets);
+			Messages.Message(msg, historical);
 		}
 
 		public static void Message(string text, MessageTypeDef def, bool historical = true)
 		{
-			if (Messages.AcceptsMessage(text, TargetInfo.Invalid))
+			if (!Messages.AcceptsMessage(text, TargetInfo.Invalid))
 			{
-				Message msg = new Message(text, def);
-				Messages.Message(msg, historical);
+				return;
 			}
+			Message msg = new Message(text, def);
+			Messages.Message(msg, historical);
 		}
 
 		public static void Message(Message msg, bool historical = true)
 		{
-			if (Messages.AcceptsMessage(msg.text, msg.lookTargets))
+			if (!Messages.AcceptsMessage(msg.text, msg.lookTargets))
 			{
-				if (historical && Find.Archive != null)
-				{
-					Find.Archive.Add(msg);
-				}
-				Messages.liveMessages.Add(msg);
-				while (Messages.liveMessages.Count > 12)
-				{
-					Messages.liveMessages.RemoveAt(0);
-				}
-				if (msg.def.sound != null)
-				{
-					msg.def.sound.PlayOneShotOnCamera(null);
-				}
+				return;
+			}
+			if (historical && Find.Archive != null)
+			{
+				Find.Archive.Add(msg);
+			}
+			Messages.liveMessages.Add(msg);
+			while (Messages.liveMessages.Count > 12)
+			{
+				Messages.liveMessages.RemoveAt(0);
+			}
+			if (msg.def.sound != null)
+			{
+				msg.def.sound.PlayOneShotOnCamera(null);
 			}
 		}
 
@@ -126,23 +126,18 @@ namespace Verse
 
 		private static bool AcceptsMessage(string text, LookTargets lookTargets)
 		{
-			bool result;
 			if (text.NullOrEmpty())
 			{
-				result = false;
+				return false;
 			}
-			else
+			for (int i = 0; i < Messages.liveMessages.Count; i++)
 			{
-				for (int i = 0; i < Messages.liveMessages.Count; i++)
+				if (Messages.liveMessages[i].text == text && Messages.liveMessages[i].startingFrame == RealTime.frameCount && LookTargets.SameTargets(Messages.liveMessages[i].lookTargets, lookTargets))
 				{
-					if (Messages.liveMessages[i].text == text && Messages.liveMessages[i].startingFrame == RealTime.frameCount && LookTargets.SameTargets(Messages.liveMessages[i].lookTargets, lookTargets))
-					{
-						return false;
-					}
+					return false;
 				}
-				result = true;
 			}
-			return result;
+			return true;
 		}
 
 		public static void Notify_Mouseover(Message msg)

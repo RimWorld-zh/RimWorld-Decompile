@@ -29,11 +29,12 @@ namespace RimWorld
 						}
 						if (thing is Frame)
 						{
-							actor.Reserve(thing, curJob, 1, -1, null);
+							actor.Reserve(thing, curJob, 1, -1, null, true);
 						}
 					}
 					if (flag2)
 					{
+						return;
 					}
 				}
 			};
@@ -70,6 +71,7 @@ namespace RimWorld
 					GenSpawn.Spawn(minifiedThing, thing.Position, uninstallIfMinifiable.actor.Map, WipeMode.Vanish);
 					curJob.SetTarget(thingInd, minifiedThing);
 					actor.jobs.curDriver.ReadyForNextToil();
+					return;
 				}
 			};
 			uninstallIfMinifiable.defaultCompleteMode = ToilCompleteMode.Never;
@@ -109,11 +111,12 @@ namespace RimWorld
 						}
 						if (thing is Frame)
 						{
-							actor.Reserve(thing, curJob, 1, -1, null);
+							actor.Reserve(thing, curJob, 1, -1, null, true);
 						}
 					}
 					if (flag2)
 					{
+						return;
 					}
 				}
 			}
@@ -158,6 +161,7 @@ namespace RimWorld
 					GenSpawn.Spawn(minifiedThing, thing.Position, this.uninstallIfMinifiable.actor.Map, WipeMode.Vanish);
 					curJob.SetTarget(this.thingInd, minifiedThing);
 					actor.jobs.curDriver.ReadyForNextToil();
+					return;
 				}
 			}
 

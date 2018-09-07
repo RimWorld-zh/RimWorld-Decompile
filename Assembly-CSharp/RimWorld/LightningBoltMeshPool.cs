@@ -15,18 +15,13 @@ namespace RimWorld
 		{
 			get
 			{
-				Mesh result;
 				if (LightningBoltMeshPool.boltMeshes.Count < 20)
 				{
 					Mesh mesh = LightningBoltMeshMaker.NewBoltMesh();
 					LightningBoltMeshPool.boltMeshes.Add(mesh);
-					result = mesh;
+					return mesh;
 				}
-				else
-				{
-					result = LightningBoltMeshPool.boltMeshes.RandomElement<Mesh>();
-				}
-				return result;
+				return LightningBoltMeshPool.boltMeshes.RandomElement<Mesh>();
 			}
 		}
 

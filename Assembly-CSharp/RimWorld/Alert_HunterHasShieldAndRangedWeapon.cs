@@ -74,11 +74,8 @@ namespace RimWorld
 				{
 					switch (num)
 					{
-					case 1u:
-						IL_A7:
-						break;
 					}
-					if (enumerator.MoveNext())
+					while (enumerator.MoveNext())
 					{
 						col = enumerator.Current;
 						if (col.workSettings.WorkIsActive(WorkTypeDefOf.Hunting) && WorkGiver_HunterHunt.HasShieldAndRangedWeapon(col))
@@ -91,7 +88,6 @@ namespace RimWorld
 							flag = true;
 							return true;
 						}
-						goto IL_A7;
 					}
 				}
 				finally

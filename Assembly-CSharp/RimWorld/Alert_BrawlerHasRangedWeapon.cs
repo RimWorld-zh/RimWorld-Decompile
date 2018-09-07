@@ -75,8 +75,7 @@ namespace RimWorld
 					switch (num)
 					{
 					}
-					IL_D2:
-					if (enumerator.MoveNext())
+					while (enumerator.MoveNext())
 					{
 						p = enumerator.Current;
 						if (p.story.traits.HasTrait(TraitDefOf.Brawler) && p.equipment.Primary != null && p.equipment.Primary.def.IsRangedWeapon)
@@ -89,7 +88,6 @@ namespace RimWorld
 							flag = true;
 							return true;
 						}
-						goto IL_D2;
 					}
 				}
 				finally

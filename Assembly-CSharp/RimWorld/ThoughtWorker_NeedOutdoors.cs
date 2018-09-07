@@ -11,42 +11,31 @@ namespace RimWorld
 
 		protected override ThoughtState CurrentStateInternal(Pawn p)
 		{
-			ThoughtState result;
 			if (p.needs.outdoors == null)
 			{
-				result = ThoughtState.Inactive;
+				return ThoughtState.Inactive;
 			}
-			else if (p.HostFaction != null)
+			if (p.HostFaction != null)
 			{
-				result = ThoughtState.Inactive;
+				return ThoughtState.Inactive;
 			}
-			else
+			switch (p.needs.outdoors.CurCategory)
 			{
-				switch (p.needs.outdoors.CurCategory)
-				{
-				case OutdoorsCategory.Entombed:
-					result = ThoughtState.ActiveAtStage(0);
-					break;
-				case OutdoorsCategory.Trapped:
-					result = ThoughtState.ActiveAtStage(1);
-					break;
-				case OutdoorsCategory.CabinFeverSevere:
-					result = ThoughtState.ActiveAtStage(2);
-					break;
-				case OutdoorsCategory.CabinFeverLight:
-					result = ThoughtState.ActiveAtStage(3);
-					break;
-				case OutdoorsCategory.NeedFreshAir:
-					result = ThoughtState.ActiveAtStage(4);
-					break;
-				case OutdoorsCategory.Free:
-					result = ThoughtState.Inactive;
-					break;
-				default:
-					throw new InvalidOperationException("Unknown OutdoorsCategory");
-				}
+			case OutdoorsCategory.Entombed:
+				return ThoughtState.ActiveAtStage(0);
+			case OutdoorsCategory.Trapped:
+				return ThoughtState.ActiveAtStage(1);
+			case OutdoorsCategory.CabinFeverSevere:
+				return ThoughtState.ActiveAtStage(2);
+			case OutdoorsCategory.CabinFeverLight:
+				return ThoughtState.ActiveAtStage(3);
+			case OutdoorsCategory.NeedFreshAir:
+				return ThoughtState.ActiveAtStage(4);
+			case OutdoorsCategory.Free:
+				return ThoughtState.Inactive;
+			default:
+				throw new InvalidOperationException("Unknown OutdoorsCategory");
 			}
-			return result;
 		}
 	}
 }

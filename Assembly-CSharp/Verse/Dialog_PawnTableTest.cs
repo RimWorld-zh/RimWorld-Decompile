@@ -52,17 +52,17 @@ namespace Verse
 			pawnTableDef.minWidth = 0;
 			if (this.pawnTableMin == null)
 			{
-				this.pawnTableMin = new PawnTable(pawnTableDef, () => this.Pawns, 0, 0);
+				this.pawnTableMin = new PawnTable(pawnTableDef, new Func<IEnumerable<Pawn>>(this.get_Pawns), 0, 0);
 				this.pawnTableMin.SetMinMaxSize(Mathf.Min(this.singleColumn.Worker.GetMinWidth(this.pawnTableMin) + 16, (int)inRect.width), Mathf.Min(this.singleColumn.Worker.GetMinWidth(this.pawnTableMin) + 16, (int)inRect.width), 0, num);
 			}
 			if (this.pawnTableOptimal == null)
 			{
-				this.pawnTableOptimal = new PawnTable(pawnTableDef, () => this.Pawns, 0, 0);
+				this.pawnTableOptimal = new PawnTable(pawnTableDef, new Func<IEnumerable<Pawn>>(this.get_Pawns), 0, 0);
 				this.pawnTableOptimal.SetMinMaxSize(Mathf.Min(this.singleColumn.Worker.GetOptimalWidth(this.pawnTableOptimal) + 16, (int)inRect.width), Mathf.Min(this.singleColumn.Worker.GetOptimalWidth(this.pawnTableOptimal) + 16, (int)inRect.width), 0, num);
 			}
 			if (this.pawnTableMax == null)
 			{
-				this.pawnTableMax = new PawnTable(pawnTableDef, () => this.Pawns, 0, 0);
+				this.pawnTableMax = new PawnTable(pawnTableDef, new Func<IEnumerable<Pawn>>(this.get_Pawns), 0, 0);
 				this.pawnTableMax.SetMinMaxSize(Mathf.Min(this.singleColumn.Worker.GetMaxWidth(this.pawnTableMax) + 16, (int)inRect.width), Mathf.Min(this.singleColumn.Worker.GetMaxWidth(this.pawnTableMax) + 16, (int)inRect.width), 0, num);
 			}
 			int num2 = 0;
@@ -102,24 +102,6 @@ namespace Verse
 				}));
 			}
 			Find.WindowStack.Add(new Dialog_DebugOptionListLister(list));
-		}
-
-		[CompilerGenerated]
-		private IEnumerable<Pawn> <DoWindowContents>m__0()
-		{
-			return this.Pawns;
-		}
-
-		[CompilerGenerated]
-		private IEnumerable<Pawn> <DoWindowContents>m__1()
-		{
-			return this.Pawns;
-		}
-
-		[CompilerGenerated]
-		private IEnumerable<Pawn> <DoWindowContents>m__2()
-		{
-			return this.Pawns;
 		}
 
 		[CompilerGenerated]

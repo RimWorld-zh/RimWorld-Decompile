@@ -24,12 +24,10 @@ namespace Verse
 			if (xmlRoot.ChildNodes.Count != 1)
 			{
 				Log.Error("Misconfigured ThingOption: " + xmlRoot.OuterXml, false);
+				return;
 			}
-			else
-			{
-				DirectXmlCrossRefLoader.RegisterObjectWantsCrossRef(this, "thingDef", xmlRoot.Name);
-				this.weight = (float)ParseHelper.FromString(xmlRoot.FirstChild.Value, typeof(float));
-			}
+			DirectXmlCrossRefLoader.RegisterObjectWantsCrossRef(this, "thingDef", xmlRoot.Name);
+			this.weight = (float)ParseHelper.FromString(xmlRoot.FirstChild.Value, typeof(float));
 		}
 
 		public override string ToString()

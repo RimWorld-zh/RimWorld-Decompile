@@ -9,9 +9,9 @@ namespace RimWorld
 
 		public SimpleCurve selectionWeightCurve;
 
-		public float pointsFactor = 1f;
+		public SimpleCurve pointsFactorCurve;
 
-		public TechLevel minTechLevel = TechLevel.Undefined;
+		public TechLevel minTechLevel;
 
 		public bool forQuickMilitaryAid;
 

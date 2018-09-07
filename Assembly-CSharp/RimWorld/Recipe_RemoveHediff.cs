@@ -103,15 +103,14 @@ namespace RimWorld
 				case 0u:
 					allHediffs = pawn.health.hediffSet.hediffs;
 					i = 0;
-					goto IL_F4;
+					break;
 				case 1u:
+					IL_E3:
+					i++;
 					break;
 				default:
 					return false;
 				}
-				IL_E6:
-				i++;
-				IL_F4:
 				if (i >= allHediffs.Count)
 				{
 					this.$PC = -1;
@@ -120,15 +119,15 @@ namespace RimWorld
 				{
 					if (allHediffs[i].Part == null)
 					{
-						goto IL_E6;
+						goto IL_E3;
 					}
 					if (allHediffs[i].def != recipe.removesHediff)
 					{
-						goto IL_E6;
+						goto IL_E3;
 					}
 					if (!allHediffs[i].Visible)
 					{
-						goto IL_E6;
+						goto IL_E3;
 					}
 					this.$current = allHediffs[i].Part;
 					if (!this.$disposing)

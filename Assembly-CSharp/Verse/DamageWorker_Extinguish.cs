@@ -13,22 +13,17 @@ namespace Verse
 
 		public override DamageWorker.DamageResult Apply(DamageInfo dinfo, Thing victim)
 		{
-			DamageWorker.DamageResult damageResult = new DamageWorker.DamageResult();
+			DamageWorker.DamageResult result = new DamageWorker.DamageResult();
 			Fire fire = victim as Fire;
-			DamageWorker.DamageResult result;
 			if (fire == null || fire.Destroyed)
 			{
-				result = damageResult;
+				return result;
 			}
-			else
+			base.Apply(dinfo, victim);
+			fire.fireSize -= dinfo.Amount * 0.01f;
+			if (fire.fireSize <= 0.1f)
 			{
-				base.Apply(dinfo, victim);
-				fire.fireSize -= dinfo.Amount * 0.01f;
-				if (fire.fireSize <= 0.1f)
-				{
-					fire.Destroy(DestroyMode.Vanish);
-				}
-				result = damageResult;
+				fire.Destroy(DestroyMode.Vanish);
 			}
 			return result;
 		}

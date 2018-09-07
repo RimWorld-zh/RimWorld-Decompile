@@ -1808,17 +1808,17 @@ namespace Ionic.Zlib
 
 		internal const int BMAX = 15;
 
-		internal int[] hn = null;
+		internal int[] hn;
 
-		internal int[] v = null;
+		internal int[] v;
 
-		internal int[] c = null;
+		internal int[] c;
 
-		internal int[] r = null;
+		internal int[] r;
 
-		internal int[] u = null;
+		internal int[] u;
 
-		internal int[] x = null;
+		internal int[] x;
 
 		public InfTree()
 		{
@@ -1835,177 +1835,169 @@ namespace Ionic.Zlib
 				num2--;
 			}
 			while (num2 != 0);
-			int result;
 			if (this.c[0] == n)
 			{
 				t[0] = -1;
 				m[0] = 0;
-				result = 0;
+				return 0;
 			}
-			else
+			int num3 = m[0];
+			int i;
+			for (i = 1; i <= 15; i++)
 			{
-				int num3 = m[0];
-				int i;
-				for (i = 1; i <= 15; i++)
+				if (this.c[i] != 0)
 				{
-					if (this.c[i] != 0)
-					{
-						break;
-					}
-				}
-				int j = i;
-				if (num3 < i)
-				{
-					num3 = i;
-				}
-				for (num2 = 15; num2 != 0; num2--)
-				{
-					if (this.c[num2] != 0)
-					{
-						break;
-					}
-				}
-				int num4 = num2;
-				if (num3 > num2)
-				{
-					num3 = num2;
-				}
-				m[0] = num3;
-				int num5 = 1 << i;
-				while (i < num2)
-				{
-					if ((num5 -= this.c[i]) < 0)
-					{
-						return -3;
-					}
-					i++;
-					num5 <<= 1;
-				}
-				if ((num5 -= this.c[num2]) < 0)
-				{
-					result = -3;
-				}
-				else
-				{
-					this.c[num2] += num5;
-					i = (this.x[1] = 0);
-					num = 1;
-					int num6 = 2;
-					while (--num2 != 0)
-					{
-						i = (this.x[num6] = i + this.c[num]);
-						num6++;
-						num++;
-					}
-					num2 = 0;
-					num = 0;
-					do
-					{
-						if ((i = b[bindex + num]) != 0)
-						{
-							v[this.x[i]++] = num2;
-						}
-						num++;
-					}
-					while (++num2 < n);
-					n = this.x[num4];
-					num2 = (this.x[0] = 0);
-					num = 0;
-					int num7 = -1;
-					int num8 = -num3;
-					this.u[0] = 0;
-					int num9 = 0;
-					int num10 = 0;
-					while (j <= num4)
-					{
-						int num11 = this.c[j];
-						while (num11-- != 0)
-						{
-							int num12;
-							while (j > num8 + num3)
-							{
-								num7++;
-								num8 += num3;
-								num10 = num4 - num8;
-								num10 = ((num10 <= num3) ? num10 : num3);
-								if ((num12 = 1 << ((i = j - num8) & 31)) > num11 + 1)
-								{
-									num12 -= num11 + 1;
-									num6 = j;
-									if (i < num10)
-									{
-										while (++i < num10)
-										{
-											if ((num12 <<= 1) <= this.c[++num6])
-											{
-												break;
-											}
-											num12 -= this.c[num6];
-										}
-									}
-								}
-								num10 = 1 << i;
-								if (hn[0] + num10 > 1440)
-								{
-									return -3;
-								}
-								num9 = (this.u[num7] = hn[0]);
-								hn[0] += num10;
-								if (num7 != 0)
-								{
-									this.x[num7] = num2;
-									this.r[0] = (int)((sbyte)i);
-									this.r[1] = (int)((sbyte)num3);
-									i = SharedUtils.URShift(num2, num8 - num3);
-									this.r[2] = num9 - this.u[num7 - 1] - i;
-									Array.Copy(this.r, 0, hp, (this.u[num7 - 1] + i) * 3, 3);
-								}
-								else
-								{
-									t[0] = num9;
-								}
-							}
-							this.r[1] = (int)((sbyte)(j - num8));
-							if (num >= n)
-							{
-								this.r[0] = 192;
-							}
-							else if (v[num] < s)
-							{
-								this.r[0] = (int)((v[num] >= 256) ? 96 : 0);
-								this.r[2] = v[num++];
-							}
-							else
-							{
-								this.r[0] = (int)((sbyte)(e[v[num] - s] + 16 + 64));
-								this.r[2] = d[v[num++] - s];
-							}
-							num12 = 1 << j - num8;
-							for (i = SharedUtils.URShift(num2, num8); i < num10; i += num12)
-							{
-								Array.Copy(this.r, 0, hp, (num9 + i) * 3, 3);
-							}
-							i = 1 << j - 1;
-							while ((num2 & i) != 0)
-							{
-								num2 ^= i;
-								i = SharedUtils.URShift(i, 1);
-							}
-							num2 ^= i;
-							int num13 = (1 << num8) - 1;
-							while ((num2 & num13) != this.x[num7])
-							{
-								num7--;
-								num8 -= num3;
-								num13 = (1 << num8) - 1;
-							}
-						}
-						j++;
-					}
-					result = ((num5 == 0 || num4 == 1) ? 0 : -5);
+					break;
 				}
 			}
-			return result;
+			int j = i;
+			if (num3 < i)
+			{
+				num3 = i;
+			}
+			for (num2 = 15; num2 != 0; num2--)
+			{
+				if (this.c[num2] != 0)
+				{
+					break;
+				}
+			}
+			int num4 = num2;
+			if (num3 > num2)
+			{
+				num3 = num2;
+			}
+			m[0] = num3;
+			int num5 = 1 << i;
+			while (i < num2)
+			{
+				if ((num5 -= this.c[i]) < 0)
+				{
+					return -3;
+				}
+				i++;
+				num5 <<= 1;
+			}
+			if ((num5 -= this.c[num2]) < 0)
+			{
+				return -3;
+			}
+			this.c[num2] += num5;
+			i = (this.x[1] = 0);
+			num = 1;
+			int num6 = 2;
+			while (--num2 != 0)
+			{
+				i = (this.x[num6] = i + this.c[num]);
+				num6++;
+				num++;
+			}
+			num2 = 0;
+			num = 0;
+			do
+			{
+				if ((i = b[bindex + num]) != 0)
+				{
+					v[this.x[i]++] = num2;
+				}
+				num++;
+			}
+			while (++num2 < n);
+			n = this.x[num4];
+			num2 = (this.x[0] = 0);
+			num = 0;
+			int num7 = -1;
+			int num8 = -num3;
+			this.u[0] = 0;
+			int num9 = 0;
+			int num10 = 0;
+			while (j <= num4)
+			{
+				int num11 = this.c[j];
+				while (num11-- != 0)
+				{
+					int num12;
+					while (j > num8 + num3)
+					{
+						num7++;
+						num8 += num3;
+						num10 = num4 - num8;
+						num10 = ((num10 <= num3) ? num10 : num3);
+						if ((num12 = 1 << ((i = j - num8) & 31)) > num11 + 1)
+						{
+							num12 -= num11 + 1;
+							num6 = j;
+							if (i < num10)
+							{
+								while (++i < num10)
+								{
+									if ((num12 <<= 1) <= this.c[++num6])
+									{
+										break;
+									}
+									num12 -= this.c[num6];
+								}
+							}
+						}
+						num10 = 1 << i;
+						if (hn[0] + num10 > 1440)
+						{
+							return -3;
+						}
+						num9 = (this.u[num7] = hn[0]);
+						hn[0] += num10;
+						if (num7 != 0)
+						{
+							this.x[num7] = num2;
+							this.r[0] = (int)((sbyte)i);
+							this.r[1] = (int)((sbyte)num3);
+							i = SharedUtils.URShift(num2, num8 - num3);
+							this.r[2] = num9 - this.u[num7 - 1] - i;
+							Array.Copy(this.r, 0, hp, (this.u[num7 - 1] + i) * 3, 3);
+						}
+						else
+						{
+							t[0] = num9;
+						}
+					}
+					this.r[1] = (int)((sbyte)(j - num8));
+					if (num >= n)
+					{
+						this.r[0] = 192;
+					}
+					else if (v[num] < s)
+					{
+						this.r[0] = (int)((v[num] >= 256) ? 96 : 0);
+						this.r[2] = v[num++];
+					}
+					else
+					{
+						this.r[0] = (int)((sbyte)(e[v[num] - s] + 16 + 64));
+						this.r[2] = d[v[num++] - s];
+					}
+					num12 = 1 << j - num8;
+					for (i = SharedUtils.URShift(num2, num8); i < num10; i += num12)
+					{
+						Array.Copy(this.r, 0, hp, (num9 + i) * 3, 3);
+					}
+					i = 1 << j - 1;
+					while ((num2 & i) != 0)
+					{
+						num2 ^= i;
+						i = SharedUtils.URShift(i, 1);
+					}
+					num2 ^= i;
+					int num13 = (1 << num8) - 1;
+					while ((num2 & num13) != this.x[num7])
+					{
+						num7--;
+						num8 -= num3;
+						num13 = (1 << num8) - 1;
+					}
+				}
+				j++;
+			}
+			return (num5 == 0 || num4 == 1) ? 0 : -5;
 		}
 
 		internal int inflate_trees_bits(int[] c, int[] bb, int[] tb, int[] hp, ZlibCodec z)
@@ -2030,7 +2022,6 @@ namespace Ionic.Zlib
 			this.initWorkArea(288);
 			this.hn[0] = 0;
 			int num = this.huft_build(c, 0, nl, 257, InfTree.cplens, InfTree.cplext, tl, bl, hp, this.hn, this.v);
-			int result;
 			if (num != 0 || bl[0] == 0)
 			{
 				if (num == -3)
@@ -2042,36 +2033,29 @@ namespace Ionic.Zlib
 					z.Message = "incomplete literal/length tree";
 					num = -3;
 				}
-				result = num;
+				return num;
 			}
-			else
+			this.initWorkArea(288);
+			num = this.huft_build(c, nl, nd, 0, InfTree.cpdist, InfTree.cpdext, td, bd, hp, this.hn, this.v);
+			if (num != 0 || (bd[0] == 0 && nl > 257))
 			{
-				this.initWorkArea(288);
-				num = this.huft_build(c, nl, nd, 0, InfTree.cpdist, InfTree.cpdext, td, bd, hp, this.hn, this.v);
-				if (num != 0 || (bd[0] == 0 && nl > 257))
+				if (num == -3)
 				{
-					if (num == -3)
-					{
-						z.Message = "oversubscribed distance tree";
-					}
-					else if (num == -5)
-					{
-						z.Message = "incomplete distance tree";
-						num = -3;
-					}
-					else if (num != -4)
-					{
-						z.Message = "empty distance tree with lengths";
-						num = -3;
-					}
-					result = num;
+					z.Message = "oversubscribed distance tree";
 				}
-				else
+				else if (num == -5)
 				{
-					result = 0;
+					z.Message = "incomplete distance tree";
+					num = -3;
 				}
+				else if (num != -4)
+				{
+					z.Message = "empty distance tree with lengths";
+					num = -3;
+				}
+				return num;
 			}
-			return result;
+			return 0;
 		}
 
 		internal static int inflate_trees_fixed(int[] bl, int[] bd, int[][] tl, int[][] td, ZlibCodec z)

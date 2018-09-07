@@ -57,15 +57,14 @@ namespace RimWorld
 				if (this.billStack == null && this.part != null)
 				{
 					Log.Error("Can only set Bill_Medical.Part after the bill has been added to a pawn's bill stack.", false);
+					return;
 				}
-				else if (UnityData.isDebugBuild && this.part != null && !this.GiverPawn.RaceProps.body.AllParts.Contains(this.part))
+				if (UnityData.isDebugBuild && this.part != null && !this.GiverPawn.RaceProps.body.AllParts.Contains(this.part))
 				{
 					Log.Error("Cannot set BodyPartRecord which doesn't belong to the pawn " + this.GiverPawn.ToStringSafe<Pawn>(), false);
+					return;
 				}
-				else
-				{
-					this.part = value;
-				}
+				this.part = value;
 			}
 		}
 
@@ -126,24 +125,21 @@ namespace RimWorld
 		{
 			base.Notify_DoBillStarted(billDoer);
 			this.consumedInitialMedicineDef = null;
-			if (!this.GiverPawn.Dead && this.recipe.anesthetize)
+			if (!this.GiverPawn.Dead && this.recipe.anesthetize && HealthUtility.TryAnesthetize(this.GiverPawn))
 			{
-				if (HealthUtility.TryAnesthetize(this.GiverPawn))
+				List<ThingCountClass> placedThings = billDoer.CurJob.placedThings;
+				for (int i = 0; i < placedThings.Count; i++)
 				{
-					List<ThingCountClass> placedThings = billDoer.CurJob.placedThings;
-					for (int i = 0; i < placedThings.Count; i++)
+					if (placedThings[i].thing is Medicine)
 					{
-						if (placedThings[i].thing is Medicine)
+						this.recipe.Worker.ConsumeIngredient(placedThings[i].thing.SplitOff(1), this.recipe, billDoer.MapHeld);
+						placedThings[i].Count--;
+						this.consumedInitialMedicineDef = placedThings[i].thing.def;
+						if (placedThings[i].thing.Destroyed || placedThings[i].Count <= 0)
 						{
-							this.recipe.Worker.ConsumeIngredient(placedThings[i].thing.SplitOff(1), this.recipe, billDoer.MapHeld);
-							placedThings[i].Count--;
-							this.consumedInitialMedicineDef = placedThings[i].thing.def;
-							if (placedThings[i].thing.Destroyed || placedThings[i].Count <= 0)
-							{
-								placedThings.RemoveAt(i);
-							}
-							break;
+							placedThings.RemoveAt(i);
 						}
+						break;
 					}
 				}
 			}

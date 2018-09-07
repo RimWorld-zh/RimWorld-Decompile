@@ -21,16 +21,11 @@ namespace Verse
 
 		public float AdjustedArmorPenetration(Verb verb, Pawn caster)
 		{
-			float result;
 			if (this.armorPenetration < 0f)
 			{
-				result = this.AdjustedDamageAmount(verb, caster) * 0.015f;
+				return this.AdjustedDamageAmount(verb, caster) * 0.015f;
 			}
-			else
-			{
-				result = this.armorPenetration;
-			}
-			return result;
+			return this.armorPenetration;
 		}
 	}
 }

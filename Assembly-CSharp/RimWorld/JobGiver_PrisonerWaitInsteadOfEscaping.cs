@@ -12,33 +12,25 @@ namespace RimWorld
 
 		protected override Job TryGiveJob(Pawn pawn)
 		{
-			Job result;
 			if (pawn.guest == null || !pawn.guest.ShouldWaitInsteadOfEscaping)
 			{
-				result = null;
+				return null;
 			}
-			else
+			Room room = pawn.GetRoom(RegionType.Set_Passable);
+			if (room != null && room.isPrisonCell)
 			{
-				Room room = pawn.GetRoom(RegionType.Set_Passable);
-				if (room != null && room.isPrisonCell)
-				{
-					result = null;
-				}
-				else
-				{
-					IntVec3 spotToWaitInsteadOfEscaping = pawn.guest.spotToWaitInsteadOfEscaping;
-					if (!spotToWaitInsteadOfEscaping.IsValid || !pawn.CanReach(spotToWaitInsteadOfEscaping, PathEndMode.OnCell, Danger.Deadly, false, TraverseMode.ByPawn))
-					{
-						if (!RCellFinder.TryFindRandomSpotJustOutsideColony(pawn, out spotToWaitInsteadOfEscaping))
-						{
-							return null;
-						}
-						pawn.guest.spotToWaitInsteadOfEscaping = spotToWaitInsteadOfEscaping;
-					}
-					result = base.TryGiveJob(pawn);
-				}
+				return null;
 			}
-			return result;
+			IntVec3 spotToWaitInsteadOfEscaping = pawn.guest.spotToWaitInsteadOfEscaping;
+			if (!spotToWaitInsteadOfEscaping.IsValid || !pawn.CanReach(spotToWaitInsteadOfEscaping, PathEndMode.OnCell, Danger.Deadly, false, TraverseMode.ByPawn))
+			{
+				if (!RCellFinder.TryFindRandomSpotJustOutsideColony(pawn, out spotToWaitInsteadOfEscaping))
+				{
+					return null;
+				}
+				pawn.guest.spotToWaitInsteadOfEscaping = spotToWaitInsteadOfEscaping;
+			}
+			return base.TryGiveJob(pawn);
 		}
 
 		protected override IntVec3 GetWanderRoot(Pawn pawn)

@@ -6,7 +6,7 @@ namespace Verse
 {
 	public class ScreenshotModeHandler
 	{
-		private bool active = false;
+		private bool active;
 
 		public ScreenshotModeHandler()
 		{

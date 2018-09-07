@@ -12,11 +12,11 @@ namespace RimWorld
 {
 	public abstract class CompPower : ThingComp
 	{
-		public PowerNet transNet = null;
+		public PowerNet transNet;
 
-		public CompPower connectParent = null;
+		public CompPower connectParent;
 
-		public List<CompPower> connectChildren = null;
+		public List<CompPower> connectChildren;
 
 		private static List<PowerNet> recentlyConnectedNets = new List<PowerNet>();
 
@@ -40,20 +40,15 @@ namespace RimWorld
 		{
 			get
 			{
-				PowerNet result;
 				if (this.transNet != null)
 				{
-					result = this.transNet;
+					return this.transNet;
 				}
-				else if (this.connectParent != null)
+				if (this.connectParent != null)
 				{
-					result = this.connectParent.transNet;
+					return this.connectParent.transNet;
 				}
-				else
-				{
-					result = null;
-				}
-				return result;
+				return null;
 			}
 		}
 
@@ -81,24 +76,18 @@ namespace RimWorld
 		public override void PostExposeData()
 		{
 			Thing thing = null;
-			if (Scribe.mode == LoadSaveMode.Saving)
+			if (Scribe.mode == LoadSaveMode.Saving && this.connectParent != null)
 			{
-				if (this.connectParent != null)
-				{
-					thing = this.connectParent.parent;
-				}
+				thing = this.connectParent.parent;
 			}
 			Scribe_References.Look<Thing>(ref thing, "parentThing", false);
 			if (thing != null)
 			{
 				this.connectParent = ((ThingWithComps)thing).GetComp<CompPower>();
 			}
-			if (Scribe.mode == LoadSaveMode.PostLoadInit)
+			if (Scribe.mode == LoadSaveMode.PostLoadInit && this.connectParent != null)
 			{
-				if (this.connectParent != null)
-				{
-					this.ConnectToTransmitter(this.connectParent, true);
-				}
+				this.ConnectToTransmitter(this.connectParent, true);
 			}
 		}
 
@@ -180,7 +169,7 @@ namespace RimWorld
 
 		public override IEnumerable<Gizmo> CompGetGizmosExtra()
 		{
-			foreach (Gizmo c in this.<CompGetGizmosExtra>__BaseCallProxy0())
+			foreach (Gizmo c in base.CompGetGizmosExtra())
 			{
 				yield return c;
 			}
@@ -246,42 +235,34 @@ namespace RimWorld
 					this.connectParent,
 					"."
 				}), false);
+				return;
 			}
-			else
+			this.connectParent = transmitter;
+			if (this.connectParent.connectChildren == null)
 			{
-				this.connectParent = transmitter;
-				if (this.connectParent.connectChildren == null)
-				{
-					this.connectParent.connectChildren = new List<CompPower>();
-				}
-				transmitter.connectChildren.Add(this);
-				PowerNet powerNet = this.PowerNet;
-				if (powerNet != null)
-				{
-					powerNet.RegisterConnector(this);
-				}
+				this.connectParent.connectChildren = new List<CompPower>();
+			}
+			transmitter.connectChildren.Add(this);
+			PowerNet powerNet = this.PowerNet;
+			if (powerNet != null)
+			{
+				powerNet.RegisterConnector(this);
 			}
 		}
 
 		public override string CompInspectStringExtra()
 		{
-			string result;
 			if (this.PowerNet == null)
 			{
-				result = "PowerNotConnected".Translate();
+				return "PowerNotConnected".Translate();
 			}
-			else
+			string text = (this.PowerNet.CurrentEnergyGainRate() / CompPower.WattsToWattDaysPerTick).ToString("F0");
+			string text2 = this.PowerNet.CurrentStoredEnergy().ToString("F0");
+			return "PowerConnectedRateStored".Translate(new object[]
 			{
-				string text = (this.PowerNet.CurrentEnergyGainRate() / CompPower.WattsToWattDaysPerTick).ToString("F0");
-				string text2 = this.PowerNet.CurrentStoredEnergy().ToString("F0");
-				string text3 = "PowerConnectedRateStored".Translate(new object[]
-				{
-					text,
-					text2
-				});
-				result = text3;
-			}
-			return result;
+				text,
+				text2
+			});
 		}
 
 		// Note: this type is marked as 'beforefieldinit'.
@@ -332,7 +313,7 @@ namespace RimWorld
 				case 1u:
 					break;
 				case 2u:
-					goto IL_176;
+					goto IL_170;
 				default:
 					return false;
 				}
@@ -365,7 +346,7 @@ namespace RimWorld
 				}
 				if (this.connectParent == null || this.parent.Faction != Faction.OfPlayer)
 				{
-					goto IL_176;
+					goto IL_170;
 				}
 				Command_Action rec = new Command_Action();
 				rec.action = delegate()
@@ -383,7 +364,7 @@ namespace RimWorld
 					this.$PC = 2;
 				}
 				return true;
-				IL_176:
+				IL_170:
 				this.$PC = -1;
 				return false;
 			}

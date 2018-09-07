@@ -17,23 +17,18 @@ namespace RimWorld
 
 		public static bool StatBaseDefined(this BuildableDef def, StatDef stat)
 		{
-			bool result;
 			if (def.statBases == null)
 			{
-				result = false;
+				return false;
 			}
-			else
+			for (int i = 0; i < def.statBases.Count; i++)
 			{
-				for (int i = 0; i < def.statBases.Count; i++)
+				if (def.statBases[i].stat == stat)
 				{
-					if (def.statBases[i].stat == stat)
-					{
-						return true;
-					}
+					return true;
 				}
-				result = false;
 			}
-			return result;
+			return false;
 		}
 
 		public static void SetStatBaseValue(this BuildableDef def, StatDef stat, float newBaseValue)

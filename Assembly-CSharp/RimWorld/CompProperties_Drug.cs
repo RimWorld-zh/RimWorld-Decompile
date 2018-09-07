@@ -10,11 +10,11 @@ namespace RimWorld
 {
 	public class CompProperties_Drug : CompProperties
 	{
-		public ChemicalDef chemical = null;
+		public ChemicalDef chemical;
 
-		public float addictiveness = 0f;
+		public float addictiveness;
 
-		public float minToleranceToAddict = 0f;
+		public float minToleranceToAddict;
 
 		public float existingAddictionSeverityOffset = 0.1f;
 
@@ -22,11 +22,11 @@ namespace RimWorld
 
 		public FloatRange overdoseSeverityOffset = FloatRange.Zero;
 
-		public float largeOverdoseChance = 0f;
+		public float largeOverdoseChance;
 
-		public bool isCombatEnhancingDrug = false;
+		public bool isCombatEnhancingDrug;
 
-		public float listOrder = 0f;
+		public float listOrder;
 
 		public CompProperties_Drug()
 		{
@@ -51,7 +51,7 @@ namespace RimWorld
 
 		public override IEnumerable<string> ConfigErrors(ThingDef parentDef)
 		{
-			foreach (string e in this.<ConfigErrors>__BaseCallProxy0(parentDef))
+			foreach (string e in base.ConfigErrors(parentDef))
 			{
 				yield return e;
 			}
@@ -64,13 +64,13 @@ namespace RimWorld
 
 		public override IEnumerable<StatDrawEntry> SpecialDisplayStats()
 		{
-			foreach (StatDrawEntry s in this.<SpecialDisplayStats>__BaseCallProxy1())
+			foreach (StatDrawEntry s in base.SpecialDisplayStats())
 			{
 				yield return s;
 			}
 			if (this.Addictive)
 			{
-				yield return new StatDrawEntry(StatCategoryDefOf.Basics, "Addictiveness".Translate(), this.addictiveness.ToStringPercent(), 0, "");
+				yield return new StatDrawEntry(StatCategoryDefOf.Basics, "Addictiveness".Translate(), this.addictiveness.ToStringPercent(), 0, string.Empty);
 			}
 			yield break;
 		}
@@ -125,7 +125,7 @@ namespace RimWorld
 				case 1u:
 					break;
 				case 2u:
-					goto IL_FD;
+					goto IL_F9;
 				default:
 					return false;
 				}
@@ -158,7 +158,7 @@ namespace RimWorld
 				}
 				if (!base.Addictive || this.chemical != null)
 				{
-					goto IL_FD;
+					goto IL_F9;
 				}
 				this.$current = "addictive but chemical is null";
 				if (!this.$disposing)
@@ -166,7 +166,7 @@ namespace RimWorld
 					this.$PC = 2;
 				}
 				return true;
-				IL_FD:
+				IL_F9:
 				this.$PC = -1;
 				return false;
 			}
@@ -272,7 +272,7 @@ namespace RimWorld
 				case 1u:
 					break;
 				case 2u:
-					goto IL_10E;
+					goto IL_108;
 				default:
 					return false;
 				}
@@ -305,15 +305,15 @@ namespace RimWorld
 				}
 				if (!base.Addictive)
 				{
-					goto IL_10E;
+					goto IL_108;
 				}
-				this.$current = new StatDrawEntry(StatCategoryDefOf.Basics, "Addictiveness".Translate(), this.addictiveness.ToStringPercent(), 0, "");
+				this.$current = new StatDrawEntry(StatCategoryDefOf.Basics, "Addictiveness".Translate(), this.addictiveness.ToStringPercent(), 0, string.Empty);
 				if (!this.$disposing)
 				{
 					this.$PC = 2;
 				}
 				return true;
-				IL_10E:
+				IL_108:
 				this.$PC = -1;
 				return false;
 			}

@@ -11,9 +11,9 @@ namespace RimWorld
 {
 	public class JobDriver_ClearSnow : JobDriver
 	{
-		private float workDone = 0f;
+		private float workDone;
 
-		private const float ClearWorkPerSnowDepth = 100f;
+		private const float ClearWorkPerSnowDepth = 50f;
 
 		public JobDriver_ClearSnow()
 		{
@@ -23,13 +23,16 @@ namespace RimWorld
 		{
 			get
 			{
-				return 100f * base.Map.snowGrid.GetDepth(base.TargetLocA);
+				return 50f * base.Map.snowGrid.GetDepth(base.TargetLocA);
 			}
 		}
 
-		public override bool TryMakePreToilReservations()
+		public override bool TryMakePreToilReservations(bool errorOnFailed)
 		{
-			return this.pawn.Reserve(this.job.targetA, this.job, 1, -1, null);
+			Pawn pawn = this.pawn;
+			LocalTargetInfo targetA = this.job.targetA;
+			Job job = this.job;
+			return pawn.Reserve(targetA, job, 1, -1, null, errorOnFailed);
 		}
 
 		protected override IEnumerable<Toil> MakeNewToils()
@@ -39,13 +42,14 @@ namespace RimWorld
 			clearToil.tickAction = delegate()
 			{
 				Pawn actor = clearToil.actor;
-				float statValue = actor.GetStatValue(StatDefOf.WorkSpeedGlobal, true);
+				float statValue = actor.GetStatValue(StatDefOf.UnskilledLaborSpeed, true);
 				float num = statValue;
 				this.workDone += num;
 				if (this.workDone >= this.TotalNeededWork)
 				{
 					this.Map.snowGrid.SetDepth(this.TargetLocA, 0f);
 					this.ReadyForNextToil();
+					return;
 				}
 			};
 			clearToil.defaultCompleteMode = ToilCompleteMode.Never;
@@ -95,13 +99,14 @@ namespace RimWorld
 					<MakeNewToils>c__AnonStorey.clearToil.tickAction = delegate()
 					{
 						Pawn actor = <MakeNewToils>c__AnonStorey.clearToil.actor;
-						float statValue = actor.GetStatValue(StatDefOf.WorkSpeedGlobal, true);
+						float statValue = actor.GetStatValue(StatDefOf.UnskilledLaborSpeed, true);
 						float num2 = statValue;
 						<MakeNewToils>c__AnonStorey.<>f__ref$0.$this.workDone += num2;
 						if (<MakeNewToils>c__AnonStorey.<>f__ref$0.$this.workDone >= <MakeNewToils>c__AnonStorey.<>f__ref$0.$this.TotalNeededWork)
 						{
 							<MakeNewToils>c__AnonStorey.<>f__ref$0.$this.Map.snowGrid.SetDepth(<MakeNewToils>c__AnonStorey.<>f__ref$0.$this.TargetLocA, 0f);
 							<MakeNewToils>c__AnonStorey.<>f__ref$0.$this.ReadyForNextToil();
+							return;
 						}
 					};
 					<MakeNewToils>c__AnonStorey.clearToil.defaultCompleteMode = ToilCompleteMode.Never;
@@ -189,13 +194,14 @@ namespace RimWorld
 				internal void <>m__0()
 				{
 					Pawn actor = this.clearToil.actor;
-					float statValue = actor.GetStatValue(StatDefOf.WorkSpeedGlobal, true);
+					float statValue = actor.GetStatValue(StatDefOf.UnskilledLaborSpeed, true);
 					float num = statValue;
 					this.<>f__ref$0.$this.workDone += num;
 					if (this.<>f__ref$0.$this.workDone >= this.<>f__ref$0.$this.TotalNeededWork)
 					{
 						this.<>f__ref$0.$this.Map.snowGrid.SetDepth(this.<>f__ref$0.$this.TargetLocA, 0f);
 						this.<>f__ref$0.$this.ReadyForNextToil();
+						return;
 					}
 				}
 

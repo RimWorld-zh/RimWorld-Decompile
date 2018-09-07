@@ -1,7 +1,6 @@
 ﻿using System;
 using RimWorld;
 using UnityEngine;
-using UnityEngine.Profiling;
 
 namespace Verse
 {
@@ -37,16 +36,11 @@ namespace Verse
 				sunShadowsViewRect.ClipInsideMap(this.map);
 				IntVec2 intVec = this.SectionCoordsAt(sunShadowsViewRect.BottomLeft);
 				IntVec2 intVec2 = this.SectionCoordsAt(sunShadowsViewRect.TopRight);
-				CellRect result;
 				if (intVec2.x < intVec.x || intVec2.z < intVec.z)
 				{
-					result = CellRect.Empty;
+					return CellRect.Empty;
 				}
-				else
-				{
-					result = CellRect.FromLimits(intVec.x, intVec.z, intVec2.x, intVec2.z);
-				}
-				return result;
+				return CellRect.FromLimits(intVec.x, intVec.z, intVec2.x, intVec2.z);
 			}
 		}
 
@@ -59,34 +53,35 @@ namespace Verse
 
 		public void MapMeshDirty(IntVec3 loc, MapMeshFlag dirtyFlags, bool regenAdjacentCells, bool regenAdjacentSections)
 		{
-			if (Current.ProgramState == ProgramState.Playing)
+			if (Current.ProgramState != ProgramState.Playing)
 			{
-				Section section = this.SectionAt(loc);
-				section.dirtyFlags |= dirtyFlags;
-				if (regenAdjacentCells)
+				return;
+			}
+			Section section = this.SectionAt(loc);
+			section.dirtyFlags |= dirtyFlags;
+			if (regenAdjacentCells)
+			{
+				for (int i = 0; i < 8; i++)
 				{
-					for (int i = 0; i < 8; i++)
+					IntVec3 intVec = loc + GenAdj.AdjacentCells[i];
+					if (intVec.InBounds(this.map))
 					{
-						IntVec3 intVec = loc + GenAdj.AdjacentCells[i];
-						if (intVec.InBounds(this.map))
-						{
-							this.SectionAt(intVec).dirtyFlags |= dirtyFlags;
-						}
+						this.SectionAt(intVec).dirtyFlags |= dirtyFlags;
 					}
 				}
-				if (regenAdjacentSections)
+			}
+			if (regenAdjacentSections)
+			{
+				IntVec2 a = this.SectionCoordsAt(loc);
+				for (int j = 0; j < 8; j++)
 				{
-					IntVec2 a = this.SectionCoordsAt(loc);
-					for (int j = 0; j < 8; j++)
+					IntVec3 intVec2 = GenAdj.AdjacentCells[j];
+					IntVec2 intVec3 = a + new IntVec2(intVec2.x, intVec2.z);
+					IntVec2 sectionCount = this.SectionCount;
+					if (intVec3.x >= 0 && intVec3.z >= 0 && intVec3.x <= sectionCount.x - 1 && intVec3.z <= sectionCount.z - 1)
 					{
-						IntVec3 intVec2 = GenAdj.AdjacentCells[j];
-						IntVec2 intVec3 = a + new IntVec2(intVec2.x, intVec2.z);
-						IntVec2 sectionCount = this.SectionCount;
-						if (intVec3.x >= 0 && intVec3.z >= 0 && intVec3.x <= sectionCount.x - 1 && intVec3.z <= sectionCount.z - 1)
-						{
-							Section section2 = this.sections[intVec3.x, intVec3.z];
-							section2.dirtyFlags |= dirtyFlags;
-						}
+						Section section2 = this.sections[intVec3.x, intVec3.z];
+						section2.dirtyFlags |= dirtyFlags;
 					}
 				}
 			}
@@ -124,25 +119,20 @@ namespace Verse
 
 		private bool TryUpdateSection(Section sect)
 		{
-			bool result;
 			if (sect.dirtyFlags == MapMeshFlag.None)
 			{
-				result = false;
+				return false;
 			}
-			else
+			for (int i = 0; i < MapMeshFlagUtility.allFlags.Count; i++)
 			{
-				for (int i = 0; i < MapMeshFlagUtility.allFlags.Count; i++)
+				MapMeshFlag mapMeshFlag = MapMeshFlagUtility.allFlags[i];
+				if ((sect.dirtyFlags & mapMeshFlag) != MapMeshFlag.None)
 				{
-					MapMeshFlag mapMeshFlag = MapMeshFlagUtility.allFlags[i];
-					if ((sect.dirtyFlags & mapMeshFlag) != MapMeshFlag.None)
-					{
-						sect.RegenerateLayers(mapMeshFlag);
-					}
+					sect.RegenerateLayers(mapMeshFlag);
 				}
-				sect.dirtyFlags = MapMeshFlag.None;
-				result = true;
 			}
-			return result;
+			sect.dirtyFlags = MapMeshFlag.None;
+			return true;
 		}
 
 		public void DrawMapMesh()
@@ -150,9 +140,7 @@ namespace Verse
 			CellRect currentViewRect = Find.CameraDriver.CurrentViewRect;
 			currentViewRect.minX -= 17;
 			currentViewRect.minZ -= 17;
-			CellRect visibleSections = this.VisibleSections;
-			Profiler.BeginSample("Draw sections");
-			CellRect.CellRectIterator iterator = visibleSections.GetIterator();
+			CellRect.CellRectIterator iterator = this.VisibleSections.GetIterator();
 			while (!iterator.Done())
 			{
 				IntVec3 intVec = iterator.Current;
@@ -160,7 +148,6 @@ namespace Verse
 				section.DrawSection(!currentViewRect.Contains(section.botLeft));
 				iterator.MoveNext();
 			}
-			Profiler.EndSample();
 		}
 
 		private IntVec2 SectionCoordsAt(IntVec3 loc)

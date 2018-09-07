@@ -13,29 +13,21 @@ namespace Verse
 
 		public static bool CorrectContextNow(SoundDef def, Map sourceMap)
 		{
-			bool result;
 			if (sourceMap != null && (Find.CurrentMap != sourceMap || WorldRendererUtility.WorldRenderedNow))
 			{
-				result = false;
+				return false;
 			}
-			else
+			switch (def.context)
 			{
-				switch (def.context)
-				{
-				case SoundContext.Any:
-					result = true;
-					break;
-				case SoundContext.MapOnly:
-					result = (Current.ProgramState == ProgramState.Playing && !WorldRendererUtility.WorldRenderedNow);
-					break;
-				case SoundContext.WorldOnly:
-					result = WorldRendererUtility.WorldRenderedNow;
-					break;
-				default:
-					throw new NotImplementedException();
-				}
+			case SoundContext.Any:
+				return true;
+			case SoundContext.MapOnly:
+				return Current.ProgramState == ProgramState.Playing && !WorldRendererUtility.WorldRenderedNow;
+			case SoundContext.WorldOnly:
+				return WorldRendererUtility.WorldRenderedNow;
+			default:
+				throw new NotImplementedException();
 			}
-			return result;
 		}
 	}
 }

@@ -25,12 +25,17 @@ namespace RimWorld
 			}
 		}
 
-		public override bool TryMakePreToilReservations()
+		public override bool TryMakePreToilReservations(bool errorOnFailed)
 		{
 			bool hasThing = this.job.GetTarget(TargetIndex.A).HasThing;
 			if (hasThing)
 			{
-				if (!this.pawn.Reserve(this.Bed, this.job, this.Bed.SleepingSlotsCount, 0, null))
+				Pawn pawn = this.pawn;
+				LocalTargetInfo target = this.Bed;
+				Job job = this.job;
+				int sleepingSlotsCount = this.Bed.SleepingSlotsCount;
+				int stackCount = 0;
+				if (!pawn.Reserve(target, job, sleepingSlotsCount, stackCount, null, errorOnFailed))
 				{
 					return false;
 				}
@@ -61,16 +66,11 @@ namespace RimWorld
 
 		public override string GetReport()
 		{
-			string result;
 			if (this.asleep)
 			{
-				result = "ReportSleeping".Translate();
+				return "ReportSleeping".Translate();
 			}
-			else
-			{
-				result = "ReportResting".Translate();
-			}
-			return result;
+			return "ReportResting".Translate();
 		}
 
 		[CompilerGenerated]

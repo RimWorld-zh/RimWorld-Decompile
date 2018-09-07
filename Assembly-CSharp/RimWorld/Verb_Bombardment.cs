@@ -5,7 +5,7 @@ namespace RimWorld
 {
 	public class Verb_Bombardment : Verb
 	{
-		private const int DurationTicks = 450;
+		private const int DurationTicks = 540;
 
 		public Verb_Bombardment()
 		{
@@ -13,25 +13,20 @@ namespace RimWorld
 
 		protected override bool TryCastShot()
 		{
-			bool result;
 			if (this.currentTarget.HasThing && this.currentTarget.Thing.Map != this.caster.Map)
 			{
-				result = false;
+				return false;
 			}
-			else
+			Bombardment bombardment = (Bombardment)GenSpawn.Spawn(ThingDefOf.Bombardment, this.currentTarget.Cell, this.caster.Map, WipeMode.Vanish);
+			bombardment.duration = 540;
+			bombardment.instigator = this.caster;
+			bombardment.weaponDef = ((base.EquipmentSource == null) ? null : base.EquipmentSource.def);
+			bombardment.StartStrike();
+			if (base.EquipmentSource != null && !base.EquipmentSource.Destroyed)
 			{
-				Bombardment bombardment = (Bombardment)GenSpawn.Spawn(ThingDefOf.Bombardment, this.currentTarget.Cell, this.caster.Map, WipeMode.Vanish);
-				bombardment.duration = 450;
-				bombardment.instigator = this.caster;
-				bombardment.weaponDef = ((base.EquipmentSource == null) ? null : base.EquipmentSource.def);
-				bombardment.StartStrike();
-				if (base.EquipmentSource != null && !base.EquipmentSource.Destroyed)
-				{
-					base.EquipmentSource.Destroy(DestroyMode.Vanish);
-				}
-				result = true;
+				base.EquipmentSource.Destroy(DestroyMode.Vanish);
 			}
-			return result;
+			return true;
 		}
 
 		public override float HighlightFieldRadiusAroundTarget(out bool needLOSToCenter)

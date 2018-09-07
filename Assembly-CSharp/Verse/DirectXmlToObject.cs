@@ -29,7 +29,6 @@ namespace Verse
 		public static T ObjectFromXml<T>(XmlNode xmlRoot, bool doPostLoad) where T : new()
 		{
 			MethodInfo methodInfo = DirectXmlToObject.CustomDataLoadMethodOf(typeof(T));
-			T result;
 			if (methodInfo != null)
 			{
 				xmlRoot = XmlInheritance.GetResolvedNodeFor(xmlRoot);
@@ -68,82 +67,79 @@ namespace Verse
 				{
 					DirectXmlToObject.TryDoPostLoad(t);
 				}
-				result = t;
+				return t;
 			}
-			else if (xmlRoot.ChildNodes.Count == 1 && xmlRoot.FirstChild.NodeType == XmlNodeType.CDATA)
+			if (xmlRoot.ChildNodes.Count == 1 && xmlRoot.FirstChild.NodeType == XmlNodeType.CDATA)
 			{
 				if (typeof(T) != typeof(string))
 				{
 					Log.Error("CDATA can only be used for strings. Bad xml: " + xmlRoot.OuterXml, false);
-					result = default(T);
+					return default(T);
 				}
-				else
-				{
-					result = (T)((object)xmlRoot.FirstChild.Value);
-				}
-			}
-			else if (xmlRoot.ChildNodes.Count == 1 && xmlRoot.FirstChild.NodeType == XmlNodeType.Text)
-			{
-				try
-				{
-					return (T)((object)ParseHelper.FromString(xmlRoot.InnerText, typeof(T)));
-				}
-				catch (Exception ex2)
-				{
-					Log.Error(string.Concat(new object[]
-					{
-						"Exception parsing ",
-						xmlRoot.OuterXml,
-						" to type ",
-						typeof(T),
-						": ",
-						ex2
-					}), false);
-				}
-				result = default(T);
-			}
-			else if (Attribute.IsDefined(typeof(T), typeof(FlagsAttribute)))
-			{
-				List<T> list = DirectXmlToObject.ListFromXml<T>(xmlRoot);
-				int num = 0;
-				foreach (T t2 in list)
-				{
-					int num2 = (int)((object)t2);
-					num |= num2;
-				}
-				result = (T)((object)num);
-			}
-			else if (typeof(T).HasGenericDefinition(typeof(List<>)))
-			{
-				MethodInfo method = typeof(DirectXmlToObject).GetMethod("ListFromXml", BindingFlags.Instance | BindingFlags.Static | BindingFlags.Public | BindingFlags.NonPublic);
-				Type[] genericArguments = typeof(T).GetGenericArguments();
-				MethodInfo methodInfo2 = method.MakeGenericMethod(genericArguments);
-				object[] parameters = new object[]
-				{
-					xmlRoot
-				};
-				object obj = methodInfo2.Invoke(null, parameters);
-				result = (T)((object)obj);
-			}
-			else if (typeof(T).HasGenericDefinition(typeof(Dictionary<, >)))
-			{
-				MethodInfo method2 = typeof(DirectXmlToObject).GetMethod("DictionaryFromXml", BindingFlags.Instance | BindingFlags.Static | BindingFlags.Public | BindingFlags.NonPublic);
-				Type[] genericArguments2 = typeof(T).GetGenericArguments();
-				MethodInfo methodInfo3 = method2.MakeGenericMethod(genericArguments2);
-				object[] parameters2 = new object[]
-				{
-					xmlRoot
-				};
-				object obj2 = methodInfo3.Invoke(null, parameters2);
-				result = (T)((object)obj2);
+				return (T)((object)xmlRoot.FirstChild.Value);
 			}
 			else
 			{
+				if (xmlRoot.ChildNodes.Count == 1 && xmlRoot.FirstChild.NodeType == XmlNodeType.Text)
+				{
+					try
+					{
+						return (T)((object)ParseHelper.FromString(xmlRoot.InnerText, typeof(T)));
+					}
+					catch (Exception ex2)
+					{
+						Log.Error(string.Concat(new object[]
+						{
+							"Exception parsing ",
+							xmlRoot.OuterXml,
+							" to type ",
+							typeof(T),
+							": ",
+							ex2
+						}), false);
+					}
+					return default(T);
+				}
+				if (Attribute.IsDefined(typeof(T), typeof(FlagsAttribute)))
+				{
+					List<T> list = DirectXmlToObject.ListFromXml<T>(xmlRoot);
+					int num = 0;
+					foreach (T t2 in list)
+					{
+						int num2 = (int)((object)t2);
+						num |= num2;
+					}
+					return (T)((object)num);
+				}
+				if (typeof(T).HasGenericDefinition(typeof(List<>)))
+				{
+					MethodInfo method = typeof(DirectXmlToObject).GetMethod("ListFromXml", BindingFlags.Instance | BindingFlags.Static | BindingFlags.Public | BindingFlags.NonPublic);
+					Type[] genericArguments = typeof(T).GetGenericArguments();
+					MethodInfo methodInfo2 = method.MakeGenericMethod(genericArguments);
+					object[] parameters = new object[]
+					{
+						xmlRoot
+					};
+					object obj = methodInfo2.Invoke(null, parameters);
+					return (T)((object)obj);
+				}
+				if (typeof(T).HasGenericDefinition(typeof(Dictionary<, >)))
+				{
+					MethodInfo method2 = typeof(DirectXmlToObject).GetMethod("DictionaryFromXml", BindingFlags.Instance | BindingFlags.Static | BindingFlags.Public | BindingFlags.NonPublic);
+					Type[] genericArguments2 = typeof(T).GetGenericArguments();
+					MethodInfo methodInfo3 = method2.MakeGenericMethod(genericArguments2);
+					object[] parameters2 = new object[]
+					{
+						xmlRoot
+					};
+					object obj2 = methodInfo3.Invoke(null, parameters2);
+					return (T)((object)obj2);
+				}
 				if (!xmlRoot.HasChildNodes)
 				{
 					if (typeof(T) == typeof(string))
 					{
-						return (T)((object)"");
+						return (T)((object)string.Empty);
 					}
 					XmlAttribute xmlAttribute = xmlRoot.Attributes["IsNull"];
 					if (xmlAttribute != null && xmlAttribute.Value.ToUpperInvariant() == "TRUE")
@@ -223,7 +219,7 @@ namespace Verse
 								}
 							}
 						}
-						if (fieldInfo.TryGetAttribute<UnsavedAttribute>() != null)
+						if (fieldInfo != null && fieldInfo.TryGetAttribute<UnsavedAttribute>() != null)
 						{
 							Log.Error(string.Concat(new string[]
 							{
@@ -290,7 +286,7 @@ namespace Verse
 							catch (Exception ex3)
 							{
 								Log.Error("Exception loading from " + xmlNode.ToString() + ": " + ex3.ToString(), false);
-								goto IL_8C6;
+								goto IL_850;
 							}
 							if (!typeof(T).IsValueType)
 							{
@@ -304,39 +300,30 @@ namespace Verse
 							}
 						}
 					}
-					IL_8C6:;
+					IL_850:;
 				}
 				if (doPostLoad)
 				{
 					DirectXmlToObject.TryDoPostLoad(t3);
 				}
-				result = t3;
+				return t3;
 			}
-			return result;
 		}
 
 		private static Type ClassTypeOf<T>(XmlNode xmlRoot)
 		{
 			XmlAttribute xmlAttribute = xmlRoot.Attributes["Class"];
-			Type result;
-			if (xmlAttribute != null)
+			if (xmlAttribute == null)
 			{
-				Type typeInAnyAssembly = GenTypes.GetTypeInAnyAssembly(xmlAttribute.Value);
-				if (typeInAnyAssembly == null)
-				{
-					Log.Error("Could not find type named " + xmlAttribute.Value + " from node " + xmlRoot.OuterXml, false);
-					result = typeof(T);
-				}
-				else
-				{
-					result = typeInAnyAssembly;
-				}
+				return typeof(T);
 			}
-			else
+			Type typeInAnyAssembly = GenTypes.GetTypeInAnyAssembly(xmlAttribute.Value);
+			if (typeInAnyAssembly == null)
 			{
-				result = typeof(T);
+				Log.Error("Could not find type named " + xmlAttribute.Value + " from node " + xmlRoot.OuterXml, false);
+				return typeof(T);
 			}
-			return result;
+			return typeInAnyAssembly;
 		}
 
 		private static void TryDoPostLoad(object obj)
@@ -487,26 +474,21 @@ namespace Verse
 
 		private static bool ValidateListNode(XmlNode listEntryNode, XmlNode listRootNode, Type listItemType)
 		{
-			bool result;
 			if (listEntryNode is XmlComment)
 			{
-				result = false;
+				return false;
 			}
-			else if (listEntryNode is XmlText)
+			if (listEntryNode is XmlText)
 			{
 				Log.Error("XML format error: Raw text found inside a list element. Did you mean to surround it with list item <li> tags? " + listRootNode.OuterXml, false);
-				result = false;
+				return false;
 			}
-			else if (listEntryNode.Name != "li" && DirectXmlToObject.CustomDataLoadMethodOf(listItemType) == null)
+			if (listEntryNode.Name != "li" && DirectXmlToObject.CustomDataLoadMethodOf(listItemType) == null)
 			{
 				Log.Error("XML format error: List item found with name that is not <li>, and which does not have a custom XML loader method, in " + listRootNode.OuterXml, false);
-				result = false;
+				return false;
 			}
-			else
-			{
-				result = true;
-			}
-			return result;
+			return true;
 		}
 
 		private static FieldInfo GetFieldInfoForType(Type type, string token, XmlNode debugXmlNode)

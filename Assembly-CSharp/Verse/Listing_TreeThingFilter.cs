@@ -14,7 +14,7 @@ namespace Verse
 
 		private List<SpecialThingFilterDef> hiddenSpecialFilters;
 
-		private List<ThingDef> forceHiddenDefs = null;
+		private List<ThingDef> forceHiddenDefs;
 
 		private List<SpecialThingFilterDef> tempForceHiddenSpecialFilters;
 
@@ -78,24 +78,25 @@ namespace Verse
 
 		private void DoSpecialFilter(SpecialThingFilterDef sfDef, int nestLevel)
 		{
-			if (sfDef.configurable)
+			if (!sfDef.configurable)
 			{
-				base.LabelLeft("*" + sfDef.LabelCap, sfDef.description, nestLevel);
-				bool flag = this.filter.Allows(sfDef);
-				bool flag2 = flag;
-				Widgets.Checkbox(new Vector2(this.LabelWidth, this.curY), ref flag, this.lineHeight, false, true, null, null);
-				if (flag != flag2)
-				{
-					this.filter.SetAllow(sfDef, flag);
-				}
-				base.EndLine();
+				return;
 			}
+			base.LabelLeft("*" + sfDef.LabelCap, sfDef.description, nestLevel, 0f);
+			bool flag = this.filter.Allows(sfDef);
+			bool flag2 = flag;
+			Widgets.Checkbox(new Vector2(this.LabelWidth, this.curY), ref flag, this.lineHeight, false, true, null, null);
+			if (flag != flag2)
+			{
+				this.filter.SetAllow(sfDef, flag);
+			}
+			base.EndLine();
 		}
 
 		public void DoCategory(TreeNode_ThingCategory node, int indentLevel, int openMask, Map map)
 		{
 			base.OpenCloseWidget(node, indentLevel, openMask);
-			base.LabelLeft(node.LabelCap, node.catDef.description, indentLevel);
+			base.LabelLeft(node.LabelCap, node.catDef.description, indentLevel, 0f);
 			MultiCheckboxState multiCheckboxState = this.AllowanceStateOf(node);
 			MultiCheckboxState multiCheckboxState2 = Widgets.CheckboxMulti(new Rect(this.LabelWidth, this.curY, this.lineHeight, this.lineHeight), multiCheckboxState, true);
 			if (multiCheckboxState != multiCheckboxState2)
@@ -120,29 +121,37 @@ namespace Verse
 					10.ToStringCached()
 				});
 			}
-			base.LabelLeft(tDef.LabelCap, text, nestLevel);
+			float num = -4f;
+			if (flag)
+			{
+				Rect rect = new Rect(this.LabelWidth - 19f, this.curY, 19f, 20f);
+				Text.Font = GameFont.Tiny;
+				Text.Anchor = TextAnchor.UpperRight;
+				GUI.color = Color.gray;
+				Widgets.Label(rect, "/" + 10.ToStringCached());
+				Text.Font = GameFont.Small;
+				GenUI.ResetLabelAlign();
+				GUI.color = Color.white;
+			}
+			num -= 19f;
 			if (map != null)
 			{
 				int count = map.resourceCounter.GetCount(tDef);
 				if (count > 0)
 				{
-					Rect rect = new Rect(this.LabelWidth - 40f, this.curY, 40f, 40f);
+					string text2 = count.ToStringCached();
+					Rect rect2 = new Rect(0f, this.curY, this.LabelWidth + num, 40f);
 					Text.Font = GameFont.Tiny;
-					GUI.color = Color.gray;
-					Widgets.Label(rect, count.ToStringCached());
+					Text.Anchor = TextAnchor.UpperRight;
+					GUI.color = new Color(0.5f, 0.5f, 0.1f);
+					Widgets.Label(rect2, text2);
+					num -= Text.CalcSize(text2).x;
+					GenUI.ResetLabelAlign();
 					Text.Font = GameFont.Small;
 					GUI.color = Color.white;
 				}
 			}
-			if (flag)
-			{
-				Rect rect2 = new Rect(this.LabelWidth - 20f, this.curY, 20f, 20f);
-				Text.Font = GameFont.Tiny;
-				GUI.color = Color.gray;
-				Widgets.Label(rect2, "/" + 10.ToStringCached());
-				Text.Font = GameFont.Small;
-				GUI.color = Color.white;
-			}
+			base.LabelLeft(tDef.LabelCap, text, nestLevel, num);
 			bool flag2 = this.filter.Allows(tDef);
 			bool flag3 = flag2;
 			Widgets.Checkbox(new Vector2(this.LabelWidth, this.curY), ref flag2, this.lineHeight, false, true, null, null);
@@ -177,49 +186,39 @@ namespace Verse
 					break;
 				}
 			}
-			MultiCheckboxState result;
 			if (num2 == 0)
 			{
-				result = MultiCheckboxState.Off;
+				return MultiCheckboxState.Off;
 			}
-			else if (num == num2 && !flag)
+			if (num == num2 && !flag)
 			{
-				result = MultiCheckboxState.On;
+				return MultiCheckboxState.On;
 			}
-			else
-			{
-				result = MultiCheckboxState.Partial;
-			}
-			return result;
+			return MultiCheckboxState.Partial;
 		}
 
 		private bool Visible(ThingDef td)
 		{
-			bool result;
 			if (td.menuHidden)
 			{
-				result = false;
+				return false;
 			}
-			else if (this.forceHiddenDefs != null && this.forceHiddenDefs.Contains(td))
+			if (this.forceHiddenDefs != null && this.forceHiddenDefs.Contains(td))
 			{
-				result = false;
+				return false;
 			}
-			else
+			if (this.parentFilter != null)
 			{
-				if (this.parentFilter != null)
+				if (!this.parentFilter.Allows(td))
 				{
-					if (!this.parentFilter.Allows(td))
-					{
-						return false;
-					}
-					if (this.parentFilter.IsAlwaysDisallowedDueToSpecialFilters(td))
-					{
-						return false;
-					}
+					return false;
 				}
-				result = true;
+				if (this.parentFilter.IsAlwaysDisallowedDueToSpecialFilters(td))
+				{
+					return false;
+				}
 			}
-			return result;
+			return true;
 		}
 
 		private bool Visible(TreeNode_ThingCategory node)
@@ -229,27 +228,22 @@ namespace Verse
 
 		private bool Visible(SpecialThingFilterDef filter)
 		{
-			bool result;
 			if (this.parentFilter != null && !this.parentFilter.Allows(filter))
 			{
-				result = false;
+				return false;
 			}
-			else
+			if (this.hiddenSpecialFilters == null)
 			{
-				if (this.hiddenSpecialFilters == null)
-				{
-					this.CalculateHiddenSpecialFilters();
-				}
-				for (int i = 0; i < this.hiddenSpecialFilters.Count; i++)
-				{
-					if (this.hiddenSpecialFilters[i] == filter)
-					{
-						return false;
-					}
-				}
-				result = true;
+				this.CalculateHiddenSpecialFilters();
 			}
-			return result;
+			for (int i = 0; i < this.hiddenSpecialFilters.Count; i++)
+			{
+				if (this.hiddenSpecialFilters[i] == filter)
+				{
+					return false;
+				}
+			}
+			return true;
 		}
 
 		private void CalculateHiddenSpecialFilters()

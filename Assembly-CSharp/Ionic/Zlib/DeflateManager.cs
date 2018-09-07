@@ -14,14 +14,14 @@ namespace Ionic.Zlib
 		{
 			"need dictionary",
 			"stream end",
-			"",
+			string.Empty,
 			"file error",
 			"stream error",
 			"data error",
 			"insufficient memory",
 			"buffer error",
 			"incompatible version",
-			""
+			string.Empty
 		};
 
 		private static readonly int PRESET_DICT = 32;
@@ -160,7 +160,7 @@ namespace Ionic.Zlib
 
 		internal int bi_valid;
 
-		private bool Rfc1950BytesEmitted = false;
+		private bool Rfc1950BytesEmitted;
 
 		private bool _WantRfc1950HeaderBytes = true;
 
@@ -641,7 +641,7 @@ namespace Ionic.Zlib
 					this.flush_block_only(false);
 					if (this._codec.AvailableBytesOut == 0)
 					{
-						goto Block_7;
+						return BlockState.NeedMore;
 					}
 				}
 				if (this.strstart - this.block_start >= this.w_size - DeflateManager.MIN_LOOKAHEAD)
@@ -649,7 +649,7 @@ namespace Ionic.Zlib
 					this.flush_block_only(false);
 					if (this._codec.AvailableBytesOut == 0)
 					{
-						goto Block_9;
+						return BlockState.NeedMore;
 					}
 				}
 			}
@@ -661,10 +661,6 @@ namespace Ionic.Zlib
 				return (flush != FlushType.Finish) ? BlockState.NeedMore : BlockState.FinishStarted;
 			}
 			return (flush != FlushType.Finish) ? BlockState.BlockDone : BlockState.FinishDone;
-			Block_7:
-			return BlockState.NeedMore;
-			Block_9:
-			return BlockState.NeedMore;
 		}
 
 		internal void _tr_stored_block(int buf, int stored_len, bool eof)
@@ -722,7 +718,7 @@ namespace Ionic.Zlib
 
 		private void _fillWindow()
 		{
-			do
+			for (;;)
 			{
 				int num = this.window_size - this.lookahead - this.strstart;
 				int num2;
@@ -769,8 +765,11 @@ namespace Ionic.Zlib
 					this.ins_h = (int)(this.window[this.strstart] & byte.MaxValue);
 					this.ins_h = ((this.ins_h << this.hash_shift ^ (int)(this.window[this.strstart + 1] & byte.MaxValue)) & this.hash_mask);
 				}
+				if (this.lookahead >= DeflateManager.MIN_LOOKAHEAD || this._codec.AvailableBytesIn == 0)
+				{
+					return;
+				}
 			}
-			while (this.lookahead < DeflateManager.MIN_LOOKAHEAD && this._codec.AvailableBytesIn != 0);
 		}
 
 		internal BlockState DeflateFast(FlushType flush)
@@ -797,12 +796,9 @@ namespace Ionic.Zlib
 					this.prev[this.strstart & this.w_mask] = this.head[this.ins_h];
 					this.head[this.ins_h] = (short)this.strstart;
 				}
-				if ((long)num != 0L && (this.strstart - num & 65535) <= this.w_size - DeflateManager.MIN_LOOKAHEAD)
+				if ((long)num != 0L && (this.strstart - num & 65535) <= this.w_size - DeflateManager.MIN_LOOKAHEAD && this.compressionStrategy != CompressionStrategy.HuffmanOnly)
 				{
-					if (this.compressionStrategy != CompressionStrategy.HuffmanOnly)
-					{
-						this.match_length = this.longest_match(num);
-					}
+					this.match_length = this.longest_match(num);
 				}
 				bool flag;
 				if (this.match_length >= DeflateManager.MIN_MATCH)
@@ -842,7 +838,7 @@ namespace Ionic.Zlib
 					this.flush_block_only(false);
 					if (this._codec.AvailableBytesOut == 0)
 					{
-						goto Block_14;
+						return BlockState.NeedMore;
 					}
 				}
 			}
@@ -857,8 +853,6 @@ namespace Ionic.Zlib
 			{
 				return BlockState.FinishStarted;
 			}
-			return BlockState.NeedMore;
-			Block_14:
 			return BlockState.NeedMore;
 		}
 
@@ -925,7 +919,7 @@ namespace Ionic.Zlib
 						this.flush_block_only(false);
 						if (this._codec.AvailableBytesOut == 0)
 						{
-							goto Block_18;
+							return BlockState.NeedMore;
 						}
 					}
 				}
@@ -940,7 +934,7 @@ namespace Ionic.Zlib
 					this.lookahead--;
 					if (this._codec.AvailableBytesOut == 0)
 					{
-						goto Block_21;
+						return BlockState.NeedMore;
 					}
 				}
 				else
@@ -966,10 +960,6 @@ namespace Ionic.Zlib
 			{
 				return BlockState.FinishStarted;
 			}
-			return BlockState.NeedMore;
-			Block_18:
-			return BlockState.NeedMore;
-			Block_21:
 			return BlockState.NeedMore;
 		}
 
@@ -1018,16 +1008,11 @@ namespace Ionic.Zlib
 				}
 			}
 			while ((cur_match = ((int)this.prev[cur_match & num5] & 65535)) > num4 && --num != 0);
-			int result;
 			if (num3 <= this.lookahead)
 			{
-				result = num3;
+				return num3;
 			}
-			else
-			{
-				result = this.lookahead;
-			}
-			return result;
+			return this.lookahead;
 		}
 
 		internal bool WantRfc1950HeaderBytes
@@ -1106,20 +1091,15 @@ namespace Ionic.Zlib
 
 		internal int End()
 		{
-			int result;
 			if (this.status != DeflateManager.INIT_STATE && this.status != DeflateManager.BUSY_STATE && this.status != DeflateManager.FINISH_STATE)
 			{
-				result = -2;
+				return -2;
 			}
-			else
-			{
-				this.pending = null;
-				this.head = null;
-				this.prev = null;
-				this.window = null;
-				result = ((this.status != DeflateManager.BUSY_STATE) ? 0 : -3);
-			}
-			return result;
+			this.pending = null;
+			this.head = null;
+			this.prev = null;
+			this.window = null;
+			return (this.status != DeflateManager.BUSY_STATE) ? 0 : -3;
 		}
 
 		private void SetDeflater()
@@ -1172,32 +1152,27 @@ namespace Ionic.Zlib
 				throw new ZlibException("Stream error.");
 			}
 			this._codec._Adler32 = Adler.Adler32(this._codec._Adler32, dictionary, 0, dictionary.Length);
-			int result;
 			if (num < DeflateManager.MIN_MATCH)
 			{
-				result = 0;
+				return 0;
 			}
-			else
+			if (num > this.w_size - DeflateManager.MIN_LOOKAHEAD)
 			{
-				if (num > this.w_size - DeflateManager.MIN_LOOKAHEAD)
-				{
-					num = this.w_size - DeflateManager.MIN_LOOKAHEAD;
-					sourceIndex = dictionary.Length - num;
-				}
-				Array.Copy(dictionary, sourceIndex, this.window, 0, num);
-				this.strstart = num;
-				this.block_start = num;
-				this.ins_h = (int)(this.window[0] & byte.MaxValue);
-				this.ins_h = ((this.ins_h << this.hash_shift ^ (int)(this.window[1] & byte.MaxValue)) & this.hash_mask);
-				for (int i = 0; i <= num - DeflateManager.MIN_MATCH; i++)
-				{
-					this.ins_h = ((this.ins_h << this.hash_shift ^ (int)(this.window[i + (DeflateManager.MIN_MATCH - 1)] & byte.MaxValue)) & this.hash_mask);
-					this.prev[i & this.w_mask] = this.head[this.ins_h];
-					this.head[this.ins_h] = (short)i;
-				}
-				result = 0;
+				num = this.w_size - DeflateManager.MIN_LOOKAHEAD;
+				sourceIndex = dictionary.Length - num;
 			}
-			return result;
+			Array.Copy(dictionary, sourceIndex, this.window, 0, num);
+			this.strstart = num;
+			this.block_start = num;
+			this.ins_h = (int)(this.window[0] & byte.MaxValue);
+			this.ins_h = ((this.ins_h << this.hash_shift ^ (int)(this.window[1] & byte.MaxValue)) & this.hash_mask);
+			for (int i = 0; i <= num - DeflateManager.MIN_MATCH; i++)
+			{
+				this.ins_h = ((this.ins_h << this.hash_shift ^ (int)(this.window[i + (DeflateManager.MIN_MATCH - 1)] & byte.MaxValue)) & this.hash_mask);
+				this.prev[i & this.w_mask] = this.head[this.ins_h];
+				this.head[this.ins_h] = (short)i;
+			}
+			return 0;
 		}
 
 		internal int Deflate(FlushType flush)
@@ -1298,26 +1273,21 @@ namespace Ionic.Zlib
 					}
 				}
 			}
-			int result;
 			if (flush != FlushType.Finish)
 			{
-				result = 0;
+				return 0;
 			}
-			else if (!this.WantRfc1950HeaderBytes || this.Rfc1950BytesEmitted)
+			if (!this.WantRfc1950HeaderBytes || this.Rfc1950BytesEmitted)
 			{
-				result = 1;
+				return 1;
 			}
-			else
-			{
-				this.pending[this.pendingCount++] = (byte)((this._codec._Adler32 & 4278190080u) >> 24);
-				this.pending[this.pendingCount++] = (byte)((this._codec._Adler32 & 16711680u) >> 16);
-				this.pending[this.pendingCount++] = (byte)((this._codec._Adler32 & 65280u) >> 8);
-				this.pending[this.pendingCount++] = (byte)(this._codec._Adler32 & 255u);
-				this._codec.flush_pending();
-				this.Rfc1950BytesEmitted = true;
-				result = ((this.pendingCount == 0) ? 1 : 0);
-			}
-			return result;
+			this.pending[this.pendingCount++] = (byte)((this._codec._Adler32 & 4278190080u) >> 24);
+			this.pending[this.pendingCount++] = (byte)((this._codec._Adler32 & 16711680u) >> 16);
+			this.pending[this.pendingCount++] = (byte)((this._codec._Adler32 & 65280u) >> 8);
+			this.pending[this.pendingCount++] = (byte)(this._codec._Adler32 & 255u);
+			this._codec.flush_pending();
+			this.Rfc1950BytesEmitted = true;
+			return (this.pendingCount == 0) ? 1 : 0;
 		}
 
 		// Note: this type is marked as 'beforefieldinit'.

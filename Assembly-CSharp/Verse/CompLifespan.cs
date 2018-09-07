@@ -46,7 +46,7 @@ namespace Verse
 		public override string CompInspectStringExtra()
 		{
 			string text = base.CompInspectStringExtra();
-			string result = "";
+			string result = string.Empty;
 			int num = this.Props.lifespanTicks - this.age;
 			if (num > 0)
 			{

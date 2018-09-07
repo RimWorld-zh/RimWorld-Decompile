@@ -33,9 +33,12 @@ namespace RimWorld
 			}
 		}
 
-		public override bool TryMakePreToilReservations()
+		public override bool TryMakePreToilReservations(bool errorOnFailed)
 		{
-			return this.pawn.Reserve(this.ResearchBench, this.job, 1, -1, null);
+			Pawn pawn = this.pawn;
+			LocalTargetInfo target = this.ResearchBench;
+			Job job = this.job;
+			return pawn.Reserve(target, job, 1, -1, null, errorOnFailed);
 		}
 
 		protected override IEnumerable<Toil> MakeNewToils()
@@ -49,7 +52,7 @@ namespace RimWorld
 				float num = actor.GetStatValue(StatDefOf.ResearchSpeed, true);
 				num *= this.TargetThingA.GetStatValue(StatDefOf.ResearchSpeedFactor, true);
 				Find.ResearchManager.ResearchPerformed(num, actor);
-				actor.skills.Learn(SkillDefOf.Intellectual, 0.11f, false);
+				actor.skills.Learn(SkillDefOf.Intellectual, 0.1f, false);
 				actor.GainComfortFromCellIfPossible();
 			};
 			research.FailOn(() => this.Project == null);
@@ -59,16 +62,11 @@ namespace RimWorld
 			research.WithProgressBar(TargetIndex.A, delegate
 			{
 				ResearchProjectDef project = this.Project;
-				float result;
 				if (project == null)
 				{
-					result = 0f;
+					return 0f;
 				}
-				else
-				{
-					result = project.ProgressPercent;
-				}
-				return result;
+				return project.ProgressPercent;
 			}, false, -0.5f);
 			research.defaultCompleteMode = ToilCompleteMode.Delay;
 			research.defaultDuration = 4000;
@@ -120,7 +118,7 @@ namespace RimWorld
 						float num2 = actor.GetStatValue(StatDefOf.ResearchSpeed, true);
 						num2 *= <MakeNewToils>c__AnonStorey.<>f__ref$0.$this.TargetThingA.GetStatValue(StatDefOf.ResearchSpeedFactor, true);
 						Find.ResearchManager.ResearchPerformed(num2, actor);
-						actor.skills.Learn(SkillDefOf.Intellectual, 0.11f, false);
+						actor.skills.Learn(SkillDefOf.Intellectual, 0.1f, false);
 						actor.GainComfortFromCellIfPossible();
 					};
 					<MakeNewToils>c__AnonStorey.research.FailOn(() => <MakeNewToils>c__AnonStorey.<>f__ref$0.$this.Project == null);
@@ -130,16 +128,11 @@ namespace RimWorld
 					<MakeNewToils>c__AnonStorey.research.WithProgressBar(TargetIndex.A, delegate
 					{
 						ResearchProjectDef project = <MakeNewToils>c__AnonStorey.<>f__ref$0.$this.Project;
-						float result;
 						if (project == null)
 						{
-							result = 0f;
+							return 0f;
 						}
-						else
-						{
-							result = project.ProgressPercent;
-						}
-						return result;
+						return project.ProgressPercent;
 					}, false, -0.5f);
 					<MakeNewToils>c__AnonStorey.research.defaultCompleteMode = ToilCompleteMode.Delay;
 					<MakeNewToils>c__AnonStorey.research.defaultDuration = 4000;
@@ -234,7 +227,7 @@ namespace RimWorld
 					float num = actor.GetStatValue(StatDefOf.ResearchSpeed, true);
 					num *= this.<>f__ref$0.$this.TargetThingA.GetStatValue(StatDefOf.ResearchSpeedFactor, true);
 					Find.ResearchManager.ResearchPerformed(num, actor);
-					actor.skills.Learn(SkillDefOf.Intellectual, 0.11f, false);
+					actor.skills.Learn(SkillDefOf.Intellectual, 0.1f, false);
 					actor.GainComfortFromCellIfPossible();
 				}
 
@@ -251,16 +244,11 @@ namespace RimWorld
 				internal float <>m__3()
 				{
 					ResearchProjectDef project = this.<>f__ref$0.$this.Project;
-					float result;
 					if (project == null)
 					{
-						result = 0f;
+						return 0f;
 					}
-					else
-					{
-						result = project.ProgressPercent;
-					}
-					return result;
+					return project.ProgressPercent;
 				}
 			}
 		}

@@ -14,18 +14,18 @@ namespace RimWorld
 	public class StockGenerator_Animals : StockGenerator
 	{
 		[NoTranslate]
-		private List<string> tradeTagsSell = null;
+		private List<string> tradeTagsSell;
 
 		[NoTranslate]
-		private List<string> tradeTagsBuy = null;
+		private List<string> tradeTagsBuy;
 
 		private IntRange kindCountRange = new IntRange(1, 1);
 
-		private float minWildness = 0f;
+		private float minWildness;
 
 		private float maxWildness = 1f;
 
-		private bool checkTemperature = false;
+		private bool checkTemperature;
 
 		private static readonly SimpleCurve SelectionChanceFromWildnessCurve = new SimpleCurve
 		{
@@ -98,28 +98,23 @@ namespace RimWorld
 
 		private bool PawnKindAllowed(PawnKindDef kind, int forTile)
 		{
-			bool result;
 			if (!kind.RaceProps.Animal || kind.RaceProps.wildness < this.minWildness || kind.RaceProps.wildness > this.maxWildness || kind.RaceProps.wildness > 1f)
 			{
-				result = false;
+				return false;
 			}
-			else
+			if (this.checkTemperature)
 			{
-				if (this.checkTemperature)
+				int num = forTile;
+				if (num == -1 && Find.AnyPlayerHomeMap != null)
 				{
-					int num = forTile;
-					if (num == -1 && Find.AnyPlayerHomeMap != null)
-					{
-						num = Find.AnyPlayerHomeMap.Tile;
-					}
-					if (num != -1 && !Find.World.tileTemperatures.SeasonAndOutdoorTemperatureAcceptableFor(num, kind.race))
-					{
-						return false;
-					}
+					num = Find.AnyPlayerHomeMap.Tile;
 				}
-				result = (kind.race.tradeTags != null && this.tradeTagsSell.Any((string x) => kind.race.tradeTags.Contains(x)) && kind.race.tradeability.TraderCanSell());
+				if (num != -1 && !Find.World.tileTemperatures.SeasonAndOutdoorTemperatureAcceptableFor(num, kind.race))
+				{
+					return false;
+				}
 			}
-			return result;
+			return kind.race.tradeTags != null && this.tradeTagsSell.Any((string x) => kind.race.tradeTags.Contains(x)) && kind.race.tradeability.TraderCanSell();
 		}
 
 		public void LogAnimalChances()

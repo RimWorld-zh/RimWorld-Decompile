@@ -34,19 +34,20 @@ namespace Verse
 
 		private static void BuildDatabaseIfNecessary()
 		{
-			if (GraphicDatabaseHeadRecords.heads.Count <= 0 || GraphicDatabaseHeadRecords.skull == null || GraphicDatabaseHeadRecords.stump == null)
+			if (GraphicDatabaseHeadRecords.heads.Count > 0 && GraphicDatabaseHeadRecords.skull != null && GraphicDatabaseHeadRecords.stump != null)
 			{
-				GraphicDatabaseHeadRecords.heads.Clear();
-				foreach (string text in GraphicDatabaseHeadRecords.HeadsFolderPaths)
-				{
-					foreach (string str in GraphicDatabaseUtility.GraphicNamesInFolder(text))
-					{
-						GraphicDatabaseHeadRecords.heads.Add(new GraphicDatabaseHeadRecords.HeadGraphicRecord(text + "/" + str));
-					}
-				}
-				GraphicDatabaseHeadRecords.skull = new GraphicDatabaseHeadRecords.HeadGraphicRecord(GraphicDatabaseHeadRecords.SkullPath);
-				GraphicDatabaseHeadRecords.stump = new GraphicDatabaseHeadRecords.HeadGraphicRecord(GraphicDatabaseHeadRecords.StumpPath);
+				return;
 			}
+			GraphicDatabaseHeadRecords.heads.Clear();
+			foreach (string text in GraphicDatabaseHeadRecords.HeadsFolderPaths)
+			{
+				foreach (string str in GraphicDatabaseUtility.GraphicNamesInFolder(text))
+				{
+					GraphicDatabaseHeadRecords.heads.Add(new GraphicDatabaseHeadRecords.HeadGraphicRecord(text + "/" + str));
+				}
+			}
+			GraphicDatabaseHeadRecords.skull = new GraphicDatabaseHeadRecords.HeadGraphicRecord(GraphicDatabaseHeadRecords.SkullPath);
+			GraphicDatabaseHeadRecords.stump = new GraphicDatabaseHeadRecords.HeadGraphicRecord(GraphicDatabaseHeadRecords.StumpPath);
 		}
 
 		public static Graphic_Multi GetHeadNamed(string graphicPath, Color skinColor)
@@ -117,7 +118,7 @@ namespace Verse
 		{
 			public Gender gender;
 
-			public CrownType crownType = CrownType.Undefined;
+			public CrownType crownType;
 
 			public string graphicPath;
 

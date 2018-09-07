@@ -14,7 +14,7 @@ namespace Verse
 
 		private List<LogEntry> entries = new List<LogEntry>();
 
-		private string battleName = null;
+		private string battleName;
 
 		private Battle absorbedBy;
 
@@ -102,7 +102,7 @@ namespace Verse
 					{
 						request.Includes.Add(RulePackDefOf.Battle_Solo);
 						request.Rules.AddRange(GrammarUtility.RulesForPawn("PARTICIPANT1", this.concerns.First<Pawn>(), null));
-						goto IL_1D6;
+						goto IL_1CC;
 					}
 				}
 				if (this.concerns.Count == 2)
@@ -126,8 +126,8 @@ namespace Verse
 				{
 					request.Includes.Add(RulePackDefOf.Battle_Brawl);
 				}
-				IL_1D6:
-				this.battleName = GrammarResolver.Resolve("r_battlename", request, null, false);
+				IL_1CC:
+				this.battleName = GrammarResolver.Resolve("r_battlename", request, null, false, null);
 			}
 			return this.battleName;
 		}
@@ -166,28 +166,29 @@ namespace Verse
 
 		public void Notify_PawnDiscarded(Pawn p, bool silentlyRemoveReferences)
 		{
-			if (this.concerns.Contains(p))
+			if (!this.concerns.Contains(p))
 			{
-				for (int i = this.entries.Count - 1; i >= 0; i--)
-				{
-					if (this.entries[i].Concerns(p))
-					{
-						if (!silentlyRemoveReferences)
-						{
-							Log.Warning(string.Concat(new object[]
-							{
-								"Discarding pawn ",
-								p,
-								", but he is referenced by a battle log entry ",
-								this.entries[i],
-								"."
-							}), false);
-						}
-						this.entries.RemoveAt(i);
-					}
-				}
-				this.concerns.Remove(p);
+				return;
 			}
+			for (int i = this.entries.Count - 1; i >= 0; i--)
+			{
+				if (this.entries[i].Concerns(p))
+				{
+					if (!silentlyRemoveReferences)
+					{
+						Log.Warning(string.Concat(new object[]
+						{
+							"Discarding pawn ",
+							p,
+							", but he is referenced by a battle log entry ",
+							this.entries[i],
+							"."
+						}), false);
+					}
+					this.entries.RemoveAt(i);
+				}
+			}
+			this.concerns.Remove(p);
 		}
 
 		public void ExposeData()

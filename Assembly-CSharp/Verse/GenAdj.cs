@@ -392,40 +392,30 @@ namespace Verse
 
 		public static bool AdjacentTo8WayOrInside(this IntVec3 me, LocalTargetInfo other)
 		{
-			bool result;
 			if (other.HasThing)
 			{
-				result = me.AdjacentTo8WayOrInside(other.Thing);
+				return me.AdjacentTo8WayOrInside(other.Thing);
 			}
-			else
-			{
-				result = me.AdjacentTo8WayOrInside(other.Cell);
-			}
-			return result;
+			return me.AdjacentTo8WayOrInside(other.Cell);
 		}
 
 		public static bool AdjacentTo8Way(this IntVec3 me, IntVec3 other)
 		{
 			int num = me.x - other.x;
 			int num2 = me.z - other.z;
-			bool result;
 			if (num == 0 && num2 == 0)
 			{
-				result = false;
+				return false;
 			}
-			else
+			if (num < 0)
 			{
-				if (num < 0)
-				{
-					num *= -1;
-				}
-				if (num2 < 0)
-				{
-					num2 *= -1;
-				}
-				result = (num <= 1 && num2 <= 1);
+				num *= -1;
 			}
-			return result;
+			if (num2 < 0)
+			{
+				num2 *= -1;
+			}
+			return num <= 1 && num2 <= 1;
 		}
 
 		public static bool AdjacentTo8WayOrInside(this IntVec3 me, IntVec3 other)
@@ -445,17 +435,12 @@ namespace Verse
 
 		public static bool IsAdjacentToCardinalOrInside(this IntVec3 me, CellRect other)
 		{
-			bool result;
 			if (other.IsEmpty)
 			{
-				result = false;
+				return false;
 			}
-			else
-			{
-				CellRect cellRect = other.ExpandedBy(1);
-				result = (cellRect.Contains(me) && !cellRect.IsCorner(me));
-			}
-			return result;
+			CellRect cellRect = other.ExpandedBy(1);
+			return cellRect.Contains(me) && !cellRect.IsCorner(me);
 		}
 
 		public static bool IsAdjacentToCardinalOrInside(this Thing t1, Thing t2)
@@ -465,55 +450,50 @@ namespace Verse
 
 		public static bool IsAdjacentToCardinalOrInside(CellRect rect1, CellRect rect2)
 		{
-			bool result;
 			if (rect1.IsEmpty || rect2.IsEmpty)
 			{
-				result = false;
+				return false;
 			}
-			else
+			CellRect cellRect = rect1.ExpandedBy(1);
+			int minX = cellRect.minX;
+			int maxX = cellRect.maxX;
+			int minZ = cellRect.minZ;
+			int maxZ = cellRect.maxZ;
+			int i = minX;
+			int j = minZ;
+			while (i <= maxX)
 			{
-				CellRect cellRect = rect1.ExpandedBy(1);
-				int minX = cellRect.minX;
-				int maxX = cellRect.maxX;
-				int minZ = cellRect.minZ;
-				int maxZ = cellRect.maxZ;
-				int i = minX;
-				int j = minZ;
-				while (i <= maxX)
+				if (rect2.Contains(new IntVec3(i, 0, j)) && (i != minX || j != minZ) && (i != minX || j != maxZ) && (i != maxX || j != minZ) && (i != maxX || j != maxZ))
 				{
-					if (rect2.Contains(new IntVec3(i, 0, j)) && (i != minX || j != minZ) && (i != minX || j != maxZ) && (i != maxX || j != minZ) && (i != maxX || j != maxZ))
-					{
-						return true;
-					}
-					i++;
-				}
-				i--;
-				for (j++; j <= maxZ; j++)
-				{
-					if (rect2.Contains(new IntVec3(i, 0, j)) && (i != minX || j != minZ) && (i != minX || j != maxZ) && (i != maxX || j != minZ) && (i != maxX || j != maxZ))
-					{
-						return true;
-					}
-				}
-				j--;
-				for (i--; i >= minX; i--)
-				{
-					if (rect2.Contains(new IntVec3(i, 0, j)) && (i != minX || j != minZ) && (i != minX || j != maxZ) && (i != maxX || j != minZ) && (i != maxX || j != maxZ))
-					{
-						return true;
-					}
+					return true;
 				}
 				i++;
-				for (j--; j > minZ; j--)
-				{
-					if (rect2.Contains(new IntVec3(i, 0, j)) && (i != minX || j != minZ) && (i != minX || j != maxZ) && (i != maxX || j != minZ) && (i != maxX || j != maxZ))
-					{
-						return true;
-					}
-				}
-				result = false;
 			}
-			return result;
+			i--;
+			for (j++; j <= maxZ; j++)
+			{
+				if (rect2.Contains(new IntVec3(i, 0, j)) && (i != minX || j != minZ) && (i != minX || j != maxZ) && (i != maxX || j != minZ) && (i != maxX || j != maxZ))
+				{
+					return true;
+				}
+			}
+			j--;
+			for (i--; i >= minX; i--)
+			{
+				if (rect2.Contains(new IntVec3(i, 0, j)) && (i != minX || j != minZ) && (i != minX || j != maxZ) && (i != maxX || j != minZ) && (i != maxX || j != maxZ))
+				{
+					return true;
+				}
+			}
+			i++;
+			for (j--; j > minZ; j--)
+			{
+				if (rect2.Contains(new IntVec3(i, 0, j)) && (i != minX || j != minZ) && (i != minX || j != maxZ) && (i != maxX || j != minZ) && (i != maxX || j != maxZ))
+				{
+					return true;
+				}
+			}
+			return false;
 		}
 
 		public static bool AdjacentTo8WayOrInside(this IntVec3 root, Thing t)
@@ -569,39 +549,40 @@ namespace Verse
 
 		public static void AdjustForRotation(ref IntVec3 center, ref IntVec2 size, Rot4 rot)
 		{
-			if (size.x != 1 || size.z != 1)
+			if (size.x == 1 && size.z == 1)
 			{
-				if (rot.IsHorizontal)
+				return;
+			}
+			if (rot.IsHorizontal)
+			{
+				int x = size.x;
+				size.x = size.z;
+				size.z = x;
+			}
+			switch (rot.AsInt)
+			{
+			case 1:
+				if (size.z % 2 == 0)
 				{
-					int x = size.x;
-					size.x = size.z;
-					size.z = x;
+					center.z--;
 				}
-				switch (rot.AsInt)
+				break;
+			case 2:
+				if (size.x % 2 == 0)
 				{
-				case 1:
-					if (size.z % 2 == 0)
-					{
-						center.z--;
-					}
-					break;
-				case 2:
-					if (size.x % 2 == 0)
-					{
-						center.x--;
-					}
-					if (size.z % 2 == 0)
-					{
-						center.z--;
-					}
-					break;
-				case 3:
-					if (size.x % 2 == 0)
-					{
-						center.x--;
-					}
-					break;
+					center.x--;
 				}
+				if (size.z % 2 == 0)
+				{
+					center.z--;
+				}
+				break;
+			case 3:
+				if (size.x % 2 == 0)
+				{
+					center.x--;
+				}
+				break;
 			}
 		}
 
@@ -646,7 +627,7 @@ namespace Verse
 					num = 4294967293u;
 					break;
 				case 1u:
-					goto IL_13C;
+					goto IL_134;
 				case 2u:
 					break;
 				default:
@@ -679,7 +660,7 @@ namespace Verse
 						}
 					}
 				}
-				IL_13C:
+				IL_134:
 				this.$PC = -1;
 				return false;
 			}
@@ -799,14 +780,14 @@ namespace Verse
 					maxX = minX + size.x - 1;
 					maxZ = minZ + size.z - 1;
 					i = minX;
-					goto IL_12E;
+					goto IL_129;
 				case 1u:
 					j++;
 					break;
 				default:
 					return false;
 				}
-				IL_10E:
+				IL_10A:
 				if (j <= maxZ)
 				{
 					this.$current = new IntVec3(i, 0, j);
@@ -817,11 +798,11 @@ namespace Verse
 					return true;
 				}
 				i++;
-				IL_12E:
+				IL_129:
 				if (i <= maxX)
 				{
 					j = minZ;
-					goto IL_10E;
+					goto IL_10A;
 				}
 				this.$PC = -1;
 				return false;
@@ -912,7 +893,7 @@ namespace Verse
 					if (!pack.HasThing)
 					{
 						i = 0;
-						goto IL_130;
+						goto IL_127;
 					}
 					enumerator = GenAdj.CellsAdjacent8Way(pack.Thing).GetEnumerator();
 					num = 4294967293u;
@@ -921,7 +902,7 @@ namespace Verse
 					break;
 				case 2u:
 					i++;
-					goto IL_130;
+					goto IL_127;
 				default:
 					return false;
 				}
@@ -952,8 +933,8 @@ namespace Verse
 						}
 					}
 				}
-				goto IL_13D;
-				IL_130:
+				goto IL_133;
+				IL_127:
 				if (i < 8)
 				{
 					this.$current = pack.Cell + GenAdj.AdjacentCells[i];
@@ -963,7 +944,7 @@ namespace Verse
 					}
 					return true;
 				}
-				IL_13D:
+				IL_133:
 				this.$PC = -1;
 				return false;
 			}
@@ -1085,28 +1066,28 @@ namespace Verse
 				case 1u:
 					if (cur.x >= maxX)
 					{
-						goto IL_124;
+						goto IL_121;
 					}
 					break;
 				case 2u:
 					if (cur.z >= maxZ)
 					{
-						goto IL_16F;
+						goto IL_16A;
 					}
-					goto IL_124;
+					goto IL_121;
 				case 3u:
 					if (cur.x <= minX)
 					{
-						goto IL_1BA;
+						goto IL_1B3;
 					}
-					goto IL_16F;
+					goto IL_16A;
 				case 4u:
 					if (cur.z <= minZ + 1)
 					{
 						this.$PC = -1;
 						return false;
 					}
-					goto IL_1BA;
+					goto IL_1B3;
 				default:
 					return false;
 				}
@@ -1117,7 +1098,7 @@ namespace Verse
 					this.$PC = 1;
 				}
 				return true;
-				IL_124:
+				IL_121:
 				cur.z++;
 				this.$current = cur;
 				if (!this.$disposing)
@@ -1125,7 +1106,7 @@ namespace Verse
 					this.$PC = 2;
 				}
 				return true;
-				IL_16F:
+				IL_16A:
 				cur.x--;
 				this.$current = cur;
 				if (!this.$disposing)
@@ -1133,7 +1114,7 @@ namespace Verse
 					this.$PC = 3;
 				}
 				return true;
-				IL_1BA:
+				IL_1B3:
 				cur.z--;
 				this.$current = cur;
 				if (!this.$disposing)
@@ -1247,30 +1228,30 @@ namespace Verse
 					if (cur.x >= maxX - 1)
 					{
 						cur.x++;
-						goto IL_137;
+						goto IL_134;
 					}
 					break;
 				case 2u:
 					if (cur.z >= maxZ - 1)
 					{
 						cur.z++;
-						goto IL_197;
+						goto IL_192;
 					}
-					goto IL_137;
+					goto IL_134;
 				case 3u:
 					if (cur.x <= minX + 1)
 					{
 						cur.x--;
-						goto IL_1F7;
+						goto IL_1F0;
 					}
-					goto IL_197;
+					goto IL_192;
 				case 4u:
 					if (cur.z <= minZ + 1)
 					{
 						this.$PC = -1;
 						return false;
 					}
-					goto IL_1F7;
+					goto IL_1F0;
 				default:
 					return false;
 				}
@@ -1281,7 +1262,7 @@ namespace Verse
 					this.$PC = 1;
 				}
 				return true;
-				IL_137:
+				IL_134:
 				cur.z++;
 				this.$current = cur;
 				if (!this.$disposing)
@@ -1289,7 +1270,7 @@ namespace Verse
 					this.$PC = 2;
 				}
 				return true;
-				IL_197:
+				IL_192:
 				cur.x--;
 				this.$current = cur;
 				if (!this.$disposing)
@@ -1297,7 +1278,7 @@ namespace Verse
 					this.$PC = 3;
 				}
 				return true;
-				IL_1F7:
+				IL_1F0:
 				cur.z--;
 				this.$current = cur;
 				if (!this.$disposing)
@@ -1415,7 +1396,7 @@ namespace Verse
 					maxZ = minZ + thingSize.z + 1;
 					if (dir != LinkDirections.Down)
 					{
-						goto IL_137;
+						goto IL_132;
 					}
 					x = minX;
 					break;
@@ -1424,13 +1405,13 @@ namespace Verse
 					break;
 				case 2u:
 					x2++;
-					goto IL_19D;
+					goto IL_195;
 				case 3u:
 					z++;
-					goto IL_215;
+					goto IL_209;
 				case 4u:
 					z2++;
-					goto IL_28D;
+					goto IL_27D;
 				default:
 					return false;
 				}
@@ -1443,13 +1424,13 @@ namespace Verse
 					}
 					return true;
 				}
-				IL_137:
+				IL_132:
 				if (dir != LinkDirections.Up)
 				{
-					goto IL_1AF;
+					goto IL_1A6;
 				}
 				x2 = minX;
-				IL_19D:
+				IL_195:
 				if (x2 <= maxX)
 				{
 					this.$current = new IntVec3(x2, thingCent.y, maxZ + 1);
@@ -1459,13 +1440,13 @@ namespace Verse
 					}
 					return true;
 				}
-				IL_1AF:
+				IL_1A6:
 				if (dir != LinkDirections.Left)
 				{
-					goto IL_227;
+					goto IL_21A;
 				}
 				z = minZ;
-				IL_215:
+				IL_209:
 				if (z <= maxZ)
 				{
 					this.$current = new IntVec3(minX - 1, thingCent.y, z);
@@ -1475,13 +1456,13 @@ namespace Verse
 					}
 					return true;
 				}
-				IL_227:
+				IL_21A:
 				if (dir != LinkDirections.Right)
 				{
-					goto IL_29F;
+					goto IL_28E;
 				}
 				z2 = minZ;
-				IL_28D:
+				IL_27D:
 				if (z2 <= maxZ)
 				{
 					this.$current = new IntVec3(maxX + 1, thingCent.y, z2);
@@ -1491,7 +1472,7 @@ namespace Verse
 					}
 					return true;
 				}
-				IL_29F:
+				IL_28E:
 				this.$PC = -1;
 				return false;
 			}
@@ -1599,14 +1580,14 @@ namespace Verse
 					maxX = minX + size.x + 1;
 					maxZ = minZ + size.z + 1;
 					i = minX;
-					goto IL_16A;
+					goto IL_165;
 				case 1u:
 					j++;
 					break;
 				default:
 					return false;
 				}
-				IL_14A:
+				IL_146:
 				if (j <= maxZ)
 				{
 					this.$current = new IntVec3(i, 0, j);
@@ -1617,11 +1598,11 @@ namespace Verse
 					return true;
 				}
 				i++;
-				IL_16A:
+				IL_165:
 				if (i <= maxX)
 				{
 					j = minZ;
-					goto IL_14A;
+					goto IL_146;
 				}
 				this.$PC = -1;
 				return false;

@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Runtime.CompilerServices;
+using System.Text;
 using Verse;
 
 namespace RimWorld
@@ -21,32 +22,27 @@ namespace RimWorld
 		{
 			return this.PotentialVictimCandidates(target).Where(delegate(Pawn p)
 			{
-				bool result;
 				if (p.ParentHolder is Building_CryptosleepCasket)
 				{
-					result = false;
+					return false;
 				}
-				else
+				if (!this.def.diseasePartsToAffect.NullOrEmpty<BodyPartDef>())
 				{
-					if (!this.def.diseasePartsToAffect.NullOrEmpty<BodyPartDef>())
+					bool flag = false;
+					for (int i = 0; i < this.def.diseasePartsToAffect.Count; i++)
 					{
-						bool flag = false;
-						for (int i = 0; i < this.def.diseasePartsToAffect.Count; i++)
+						if (IncidentWorker_Disease.CanAddHediffToAnyPartOfDef(p, this.def.diseaseIncident, this.def.diseasePartsToAffect[i]))
 						{
-							if (IncidentWorker_Disease.CanAddHediffToAnyPartOfDef(p, this.def.diseaseIncident, this.def.diseasePartsToAffect[i]))
-							{
-								flag = true;
-								break;
-							}
-						}
-						if (!flag)
-						{
-							return false;
+							flag = true;
+							break;
 						}
 					}
-					result = p.RaceProps.IsFlesh;
+					if (!flag)
+					{
+						return false;
+					}
 				}
-				return result;
+				return p.RaceProps.IsFlesh;
 			});
 		}
 
@@ -73,19 +69,64 @@ namespace RimWorld
 
 		protected override bool TryExecuteWorker(IncidentParms parms)
 		{
-			this.ApplyToPawns(this.ActualVictims(parms));
+			string text;
+			List<Pawn> list = this.ApplyToPawns(this.ActualVictims(parms).ToList<Pawn>(), out text);
+			if (!list.Any<Pawn>() && text.NullOrEmpty())
+			{
+				return false;
+			}
+			StringBuilder stringBuilder = new StringBuilder();
+			for (int i = 0; i < list.Count; i++)
+			{
+				if (stringBuilder.Length != 0)
+				{
+					stringBuilder.AppendLine();
+				}
+				stringBuilder.Append("  - " + list[i].LabelCap);
+			}
+			string text2;
+			if (list.Any<Pawn>())
+			{
+				text2 = string.Format(this.def.letterText, new object[]
+				{
+					list.Count.ToString(),
+					Faction.OfPlayer.def.pawnsPlural,
+					this.def.diseaseIncident.label,
+					stringBuilder.ToString()
+				});
+			}
+			else
+			{
+				text2 = string.Empty;
+			}
+			if (!text.NullOrEmpty())
+			{
+				if (!text2.NullOrEmpty())
+				{
+					text2 += "\n\n";
+				}
+				text2 += text;
+			}
+			Find.LetterStack.ReceiveLetter(this.def.letterLabel, text2, this.def.letterDef, list, null, null);
 			return true;
 		}
 
-		public void ApplyToPawns(IEnumerable<Pawn> pawns)
+		public List<Pawn> ApplyToPawns(IEnumerable<Pawn> pawns, out string blockedInfo)
 		{
+			List<Pawn> list = new List<Pawn>();
 			Dictionary<HediffDef, List<Pawn>> dictionary = new Dictionary<HediffDef, List<Pawn>>();
 			foreach (Pawn pawn in pawns)
 			{
 				HediffDef hediffDef = null;
 				if (Rand.Chance(pawn.health.immunity.DiseaseContractChanceFactor(this.def.diseaseIncident, out hediffDef, null)))
 				{
-					HediffGiveUtility.TryApply(pawn, this.def.diseaseIncident, this.def.diseasePartsToAffect, false, 1, null);
+					HediffGiverUtility.TryApply(pawn, this.def.diseaseIncident, this.def.diseasePartsToAffect, false, 1, null);
+					TaleRecorder.RecordTale(TaleDefOf.IllnessRevealed, new object[]
+					{
+						pawn,
+						this.def.diseaseIncident
+					});
+					list.Add(pawn);
 				}
 				else if (hediffDef != null)
 				{
@@ -96,50 +137,52 @@ namespace RimWorld
 					dictionary[hediffDef].Add(pawn);
 				}
 			}
+			blockedInfo = string.Empty;
 			foreach (KeyValuePair<HediffDef, List<Pawn>> keyValuePair in dictionary)
 			{
 				if (keyValuePair.Key != this.def.diseaseIncident)
 				{
-					string key = "MessageBlockedHediff";
+					if (blockedInfo.Length != 0)
+					{
+						blockedInfo += "\n\n";
+					}
+					string str = blockedInfo;
+					string key = "LetterDisease_Blocked";
 					object[] array = new object[3];
 					array[0] = keyValuePair.Key.LabelCap;
-					array[1] = this.def.diseaseIncident.LabelCap;
+					array[1] = this.def.diseaseIncident.label;
 					array[2] = (from victim in keyValuePair.Value
 					select victim.LabelShort).ToCommaList(true);
-					Messages.Message(key.Translate(array), MessageTypeDefOf.NeutralEvent, true);
+					blockedInfo = str + key.Translate(array);
 				}
 			}
+			return list;
 		}
 
 		[CompilerGenerated]
 		private bool <PotentialVictims>m__0(Pawn p)
 		{
-			bool result;
 			if (p.ParentHolder is Building_CryptosleepCasket)
 			{
-				result = false;
+				return false;
 			}
-			else
+			if (!this.def.diseasePartsToAffect.NullOrEmpty<BodyPartDef>())
 			{
-				if (!this.def.diseasePartsToAffect.NullOrEmpty<BodyPartDef>())
+				bool flag = false;
+				for (int i = 0; i < this.def.diseasePartsToAffect.Count; i++)
 				{
-					bool flag = false;
-					for (int i = 0; i < this.def.diseasePartsToAffect.Count; i++)
+					if (IncidentWorker_Disease.CanAddHediffToAnyPartOfDef(p, this.def.diseaseIncident, this.def.diseasePartsToAffect[i]))
 					{
-						if (IncidentWorker_Disease.CanAddHediffToAnyPartOfDef(p, this.def.diseaseIncident, this.def.diseasePartsToAffect[i]))
-						{
-							flag = true;
-							break;
-						}
-					}
-					if (!flag)
-					{
-						return false;
+						flag = true;
+						break;
 					}
 				}
-				result = p.RaceProps.IsFlesh;
+				if (!flag)
+				{
+					return false;
+				}
 			}
-			return result;
+			return p.RaceProps.IsFlesh;
 		}
 
 		[CompilerGenerated]

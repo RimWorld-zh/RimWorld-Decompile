@@ -22,29 +22,24 @@ namespace RimWorld
 		public override bool HasJobOnCell(Pawn pawn, IntVec3 c, bool forced = false)
 		{
 			Plant plant = c.GetPlant(pawn.Map);
-			bool result;
 			if (plant == null)
 			{
-				result = false;
+				return false;
 			}
-			else if (plant.IsForbidden(pawn))
+			if (plant.IsForbidden(pawn))
 			{
-				result = false;
+				return false;
 			}
-			else if (!plant.HarvestableNow || plant.LifeStage != PlantLifeStage.Mature)
+			if (!plant.HarvestableNow || plant.LifeStage != PlantLifeStage.Mature)
 			{
-				result = false;
+				return false;
 			}
-			else if (!plant.CanYieldNow())
+			if (!plant.CanYieldNow())
 			{
-				result = false;
+				return false;
 			}
-			else
-			{
-				LocalTargetInfo target = plant;
-				result = pawn.CanReserve(target, 1, -1, null, forced);
-			}
-			return result;
+			LocalTargetInfo target = plant;
+			return pawn.CanReserve(target, 1, -1, null, forced);
 		}
 
 		public override Job JobOnCell(Pawn pawn, IntVec3 c, bool forced = false)

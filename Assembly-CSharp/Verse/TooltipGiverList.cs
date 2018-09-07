@@ -32,39 +32,41 @@ namespace Verse
 
 		public void DispenseAllThingTooltips()
 		{
-			if (Event.current.type == EventType.Repaint)
+			if (Event.current.type != EventType.Repaint)
 			{
-				if (Find.WindowStack.FloatMenu == null)
+				return;
+			}
+			if (Find.WindowStack.FloatMenu != null)
+			{
+				return;
+			}
+			CellRect currentViewRect = Find.CameraDriver.CurrentViewRect;
+			float cellSizePixels = Find.CameraDriver.CellSizePixels;
+			Vector2 vector = new Vector2(cellSizePixels, cellSizePixels);
+			Rect rect = new Rect(0f, 0f, vector.x, vector.y);
+			int num = 0;
+			for (int i = 0; i < this.givers.Count; i++)
+			{
+				Thing thing = this.givers[i];
+				if (currentViewRect.Contains(thing.Position) && !thing.Position.Fogged(thing.Map))
 				{
-					CellRect currentViewRect = Find.CameraDriver.CurrentViewRect;
-					float cellSizePixels = Find.CameraDriver.CellSizePixels;
-					Vector2 vector = new Vector2(cellSizePixels, cellSizePixels);
-					Rect rect = new Rect(0f, 0f, vector.x, vector.y);
-					int num = 0;
-					for (int i = 0; i < this.givers.Count; i++)
+					Vector2 vector2 = thing.DrawPos.MapToUIPosition();
+					rect.x = vector2.x - vector.x / 2f;
+					rect.y = vector2.y - vector.y / 2f;
+					if (rect.Contains(Event.current.mousePosition))
 					{
-						Thing thing = this.givers[i];
-						if (currentViewRect.Contains(thing.Position) && !thing.Position.Fogged(thing.Map))
+						string text = (!this.ShouldShowShotReport(thing)) ? null : TooltipUtility.ShotCalculationTipString(thing);
+						if (thing.def.hasTooltip || !text.NullOrEmpty())
 						{
-							Vector2 vector2 = thing.DrawPos.MapToUIPosition();
-							rect.x = vector2.x - vector.x / 2f;
-							rect.y = vector2.y - vector.y / 2f;
-							if (rect.Contains(Event.current.mousePosition))
+							TipSignal tooltip = thing.GetTooltip();
+							if (!text.NullOrEmpty())
 							{
-								string text = (!this.ShouldShowShotReport(thing)) ? null : TooltipUtility.ShotCalculationTipString(thing);
-								if (thing.def.hasTooltip || !text.NullOrEmpty())
-								{
-									TipSignal tooltip = thing.GetTooltip();
-									if (!text.NullOrEmpty())
-									{
-										tooltip.text = tooltip.text + "\n\n" + text;
-									}
-									TooltipHandler.TipRegion(rect, tooltip);
-								}
+								tooltip.text = tooltip.text + "\n\n" + text;
 							}
-							num++;
+							TooltipHandler.TipRegion(rect, tooltip);
 						}
 					}
+					num++;
 				}
 			}
 		}

@@ -8,29 +8,21 @@ namespace RimWorld
 	{
 		public static float PriceMultiplier(this PriceType pType)
 		{
-			float result;
 			switch (pType)
 			{
 			case PriceType.VeryCheap:
-				result = 0.4f;
-				break;
+				return 0.4f;
 			case PriceType.Cheap:
-				result = 0.7f;
-				break;
+				return 0.7f;
 			case PriceType.Normal:
-				result = 1f;
-				break;
+				return 1f;
 			case PriceType.Expensive:
-				result = 2f;
-				break;
+				return 2f;
 			case PriceType.Exorbitant:
-				result = 5f;
-				break;
+				return 5f;
 			default:
-				result = -1f;
-				break;
+				return -1f;
 			}
-			return result;
 		}
 
 		public static PriceType ClosestPriceType(float priceFactor)

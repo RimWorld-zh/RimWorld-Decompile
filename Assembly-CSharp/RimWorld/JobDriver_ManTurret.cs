@@ -23,17 +23,12 @@ namespace RimWorld
 		private static bool GunNeedsLoading(Building b)
 		{
 			Building_TurretGun building_TurretGun = b as Building_TurretGun;
-			bool result;
 			if (building_TurretGun == null)
 			{
-				result = false;
+				return false;
 			}
-			else
-			{
-				CompChangeableProjectile compChangeableProjectile = building_TurretGun.gun.TryGetComp<CompChangeableProjectile>();
-				result = (compChangeableProjectile != null && !compChangeableProjectile.Loaded);
-			}
-			return result;
+			CompChangeableProjectile compChangeableProjectile = building_TurretGun.gun.TryGetComp<CompChangeableProjectile>();
+			return compChangeableProjectile != null && !compChangeableProjectile.Loaded;
 		}
 
 		public static Thing FindAmmoForTurret(Pawn pawn, Building_TurretGun gun)
@@ -43,9 +38,12 @@ namespace RimWorld
 			return GenClosest.ClosestThingReachable(gun.Position, gun.Map, ThingRequest.ForGroup(ThingRequestGroup.Shell), PathEndMode.OnCell, TraverseParms.For(pawn, Danger.Deadly, TraverseMode.ByPawn, false), 40f, validator, null, 0, -1, false, RegionType.Set_Passable, false);
 		}
 
-		public override bool TryMakePreToilReservations()
+		public override bool TryMakePreToilReservations(bool errorOnFailed)
 		{
-			return this.pawn.Reserve(this.job.targetA, this.job, 1, -1, null);
+			Pawn pawn = this.pawn;
+			LocalTargetInfo targetA = this.job.targetA;
+			Job job = this.job;
+			return pawn.Reserve(targetA, job, 1, -1, null, errorOnFailed);
 		}
 
 		protected override IEnumerable<Toil> MakeNewToils()
@@ -61,25 +59,23 @@ namespace RimWorld
 				if (!JobDriver_ManTurret.GunNeedsLoading(building))
 				{
 					this.JumpToToil(gotoTurret);
+					return;
 				}
-				else
+				Thing thing = JobDriver_ManTurret.FindAmmoForTurret(this.pawn, building_TurretGun);
+				if (thing == null)
 				{
-					Thing thing = JobDriver_ManTurret.FindAmmoForTurret(this.pawn, building_TurretGun);
-					if (thing == null)
+					if (actor.Faction == Faction.OfPlayer)
 					{
-						if (actor.Faction == Faction.OfPlayer)
+						Messages.Message("MessageOutOfNearbyShellsFor".Translate(new object[]
 						{
-							Messages.Message("MessageOutOfNearbyShellsFor".Translate(new object[]
-							{
-								actor.LabelShort,
-								building_TurretGun.Label
-							}).CapitalizeFirst(), building_TurretGun, MessageTypeDefOf.NegativeEvent, true);
-						}
-						actor.jobs.EndCurrentJob(JobCondition.Incompletable, true);
+							actor.LabelShort,
+							building_TurretGun.Label
+						}).CapitalizeFirst(), building_TurretGun, MessageTypeDefOf.NegativeEvent, true);
 					}
-					actor.CurJob.targetB = thing;
-					actor.CurJob.count = 1;
+					actor.jobs.EndCurrentJob(JobCondition.Incompletable, true);
 				}
+				actor.CurJob.targetB = thing;
+				actor.CurJob.count = 1;
 			};
 			yield return loadIfNeeded;
 			yield return Toils_Reserve.Reserve(TargetIndex.B, 10, 1, null);
@@ -107,11 +103,9 @@ namespace RimWorld
 				if (JobDriver_ManTurret.GunNeedsLoading(building))
 				{
 					this.JumpToToil(loadIfNeeded);
+					return;
 				}
-				else
-				{
-					building.GetComp<CompMannable>().ManForATick(actor);
-				}
+				building.GetComp<CompMannable>().ManForATick(actor);
 			};
 			man.defaultCompleteMode = ToilCompleteMode.Never;
 			man.FailOnCannotTouch(TargetIndex.A, PathEndMode.InteractionCell);
@@ -175,25 +169,23 @@ namespace RimWorld
 						if (!JobDriver_ManTurret.GunNeedsLoading(building))
 						{
 							this.JumpToToil(gotoTurret);
+							return;
 						}
-						else
+						Thing thing = JobDriver_ManTurret.FindAmmoForTurret(this.pawn, building_TurretGun);
+						if (thing == null)
 						{
-							Thing thing = JobDriver_ManTurret.FindAmmoForTurret(this.pawn, building_TurretGun);
-							if (thing == null)
+							if (actor.Faction == Faction.OfPlayer)
 							{
-								if (actor.Faction == Faction.OfPlayer)
+								Messages.Message("MessageOutOfNearbyShellsFor".Translate(new object[]
 								{
-									Messages.Message("MessageOutOfNearbyShellsFor".Translate(new object[]
-									{
-										actor.LabelShort,
-										building_TurretGun.Label
-									}).CapitalizeFirst(), building_TurretGun, MessageTypeDefOf.NegativeEvent, true);
-								}
-								actor.jobs.EndCurrentJob(JobCondition.Incompletable, true);
+									actor.LabelShort,
+									building_TurretGun.Label
+								}).CapitalizeFirst(), building_TurretGun, MessageTypeDefOf.NegativeEvent, true);
 							}
-							actor.CurJob.targetB = thing;
-							actor.CurJob.count = 1;
+							actor.jobs.EndCurrentJob(JobCondition.Incompletable, true);
 						}
+						actor.CurJob.targetB = thing;
+						actor.CurJob.count = 1;
 					};
 					this.$current = loadIfNeeded;
 					if (!this.$disposing)
@@ -265,11 +257,9 @@ namespace RimWorld
 						if (JobDriver_ManTurret.GunNeedsLoading(building))
 						{
 							<MakeNewToils>c__AnonStorey.<>f__ref$0.$this.JumpToToil(<MakeNewToils>c__AnonStorey.loadIfNeeded);
+							return;
 						}
-						else
-						{
-							building.GetComp<CompMannable>().ManForATick(actor);
-						}
+						building.GetComp<CompMannable>().ManForATick(actor);
 					};
 					<MakeNewToils>c__AnonStorey.man.defaultCompleteMode = ToilCompleteMode.Never;
 					<MakeNewToils>c__AnonStorey.man.FailOnCannotTouch(TargetIndex.A, PathEndMode.InteractionCell);
@@ -357,25 +347,23 @@ namespace RimWorld
 					if (!JobDriver_ManTurret.GunNeedsLoading(building))
 					{
 						this.<>f__ref$0.$this.JumpToToil(this.gotoTurret);
+						return;
 					}
-					else
+					Thing thing = JobDriver_ManTurret.FindAmmoForTurret(this.<>f__ref$0.$this.pawn, building_TurretGun);
+					if (thing == null)
 					{
-						Thing thing = JobDriver_ManTurret.FindAmmoForTurret(this.<>f__ref$0.$this.pawn, building_TurretGun);
-						if (thing == null)
+						if (actor.Faction == Faction.OfPlayer)
 						{
-							if (actor.Faction == Faction.OfPlayer)
+							Messages.Message("MessageOutOfNearbyShellsFor".Translate(new object[]
 							{
-								Messages.Message("MessageOutOfNearbyShellsFor".Translate(new object[]
-								{
-									actor.LabelShort,
-									building_TurretGun.Label
-								}).CapitalizeFirst(), building_TurretGun, MessageTypeDefOf.NegativeEvent, true);
-							}
-							actor.jobs.EndCurrentJob(JobCondition.Incompletable, true);
+								actor.LabelShort,
+								building_TurretGun.Label
+							}).CapitalizeFirst(), building_TurretGun, MessageTypeDefOf.NegativeEvent, true);
 						}
-						actor.CurJob.targetB = thing;
-						actor.CurJob.count = 1;
+						actor.jobs.EndCurrentJob(JobCondition.Incompletable, true);
 					}
+					actor.CurJob.targetB = thing;
+					actor.CurJob.count = 1;
 				}
 
 				internal void <>m__1()
@@ -395,11 +383,9 @@ namespace RimWorld
 					if (JobDriver_ManTurret.GunNeedsLoading(building))
 					{
 						this.<>f__ref$0.$this.JumpToToil(this.loadIfNeeded);
+						return;
 					}
-					else
-					{
-						building.GetComp<CompMannable>().ManForATick(actor);
-					}
+					building.GetComp<CompMannable>().ManForATick(actor);
 				}
 			}
 		}

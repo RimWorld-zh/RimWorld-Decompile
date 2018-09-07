@@ -6,7 +6,7 @@ namespace Verse
 {
 	public class HediffComp_VerbGiver : HediffComp, IVerbOwner
 	{
-		public VerbTracker verbTracker = null;
+		public VerbTracker verbTracker;
 
 		public HediffComp_VerbGiver()
 		{
@@ -68,12 +68,9 @@ namespace Verse
 			{
 				this
 			});
-			if (Scribe.mode == LoadSaveMode.PostLoadInit)
+			if (Scribe.mode == LoadSaveMode.PostLoadInit && this.verbTracker == null)
 			{
-				if (this.verbTracker == null)
-				{
-					this.verbTracker = new VerbTracker(this);
-				}
+				this.verbTracker = new VerbTracker(this);
 			}
 		}
 

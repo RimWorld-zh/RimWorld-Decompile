@@ -5,7 +5,7 @@ namespace Verse
 {
 	public class SubEffecter_InteractSymbol : SubEffecter
 	{
-		private Mote interactMote = null;
+		private Mote interactMote;
 
 		public SubEffecter_InteractSymbol(SubEffecterDef def, Effecter parent) : base(def, parent)
 		{

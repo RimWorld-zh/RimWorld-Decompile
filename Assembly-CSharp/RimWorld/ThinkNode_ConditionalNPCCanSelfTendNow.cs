@@ -15,77 +15,69 @@ namespace RimWorld
 
 		protected override bool Satisfied(Pawn pawn)
 		{
-			bool result;
 			if (!pawn.health.hediffSet.hediffs.Any<Hediff>())
 			{
-				result = false;
+				return false;
 			}
-			else if (!pawn.RaceProps.Humanlike)
+			if (!pawn.RaceProps.Humanlike)
 			{
-				result = false;
+				return false;
 			}
-			else if (pawn.Faction == Faction.OfPlayer)
+			if (pawn.Faction == Faction.OfPlayer)
 			{
-				result = false;
+				return false;
 			}
-			else if (pawn.Faction != null && pawn.Faction.HostileTo(Faction.OfPlayer))
+			if (pawn.Faction != null && pawn.Faction.HostileTo(Faction.OfPlayer))
 			{
-				result = false;
+				return false;
 			}
-			else if (pawn.HostFaction == Faction.OfPlayer && pawn.guest.IsPrisoner)
+			if (pawn.HostFaction == Faction.OfPlayer && pawn.guest.IsPrisoner)
 			{
-				result = false;
+				return false;
 			}
-			else if (Find.TickManager.TicksGame < pawn.mindState.lastHarmTick + 300)
+			if (Find.TickManager.TicksGame < pawn.mindState.lastHarmTick + 300)
 			{
-				result = false;
+				return false;
 			}
-			else if (Find.TickManager.TicksGame < pawn.mindState.lastEngageTargetTick + 300)
+			if (Find.TickManager.TicksGame < pawn.mindState.lastEngageTargetTick + 300)
 			{
-				result = false;
+				return false;
 			}
-			else if (Find.TickManager.TicksGame < pawn.mindState.lastSelfTendTick + 300)
+			if (Find.TickManager.TicksGame < pawn.mindState.lastSelfTendTick + 300)
 			{
-				result = false;
+				return false;
 			}
-			else
+			Lord lord = pawn.GetLord();
+			if (lord != null && lord.CurLordToil != null && !lord.CurLordToil.AllowSelfTend)
 			{
-				Lord lord = pawn.GetLord();
-				if (lord != null && lord.CurLordToil != null && !lord.CurLordToil.AllowSelfTend)
+				return false;
+			}
+			if (!pawn.health.HasHediffsNeedingTend(false))
+			{
+				return false;
+			}
+			if (pawn.Faction != null)
+			{
+				bool foundActiveThreat = false;
+				RegionTraverser.BreadthFirstTraverse(pawn.Position, pawn.Map, RegionTraverser.PassAll, delegate(Region x)
 				{
-					result = false;
-				}
-				else if (!pawn.health.HasHediffsNeedingTend(false))
-				{
-					result = false;
-				}
-				else
-				{
-					if (pawn.Faction != null)
+					List<Thing> list = x.ListerThings.ThingsInGroup(ThingRequestGroup.AttackTarget);
+					for (int i = 0; i < list.Count; i++)
 					{
-						bool foundActiveThreat = false;
-						RegionTraverser.BreadthFirstTraverse(pawn.Position, pawn.Map, RegionTraverser.PassAll, delegate(Region x)
+						if (GenHostility.IsActiveThreatTo((IAttackTarget)list[i], pawn.Faction))
 						{
-							List<Thing> list = x.ListerThings.ThingsInGroup(ThingRequestGroup.AttackTarget);
-							for (int i = 0; i < list.Count; i++)
-							{
-								if (GenHostility.IsActiveThreatTo((IAttackTarget)list[i], pawn.Faction))
-								{
-									foundActiveThreat = true;
-									break;
-								}
-							}
-							return foundActiveThreat;
-						}, 5, RegionType.Set_Passable);
-						if (foundActiveThreat)
-						{
-							return false;
+							foundActiveThreat = true;
+							break;
 						}
 					}
-					result = true;
+					return foundActiveThreat;
+				}, 5, RegionType.Set_Passable);
+				if (foundActiveThreat)
+				{
+					return false;
 				}
 			}
-			return result;
+			return true;
 		}
 
 		[CompilerGenerated]

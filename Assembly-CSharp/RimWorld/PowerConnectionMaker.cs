@@ -25,59 +25,63 @@ namespace RimWorld
 
 		public static void DisconnectAllFromTransmitterAndSetWantConnect(CompPower deadPc, Map map)
 		{
-			if (deadPc.connectChildren != null)
+			if (deadPc.connectChildren == null)
 			{
-				for (int i = 0; i < deadPc.connectChildren.Count; i++)
+				return;
+			}
+			for (int i = 0; i < deadPc.connectChildren.Count; i++)
+			{
+				CompPower compPower = deadPc.connectChildren[i];
+				compPower.connectParent = null;
+				CompPowerTrader compPowerTrader = compPower as CompPowerTrader;
+				if (compPowerTrader != null)
 				{
-					CompPower compPower = deadPc.connectChildren[i];
-					compPower.connectParent = null;
-					CompPowerTrader compPowerTrader = compPower as CompPowerTrader;
-					if (compPowerTrader != null)
-					{
-						compPowerTrader.PowerOn = false;
-					}
-					map.powerNetManager.Notify_ConnectorWantsConnect(compPower);
+					compPowerTrader.PowerOn = false;
 				}
+				map.powerNetManager.Notify_ConnectorWantsConnect(compPower);
 			}
 		}
 
 		public static void TryConnectToAnyPowerNet(CompPower pc, List<PowerNet> disallowedNets = null)
 		{
-			if (pc.connectParent == null)
+			if (pc.connectParent != null)
 			{
-				if (pc.parent.Spawned)
-				{
-					CompPower compPower = PowerConnectionMaker.BestTransmitterForConnector(pc.parent.Position, pc.parent.Map, disallowedNets);
-					if (compPower != null)
-					{
-						pc.ConnectToTransmitter(compPower, false);
-					}
-					else
-					{
-						pc.connectParent = null;
-					}
-				}
+				return;
+			}
+			if (!pc.parent.Spawned)
+			{
+				return;
+			}
+			CompPower compPower = PowerConnectionMaker.BestTransmitterForConnector(pc.parent.Position, pc.parent.Map, disallowedNets);
+			if (compPower != null)
+			{
+				pc.ConnectToTransmitter(compPower, false);
+			}
+			else
+			{
+				pc.connectParent = null;
 			}
 		}
 
 		public static void DisconnectFromPowerNet(CompPower pc)
 		{
-			if (pc.connectParent != null)
+			if (pc.connectParent == null)
 			{
-				if (pc.PowerNet != null)
-				{
-					pc.PowerNet.DeregisterConnector(pc);
-				}
-				if (pc.connectParent.connectChildren != null)
-				{
-					pc.connectParent.connectChildren.Remove(pc);
-					if (pc.connectParent.connectChildren.Count == 0)
-					{
-						pc.connectParent.connectChildren = null;
-					}
-				}
-				pc.connectParent = null;
+				return;
 			}
+			if (pc.PowerNet != null)
+			{
+				pc.PowerNet.DeregisterConnector(pc);
+			}
+			if (pc.connectParent.connectChildren != null)
+			{
+				pc.connectParent.connectChildren.Remove(pc);
+				if (pc.connectParent.connectChildren.Count == 0)
+				{
+					pc.connectParent.connectChildren = null;
+				}
+			}
+			pc.connectParent = null;
 		}
 
 		private static IEnumerable<CompPower> PotentialConnectorsForTransmitter(CompPower b)
@@ -181,15 +185,15 @@ namespace RimWorld
 					}
 					rect = b.parent.OccupiedRect().ExpandedBy(6).ClipInsideMap(b.parent.Map);
 					z = rect.minZ;
-					goto IL_1B8;
+					goto IL_1AE;
 				case 1u:
+					IL_158:
+					i++;
 					break;
 				default:
 					return false;
 				}
-				IL_15F:
-				i++;
-				IL_16E:
+				IL_166:
 				if (i >= thingList.Count)
 				{
 					x++;
@@ -205,22 +209,22 @@ namespace RimWorld
 						}
 						return true;
 					}
-					goto IL_15F;
+					goto IL_158;
 				}
-				IL_193:
+				IL_18A:
 				if (x <= rect.maxX)
 				{
 					c = new IntVec3(x, 0, z);
 					thingList = b.parent.Map.thingGrid.ThingsListAt(c);
 					i = 0;
-					goto IL_16E;
+					goto IL_166;
 				}
 				z++;
-				IL_1B8:
+				IL_1AE:
 				if (z <= rect.maxZ)
 				{
 					x = rect.minX;
-					goto IL_193;
+					goto IL_18A;
 				}
 				this.$PC = -1;
 				return false;

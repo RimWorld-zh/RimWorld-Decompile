@@ -12,129 +12,94 @@ namespace Verse
 
 		private static readonly Texture2D FemaleIcon = ContentFinder<Texture2D>.Get("UI/Icons/Gender/Female", true);
 
-		public static string GetLabel(this Gender gender)
+		public static string GetGenderLabel(this Pawn pawn)
 		{
-			string result;
-			if (gender != Gender.None)
+			return pawn.gender.GetLabel(pawn.RaceProps.Animal);
+		}
+
+		public static string GetLabel(this Gender gender, bool animal = false)
+		{
+			if (gender == Gender.None)
 			{
-				if (gender != Gender.Male)
-				{
-					if (gender != Gender.Female)
-					{
-						throw new ArgumentException();
-					}
-					result = "Female".Translate();
-				}
-				else
-				{
-					result = "Male".Translate();
-				}
+				return "NoneLower".Translate();
 			}
-			else
+			if (gender == Gender.Male)
 			{
-				result = "NoneLower".Translate();
+				return (!animal) ? "Male".Translate() : "MaleAnimal".Translate();
 			}
-			return result;
+			if (gender != Gender.Female)
+			{
+				throw new ArgumentException();
+			}
+			return (!animal) ? "Female".Translate() : "FemaleAnimal".Translate();
 		}
 
 		public static string GetPronoun(this Gender gender)
 		{
-			string result;
-			if (gender != Gender.None)
+			if (gender == Gender.None)
 			{
-				if (gender != Gender.Male)
-				{
-					if (gender != Gender.Female)
-					{
-						throw new ArgumentException();
-					}
-					result = "Proshe".Translate();
-				}
-				else
-				{
-					result = "Prohe".Translate();
-				}
+				return "Proit".Translate();
 			}
-			else
+			if (gender == Gender.Male)
 			{
-				result = "Proit".Translate();
+				return "Prohe".Translate();
 			}
-			return result;
+			if (gender != Gender.Female)
+			{
+				throw new ArgumentException();
+			}
+			return "Proshe".Translate();
 		}
 
 		public static string GetPossessive(this Gender gender)
 		{
-			string result;
-			if (gender != Gender.None)
+			if (gender == Gender.None)
 			{
-				if (gender != Gender.Male)
-				{
-					if (gender != Gender.Female)
-					{
-						throw new ArgumentException();
-					}
-					result = "Proher".Translate();
-				}
-				else
-				{
-					result = "Prohis".Translate();
-				}
+				return "Proits".Translate();
 			}
-			else
+			if (gender == Gender.Male)
 			{
-				result = "Proits".Translate();
+				return "Prohis".Translate();
 			}
-			return result;
+			if (gender != Gender.Female)
+			{
+				throw new ArgumentException();
+			}
+			return "Proher".Translate();
 		}
 
 		public static string GetObjective(this Gender gender)
 		{
-			string result;
-			if (gender != Gender.None)
+			if (gender == Gender.None)
 			{
-				if (gender != Gender.Male)
-				{
-					if (gender != Gender.Female)
-					{
-						throw new ArgumentException();
-					}
-					result = "ProherObj".Translate();
-				}
-				else
-				{
-					result = "ProhimObj".Translate();
-				}
+				return "ProitObj".Translate();
 			}
-			else
+			if (gender == Gender.Male)
 			{
-				result = "ProitObj".Translate();
+				return "ProhimObj".Translate();
 			}
-			return result;
+			if (gender != Gender.Female)
+			{
+				throw new ArgumentException();
+			}
+			return "ProherObj".Translate();
 		}
 
 		public static Texture2D GetIcon(this Gender gender)
 		{
-			Texture2D result;
-			if (gender != Gender.None)
+			if (gender == Gender.None)
 			{
-				if (gender != Gender.Male)
-				{
-					if (gender != Gender.Female)
-					{
-						throw new ArgumentException();
-					}
-					result = GenderUtility.FemaleIcon;
-				}
-				else
-				{
-					result = GenderUtility.MaleIcon;
-				}
+				return GenderUtility.GenderlessIcon;
 			}
-			else
+			if (gender == Gender.Male)
 			{
-				result = GenderUtility.GenderlessIcon;
+				return GenderUtility.MaleIcon;
 			}
-			return result;
+			if (gender != Gender.Female)
+			{
+				throw new ArgumentException();
+			}
+			return GenderUtility.FemaleIcon;
 		}
 
 		// Note: this type is marked as 'beforefieldinit'.

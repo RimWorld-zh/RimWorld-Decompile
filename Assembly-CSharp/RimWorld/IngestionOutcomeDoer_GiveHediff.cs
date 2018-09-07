@@ -14,9 +14,9 @@ namespace RimWorld
 
 		public float severity = -1f;
 
-		public ChemicalDef toleranceChemical = null;
+		public ChemicalDef toleranceChemical;
 
-		private bool divideByBodySize = false;
+		private bool divideByBodySize;
 
 		public IngestionOutcomeDoer_GiveHediff()
 		{
@@ -87,7 +87,7 @@ namespace RimWorld
 				case 0u:
 					if (!parentDef.IsDrug || this.chance < 1f)
 					{
-						goto IL_E5;
+						goto IL_DF;
 					}
 					enumerator = this.hediffDef.SpecialDisplayStats(StatRequest.ForEmpty()).GetEnumerator();
 					num = 4294967293u;
@@ -124,7 +124,7 @@ namespace RimWorld
 						}
 					}
 				}
-				IL_E5:
+				IL_DF:
 				this.$PC = -1;
 				return false;
 			}

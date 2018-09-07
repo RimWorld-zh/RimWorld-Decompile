@@ -13,65 +13,46 @@ namespace RimWorld
 
 		protected override Job TryGiveJob(Pawn pawn)
 		{
-			Job result;
 			if (!pawn.Position.IsForbidden(pawn))
 			{
-				result = null;
+				return null;
 			}
-			else if (this.HasJobWithSpawnedAllowedTarget(pawn))
+			if (this.HasJobWithSpawnedAllowedTarget(pawn))
 			{
-				result = null;
+				return null;
 			}
-			else
+			Region region = pawn.GetRegion(RegionType.Set_Passable);
+			if (region == null)
 			{
-				Region region = pawn.GetRegion(RegionType.Set_Passable);
-				if (region == null)
-				{
-					result = null;
-				}
-				else
-				{
-					TraverseParms traverseParms = TraverseParms.For(pawn, Danger.Deadly, TraverseMode.ByPawn, false);
-					RegionEntryPredicate entryCondition = (Region from, Region r) => r.Allows(traverseParms, false);
-					Region reg = null;
-					RegionProcessor regionProcessor = delegate(Region r)
-					{
-						bool result2;
-						if (r.portal != null)
-						{
-							result2 = false;
-						}
-						else if (!r.IsForbiddenEntirely(pawn))
-						{
-							reg = r;
-							result2 = true;
-						}
-						else
-						{
-							result2 = false;
-						}
-						return result2;
-					};
-					RegionTraverser.BreadthFirstTraverse(region, entryCondition, regionProcessor, 9999, RegionType.Set_Passable);
-					if (reg != null)
-					{
-						IntVec3 c;
-						if (!reg.TryFindRandomCellInRegionUnforbidden(pawn, null, out c))
-						{
-							result = null;
-						}
-						else
-						{
-							result = new Job(JobDefOf.Goto, c);
-						}
-					}
-					else
-					{
-						result = null;
-					}
-				}
+				return null;
 			}
-			return result;
+			TraverseParms traverseParms = TraverseParms.For(pawn, Danger.Deadly, TraverseMode.ByPawn, false);
+			RegionEntryPredicate entryCondition = (Region from, Region r) => r.Allows(traverseParms, false);
+			Region reg = null;
+			RegionProcessor regionProcessor = delegate(Region r)
+			{
+				if (r.IsDoorway)
+				{
+					return false;
+				}
+				if (!r.IsForbiddenEntirely(pawn))
+				{
+					reg = r;
+					return true;
+				}
+				return false;
+			};
+			RegionTraverser.BreadthFirstTraverse(region, entryCondition, regionProcessor, 9999, RegionType.Set_Passable);
+			if (reg == null)
+			{
+				return null;
+			}
+			IntVec3 c;
+			if (!reg.TryFindRandomCellInRegionUnforbidden(pawn, null, out c))
+			{
+				return null;
+			}
+			return new Job(JobDefOf.Goto, c);
 		}
 
 		private bool HasJobWithSpawnedAllowedTarget(Pawn pawn)
@@ -82,20 +63,15 @@ namespace RimWorld
 
 		private bool IsSpawnedAllowedTarget(LocalTargetInfo target, Pawn pawn)
 		{
-			bool result;
 			if (!target.IsValid)
 			{
-				result = false;
+				return false;
 			}
-			else if (target.HasThing)
+			if (target.HasThing)
 			{
-				result = (target.Thing.Spawned && !target.Thing.Position.IsForbidden(pawn));
+				return target.Thing.Spawned && !target.Thing.Position.IsForbidden(pawn);
 			}
-			else
-			{
-				result = (target.Cell.InBounds(pawn.Map) && !target.Cell.IsForbidden(pawn));
-			}
-			return result;
+			return target.Cell.InBounds(pawn.Map) && !target.Cell.IsForbidden(pawn);
 		}
 
 		[CompilerGenerated]
@@ -118,21 +94,16 @@ namespace RimWorld
 
 			internal bool <>m__1(Region r)
 			{
-				bool result;
-				if (r.portal != null)
+				if (r.IsDoorway)
 				{
-					result = false;
+					return false;
 				}
-				else if (!r.IsForbiddenEntirely(this.pawn))
+				if (!r.IsForbiddenEntirely(this.pawn))
 				{
 					this.reg = r;
-					result = true;
+					return true;
 				}
-				else
-				{
-					result = false;
-				}
-				return result;
+				return false;
 			}
 		}
 	}

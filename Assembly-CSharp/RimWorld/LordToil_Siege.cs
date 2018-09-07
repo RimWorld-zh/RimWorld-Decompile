@@ -178,7 +178,7 @@ namespace RimWorld
 				list4.Add(item);
 			}
 			list2.Add(list4);
-			DropPodUtility.DropThingGroupsNear(data.siegeCenter, base.Map, list2, 110, false, false, true, false);
+			DropPodUtility.DropThingGroupsNear(data.siegeCenter, base.Map, list2, 110, false, false, true);
 			data.desiredBuilderFraction = LordToil_Siege.BuilderCountFraction.RandomInRange;
 		}
 
@@ -243,6 +243,7 @@ namespace RimWorld
 				if (num3 == 0)
 				{
 					this.lord.ReceiveMemo("NoBuilders");
+					return;
 				}
 			}
 		}
@@ -305,12 +306,9 @@ namespace RimWorld
 			{
 				this.lord.CurLordToil.UpdateAllDuties();
 			}
-			if (this.lord.ticksInToil > 450)
+			if (this.lord.ticksInToil > 450 && this.lord.ticksInToil % 500 == 0)
 			{
-				if (this.lord.ticksInToil % 500 == 0)
-				{
-					this.UpdateAllDuties();
-				}
+				this.UpdateAllDuties();
 			}
 			if (Find.TickManager.TicksGame % 500 == 0)
 			{
@@ -320,13 +318,10 @@ namespace RimWorld
 				{
 					if (!(from blue in data.blueprints
 					where !blue.Destroyed
-					select blue).Any<Blueprint>())
+					select blue).Any<Blueprint>() && !base.Map.listerThings.ThingsInGroup(ThingRequestGroup.BuildingArtificial).Any((Thing b) => b.Faction == this.lord.faction && b.def.building.buildingTags.Contains("Artillery")))
 					{
-						if (!base.Map.listerThings.ThingsInGroup(ThingRequestGroup.BuildingArtificial).Any((Thing b) => b.Faction == this.lord.faction && b.def.building.buildingTags.Contains("Artillery")))
-						{
-							this.lord.ReceiveMemo("NoArtillery");
-							return;
-						}
+						this.lord.ReceiveMemo("NoArtillery");
+						return;
 					}
 				}
 				int num = GenRadial.NumCellsInRadius(20f);
@@ -375,7 +370,7 @@ namespace RimWorld
 			Thing thing = ThingMaker.MakeThing(thingDef, null);
 			thing.stackCount = count;
 			list.Add(thing);
-			DropPodUtility.DropThingsNear(this.Data.siegeCenter, base.Map, list, 110, false, false, true, false);
+			DropPodUtility.DropThingsNear(this.Data.siegeCenter, base.Map, list, 110, false, false, true);
 		}
 
 		public override void Cleanup()
@@ -464,7 +459,7 @@ namespace RimWorld
 					i = 0;
 					break;
 				case 1u:
-					IL_126:
+					IL_124:
 					i++;
 					break;
 				default:
@@ -486,7 +481,7 @@ namespace RimWorld
 						}
 						return true;
 					}
-					goto IL_126;
+					goto IL_124;
 				}
 				return false;
 			}

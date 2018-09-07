@@ -68,35 +68,36 @@ namespace Verse
 				num3 = Mathf.Clamp(num3, 0.0015f, 0.015f);
 				firstHediffOfDef.Severity -= num3;
 			}
-			if (!pawn.Dead)
+			if (pawn.Dead)
 			{
-				if (pawn.IsNestedHashIntervalTick(60, 420))
+				return;
+			}
+			if (pawn.IsNestedHashIntervalTick(60, 420))
+			{
+				float num4 = floatRange.max + 150f;
+				if (ambientTemperature > num4)
 				{
-					float num4 = floatRange.max + 150f;
-					if (ambientTemperature > num4)
+					float num5 = ambientTemperature - num4;
+					num5 = HediffGiver_Heat.TemperatureOverageAdjustmentCurve.Evaluate(num5);
+					int num6 = Mathf.Max(GenMath.RoundRandom(num5 * 0.06f), 3);
+					DamageInfo dinfo = new DamageInfo(DamageDefOf.Burn, (float)num6, 0f, -1f, null, null, null, DamageInfo.SourceCategory.ThingOrUnknown, null);
+					dinfo.SetBodyRegion(BodyPartHeight.Undefined, BodyPartDepth.Outside);
+					pawn.TakeDamage(dinfo);
+					if (pawn.Faction == Faction.OfPlayer)
 					{
-						float num5 = ambientTemperature - num4;
-						num5 = HediffGiver_Heat.TemperatureOverageAdjustmentCurve.Evaluate(num5);
-						int num6 = Mathf.Max(GenMath.RoundRandom(num5 * 0.06f), 3);
-						DamageInfo dinfo = new DamageInfo(DamageDefOf.Burn, (float)num6, 0f, -1f, null, null, null, DamageInfo.SourceCategory.ThingOrUnknown, null);
-						dinfo.SetBodyRegion(BodyPartHeight.Undefined, BodyPartDepth.Outside);
-						pawn.TakeDamage(dinfo);
-						if (pawn.Faction == Faction.OfPlayer)
+						Find.TickManager.slower.SignalForceNormalSpeed();
+						if (MessagesRepeatAvoider.MessageShowAllowed("PawnBeingBurned", 60f))
 						{
-							Find.TickManager.slower.SignalForceNormalSpeed();
-							if (MessagesRepeatAvoider.MessageShowAllowed("PawnBeingBurned", 60f))
+							Messages.Message("MessagePawnBeingBurned".Translate(new object[]
 							{
-								Messages.Message("MessagePawnBeingBurned".Translate(new object[]
-								{
-									pawn.LabelShort
-								}).CapitalizeFirst(), pawn, MessageTypeDefOf.ThreatSmall, true);
-							}
+								pawn.LabelShort
+							}).CapitalizeFirst(), pawn, MessageTypeDefOf.ThreatSmall, true);
 						}
-						Lord lord = pawn.GetLord();
-						if (lord != null)
-						{
-							lord.ReceiveMemo(HediffGiver_Heat.MemoPawnBurnedByAir);
-						}
+					}
+					Lord lord = pawn.GetLord();
+					if (lord != null)
+					{
+						lord.ReceiveMemo(HediffGiver_Heat.MemoPawnBurnedByAir);
 					}
 				}
 			}

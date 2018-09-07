@@ -14,31 +14,23 @@ namespace RimWorld
 
 		public override Job TryGiveJob(Pawn pawn)
 		{
-			Job result;
 			if (pawn.ownership == null)
 			{
-				result = null;
+				return null;
 			}
-			else
+			Room ownedRoom = pawn.ownership.OwnedRoom;
+			if (ownedRoom == null)
 			{
-				Room ownedRoom = pawn.ownership.OwnedRoom;
-				IntVec3 c2;
-				if (ownedRoom == null)
-				{
-					result = null;
-				}
-				else if (!(from c in ownedRoom.Cells
-				where c.Standable(pawn.Map) && !c.IsForbidden(pawn) && pawn.CanReserveAndReach(c, PathEndMode.OnCell, Danger.None, 1, -1, null, false)
-				select c).TryRandomElement(out c2))
-				{
-					result = null;
-				}
-				else
-				{
-					result = new Job(this.def.jobDef, c2);
-				}
+				return null;
 			}
-			return result;
+			IntVec3 c2;
+			if (!(from c in ownedRoom.Cells
+			where c.Standable(pawn.Map) && !c.IsForbidden(pawn) && pawn.CanReserveAndReach(c, PathEndMode.OnCell, Danger.None, 1, -1, null, false)
+			select c).TryRandomElement(out c2))
+			{
+				return null;
+			}
+			return new Job(this.def.jobDef, c2);
 		}
 
 		public override Job TryGiveJobWhileInBed(Pawn pawn)

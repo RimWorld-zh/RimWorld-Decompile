@@ -59,16 +59,11 @@ namespace RimWorld.Planet
 		{
 			get
 			{
-				WorldObject result;
 				if (this.selected.Count != 1)
 				{
-					result = null;
+					return null;
 				}
-				else
-				{
-					result = this.selected[0];
-				}
-				return result;
+				return this.selected[0];
 			}
 		}
 
@@ -76,16 +71,11 @@ namespace RimWorld.Planet
 		{
 			get
 			{
-				WorldObject result;
 				if (this.selected.Count == 0)
 				{
-					result = null;
+					return null;
 				}
-				else
-				{
-					result = this.selected[0];
-				}
-				return result;
+				return this.selected[0];
 			}
 		}
 
@@ -108,13 +98,10 @@ namespace RimWorld.Planet
 		public void WorldSelectorOnGUI()
 		{
 			this.HandleWorldClicks();
-			if (KeyBindingDefOf.Cancel.KeyDownEvent)
+			if (KeyBindingDefOf.Cancel.KeyDownEvent && this.selected.Count > 0)
 			{
-				if (this.selected.Count > 0)
-				{
-					this.ClearSelection();
-					Event.current.Use();
-				}
+				this.ClearSelection();
+				Event.current.Use();
 			}
 		}
 
@@ -135,51 +122,42 @@ namespace RimWorld.Planet
 					}
 					Event.current.Use();
 				}
-				if (Event.current.button == 1)
+				if (Event.current.button == 1 && this.selected.Count > 0)
 				{
-					if (this.selected.Count > 0)
+					if (this.selected.Count == 1 && this.selected[0] is Caravan)
 					{
-						if (this.selected.Count == 1 && this.selected[0] is Caravan)
+						Caravan caravan = (Caravan)this.selected[0];
+						if (caravan.IsPlayerControlled && !FloatMenuMakerWorld.TryMakeFloatMenu(caravan))
 						{
-							Caravan caravan = (Caravan)this.selected[0];
-							if (caravan.IsPlayerControlled)
-							{
-								if (!FloatMenuMakerWorld.TryMakeFloatMenu(caravan))
-								{
-									this.AutoOrderToTile(caravan, GenWorld.MouseTile(false));
-								}
-							}
+							this.AutoOrderToTile(caravan, GenWorld.MouseTile(false));
 						}
-						else
-						{
-							for (int i = 0; i < this.selected.Count; i++)
-							{
-								Caravan caravan2 = this.selected[i] as Caravan;
-								if (caravan2 != null && caravan2.IsPlayerControlled)
-								{
-									this.AutoOrderToTile(caravan2, GenWorld.MouseTile(false));
-								}
-							}
-						}
-						Event.current.Use();
 					}
+					else
+					{
+						for (int i = 0; i < this.selected.Count; i++)
+						{
+							Caravan caravan2 = this.selected[i] as Caravan;
+							if (caravan2 != null && caravan2.IsPlayerControlled)
+							{
+								this.AutoOrderToTile(caravan2, GenWorld.MouseTile(false));
+							}
+						}
+					}
+					Event.current.Use();
 				}
 			}
 			if (Event.current.rawType == EventType.MouseUp)
 			{
-				if (Event.current.button == 0)
+				if (Event.current.button == 0 && this.dragBox.active)
 				{
-					if (this.dragBox.active)
+					this.dragBox.active = false;
+					if (!this.dragBox.IsValid)
 					{
-						this.dragBox.active = false;
-						if (!this.dragBox.IsValid)
-						{
-							this.SelectUnderMouse(true);
-						}
-						else
-						{
-							this.SelectInsideDragBox();
-						}
+						this.SelectUnderMouse(true);
+					}
+					else
+					{
+						this.SelectInsideDragBox();
 					}
 				}
 				Event.current.Use();
@@ -211,22 +189,21 @@ namespace RimWorld.Planet
 			if (obj == null)
 			{
 				Log.Error("Cannot select null.", false);
+				return;
 			}
-			else
+			this.selectedTile = -1;
+			if (this.selected.Count >= 80)
 			{
-				this.selectedTile = -1;
-				if (this.selected.Count < 80)
+				return;
+			}
+			if (!this.IsSelected(obj))
+			{
+				if (playSound)
 				{
-					if (!this.IsSelected(obj))
-					{
-						if (playSound)
-						{
-							this.PlaySelectionSoundFor(obj);
-						}
-						this.selected.Add(obj);
-						WorldSelectionDrawer.Notify_Selected(obj);
-					}
+					this.PlaySelectionSoundFor(obj);
 				}
+				this.selected.Add(obj);
+				WorldSelectionDrawer.Notify_Selected(obj);
 			}
 		}
 
@@ -317,18 +294,15 @@ namespace RimWorld.Planet
 			}
 			List<WorldObject> list = GenWorldUI.WorldObjectsUnderMouse(UI.MousePositionOnUI);
 			clickedDirectlyOnCaravan = false;
-			if (list.Count > 0 && list[0] is Caravan)
+			if (list.Count > 0 && list[0] is Caravan && list[0].DistanceToMouse(UI.MousePositionOnUI) < GenWorldUI.CaravanDirectClickRadius)
 			{
-				if (list[0].DistanceToMouse(UI.MousePositionOnUI) < GenWorldUI.CaravanDirectClickRadius)
+				clickedDirectlyOnCaravan = true;
+				for (int i = list.Count - 1; i >= 0; i--)
 				{
-					clickedDirectlyOnCaravan = true;
-					for (int i = list.Count - 1; i >= 0; i--)
+					WorldObject worldObject = list[i];
+					if (worldObject is Caravan && worldObject.DistanceToMouse(UI.MousePositionOnUI) > GenWorldUI.CaravanDirectClickRadius)
 					{
-						WorldObject worldObject = list[i];
-						if (worldObject is Caravan && worldObject.DistanceToMouse(UI.MousePositionOnUI) > GenWorldUI.CaravanDirectClickRadius)
-						{
-							list.Remove(worldObject);
-						}
+						list.Remove(worldObject);
 					}
 				}
 			}
@@ -427,20 +401,21 @@ namespace RimWorld.Planet
 		private void SelectAllMatchingObjectUnderMouseOnScreen()
 		{
 			List<WorldObject> list = this.SelectableObjectsUnderMouse().ToList<WorldObject>();
-			if (list.Count != 0)
+			if (list.Count == 0)
 			{
-				Type type = list[0].GetType();
-				List<WorldObject> allWorldObjects = Find.WorldObjects.AllWorldObjects;
-				for (int i = 0; i < allWorldObjects.Count; i++)
+				return;
+			}
+			Type type = list[0].GetType();
+			List<WorldObject> allWorldObjects = Find.WorldObjects.AllWorldObjects;
+			for (int i = 0; i < allWorldObjects.Count; i++)
+			{
+				if (type == allWorldObjects[i].GetType())
 				{
-					if (type == allWorldObjects[i].GetType())
+					if (allWorldObjects[i] == list[0] || allWorldObjects[i].AllMatchingObjectsOnScreenMatchesWith(list[0]))
 					{
-						if (allWorldObjects[i] == list[0] || allWorldObjects[i].AllMatchingObjectsOnScreenMatchesWith(list[0]))
+						if (allWorldObjects[i].VisibleToCameraNow())
 						{
-							if (allWorldObjects[i].VisibleToCameraNow())
-							{
-								this.Select(allWorldObjects[i], true);
-							}
+							this.Select(allWorldObjects[i], true);
 						}
 					}
 				}
@@ -449,33 +424,35 @@ namespace RimWorld.Planet
 
 		private void AutoOrderToTile(Caravan c, int tile)
 		{
-			if (tile >= 0)
+			if (tile < 0)
 			{
-				if (c.autoJoinable && CaravanExitMapUtility.AnyoneTryingToJoinCaravan(c))
-				{
-					CaravanExitMapUtility.OpenSomeoneTryingToJoinCaravanDialog(c, delegate
-					{
-						this.AutoOrderToTileNow(c, tile);
-					});
-				}
-				else
+				return;
+			}
+			if (c.autoJoinable && CaravanExitMapUtility.AnyoneTryingToJoinCaravan(c))
+			{
+				CaravanExitMapUtility.OpenSomeoneTryingToJoinCaravanDialog(c, delegate
 				{
 					this.AutoOrderToTileNow(c, tile);
-				}
+				});
+			}
+			else
+			{
+				this.AutoOrderToTileNow(c, tile);
 			}
 		}
 
 		private void AutoOrderToTileNow(Caravan c, int tile)
 		{
-			if (tile >= 0 && (tile != c.Tile || c.pather.Moving))
+			if (tile < 0 || (tile == c.Tile && !c.pather.Moving))
 			{
-				int num = CaravanUtility.BestGotoDestNear(tile, c);
-				if (num >= 0)
-				{
-					c.pather.StartPath(num, null, true, true);
-					c.gotoMote.OrderedToTile(num);
-					SoundDefOf.ColonistOrdered.PlayOneShotOnCamera(null);
-				}
+				return;
+			}
+			int num = CaravanUtility.BestGotoDestNear(tile, c);
+			if (num >= 0)
+			{
+				c.pather.StartPath(num, null, true, true);
+				c.gotoMote.OrderedToTile(num);
+				SoundDefOf.ColonistOrdered.PlayOneShotOnCamera(null);
 			}
 		}
 
@@ -598,11 +575,8 @@ namespace RimWorld.Planet
 				{
 					switch (num)
 					{
-					case 1u:
-						IL_98:
-						break;
 					}
-					if (enumerator.MoveNext())
+					while (enumerator.MoveNext())
 					{
 						o = enumerator.Current;
 						if (o.SelectableNow)
@@ -615,7 +589,6 @@ namespace RimWorld.Planet
 							flag = true;
 							return true;
 						}
-						goto IL_98;
 					}
 				}
 				finally

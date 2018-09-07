@@ -29,16 +29,11 @@ namespace RimWorld
 				return pawn2 == null && pawn.CanReserve(t, 1, -1, null, false) && !pawn.story.WorkTagIsDisabled(WorkTags.Firefighting);
 			};
 			Thing thing = GenClosest.ClosestThingReachable(pawn.GetLord().CurLordToil.FlagLoc, pawn.Map, ThingRequest.ForDef(ThingDefOf.Fire), PathEndMode.Touch, TraverseParms.For(pawn, Danger.Deadly, TraverseMode.ByPawn, false), this.maxDistFromPoint, validator, null, 0, -1, false, RegionType.Set_Passable, false);
-			Job result;
 			if (thing != null)
 			{
-				result = new Job(JobDefOf.BeatFire, thing);
+				return new Job(JobDefOf.BeatFire, thing);
 			}
-			else
-			{
-				result = null;
-			}
-			return result;
+			return null;
 		}
 
 		[CompilerGenerated]

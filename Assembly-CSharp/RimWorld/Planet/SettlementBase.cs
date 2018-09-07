@@ -57,16 +57,11 @@ namespace RimWorld.Planet
 		{
 			get
 			{
-				TraderKindDef result;
 				if (this.trader == null)
 				{
-					result = null;
+					return null;
 				}
-				else
-				{
-					result = this.trader.TraderKind;
-				}
-				return result;
+				return this.trader.TraderKind;
 			}
 		}
 
@@ -74,16 +69,11 @@ namespace RimWorld.Planet
 		{
 			get
 			{
-				IEnumerable<Thing> result;
 				if (this.trader == null)
 				{
-					result = null;
+					return null;
 				}
-				else
-				{
-					result = this.trader.StockListForReading;
-				}
-				return result;
+				return this.trader.StockListForReading;
 			}
 		}
 
@@ -91,16 +81,11 @@ namespace RimWorld.Planet
 		{
 			get
 			{
-				int result;
 				if (this.trader == null)
 				{
-					result = 0;
+					return 0;
 				}
-				else
-				{
-					result = this.trader.RandomPriceFactorSeed;
-				}
-				return result;
+				return this.trader.RandomPriceFactorSeed;
 			}
 		}
 
@@ -108,16 +93,11 @@ namespace RimWorld.Planet
 		{
 			get
 			{
-				string result;
 				if (this.trader == null)
 				{
-					result = null;
+					return null;
 				}
-				else
-				{
-					result = this.trader.TraderName;
-				}
-				return result;
+				return this.trader.TraderName;
 			}
 		}
 
@@ -133,31 +113,21 @@ namespace RimWorld.Planet
 		{
 			get
 			{
-				float result;
 				if (this.trader == null)
 				{
-					result = 0f;
+					return 0f;
 				}
-				else
-				{
-					result = this.trader.TradePriceImprovementOffsetForPlayer;
-				}
-				return result;
+				return this.trader.TradePriceImprovementOffsetForPlayer;
 			}
 		}
 
 		public IEnumerable<Thing> ColonyThingsWillingToBuy(Pawn playerNegotiator)
 		{
-			IEnumerable<Thing> result;
 			if (this.trader == null)
 			{
-				result = null;
+				return null;
 			}
-			else
-			{
-				result = this.trader.ColonyThingsWillingToBuy(playerNegotiator);
-			}
-			return result;
+			return this.trader.ColonyThingsWillingToBuy(playerNegotiator);
 		}
 
 		public void GiveSoldThingToTrader(Thing toGive, int countToGive, Pawn playerNegotiator)
@@ -241,7 +211,7 @@ namespace RimWorld.Planet
 
 		public override IEnumerable<Gizmo> GetGizmos()
 		{
-			foreach (Gizmo g in this.<GetGizmos>__BaseCallProxy0())
+			foreach (Gizmo g in base.GetGizmos())
 			{
 				yield return g;
 			}
@@ -258,21 +228,18 @@ namespace RimWorld.Planet
 					}
 				};
 			}
-			if (base.Faction != Faction.OfPlayer)
+			if (base.Faction != Faction.OfPlayer && !PlayerKnowledgeDatabase.IsComplete(ConceptDefOf.FormCaravan))
 			{
-				if (!PlayerKnowledgeDatabase.IsComplete(ConceptDefOf.FormCaravan))
+				Command_Action formCaravan = new Command_Action();
+				formCaravan.defaultLabel = "CommandFormCaravan".Translate();
+				formCaravan.defaultDesc = "CommandFormCaravanDesc".Translate();
+				formCaravan.icon = SettlementBase.FormCaravanCommand;
+				formCaravan.action = delegate()
 				{
-					Command_Action formCaravan = new Command_Action();
-					formCaravan.defaultLabel = "CommandFormCaravan".Translate();
-					formCaravan.defaultDesc = "CommandFormCaravanDesc".Translate();
-					formCaravan.icon = SettlementBase.FormCaravanCommand;
-					formCaravan.action = delegate()
-					{
-						Find.Tutor.learningReadout.TryActivateConcept(ConceptDefOf.FormCaravan);
-						Messages.Message("MessageSelectOwnBaseToFormCaravan".Translate(), MessageTypeDefOf.RejectInput, false);
-					};
-					yield return formCaravan;
-				}
+					Find.Tutor.learningReadout.TryActivateConcept(ConceptDefOf.FormCaravan);
+					Messages.Message("MessageSelectOwnBaseToFormCaravan".Translate(), MessageTypeDefOf.RejectInput, false);
+				};
+				yield return formCaravan;
 			}
 			yield break;
 		}
@@ -287,7 +254,7 @@ namespace RimWorld.Planet
 			{
 				yield return FactionGiftUtility.OfferGiftsCommand(caravan, this);
 			}
-			foreach (Gizmo g in this.<GetCaravanGizmos>__BaseCallProxy1(caravan))
+			foreach (Gizmo g in base.GetCaravanGizmos(caravan))
 			{
 				yield return g;
 			}
@@ -309,7 +276,7 @@ namespace RimWorld.Planet
 
 		public override IEnumerable<FloatMenuOption> GetFloatMenuOptions(Caravan caravan)
 		{
-			foreach (FloatMenuOption o in this.<GetFloatMenuOptions>__BaseCallProxy2(caravan))
+			foreach (FloatMenuOption o in base.GetFloatMenuOptions(caravan))
 			{
 				yield return o;
 			}
@@ -333,7 +300,7 @@ namespace RimWorld.Planet
 
 		public override IEnumerable<FloatMenuOption> GetTransportPodsFloatMenuOptions(IEnumerable<IThingHolder> pods, CompLaunchable representative)
 		{
-			foreach (FloatMenuOption o in this.<GetTransportPodsFloatMenuOptions>__BaseCallProxy3(pods, representative))
+			foreach (FloatMenuOption o in base.GetTransportPodsFloatMenuOptions(pods, representative))
 			{
 				yield return o;
 			}
@@ -440,9 +407,9 @@ namespace RimWorld.Planet
 				case 1u:
 					break;
 				case 2u:
-					goto IL_14A;
+					goto IL_144;
 				case 3u:
-					goto IL_1FE;
+					goto IL_1F5;
 				default:
 					return false;
 				}
@@ -490,29 +457,26 @@ namespace RimWorld.Planet
 					}
 					return true;
 				}
-				IL_14A:
-				if (base.Faction != Faction.OfPlayer)
+				IL_144:
+				if (base.Faction != Faction.OfPlayer && !PlayerKnowledgeDatabase.IsComplete(ConceptDefOf.FormCaravan))
 				{
-					if (!PlayerKnowledgeDatabase.IsComplete(ConceptDefOf.FormCaravan))
+					formCaravan = new Command_Action();
+					formCaravan.defaultLabel = "CommandFormCaravan".Translate();
+					formCaravan.defaultDesc = "CommandFormCaravanDesc".Translate();
+					formCaravan.icon = SettlementBase.FormCaravanCommand;
+					formCaravan.action = delegate()
 					{
-						formCaravan = new Command_Action();
-						formCaravan.defaultLabel = "CommandFormCaravan".Translate();
-						formCaravan.defaultDesc = "CommandFormCaravanDesc".Translate();
-						formCaravan.icon = SettlementBase.FormCaravanCommand;
-						formCaravan.action = delegate()
-						{
-							Find.Tutor.learningReadout.TryActivateConcept(ConceptDefOf.FormCaravan);
-							Messages.Message("MessageSelectOwnBaseToFormCaravan".Translate(), MessageTypeDefOf.RejectInput, false);
-						};
-						this.$current = formCaravan;
-						if (!this.$disposing)
-						{
-							this.$PC = 3;
-						}
-						return true;
+						Find.Tutor.learningReadout.TryActivateConcept(ConceptDefOf.FormCaravan);
+						Messages.Message("MessageSelectOwnBaseToFormCaravan".Translate(), MessageTypeDefOf.RejectInput, false);
+					};
+					this.$current = formCaravan;
+					if (!this.$disposing)
+					{
+						this.$PC = 3;
 					}
+					return true;
 				}
-				IL_1FE:
+				IL_1F5:
 				this.$PC = -1;
 				return false;
 			}
@@ -641,11 +605,11 @@ namespace RimWorld.Planet
 				case 1u:
 					break;
 				case 2u:
-					goto IL_FD;
+					goto IL_FC;
 				case 3u:
-					goto IL_122;
+					goto IL_120;
 				case 4u:
-					goto IL_22B;
+					goto IL_225;
 				default:
 					return false;
 				}
@@ -658,12 +622,12 @@ namespace RimWorld.Planet
 					}
 					return true;
 				}
-				IL_FD:
+				IL_FC:
 				enumerator = base.<GetCaravanGizmos>__BaseCallProxy1(<GetCaravanGizmos>c__AnonStorey.caravan).GetEnumerator();
 				num = 4294967293u;
 				try
 				{
-					IL_122:
+					IL_120:
 					switch (num)
 					{
 					}
@@ -706,7 +670,7 @@ namespace RimWorld.Planet
 					}
 					return true;
 				}
-				IL_22B:
+				IL_225:
 				this.$PC = -1;
 				return false;
 			}
@@ -842,7 +806,7 @@ namespace RimWorld.Planet
 				case 1u:
 					break;
 				case 2u:
-					goto IL_FD;
+					goto IL_F7;
 				case 3u:
 					Block_5:
 					try
@@ -876,7 +840,7 @@ namespace RimWorld.Planet
 					num = 4294967293u;
 					goto Block_6;
 				case 4u:
-					goto IL_22A;
+					goto IL_21D;
 				default:
 					return false;
 				}
@@ -909,13 +873,13 @@ namespace RimWorld.Planet
 				}
 				if (CaravanVisitUtility.SettlementVisitedNow(caravan) == this)
 				{
-					goto IL_174;
+					goto IL_16B;
 				}
 				enumerator2 = CaravanArrivalAction_VisitSettlement.GetFloatMenuOptions(caravan, this).GetEnumerator();
 				num = 4294967293u;
 				try
 				{
-					IL_FD:
+					IL_F7:
 					switch (num)
 					{
 					}
@@ -941,14 +905,14 @@ namespace RimWorld.Planet
 						}
 					}
 				}
-				IL_174:
+				IL_16B:
 				enumerator3 = CaravanArrivalAction_OfferGifts.GetFloatMenuOptions(caravan, this).GetEnumerator();
 				num = 4294967293u;
 				goto Block_5;
 				Block_6:
 				try
 				{
-					IL_22A:
+					IL_21D:
 					switch (num)
 					{
 					}
@@ -1131,11 +1095,11 @@ namespace RimWorld.Planet
 				case 1u:
 					break;
 				case 2u:
-					goto IL_F2;
+					goto IL_ED;
 				case 3u:
-					goto IL_18E;
+					goto IL_186;
 				case 4u:
-					goto IL_22A;
+					goto IL_21F;
 				default:
 					return false;
 				}
@@ -1170,7 +1134,7 @@ namespace RimWorld.Planet
 				num = 4294967293u;
 				try
 				{
-					IL_F2:
+					IL_ED:
 					switch (num)
 					{
 					}
@@ -1200,7 +1164,7 @@ namespace RimWorld.Planet
 				num = 4294967293u;
 				try
 				{
-					IL_18E:
+					IL_186:
 					switch (num)
 					{
 					}
@@ -1230,7 +1194,7 @@ namespace RimWorld.Planet
 				num = 4294967293u;
 				try
 				{
-					IL_22A:
+					IL_21F:
 					switch (num)
 					{
 					}

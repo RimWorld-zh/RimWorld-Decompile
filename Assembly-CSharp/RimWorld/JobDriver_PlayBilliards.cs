@@ -18,9 +18,14 @@ namespace RimWorld
 		{
 		}
 
-		public override bool TryMakePreToilReservations()
+		public override bool TryMakePreToilReservations(bool errorOnFailed)
 		{
-			return this.pawn.Reserve(this.job.targetA, this.job, this.job.def.joyMaxParticipants, 0, null);
+			Pawn pawn = this.pawn;
+			LocalTargetInfo targetA = this.job.targetA;
+			Job job = this.job;
+			int joyMaxParticipants = this.job.def.joyMaxParticipants;
+			int stackCount = 0;
+			return pawn.Reserve(targetA, job, joyMaxParticipants, stackCount, null, errorOnFailed);
 		}
 
 		protected override IEnumerable<Toil> MakeNewToils()
@@ -45,13 +50,11 @@ namespace RimWorld
 				if (Find.TickManager.TicksGame > this.startTick + this.job.def.joyDuration)
 				{
 					base.EndJobWith(JobCondition.Succeeded);
+					return;
 				}
-				else
-				{
-					Pawn pawn = this.pawn;
-					Building joySource = (Building)base.TargetThingA;
-					JoyUtility.JoyTickCheckEnd(pawn, JoyTickFullJoyAction.EndJob, 1f, joySource);
-				}
+				Pawn pawn = this.pawn;
+				Building joySource = (Building)base.TargetThingA;
+				JoyUtility.JoyTickCheckEnd(pawn, JoyTickFullJoyAction.EndJob, 1f, joySource);
 			};
 			play.handlingFacing = true;
 			play.socialMode = RandomSocialMode.SuperActive;
@@ -141,13 +144,11 @@ namespace RimWorld
 						if (Find.TickManager.TicksGame > this.startTick + this.job.def.joyDuration)
 						{
 							base.EndJobWith(JobCondition.Succeeded);
+							return;
 						}
-						else
-						{
-							Pawn pawn = this.pawn;
-							Building joySource = (Building)base.TargetThingA;
-							JoyUtility.JoyTickCheckEnd(pawn, JoyTickFullJoyAction.EndJob, 1f, joySource);
-						}
+						Pawn pawn = this.pawn;
+						Building joySource = (Building)base.TargetThingA;
+						JoyUtility.JoyTickCheckEnd(pawn, JoyTickFullJoyAction.EndJob, 1f, joySource);
 					};
 					play.handlingFacing = true;
 					play.socialMode = RandomSocialMode.SuperActive;
@@ -248,13 +249,11 @@ namespace RimWorld
 				if (Find.TickManager.TicksGame > this.startTick + this.job.def.joyDuration)
 				{
 					base.EndJobWith(JobCondition.Succeeded);
+					return;
 				}
-				else
-				{
-					Pawn pawn = this.pawn;
-					Building joySource = (Building)base.TargetThingA;
-					JoyUtility.JoyTickCheckEnd(pawn, JoyTickFullJoyAction.EndJob, 1f, joySource);
-				}
+				Pawn pawn = this.pawn;
+				Building joySource = (Building)base.TargetThingA;
+				JoyUtility.JoyTickCheckEnd(pawn, JoyTickFullJoyAction.EndJob, 1f, joySource);
 			}
 
 			internal void <>m__2()

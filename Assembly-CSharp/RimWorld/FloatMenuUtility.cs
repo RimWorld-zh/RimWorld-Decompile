@@ -21,71 +21,68 @@ namespace RimWorld
 
 		public static Action GetRangedAttackAction(Pawn pawn, LocalTargetInfo target, out string failStr)
 		{
-			failStr = "";
-			Action result;
+			failStr = string.Empty;
 			if (pawn.equipment.Primary == null)
 			{
-				result = null;
+				return null;
 			}
-			else
+			Verb primaryVerb = pawn.equipment.PrimaryEq.PrimaryVerb;
+			if (primaryVerb.verbProps.IsMeleeAttack)
 			{
-				Verb primaryVerb = pawn.equipment.PrimaryEq.PrimaryVerb;
-				if (primaryVerb.verbProps.IsMeleeAttack)
+				return null;
+			}
+			if (!pawn.Drafted)
+			{
+				failStr = "IsNotDraftedLower".Translate(new object[]
 				{
-					result = null;
+					pawn.LabelShort
+				});
+			}
+			else if (!pawn.IsColonistPlayerControlled)
+			{
+				failStr = "CannotOrderNonControlledLower".Translate();
+			}
+			else if (target.IsValid && !pawn.equipment.PrimaryEq.PrimaryVerb.CanHitTarget(target))
+			{
+				if (!pawn.Position.InHorDistOf(target.Cell, primaryVerb.verbProps.range))
+				{
+					failStr = "OutOfRange".Translate();
+				}
+				float num = primaryVerb.verbProps.EffectiveMinRange(target, pawn);
+				if ((float)pawn.Position.DistanceToSquared(target.Cell) < num * num)
+				{
+					failStr = "TooClose".Translate();
 				}
 				else
 				{
-					if (!pawn.Drafted)
-					{
-						failStr = "IsNotDraftedLower".Translate(new object[]
-						{
-							pawn.LabelShort
-						});
-					}
-					else if (!pawn.IsColonistPlayerControlled)
-					{
-						failStr = "CannotOrderNonControlledLower".Translate();
-					}
-					else if (target.IsValid && !pawn.equipment.PrimaryEq.PrimaryVerb.CanHitTarget(target))
-					{
-						if (!pawn.Position.InHorDistOf(target.Cell, primaryVerb.verbProps.range))
-						{
-							failStr = "OutOfRange".Translate();
-						}
-						else
-						{
-							failStr = "CannotHitTarget".Translate();
-						}
-					}
-					else if (pawn.story.WorkTagIsDisabled(WorkTags.Violent))
-					{
-						failStr = "IsIncapableOfViolenceLower".Translate(new object[]
-						{
-							pawn.LabelShort
-						});
-					}
-					else
-					{
-						if (pawn != target.Thing)
-						{
-							return delegate()
-							{
-								Job job = new Job(JobDefOf.AttackStatic, target);
-								pawn.jobs.TryTakeOrderedJob(job, JobTag.Misc);
-							};
-						}
-						failStr = "CannotAttackSelf".Translate();
-					}
-					result = null;
+					failStr = "CannotHitTarget".Translate();
 				}
 			}
-			return result;
+			else if (pawn.story.WorkTagIsDisabled(WorkTags.Violent))
+			{
+				failStr = "IsIncapableOfViolenceLower".Translate(new object[]
+				{
+					pawn.LabelShort
+				});
+			}
+			else
+			{
+				if (pawn != target.Thing)
+				{
+					return delegate()
+					{
+						Job job = new Job(JobDefOf.AttackStatic, target);
+						pawn.jobs.TryTakeOrderedJob(job, JobTag.Misc);
+					};
+				}
+				failStr = "CannotAttackSelf".Translate();
+			}
+			return null;
 		}
 
 		public static Action GetMeleeAttackAction(Pawn pawn, LocalTargetInfo target, out string failStr)
 		{
-			failStr = "";
+			failStr = string.Empty;
 			if (!pawn.Drafted)
 			{
 				failStr = "IsNotDraftedLower".Translate(new object[]
@@ -134,50 +131,40 @@ namespace RimWorld
 
 		public static Action GetAttackAction(Pawn pawn, LocalTargetInfo target, out string failStr)
 		{
-			Action result;
 			if (pawn.equipment.Primary != null && !pawn.equipment.PrimaryEq.PrimaryVerb.verbProps.IsMeleeAttack)
 			{
-				result = FloatMenuUtility.GetRangedAttackAction(pawn, target, out failStr);
+				return FloatMenuUtility.GetRangedAttackAction(pawn, target, out failStr);
 			}
-			else
-			{
-				result = FloatMenuUtility.GetMeleeAttackAction(pawn, target, out failStr);
-			}
-			return result;
+			return FloatMenuUtility.GetMeleeAttackAction(pawn, target, out failStr);
 		}
 
 		public static FloatMenuOption DecoratePrioritizedTask(FloatMenuOption option, Pawn pawn, LocalTargetInfo target, string reservedText = "ReservedBy")
 		{
-			FloatMenuOption result;
 			if (option.action == null)
 			{
-				result = option;
+				return option;
 			}
-			else
+			if (pawn != null && !pawn.CanReserve(target, 1, -1, null, false) && pawn.CanReserve(target, 1, -1, null, true))
 			{
-				if (pawn != null && !pawn.CanReserve(target, 1, -1, null, false) && pawn.CanReserve(target, 1, -1, null, true))
+				Pawn pawn2 = pawn.Map.reservationManager.FirstRespectedReserver(target, pawn);
+				if (pawn2 == null)
 				{
-					Pawn pawn2 = pawn.Map.reservationManager.FirstRespectedReserver(target, pawn);
-					if (pawn2 == null)
-					{
-						pawn2 = pawn.Map.physicalInteractionReservationManager.FirstReserverOf(target);
-					}
-					if (pawn2 != null)
-					{
-						option.Label = option.Label + " (" + reservedText.Translate(new object[]
-						{
-							pawn2.LabelShort
-						}) + ")";
-					}
+					pawn2 = pawn.Map.physicalInteractionReservationManager.FirstReserverOf(target);
 				}
-				if (option.revalidateClickTarget != null && option.revalidateClickTarget != target.Thing)
+				if (pawn2 != null)
 				{
-					Log.ErrorOnce(string.Format("Click target mismatch; {0} vs {1} in {2}", option.revalidateClickTarget, target.Thing, option.Label), 52753118, false);
+					option.Label = option.Label + " (" + reservedText.Translate(new object[]
+					{
+						pawn2.LabelShort
+					}) + ")";
 				}
-				option.revalidateClickTarget = target.Thing;
-				result = option;
 			}
-			return result;
+			if (option.revalidateClickTarget != null && option.revalidateClickTarget != target.Thing)
+			{
+				Log.ErrorOnce(string.Format("Click target mismatch; {0} vs {1} in {2}", option.revalidateClickTarget, target.Thing, option.Label), 52753118, false);
+			}
+			option.revalidateClickTarget = target.Thing;
+			return option;
 		}
 
 		[CompilerGenerated]

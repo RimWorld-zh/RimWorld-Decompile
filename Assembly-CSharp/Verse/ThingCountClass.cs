@@ -36,8 +36,9 @@ namespace Verse
 						this.thing
 					}), false);
 					this.countInt = 0;
+					return;
 				}
-				else if (this.thing != null && value > this.thing.stackCount)
+				if (this.thing != null && value > this.thing.stackCount)
 				{
 					Log.Warning(string.Concat(new object[]
 					{
@@ -49,11 +50,9 @@ namespace Verse
 						this.thing
 					}), false);
 					this.countInt = this.thing.stackCount;
+					return;
 				}
-				else
-				{
-					this.countInt = value;
-				}
+				this.countInt = value;
 			}
 		}
 

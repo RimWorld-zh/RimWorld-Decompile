@@ -5,14 +5,14 @@ namespace RimWorld
 {
 	public class StatPart_RoomStat : StatPart
 	{
-		private RoomStatDef roomStat = null;
+		private RoomStatDef roomStat;
 
 		[MustTranslate]
-		private string customLabel = null;
+		private string customLabel;
 
 		[TranslationHandle(Priority = 100)]
 		[Unsaved]
-		public string untranslatedCustomLabel = null;
+		public string untranslatedCustomLabel;
 
 		public StatPart_RoomStat()
 		{

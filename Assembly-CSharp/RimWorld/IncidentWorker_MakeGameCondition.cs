@@ -14,29 +14,24 @@ namespace RimWorld
 		protected override bool CanFireNowSub(IncidentParms parms)
 		{
 			GameConditionManager gameConditionManager = parms.target.GameConditionManager;
-			bool result;
 			if (gameConditionManager == null)
 			{
 				Log.ErrorOnce(string.Format("Couldn't find condition manager for incident target {0}", parms.target), 70849667, false);
-				result = false;
+				return false;
 			}
-			else if (gameConditionManager.ConditionIsActive(this.def.gameCondition))
+			if (gameConditionManager.ConditionIsActive(this.def.gameCondition))
 			{
-				result = false;
+				return false;
 			}
-			else
+			List<GameCondition> activeConditions = gameConditionManager.ActiveConditions;
+			for (int i = 0; i < activeConditions.Count; i++)
 			{
-				List<GameCondition> activeConditions = gameConditionManager.ActiveConditions;
-				for (int i = 0; i < activeConditions.Count; i++)
+				if (!this.def.gameCondition.CanCoexistWith(activeConditions[i].def))
 				{
-					if (!this.def.gameCondition.CanCoexistWith(activeConditions[i].def))
-					{
-						return false;
-					}
+					return false;
 				}
-				result = true;
 			}
-			return result;
+			return true;
 		}
 
 		protected override bool TryExecuteWorker(IncidentParms parms)

@@ -17,7 +17,7 @@ namespace RimWorld.Planet
 	{
 		private Material cachedMat;
 
-		private static readonly SimpleCurve BadOutcomeFactorAtDiplomacyPower = new SimpleCurve
+		private static readonly SimpleCurve BadOutcomeChanceFactorByNegotiationAbility = new SimpleCurve
 		{
 			{
 				new CurvePoint(0f, 4f),
@@ -79,42 +79,40 @@ namespace RimWorld.Planet
 			if (pawn == null)
 			{
 				Messages.Message("MessagePeaceTalksNoDiplomat".Translate(), caravan, MessageTypeDefOf.NegativeEvent, false);
+				return;
 			}
-			else
+			float badOutcomeWeightFactor = PeaceTalks.GetBadOutcomeWeightFactor(pawn);
+			float num = 1f / badOutcomeWeightFactor;
+			PeaceTalks.tmpPossibleOutcomes.Clear();
+			PeaceTalks.tmpPossibleOutcomes.Add(new Pair<Action, float>(delegate()
 			{
-				float badOutcomeWeightFactor = PeaceTalks.GetBadOutcomeWeightFactor(pawn);
-				float num = 1f / badOutcomeWeightFactor;
-				PeaceTalks.tmpPossibleOutcomes.Clear();
-				PeaceTalks.tmpPossibleOutcomes.Add(new Pair<Action, float>(delegate()
-				{
-					this.Outcome_Disaster(caravan);
-				}, 0.05f * badOutcomeWeightFactor));
-				PeaceTalks.tmpPossibleOutcomes.Add(new Pair<Action, float>(delegate()
-				{
-					this.Outcome_Backfire(caravan);
-				}, 0.1f * badOutcomeWeightFactor));
-				PeaceTalks.tmpPossibleOutcomes.Add(new Pair<Action, float>(delegate()
-				{
-					this.Outcome_TalksFlounder(caravan);
-				}, 0.2f));
-				PeaceTalks.tmpPossibleOutcomes.Add(new Pair<Action, float>(delegate()
-				{
-					this.Outcome_Success(caravan);
-				}, 0.55f * num));
-				PeaceTalks.tmpPossibleOutcomes.Add(new Pair<Action, float>(delegate()
-				{
-					this.Outcome_Triumph(caravan);
-				}, 0.1f * num));
-				Action first = PeaceTalks.tmpPossibleOutcomes.RandomElementByWeight((Pair<Action, float> x) => x.Second).First;
-				first();
-				pawn.skills.Learn(SkillDefOf.Social, 6000f, true);
-				Find.WorldObjects.Remove(this);
-			}
+				this.Outcome_Disaster(caravan);
+			}, 0.05f * badOutcomeWeightFactor));
+			PeaceTalks.tmpPossibleOutcomes.Add(new Pair<Action, float>(delegate()
+			{
+				this.Outcome_Backfire(caravan);
+			}, 0.1f * badOutcomeWeightFactor));
+			PeaceTalks.tmpPossibleOutcomes.Add(new Pair<Action, float>(delegate()
+			{
+				this.Outcome_TalksFlounder(caravan);
+			}, 0.2f));
+			PeaceTalks.tmpPossibleOutcomes.Add(new Pair<Action, float>(delegate()
+			{
+				this.Outcome_Success(caravan);
+			}, 0.55f * num));
+			PeaceTalks.tmpPossibleOutcomes.Add(new Pair<Action, float>(delegate()
+			{
+				this.Outcome_Triumph(caravan);
+			}, 0.1f * num));
+			Action first = PeaceTalks.tmpPossibleOutcomes.RandomElementByWeight((Pair<Action, float> x) => x.Second).First;
+			first();
+			pawn.skills.Learn(SkillDefOf.Social, 6000f, true);
+			Find.WorldObjects.Remove(this);
 		}
 
 		public override IEnumerable<FloatMenuOption> GetFloatMenuOptions(Caravan caravan)
 		{
-			foreach (FloatMenuOption o in this.<GetFloatMenuOptions>__BaseCallProxy0(caravan))
+			foreach (FloatMenuOption o in base.GetFloatMenuOptions(caravan))
 			{
 				yield return o;
 			}
@@ -143,7 +141,7 @@ namespace RimWorld.Planet
 				{
 					LordMaker.MakeNewLord(incidentParms.faction, new LordJob_AssaultColony(this.Faction, true, true, false, false, true), map, list);
 				}
-				Find.TickManager.CurTimeSpeed = TimeSpeed.Paused;
+				Find.TickManager.Notify_GeneratedPotentiallyHostileMap();
 				GlobalTargetInfo target = (!list.Any<Pawn>()) ? GlobalTargetInfo.Invalid : new GlobalTargetInfo(list[0].Position, map, false);
 				string label = "LetterLabelPeaceTalks_Disaster".Translate();
 				string letterText = this.GetLetterText("LetterPeaceTalks_Disaster".Translate(new object[]
@@ -206,7 +204,7 @@ namespace RimWorld.Planet
 			{
 				base.Faction.Name,
 				randomInRange,
-				GenLabel.ThingsLabel(list)
+				GenLabel.ThingsLabel(list, "  - ")
 			}), caravan, playerRelationKind), LetterDefOf.PositiveEvent, caravan, base.Faction, null);
 		}
 
@@ -228,13 +226,13 @@ namespace RimWorld.Planet
 
 		private static float GetBadOutcomeWeightFactor(Pawn diplomat)
 		{
-			float statValue = diplomat.GetStatValue(StatDefOf.DiplomacyPower, true);
+			float statValue = diplomat.GetStatValue(StatDefOf.NegotiationAbility, true);
 			return PeaceTalks.GetBadOutcomeWeightFactor(statValue);
 		}
 
-		private static float GetBadOutcomeWeightFactor(float diplomacyPower)
+		private static float GetBadOutcomeWeightFactor(float negotationAbility)
 		{
-			return PeaceTalks.BadOutcomeFactorAtDiplomacyPower.Evaluate(diplomacyPower);
+			return PeaceTalks.BadOutcomeChanceFactorByNegotiationAbility.Evaluate(negotationAbility);
 		}
 
 		[Category("Incidents")]
@@ -248,14 +246,14 @@ namespace RimWorld.Planet
 			Log.Message(stringBuilder.ToString(), false);
 		}
 
-		private static void AppendDebugChances(StringBuilder sb, float diplomacyPower)
+		private static void AppendDebugChances(StringBuilder sb, float negotiationAbility)
 		{
 			if (sb.Length > 0)
 			{
 				sb.AppendLine();
 			}
-			sb.AppendLine("--- DiplomacyPower = " + diplomacyPower.ToStringPercent() + " ---");
-			float badOutcomeWeightFactor = PeaceTalks.GetBadOutcomeWeightFactor(diplomacyPower);
+			sb.AppendLine("--- NegotiationAbility = " + negotiationAbility.ToStringPercent() + " ---");
+			float badOutcomeWeightFactor = PeaceTalks.GetBadOutcomeWeightFactor(negotiationAbility);
 			float num = 1f / badOutcomeWeightFactor;
 			sb.AppendLine("Bad outcome weight factor: " + badOutcomeWeightFactor.ToString("0.##"));
 			float num2 = 0.05f * badOutcomeWeightFactor;
@@ -366,7 +364,7 @@ namespace RimWorld.Planet
 				case 1u:
 					break;
 				case 2u:
-					goto IL_DE;
+					goto IL_D9;
 				default:
 					return false;
 				}
@@ -401,7 +399,7 @@ namespace RimWorld.Planet
 				num = 4294967293u;
 				try
 				{
-					IL_DE:
+					IL_D9:
 					switch (num)
 					{
 					}
@@ -537,7 +535,7 @@ namespace RimWorld.Planet
 				{
 					LordMaker.MakeNewLord(incidentParms.faction, new LordJob_AssaultColony(this.$this.Faction, true, true, false, false, true), map, list);
 				}
-				Find.TickManager.CurTimeSpeed = TimeSpeed.Paused;
+				Find.TickManager.Notify_GeneratedPotentiallyHostileMap();
 				GlobalTargetInfo target = (!list.Any<Pawn>()) ? GlobalTargetInfo.Invalid : new GlobalTargetInfo(list[0].Position, map, false);
 				string label = "LetterLabelPeaceTalks_Disaster".Translate();
 				string letterText = this.$this.GetLetterText("LetterPeaceTalks_Disaster".Translate(new object[]

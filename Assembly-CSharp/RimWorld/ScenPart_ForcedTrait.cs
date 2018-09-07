@@ -11,7 +11,7 @@ namespace RimWorld
 	{
 		private TraitDef trait;
 
-		private int degree = 0;
+		private int degree;
 
 		[CompilerGenerated]
 		private static Func<TraitDef, string> <>f__am$cache0;
@@ -78,37 +78,39 @@ namespace RimWorld
 
 		protected override void ModifyPawnPostGenerate(Pawn pawn, bool redressed)
 		{
-			if (pawn.story != null && pawn.story.traits != null)
+			if (pawn.story == null || pawn.story.traits == null)
 			{
-				if (!pawn.story.traits.HasTrait(this.trait) || pawn.story.traits.DegreeOfTrait(this.trait) != this.degree)
+				return;
+			}
+			if (pawn.story.traits.HasTrait(this.trait) && pawn.story.traits.DegreeOfTrait(this.trait) == this.degree)
+			{
+				return;
+			}
+			if (pawn.story.traits.HasTrait(this.trait))
+			{
+				pawn.story.traits.allTraits.RemoveAll((Trait tr) => tr.def == this.trait);
+			}
+			else
+			{
+				IEnumerable<Trait> source = from tr in pawn.story.traits.allTraits
+				where !tr.ScenForced && !ScenPart_ForcedTrait.PawnHasTraitForcedByBackstory(pawn, tr.def)
+				select tr;
+				if (source.Any<Trait>())
 				{
-					if (pawn.story.traits.HasTrait(this.trait))
+					Trait trait = (from tr in source
+					where tr.def.conflictingTraits.Contains(this.trait)
+					select tr).FirstOrDefault<Trait>();
+					if (trait != null)
 					{
-						pawn.story.traits.allTraits.RemoveAll((Trait tr) => tr.def == this.trait);
+						pawn.story.traits.allTraits.Remove(trait);
 					}
 					else
 					{
-						IEnumerable<Trait> source = from tr in pawn.story.traits.allTraits
-						where !tr.ScenForced && !ScenPart_ForcedTrait.PawnHasTraitForcedByBackstory(pawn, tr.def)
-						select tr;
-						if (source.Any<Trait>())
-						{
-							Trait trait = (from tr in source
-							where tr.def.conflictingTraits.Contains(this.trait)
-							select tr).FirstOrDefault<Trait>();
-							if (trait != null)
-							{
-								pawn.story.traits.allTraits.Remove(trait);
-							}
-							else
-							{
-								pawn.story.traits.allTraits.Remove(source.RandomElement<Trait>());
-							}
-						}
+						pawn.story.traits.allTraits.Remove(source.RandomElement<Trait>());
 					}
-					pawn.story.traits.GainTrait(new Trait(this.trait, this.degree, true));
 				}
 			}
+			pawn.story.traits.GainTrait(new Trait(this.trait, this.degree, true));
 		}
 
 		private static bool PawnHasTraitForcedByBackstory(Pawn pawn, TraitDef trait)

@@ -12,30 +12,25 @@ namespace RimWorld
 
 		protected override ThoughtState CurrentSocialStateInternal(Pawn p, Pawn otherPawn)
 		{
-			ThoughtState result;
 			if (!p.relations.DirectRelationExists(PawnRelationDefOf.Spouse, otherPawn))
 			{
-				result = false;
+				return false;
 			}
-			else
+			List<DirectPawnRelation> directRelations = otherPawn.relations.DirectRelations;
+			for (int i = 0; i < directRelations.Count; i++)
 			{
-				List<DirectPawnRelation> directRelations = otherPawn.relations.DirectRelations;
-				for (int i = 0; i < directRelations.Count; i++)
+				if (directRelations[i].otherPawn != p)
 				{
-					if (directRelations[i].otherPawn != p)
+					if (!directRelations[i].otherPawn.Dead)
 					{
-						if (!directRelations[i].otherPawn.Dead)
+						if (directRelations[i].def == PawnRelationDefOf.Lover || directRelations[i].def == PawnRelationDefOf.Fiance)
 						{
-							if (directRelations[i].def == PawnRelationDefOf.Lover || directRelations[i].def == PawnRelationDefOf.Fiance)
-							{
-								return true;
-							}
+							return true;
 						}
 					}
 				}
-				result = false;
 			}
-			return result;
+			return false;
 		}
 	}
 }

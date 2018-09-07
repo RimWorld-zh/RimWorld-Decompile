@@ -36,37 +36,32 @@ namespace RimWorld.Planet
 
 		public static float GetFoodScore(ThingDef food, Pawn pawn, float singleFoodNutrition)
 		{
-			float result;
 			if (pawn.RaceProps.Humanlike)
 			{
-				result = (float)food.ingestible.preferability;
+				return (float)food.ingestible.preferability;
 			}
-			else
+			float num = 0f;
+			if (food == ThingDefOf.Kibble || food == ThingDefOf.Hay)
 			{
-				float num = 0f;
-				if (food == ThingDefOf.Kibble || food == ThingDefOf.Hay)
-				{
-					num = 5f;
-				}
-				else if (food.ingestible.preferability == FoodPreferability.DesperateOnlyForHumanlikes)
-				{
-					num = 4f;
-				}
-				else if (food.ingestible.preferability == FoodPreferability.RawBad)
-				{
-					num = 3f;
-				}
-				else if (food.ingestible.preferability == FoodPreferability.RawTasty)
-				{
-					num = 2f;
-				}
-				else if (food.ingestible.preferability < FoodPreferability.MealAwful)
-				{
-					num = 1f;
-				}
-				result = num + Mathf.Min(singleFoodNutrition / 100f, 0.999f);
+				num = 5f;
 			}
-			return result;
+			else if (food.ingestible.preferability == FoodPreferability.DesperateOnlyForHumanlikes)
+			{
+				num = 4f;
+			}
+			else if (food.ingestible.preferability == FoodPreferability.RawBad)
+			{
+				num = 3f;
+			}
+			else if (food.ingestible.preferability == FoodPreferability.RawTasty)
+			{
+				num = 2f;
+			}
+			else if (food.ingestible.preferability < FoodPreferability.MealAwful)
+			{
+				num = 1f;
+			}
+			return num + Mathf.Min(singleFoodNutrition / 100f, 0.999f);
 		}
 	}
 }

@@ -12,29 +12,21 @@ namespace RimWorld
 
 		protected override Job TryGiveJob(Pawn pawn)
 		{
-			Job result;
 			if (pawn.RaceProps.Humanlike && pawn.story.WorkTagIsDisabled(WorkTags.Violent))
 			{
-				result = null;
+				return null;
 			}
-			else
+			Pawn otherPawn = ((MentalState_SocialFighting)pawn.MentalState).otherPawn;
+			Verb verbToUse;
+			if (!InteractionUtility.TryGetRandomVerbForSocialFight(pawn, out verbToUse))
 			{
-				Pawn otherPawn = ((MentalState_SocialFighting)pawn.MentalState).otherPawn;
-				Verb verbToUse;
-				if (!InteractionUtility.TryGetRandomVerbForSocialFight(pawn, out verbToUse))
-				{
-					result = null;
-				}
-				else
-				{
-					result = new Job(JobDefOf.SocialFight, otherPawn)
-					{
-						maxNumMeleeAttacks = 1,
-						verbToUse = verbToUse
-					};
-				}
+				return null;
 			}
-			return result;
+			return new Job(JobDefOf.SocialFight, otherPawn)
+			{
+				maxNumMeleeAttacks = 1,
+				verbToUse = verbToUse
+			};
 		}
 	}
 }

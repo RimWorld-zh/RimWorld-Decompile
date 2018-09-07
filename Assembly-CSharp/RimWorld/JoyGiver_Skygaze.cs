@@ -18,21 +18,16 @@ namespace RimWorld
 
 		public override Job TryGiveJob(Pawn pawn)
 		{
-			Job result;
-			IntVec3 c;
 			if (!JoyUtility.EnjoyableOutsideNow(pawn, null) || pawn.Map.weatherManager.curWeather.rainRate > 0.1f)
 			{
-				result = null;
+				return null;
 			}
-			else if (!RCellFinder.TryFindSkygazeCell(pawn.Position, pawn, out c))
+			IntVec3 c;
+			if (!RCellFinder.TryFindSkygazeCell(pawn.Position, pawn, out c))
 			{
-				result = null;
+				return null;
 			}
-			else
-			{
-				result = new Job(this.def.jobDef, c);
-			}
-			return result;
+			return new Job(this.def.jobDef, c);
 		}
 	}
 }

@@ -77,37 +77,37 @@ namespace Verse.Sound
 					" could not resolve any grains."
 				}), false);
 				this.parent.End();
+				return;
+			}
+			float num;
+			if (this.subDef.sustainLoop)
+			{
+				num = this.subDef.sustainLoopDurationRange.RandomInRange;
 			}
 			else
 			{
-				float num;
-				if (this.subDef.sustainLoop)
-				{
-					num = this.subDef.sustainLoopDurationRange.RandomInRange;
-				}
-				else
-				{
-					num = resolvedGrain.duration;
-				}
-				float num2 = Time.realtimeSinceStartup + num;
-				this.nextSampleStartTime = num2 + this.subDef.sustainIntervalRange.RandomInRange;
-				if (this.nextSampleStartTime < Time.realtimeSinceStartup + 0.01f)
-				{
-					this.nextSampleStartTime = Time.realtimeSinceStartup + 0.01f;
-				}
-				if (!(resolvedGrain is ResolvedGrain_Silence))
-				{
-					SampleSustainer sampleSustainer = SampleSustainer.TryMakeAndPlay(this, ((ResolvedGrain_Clip)resolvedGrain).clip, num2);
-					if (sampleSustainer != null)
-					{
-						if (this.subDef.sustainSkipFirstAttack && Time.frameCount == this.creationFrame)
-						{
-							sampleSustainer.resolvedSkipAttack = true;
-						}
-						this.samples.Add(sampleSustainer);
-					}
-				}
+				num = resolvedGrain.duration;
 			}
+			float num2 = Time.realtimeSinceStartup + num;
+			this.nextSampleStartTime = num2 + this.subDef.sustainIntervalRange.RandomInRange;
+			if (this.nextSampleStartTime < Time.realtimeSinceStartup + 0.01f)
+			{
+				this.nextSampleStartTime = Time.realtimeSinceStartup + 0.01f;
+			}
+			if (resolvedGrain is ResolvedGrain_Silence)
+			{
+				return;
+			}
+			SampleSustainer sampleSustainer = SampleSustainer.TryMakeAndPlay(this, ((ResolvedGrain_Clip)resolvedGrain).clip, num2);
+			if (sampleSustainer == null)
+			{
+				return;
+			}
+			if (this.subDef.sustainSkipFirstAttack && Time.frameCount == this.creationFrame)
+			{
+				sampleSustainer.resolvedSkipAttack = true;
+			}
+			this.samples.Add(sampleSustainer);
 		}
 
 		public void SubSustainerUpdate()

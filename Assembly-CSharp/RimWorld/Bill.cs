@@ -10,13 +10,13 @@ namespace RimWorld
 	public abstract class Bill : IExposable, ILoadReferenceable
 	{
 		[Unsaved]
-		public BillStack billStack = null;
+		public BillStack billStack;
 
 		private int loadID = -1;
 
 		public RecipeDef recipe;
 
-		public bool suspended = false;
+		public bool suspended;
 
 		public ThingFilter ingredientFilter;
 
@@ -24,9 +24,9 @@ namespace RimWorld
 
 		public IntRange allowedSkillRange = new IntRange(0, 20);
 
-		public Pawn pawnRestriction = null;
+		public Pawn pawnRestriction;
 
-		public bool deleted = false;
+		public bool deleted;
 
 		public int lastIngredientSearchFailTicks = -99999;
 
@@ -118,17 +118,12 @@ namespace RimWorld
 		{
 			get
 			{
-				bool result;
 				if (this.deleted)
 				{
-					result = true;
+					return true;
 				}
-				else
-				{
-					Thing thing = this.billStack.billGiver as Thing;
-					result = (thing != null && thing.Destroyed);
-				}
-				return result;
+				Thing thing = this.billStack.billGiver as Thing;
+				return thing != null && thing.Destroyed;
 			}
 		}
 
@@ -145,16 +140,13 @@ namespace RimWorld
 			Scribe_Values.Look<float>(ref this.ingredientSearchRadius, "ingredientSearchRadius", 999f, false);
 			Scribe_Values.Look<IntRange>(ref this.allowedSkillRange, "allowedSkillRange", default(IntRange), false);
 			Scribe_References.Look<Pawn>(ref this.pawnRestriction, "pawnRestriction", false);
-			if (Scribe.mode == LoadSaveMode.Saving)
+			if (Scribe.mode == LoadSaveMode.Saving && this.recipe.fixedIngredientFilter != null)
 			{
-				if (this.recipe.fixedIngredientFilter != null)
+				foreach (ThingDef thingDef in DefDatabase<ThingDef>.AllDefs)
 				{
-					foreach (ThingDef thingDef in DefDatabase<ThingDef>.AllDefs)
+					if (!this.recipe.fixedIngredientFilter.Allows(thingDef))
 					{
-						if (!this.recipe.fixedIngredientFilter.Allows(thingDef))
-						{
-							this.ingredientFilter.SetAllow(thingDef, false);
-						}
+						this.ingredientFilter.SetAllow(thingDef, false);
 					}
 				}
 			}
@@ -163,36 +155,31 @@ namespace RimWorld
 
 		public virtual bool PawnAllowedToStartAnew(Pawn p)
 		{
-			bool result;
 			if (this.pawnRestriction != null)
 			{
-				result = (this.pawnRestriction == p);
+				return this.pawnRestriction == p;
 			}
-			else
+			if (this.recipe.workSkill != null)
 			{
-				if (this.recipe.workSkill != null)
+				int level = p.skills.GetSkill(this.recipe.workSkill).Level;
+				if (level < this.allowedSkillRange.min)
 				{
-					int level = p.skills.GetSkill(this.recipe.workSkill).Level;
-					if (level < this.allowedSkillRange.min)
+					JobFailReason.Is("UnderAllowedSkill".Translate(new object[]
 					{
-						JobFailReason.Is("UnderAllowedSkill".Translate(new object[]
-						{
-							this.allowedSkillRange.min
-						}), this.Label);
-						return false;
-					}
-					if (level > this.allowedSkillRange.max)
-					{
-						JobFailReason.Is("AboveAllowedSkill".Translate(new object[]
-						{
-							this.allowedSkillRange.max
-						}), this.Label);
-						return false;
-					}
+						this.allowedSkillRange.min
+					}), this.Label);
+					return false;
 				}
-				result = true;
+				if (level > this.allowedSkillRange.max)
+				{
+					JobFailReason.Is("AboveAllowedSkill".Translate(new object[]
+					{
+						this.allowedSkillRange.max
+					}), this.Label);
+					return false;
+				}
 			}
-			return result;
+			return true;
 		}
 
 		public virtual void Notify_PawnDidWork(Pawn p)
@@ -386,21 +373,19 @@ namespace RimWorld
 
 		public virtual void ValidateSettings()
 		{
-			if (this.pawnRestriction != null)
+			if (this.pawnRestriction != null && (this.pawnRestriction.Dead || this.pawnRestriction.Faction != Faction.OfPlayer || this.pawnRestriction.IsKidnapped()))
 			{
-				if (this.pawnRestriction.Dead || this.pawnRestriction.Faction != Faction.OfPlayer || this.pawnRestriction.IsKidnapped())
+				if (this != BillUtility.Clipboard)
 				{
-					if (this != BillUtility.Clipboard)
+					Messages.Message("MessageBillValidationPawnUnavailable".Translate(new object[]
 					{
-						Messages.Message("MessageBillValidationPawnUnavailable".Translate(new object[]
-						{
-							this.pawnRestriction.LabelShortCap,
-							this.LabelCap,
-							this.billStack.billGiver.LabelShort.CapitalizeFirst()
-						}), this.billStack.billGiver as Thing, MessageTypeDefOf.NegativeEvent, true);
-					}
-					this.pawnRestriction = null;
+						this.pawnRestriction.LabelShortCap,
+						this.LabelCap,
+						this.billStack.billGiver.LabelShort.CapitalizeFirst()
+					}), this.billStack.billGiver as Thing, MessageTypeDefOf.NegativeEvent, true);
 				}
+				this.pawnRestriction = null;
+				return;
 			}
 		}
 

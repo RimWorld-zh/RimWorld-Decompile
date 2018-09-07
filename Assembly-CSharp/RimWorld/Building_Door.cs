@@ -16,15 +16,15 @@ namespace RimWorld
 	{
 		public CompPowerTrader powerComp;
 
-		private bool openInt = false;
+		private bool openInt;
 
-		private bool holdOpenInt = false;
+		private bool holdOpenInt;
 
 		private int lastFriendlyTouchTick = -9999;
 
-		protected int ticksUntilClose = 0;
+		protected int ticksUntilClose;
 
-		protected int visualTicksOpen = 0;
+		protected int visualTicksOpen;
 
 		private bool freePassageWhenClearedReachabilityCache;
 
@@ -76,51 +76,46 @@ namespace RimWorld
 		{
 			get
 			{
-				bool result;
 				if (!base.Spawned)
 				{
-					result = true;
+					return true;
 				}
-				else if (!this.openInt)
+				if (!this.openInt)
 				{
-					result = true;
+					return true;
 				}
-				else if (this.holdOpenInt)
+				if (this.holdOpenInt)
 				{
-					result = false;
+					return false;
 				}
-				else if (this.ticksUntilClose > 0 && this.ticksUntilClose <= 111 && !this.BlockedOpenMomentary)
+				if (this.ticksUntilClose > 0 && this.ticksUntilClose <= 111 && !this.BlockedOpenMomentary)
 				{
-					result = true;
+					return true;
 				}
-				else if (this.CanTryCloseAutomatically && !this.BlockedOpenMomentary)
+				if (this.CanTryCloseAutomatically && !this.BlockedOpenMomentary)
 				{
-					result = true;
+					return true;
 				}
-				else
+				for (int i = 0; i < 5; i++)
 				{
-					for (int i = 0; i < 5; i++)
+					IntVec3 c = base.Position + GenAdj.CardinalDirectionsAndInside[i];
+					if (c.InBounds(base.Map))
 					{
-						IntVec3 c = base.Position + GenAdj.CardinalDirectionsAndInside[i];
-						if (c.InBounds(base.Map))
+						List<Thing> thingList = c.GetThingList(base.Map);
+						for (int j = 0; j < thingList.Count; j++)
 						{
-							List<Thing> thingList = c.GetThingList(base.Map);
-							for (int j = 0; j < thingList.Count; j++)
+							Pawn pawn = thingList[j] as Pawn;
+							if (pawn != null && !pawn.HostileTo(this) && !pawn.Downed)
 							{
-								Pawn pawn = thingList[j] as Pawn;
-								if (pawn != null && !pawn.HostileTo(this) && !pawn.Downed)
+								if (pawn.Position == base.Position || (pawn.pather.Moving && pawn.pather.nextCell == base.Position))
 								{
-									if (pawn.Position == base.Position || (pawn.pather.Moving && pawn.pather.nextCell == base.Position))
-									{
-										return true;
-									}
+									return true;
 								}
 							}
 						}
 					}
-					result = false;
 				}
-				return result;
+				return false;
 			}
 		}
 
@@ -232,12 +227,9 @@ namespace RimWorld
 			Scribe_Values.Look<bool>(ref this.openInt, "open", false, false);
 			Scribe_Values.Look<bool>(ref this.holdOpenInt, "holdOpen", false, false);
 			Scribe_Values.Look<int>(ref this.lastFriendlyTouchTick, "lastFriendlyTouchTick", 0, false);
-			if (Scribe.mode == LoadSaveMode.LoadingVars)
+			if (Scribe.mode == LoadSaveMode.LoadingVars && this.openInt)
 			{
-				if (this.openInt)
-				{
-					this.visualTicksOpen = this.VisualTicksToOpen;
-				}
+				this.visualTicksOpen = this.VisualTicksToOpen;
 			}
 		}
 
@@ -290,12 +282,9 @@ namespace RimWorld
 						this.ticksUntilClose = 110;
 					}
 					this.ticksUntilClose--;
-					if (this.ticksUntilClose <= 0 && !this.holdOpenInt)
+					if (this.ticksUntilClose <= 0 && !this.holdOpenInt && !this.DoorTryClose())
 					{
-						if (!this.DoorTryClose())
-						{
-							this.ticksUntilClose = 1;
-						}
+						this.ticksUntilClose = 1;
 					}
 				}
 				else if (this.CanTryCloseAutomatically)
@@ -333,13 +322,13 @@ namespace RimWorld
 
 		public bool CanPhysicallyPass(Pawn p)
 		{
-			return this.FreePassage || this.PawnCanOpen(p);
+			return this.FreePassage || this.PawnCanOpen(p) || (this.Open && p.HostileTo(this));
 		}
 
 		public virtual bool PawnCanOpen(Pawn p)
 		{
 			Lord lord = p.GetLord();
-			return (lord != null && lord.LordJob != null && lord.LordJob.CanOpenAnyDoor(p)) || (p.IsWildMan() && !p.mindState.wildManEverReachedOutside) || base.Faction == null || (p.guest != null && p.guest.Released) || GenAI.MachinesLike(base.Faction, p);
+			return (lord != null && lord.LordJob != null && lord.LordJob.CanOpenAnyDoor(p)) || WildManUtility.WildManShouldReachOutsideNow(p) || base.Faction == null || (p.guest != null && p.guest.Released) || GenAI.MachinesLike(base.Faction, p);
 		}
 
 		public override bool BlocksPawn(Pawn p)
@@ -360,6 +349,7 @@ namespace RimWorld
 			if (!this.openInt)
 			{
 				this.openInt = true;
+				this.CheckClearReachabilityCacheBecauseOpenedOrClosed();
 				if (this.DoorPowerOn)
 				{
 					this.def.building.soundDoorOpenPowered.PlayOneShot(new TargetInfo(base.Position, base.Map, false));
@@ -373,25 +363,21 @@ namespace RimWorld
 
 		protected bool DoorTryClose()
 		{
-			bool result;
 			if (this.holdOpenInt || this.BlockedOpenMomentary)
 			{
-				result = false;
+				return false;
+			}
+			this.openInt = false;
+			this.CheckClearReachabilityCacheBecauseOpenedOrClosed();
+			if (this.DoorPowerOn)
+			{
+				this.def.building.soundDoorClosePowered.PlayOneShot(new TargetInfo(base.Position, base.Map, false));
 			}
 			else
 			{
-				this.openInt = false;
-				if (this.DoorPowerOn)
-				{
-					this.def.building.soundDoorClosePowered.PlayOneShot(new TargetInfo(base.Position, base.Map, false));
-				}
-				else
-				{
-					this.def.building.soundDoorCloseManual.PlayOneShot(new TargetInfo(base.Position, base.Map, false));
-				}
-				result = true;
+				this.def.building.soundDoorCloseManual.PlayOneShot(new TargetInfo(base.Position, base.Map, false));
 			}
-			return result;
+			return true;
 		}
 
 		public void StartManualOpenBy(Pawn opener)
@@ -436,41 +422,36 @@ namespace RimWorld
 
 		private static int AlignQualityAgainst(IntVec3 c, Map map)
 		{
-			int result;
 			if (!c.InBounds(map))
 			{
-				result = 0;
+				return 0;
 			}
-			else if (!c.Walkable(map))
+			if (!c.Walkable(map))
 			{
-				result = 9;
+				return 9;
 			}
-			else
+			List<Thing> thingList = c.GetThingList(map);
+			for (int i = 0; i < thingList.Count; i++)
 			{
-				List<Thing> thingList = c.GetThingList(map);
-				for (int i = 0; i < thingList.Count; i++)
+				Thing thing = thingList[i];
+				if (typeof(Building_Door).IsAssignableFrom(thing.def.thingClass))
 				{
-					Thing thing = thingList[i];
+					return 1;
+				}
+				Thing thing2 = thing as Blueprint;
+				if (thing2 != null)
+				{
+					if (thing2.def.entityDefToBuild.passability == Traversability.Impassable)
+					{
+						return 9;
+					}
 					if (typeof(Building_Door).IsAssignableFrom(thing.def.thingClass))
 					{
 						return 1;
 					}
-					Thing thing2 = thing as Blueprint;
-					if (thing2 != null)
-					{
-						if (thing2.def.entityDefToBuild.passability == Traversability.Impassable)
-						{
-							return 9;
-						}
-						if (typeof(Building_Door).IsAssignableFrom(thing.def.thingClass))
-						{
-							return 1;
-						}
-					}
 				}
-				result = 0;
 			}
-			return result;
+			return 0;
 		}
 
 		public static Rot4 DoorRotationAt(IntVec3 loc, Map map)
@@ -481,21 +462,16 @@ namespace RimWorld
 			num += Building_Door.AlignQualityAgainst(loc + IntVec3.West, map);
 			num2 += Building_Door.AlignQualityAgainst(loc + IntVec3.North, map);
 			num2 += Building_Door.AlignQualityAgainst(loc + IntVec3.South, map);
-			Rot4 result;
 			if (num >= num2)
 			{
-				result = Rot4.North;
+				return Rot4.North;
 			}
-			else
-			{
-				result = Rot4.East;
-			}
-			return result;
+			return Rot4.East;
 		}
 
 		public override IEnumerable<Gizmo> GetGizmos()
 		{
-			foreach (Gizmo g in this.<GetGizmos>__BaseCallProxy0())
+			foreach (Gizmo g in base.GetGizmos())
 			{
 				yield return g;
 			}
@@ -521,6 +497,14 @@ namespace RimWorld
 		{
 			map.reachability.ClearCache();
 			this.freePassageWhenClearedReachabilityCache = this.FreePassage;
+		}
+
+		private void CheckClearReachabilityCacheBecauseOpenedOrClosed()
+		{
+			if (base.Spawned)
+			{
+				base.Map.reachability.ClearCacheForHostile(this);
+			}
 		}
 
 		[DebuggerHidden]
@@ -566,7 +550,7 @@ namespace RimWorld
 				case 1u:
 					break;
 				case 2u:
-					goto IL_172;
+					goto IL_16C;
 				default:
 					return false;
 				}
@@ -599,7 +583,7 @@ namespace RimWorld
 				}
 				if (base.Faction != Faction.OfPlayer)
 				{
-					goto IL_172;
+					goto IL_16C;
 				}
 				Command_Toggle ro = new Command_Toggle();
 				ro.defaultLabel = "CommandToggleDoorHoldOpen".Translate();
@@ -617,7 +601,7 @@ namespace RimWorld
 					this.$PC = 2;
 				}
 				return true;
-				IL_172:
+				IL_16C:
 				this.$PC = -1;
 				return false;
 			}

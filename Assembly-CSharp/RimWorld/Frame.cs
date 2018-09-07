@@ -46,7 +46,7 @@ namespace RimWorld
 			this.resourceContainer = new ThingOwner<Thing>(this, false, LookMode.Deep);
 		}
 
-		public float WorkToMake
+		public float WorkToBuild
 		{
 			get
 			{
@@ -58,7 +58,7 @@ namespace RimWorld
 		{
 			get
 			{
-				return this.WorkToMake - this.workDone;
+				return this.WorkToBuild - this.workDone;
 			}
 		}
 
@@ -66,7 +66,7 @@ namespace RimWorld
 		{
 			get
 			{
-				return this.workDone / this.WorkToMake;
+				return this.workDone / this.WorkToBuild;
 			}
 		}
 
@@ -83,16 +83,11 @@ namespace RimWorld
 			get
 			{
 				string label = this.def.entityDefToBuild.label;
-				string result;
 				if (base.Stuff != null)
 				{
-					result = base.Stuff.label + " " + label;
+					return base.Stuff.label + " " + label;
 				}
-				else
-				{
-					result = label;
-				}
-				return result;
+				return label;
 			}
 		}
 
@@ -100,7 +95,6 @@ namespace RimWorld
 		{
 			get
 			{
-				Color result;
 				if (!this.def.MadeFromStuff)
 				{
 					List<ThingDefCountClass> costList = this.def.entityDefToBuild.costList;
@@ -115,13 +109,9 @@ namespace RimWorld
 							}
 						}
 					}
-					result = new Color(0.6f, 0.6f, 0.6f);
+					return new Color(0.6f, 0.6f, 0.6f);
 				}
-				else
-				{
-					result = base.DrawColor;
-				}
-				return result;
+				return base.DrawColor;
 			}
 		}
 
@@ -129,20 +119,15 @@ namespace RimWorld
 		{
 			get
 			{
-				EffecterDef result;
 				if (base.Stuff != null && base.Stuff.stuffProps.constructEffect != null)
 				{
-					result = base.Stuff.stuffProps.constructEffect;
+					return base.Stuff.stuffProps.constructEffect;
 				}
-				else if (this.def.entityDefToBuild.constructEffect != null)
+				if (this.def.entityDefToBuild.constructEffect != null)
 				{
-					result = this.def.entityDefToBuild.constructEffect;
+					return this.def.entityDefToBuild.constructEffect;
 				}
-				else
-				{
-					result = EffecterDefOf.ConstructMetal;
-				}
-				return result;
+				return EffecterDefOf.ConstructMetal;
 			}
 		}
 
@@ -280,7 +265,7 @@ namespace RimWorld
 				lord.Notify_ConstructionFailed(worker, this, blueprint_Build);
 			}
 			MoteMaker.ThrowText(this.DrawPos, map, "TextMote_ConstructionFail".Translate(), 6f);
-			if (base.Faction == Faction.OfPlayer && this.WorkToMake > 1400f)
+			if (base.Faction == Faction.OfPlayer && this.WorkToBuild > 1400f)
 			{
 				Messages.Message("MessageConstructionFailed".Translate(new object[]
 				{
@@ -352,7 +337,7 @@ namespace RimWorld
 
 		public override IEnumerable<Gizmo> GetGizmos()
 		{
-			foreach (Gizmo c in this.<GetGizmos>__BaseCallProxy0())
+			foreach (Gizmo c in base.GetGizmos())
 			{
 				yield return c;
 			}
@@ -402,24 +387,19 @@ namespace RimWorld
 
 		public override ushort PathFindCostFor(Pawn p)
 		{
-			ushort result;
 			if (base.Faction == null)
 			{
-				result = 0;
+				return 0;
 			}
-			else if (this.def.entityDefToBuild is TerrainDef)
+			if (this.def.entityDefToBuild is TerrainDef)
 			{
-				result = 0;
+				return 0;
 			}
-			else if (p.Faction == base.Faction || p.HostFaction == base.Faction)
+			if (p.Faction == base.Faction || p.HostFaction == base.Faction)
 			{
-				result = Frame.AvoidUnderConstructionPathFindCost;
+				return Frame.AvoidUnderConstructionPathFindCost;
 			}
-			else
-			{
-				result = 0;
-			}
-			return result;
+			return 0;
 		}
 
 		// Note: this type is marked as 'beforefieldinit'.
@@ -474,9 +454,9 @@ namespace RimWorld
 				case 1u:
 					break;
 				case 2u:
-					goto IL_10D;
+					goto IL_109;
 				case 3u:
-					goto IL_147;
+					goto IL_141;
 				default:
 					return false;
 				}
@@ -517,16 +497,16 @@ namespace RimWorld
 					}
 					return true;
 				}
-				IL_10D:
+				IL_109:
 				if (base.Faction != Faction.OfPlayer)
 				{
-					goto IL_1BE;
+					goto IL_1B5;
 				}
 				enumerator2 = BuildFacilityCommandUtility.BuildFacilityCommands(this.def.entityDefToBuild).GetEnumerator();
 				num = 4294967293u;
 				try
 				{
-					IL_147:
+					IL_141:
 					switch (num)
 					{
 					}
@@ -552,7 +532,7 @@ namespace RimWorld
 						}
 					}
 				}
-				IL_1BE:
+				IL_1B5:
 				this.$PC = -1;
 				return false;
 			}

@@ -9,20 +9,15 @@ namespace RimWorld.Planet
 	{
 		public static string AdjustedLabelFor(List<WorldObject> worldObjects, Rect rect)
 		{
-			string result;
 			if (worldObjects.Count == 1)
 			{
-				result = worldObjects[0].LabelCap;
+				return worldObjects[0].LabelCap;
 			}
-			else if (WorldInspectPaneUtility.AllLabelsAreSame(worldObjects))
+			if (WorldInspectPaneUtility.AllLabelsAreSame(worldObjects))
 			{
-				result = worldObjects[0].LabelCap + " x" + worldObjects.Count;
+				return worldObjects[0].LabelCap + " x" + worldObjects.Count;
 			}
-			else
-			{
-				result = "VariousLabel".Translate();
-			}
-			return result;
+			return "VariousLabel".Translate();
 		}
 
 		private static bool AllLabelsAreSame(List<WorldObject> worldObjects)

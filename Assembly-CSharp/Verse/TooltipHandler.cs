@@ -24,22 +24,23 @@ namespace Verse
 
 		public static void ClearTooltipsFrom(Rect rect)
 		{
-			if (Event.current.type == EventType.Repaint)
+			if (Event.current.type != EventType.Repaint)
 			{
-				if (Mouse.IsOver(rect))
+				return;
+			}
+			if (Mouse.IsOver(rect))
+			{
+				TooltipHandler.dyingTips.Clear();
+				foreach (KeyValuePair<int, ActiveTip> keyValuePair in TooltipHandler.activeTips)
 				{
-					TooltipHandler.dyingTips.Clear();
-					foreach (KeyValuePair<int, ActiveTip> keyValuePair in TooltipHandler.activeTips)
+					if (keyValuePair.Value.lastTriggerFrame == TooltipHandler.frame)
 					{
-						if (keyValuePair.Value.lastTriggerFrame == TooltipHandler.frame)
-						{
-							TooltipHandler.dyingTips.Add(keyValuePair.Key);
-						}
+						TooltipHandler.dyingTips.Add(keyValuePair.Key);
 					}
-					for (int i = 0; i < TooltipHandler.dyingTips.Count; i++)
-					{
-						TooltipHandler.activeTips.Remove(TooltipHandler.dyingTips[i]);
-					}
+				}
+				for (int i = 0; i < TooltipHandler.dyingTips.Count; i++)
+				{
+					TooltipHandler.activeTips.Remove(TooltipHandler.dyingTips[i]);
 				}
 			}
 		}
@@ -51,28 +52,31 @@ namespace Verse
 
 		public static void TipRegion(Rect rect, TipSignal tip)
 		{
-			if (Event.current.type == EventType.Repaint)
+			if (Event.current.type != EventType.Repaint)
 			{
-				if (tip.textGetter != null || !tip.text.NullOrEmpty())
-				{
-					if (Mouse.IsOver(rect))
-					{
-						if (DebugViewSettings.drawTooltipEdges)
-						{
-							Widgets.DrawBox(rect, 1);
-						}
-						if (!TooltipHandler.activeTips.ContainsKey(tip.uniqueId))
-						{
-							ActiveTip value = new ActiveTip(tip);
-							TooltipHandler.activeTips.Add(tip.uniqueId, value);
-							TooltipHandler.activeTips[tip.uniqueId].firstTriggerTime = (double)Time.realtimeSinceStartup;
-						}
-						TooltipHandler.activeTips[tip.uniqueId].lastTriggerFrame = TooltipHandler.frame;
-						TooltipHandler.activeTips[tip.uniqueId].signal.text = tip.text;
-						TooltipHandler.activeTips[tip.uniqueId].signal.textGetter = tip.textGetter;
-					}
-				}
+				return;
 			}
+			if (tip.textGetter == null && tip.text.NullOrEmpty())
+			{
+				return;
+			}
+			if (!Mouse.IsOver(rect))
+			{
+				return;
+			}
+			if (DebugViewSettings.drawTooltipEdges)
+			{
+				Widgets.DrawBox(rect, 1);
+			}
+			if (!TooltipHandler.activeTips.ContainsKey(tip.uniqueId))
+			{
+				ActiveTip value = new ActiveTip(tip);
+				TooltipHandler.activeTips.Add(tip.uniqueId, value);
+				TooltipHandler.activeTips[tip.uniqueId].firstTriggerTime = (double)Time.realtimeSinceStartup;
+			}
+			TooltipHandler.activeTips[tip.uniqueId].lastTriggerFrame = TooltipHandler.frame;
+			TooltipHandler.activeTips[tip.uniqueId].signal.text = tip.text;
+			TooltipHandler.activeTips[tip.uniqueId].signal.textGetter = tip.textGetter;
 		}
 
 		public static void DoTooltipGUI()
@@ -145,24 +149,19 @@ namespace Verse
 
 		private static int CompareTooltipsByPriority(ActiveTip A, ActiveTip B)
 		{
-			int result;
 			if (A.signal.priority == B.signal.priority)
 			{
-				result = 0;
+				return 0;
 			}
-			else if (A.signal.priority == TooltipPriority.Pawn)
+			if (A.signal.priority == TooltipPriority.Pawn)
 			{
-				result = -1;
+				return -1;
 			}
-			else if (B.signal.priority == TooltipPriority.Pawn)
+			if (B.signal.priority == TooltipPriority.Pawn)
 			{
-				result = 1;
+				return 1;
 			}
-			else
-			{
-				result = 0;
-			}
-			return result;
+			return 0;
 		}
 
 		// Note: this type is marked as 'beforefieldinit'.

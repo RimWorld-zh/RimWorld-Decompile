@@ -29,28 +29,23 @@ namespace RimWorld
 		public override bool HasJobOnThing(Pawn pawn, Thing t, bool forced = false)
 		{
 			Building_FermentingBarrel building_FermentingBarrel = t as Building_FermentingBarrel;
-			bool result;
 			if (building_FermentingBarrel == null || !building_FermentingBarrel.Fermented)
 			{
-				result = false;
+				return false;
 			}
-			else if (t.IsBurning())
+			if (t.IsBurning())
 			{
-				result = false;
+				return false;
 			}
-			else
+			if (!t.IsForbidden(pawn))
 			{
-				if (!t.IsForbidden(pawn))
+				LocalTargetInfo target = t;
+				if (pawn.CanReserve(target, 1, -1, null, forced))
 				{
-					LocalTargetInfo target = t;
-					if (pawn.CanReserve(target, 1, -1, null, forced))
-					{
-						return true;
-					}
+					return true;
 				}
-				result = false;
 			}
-			return result;
+			return false;
 		}
 
 		public override Job JobOnThing(Pawn pawn, Thing t, bool forced = false)

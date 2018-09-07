@@ -15,7 +15,7 @@ namespace RimWorld
 {
 	public class Page_ModsConfig : Page
 	{
-		public ModMetaData selectedMod = null;
+		public ModMetaData selectedMod;
 
 		private Vector2 modListScrollPosition = Vector2.zero;
 
@@ -25,7 +25,7 @@ namespace RimWorld
 
 		private Dictionary<string, string> truncatedModNamesCache = new Dictionary<string, string>();
 
-		protected string filter = "";
+		protected string filter = string.Empty;
 
 		private const float ModListAreaWidth = 350f;
 
@@ -266,7 +266,7 @@ namespace RimWorld
 			Rect rect2 = rect;
 			if (mod.enabled)
 			{
-				string text = "";
+				string text = string.Empty;
 				if (mod.Active)
 				{
 					text = text + "DragToReorder".Translate() + ".\n\n";
@@ -350,20 +350,15 @@ namespace RimWorld
 
 		private Color FilteredColor(Color color, string label)
 		{
-			Color result;
 			if (this.filter.NullOrEmpty())
 			{
-				result = color;
+				return color;
 			}
-			else if (label.IndexOf(this.filter, StringComparison.OrdinalIgnoreCase) >= 0)
+			if (label.IndexOf(this.filter, StringComparison.OrdinalIgnoreCase) >= 0)
 			{
-				result = color;
+				return color;
 			}
-			else
-			{
-				result = color * new Color(1f, 1f, 1f, 0.3f);
-			}
-			return result;
+			return color * new Color(1f, 1f, 1f, 0.3f);
 		}
 
 		[CompilerGenerated]
@@ -442,7 +437,7 @@ namespace RimWorld
 				case 1u:
 					break;
 				case 2u:
-					goto IL_10A;
+					goto IL_105;
 				default:
 					return false;
 				}
@@ -481,7 +476,7 @@ namespace RimWorld
 				num = 4294967293u;
 				try
 				{
-					IL_10A:
+					IL_105:
 					switch (num)
 					{
 					}

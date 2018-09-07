@@ -91,20 +91,21 @@ namespace Verse
 
 		public override void ClickedFromPOV(Thing pov)
 		{
-			if (this.recipientPawn != null)
+			if (this.recipientPawn == null)
 			{
-				if (pov == this.initiatorPawn)
+				return;
+			}
+			if (pov == this.initiatorPawn)
+			{
+				CameraJumper.TryJumpAndSelect(this.recipientPawn);
+			}
+			else
+			{
+				if (pov != this.recipientPawn)
 				{
-					CameraJumper.TryJumpAndSelect(this.recipientPawn);
+					throw new NotImplementedException();
 				}
-				else
-				{
-					if (pov != this.recipientPawn)
-					{
-						throw new NotImplementedException();
-					}
-					CameraJumper.TryJumpAndSelect(this.initiatorPawn);
-				}
+				CameraJumper.TryJumpAndSelect(this.initiatorPawn);
 			}
 		}
 
@@ -215,7 +216,7 @@ namespace Verse
 				case 1u:
 					break;
 				case 2u:
-					goto IL_90;
+					goto IL_8F;
 				default:
 					return false;
 				}
@@ -228,7 +229,7 @@ namespace Verse
 					}
 					return true;
 				}
-				IL_90:
+				IL_8F:
 				this.$PC = -1;
 				return false;
 			}

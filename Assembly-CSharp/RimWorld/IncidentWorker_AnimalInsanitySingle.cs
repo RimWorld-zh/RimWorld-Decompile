@@ -15,43 +15,33 @@ namespace RimWorld
 
 		protected override bool CanFireNowSub(IncidentParms parms)
 		{
-			bool result;
 			if (!base.CanFireNowSub(parms))
 			{
-				result = false;
+				return false;
 			}
-			else
-			{
-				Map map = (Map)parms.target;
-				Pawn pawn;
-				result = this.TryFindRandomAnimal(map, out pawn);
-			}
-			return result;
+			Map map = (Map)parms.target;
+			Pawn pawn;
+			return this.TryFindRandomAnimal(map, out pawn);
 		}
 
 		protected override bool TryExecuteWorker(IncidentParms parms)
 		{
 			Map map = (Map)parms.target;
 			Pawn pawn;
-			bool result;
 			if (!this.TryFindRandomAnimal(map, out pawn))
 			{
-				result = false;
+				return false;
 			}
-			else
+			IncidentWorker_AnimalInsanityMass.DriveInsane(pawn);
+			string text = "AnimalInsanitySingle".Translate(new object[]
 			{
-				IncidentWorker_AnimalInsanityMass.DriveInsane(pawn);
-				string text = "AnimalInsanitySingle".Translate(new object[]
-				{
-					pawn.Label
-				});
-				Find.LetterStack.ReceiveLetter("LetterLabelAnimalInsanitySingle".Translate(new object[]
-				{
-					pawn.Label
-				}), text, LetterDefOf.ThreatSmall, pawn, null, null);
-				result = true;
-			}
-			return result;
+				pawn.Label
+			});
+			Find.LetterStack.ReceiveLetter("LetterLabelAnimalInsanitySingle".Translate(new object[]
+			{
+				pawn.Label
+			}), text, LetterDefOf.ThreatSmall, pawn, null, null);
+			return true;
 		}
 
 		private bool TryFindRandomAnimal(Map map, out Pawn animal)

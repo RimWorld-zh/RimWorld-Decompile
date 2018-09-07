@@ -40,14 +40,15 @@ namespace RimWorld
 
 		public override void CompTick()
 		{
-			if (this.parent.Spawned)
+			if (!this.parent.Spawned)
 			{
-				this.ticksToInsanityPulse--;
-				if (this.ticksToInsanityPulse <= 0)
-				{
-					this.DoAnimalInsanityPulse();
-					this.ticksToInsanityPulse = this.Props.pulseInterval.RandomInRange;
-				}
+				return;
+			}
+			this.ticksToInsanityPulse--;
+			if (this.ticksToInsanityPulse <= 0)
+			{
+				this.DoAnimalInsanityPulse();
+				this.ticksToInsanityPulse = this.Props.pulseInterval.RandomInRange;
 			}
 		}
 

@@ -12,39 +12,31 @@ namespace Verse
 				if (refee == null)
 				{
 					Scribe.saver.WriteElement(label, "null");
+					return;
 				}
-				else
+				Thing thing = refee as Thing;
+				if (thing != null && Scribe_References.CheckSaveReferenceToDestroyedThing(thing, label, saveDestroyedThings))
 				{
-					Thing thing = refee as Thing;
-					if (thing != null)
-					{
-						if (Scribe_References.CheckSaveReferenceToDestroyedThing(thing, label, saveDestroyedThings))
-						{
-							return;
-						}
-					}
-					if (UnityData.isDebugBuild)
-					{
-						if (thing != null)
-						{
-							if (!thing.def.HasThingIDNumber)
-							{
-								Log.Error("Trying to cross-reference save Thing which lacks ID number: " + refee, false);
-								Scribe.saver.WriteElement(label, "null");
-								return;
-							}
-							if (thing.IsSaveCompressible())
-							{
-								Log.Error("Trying to save a reference to a thing that will be compressed away: " + refee, false);
-								Scribe.saver.WriteElement(label, "null");
-								return;
-							}
-						}
-					}
-					string uniqueLoadID = refee.GetUniqueLoadID();
-					Scribe.saver.WriteElement(label, uniqueLoadID);
-					Scribe.saver.loadIDsErrorsChecker.RegisterReferenced(refee, label);
+					return;
 				}
+				if (UnityData.isDebugBuild && thing != null)
+				{
+					if (!thing.def.HasThingIDNumber)
+					{
+						Log.Error("Trying to cross-reference save Thing which lacks ID number: " + refee, false);
+						Scribe.saver.WriteElement(label, "null");
+						return;
+					}
+					if (thing.IsSaveCompressible())
+					{
+						Log.Error("Trying to save a reference to a thing that will be compressed away: " + refee, false);
+						Scribe.saver.WriteElement(label, "null");
+						return;
+					}
+				}
+				string uniqueLoadID = refee.GetUniqueLoadID();
+				Scribe.saver.WriteElement(label, uniqueLoadID);
+				Scribe.saver.loadIDsErrorsChecker.RegisterReferenced(refee, label);
 			}
 			else if (Scribe.mode == LoadSaveMode.LoadingVars)
 			{
@@ -103,17 +95,16 @@ namespace Verse
 
 		public static bool CheckSaveReferenceToDestroyedThing(Thing th, string label, bool saveDestroyedThings)
 		{
-			bool result;
 			if (!th.Destroyed)
 			{
-				result = false;
+				return false;
 			}
-			else if (!saveDestroyedThings)
+			if (!saveDestroyedThings)
 			{
 				Scribe.saver.WriteElement(label, "null");
-				result = true;
+				return true;
 			}
-			else if (th.Discarded)
+			if (th.Discarded)
 			{
 				Log.Warning(string.Concat(new object[]
 				{
@@ -123,13 +114,9 @@ namespace Verse
 					label
 				}), false);
 				Scribe.saver.WriteElement(label, "null");
-				result = true;
+				return true;
 			}
-			else
-			{
-				result = false;
-			}
-			return result;
+			return false;
 		}
 	}
 }

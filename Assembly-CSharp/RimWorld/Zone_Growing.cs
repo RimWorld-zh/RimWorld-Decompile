@@ -57,7 +57,7 @@ namespace RimWorld
 
 		public override string GetInspectString()
 		{
-			string text = "";
+			string text = string.Empty;
 			if (!base.Cells.NullOrEmpty<IntVec3>())
 			{
 				IntVec3 c = base.Cells.First<IntVec3>();
@@ -88,28 +88,23 @@ namespace RimWorld
 		public static string GrowingQuadrumsDescription(int tile)
 		{
 			List<Twelfth> list = GenTemperature.TwelfthsInAverageTemperatureRange(tile, 10f, 42f);
-			string result;
 			if (list.NullOrEmpty<Twelfth>())
 			{
-				result = "NoGrowingPeriod".Translate();
+				return "NoGrowingPeriod".Translate();
 			}
-			else if (list.Count == 12)
+			if (list.Count == 12)
 			{
-				result = "GrowYearRound".Translate();
+				return "GrowYearRound".Translate();
 			}
-			else
+			return "PeriodDays".Translate(new object[]
 			{
-				result = "PeriodDays".Translate(new object[]
-				{
-					list.Count * 5 + "/" + 60
-				}) + " (" + QuadrumUtility.QuadrumsRangeLabel(list) + ")";
-			}
-			return result;
+				list.Count * 5 + "/" + 60
+			}) + " (" + QuadrumUtility.QuadrumsRangeLabel(list) + ")";
 		}
 
 		public override IEnumerable<Gizmo> GetGizmos()
 		{
-			foreach (Gizmo g in this.<GetGizmos>__BaseCallProxy0())
+			foreach (Gizmo g in base.GetGizmos())
 			{
 				yield return g;
 			}

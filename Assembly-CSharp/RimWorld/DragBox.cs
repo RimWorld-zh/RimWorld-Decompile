@@ -102,26 +102,21 @@ namespace RimWorld
 
 		public bool Contains(Thing t)
 		{
-			bool result;
 			if (t is Pawn)
 			{
-				result = this.Contains((t as Pawn).Drawer.DrawPos);
+				return this.Contains((t as Pawn).Drawer.DrawPos);
 			}
-			else
+			CellRect.CellRectIterator iterator = t.OccupiedRect().GetIterator();
+			while (!iterator.Done())
 			{
-				CellRect.CellRectIterator iterator = t.OccupiedRect().GetIterator();
-				while (!iterator.Done())
+				IntVec3 intVec = iterator.Current;
+				if (this.Contains(intVec.ToVector3Shifted()))
 				{
-					IntVec3 intVec = iterator.Current;
-					if (this.Contains(intVec.ToVector3Shifted()))
-					{
-						return true;
-					}
-					iterator.MoveNext();
+					return true;
 				}
-				result = false;
+				iterator.MoveNext();
 			}
-			return result;
+			return false;
 		}
 
 		public bool Contains(Vector3 v)

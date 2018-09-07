@@ -9,7 +9,7 @@ namespace RimWorld.Planet
 {
 	public abstract class WorldLayer_Paths : WorldLayer
 	{
-		protected bool pointyEnds = false;
+		protected bool pointyEnds;
 
 		private List<Vector3> tmpVerts = new List<Vector3>();
 
@@ -45,77 +45,75 @@ namespace RimWorld.Planet
 				subMesh.tris.Add(count + 1);
 				subMesh.tris.Add(count + 3);
 				subMesh.tris.Add(count + 2);
+				return;
 			}
-			else
+			if (nodes.Count == 2)
 			{
-				if (nodes.Count == 2)
+				int count2 = subMesh.verts.Count;
+				int num = this.tmpNeighbors.IndexOf(nodes[0].neighbor);
+				int num2 = this.tmpNeighbors.IndexOf(nodes[1].neighbor);
+				if (allowSmoothTransition && Mathf.Abs(num - num2) > 1 && Mathf.Abs((num - num2 + this.tmpVerts.Count) % this.tmpVerts.Count) > 1)
 				{
-					int count2 = subMesh.verts.Count;
-					int num = this.tmpNeighbors.IndexOf(nodes[0].neighbor);
-					int num2 = this.tmpNeighbors.IndexOf(nodes[1].neighbor);
-					if (allowSmoothTransition && Mathf.Abs(num - num2) > 1 && Mathf.Abs((num - num2 + this.tmpVerts.Count) % this.tmpVerts.Count) > 1)
-					{
-						this.AddPathEndpoint(subMesh, this.tmpVerts, num, color, tileID, nodes[0]);
-						this.AddPathEndpoint(subMesh, this.tmpVerts, num2, color, tileID, nodes[1]);
-						subMesh.tris.Add(count2);
-						subMesh.tris.Add(count2 + 5);
-						subMesh.tris.Add(count2 + 1);
-						subMesh.tris.Add(count2 + 5);
-						subMesh.tris.Add(count2 + 4);
-						subMesh.tris.Add(count2 + 1);
-						subMesh.tris.Add(count2 + 1);
-						subMesh.tris.Add(count2 + 4);
-						subMesh.tris.Add(count2 + 2);
-						subMesh.tris.Add(count2 + 4);
-						subMesh.tris.Add(count2 + 3);
-						subMesh.tris.Add(count2 + 2);
-						return;
-					}
+					this.AddPathEndpoint(subMesh, this.tmpVerts, num, color, tileID, nodes[0]);
+					this.AddPathEndpoint(subMesh, this.tmpVerts, num2, color, tileID, nodes[1]);
+					subMesh.tris.Add(count2);
+					subMesh.tris.Add(count2 + 5);
+					subMesh.tris.Add(count2 + 1);
+					subMesh.tris.Add(count2 + 5);
+					subMesh.tris.Add(count2 + 4);
+					subMesh.tris.Add(count2 + 1);
+					subMesh.tris.Add(count2 + 1);
+					subMesh.tris.Add(count2 + 4);
+					subMesh.tris.Add(count2 + 2);
+					subMesh.tris.Add(count2 + 4);
+					subMesh.tris.Add(count2 + 3);
+					subMesh.tris.Add(count2 + 2);
+					return;
 				}
-				float num3 = 0f;
-				for (int i = 0; i < nodes.Count; i++)
+			}
+			float num3 = 0f;
+			for (int i = 0; i < nodes.Count; i++)
+			{
+				num3 = Mathf.Max(num3, nodes[i].width);
+			}
+			Vector3 vector = worldGrid.GetTileCenter(tileID);
+			this.tmpHexVerts.Clear();
+			for (int j = 0; j < this.tmpVerts.Count; j++)
+			{
+				this.tmpHexVerts.Add(this.FinalizePoint(Vector3.LerpUnclamped(vector, this.tmpVerts[j], num3 * 0.5f * 2f), 0f, 0f));
+			}
+			vector = this.FinalizePoint(vector, 0f, 0f);
+			int count3 = subMesh.verts.Count;
+			subMesh.verts.Add(vector);
+			subMesh.colors.Add(color);
+			int count4 = subMesh.verts.Count;
+			for (int k = 0; k < this.tmpHexVerts.Count; k++)
+			{
+				subMesh.verts.Add(this.tmpHexVerts[k]);
+				subMesh.colors.Add(color.MutateAlpha(0));
+				subMesh.tris.Add(count3);
+				subMesh.tris.Add(count4 + (k + 1) % this.tmpHexVerts.Count);
+				subMesh.tris.Add(count4 + k);
+			}
+			for (int l = 0; l < nodes.Count; l++)
+			{
+				if (nodes[l].width != 0f)
 				{
-					num3 = Mathf.Max(num3, nodes[i].width);
-				}
-				Vector3 vector = worldGrid.GetTileCenter(tileID);
-				this.tmpHexVerts.Clear();
-				for (int j = 0; j < this.tmpVerts.Count; j++)
-				{
-					this.tmpHexVerts.Add(this.FinalizePoint(Vector3.LerpUnclamped(vector, this.tmpVerts[j], num3 * 0.5f * 2f), 0f, 0f));
-				}
-				vector = this.FinalizePoint(vector, 0f, 0f);
-				int count3 = subMesh.verts.Count;
-				subMesh.verts.Add(vector);
-				subMesh.colors.Add(color);
-				int count4 = subMesh.verts.Count;
-				for (int k = 0; k < this.tmpHexVerts.Count; k++)
-				{
-					subMesh.verts.Add(this.tmpHexVerts[k]);
-					subMesh.colors.Add(color.MutateAlpha(0));
+					int count5 = subMesh.verts.Count;
+					int num4 = this.tmpNeighbors.IndexOf(nodes[l].neighbor);
+					this.AddPathEndpoint(subMesh, this.tmpVerts, num4, color, tileID, nodes[l]);
+					subMesh.tris.Add(count5);
+					subMesh.tris.Add(count4 + (num4 + this.tmpHexVerts.Count - 1) % this.tmpHexVerts.Count);
 					subMesh.tris.Add(count3);
-					subMesh.tris.Add(count4 + (k + 1) % this.tmpHexVerts.Count);
-					subMesh.tris.Add(count4 + k);
-				}
-				for (int l = 0; l < nodes.Count; l++)
-				{
-					if (nodes[l].width != 0f)
-					{
-						int count5 = subMesh.verts.Count;
-						int num4 = this.tmpNeighbors.IndexOf(nodes[l].neighbor);
-						this.AddPathEndpoint(subMesh, this.tmpVerts, num4, color, tileID, nodes[l]);
-						subMesh.tris.Add(count5);
-						subMesh.tris.Add(count4 + (num4 + this.tmpHexVerts.Count - 1) % this.tmpHexVerts.Count);
-						subMesh.tris.Add(count3);
-						subMesh.tris.Add(count5);
-						subMesh.tris.Add(count3);
-						subMesh.tris.Add(count5 + 1);
-						subMesh.tris.Add(count5 + 1);
-						subMesh.tris.Add(count3);
-						subMesh.tris.Add(count5 + 2);
-						subMesh.tris.Add(count3);
-						subMesh.tris.Add(count4 + (num4 + 2) % this.tmpHexVerts.Count);
-						subMesh.tris.Add(count5 + 2);
-					}
+					subMesh.tris.Add(count5);
+					subMesh.tris.Add(count3);
+					subMesh.tris.Add(count5 + 1);
+					subMesh.tris.Add(count5 + 1);
+					subMesh.tris.Add(count3);
+					subMesh.tris.Add(count5 + 2);
+					subMesh.tris.Add(count3);
+					subMesh.tris.Add(count4 + (num4 + 2) % this.tmpHexVerts.Count);
+					subMesh.tris.Add(count5 + 2);
 				}
 			}
 		}

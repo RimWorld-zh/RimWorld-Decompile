@@ -13,7 +13,7 @@ namespace RimWorld
 
 		private const int AnimalCheckInterval = 1213;
 
-		private const float BaseAnimalSpawnChancePerInterval = 0.0173285715f;
+		private const float BaseAnimalSpawnChancePerInterval = 0.0269555561f;
 
 		public WildAnimalSpawner(Map map)
 		{
@@ -47,17 +47,12 @@ namespace RimWorld
 			get
 			{
 				float desiredAnimalDensity = this.DesiredAnimalDensity;
-				float result;
 				if (desiredAnimalDensity == 0f)
 				{
-					result = 0f;
+					return 0f;
 				}
-				else
-				{
-					float num = 10000f / desiredAnimalDensity;
-					result = (float)this.map.Area / num;
-				}
-				return result;
+				float num = 10000f / desiredAnimalDensity;
+				return (float)this.map.Area / num;
 			}
 		}
 
@@ -88,19 +83,10 @@ namespace RimWorld
 
 		public void WildAnimalSpawnerTick()
 		{
-			if (Find.TickManager.TicksGame % 1213 == 0)
+			IntVec3 loc;
+			if (Find.TickManager.TicksGame % 1213 == 0 && !this.AnimalEcosystemFull && Rand.Chance(0.0269555561f * this.DesiredAnimalDensity) && RCellFinder.TryFindRandomPawnEntryCell(out loc, this.map, CellFinder.EdgeRoadChance_Animal, null))
 			{
-				if (!this.AnimalEcosystemFull)
-				{
-					if (Rand.Chance(0.0173285715f * this.DesiredAnimalDensity))
-					{
-						IntVec3 loc;
-						if (RCellFinder.TryFindRandomPawnEntryCell(out loc, this.map, CellFinder.EdgeRoadChance_Animal, null))
-						{
-							this.SpawnRandomWildAnimalAt(loc);
-						}
-					}
-				}
+				this.SpawnRandomWildAnimalAt(loc);
 			}
 		}
 
@@ -109,25 +95,20 @@ namespace RimWorld
 			PawnKindDef pawnKindDef = (from a in this.map.Biome.AllWildAnimals
 			where this.map.mapTemperature.SeasonAcceptableFor(a.race)
 			select a).RandomElementByWeight((PawnKindDef def) => this.map.Biome.CommonalityOfAnimal(def) / def.wildGroupSize.Average);
-			bool result;
 			if (pawnKindDef == null)
 			{
 				Log.Error("No spawnable animals right now.", false);
-				result = false;
+				return false;
 			}
-			else
+			int randomInRange = pawnKindDef.wildGroupSize.RandomInRange;
+			int radius = Mathf.CeilToInt(Mathf.Sqrt((float)pawnKindDef.wildGroupSize.max));
+			for (int i = 0; i < randomInRange; i++)
 			{
-				int randomInRange = pawnKindDef.wildGroupSize.RandomInRange;
-				int radius = Mathf.CeilToInt(Mathf.Sqrt((float)pawnKindDef.wildGroupSize.max));
-				for (int i = 0; i < randomInRange; i++)
-				{
-					IntVec3 loc2 = CellFinder.RandomClosewalkCellNear(loc, this.map, radius, null);
-					Pawn newThing = PawnGenerator.GeneratePawn(pawnKindDef, null);
-					GenSpawn.Spawn(newThing, loc2, this.map, WipeMode.Vanish);
-				}
-				result = true;
+				IntVec3 loc2 = CellFinder.RandomClosewalkCellNear(loc, this.map, radius, null);
+				Pawn newThing = PawnGenerator.GeneratePawn(pawnKindDef, null);
+				GenSpawn.Spawn(newThing, loc2, this.map, WipeMode.Vanish);
 			}
-			return result;
+			return true;
 		}
 
 		public string DebugString()

@@ -8,29 +8,29 @@ namespace Verse
 {
 	public class FloatMenuOption
 	{
-		private string labelInt = null;
+		private string labelInt;
 
-		public Action action = null;
+		public Action action;
 
 		private MenuOptionPriority priorityInt = MenuOptionPriority.Default;
 
-		public bool autoTakeable = false;
+		public bool autoTakeable;
 
 		public float autoTakeablePriority;
 
-		public Action mouseoverGuiAction = null;
+		public Action mouseoverGuiAction;
 
-		public Thing revalidateClickTarget = null;
+		public Thing revalidateClickTarget;
 
-		public WorldObject revalidateWorldClickTarget = null;
+		public WorldObject revalidateWorldClickTarget;
 
-		public float extraPartWidth = 0f;
+		public float extraPartWidth;
 
-		public Func<Rect, bool> extraPartOnGUI = null;
+		public Func<Rect, bool> extraPartOnGUI;
 
-		public string tutorTag = null;
+		public string tutorTag;
 
-		private FloatMenuSizeMode sizeMode = FloatMenuSizeMode.Undefined;
+		private FloatMenuSizeMode sizeMode;
 
 		private float cachedRequiredHeight;
 
@@ -148,16 +148,11 @@ namespace Verse
 		{
 			get
 			{
-				MenuOptionPriority result;
 				if (this.Disabled)
 				{
-					result = MenuOptionPriority.DisabledOption;
+					return MenuOptionPriority.DisabledOption;
 				}
-				else
-				{
-					result = this.priorityInt;
-				}
-				return result;
+				return this.priorityInt;
 			}
 			set
 			{
@@ -271,28 +266,20 @@ namespace Verse
 			{
 				UIHighlighter.HighlightOpportunity(rect, this.tutorTag);
 			}
-			bool result;
-			if (Widgets.ButtonInvisible(rect2, false))
+			if (!Widgets.ButtonInvisible(rect2, false))
 			{
-				if (this.tutorTag != null && !TutorSystem.AllowAction(this.tutorTag))
-				{
-					result = false;
-				}
-				else
-				{
-					this.Chosen(colonistOrdering, floatMenu);
-					if (this.tutorTag != null)
-					{
-						TutorSystem.Notify_Event(this.tutorTag);
-					}
-					result = true;
-				}
+				return false;
 			}
-			else
+			if (this.tutorTag != null && !TutorSystem.AllowAction(this.tutorTag))
 			{
-				result = false;
+				return false;
 			}
-			return result;
+			this.Chosen(colonistOrdering, floatMenu);
+			if (this.tutorTag != null)
+			{
+				TutorSystem.Notify_Event(this.tutorTag);
+			}
+			return true;
 		}
 
 		public override string ToString()

@@ -11,13 +11,13 @@ namespace RimWorld
 {
 	public class WorkGiverDef : Def
 	{
-		public Type giverClass = null;
+		public Type giverClass;
 
-		public WorkTypeDef workType = null;
+		public WorkTypeDef workType;
 
-		public WorkTags workTags = WorkTags.None;
+		public WorkTags workTags;
 
-		public int priorityInType = 0;
+		public int priorityInType;
 
 		[MustTranslate]
 		public string verb;
@@ -27,52 +27,52 @@ namespace RimWorld
 
 		public bool scanThings = true;
 
-		public bool scanCells = false;
+		public bool scanCells;
 
-		public bool emergency = false;
+		public bool emergency;
 
 		public List<PawnCapacityDef> requiredCapacities = new List<PawnCapacityDef>();
 
 		public bool directOrderable = true;
 
-		public bool prioritizeSustains = false;
+		public bool prioritizeSustains;
 
-		public bool canBeDoneByNonColonists = false;
+		public bool nonColonistsCanDo;
 
 		public JobTag tagToGive = JobTag.MiscWork;
 
-		public WorkGiverEquivalenceGroupDef equivalenceGroup = null;
+		public WorkGiverEquivalenceGroupDef equivalenceGroup;
 
-		public bool canBeDoneWhileDrafted = false;
+		public bool canBeDoneWhileDrafted;
 
 		public int autoTakeablePriorityDrafted = -1;
 
-		public ThingDef forceMote = null;
+		public ThingDef forceMote;
 
-		public List<ThingDef> fixedBillGiverDefs = null;
+		public List<ThingDef> fixedBillGiverDefs;
 
-		public bool billGiversAllHumanlikes = false;
+		public bool billGiversAllHumanlikes;
 
-		public bool billGiversAllHumanlikesCorpses = false;
+		public bool billGiversAllHumanlikesCorpses;
 
-		public bool billGiversAllMechanoids = false;
+		public bool billGiversAllMechanoids;
 
-		public bool billGiversAllMechanoidsCorpses = false;
+		public bool billGiversAllMechanoidsCorpses;
 
-		public bool billGiversAllAnimals = false;
+		public bool billGiversAllAnimals;
 
-		public bool billGiversAllAnimalsCorpses = false;
+		public bool billGiversAllAnimalsCorpses;
 
-		public bool tendToHumanlikesOnly = false;
+		public bool tendToHumanlikesOnly;
 
-		public bool tendToAnimalsOnly = false;
+		public bool tendToAnimalsOnly;
 
-		public bool feedHumanlikesOnly = false;
+		public bool feedHumanlikesOnly;
 
-		public bool feedAnimalsOnly = false;
+		public bool feedAnimalsOnly;
 
 		[Unsaved]
-		private WorkGiver workerInt = null;
+		private WorkGiver workerInt;
 
 		public WorkGiverDef()
 		{
@@ -93,7 +93,7 @@ namespace RimWorld
 
 		public override IEnumerable<string> ConfigErrors()
 		{
-			foreach (string error in this.<ConfigErrors>__BaseCallProxy0())
+			foreach (string error in base.ConfigErrors())
 			{
 				yield return error;
 			}
@@ -149,9 +149,9 @@ namespace RimWorld
 				case 1u:
 					break;
 				case 2u:
-					goto IL_100;
+					goto IL_FC;
 				case 3u:
-					goto IL_144;
+					goto IL_140;
 				default:
 					return false;
 				}
@@ -191,7 +191,7 @@ namespace RimWorld
 					}
 					return true;
 				}
-				IL_100:
+				IL_FC:
 				if (this.gerund.NullOrEmpty())
 				{
 					this.$current = this.defName + " lacks a gerund.";
@@ -201,7 +201,7 @@ namespace RimWorld
 					}
 					return true;
 				}
-				IL_144:
+				IL_140:
 				this.$PC = -1;
 				return false;
 			}

@@ -12,10 +12,11 @@ namespace Verse
 
 		public static void Notify_RoofHolderDespawned(Thing t, Map map)
 		{
-			if (Current.ProgramState == ProgramState.Playing)
+			if (Current.ProgramState != ProgramState.Playing)
 			{
-				RoofCollapseCellsFinder.ProcessRoofHolderDespawned(t.OccupiedRect(), t.Position, map, false, false);
+				return;
 			}
+			RoofCollapseCellsFinder.ProcessRoofHolderDespawned(t.OccupiedRect(), t.Position, map, false, false);
 		}
 
 		public static void ProcessRoofHolderDespawned(CellRect rect, IntVec3 position, Map map, bool removalMode = false, bool canRemoveThickRoof = false)
@@ -136,21 +137,19 @@ namespace Verse
 				if (visitedCells.Contains(x))
 				{
 					connected = true;
+					return;
 				}
-				else
+				visitedCells.Add(x);
+				for (int i = 0; i < 5; i++)
 				{
-					visitedCells.Add(x);
-					for (int i = 0; i < 5; i++)
+					IntVec3 c2 = x + GenAdj.CardinalDirectionsAndInside[i];
+					if (c2.InBounds(map))
 					{
-						IntVec3 c2 = x + GenAdj.CardinalDirectionsAndInside[i];
-						if (c2.InBounds(map))
+						Building edifice = c2.GetEdifice(map);
+						if (edifice != null && edifice.def.holdsRoof)
 						{
-							Building edifice = c2.GetEdifice(map);
-							if (edifice != null && edifice.def.holdsRoof)
-							{
-								connected = true;
-								break;
-							}
+							connected = true;
+							break;
 						}
 					}
 				}
@@ -208,21 +207,19 @@ namespace Verse
 				if (this.visitedCells.Contains(x))
 				{
 					this.connected = true;
+					return;
 				}
-				else
+				this.visitedCells.Add(x);
+				for (int i = 0; i < 5; i++)
 				{
-					this.visitedCells.Add(x);
-					for (int i = 0; i < 5; i++)
+					IntVec3 c = x + GenAdj.CardinalDirectionsAndInside[i];
+					if (c.InBounds(this.map))
 					{
-						IntVec3 c = x + GenAdj.CardinalDirectionsAndInside[i];
-						if (c.InBounds(this.map))
+						Building edifice = c.GetEdifice(this.map);
+						if (edifice != null && edifice.def.holdsRoof)
 						{
-							Building edifice = c.GetEdifice(this.map);
-							if (edifice != null && edifice.def.holdsRoof)
-							{
-								this.connected = true;
-								break;
-							}
+							this.connected = true;
+							break;
 						}
 					}
 				}

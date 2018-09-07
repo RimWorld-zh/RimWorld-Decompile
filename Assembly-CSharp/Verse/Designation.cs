@@ -44,13 +44,10 @@ namespace Verse
 		{
 			Scribe_Defs.Look<DesignationDef>(ref this.def, "def");
 			Scribe_TargetInfo.Look(ref this.target, "target");
-			if (Scribe.mode == LoadSaveMode.ResolvingCrossRefs)
+			if (Scribe.mode == LoadSaveMode.ResolvingCrossRefs && this.def == DesignationDefOf.Haul && !this.target.HasThing)
 			{
-				if (this.def == DesignationDefOf.Haul && !this.target.HasThing)
-				{
-					Log.Error("Haul designation has no target! Deleting.", false);
-					this.Delete();
-				}
+				Log.Error("Haul designation has no target! Deleting.", false);
+				this.Delete();
 			}
 		}
 
@@ -72,20 +69,21 @@ namespace Verse
 
 		public virtual void DesignationDraw()
 		{
-			if (!this.target.HasThing || this.target.Thing.Spawned)
+			if (this.target.HasThing && !this.target.Thing.Spawned)
 			{
-				Vector3 position = default(Vector3);
-				if (this.target.HasThing)
-				{
-					position = this.target.Thing.DrawPos;
-					position.y = this.DesignationDrawAltitude;
-				}
-				else
-				{
-					position = this.target.Cell.ToVector3ShiftedWithAltitude(this.DesignationDrawAltitude);
-				}
-				Graphics.DrawMesh(MeshPool.plane10, position, Quaternion.identity, this.def.iconMat, 0);
+				return;
 			}
+			Vector3 position = default(Vector3);
+			if (this.target.HasThing)
+			{
+				position = this.target.Thing.DrawPos;
+				position.y = this.DesignationDrawAltitude;
+			}
+			else
+			{
+				position = this.target.Cell.ToVector3ShiftedWithAltitude(this.DesignationDrawAltitude);
+			}
+			Graphics.DrawMesh(MeshPool.plane10, position, Quaternion.identity, this.def.iconMat, 0);
 		}
 
 		public void Delete()

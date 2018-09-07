@@ -17,7 +17,7 @@ namespace RimWorld
 
 		public ITab_Pawn_Visitor()
 		{
-			this.size = new Vector2(280f, 450f);
+			this.size = new Vector2(280f, 0f);
 		}
 
 		protected override void FillTab()
@@ -29,6 +29,7 @@ namespace RimWorld
 			rect2.yMin += 24f;
 			bool isPrisonerOfColony = base.SelPawn.IsPrisonerOfColony;
 			Listing_Standard listing_Standard = new Listing_Standard();
+			listing_Standard.maxOneColumn = true;
 			listing_Standard.Begin(rect2);
 			Rect rect3 = listing_Standard.GetRect(Text.LineHeight);
 			rect3.width *= 0.75f;
@@ -42,7 +43,8 @@ namespace RimWorld
 			listing_Standard.Gap(4f);
 			if (isPrisonerOfColony)
 			{
-				listing_Standard.Label("RecruitmentDifficulty".Translate() + ": " + base.SelPawn.RecruitDifficulty(Faction.OfPlayer, false).ToStringPercent(), -1f, null);
+				listing_Standard.Label("RecruitmentDifficulty".Translate() + ": " + base.SelPawn.RecruitDifficulty(Faction.OfPlayer).ToStringPercent(), -1f, null);
+				listing_Standard.Label("RecruitmentResistance".Translate() + ": " + base.SelPawn.guest.resistance.ToString("F1"), -1f, null);
 				if (base.SelPawn.guilt.IsGuilty)
 				{
 					listing_Standard.Label("ConsideredGuilty".Translate(new object[]
@@ -50,11 +52,7 @@ namespace RimWorld
 						base.SelPawn.guilt.TicksUntilInnocent.ToStringTicksToPeriod()
 					}), -1f, null);
 				}
-				if (Prefs.DevMode)
-				{
-					listing_Standard.Label("Dev: Prison break MTB days: " + (int)PrisonBreakUtility.InitiatePrisonBreakMtbDays(base.SelPawn), -1f, null);
-				}
-				Rect rect5 = listing_Standard.GetRect(200f).Rounded();
+				Rect rect5 = listing_Standard.GetRect(160f).Rounded();
 				Widgets.DrawMenuSection(rect5);
 				Rect position = rect5.ContractedBy(10f);
 				GUI.BeginGroup(position);
@@ -74,8 +72,13 @@ namespace RimWorld
 					rect6.y += 28f;
 				}
 				GUI.EndGroup();
+				if (Prefs.DevMode)
+				{
+					listing_Standard.Label("Dev: Prison break MTB days: " + (int)PrisonBreakUtility.InitiatePrisonBreakMtbDays(base.SelPawn), -1f, null);
+				}
 			}
 			listing_Standard.End();
+			this.size = new Vector2(280f, listing_Standard.CurHeight + 20f + 24f);
 		}
 
 		private bool ColonyHasAnyWardenCapableOfViolence(Map map)

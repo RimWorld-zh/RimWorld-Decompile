@@ -5,7 +5,7 @@ namespace Verse
 {
 	public class Graphic_Single : Graphic
 	{
-		protected Material mat = null;
+		protected Material mat;
 
 		public static readonly string MaskSuffix = "_m";
 

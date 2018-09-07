@@ -35,16 +35,11 @@ namespace RimWorld.Planet
 
 		public override string CompInspectStringExtra()
 		{
-			string result;
 			if (this.pawn.Any)
 			{
-				result = "Refugee".Translate() + ": " + this.pawn[0].LabelCap;
+				return "Refugee".Translate() + ": " + this.pawn[0].LabelCap;
 			}
-			else
-			{
-				result = null;
-			}
-			return result;
+			return null;
 		}
 	}
 }

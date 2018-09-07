@@ -33,6 +33,7 @@ namespace Verse
 			}
 			this.path = req.path;
 			this.color = req.color;
+			this.colorTwo = req.colorTwo;
 			this.drawSize = req.drawSize;
 			List<Texture2D> list = (from x in ContentFinder<Texture2D>.GetAllInFolder(req.path)
 			where !x.name.EndsWith(Graphic_Single.MaskSuffix)
@@ -45,15 +46,13 @@ namespace Verse
 				{
 					BaseContent.BadGraphic
 				};
+				return;
 			}
-			else
+			this.subGraphics = new Graphic[list.Count];
+			for (int i = 0; i < list.Count; i++)
 			{
-				this.subGraphics = new Graphic[list.Count];
-				for (int i = 0; i < list.Count; i++)
-				{
-					string path = req.path + "/" + list[i].name;
-					this.subGraphics[i] = GraphicDatabase.Get(typeof(Graphic_Single), path, req.shader, this.drawSize, this.color, Color.white, null, req.shaderParameters);
-				}
+				string path = req.path + "/" + list[i].name;
+				this.subGraphics[i] = GraphicDatabase.Get(typeof(Graphic_Single), path, req.shader, this.drawSize, this.color, this.colorTwo, null, req.shaderParameters);
 			}
 		}
 

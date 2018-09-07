@@ -24,36 +24,34 @@ namespace RimWorld.Planet
 			if (faction != Faction.OfPlayer)
 			{
 				Log.Error("Cannot settle with non-player faction.", false);
+				return;
 			}
-			else
+			Settlement newHome = SettleUtility.AddNewHome(caravan.Tile, faction);
+			Action action = delegate()
 			{
-				Settlement newHome = SettleUtility.AddNewHome(caravan.Tile, faction);
-				Action action = delegate()
-				{
-					GetOrGenerateMapUtility.GetOrGenerateMap(caravan.Tile, Find.World.info.initialMapSize, null);
-				};
-				string textKey = "GeneratingMap";
-				bool doAsynchronously = true;
-				if (SettleInEmptyTileUtility.<>f__mg$cache0 == null)
-				{
-					SettleInEmptyTileUtility.<>f__mg$cache0 = new Action<Exception>(GameAndMapInitExceptionHandlers.ErrorWhileGeneratingMap);
-				}
-				LongEventHandler.QueueLongEvent(action, textKey, doAsynchronously, SettleInEmptyTileUtility.<>f__mg$cache0);
-				Action action2 = delegate()
-				{
-					Map map = newHome.Map;
-					Pawn t = caravan.PawnsListForReading[0];
-					CaravanEnterMapUtility.Enter(caravan, map, CaravanEnterMode.Center, CaravanDropInventoryMode.DropInstantly, false, (IntVec3 x) => x.GetRoom(map, RegionType.Set_Passable).CellCount >= 600);
-					CameraJumper.TryJump(t);
-				};
-				string textKey2 = "SpawningColonists";
-				bool doAsynchronously2 = true;
-				if (SettleInEmptyTileUtility.<>f__mg$cache1 == null)
-				{
-					SettleInEmptyTileUtility.<>f__mg$cache1 = new Action<Exception>(GameAndMapInitExceptionHandlers.ErrorWhileGeneratingMap);
-				}
-				LongEventHandler.QueueLongEvent(action2, textKey2, doAsynchronously2, SettleInEmptyTileUtility.<>f__mg$cache1);
+				GetOrGenerateMapUtility.GetOrGenerateMap(caravan.Tile, Find.World.info.initialMapSize, null);
+			};
+			string textKey = "GeneratingMap";
+			bool doAsynchronously = true;
+			if (SettleInEmptyTileUtility.<>f__mg$cache0 == null)
+			{
+				SettleInEmptyTileUtility.<>f__mg$cache0 = new Action<Exception>(GameAndMapInitExceptionHandlers.ErrorWhileGeneratingMap);
 			}
+			LongEventHandler.QueueLongEvent(action, textKey, doAsynchronously, SettleInEmptyTileUtility.<>f__mg$cache0);
+			Action action2 = delegate()
+			{
+				Map map = newHome.Map;
+				Pawn t = caravan.PawnsListForReading[0];
+				CaravanEnterMapUtility.Enter(caravan, map, CaravanEnterMode.Center, CaravanDropInventoryMode.DropInstantly, false, (IntVec3 x) => x.GetRoom(map, RegionType.Set_Passable).CellCount >= 600);
+				CameraJumper.TryJump(t);
+			};
+			string textKey2 = "SpawningColonists";
+			bool doAsynchronously2 = true;
+			if (SettleInEmptyTileUtility.<>f__mg$cache1 == null)
+			{
+				SettleInEmptyTileUtility.<>f__mg$cache1 = new Action<Exception>(GameAndMapInitExceptionHandlers.ErrorWhileGeneratingMap);
+			}
+			LongEventHandler.QueueLongEvent(action2, textKey2, doAsynchronously2, SettleInEmptyTileUtility.<>f__mg$cache1);
 		}
 
 		public static Command SettleCommand(Caravan caravan)

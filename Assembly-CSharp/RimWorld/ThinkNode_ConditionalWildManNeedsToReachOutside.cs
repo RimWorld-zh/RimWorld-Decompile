@@ -12,7 +12,7 @@ namespace RimWorld
 
 		protected override bool Satisfied(Pawn pawn)
 		{
-			return pawn.IsWildMan() && !pawn.mindState.wildManEverReachedOutside;
+			return WildManUtility.WildManShouldReachOutsideNow(pawn);
 		}
 	}
 }

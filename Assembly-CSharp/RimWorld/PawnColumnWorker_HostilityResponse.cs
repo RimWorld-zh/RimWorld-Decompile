@@ -16,10 +16,11 @@ namespace RimWorld
 
 		public override void DoCell(Rect rect, Pawn pawn, PawnTable table)
 		{
-			if (pawn.RaceProps.Humanlike)
+			if (!pawn.RaceProps.Humanlike)
 			{
-				HostilityResponseModeUtility.DrawResponseButton(rect, pawn, true);
+				return;
 			}
+			HostilityResponseModeUtility.DrawResponseButton(rect, pawn, true);
 		}
 
 		public override int GetMinCellHeight(Pawn pawn)
@@ -44,16 +45,11 @@ namespace RimWorld
 
 		private int GetValueToCompare(Pawn pawn)
 		{
-			int result;
 			if (pawn.playerSettings == null)
 			{
-				result = int.MinValue;
+				return int.MinValue;
 			}
-			else
-			{
-				result = (int)pawn.playerSettings.hostilityResponse;
-			}
-			return result;
+			return (int)pawn.playerSettings.hostilityResponse;
 		}
 	}
 }

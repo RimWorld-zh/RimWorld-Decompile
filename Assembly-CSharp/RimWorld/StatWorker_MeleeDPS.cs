@@ -61,107 +61,80 @@ namespace RimWorld
 		private float GetMeleeDamage(StatRequest req, bool applyPostProcess = true)
 		{
 			Pawn pawn = req.Thing as Pawn;
-			float result;
 			if (pawn == null)
 			{
-				result = 0f;
+				return 0f;
 			}
-			else
+			List<VerbEntry> updatedAvailableVerbsList = pawn.meleeVerbs.GetUpdatedAvailableVerbsList(false);
+			if (updatedAvailableVerbsList.Count == 0)
 			{
-				List<VerbEntry> updatedAvailableVerbsList = pawn.meleeVerbs.GetUpdatedAvailableVerbsList(false);
-				if (updatedAvailableVerbsList.Count == 0)
+				return 0f;
+			}
+			float num = 0f;
+			for (int i = 0; i < updatedAvailableVerbsList.Count; i++)
+			{
+				if (updatedAvailableVerbsList[i].IsMeleeAttack)
 				{
-					result = 0f;
-				}
-				else
-				{
-					float num = 0f;
-					for (int i = 0; i < updatedAvailableVerbsList.Count; i++)
-					{
-						if (updatedAvailableVerbsList[i].IsMeleeAttack)
-						{
-							num += updatedAvailableVerbsList[i].GetSelectionWeight(null);
-						}
-					}
-					if (num == 0f)
-					{
-						result = 0f;
-					}
-					else
-					{
-						float num2 = 0f;
-						for (int j = 0; j < updatedAvailableVerbsList.Count; j++)
-						{
-							if (updatedAvailableVerbsList[j].IsMeleeAttack)
-							{
-								num2 += updatedAvailableVerbsList[j].GetSelectionWeight(null) / num * updatedAvailableVerbsList[j].verb.verbProps.AdjustedMeleeDamageAmount(updatedAvailableVerbsList[j].verb, pawn);
-							}
-						}
-						result = num2;
-					}
+					num += updatedAvailableVerbsList[i].GetSelectionWeight(null);
 				}
 			}
-			return result;
+			if (num == 0f)
+			{
+				return 0f;
+			}
+			float num2 = 0f;
+			for (int j = 0; j < updatedAvailableVerbsList.Count; j++)
+			{
+				if (updatedAvailableVerbsList[j].IsMeleeAttack)
+				{
+					num2 += updatedAvailableVerbsList[j].GetSelectionWeight(null) / num * updatedAvailableVerbsList[j].verb.verbProps.AdjustedMeleeDamageAmount(updatedAvailableVerbsList[j].verb, pawn);
+				}
+			}
+			return num2;
 		}
 
 		private float GetMeleeHitChance(StatRequest req, bool applyPostProcess = true)
 		{
-			float result;
 			if (req.HasThing)
 			{
-				result = req.Thing.GetStatValue(StatDefOf.MeleeHitChance, applyPostProcess);
+				return req.Thing.GetStatValue(StatDefOf.MeleeHitChance, applyPostProcess);
 			}
-			else
-			{
-				result = req.Def.GetStatValueAbstract(StatDefOf.MeleeHitChance, null);
-			}
-			return result;
+			return req.Def.GetStatValueAbstract(StatDefOf.MeleeHitChance, null);
 		}
 
 		private float GetMeleeCooldown(StatRequest req, bool applyPostProcess = true)
 		{
 			Pawn pawn = req.Thing as Pawn;
-			float result;
 			if (pawn == null)
 			{
-				result = 1f;
+				return 1f;
 			}
-			else
+			List<VerbEntry> updatedAvailableVerbsList = pawn.meleeVerbs.GetUpdatedAvailableVerbsList(false);
+			if (updatedAvailableVerbsList.Count == 0)
 			{
-				List<VerbEntry> updatedAvailableVerbsList = pawn.meleeVerbs.GetUpdatedAvailableVerbsList(false);
-				if (updatedAvailableVerbsList.Count == 0)
+				return 1f;
+			}
+			float num = 0f;
+			for (int i = 0; i < updatedAvailableVerbsList.Count; i++)
+			{
+				if (updatedAvailableVerbsList[i].IsMeleeAttack)
 				{
-					result = 1f;
-				}
-				else
-				{
-					float num = 0f;
-					for (int i = 0; i < updatedAvailableVerbsList.Count; i++)
-					{
-						if (updatedAvailableVerbsList[i].IsMeleeAttack)
-						{
-							num += updatedAvailableVerbsList[i].GetSelectionWeight(null);
-						}
-					}
-					if (num == 0f)
-					{
-						result = 1f;
-					}
-					else
-					{
-						float num2 = 0f;
-						for (int j = 0; j < updatedAvailableVerbsList.Count; j++)
-						{
-							if (updatedAvailableVerbsList[j].IsMeleeAttack)
-							{
-								num2 += updatedAvailableVerbsList[j].GetSelectionWeight(null) / num * (float)updatedAvailableVerbsList[j].verb.verbProps.AdjustedCooldownTicks(updatedAvailableVerbsList[j].verb, pawn);
-							}
-						}
-						result = num2 / 60f;
-					}
+					num += updatedAvailableVerbsList[i].GetSelectionWeight(null);
 				}
 			}
-			return result;
+			if (num == 0f)
+			{
+				return 1f;
+			}
+			float num2 = 0f;
+			for (int j = 0; j < updatedAvailableVerbsList.Count; j++)
+			{
+				if (updatedAvailableVerbsList[j].IsMeleeAttack)
+				{
+					num2 += updatedAvailableVerbsList[j].GetSelectionWeight(null) / num * (float)updatedAvailableVerbsList[j].verb.verbProps.AdjustedCooldownTicks(updatedAvailableVerbsList[j].verb, pawn);
+				}
+			}
+			return num2 / 60f;
 		}
 	}
 }

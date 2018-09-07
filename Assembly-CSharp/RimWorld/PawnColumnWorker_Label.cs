@@ -61,13 +61,11 @@ namespace RimWorld
 				{
 					Find.MainTabsRoot.EscapeCurrentTab(false);
 				}
+				return;
 			}
-			else
-			{
-				TipSignal tooltip = pawn.GetTooltip();
-				tooltip.text = "ClickToJumpTo".Translate() + "\n\n" + tooltip.text;
-				TooltipHandler.TipRegion(rect2, tooltip);
-			}
+			TipSignal tooltip = pawn.GetTooltip();
+			tooltip.text = "ClickToJumpTo".Translate() + "\n\n" + tooltip.text;
+			TooltipHandler.TipRegion(rect2, tooltip);
 		}
 
 		public override int GetMinWidth(PawnTable table)

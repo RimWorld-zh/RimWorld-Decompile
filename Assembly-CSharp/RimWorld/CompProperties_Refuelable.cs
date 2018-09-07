@@ -15,7 +15,7 @@ namespace RimWorld
 
 		public float fuelCapacity = 2f;
 
-		public float initialFuelPercent = 0f;
+		public float initialFuelPercent;
 
 		public float autoRefuelPercent = 0.3f;
 
@@ -35,15 +35,15 @@ namespace RimWorld
 
 		public bool drawOutOfFuelOverlay = true;
 
-		public float minimumFueledThreshold = 0f;
+		public float minimumFueledThreshold;
 
-		public bool drawFuelGaugeInMap = false;
+		public bool drawFuelGaugeInMap;
 
-		public bool atomicFueling = false;
+		public bool atomicFueling;
 
 		private float fuelMultiplier = 1f;
 
-		public bool factorByDifficulty = false;
+		public bool factorByDifficulty;
 
 		public string fuelLabel;
 
@@ -108,16 +108,11 @@ namespace RimWorld
 		{
 			get
 			{
-				float result;
 				if (this.factorByDifficulty)
 				{
-					result = this.fuelMultiplier / Find.Storyteller.difficulty.maintenanceCostFactor;
+					return this.fuelMultiplier / Find.Storyteller.difficulty.maintenanceCostFactor;
 				}
-				else
-				{
-					result = this.fuelMultiplier;
-				}
-				return result;
+				return this.fuelMultiplier;
 			}
 		}
 
@@ -129,7 +124,7 @@ namespace RimWorld
 
 		public override IEnumerable<string> ConfigErrors(ThingDef parentDef)
 		{
-			foreach (string err in this.<ConfigErrors>__BaseCallProxy0(parentDef))
+			foreach (string err in base.ConfigErrors(parentDef))
 			{
 				yield return err;
 			}
@@ -187,9 +182,9 @@ namespace RimWorld
 				case 1u:
 					break;
 				case 2u:
-					goto IL_106;
+					goto IL_102;
 				case 3u:
-					goto IL_176;
+					goto IL_172;
 				default:
 					return false;
 				}
@@ -229,7 +224,7 @@ namespace RimWorld
 					}
 					return true;
 				}
-				IL_106:
+				IL_102:
 				if ((!this.consumeFuelOnlyWhenUsed || this.fuelConsumptionPerTickInRain > 0f) && parentDef.tickerType != TickerType.Normal)
 				{
 					this.$current = string.Format("Refuelable component set to consume fuel per tick, but parent tickertype is {0} instead of {1}", parentDef.tickerType, TickerType.Normal);
@@ -239,7 +234,7 @@ namespace RimWorld
 					}
 					return true;
 				}
-				IL_176:
+				IL_172:
 				this.$PC = -1;
 				return false;
 			}

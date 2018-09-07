@@ -42,16 +42,11 @@ namespace RimWorld
 
 		public override AcceptanceReport AllowAction(EventPack ep)
 		{
-			AcceptanceReport result;
 			if (ep.Tag == "Designate-Door")
 			{
-				result = TutorUtility.EventCellsAreWithin(ep, this.allowedPlaceCells);
+				return TutorUtility.EventCellsAreWithin(ep, this.allowedPlaceCells);
 			}
-			else
-			{
-				result = base.AllowAction(ep);
-			}
-			return result;
+			return base.AllowAction(ep);
 		}
 
 		public override void Notify_Event(EventPack ep)

@@ -11,10 +11,10 @@ namespace RimWorld
 		private IntVec3 meetingPoint;
 
 		[CompilerGenerated]
-		private static Predicate<Pawn> <>f__am$cache0;
+		private static Predicate<Pawn> <>f__mg$cache0;
 
 		[CompilerGenerated]
-		private static Predicate<Pawn> <>f__am$cache1;
+		private static Predicate<Pawn> <>f__am$cache0;
 
 		public LordToil_PrepareCaravan_GatherAnimals(IntVec3 meetingPoint)
 		{
@@ -58,7 +58,15 @@ namespace RimWorld
 		{
 			if (Find.TickManager.TicksGame % 100 == 0)
 			{
-				GatherAnimalsAndSlavesForCaravanUtility.CheckArrived(this.lord, this.meetingPoint, "AllAnimalsGathered", (Pawn x) => x.RaceProps.Animal, (Pawn x) => GatherAnimalsAndSlavesForCaravanUtility.IsFollowingAnyone(x));
+				Lord lord = this.lord;
+				IntVec3 intVec = this.meetingPoint;
+				string memo = "AllAnimalsGathered";
+				Predicate<Pawn> shouldCheckIfArrived = (Pawn x) => x.RaceProps.Animal;
+				if (LordToil_PrepareCaravan_GatherAnimals.<>f__mg$cache0 == null)
+				{
+					LordToil_PrepareCaravan_GatherAnimals.<>f__mg$cache0 = new Predicate<Pawn>(GatherAnimalsAndSlavesForCaravanUtility.IsFollowingAnyone);
+				}
+				GatherAnimalsAndSlavesForCaravanUtility.CheckArrived(lord, intVec, memo, shouldCheckIfArrived, LordToil_PrepareCaravan_GatherAnimals.<>f__mg$cache0);
 			}
 		}
 
@@ -66,12 +74,6 @@ namespace RimWorld
 		private static bool <LordToilTick>m__0(Pawn x)
 		{
 			return x.RaceProps.Animal;
-		}
-
-		[CompilerGenerated]
-		private static bool <LordToilTick>m__1(Pawn x)
-		{
-			return GatherAnimalsAndSlavesForCaravanUtility.IsFollowingAnyone(x);
 		}
 	}
 }

@@ -4,18 +4,19 @@ using System.Collections.Generic;
 using System.Diagnostics;
 using System.Runtime.CompilerServices;
 using System.Threading;
+using UnityEngine;
 
 namespace Verse
 {
 	public class BodyDef : Def
 	{
-		public BodyPartRecord corePart = null;
+		public BodyPartRecord corePart;
 
 		[Unsaved]
 		private List<BodyPartRecord> cachedAllParts = new List<BodyPartRecord>();
 
 		[Unsaved]
-		private List<BodyPartRecord> cachedPartsVulnerableToFrostbite = null;
+		private List<BodyPartRecord> cachedPartsVulnerableToFrostbite;
 
 		public BodyDef()
 		{
@@ -78,16 +79,11 @@ namespace Verse
 
 		public BodyPartRecord GetPartAtIndex(int index)
 		{
-			BodyPartRecord result;
 			if (index < 0 || index >= this.cachedAllParts.Count)
 			{
-				result = null;
+				return null;
 			}
-			else
-			{
-				result = this.cachedAllParts[index];
-			}
-			return result;
+			return this.cachedAllParts[index];
 		}
 
 		public int GetIndexOfPart(BodyPartRecord rec)
@@ -104,7 +100,7 @@ namespace Verse
 
 		public override IEnumerable<string> ConfigErrors()
 		{
-			foreach (string e in this.<ConfigErrors>__BaseCallProxy0())
+			foreach (string e in base.ConfigErrors())
 			{
 				yield return e;
 			}
@@ -144,64 +140,66 @@ namespace Verse
 			if (node.def == null)
 			{
 				Log.Error("BodyPartRecord with null def. body=" + this, false);
+				return;
+			}
+			node.body = this;
+			for (int i = 0; i < node.parts.Count; i++)
+			{
+				node.parts[i].parent = node;
+			}
+			if (node.parent != null)
+			{
+				node.coverageAbsWithChildren = node.parent.coverageAbsWithChildren * node.coverage;
 			}
 			else
 			{
-				node.body = this;
-				for (int i = 0; i < node.parts.Count; i++)
+				node.coverageAbsWithChildren = 1f;
+			}
+			float num = 1f;
+			for (int j = 0; j < node.parts.Count; j++)
+			{
+				num -= node.parts[j].coverage;
+			}
+			if (Mathf.Abs(num) < 1E-05f)
+			{
+				num = 0f;
+			}
+			if (num < 0f)
+			{
+				num = 0f;
+				Log.Warning(string.Concat(new string[]
 				{
-					node.parts[i].parent = node;
-				}
-				if (node.parent != null)
+					"BodyDef ",
+					this.defName,
+					" has BodyPartRecord of ",
+					node.def.defName,
+					" whose children have more coverage than 1."
+				}), false);
+			}
+			node.coverageAbs = node.coverageAbsWithChildren * num;
+			if (node.height == BodyPartHeight.Undefined)
+			{
+				node.height = BodyPartHeight.Middle;
+			}
+			if (node.depth == BodyPartDepth.Undefined)
+			{
+				node.depth = BodyPartDepth.Outside;
+			}
+			for (int k = 0; k < node.parts.Count; k++)
+			{
+				if (node.parts[k].height == BodyPartHeight.Undefined)
 				{
-					node.coverageAbsWithChildren = node.parent.coverageAbsWithChildren * node.coverage;
+					node.parts[k].height = node.height;
 				}
-				else
+				if (node.parts[k].depth == BodyPartDepth.Undefined)
 				{
-					node.coverageAbsWithChildren = 1f;
+					node.parts[k].depth = node.depth;
 				}
-				float num = 1f;
-				for (int j = 0; j < node.parts.Count; j++)
-				{
-					num -= node.parts[j].coverage;
-				}
-				if (num <= 0f)
-				{
-					num = 0f;
-					Log.Warning(string.Concat(new string[]
-					{
-						"BodyDef ",
-						this.defName,
-						" has BodyPartRecord of ",
-						node.def.defName,
-						" whose children have more or equal total coverage than 1. This means parent can't be hit independently at all."
-					}), false);
-				}
-				node.coverageAbs = node.coverageAbsWithChildren * num;
-				if (node.height == BodyPartHeight.Undefined)
-				{
-					node.height = BodyPartHeight.Middle;
-				}
-				if (node.depth == BodyPartDepth.Undefined)
-				{
-					node.depth = BodyPartDepth.Outside;
-				}
-				for (int k = 0; k < node.parts.Count; k++)
-				{
-					if (node.parts[k].height == BodyPartHeight.Undefined)
-					{
-						node.parts[k].height = node.height;
-					}
-					if (node.parts[k].depth == BodyPartDepth.Undefined)
-					{
-						node.parts[k].depth = node.depth;
-					}
-				}
-				this.cachedAllParts.Add(node);
-				for (int l = 0; l < node.parts.Count; l++)
-				{
-					this.CacheDataRecursive(node.parts[l]);
-				}
+			}
+			this.cachedAllParts.Add(node);
+			for (int l = 0; l < node.parts.Count; l++)
+			{
+				this.CacheDataRecursive(node.parts[l]);
 			}
 		}
 
@@ -244,7 +242,7 @@ namespace Verse
 					i = 0;
 					break;
 				case 1u:
-					IL_8B:
+					IL_89:
 					i++;
 					break;
 				default:
@@ -266,7 +264,7 @@ namespace Verse
 						}
 						return true;
 					}
-					goto IL_8B;
+					goto IL_89;
 				}
 				return false;
 			}
@@ -354,7 +352,7 @@ namespace Verse
 					i = 0;
 					break;
 				case 1u:
-					IL_81:
+					IL_7F:
 					i++;
 					break;
 				default:
@@ -376,7 +374,7 @@ namespace Verse
 						}
 						return true;
 					}
-					goto IL_81;
+					goto IL_7F;
 				}
 				return false;
 			}
@@ -470,9 +468,9 @@ namespace Verse
 				case 1u:
 					break;
 				case 2u:
-					goto IL_F0;
+					goto IL_EC;
 				case 3u:
-					goto IL_10A;
+					goto IL_105;
 				default:
 					return false;
 				}
@@ -512,19 +510,16 @@ namespace Verse
 					}
 					return true;
 				}
-				IL_F0:
+				IL_EC:
 				enumerator2 = base.AllParts.GetEnumerator();
 				num = 4294967293u;
 				try
 				{
-					IL_10A:
+					IL_105:
 					switch (num)
 					{
-					case 3u:
-						IL_183:
-						break;
 					}
-					if (enumerator2.MoveNext())
+					while (enumerator2.MoveNext())
 					{
 						part = enumerator2.Current;
 						if (part.def.conceptual && part.coverageAbs != 0f)
@@ -537,7 +532,6 @@ namespace Verse
 							flag = true;
 							return true;
 						}
-						goto IL_183;
 					}
 				}
 				finally

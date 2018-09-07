@@ -28,10 +28,11 @@ namespace RimWorld
 
 		public override void DoCell(Rect rect, Pawn pawn, PawnTable table)
 		{
-			if (pawn.drugs != null)
+			if (pawn.drugs == null)
 			{
-				DrugPolicyUIUtility.DoAssignDrugPolicyButtons(rect, pawn);
+				return;
 			}
+			DrugPolicyUIUtility.DoAssignDrugPolicyButtons(rect, pawn);
 		}
 
 		public override int GetMinWidth(PawnTable table)

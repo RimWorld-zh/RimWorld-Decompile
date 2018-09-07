@@ -8,7 +8,7 @@ namespace Verse
 	{
 		private XmlContainer value;
 
-		private PatchOperationAdd.Order order = PatchOperationAdd.Order.Append;
+		private PatchOperationAdd.Order order;
 
 		public PatchOperationAdd()
 		{

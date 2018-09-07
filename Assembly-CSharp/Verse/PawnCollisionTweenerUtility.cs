@@ -11,78 +11,61 @@ namespace Verse
 
 		public static Vector3 PawnCollisionPosOffsetFor(Pawn pawn)
 		{
-			Vector3 result;
 			if (pawn.GetPosture() != PawnPosture.Standing)
 			{
-				result = Vector3.zero;
+				return Vector3.zero;
 			}
-			else
+			bool flag = pawn.Spawned && pawn.pather.MovingNow;
+			if (!flag || pawn.pather.nextCell == pawn.pather.Destination.Cell)
 			{
-				bool flag = pawn.Spawned && pawn.pather.MovingNow;
-				if (!flag || pawn.pather.nextCell == pawn.pather.Destination.Cell)
+				if (!flag && pawn.Drawer.leaner.ShouldLean())
 				{
-					if (!flag && pawn.Drawer.leaner.ShouldLean())
-					{
-						result = Vector3.zero;
-					}
-					else
-					{
-						IntVec3 at;
-						if (flag)
-						{
-							at = pawn.pather.nextCell;
-						}
-						else
-						{
-							at = pawn.Position;
-						}
-						int polygonVertices;
-						int vertexIndex;
-						bool flag2;
-						PawnCollisionTweenerUtility.GetPawnsStandingAtOrAboutToStandAt(at, pawn.Map, out polygonVertices, out vertexIndex, out flag2, pawn);
-						if (!flag2)
-						{
-							result = Vector3.zero;
-						}
-						else
-						{
-							result = GenGeo.RegularPolygonVertexPositionVec3(polygonVertices, vertexIndex) * 0.32f;
-						}
-					}
+					return Vector3.zero;
+				}
+				IntVec3 at;
+				if (flag)
+				{
+					at = pawn.pather.nextCell;
 				}
 				else
 				{
-					IntVec3 nextCell = pawn.pather.nextCell;
-					if (PawnCollisionTweenerUtility.CanGoDirectlyToNextCell(pawn))
+					at = pawn.Position;
+				}
+				int polygonVertices;
+				int vertexIndex;
+				bool flag2;
+				PawnCollisionTweenerUtility.GetPawnsStandingAtOrAboutToStandAt(at, pawn.Map, out polygonVertices, out vertexIndex, out flag2, pawn);
+				if (!flag2)
+				{
+					return Vector3.zero;
+				}
+				return GenGeo.RegularPolygonVertexPositionVec3(polygonVertices, vertexIndex) * 0.32f;
+			}
+			else
+			{
+				IntVec3 nextCell = pawn.pather.nextCell;
+				if (PawnCollisionTweenerUtility.CanGoDirectlyToNextCell(pawn))
+				{
+					return Vector3.zero;
+				}
+				int num = pawn.thingIDNumber % 2;
+				if (nextCell.x != pawn.Position.x)
+				{
+					if (num == 0)
 					{
-						result = Vector3.zero;
+						return new Vector3(0f, 0f, 0.32f);
 					}
-					else
+					return new Vector3(0f, 0f, -0.32f);
+				}
+				else
+				{
+					if (num == 0)
 					{
-						int num = pawn.thingIDNumber % 2;
-						if (nextCell.x != pawn.Position.x)
-						{
-							if (num == 0)
-							{
-								result = new Vector3(0f, 0f, 0.32f);
-							}
-							else
-							{
-								result = new Vector3(0f, 0f, -0.32f);
-							}
-						}
-						else if (num == 0)
-						{
-							result = new Vector3(0.32f, 0f, 0f);
-						}
-						else
-						{
-							result = new Vector3(-0.32f, 0f, 0f);
-						}
+						return new Vector3(0.32f, 0f, 0f);
 					}
+					return new Vector3(-0.32f, 0f, 0f);
 				}
 			}
-			return result;
 		}
 
 		private static void GetPawnsStandingAtOrAboutToStandAt(IntVec3 at, Map map, out int pawnsCount, out int pawnsWithLowerIdCount, out bool forPawnFound, Pawn forPawn)
@@ -108,12 +91,12 @@ namespace Verse
 								{
 									if (!pawn.pather.MovingNow || pawn.pather.nextCell != pawn.pather.Destination.Cell || pawn.pather.Destination.Cell != at)
 									{
-										goto IL_138;
+										goto IL_132;
 									}
 								}
 								else if (pawn.pather.MovingNow)
 								{
-									goto IL_138;
+									goto IL_132;
 								}
 								if (pawn == forPawn)
 								{
@@ -126,7 +109,7 @@ namespace Verse
 								}
 							}
 						}
-						IL_138:;
+						IL_132:;
 					}
 				}
 				iterator.MoveNext();
@@ -152,12 +135,9 @@ namespace Verse
 							{
 								if (pawn2.pather.MovingNow)
 								{
-									if ((pawn2.Position == nextCell && PawnCollisionTweenerUtility.WillBeFasterOnNextCell(pawn, pawn2)) || pawn2.pather.nextCell == nextCell || pawn2.Position == pawn.Position || (pawn2.pather.nextCell == pawn.Position && PawnCollisionTweenerUtility.WillBeFasterOnNextCell(pawn2, pawn)))
+									if (((pawn2.Position == nextCell && PawnCollisionTweenerUtility.WillBeFasterOnNextCell(pawn, pawn2)) || pawn2.pather.nextCell == nextCell || pawn2.Position == pawn.Position || (pawn2.pather.nextCell == pawn.Position && PawnCollisionTweenerUtility.WillBeFasterOnNextCell(pawn2, pawn))) && pawn2.thingIDNumber < pawn.thingIDNumber)
 									{
-										if (pawn2.thingIDNumber < pawn.thingIDNumber)
-										{
-											return false;
-										}
+										return false;
 									}
 								}
 								else if (pawn2.Position == pawn.Position || pawn2.Position == nextCell)
@@ -175,16 +155,11 @@ namespace Verse
 
 		private static bool WillBeFasterOnNextCell(Pawn p1, Pawn p2)
 		{
-			bool result;
 			if (p1.pather.nextCellCostLeft == p2.pather.nextCellCostLeft)
 			{
-				result = (p1.thingIDNumber < p2.thingIDNumber);
+				return p1.thingIDNumber < p2.thingIDNumber;
 			}
-			else
-			{
-				result = (p1.pather.nextCellCostLeft < p2.pather.nextCellCostLeft);
-			}
-			return result;
+			return p1.pather.nextCellCostLeft < p2.pather.nextCellCostLeft;
 		}
 	}
 }

@@ -9,7 +9,7 @@ namespace RimWorld
 	{
 		private HibernatableStateDef state = HibernatableStateDefOf.Hibernating;
 
-		private int endStartupTick = 0;
+		private int endStartupTick;
 
 		public CompHibernatable()
 		{
@@ -31,11 +31,12 @@ namespace RimWorld
 			}
 			set
 			{
-				if (this.state != value)
+				if (this.state == value)
 				{
-					this.state = value;
-					this.parent.Map.info.parent.Notify_HibernatableChanged();
+					return;
 				}
+				this.state = value;
+				this.parent.Map.info.parent.Notify_HibernatableChanged();
 			}
 		}
 
@@ -67,30 +68,23 @@ namespace RimWorld
 			if (this.State != HibernatableStateDefOf.Hibernating)
 			{
 				Log.ErrorOnce("Attempted to start a non-hibernating object", 34361223, false);
+				return;
 			}
-			else
-			{
-				this.State = HibernatableStateDefOf.Starting;
-				this.endStartupTick = Mathf.RoundToInt((float)Find.TickManager.TicksGame + this.Props.startupDays * 60000f);
-			}
+			this.State = HibernatableStateDefOf.Starting;
+			this.endStartupTick = Mathf.RoundToInt((float)Find.TickManager.TicksGame + this.Props.startupDays * 60000f);
 		}
 
 		public override string CompInspectStringExtra()
 		{
-			string result;
 			if (this.State == HibernatableStateDefOf.Hibernating)
 			{
-				result = "HibernatableHibernating".Translate();
+				return "HibernatableHibernating".Translate();
 			}
-			else if (this.State == HibernatableStateDefOf.Starting)
+			if (this.State == HibernatableStateDefOf.Starting)
 			{
-				result = string.Format("{0}: {1}", "HibernatableStartingUp".Translate(), (this.endStartupTick - Find.TickManager.TicksGame).ToStringTicksToPeriod());
+				return string.Format("{0}: {1}", "HibernatableStartingUp".Translate(), (this.endStartupTick - Find.TickManager.TicksGame).ToStringTicksToPeriod());
 			}
-			else
-			{
-				result = null;
-			}
-			return result;
+			return null;
 		}
 
 		public override void CompTick()

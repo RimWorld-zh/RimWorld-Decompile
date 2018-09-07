@@ -14,20 +14,15 @@ namespace RimWorld.Planet
 		{
 			get
 			{
-				int result;
 				if (Current.ProgramState != ProgramState.Playing)
 				{
-					result = -1;
+					return -1;
 				}
-				else if (Find.CurrentMap == null)
+				if (Find.CurrentMap == null)
 				{
-					result = -1;
+					return -1;
 				}
-				else
-				{
-					result = Find.CurrentMap.Tile;
-				}
-				return result;
+				return Find.CurrentMap.Tile;
 			}
 		}
 

@@ -44,25 +44,22 @@ namespace Verse
 					num3 = Mathf.Clamp(num3, 0.0015f, 0.015f);
 					firstHediffOfDef.Severity -= num3;
 				}
-				else if (pawn.RaceProps.FleshType != FleshTypeDefOf.Insectoid)
+				else if (pawn.RaceProps.FleshType != FleshTypeDefOf.Insectoid && ambientTemperature < 0f && firstHediffOfDef.Severity > 0.37f)
 				{
-					if (ambientTemperature < 0f && firstHediffOfDef.Severity > 0.37f)
+					float num4 = 0.025f * firstHediffOfDef.Severity;
+					if (Rand.Value < num4)
 					{
-						float num4 = 0.025f * firstHediffOfDef.Severity;
-						if (Rand.Value < num4)
+						BodyPartRecord bodyPartRecord;
+						if ((from x in pawn.RaceProps.body.AllPartsVulnerableToFrostbite
+						where !hediffSet.PartIsMissing(x)
+						select x).TryRandomElementByWeight((BodyPartRecord x) => x.def.frostbiteVulnerability, out bodyPartRecord))
 						{
-							BodyPartRecord bodyPartRecord;
-							if ((from x in pawn.RaceProps.body.AllPartsVulnerableToFrostbite
-							where !hediffSet.PartIsMissing(x)
-							select x).TryRandomElementByWeight((BodyPartRecord x) => x.def.frostbiteVulnerability, out bodyPartRecord))
-							{
-								int num5 = Mathf.CeilToInt((float)bodyPartRecord.def.hitPoints * 0.5f);
-								DamageDef frostbite = DamageDefOf.Frostbite;
-								float amount = (float)num5;
-								BodyPartRecord hitPart = bodyPartRecord;
-								DamageInfo dinfo = new DamageInfo(frostbite, amount, 0f, -1f, null, hitPart, null, DamageInfo.SourceCategory.ThingOrUnknown, null);
-								pawn.TakeDamage(dinfo);
-							}
+							int num5 = Mathf.CeilToInt((float)bodyPartRecord.def.hitPoints * 0.5f);
+							DamageDef frostbite = DamageDefOf.Frostbite;
+							float amount = (float)num5;
+							BodyPartRecord hitPart = bodyPartRecord;
+							DamageInfo dinfo = new DamageInfo(frostbite, amount, 0f, -1f, null, hitPart, null, DamageInfo.SourceCategory.ThingOrUnknown, null);
+							pawn.TakeDamage(dinfo);
 						}
 					}
 				}

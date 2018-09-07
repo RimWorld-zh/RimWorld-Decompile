@@ -27,31 +27,27 @@ namespace Verse
 
 		public static List<T> ListFullCopyOrNull<T>(this List<T> source)
 		{
-			List<T> result;
 			if (source == null)
 			{
-				result = null;
+				return null;
 			}
-			else
-			{
-				result = source.ListFullCopy<T>();
-			}
-			return result;
+			return source.ListFullCopy<T>();
 		}
 
 		public static void RemoveDuplicates<T>(this List<T> list) where T : class
 		{
-			if (list.Count > 1)
+			if (list.Count <= 1)
 			{
-				for (int i = list.Count - 1; i >= 0; i--)
+				return;
+			}
+			for (int i = list.Count - 1; i >= 0; i--)
+			{
+				for (int j = 0; j < i; j++)
 				{
-					for (int j = 0; j < i; j++)
+					if (list[i] == list[j])
 					{
-						if (list[i] == list[j])
-						{
-							list.RemoveAt(i);
-							break;
-						}
+						list.RemoveAt(i);
+						break;
 					}
 				}
 			}

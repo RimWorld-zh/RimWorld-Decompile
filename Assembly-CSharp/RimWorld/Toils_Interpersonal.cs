@@ -67,26 +67,7 @@ namespace RimWorld
 			{
 				pawn.pather.StartPath(talkee, PathEndMode.Touch);
 			};
-			toil.AddFailCondition(delegate
-			{
-				bool result;
-				if (talkee.DestroyedOrNull())
-				{
-					result = true;
-				}
-				else
-				{
-					if (mode != PrisonerInteractionModeDefOf.Execution)
-					{
-						if (!talkee.Awake())
-						{
-							return true;
-						}
-					}
-					result = (!talkee.IsPrisonerOfColony || (talkee.guest == null || talkee.guest.interactionMode != mode));
-				}
-				return result;
-			});
+			toil.AddFailCondition(() => talkee.DestroyedOrNull() || (mode != PrisonerInteractionModeDefOf.Execution && !talkee.Awake()) || !talkee.IsPrisonerOfColony || (talkee.guest == null || talkee.guest.interactionMode != mode));
 			toil.socialMode = RandomSocialMode.Off;
 			toil.defaultCompleteMode = ToilCompleteMode.PatherArrival;
 			return toil;
@@ -143,6 +124,7 @@ namespace RimWorld
 			{
 				Pawn pawn = (Pawn)toil.actor.jobs.curJob.GetTarget(targetInd).Thing;
 				pawn.mindState.lastAssignedInteractTime = Find.TickManager.TicksGame;
+				pawn.mindState.interactionsToday++;
 			};
 			toil.defaultCompleteMode = ToilCompleteMode.Instant;
 			return toil;
@@ -155,11 +137,12 @@ namespace RimWorld
 			{
 				Pawn actor = toil.actor;
 				Pawn pawn = (Pawn)actor.jobs.curJob.GetTarget(recruiteeInd).Thing;
-				if (pawn.Spawned && pawn.Awake())
+				if (!pawn.Spawned || !pawn.Awake())
 				{
-					InteractionDef intDef = (!pawn.AnimalOrWildMan()) ? InteractionDefOf.RecruitAttempt : InteractionDefOf.TameAttempt;
-					actor.interactions.TryInteractWith(pawn, intDef);
+					return;
 				}
+				InteractionDef intDef = (!pawn.AnimalOrWildMan()) ? InteractionDefOf.RecruitAttempt : InteractionDefOf.TameAttempt;
+				actor.interactions.TryInteractWith(pawn, intDef);
 			};
 			toil.socialMode = RandomSocialMode.Off;
 			toil.defaultCompleteMode = ToilCompleteMode.Delay;
@@ -174,65 +157,60 @@ namespace RimWorld
 			{
 				Pawn actor = toil.actor;
 				Pawn pawn = (Pawn)actor.jobs.curJob.GetTarget(traineeInd).Thing;
-				if (pawn.Spawned && pawn.Awake())
+				if (pawn.Spawned && pawn.Awake() && actor.interactions.TryInteractWith(pawn, InteractionDefOf.TrainAttempt))
 				{
-					if (actor.interactions.TryInteractWith(pawn, InteractionDefOf.TrainAttempt))
+					float num = actor.GetStatValue(StatDefOf.TrainAnimalChance, true);
+					num *= GenMath.LerpDouble(0f, 1f, 1.5f, 0.5f, pawn.RaceProps.wildness);
+					if (actor.relations.DirectRelationExists(PawnRelationDefOf.Bond, pawn))
 					{
-						float num = actor.GetStatValue(StatDefOf.TrainAnimalChance, true);
-						num *= GenMath.LerpDouble(0f, 1f, 1.5f, 0.5f, pawn.RaceProps.wildness);
-						if (actor.relations.DirectRelationExists(PawnRelationDefOf.Bond, pawn))
-						{
-							num *= 5f;
-						}
-						num = Mathf.Clamp01(num);
-						TrainableDef trainableDef = pawn.training.NextTrainableToTrain();
-						if (trainableDef == null)
-						{
-							Log.ErrorOnce("Attempted to train untrainable animal", 7842936, false);
-						}
-						else
-						{
-							string text;
-							if (Rand.Value < num)
-							{
-								pawn.training.Train(trainableDef, actor, false);
-								if (pawn.caller != null)
-								{
-									pawn.caller.DoCall();
-								}
-								text = "TextMote_TrainSuccess".Translate(new object[]
-								{
-									trainableDef.LabelCap,
-									num.ToStringPercent()
-								});
-								RelationsUtility.TryDevelopBondRelation(actor, pawn, 0.007f);
-								TaleRecorder.RecordTale(TaleDefOf.TrainedAnimal, new object[]
-								{
-									actor,
-									pawn,
-									trainableDef
-								});
-							}
-							else
-							{
-								text = "TextMote_TrainFail".Translate(new object[]
-								{
-									trainableDef.LabelCap,
-									num.ToStringPercent()
-								});
-							}
-							string text2 = text;
-							text = string.Concat(new object[]
-							{
-								text2,
-								"\n",
-								pawn.training.GetSteps(trainableDef),
-								" / ",
-								trainableDef.steps
-							});
-							MoteMaker.ThrowText((actor.DrawPos + pawn.DrawPos) / 2f, actor.Map, text, 5f);
-						}
+						num *= 5f;
 					}
+					num = Mathf.Clamp01(num);
+					TrainableDef trainableDef = pawn.training.NextTrainableToTrain();
+					if (trainableDef == null)
+					{
+						Log.ErrorOnce("Attempted to train untrainable animal", 7842936, false);
+						return;
+					}
+					string text;
+					if (Rand.Value < num)
+					{
+						pawn.training.Train(trainableDef, actor, false);
+						if (pawn.caller != null)
+						{
+							pawn.caller.DoCall();
+						}
+						text = "TextMote_TrainSuccess".Translate(new object[]
+						{
+							trainableDef.LabelCap,
+							num.ToStringPercent()
+						});
+						RelationsUtility.TryDevelopBondRelation(actor, pawn, 0.007f);
+						TaleRecorder.RecordTale(TaleDefOf.TrainedAnimal, new object[]
+						{
+							actor,
+							pawn,
+							trainableDef
+						});
+					}
+					else
+					{
+						text = "TextMote_TrainFail".Translate(new object[]
+						{
+							trainableDef.LabelCap,
+							num.ToStringPercent()
+						});
+					}
+					string text2 = text;
+					text = string.Concat(new object[]
+					{
+						text2,
+						"\n",
+						pawn.training.GetSteps(trainableDef),
+						" / ",
+						trainableDef.steps
+					});
+					MoteMaker.ThrowText((actor.DrawPos + pawn.DrawPos) / 2f, actor.Map, text, 5f);
 				}
 			};
 			toil.defaultCompleteMode = ToilCompleteMode.Delay;
@@ -247,10 +225,11 @@ namespace RimWorld
 			{
 				Pawn actor = toil.actor;
 				Pawn pawn = (Pawn)actor.jobs.curJob.GetTarget(otherPawnInd).Thing;
-				if (pawn.Spawned)
+				if (!pawn.Spawned)
 				{
-					actor.interactions.TryInteractWith(pawn, interaction);
+					return;
 				}
+				actor.interactions.TryInteractWith(pawn, interaction);
 			};
 			toil.socialMode = RandomSocialMode.Off;
 			toil.defaultCompleteMode = ToilCompleteMode.Delay;
@@ -336,23 +315,7 @@ namespace RimWorld
 
 			internal bool <>m__1()
 			{
-				bool result;
-				if (this.talkee.DestroyedOrNull())
-				{
-					result = true;
-				}
-				else
-				{
-					if (this.mode != PrisonerInteractionModeDefOf.Execution)
-					{
-						if (!this.talkee.Awake())
-						{
-							return true;
-						}
-					}
-					result = (!this.talkee.IsPrisonerOfColony || (this.talkee.guest == null || this.talkee.guest.interactionMode != this.mode));
-				}
-				return result;
+				return this.talkee.DestroyedOrNull() || (this.mode != PrisonerInteractionModeDefOf.Execution && !this.talkee.Awake()) || !this.talkee.IsPrisonerOfColony || (this.talkee.guest == null || this.talkee.guest.interactionMode != this.mode);
 			}
 		}
 
@@ -421,6 +384,7 @@ namespace RimWorld
 			{
 				Pawn pawn = (Pawn)this.toil.actor.jobs.curJob.GetTarget(this.targetInd).Thing;
 				pawn.mindState.lastAssignedInteractTime = Find.TickManager.TicksGame;
+				pawn.mindState.interactionsToday++;
 			}
 		}
 
@@ -439,11 +403,12 @@ namespace RimWorld
 			{
 				Pawn actor = this.toil.actor;
 				Pawn pawn = (Pawn)actor.jobs.curJob.GetTarget(this.recruiteeInd).Thing;
-				if (pawn.Spawned && pawn.Awake())
+				if (!pawn.Spawned || !pawn.Awake())
 				{
-					InteractionDef intDef = (!pawn.AnimalOrWildMan()) ? InteractionDefOf.RecruitAttempt : InteractionDefOf.TameAttempt;
-					actor.interactions.TryInteractWith(pawn, intDef);
+					return;
 				}
+				InteractionDef intDef = (!pawn.AnimalOrWildMan()) ? InteractionDefOf.RecruitAttempt : InteractionDefOf.TameAttempt;
+				actor.interactions.TryInteractWith(pawn, intDef);
 			}
 		}
 
@@ -462,65 +427,60 @@ namespace RimWorld
 			{
 				Pawn actor = this.toil.actor;
 				Pawn pawn = (Pawn)actor.jobs.curJob.GetTarget(this.traineeInd).Thing;
-				if (pawn.Spawned && pawn.Awake())
+				if (pawn.Spawned && pawn.Awake() && actor.interactions.TryInteractWith(pawn, InteractionDefOf.TrainAttempt))
 				{
-					if (actor.interactions.TryInteractWith(pawn, InteractionDefOf.TrainAttempt))
+					float num = actor.GetStatValue(StatDefOf.TrainAnimalChance, true);
+					num *= GenMath.LerpDouble(0f, 1f, 1.5f, 0.5f, pawn.RaceProps.wildness);
+					if (actor.relations.DirectRelationExists(PawnRelationDefOf.Bond, pawn))
 					{
-						float num = actor.GetStatValue(StatDefOf.TrainAnimalChance, true);
-						num *= GenMath.LerpDouble(0f, 1f, 1.5f, 0.5f, pawn.RaceProps.wildness);
-						if (actor.relations.DirectRelationExists(PawnRelationDefOf.Bond, pawn))
-						{
-							num *= 5f;
-						}
-						num = Mathf.Clamp01(num);
-						TrainableDef trainableDef = pawn.training.NextTrainableToTrain();
-						if (trainableDef == null)
-						{
-							Log.ErrorOnce("Attempted to train untrainable animal", 7842936, false);
-						}
-						else
-						{
-							string text;
-							if (Rand.Value < num)
-							{
-								pawn.training.Train(trainableDef, actor, false);
-								if (pawn.caller != null)
-								{
-									pawn.caller.DoCall();
-								}
-								text = "TextMote_TrainSuccess".Translate(new object[]
-								{
-									trainableDef.LabelCap,
-									num.ToStringPercent()
-								});
-								RelationsUtility.TryDevelopBondRelation(actor, pawn, 0.007f);
-								TaleRecorder.RecordTale(TaleDefOf.TrainedAnimal, new object[]
-								{
-									actor,
-									pawn,
-									trainableDef
-								});
-							}
-							else
-							{
-								text = "TextMote_TrainFail".Translate(new object[]
-								{
-									trainableDef.LabelCap,
-									num.ToStringPercent()
-								});
-							}
-							string text2 = text;
-							text = string.Concat(new object[]
-							{
-								text2,
-								"\n",
-								pawn.training.GetSteps(trainableDef),
-								" / ",
-								trainableDef.steps
-							});
-							MoteMaker.ThrowText((actor.DrawPos + pawn.DrawPos) / 2f, actor.Map, text, 5f);
-						}
+						num *= 5f;
 					}
+					num = Mathf.Clamp01(num);
+					TrainableDef trainableDef = pawn.training.NextTrainableToTrain();
+					if (trainableDef == null)
+					{
+						Log.ErrorOnce("Attempted to train untrainable animal", 7842936, false);
+						return;
+					}
+					string text;
+					if (Rand.Value < num)
+					{
+						pawn.training.Train(trainableDef, actor, false);
+						if (pawn.caller != null)
+						{
+							pawn.caller.DoCall();
+						}
+						text = "TextMote_TrainSuccess".Translate(new object[]
+						{
+							trainableDef.LabelCap,
+							num.ToStringPercent()
+						});
+						RelationsUtility.TryDevelopBondRelation(actor, pawn, 0.007f);
+						TaleRecorder.RecordTale(TaleDefOf.TrainedAnimal, new object[]
+						{
+							actor,
+							pawn,
+							trainableDef
+						});
+					}
+					else
+					{
+						text = "TextMote_TrainFail".Translate(new object[]
+						{
+							trainableDef.LabelCap,
+							num.ToStringPercent()
+						});
+					}
+					string text2 = text;
+					text = string.Concat(new object[]
+					{
+						text2,
+						"\n",
+						pawn.training.GetSteps(trainableDef),
+						" / ",
+						trainableDef.steps
+					});
+					MoteMaker.ThrowText((actor.DrawPos + pawn.DrawPos) / 2f, actor.Map, text, 5f);
 				}
 			}
 		}
@@ -542,10 +502,11 @@ namespace RimWorld
 			{
 				Pawn actor = this.toil.actor;
 				Pawn pawn = (Pawn)actor.jobs.curJob.GetTarget(this.otherPawnInd).Thing;
-				if (pawn.Spawned)
+				if (!pawn.Spawned)
 				{
-					actor.interactions.TryInteractWith(pawn, this.interaction);
+					return;
 				}
+				actor.interactions.TryInteractWith(pawn, this.interaction);
 			}
 		}
 	}

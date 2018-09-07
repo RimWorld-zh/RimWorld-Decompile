@@ -12,24 +12,20 @@ namespace Verse
 
 		public static GlobalTargetInfo TryGetPrimaryTarget(this LookTargets lookTargets)
 		{
-			GlobalTargetInfo result;
 			if (lookTargets == null)
 			{
-				result = GlobalTargetInfo.Invalid;
+				return GlobalTargetInfo.Invalid;
 			}
-			else
-			{
-				result = lookTargets.PrimaryTarget;
-			}
-			return result;
+			return lookTargets.PrimaryTarget;
 		}
 
 		public static void TryHighlight(this LookTargets lookTargets, bool arrow = true, bool colonistBar = true, bool circleOverlay = false)
 		{
-			if (lookTargets != null)
+			if (lookTargets == null)
 			{
-				lookTargets.Highlight(arrow, colonistBar, circleOverlay);
+				return;
 			}
+			lookTargets.Highlight(arrow, colonistBar, circleOverlay);
 		}
 	}
 }

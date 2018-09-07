@@ -14,36 +14,25 @@ namespace RimWorld
 		protected override Job TryGiveJob(Pawn pawn)
 		{
 			PawnDuty duty = pawn.mindState.duty;
-			Job result;
 			if (duty == null)
 			{
-				result = null;
+				return null;
 			}
-			else
+			float curLevelPercentage = pawn.needs.food.CurLevelPercentage;
+			if ((double)curLevelPercentage > 0.9)
 			{
-				float curLevelPercentage = pawn.needs.food.CurLevelPercentage;
-				if ((double)curLevelPercentage > 0.9)
-				{
-					result = null;
-				}
-				else
-				{
-					IntVec3 cell = duty.focus.Cell;
-					Thing thing = this.FindFood(pawn, cell);
-					if (thing == null)
-					{
-						result = null;
-					}
-					else
-					{
-						result = new Job(JobDefOf.Ingest, thing)
-						{
-							count = FoodUtility.WillIngestStackCountOf(pawn, thing.def, thing.def.GetStatValueAbstract(StatDefOf.Nutrition, null))
-						};
-					}
-				}
+				return null;
 			}
-			return result;
+			IntVec3 cell = duty.focus.Cell;
+			Thing thing = this.FindFood(pawn, cell);
+			if (thing == null)
+			{
+				return null;
+			}
+			return new Job(JobDefOf.Ingest, thing)
+			{
+				count = FoodUtility.WillIngestStackCountOf(pawn, thing.def, thing.def.GetStatValueAbstract(StatDefOf.Nutrition, null))
+			};
 		}
 
 		private Thing FindFood(Pawn pawn, IntVec3 partySpot)

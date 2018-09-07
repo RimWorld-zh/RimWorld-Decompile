@@ -30,24 +30,19 @@ namespace RimWorld.Planet
 				select Rand.Range(0, Find.WorldGrid.TilesCount)).TryRandomElementByWeight(delegate(int x)
 				{
 					Tile tile = Find.WorldGrid[x];
-					float result;
 					if (!tile.biome.canBuildBase || !tile.biome.implemented || tile.hilliness == Hilliness.Impassable)
 					{
-						result = 0f;
+						return 0f;
 					}
-					else if (mustBeAutoChoosable && !tile.biome.canAutoChoose)
+					if (mustBeAutoChoosable && !tile.biome.canAutoChoose)
 					{
-						result = 0f;
+						return 0f;
 					}
-					else if (extraValidator != null && !extraValidator(x))
+					if (extraValidator != null && !extraValidator(x))
 					{
-						result = 0f;
+						return 0f;
 					}
-					else
-					{
-						result = tile.biome.settlementSelectionWeight;
-					}
-					return result;
+					return tile.biome.settlementSelectionWeight;
 				}, out num))
 				{
 					if (TileFinder.IsValidTileForNewSettlement(num, null))
@@ -63,7 +58,6 @@ namespace RimWorld.Planet
 		public static bool IsValidTileForNewSettlement(int tile, StringBuilder reason = null)
 		{
 			Tile tile2 = Find.WorldGrid[tile];
-			bool result;
 			if (!tile2.biome.canBuildBase)
 			{
 				if (reason != null)
@@ -73,71 +67,64 @@ namespace RimWorld.Planet
 						tile2.biome.LabelCap
 					}));
 				}
-				result = false;
+				return false;
 			}
-			else if (!tile2.biome.implemented)
+			if (!tile2.biome.implemented)
 			{
 				if (reason != null)
 				{
 					reason.Append("BiomeNotImplemented".Translate() + ": " + tile2.biome.LabelCap);
 				}
-				result = false;
+				return false;
 			}
-			else if (tile2.hilliness == Hilliness.Impassable)
+			if (tile2.hilliness == Hilliness.Impassable)
 			{
 				if (reason != null)
 				{
 					reason.Append("CannotLandImpassableMountains".Translate());
 				}
-				result = false;
+				return false;
 			}
-			else
+			SettlementBase settlementBase = Find.WorldObjects.SettlementBaseAt(tile);
+			if (settlementBase != null)
 			{
-				SettlementBase settlementBase = Find.WorldObjects.SettlementBaseAt(tile);
-				if (settlementBase != null)
+				if (reason != null)
 				{
-					if (reason != null)
-					{
-						if (settlementBase.Faction == null)
-						{
-							reason.Append("TileOccupied".Translate());
-						}
-						else if (settlementBase.Faction == Faction.OfPlayer)
-						{
-							reason.Append("YourBaseAlreadyThere".Translate());
-						}
-						else
-						{
-							reason.Append("BaseAlreadyThere".Translate(new object[]
-							{
-								settlementBase.Faction.Name
-							}));
-						}
-					}
-					result = false;
-				}
-				else if (Find.WorldObjects.AnySettlementBaseAtOrAdjacent(tile))
-				{
-					if (reason != null)
-					{
-						reason.Append("FactionBaseAdjacent".Translate());
-					}
-					result = false;
-				}
-				else if (Find.WorldObjects.AnyMapParentAt(tile) || Current.Game.FindMap(tile) != null || Find.WorldObjects.AnyWorldObjectOfDefAt(WorldObjectDefOf.AbandonedSettlement, tile))
-				{
-					if (reason != null)
+					if (settlementBase.Faction == null)
 					{
 						reason.Append("TileOccupied".Translate());
 					}
-					result = false;
+					else if (settlementBase.Faction == Faction.OfPlayer)
+					{
+						reason.Append("YourBaseAlreadyThere".Translate());
+					}
+					else
+					{
+						reason.Append("BaseAlreadyThere".Translate(new object[]
+						{
+							settlementBase.Faction.Name
+						}));
+					}
 				}
-				else
-				{
-					result = true;
-				}
+				return false;
 			}
-			return result;
+			if (Find.WorldObjects.AnySettlementBaseAtOrAdjacent(tile))
+			{
+				if (reason != null)
+				{
+					reason.Append("FactionBaseAdjacent".Translate());
+				}
+				return false;
+			}
+			if (Find.WorldObjects.AnyMapParentAt(tile) || Current.Game.FindMap(tile) != null || Find.WorldObjects.AnyWorldObjectOfDefAt(WorldObjectDefOf.AbandonedSettlement, tile))
+			{
+				if (reason != null)
+				{
+					reason.Append("TileOccupied".Translate());
+				}
+				return false;
+			}
+			return true;
 		}
 
 		public static bool TryFindPassableTileWithTraversalDistance(int rootTile, int minDist, int maxDist, out int result, Predicate<int> validator = null, bool ignoreFirstTilePassability = false, bool preferCloserTiles = false)
@@ -145,47 +132,38 @@ namespace RimWorld.Planet
 			TileFinder.tmpTiles.Clear();
 			Find.WorldFloodFiller.FloodFill(rootTile, (int x) => !Find.World.Impassable(x) || (x == rootTile && ignoreFirstTilePassability), delegate(int tile, int traversalDistance)
 			{
-				bool result3;
 				if (traversalDistance > maxDist)
 				{
-					result3 = true;
+					return true;
 				}
-				else
+				if (traversalDistance >= minDist && (validator == null || validator(tile)))
 				{
-					if (traversalDistance >= minDist && (validator == null || validator(tile)))
-					{
-						TileFinder.tmpTiles.Add(new Pair<int, int>(tile, traversalDistance));
-					}
-					result3 = false;
+					TileFinder.tmpTiles.Add(new Pair<int, int>(tile, traversalDistance));
 				}
-				return result3;
+				return false;
 			}, int.MaxValue, null);
-			Pair<int, int> pair;
-			bool result2;
 			if (preferCloserTiles)
 			{
+				Pair<int, int> pair;
 				if (TileFinder.tmpTiles.TryRandomElementByWeight((Pair<int, int> x) => 1f - (float)(x.Second - minDist) / ((float)(maxDist - minDist) + 0.01f), out pair))
 				{
 					result = pair.First;
-					result2 = true;
+					return true;
 				}
-				else
-				{
-					result = -1;
-					result2 = false;
-				}
-			}
-			else if (TileFinder.tmpTiles.TryRandomElement(out pair))
-			{
-				result = pair.First;
-				result2 = true;
+				result = -1;
+				return false;
 			}
 			else
 			{
+				Pair<int, int> pair;
+				if (TileFinder.tmpTiles.TryRandomElement(out pair))
+				{
+					result = pair.First;
+					return true;
+				}
 				result = -1;
-				result2 = false;
+				return false;
 			}
-			return result2;
 		}
 
 		public static bool TryFindRandomPlayerTile(out int tile, bool allowCaravans, Predicate<int> validator = null)
@@ -210,44 +188,36 @@ namespace RimWorld.Planet
 					}
 				}
 			}
-			bool result;
-			Map map;
-			Map map2;
 			if (TileFinder.tmpPlayerTiles.TryRandomElement(out tile))
 			{
-				result = true;
+				return true;
 			}
-			else if ((from x in Find.Maps
+			Map map;
+			if ((from x in Find.Maps
 			where x.IsPlayerHome && (validator == null || validator(x.Tile))
 			select x).TryRandomElement(out map))
 			{
 				tile = map.Tile;
-				result = true;
+				return true;
 			}
-			else if ((from x in Find.Maps
+			Map map2;
+			if ((from x in Find.Maps
 			where x.mapPawns.FreeColonistsSpawnedCount != 0 && (validator == null || validator(x.Tile))
 			select x).TryRandomElement(out map2))
 			{
 				tile = map2.Tile;
-				result = true;
+				return true;
 			}
-			else
+			Caravan caravan;
+			if (!allowCaravans && (from x in Find.WorldObjects.Caravans
+			where x.IsPlayerControlled && (validator == null || validator(x.Tile))
+			select x).TryRandomElement(out caravan))
 			{
-				if (!allowCaravans)
-				{
-					Caravan caravan;
-					if ((from x in Find.WorldObjects.Caravans
-					where x.IsPlayerControlled && (validator == null || validator(x.Tile))
-					select x).TryRandomElement(out caravan))
-					{
-						tile = caravan.Tile;
-						return true;
-					}
-				}
-				tile = -1;
-				result = false;
+				tile = caravan.Tile;
+				return true;
 			}
-			return result;
+			tile = -1;
+			return false;
 		}
 
 		public static bool TryFindNewSiteTile(out int tile, int minDist = 7, int maxDist = 27, bool allowCaravans = false, bool preferCloserTiles = true, int nearThisTile = -1)
@@ -256,20 +226,15 @@ namespace RimWorld.Planet
 			{
 				int minDist2 = minDist;
 				int maxDist2 = maxDist;
-				int num;
-				ref int result = ref num;
+				int result2;
+				ref int result = ref result2;
 				Predicate<int> validator = (int x) => !Find.WorldObjects.AnyWorldObjectAt(x) && TileFinder.IsValidTileForNewSettlement(x, null);
 				bool preferCloserTiles2 = preferCloserTiles;
-				int result2;
 				if (TileFinder.TryFindPassableTileWithTraversalDistance(root, minDist2, maxDist2, out result, validator, false, preferCloserTiles2))
 				{
-					result2 = num;
+					return result2;
 				}
-				else
-				{
-					result2 = -1;
-				}
-				return result2;
+				return -1;
 			};
 			int arg;
 			if (nearThisTile != -1)
@@ -310,24 +275,19 @@ namespace RimWorld.Planet
 			internal float <>m__0(int x)
 			{
 				Tile tile = Find.WorldGrid[x];
-				float result;
 				if (!tile.biome.canBuildBase || !tile.biome.implemented || tile.hilliness == Hilliness.Impassable)
 				{
-					result = 0f;
+					return 0f;
 				}
-				else if (this.mustBeAutoChoosable && !tile.biome.canAutoChoose)
+				if (this.mustBeAutoChoosable && !tile.biome.canAutoChoose)
 				{
-					result = 0f;
+					return 0f;
 				}
-				else if (this.extraValidator != null && !this.extraValidator(x))
+				if (this.extraValidator != null && !this.extraValidator(x))
 				{
-					result = 0f;
+					return 0f;
 				}
-				else
-				{
-					result = tile.biome.settlementSelectionWeight;
-				}
-				return result;
+				return tile.biome.settlementSelectionWeight;
 			}
 		}
 
@@ -355,20 +315,15 @@ namespace RimWorld.Planet
 
 			internal bool <>m__1(int tile, int traversalDistance)
 			{
-				bool result;
 				if (traversalDistance > this.maxDist)
 				{
-					result = true;
+					return true;
 				}
-				else
+				if (traversalDistance >= this.minDist && (this.validator == null || this.validator(tile)))
 				{
-					if (traversalDistance >= this.minDist && (this.validator == null || this.validator(tile)))
-					{
-						TileFinder.tmpTiles.Add(new Pair<int, int>(tile, traversalDistance));
-					}
-					result = false;
+					TileFinder.tmpTiles.Add(new Pair<int, int>(tile, traversalDistance));
 				}
-				return result;
+				return false;
 			}
 
 			internal float <>m__2(Pair<int, int> x)
@@ -423,20 +378,15 @@ namespace RimWorld.Planet
 			{
 				int num = this.minDist;
 				int num2 = this.maxDist;
-				int num3;
-				ref int result = ref num3;
+				int result2;
+				ref int result = ref result2;
 				Predicate<int> validator = (int x) => !Find.WorldObjects.AnyWorldObjectAt(x) && TileFinder.IsValidTileForNewSettlement(x, null);
 				bool flag = this.preferCloserTiles;
-				int result2;
 				if (TileFinder.TryFindPassableTileWithTraversalDistance(root, num, num2, out result, validator, false, flag))
 				{
-					result2 = num3;
+					return result2;
 				}
-				else
-				{
-					result2 = -1;
-				}
-				return result2;
+				return -1;
 			}
 
 			internal bool <>m__1(int x)

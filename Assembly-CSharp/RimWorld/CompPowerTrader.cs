@@ -11,13 +11,13 @@ namespace RimWorld
 
 		public Action powerStoppedAction;
 
-		private bool powerOnInt = false;
+		private bool powerOnInt;
 
-		public float powerOutputInt = 0f;
+		public float powerOutputInt;
 
-		private bool powerLastOutputted = false;
+		private bool powerLastOutputted;
 
-		private Sustainer sustainerPowered = null;
+		private Sustainer sustainerPowered;
 
 		protected CompFlickable flickableComp;
 
@@ -65,53 +65,53 @@ namespace RimWorld
 			}
 			set
 			{
-				if (this.powerOnInt != value)
+				if (this.powerOnInt == value)
 				{
-					this.powerOnInt = value;
-					if (this.powerOnInt)
+					return;
+				}
+				this.powerOnInt = value;
+				if (this.powerOnInt)
+				{
+					if (!FlickUtility.WantsToBeOn(this.parent))
 					{
-						if (!FlickUtility.WantsToBeOn(this.parent))
-						{
-							Log.Warning("Tried to power on " + this.parent + " which did not desire it.", false);
-						}
-						else if (this.parent.IsBrokenDown())
-						{
-							Log.Warning("Tried to power on " + this.parent + " which is broken down.", false);
-						}
-						else
-						{
-							if (this.powerStartedAction != null)
-							{
-								this.powerStartedAction();
-							}
-							this.parent.BroadcastCompSignal("PowerTurnedOn");
-							SoundDef soundDef = ((CompProperties_Power)this.parent.def.CompDefForAssignableFrom<CompPowerTrader>()).soundPowerOn;
-							if (soundDef.NullOrUndefined())
-							{
-								soundDef = SoundDefOf.Power_OnSmall;
-							}
-							soundDef.PlayOneShot(new TargetInfo(this.parent.Position, this.parent.Map, false));
-							this.StartSustainerPoweredIfInactive();
-						}
+						Log.Warning("Tried to power on " + this.parent + " which did not desire it.", false);
+						return;
 					}
-					else
+					if (this.parent.IsBrokenDown())
 					{
-						if (this.powerStoppedAction != null)
-						{
-							this.powerStoppedAction();
-						}
-						this.parent.BroadcastCompSignal("PowerTurnedOff");
-						SoundDef soundDef2 = ((CompProperties_Power)this.parent.def.CompDefForAssignableFrom<CompPowerTrader>()).soundPowerOff;
-						if (soundDef2.NullOrUndefined())
-						{
-							soundDef2 = SoundDefOf.Power_OffSmall;
-						}
-						if (this.parent.Spawned)
-						{
-							soundDef2.PlayOneShot(new TargetInfo(this.parent.Position, this.parent.Map, false));
-						}
-						this.EndSustainerPoweredIfActive();
+						Log.Warning("Tried to power on " + this.parent + " which is broken down.", false);
+						return;
 					}
+					if (this.powerStartedAction != null)
+					{
+						this.powerStartedAction();
+					}
+					this.parent.BroadcastCompSignal("PowerTurnedOn");
+					SoundDef soundDef = ((CompProperties_Power)this.parent.def.CompDefForAssignableFrom<CompPowerTrader>()).soundPowerOn;
+					if (soundDef.NullOrUndefined())
+					{
+						soundDef = SoundDefOf.Power_OnSmall;
+					}
+					soundDef.PlayOneShot(new TargetInfo(this.parent.Position, this.parent.Map, false));
+					this.StartSustainerPoweredIfInactive();
+				}
+				else
+				{
+					if (this.powerStoppedAction != null)
+					{
+						this.powerStoppedAction();
+					}
+					this.parent.BroadcastCompSignal("PowerTurnedOff");
+					SoundDef soundDef2 = ((CompProperties_Power)this.parent.def.CompDefForAssignableFrom<CompPowerTrader>()).soundPowerOff;
+					if (soundDef2.NullOrUndefined())
+					{
+						soundDef2 = SoundDefOf.Power_OffSmall;
+					}
+					if (this.parent.Spawned)
+					{
+						soundDef2.PlayOneShot(new TargetInfo(this.parent.Position, this.parent.Map, false));
+					}
+					this.EndSustainerPoweredIfActive();
 				}
 			}
 		}

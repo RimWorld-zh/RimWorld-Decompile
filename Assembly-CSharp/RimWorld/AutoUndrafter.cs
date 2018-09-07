@@ -11,7 +11,7 @@ namespace RimWorld
 
 		private int lastNonWaitingTick;
 
-		private const int UndraftDelay = 6000;
+		private const int UndraftDelay = 10000;
 
 		public AutoUndrafter(Pawn pawn)
 		{
@@ -45,7 +45,7 @@ namespace RimWorld
 
 		private bool ShouldAutoUndraft()
 		{
-			return Find.TickManager.TicksGame - this.lastNonWaitingTick >= 6000 && !this.AnyHostilePreventingAutoUndraft();
+			return Find.TickManager.TicksGame - this.lastNonWaitingTick >= 10000 && !this.AnyHostilePreventingAutoUndraft();
 		}
 
 		private bool AnyHostilePreventingAutoUndraft()

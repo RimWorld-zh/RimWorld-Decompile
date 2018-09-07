@@ -119,7 +119,6 @@ namespace RimWorld
 
 		public bool TryStartIgnite(Thing target)
 		{
-			bool result;
 			if (this.IgniteVerb == null)
 			{
 				Log.ErrorOnce(string.Concat(new object[]
@@ -129,18 +128,13 @@ namespace RimWorld
 					target,
 					" but has no ignite verb."
 				}), 76453432, false);
-				result = false;
+				return false;
 			}
-			else
-			{
-				result = (!this.pawn.stances.FullBodyBusy && this.IgniteVerb.TryStartCastOn(target, false, true));
-			}
-			return result;
+			return !this.pawn.stances.FullBodyBusy && this.IgniteVerb.TryStartCastOn(target, false, true);
 		}
 
 		public bool TryBeatFire(Fire targetFire)
 		{
-			bool result;
 			if (this.BeatFireVerb == null)
 			{
 				Log.ErrorOnce(string.Concat(new object[]
@@ -150,13 +144,9 @@ namespace RimWorld
 					targetFire,
 					" but has no beat fire verb."
 				}), 935137531, false);
-				result = false;
+				return false;
 			}
-			else
-			{
-				result = (!this.pawn.stances.FullBodyBusy && this.BeatFireVerb.TryStartCastOn(targetFire, false, true));
-			}
-			return result;
+			return !this.pawn.stances.FullBodyBusy && this.BeatFireVerb.TryStartCastOn(targetFire, false, true);
 		}
 
 		public void ExposeData()
@@ -173,16 +163,17 @@ namespace RimWorld
 
 		private void CheckCreateVerbProperties()
 		{
-			if (this.cachedVerbProperties == null)
+			if (this.cachedVerbProperties != null)
 			{
-				if (this.pawn.RaceProps.intelligence >= Intelligence.ToolUser)
+				return;
+			}
+			if (this.pawn.RaceProps.intelligence >= Intelligence.ToolUser)
+			{
+				this.cachedVerbProperties = new List<VerbProperties>();
+				this.cachedVerbProperties.Add(NativeVerbPropertiesDatabase.VerbWithCategory(VerbCategory.BeatFire));
+				if (!this.pawn.RaceProps.IsMechanoid)
 				{
-					this.cachedVerbProperties = new List<VerbProperties>();
-					this.cachedVerbProperties.Add(NativeVerbPropertiesDatabase.VerbWithCategory(VerbCategory.BeatFire));
-					if (!this.pawn.RaceProps.IsMechanoid)
-					{
-						this.cachedVerbProperties.Add(NativeVerbPropertiesDatabase.VerbWithCategory(VerbCategory.Ignite));
-					}
+					this.cachedVerbProperties.Add(NativeVerbPropertiesDatabase.VerbWithCategory(VerbCategory.Ignite));
 				}
 			}
 		}

@@ -16,16 +16,11 @@ namespace RimWorld
 
 		public override AcceptanceReport CanDesignateCell(IntVec3 c)
 		{
-			AcceptanceReport result;
 			if (c.InBounds(base.Map) && c.GetTerrain(base.Map) != TerrainDefOf.Bridge)
 			{
-				result = false;
+				return false;
 			}
-			else
-			{
-				result = base.CanDesignateCell(c);
-			}
-			return result;
+			return base.CanDesignateCell(c);
 		}
 	}
 }

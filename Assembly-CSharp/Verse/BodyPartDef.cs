@@ -23,13 +23,13 @@ namespace Verse
 
 		public float frostbiteVulnerability;
 
-		private bool skinCovered = false;
+		private bool skinCovered;
 
-		private bool solid = false;
+		private bool solid;
 
 		public bool alive = true;
 
-		public bool delicate = false;
+		public bool delicate;
 
 		public bool beautyRelated;
 
@@ -44,6 +44,8 @@ namespace Verse
 		public bool canSuggestAmputation = true;
 
 		public Dictionary<DamageDef, float> hitChanceFactors;
+
+		public bool destroyableByDamage = true;
 
 		public BodyPartDef()
 		{
@@ -83,7 +85,7 @@ namespace Verse
 
 		public override IEnumerable<string> ConfigErrors()
 		{
-			foreach (string e in this.<ConfigErrors>__BaseCallProxy0())
+			foreach (string e in base.ConfigErrors())
 			{
 				yield return e;
 			}
@@ -91,17 +93,9 @@ namespace Verse
 			{
 				yield return "frostbitePriority > max 10: " + this.frostbiteVulnerability;
 			}
-			if (this.solid && this.permanentInjuryChanceFactor > 0f)
-			{
-				yield return "solid but permanentInjuryChanceFactor is not zero; it is " + this.permanentInjuryChanceFactor + ". Solid parts must have zero permanent injury chance.";
-			}
 			if (this.solid && this.bleedRate > 0f)
 			{
 				yield return "solid but bleedRate is not zero";
-			}
-			if (this.solid && this.permanentInjuryChanceFactor > 0f)
-			{
-				yield return "solid but permanentInjuryChanceFactor is not zero";
 			}
 			yield break;
 		}
@@ -133,25 +127,20 @@ namespace Verse
 
 		public float GetHitChanceFactorFor(DamageDef damage)
 		{
-			float result;
-			float num;
 			if (this.conceptual)
 			{
-				result = 0f;
+				return 0f;
 			}
-			else if (this.hitChanceFactors == null)
+			if (this.hitChanceFactors == null)
 			{
-				result = 1f;
+				return 1f;
 			}
-			else if (this.hitChanceFactors.TryGetValue(damage, out num))
+			float result;
+			if (this.hitChanceFactors.TryGetValue(damage, out result))
 			{
-				result = num;
+				return result;
 			}
-			else
-			{
-				result = 1f;
-			}
-			return result;
+			return 1f;
 		}
 
 		[DebuggerHidden]
@@ -195,13 +184,9 @@ namespace Verse
 				case 1u:
 					break;
 				case 2u:
-					goto IL_10D;
+					goto IL_101;
 				case 3u:
-					goto IL_16B;
-				case 4u:
-					goto IL_1AF;
-				case 5u:
-					goto IL_1F3;
+					goto IL_145;
 				default:
 					return false;
 				}
@@ -241,37 +226,17 @@ namespace Verse
 					}
 					return true;
 				}
-				IL_10D:
-				if (this.solid && this.permanentInjuryChanceFactor > 0f)
+				IL_101:
+				if (this.solid && this.bleedRate > 0f)
 				{
-					this.$current = "solid but permanentInjuryChanceFactor is not zero; it is " + this.permanentInjuryChanceFactor + ". Solid parts must have zero permanent injury chance.";
+					this.$current = "solid but bleedRate is not zero";
 					if (!this.$disposing)
 					{
 						this.$PC = 3;
 					}
 					return true;
 				}
-				IL_16B:
-				if (this.solid && this.bleedRate > 0f)
-				{
-					this.$current = "solid but bleedRate is not zero";
-					if (!this.$disposing)
-					{
-						this.$PC = 4;
-					}
-					return true;
-				}
-				IL_1AF:
-				if (this.solid && this.permanentInjuryChanceFactor > 0f)
-				{
-					this.$current = "solid but permanentInjuryChanceFactor is not zero";
-					if (!this.$disposing)
-					{
-						this.$PC = 5;
-					}
-					return true;
-				}
-				IL_1F3:
+				IL_145:
 				this.$PC = -1;
 				return false;
 			}

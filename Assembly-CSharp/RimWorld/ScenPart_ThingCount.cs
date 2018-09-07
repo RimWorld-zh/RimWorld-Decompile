@@ -76,23 +76,20 @@ namespace RimWorld
 				}
 				Find.WindowStack.Add(new FloatMenu(list));
 			}
-			if (this.thingDef.MadeFromStuff)
+			if (this.thingDef.MadeFromStuff && Widgets.ButtonText(rect2, this.stuff.LabelCap, true, false, true))
 			{
-				if (Widgets.ButtonText(rect2, this.stuff.LabelCap, true, false, true))
+				List<FloatMenuOption> list2 = new List<FloatMenuOption>();
+				foreach (ThingDef localSd2 in from t in GenStuff.AllowedStuffsFor(this.thingDef, TechLevel.Undefined)
+				orderby t.label
+				select t)
 				{
-					List<FloatMenuOption> list2 = new List<FloatMenuOption>();
-					foreach (ThingDef localSd2 in from t in GenStuff.AllowedStuffsFor(this.thingDef, TechLevel.Undefined)
-					orderby t.label
-					select t)
+					ThingDef localSd = localSd2;
+					list2.Add(new FloatMenuOption(localSd.LabelCap, delegate()
 					{
-						ThingDef localSd = localSd2;
-						list2.Add(new FloatMenuOption(localSd.LabelCap, delegate()
-						{
-							this.stuff = localSd;
-						}, MenuOptionPriority.Default, null, null, 0f, null, null));
-					}
-					Find.WindowStack.Add(new FloatMenu(list2));
+						this.stuff = localSd;
+					}, MenuOptionPriority.Default, null, null, 0f, null, null));
 				}
+				Find.WindowStack.Add(new FloatMenu(list2));
 			}
 			Widgets.TextFieldNumeric<int>(rect3, ref this.count, ref this.countBuf, 1f, 1E+09f);
 		}
@@ -100,17 +97,12 @@ namespace RimWorld
 		public override bool TryMerge(ScenPart other)
 		{
 			ScenPart_ThingCount scenPart_ThingCount = other as ScenPart_ThingCount;
-			bool result;
 			if (scenPart_ThingCount != null && base.GetType() == scenPart_ThingCount.GetType() && this.thingDef == scenPart_ThingCount.thingDef && this.stuff == scenPart_ThingCount.stuff && this.count >= 0 && scenPart_ThingCount.count >= 0)
 			{
 				this.count += scenPart_ThingCount.count;
-				result = true;
+				return true;
 			}
-			else
-			{
-				result = false;
-			}
-			return result;
+			return false;
 		}
 
 		protected virtual IEnumerable<ThingDef> PossibleThingDefs()

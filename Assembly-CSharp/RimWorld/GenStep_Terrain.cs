@@ -10,7 +10,7 @@ namespace RimWorld
 {
 	public class GenStep_Terrain : GenStep
 	{
-		private static bool debug_WarnedMissingTerrain = false;
+		private static bool debug_WarnedMissingTerrain;
 
 		[CompilerGenerated]
 		private static Func<Tile.RiverLink, int> <>f__am$cache0;
@@ -54,13 +54,10 @@ namespace RimWorld
 				{
 					terrainDef = this.TerrainFrom(c, map, elevation[c], fertility[c], riverMaker, false);
 				}
-				if (terrainDef.IsRiver)
+				if (terrainDef.IsRiver && edifice != null)
 				{
-					if (edifice != null)
-					{
-						list.Add(edifice.Position);
-						edifice.Destroy(DestroyMode.Vanish);
-					}
+					list.Add(edifice.Position);
+					edifice.Destroy(DestroyMode.Vanish);
 				}
 				terrainGrid.SetTerrain(c, terrainDef);
 			}
@@ -83,120 +80,102 @@ namespace RimWorld
 			{
 				terrainDef = river.TerrainAt(c, true);
 			}
-			TerrainDef result;
 			if (terrainDef == null && preferSolid)
 			{
-				result = GenStep_RocksFromGrid.RockDefAt(c).building.naturalTerrain;
+				return GenStep_RocksFromGrid.RockDefAt(c).building.naturalTerrain;
 			}
-			else
+			TerrainDef terrainDef2 = BeachMaker.BeachTerrainAt(c, map.Biome);
+			if (terrainDef2 == TerrainDefOf.WaterOceanDeep)
 			{
-				TerrainDef terrainDef2 = BeachMaker.BeachTerrainAt(c, map.Biome);
-				if (terrainDef2 == TerrainDefOf.WaterOceanDeep)
+				return terrainDef2;
+			}
+			if (terrainDef != null && terrainDef.IsRiver)
+			{
+				return terrainDef;
+			}
+			if (terrainDef2 != null)
+			{
+				return terrainDef2;
+			}
+			if (terrainDef != null)
+			{
+				return terrainDef;
+			}
+			for (int i = 0; i < map.Biome.terrainPatchMakers.Count; i++)
+			{
+				terrainDef2 = map.Biome.terrainPatchMakers[i].TerrainAt(c, map, fertility);
+				if (terrainDef2 != null)
 				{
-					result = terrainDef2;
-				}
-				else if (terrainDef != null && terrainDef.IsRiver)
-				{
-					result = terrainDef;
-				}
-				else if (terrainDef2 != null)
-				{
-					result = terrainDef2;
-				}
-				else if (terrainDef != null)
-				{
-					result = terrainDef;
-				}
-				else
-				{
-					for (int i = 0; i < map.Biome.terrainPatchMakers.Count; i++)
-					{
-						terrainDef2 = map.Biome.terrainPatchMakers[i].TerrainAt(c, map, fertility);
-						if (terrainDef2 != null)
-						{
-							return terrainDef2;
-						}
-					}
-					if (elevation > 0.55f && elevation < 0.61f)
-					{
-						result = TerrainDefOf.Gravel;
-					}
-					else if (elevation >= 0.61f)
-					{
-						result = GenStep_RocksFromGrid.RockDefAt(c).building.naturalTerrain;
-					}
-					else
-					{
-						terrainDef2 = TerrainThreshold.TerrainAtValue(map.Biome.terrainsByFertility, fertility);
-						if (terrainDef2 != null)
-						{
-							result = terrainDef2;
-						}
-						else
-						{
-							if (!GenStep_Terrain.debug_WarnedMissingTerrain)
-							{
-								Log.Error(string.Concat(new object[]
-								{
-									"No terrain found in biome ",
-									map.Biome.defName,
-									" for elevation=",
-									elevation,
-									", fertility=",
-									fertility
-								}), false);
-								GenStep_Terrain.debug_WarnedMissingTerrain = true;
-							}
-							result = TerrainDefOf.Sand;
-						}
-					}
+					return terrainDef2;
 				}
 			}
-			return result;
+			if (elevation > 0.55f && elevation < 0.61f)
+			{
+				return TerrainDefOf.Gravel;
+			}
+			if (elevation >= 0.61f)
+			{
+				return GenStep_RocksFromGrid.RockDefAt(c).building.naturalTerrain;
+			}
+			terrainDef2 = TerrainThreshold.TerrainAtValue(map.Biome.terrainsByFertility, fertility);
+			if (terrainDef2 != null)
+			{
+				return terrainDef2;
+			}
+			if (!GenStep_Terrain.debug_WarnedMissingTerrain)
+			{
+				Log.Error(string.Concat(new object[]
+				{
+					"No terrain found in biome ",
+					map.Biome.defName,
+					" for elevation=",
+					elevation,
+					", fertility=",
+					fertility
+				}), false);
+				GenStep_Terrain.debug_WarnedMissingTerrain = true;
+			}
+			return TerrainDefOf.Sand;
 		}
 
 		private RiverMaker GenerateRiver(Map map)
 		{
 			Tile tile = Find.WorldGrid[map.Tile];
 			List<Tile.RiverLink> rivers = tile.Rivers;
-			RiverMaker result;
 			if (rivers == null || rivers.Count == 0)
 			{
-				result = null;
+				return null;
 			}
-			else
+			float angle = Find.WorldGrid.GetHeadingFromTo(map.Tile, (from rl in rivers
+			orderby -rl.river.degradeThreshold
+			select rl).First<Tile.RiverLink>().neighbor);
+			Rot4 a = Find.World.CoastDirectionAt(map.Tile);
+			if (a != Rot4.Invalid)
 			{
-				float angle = Find.WorldGrid.GetHeadingFromTo(map.Tile, (from rl in rivers
-				orderby -rl.river.degradeThreshold
-				select rl).First<Tile.RiverLink>().neighbor);
-				Rot4 a = Find.World.CoastDirectionAt(map.Tile);
-				if (a != Rot4.Invalid)
-				{
-					angle = a.AsAngle + (float)Rand.RangeInclusive(-30, 30);
-				}
-				Vector3 center = new Vector3(Rand.Range(0.3f, 0.7f) * (float)map.Size.x, 0f, Rand.Range(0.3f, 0.7f) * (float)map.Size.z);
-				RiverMaker riverMaker = new RiverMaker(center, angle, (from rl in rivers
-				orderby -rl.river.degradeThreshold
-				select rl).FirstOrDefault<Tile.RiverLink>().river);
-				this.GenerateRiverLookupTexture(map, riverMaker);
-				result = riverMaker;
+				angle = a.AsAngle + (float)Rand.RangeInclusive(-30, 30);
 			}
-			return result;
+			Vector3 center = new Vector3(Rand.Range(0.3f, 0.7f) * (float)map.Size.x, 0f, Rand.Range(0.3f, 0.7f) * (float)map.Size.z);
+			RiverMaker riverMaker = new RiverMaker(center, angle, (from rl in rivers
+			orderby -rl.river.degradeThreshold
+			select rl).FirstOrDefault<Tile.RiverLink>().river);
+			this.GenerateRiverLookupTexture(map, riverMaker);
+			return riverMaker;
 		}
 
 		private void UpdateRiverAnchorEntry(Dictionary<int, GenStep_Terrain.GRLT_Entry> entries, IntVec3 center, int entryId, float zValue)
 		{
 			float num = zValue - (float)entryId;
-			if (num <= 2f)
+			if (num > 2f)
 			{
-				if (!entries.ContainsKey(entryId) || entries[entryId].bestDistance > num)
+				return;
+			}
+			if (!entries.ContainsKey(entryId) || entries[entryId].bestDistance > num)
+			{
+				entries[entryId] = new GenStep_Terrain.GRLT_Entry
 				{
-					entries[entryId] = new GenStep_Terrain.GRLT_Entry
-					{
-						bestDistance = num,
-						bestNode = center
-					};
-				}
+					bestDistance = num,
+					bestNode = center
+				};
 			}
 		}
 

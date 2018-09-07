@@ -8,44 +8,32 @@ namespace RimWorld
 	{
 		public static string GetLabel(this FactionRelationKind kind)
 		{
-			string result;
 			switch (kind)
 			{
 			case FactionRelationKind.Hostile:
-				result = "Hostile".Translate();
-				break;
+				return "Hostile".Translate();
 			case FactionRelationKind.Neutral:
-				result = "Neutral".Translate();
-				break;
+				return "Neutral".Translate();
 			case FactionRelationKind.Ally:
-				result = "Ally".Translate();
-				break;
+				return "Ally".Translate();
 			default:
-				result = "error";
-				break;
+				return "error";
 			}
-			return result;
 		}
 
 		public static Color GetColor(this FactionRelationKind kind)
 		{
-			Color result;
 			switch (kind)
 			{
 			case FactionRelationKind.Hostile:
-				result = Color.red;
-				break;
+				return Color.red;
 			case FactionRelationKind.Neutral:
-				result = new Color(0f, 0.75f, 1f);
-				break;
+				return new Color(0f, 0.75f, 1f);
 			case FactionRelationKind.Ally:
-				result = Color.green;
-				break;
+				return Color.green;
 			default:
-				result = Color.white;
-				break;
+				return Color.white;
 			}
-			return result;
 		}
 	}
 }

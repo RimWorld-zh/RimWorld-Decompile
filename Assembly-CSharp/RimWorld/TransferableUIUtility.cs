@@ -247,99 +247,85 @@ namespace RimWorld
 
 		public static void DrawTransferableInfo(Transferable trad, Rect idRect, Color labelColor)
 		{
-			if (trad.HasAnyThing)
+			if (!trad.HasAnyThing)
 			{
-				if (Mouse.IsOver(idRect))
-				{
-					Widgets.DrawHighlight(idRect);
-				}
-				Rect rect = new Rect(0f, 0f, 27f, 27f);
-				Widgets.ThingIcon(rect, trad.AnyThing, 1f);
-				Widgets.InfoCardButton(40f, 0f, trad.AnyThing);
-				Text.Anchor = TextAnchor.MiddleLeft;
-				Rect rect2 = new Rect(80f, 0f, idRect.width - 80f, idRect.height);
-				Text.WordWrap = false;
-				GUI.color = labelColor;
-				Widgets.Label(rect2, trad.LabelCap);
-				GUI.color = Color.white;
-				Text.WordWrap = true;
-				Transferable localTrad = trad;
-				TooltipHandler.TipRegion(idRect, new TipSignal(delegate()
-				{
-					string result;
-					if (!localTrad.HasAnyThing)
-					{
-						result = "";
-					}
-					else
-					{
-						string text = localTrad.LabelCap;
-						string tipDescription = localTrad.TipDescription;
-						if (!tipDescription.NullOrEmpty())
-						{
-							text = text + ": " + tipDescription;
-						}
-						result = text;
-					}
-					return result;
-				}, localTrad.GetHashCode()));
+				return;
 			}
+			if (Mouse.IsOver(idRect))
+			{
+				Widgets.DrawHighlight(idRect);
+			}
+			Rect rect = new Rect(0f, 0f, 27f, 27f);
+			Widgets.ThingIcon(rect, trad.AnyThing, 1f);
+			Widgets.InfoCardButton(40f, 0f, trad.AnyThing);
+			Text.Anchor = TextAnchor.MiddleLeft;
+			Rect rect2 = new Rect(80f, 0f, idRect.width - 80f, idRect.height);
+			Text.WordWrap = false;
+			GUI.color = labelColor;
+			Widgets.Label(rect2, trad.LabelCap);
+			GUI.color = Color.white;
+			Text.WordWrap = true;
+			Transferable localTrad = trad;
+			TooltipHandler.TipRegion(idRect, new TipSignal(delegate()
+			{
+				if (!localTrad.HasAnyThing)
+				{
+					return string.Empty;
+				}
+				string text = localTrad.LabelCap;
+				string tipDescription = localTrad.TipDescription;
+				if (!tipDescription.NullOrEmpty())
+				{
+					text = text + ": " + tipDescription;
+				}
+				return text;
+			}, localTrad.GetHashCode()));
 		}
 
 		public static float DefaultListOrderPriority(Transferable transferable)
 		{
-			float result;
 			if (!transferable.HasAnyThing)
 			{
-				result = 0f;
+				return 0f;
 			}
-			else
-			{
-				result = TransferableUIUtility.DefaultListOrderPriority(transferable.ThingDef);
-			}
-			return result;
+			return TransferableUIUtility.DefaultListOrderPriority(transferable.ThingDef);
 		}
 
 		public static float DefaultListOrderPriority(ThingDef def)
 		{
-			float result;
 			if (def == ThingDefOf.Silver)
 			{
-				result = 100f;
+				return 100f;
 			}
-			else if (def == ThingDefOf.Gold)
+			if (def == ThingDefOf.Gold)
 			{
-				result = 99f;
+				return 99f;
 			}
-			else if (def.Minifiable)
+			if (def.Minifiable)
 			{
-				result = 90f;
+				return 90f;
 			}
-			else if (def.IsApparel)
+			if (def.IsApparel)
 			{
-				result = 80f;
+				return 80f;
 			}
-			else if (def.IsRangedWeapon)
+			if (def.IsRangedWeapon)
 			{
-				result = 70f;
+				return 70f;
 			}
-			else if (def.IsMeleeWeapon)
+			if (def.IsMeleeWeapon)
 			{
-				result = 60f;
+				return 60f;
 			}
-			else if (def.isTechHediff)
+			if (def.isTechHediff)
 			{
-				result = 50f;
+				return 50f;
 			}
-			else if (def.CountAsResource)
+			if (def.CountAsResource)
 			{
-				result = -10f;
+				return -10f;
 			}
-			else
-			{
-				result = 20f;
-			}
-			return result;
+			return 20f;
 		}
 
 		public static void DoTransferableSorters(TransferableSorterDef sorter1, TransferableSorterDef sorter2, Action<TransferableSorterDef> sorter1Setter, Action<TransferableSorterDef> sorter2Setter)
@@ -496,22 +482,17 @@ namespace RimWorld
 
 			internal string <>m__0()
 			{
-				string result;
 				if (!this.localTrad.HasAnyThing)
 				{
-					result = "";
+					return string.Empty;
 				}
-				else
+				string text = this.localTrad.LabelCap;
+				string tipDescription = this.localTrad.TipDescription;
+				if (!tipDescription.NullOrEmpty())
 				{
-					string text = this.localTrad.LabelCap;
-					string tipDescription = this.localTrad.TipDescription;
-					if (!tipDescription.NullOrEmpty())
-					{
-						text = text + ": " + tipDescription;
-					}
-					result = text;
+					text = text + ": " + tipDescription;
 				}
-				return result;
+				return text;
 			}
 		}
 

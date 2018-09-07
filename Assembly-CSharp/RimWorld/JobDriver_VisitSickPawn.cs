@@ -35,25 +35,26 @@ namespace RimWorld
 			}
 		}
 
-		public override bool TryMakePreToilReservations()
+		public override bool TryMakePreToilReservations(bool errorOnFailed)
 		{
-			bool result;
-			if (!this.pawn.Reserve(this.Patient, this.job, 1, -1, null))
+			Pawn pawn = this.pawn;
+			LocalTargetInfo target = this.Patient;
+			Job job = this.job;
+			if (!pawn.Reserve(target, job, 1, -1, null, errorOnFailed))
 			{
-				result = false;
+				return false;
 			}
-			else
+			if (this.Chair != null)
 			{
-				if (this.Chair != null)
+				pawn = this.pawn;
+				target = this.Chair;
+				job = this.job;
+				if (!pawn.Reserve(target, job, 1, -1, null, errorOnFailed))
 				{
-					if (!this.pawn.Reserve(this.Chair, this.job, 1, -1, null))
-					{
-						return false;
-					}
+					return false;
 				}
-				result = true;
 			}
-			return result;
+			return true;
 		}
 
 		protected override IEnumerable<Toil> MakeNewToils()

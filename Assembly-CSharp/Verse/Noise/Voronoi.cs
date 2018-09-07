@@ -8,9 +8,9 @@ namespace Verse.Noise
 
 		private double m_frequency = 1.0;
 
-		private int m_seed = 0;
+		private int m_seed;
 
-		private bool m_distance = false;
+		private bool m_distance;
 
 		public Voronoi() : base(0)
 		{

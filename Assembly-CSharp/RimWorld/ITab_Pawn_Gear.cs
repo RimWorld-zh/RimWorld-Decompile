@@ -14,7 +14,7 @@ namespace RimWorld
 	{
 		private Vector2 scrollPosition = Vector2.zero;
 
-		private float scrollViewHeight = 0f;
+		private float scrollViewHeight;
 
 		private const float TopPadding = 20f;
 
@@ -72,21 +72,16 @@ namespace RimWorld
 		{
 			get
 			{
-				Pawn result;
 				if (base.SelPawn != null)
 				{
-					result = base.SelPawn;
+					return base.SelPawn;
 				}
-				else
+				Corpse corpse = base.SelThing as Corpse;
+				if (corpse != null)
 				{
-					Corpse corpse = base.SelThing as Corpse;
-					if (corpse == null)
-					{
-						throw new InvalidOperationException("Gear tab on non-pawn non-corpse " + base.SelThing);
-					}
-					result = corpse.InnerPawn;
+					return corpse.InnerPawn;
 				}
-				return result;
+				throw new InvalidOperationException("Gear tab on non-pawn non-corpse " + base.SelThing);
 			}
 		}
 
@@ -258,37 +253,39 @@ namespace RimWorld
 
 		private void TryDrawMassInfo(ref float curY, float width)
 		{
-			if (!this.SelPawnForGear.Dead && this.ShouldShowInventory(this.SelPawnForGear))
+			if (this.SelPawnForGear.Dead || !this.ShouldShowInventory(this.SelPawnForGear))
 			{
-				Rect rect = new Rect(0f, curY, width, 22f);
-				float num = MassUtility.GearAndInventoryMass(this.SelPawnForGear);
-				float num2 = MassUtility.Capacity(this.SelPawnForGear, null);
-				Widgets.Label(rect, "MassCarried".Translate(new object[]
-				{
-					num.ToString("0.##"),
-					num2.ToString("0.##")
-				}));
-				curY += 22f;
+				return;
 			}
+			Rect rect = new Rect(0f, curY, width, 22f);
+			float num = MassUtility.GearAndInventoryMass(this.SelPawnForGear);
+			float num2 = MassUtility.Capacity(this.SelPawnForGear, null);
+			Widgets.Label(rect, "MassCarried".Translate(new object[]
+			{
+				num.ToString("0.##"),
+				num2.ToString("0.##")
+			}));
+			curY += 22f;
 		}
 
 		private void TryDrawComfyTemperatureRange(ref float curY, float width)
 		{
-			if (!this.SelPawnForGear.Dead)
+			if (this.SelPawnForGear.Dead)
 			{
-				Rect rect = new Rect(0f, curY, width, 22f);
-				float statValue = this.SelPawnForGear.GetStatValue(StatDefOf.ComfyTemperatureMin, true);
-				float statValue2 = this.SelPawnForGear.GetStatValue(StatDefOf.ComfyTemperatureMax, true);
-				Widgets.Label(rect, string.Concat(new string[]
-				{
-					"ComfyTemperatureRange".Translate(),
-					": ",
-					statValue.ToStringTemperature("F0"),
-					" ~ ",
-					statValue2.ToStringTemperature("F0")
-				}));
-				curY += 22f;
+				return;
 			}
+			Rect rect = new Rect(0f, curY, width, 22f);
+			float statValue = this.SelPawnForGear.GetStatValue(StatDefOf.ComfyTemperatureMin, true);
+			float statValue2 = this.SelPawnForGear.GetStatValue(StatDefOf.ComfyTemperatureMax, true);
+			Widgets.Label(rect, string.Concat(new string[]
+			{
+				"ComfyTemperatureRange".Translate(),
+				": ",
+				statValue.ToStringTemperature("F0"),
+				" ~ ",
+				statValue2.ToStringTemperature("F0")
+			}));
+			curY += 22f;
 		}
 
 		private void InterfaceDrop(Thing t)

@@ -9,27 +9,27 @@ namespace Verse
 	{
 		public Pawn pawn;
 
-		public Graphic nakedGraphic = null;
+		public Graphic nakedGraphic;
 
-		public Graphic rottingGraphic = null;
+		public Graphic rottingGraphic;
 
-		public Graphic dessicatedGraphic = null;
+		public Graphic dessicatedGraphic;
 
-		public Graphic packGraphic = null;
+		public Graphic packGraphic;
 
 		public DamageFlasher flasher;
 
-		public Graphic headGraphic = null;
+		public Graphic headGraphic;
 
-		public Graphic desiccatedHeadGraphic = null;
+		public Graphic desiccatedHeadGraphic;
 
-		public Graphic skullGraphic = null;
+		public Graphic skullGraphic;
 
-		public Graphic headStumpGraphic = null;
+		public Graphic headStumpGraphic;
 
-		public Graphic desiccatedHeadStumpGraphic = null;
+		public Graphic desiccatedHeadStumpGraphic;
 
-		public Graphic hairGraphic = null;
+		public Graphic hairGraphic;
 
 		public List<ApparelGraphicRecord> apparelGraphics = new List<ApparelGraphicRecord>();
 
@@ -87,21 +87,16 @@ namespace Verse
 		{
 			get
 			{
-				GraphicMeshSet result;
 				if (this.pawn.story.crownType == CrownType.Average)
 				{
-					result = MeshPool.humanlikeHairSetAverage;
+					return MeshPool.humanlikeHairSetAverage;
 				}
-				else if (this.pawn.story.crownType == CrownType.Narrow)
+				if (this.pawn.story.crownType == CrownType.Narrow)
 				{
-					result = MeshPool.humanlikeHairSetNarrow;
+					return MeshPool.humanlikeHairSetNarrow;
 				}
-				else
-				{
-					Log.Error("Unknown crown type: " + this.pawn.story.crownType, false);
-					result = MeshPool.humanlikeHairSetAverage;
-				}
-				return result;
+				Log.Error("Unknown crown type: " + this.pawn.story.crownType, false);
+				return MeshPool.humanlikeHairSetAverage;
 			}
 		}
 
@@ -186,7 +181,14 @@ namespace Verse
 				}
 				if (curKindLifeStage.dessicatedBodyGraphicData != null)
 				{
-					this.dessicatedGraphic = curKindLifeStage.dessicatedBodyGraphicData.GraphicColoredFor(this.pawn);
+					if (this.pawn.gender != Gender.Female || curKindLifeStage.femaleDessicatedBodyGraphicData == null)
+					{
+						this.dessicatedGraphic = curKindLifeStage.dessicatedBodyGraphicData.GraphicColoredFor(this.pawn);
+					}
+					else
+					{
+						this.dessicatedGraphic = curKindLifeStage.femaleDessicatedBodyGraphicData.GraphicColoredFor(this.pawn);
+					}
 				}
 			}
 		}

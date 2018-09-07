@@ -83,7 +83,7 @@ namespace RimWorld
 			Season season = GenDate.Season((long)Find.TickManager.TicksAbs, location);
 			Quadrum quadrum = GenDate.Quadrum((long)Find.TickManager.TicksAbs, location.x);
 			int num2 = GenDate.Year((long)Find.TickManager.TicksAbs, location.x);
-			string text = (!DateReadout.SeasonLabelVisible) ? "" : season.LabelCap();
+			string text = (!DateReadout.SeasonLabelVisible) ? string.Empty : season.LabelCap();
 			if (num != DateReadout.dateStringDay || season != DateReadout.dateStringSeason || quadrum != DateReadout.dateStringQuadrum || num2 != DateReadout.dateStringYear)
 			{
 				DateReadout.dateString = GenDate.DateReadoutStringAt((long)Find.TickManager.TicksAbs, location);

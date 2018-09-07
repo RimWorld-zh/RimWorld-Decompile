@@ -18,47 +18,23 @@ namespace RimWorld
 
 		public override float GetValueUnfinalized(StatRequest req, bool applyPostProcess = true)
 		{
-			float result;
 			if (req.HasThing && req.Thing is Pawn)
 			{
-				result = base.GetValueUnfinalized(StatRequest.For(req.Def, req.StuffDef, QualityCategory.Normal), applyPostProcess) * PriceUtility.PawnQualityPriceFactor((Pawn)req.Thing);
+				return base.GetValueUnfinalized(StatRequest.For(req.Def, req.StuffDef, QualityCategory.Normal), applyPostProcess) * PriceUtility.PawnQualityPriceFactor((Pawn)req.Thing, null) + PriceUtility.PawnQualityPriceOffset((Pawn)req.Thing, null);
 			}
-			else if (req.Def.statBases.StatListContains(StatDefOf.MarketValue))
+			float result;
+			if (req.Def.statBases.StatListContains(StatDefOf.MarketValue))
 			{
 				result = base.GetValueUnfinalized(req, true);
 			}
 			else
 			{
-				result = StatWorker_MarketValue.CalculatedMarketValue(req.Def, req.StuffDef);
+				result = StatWorker_MarketValue.CalculatedBaseMarketValue(req.Def, req.StuffDef);
 			}
 			return result;
 		}
 
-		public static RecipeDef CalculableRecipe(BuildableDef def)
-		{
-			if (def.costList.NullOrEmpty<ThingDefCountClass>() && def.costStuffCount <= 0)
-			{
-				List<RecipeDef> allDefsListForReading = DefDatabase<RecipeDef>.AllDefsListForReading;
-				for (int i = 0; i < allDefsListForReading.Count; i++)
-				{
-					RecipeDef recipeDef = allDefsListForReading[i];
-					if (recipeDef.products != null && recipeDef.products.Count == 1 && recipeDef.products[0].thingDef == def)
-					{
-						for (int j = 0; j < recipeDef.ingredients.Count; j++)
-						{
-							if (!recipeDef.ingredients[j].IsFixedIngredient)
-							{
-								return null;
-							}
-						}
-						return recipeDef;
-					}
-				}
-			}
-			return null;
-		}
-
-		public static float CalculatedMarketValue(BuildableDef def, ThingDef stuffDef)
+		public static float CalculatedBaseMarketValue(BuildableDef def, ThingDef stuffDef)
 		{
 			float num = 0f;
 			RecipeDef recipeDef = StatWorker_MarketValue.CalculableRecipe(def);
@@ -109,30 +85,50 @@ namespace RimWorld
 			return num / (float)num3;
 		}
 
+		public static RecipeDef CalculableRecipe(BuildableDef def)
+		{
+			if (def.costList.NullOrEmpty<ThingDefCountClass>() && def.costStuffCount <= 0)
+			{
+				List<RecipeDef> allDefsListForReading = DefDatabase<RecipeDef>.AllDefsListForReading;
+				for (int i = 0; i < allDefsListForReading.Count; i++)
+				{
+					RecipeDef recipeDef = allDefsListForReading[i];
+					if (recipeDef.products != null && recipeDef.products.Count == 1 && recipeDef.products[0].thingDef == def)
+					{
+						for (int j = 0; j < recipeDef.ingredients.Count; j++)
+						{
+							if (!recipeDef.ingredients[j].IsFixedIngredient)
+							{
+								return null;
+							}
+						}
+						return recipeDef;
+					}
+				}
+			}
+			return null;
+		}
+
 		public override string GetExplanationUnfinalized(StatRequest req, ToStringNumberSense numberSense)
 		{
-			string result;
 			if (req.HasThing && req.Thing is Pawn)
 			{
+				Pawn pawn = (Pawn)req.Thing;
 				StringBuilder stringBuilder = new StringBuilder();
 				stringBuilder.Append(base.GetExplanationUnfinalized(req, numberSense));
 				stringBuilder.AppendLine();
-				stringBuilder.AppendLine();
-				Pawn pawn = req.Thing as Pawn;
-				stringBuilder.Append("StatsReport_CharacterQuality".Translate() + ": x" + PriceUtility.PawnQualityPriceFactor(pawn).ToStringPercent());
-				result = stringBuilder.ToString();
+				PriceUtility.PawnQualityPriceFactor(pawn, stringBuilder);
+				PriceUtility.PawnQualityPriceOffset(pawn, stringBuilder);
+				return stringBuilder.ToString();
 			}
-			else if (req.Def.statBases.StatListContains(StatDefOf.MarketValue))
+			if (req.Def.statBases.StatListContains(StatDefOf.MarketValue))
 			{
-				result = base.GetExplanationUnfinalized(req, numberSense);
+				return base.GetExplanationUnfinalized(req, numberSense);
 			}
-			else
+			return "StatsReport_MarketValueFromStuffsAndWork".Translate().TrimEnd(new char[]
 			{
-				StringBuilder stringBuilder2 = new StringBuilder();
-				stringBuilder2.AppendLine("StatsReport_MarketValueFromStuffsAndWork".Translate());
-				result = stringBuilder2.ToString();
-			}
-			return result;
+				'.'
+			}) + ": " + StatWorker_MarketValue.CalculatedBaseMarketValue(req.Def, req.StuffDef).ToStringByStyle(this.stat.ToStringStyleUnfinalized, numberSense);
 		}
 
 		public override bool ShouldShowFor(StatRequest req)

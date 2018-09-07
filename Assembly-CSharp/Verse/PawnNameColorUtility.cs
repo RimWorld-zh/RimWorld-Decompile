@@ -56,48 +56,40 @@ namespace Verse
 
 		public static Color PawnNameColorOf(Pawn pawn)
 		{
-			Color result;
 			if (pawn.MentalStateDef != null)
 			{
-				result = pawn.MentalStateDef.nameColor;
+				return pawn.MentalStateDef.nameColor;
+			}
+			int index;
+			if (pawn.Faction == null)
+			{
+				index = 0;
 			}
 			else
 			{
-				int index;
-				if (pawn.Faction == null)
-				{
-					index = 0;
-				}
-				else
-				{
-					index = pawn.Faction.randomKey % 10;
-				}
-				if (pawn.IsPrisoner)
-				{
-					result = PawnNameColorUtility.ColorsPrisoner[index];
-				}
-				else if (pawn.IsWildMan())
-				{
-					result = PawnNameColorUtility.ColorWildMan;
-				}
-				else if (pawn.Faction == null)
-				{
-					result = PawnNameColorUtility.ColorsNeutral[index];
-				}
-				else if (pawn.Faction == Faction.OfPlayer)
-				{
-					result = PawnNameColorUtility.ColorColony;
-				}
-				else if (pawn.Faction.HostileTo(Faction.OfPlayer))
-				{
-					result = PawnNameColorUtility.ColorsHostile[index];
-				}
-				else
-				{
-					result = PawnNameColorUtility.ColorsNeutral[index];
-				}
+				index = pawn.Faction.randomKey % 10;
 			}
-			return result;
+			if (pawn.IsPrisoner)
+			{
+				return PawnNameColorUtility.ColorsPrisoner[index];
+			}
+			if (pawn.IsWildMan())
+			{
+				return PawnNameColorUtility.ColorWildMan;
+			}
+			if (pawn.Faction == null)
+			{
+				return PawnNameColorUtility.ColorsNeutral[index];
+			}
+			if (pawn.Faction == Faction.OfPlayer)
+			{
+				return PawnNameColorUtility.ColorColony;
+			}
+			if (pawn.Faction.HostileTo(Faction.OfPlayer))
+			{
+				return PawnNameColorUtility.ColorsHostile[index];
+			}
+			return PawnNameColorUtility.ColorsNeutral[index];
 		}
 	}
 }

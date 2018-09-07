@@ -23,16 +23,11 @@ namespace RimWorld
 
 		public override AlertReport GetReport()
 		{
-			AlertReport result;
 			if (BreakRiskAlertUtility.PawnsAtRiskExtreme.Any<Pawn>() || BreakRiskAlertUtility.PawnsAtRiskMajor.Any<Pawn>())
 			{
-				result = false;
+				return false;
 			}
-			else
-			{
-				result = AlertReport.CulpritsAre(BreakRiskAlertUtility.PawnsAtRiskMinor);
-			}
-			return result;
+			return AlertReport.CulpritsAre(BreakRiskAlertUtility.PawnsAtRiskMinor);
 		}
 	}
 }

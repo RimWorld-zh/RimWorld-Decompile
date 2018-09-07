@@ -16,28 +16,20 @@ namespace RimWorld
 		{
 			get
 			{
-				int result;
 				if (!this.pawn.Awake())
 				{
-					result = 0;
+					return 0;
 				}
-				else
+				float curInstantLevelPercentage = base.CurInstantLevelPercentage;
+				if (curInstantLevelPercentage > base.CurLevelPercentage + 0.05f)
 				{
-					float curInstantLevelPercentage = base.CurInstantLevelPercentage;
-					if (curInstantLevelPercentage > base.CurLevelPercentage + 0.05f)
-					{
-						result = 1;
-					}
-					else if (curInstantLevelPercentage < base.CurLevelPercentage - 0.05f)
-					{
-						result = -1;
-					}
-					else
-					{
-						result = 0;
-					}
+					return 1;
 				}
-				return result;
+				if (curInstantLevelPercentage < base.CurLevelPercentage - 0.05f)
+				{
+					return -1;
+				}
+				return 0;
 			}
 		}
 

@@ -17,16 +17,11 @@ namespace Verse.Sound
 
 		public AudioSource GetSource(bool onCamera)
 		{
-			AudioSource result;
 			if (onCamera)
 			{
-				result = this.sourcePoolCamera.GetSourceCamera();
+				return this.sourcePoolCamera.GetSourceCamera();
 			}
-			else
-			{
-				result = this.sourcePoolWorld.GetSourceWorld();
-			}
-			return result;
+			return this.sourcePoolWorld.GetSourceWorld();
 		}
 	}
 }

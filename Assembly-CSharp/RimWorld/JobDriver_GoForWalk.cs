@@ -15,7 +15,7 @@ namespace RimWorld
 		{
 		}
 
-		public override bool TryMakePreToilReservations()
+		public override bool TryMakePreToilReservations(bool errorOnFailed)
 		{
 			return true;
 		}
@@ -29,11 +29,9 @@ namespace RimWorld
 				if (Find.TickManager.TicksGame > this.startTick + this.job.def.joyDuration)
 				{
 					this.EndJobWith(JobCondition.Succeeded);
+					return;
 				}
-				else
-				{
-					JoyUtility.JoyTickCheckEnd(this.pawn, JoyTickFullJoyAction.EndJob, 1f, null);
-				}
+				JoyUtility.JoyTickCheckEnd(this.pawn, JoyTickFullJoyAction.EndJob, 1f, null);
 			};
 			yield return goToil;
 			yield return new Toil
@@ -46,6 +44,7 @@ namespace RimWorld
 						this.job.targetQueueA.RemoveAt(0);
 						this.job.targetA = targetA;
 						this.JumpToToil(goToil);
+						return;
 					}
 				}
 			};
@@ -87,11 +86,9 @@ namespace RimWorld
 						if (Find.TickManager.TicksGame > this.startTick + this.job.def.joyDuration)
 						{
 							this.EndJobWith(JobCondition.Succeeded);
+							return;
 						}
-						else
-						{
-							JoyUtility.JoyTickCheckEnd(this.pawn, JoyTickFullJoyAction.EndJob, 1f, null);
-						}
+						JoyUtility.JoyTickCheckEnd(this.pawn, JoyTickFullJoyAction.EndJob, 1f, null);
 					};
 					this.$current = goToil;
 					if (!this.$disposing)
@@ -111,6 +108,7 @@ namespace RimWorld
 							<MakeNewToils>c__AnonStorey.<>f__ref$0.$this.job.targetQueueA.RemoveAt(0);
 							<MakeNewToils>c__AnonStorey.<>f__ref$0.$this.job.targetA = targetA;
 							<MakeNewToils>c__AnonStorey.<>f__ref$0.$this.JumpToToil(<MakeNewToils>c__AnonStorey.goToil);
+							return;
 						}
 					};
 					this.$current = getNextDest;
@@ -196,11 +194,9 @@ namespace RimWorld
 					if (Find.TickManager.TicksGame > this.<>f__ref$0.$this.startTick + this.<>f__ref$0.$this.job.def.joyDuration)
 					{
 						this.<>f__ref$0.$this.EndJobWith(JobCondition.Succeeded);
+						return;
 					}
-					else
-					{
-						JoyUtility.JoyTickCheckEnd(this.<>f__ref$0.$this.pawn, JoyTickFullJoyAction.EndJob, 1f, null);
-					}
+					JoyUtility.JoyTickCheckEnd(this.<>f__ref$0.$this.pawn, JoyTickFullJoyAction.EndJob, 1f, null);
 				}
 
 				internal void <>m__2()
@@ -211,6 +207,7 @@ namespace RimWorld
 						this.<>f__ref$0.$this.job.targetQueueA.RemoveAt(0);
 						this.<>f__ref$0.$this.job.targetA = targetA;
 						this.<>f__ref$0.$this.JumpToToil(this.goToil);
+						return;
 					}
 				}
 			}

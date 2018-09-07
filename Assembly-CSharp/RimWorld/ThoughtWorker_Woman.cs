@@ -11,32 +11,27 @@ namespace RimWorld
 
 		protected override ThoughtState CurrentSocialStateInternal(Pawn p, Pawn other)
 		{
-			ThoughtState result;
 			if (!p.RaceProps.Humanlike)
 			{
-				result = false;
+				return false;
 			}
-			else if (!p.story.traits.HasTrait(TraitDefOf.DislikesWomen))
+			if (!p.story.traits.HasTrait(TraitDefOf.DislikesWomen))
 			{
-				result = false;
+				return false;
 			}
-			else if (!RelationsUtility.PawnsKnowEachOther(p, other))
+			if (!RelationsUtility.PawnsKnowEachOther(p, other))
 			{
-				result = false;
+				return false;
 			}
-			else if (other.def != p.def)
+			if (other.def != p.def)
 			{
-				result = false;
+				return false;
 			}
-			else if (other.gender != Gender.Female)
+			if (other.gender != Gender.Female)
 			{
-				result = false;
+				return false;
 			}
-			else
-			{
-				result = true;
-			}
-			return result;
+			return true;
 		}
 	}
 }

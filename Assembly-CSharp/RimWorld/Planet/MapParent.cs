@@ -14,7 +14,7 @@ namespace RimWorld.Planet
 	[StaticConstructorOnStartup]
 	public class MapParent : WorldObject, IThingHolder
 	{
-		private HashSet<IncidentTargetTypeDef> hibernatableIncidentTargets;
+		private HashSet<IncidentTargetTagDef> hibernatableIncidentTargets;
 
 		private static readonly Texture2D ShowMapCommand = ContentFinder<Texture2D>.Get("UI/Commands/ShowMap", true);
 
@@ -130,7 +130,7 @@ namespace RimWorld.Planet
 
 		public override IEnumerable<Gizmo> GetGizmos()
 		{
-			foreach (Gizmo g in this.<GetGizmos>__BaseCallProxy0())
+			foreach (Gizmo g in base.GetGizmos())
 			{
 				yield return g;
 			}
@@ -155,15 +155,15 @@ namespace RimWorld.Planet
 			yield break;
 		}
 
-		public override IEnumerable<IncidentTargetTypeDef> AcceptedTypes()
+		public override IEnumerable<IncidentTargetTagDef> IncidentTargetTags()
 		{
-			foreach (IncidentTargetTypeDef type in this.<AcceptedTypes>__BaseCallProxy1())
+			foreach (IncidentTargetTagDef type in base.IncidentTargetTags())
 			{
 				yield return type;
 			}
 			if (this.hibernatableIncidentTargets != null && this.hibernatableIncidentTargets.Count > 0)
 			{
-				foreach (IncidentTargetTypeDef type2 in this.hibernatableIncidentTargets)
+				foreach (IncidentTargetTagDef type2 in this.hibernatableIncidentTargets)
 				{
 					yield return type2;
 				}
@@ -173,7 +173,7 @@ namespace RimWorld.Planet
 
 		public override IEnumerable<FloatMenuOption> GetFloatMenuOptions(Caravan caravan)
 		{
-			foreach (FloatMenuOption o in this.<GetFloatMenuOptions>__BaseCallProxy2(caravan))
+			foreach (FloatMenuOption o in base.GetFloatMenuOptions(caravan))
 			{
 				yield return o;
 			}
@@ -189,7 +189,7 @@ namespace RimWorld.Planet
 
 		public override IEnumerable<FloatMenuOption> GetTransportPodsFloatMenuOptions(IEnumerable<IThingHolder> pods, CompLaunchable representative)
 		{
-			foreach (FloatMenuOption o in this.<GetTransportPodsFloatMenuOptions>__BaseCallProxy3(pods, representative))
+			foreach (FloatMenuOption o in base.GetTransportPodsFloatMenuOptions(pods, representative))
 			{
 				yield return o;
 			}
@@ -267,14 +267,14 @@ namespace RimWorld.Planet
 		private void RecalculateHibernatableIncidentTargets()
 		{
 			this.hibernatableIncidentTargets = null;
-			foreach (ThingWithComps thing in this.Map.listerThings.AllThings.OfType<ThingWithComps>())
+			foreach (ThingWithComps thing in this.Map.listerThings.ThingsOfDef(ThingDefOf.Ship_Reactor).OfType<ThingWithComps>())
 			{
 				CompHibernatable compHibernatable = thing.TryGetComp<CompHibernatable>();
 				if (compHibernatable != null && compHibernatable.State == HibernatableStateDefOf.Starting && compHibernatable.Props.incidentTargetWhileStarting != null)
 				{
 					if (this.hibernatableIncidentTargets == null)
 					{
-						this.hibernatableIncidentTargets = new HashSet<IncidentTargetTypeDef>();
+						this.hibernatableIncidentTargets = new HashSet<IncidentTargetTagDef>();
 					}
 					this.hibernatableIncidentTargets.Add(compHibernatable.Props.incidentTargetWhileStarting);
 				}
@@ -295,9 +295,9 @@ namespace RimWorld.Planet
 
 		[DebuggerHidden]
 		[CompilerGenerated]
-		private IEnumerable<IncidentTargetTypeDef> <AcceptedTypes>__BaseCallProxy1()
+		private IEnumerable<IncidentTargetTagDef> <IncidentTargetTags>__BaseCallProxy1()
 		{
-			return base.AcceptedTypes();
+			return base.IncidentTargetTags();
 		}
 
 		[DebuggerHidden]
@@ -420,7 +420,7 @@ namespace RimWorld.Planet
 				case 1u:
 					break;
 				case 2u:
-					goto IL_158;
+					goto IL_150;
 				default:
 					return false;
 				}
@@ -453,7 +453,7 @@ namespace RimWorld.Planet
 				}
 				if (!base.HasMap)
 				{
-					goto IL_158;
+					goto IL_150;
 				}
 				Command_Action showMap = new Command_Action();
 				showMap.defaultLabel = "CommandShowMap".Translate();
@@ -474,7 +474,7 @@ namespace RimWorld.Planet
 					this.$PC = 2;
 				}
 				return true;
-				IL_158:
+				IL_150:
 				this.$PC = -1;
 				return false;
 			}
@@ -555,26 +555,26 @@ namespace RimWorld.Planet
 		}
 
 		[CompilerGenerated]
-		private sealed class <AcceptedTypes>c__Iterator2 : IEnumerable, IEnumerable<IncidentTargetTypeDef>, IEnumerator, IDisposable, IEnumerator<IncidentTargetTypeDef>
+		private sealed class <IncidentTargetTags>c__Iterator2 : IEnumerable, IEnumerable<IncidentTargetTagDef>, IEnumerator, IDisposable, IEnumerator<IncidentTargetTagDef>
 		{
-			internal IEnumerator<IncidentTargetTypeDef> $locvar0;
+			internal IEnumerator<IncidentTargetTagDef> $locvar0;
 
-			internal IncidentTargetTypeDef <type>__1;
+			internal IncidentTargetTagDef <type>__1;
 
-			internal HashSet<IncidentTargetTypeDef>.Enumerator $locvar1;
+			internal HashSet<IncidentTargetTagDef>.Enumerator $locvar1;
 
-			internal IncidentTargetTypeDef <type>__2;
+			internal IncidentTargetTagDef <type>__2;
 
 			internal MapParent $this;
 
-			internal IncidentTargetTypeDef $current;
+			internal IncidentTargetTagDef $current;
 
 			internal bool $disposing;
 
 			internal int $PC;
 
 			[DebuggerHidden]
-			public <AcceptedTypes>c__Iterator2()
+			public <IncidentTargetTags>c__Iterator2()
 			{
 			}
 
@@ -586,13 +586,13 @@ namespace RimWorld.Planet
 				switch (num)
 				{
 				case 0u:
-					enumerator = base.<AcceptedTypes>__BaseCallProxy1().GetEnumerator();
+					enumerator = base.<IncidentTargetTags>__BaseCallProxy1().GetEnumerator();
 					num = 4294967293u;
 					break;
 				case 1u:
 					break;
 				case 2u:
-					goto IL_F9;
+					goto IL_F3;
 				default:
 					return false;
 				}
@@ -625,13 +625,13 @@ namespace RimWorld.Planet
 				}
 				if (this.hibernatableIncidentTargets == null || this.hibernatableIncidentTargets.Count <= 0)
 				{
-					goto IL_16B;
+					goto IL_162;
 				}
 				enumerator2 = this.hibernatableIncidentTargets.GetEnumerator();
 				num = 4294967293u;
 				try
 				{
-					IL_F9:
+					IL_F3:
 					switch (num)
 					{
 					}
@@ -654,12 +654,12 @@ namespace RimWorld.Planet
 						((IDisposable)enumerator2).Dispose();
 					}
 				}
-				IL_16B:
+				IL_162:
 				this.$PC = -1;
 				return false;
 			}
 
-			IncidentTargetTypeDef IEnumerator<IncidentTargetTypeDef>.Current
+			IncidentTargetTagDef IEnumerator<IncidentTargetTagDef>.Current
 			{
 				[DebuggerHidden]
 				get
@@ -718,19 +718,19 @@ namespace RimWorld.Planet
 			[DebuggerHidden]
 			IEnumerator IEnumerable.GetEnumerator()
 			{
-				return this.System.Collections.Generic.IEnumerable<RimWorld.IncidentTargetTypeDef>.GetEnumerator();
+				return this.System.Collections.Generic.IEnumerable<RimWorld.IncidentTargetTagDef>.GetEnumerator();
 			}
 
 			[DebuggerHidden]
-			IEnumerator<IncidentTargetTypeDef> IEnumerable<IncidentTargetTypeDef>.GetEnumerator()
+			IEnumerator<IncidentTargetTagDef> IEnumerable<IncidentTargetTagDef>.GetEnumerator()
 			{
 				if (Interlocked.CompareExchange(ref this.$PC, 0, -2) == -2)
 				{
 					return this;
 				}
-				MapParent.<AcceptedTypes>c__Iterator2 <AcceptedTypes>c__Iterator = new MapParent.<AcceptedTypes>c__Iterator2();
-				<AcceptedTypes>c__Iterator.$this = this;
-				return <AcceptedTypes>c__Iterator;
+				MapParent.<IncidentTargetTags>c__Iterator2 <IncidentTargetTags>c__Iterator = new MapParent.<IncidentTargetTags>c__Iterator2();
+				<IncidentTargetTags>c__Iterator.$this = this;
+				return <IncidentTargetTags>c__Iterator;
 			}
 		}
 
@@ -774,7 +774,7 @@ namespace RimWorld.Planet
 				case 1u:
 					break;
 				case 2u:
-					goto IL_EF;
+					goto IL_E9;
 				default:
 					return false;
 				}
@@ -807,13 +807,13 @@ namespace RimWorld.Planet
 				}
 				if (!this.UseGenericEnterMapFloatMenuOption)
 				{
-					goto IL_166;
+					goto IL_15D;
 				}
 				enumerator2 = CaravanArrivalAction_Enter.GetFloatMenuOptions(caravan, this).GetEnumerator();
 				num = 4294967293u;
 				try
 				{
-					IL_EF:
+					IL_E9:
 					switch (num)
 					{
 					}
@@ -839,7 +839,7 @@ namespace RimWorld.Planet
 						}
 					}
 				}
-				IL_166:
+				IL_15D:
 				this.$PC = -1;
 				return false;
 			}
@@ -963,7 +963,7 @@ namespace RimWorld.Planet
 				case 1u:
 					break;
 				case 2u:
-					goto IL_161;
+					goto IL_15B;
 				default:
 					return false;
 				}
@@ -996,7 +996,7 @@ namespace RimWorld.Planet
 				}
 				if (!TransportPodsArrivalAction_LandInSpecificCell.CanLandInSpecificCell(pods, this))
 				{
-					goto IL_161;
+					goto IL_15B;
 				}
 				this.$current = new FloatMenuOption("LandInExistingMap".Translate(new object[]
 				{
@@ -1023,7 +1023,7 @@ namespace RimWorld.Planet
 					this.$PC = 2;
 				}
 				return true;
-				IL_161:
+				IL_15B:
 				this.$PC = -1;
 				return false;
 			}

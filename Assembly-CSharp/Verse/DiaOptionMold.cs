@@ -33,16 +33,11 @@ namespace Verse
 					list.Remove(diaNodeMold);
 				}
 			}
-			DiaNodeMold result;
 			if (list.Count == 0)
 			{
-				result = null;
+				return null;
 			}
-			else
-			{
-				result = list.RandomElement<DiaNodeMold>();
-			}
-			return result;
+			return list.RandomElement<DiaNodeMold>();
 		}
 	}
 }

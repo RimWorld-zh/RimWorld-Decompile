@@ -10,7 +10,7 @@ namespace Verse
 	public class HediffCompProperties
 	{
 		[TranslationHandle]
-		public Type compClass = null;
+		public Type compClass;
 
 		public HediffCompProperties()
 		{
@@ -76,14 +76,14 @@ namespace Verse
 				case 1u:
 					break;
 				case 2u:
-					IL_DD:
+					IL_DB:
 					i++;
-					goto IL_EC;
+					goto IL_E9;
 				default:
 					return false;
 				}
 				i = 0;
-				IL_EC:
+				IL_E9:
 				if (i >= parentDef.comps.Count)
 				{
 					this.$PC = -1;
@@ -99,7 +99,7 @@ namespace Verse
 						}
 						return true;
 					}
-					goto IL_DD;
+					goto IL_DB;
 				}
 				return false;
 			}

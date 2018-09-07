@@ -14,9 +14,9 @@ namespace Verse
 
 		private float cachedWindSpeed;
 
-		private ModuleBase windNoise = null;
+		private ModuleBase windNoise;
 
-		private float plantSwayHead = 0f;
+		private float plantSwayHead;
 
 		public WindManager(Map map)
 		{

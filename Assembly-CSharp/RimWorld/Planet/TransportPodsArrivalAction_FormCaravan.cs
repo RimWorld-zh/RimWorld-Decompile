@@ -17,16 +17,11 @@ namespace RimWorld.Planet
 		public override FloatMenuAcceptanceReport StillValid(IEnumerable<IThingHolder> pods, int destinationTile)
 		{
 			FloatMenuAcceptanceReport floatMenuAcceptanceReport = base.StillValid(pods, destinationTile);
-			FloatMenuAcceptanceReport result;
 			if (!floatMenuAcceptanceReport)
 			{
-				result = floatMenuAcceptanceReport;
+				return floatMenuAcceptanceReport;
 			}
-			else
-			{
-				result = TransportPodsArrivalAction_FormCaravan.CanFormCaravanAt(pods, destinationTile);
-			}
-			return result;
+			return TransportPodsArrivalAction_FormCaravan.CanFormCaravanAt(pods, destinationTile);
 		}
 
 		public override void Arrived(List<ActiveDropPodInfo> pods, int tile)

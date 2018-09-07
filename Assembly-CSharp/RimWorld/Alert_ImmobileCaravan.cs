@@ -67,7 +67,7 @@ namespace RimWorld
 					i = 0;
 					break;
 				case 1u:
-					IL_A0:
+					IL_9E:
 					i++;
 					break;
 				default:
@@ -88,7 +88,7 @@ namespace RimWorld
 						}
 						return true;
 					}
-					goto IL_A0;
+					goto IL_9E;
 				}
 				return false;
 			}

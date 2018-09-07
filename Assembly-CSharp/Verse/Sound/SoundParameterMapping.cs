@@ -5,13 +5,13 @@ namespace Verse.Sound
 	public class SoundParameterMapping
 	{
 		[Description("The independent parameter that the game will change to drive this relationship.\n\nOn the graph, this is the X axis.")]
-		public SoundParamSource inParam = null;
+		public SoundParamSource inParam;
 
 		[Description("The dependent parameter that will respond to changes to the in-parameter.\n\nThis must match something the game can change about this sound.\n\nOn the graph, this is the y-axis.")]
-		public SoundParamTarget outParam = null;
+		public SoundParamTarget outParam;
 
 		[Description("Determines when sound parameters should be applies to samples.\n\nConstant means the parameters are updated every frame and can change continuously.\n\nOncePerSample means that the parameters are applied exactly once to each sample that plays.")]
-		public SoundParamUpdateMode paramUpdateMode = SoundParamUpdateMode.Constant;
+		public SoundParamUpdateMode paramUpdateMode;
 
 		[EditorHidden]
 		public SimpleCurve curve;
@@ -34,15 +34,16 @@ namespace Verse.Sound
 
 		public void Apply(Sample samp)
 		{
-			if (this.inParam != null && this.outParam != null)
+			if (this.inParam == null || this.outParam == null)
 			{
-				float num = this.inParam.ValueFor(samp);
-				float value = this.curve.Evaluate(num);
-				this.outParam.SetOn(samp, value);
-				if (UnityData.isDebugBuild && this.curve.HasView)
-				{
-					this.curve.View.SetDebugInput(samp, num);
-				}
+				return;
+			}
+			float num = this.inParam.ValueFor(samp);
+			float value = this.curve.Evaluate(num);
+			this.outParam.SetOn(samp, value);
+			if (UnityData.isDebugBuild && this.curve.HasView)
+			{
+				this.curve.View.SetDebugInput(samp, num);
 			}
 		}
 	}

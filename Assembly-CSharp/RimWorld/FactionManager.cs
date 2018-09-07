@@ -127,20 +127,22 @@ namespace RimWorld
 
 		public void Add(Faction faction)
 		{
-			if (!this.allFactions.Contains(faction))
+			if (this.allFactions.Contains(faction))
 			{
-				this.allFactions.Add(faction);
-				this.RecacheFactions();
+				return;
 			}
+			this.allFactions.Add(faction);
+			this.RecacheFactions();
 		}
 
 		public void Remove(Faction faction)
 		{
-			if (this.allFactions.Contains(faction))
+			if (!this.allFactions.Contains(faction))
 			{
-				this.allFactions.Remove(faction);
-				this.RecacheFactions();
+				return;
 			}
+			this.allFactions.Remove(faction);
+			this.RecacheFactions();
 		}
 
 		public void FactionManagerTick()
@@ -182,68 +184,48 @@ namespace RimWorld
 			select x;
 			return source.TryRandomElementByWeight(delegate(Faction x)
 			{
-				float result;
 				if (tryMedievalOrBetter && x.def.techLevel < TechLevel.Medieval)
 				{
-					result = 0.1f;
+					return 0.1f;
 				}
-				else
-				{
-					result = 1f;
-				}
-				return result;
+				return 1f;
 			}, out faction);
 		}
 
 		public Faction RandomEnemyFaction(bool allowHidden = false, bool allowDefeated = false, bool allowNonHumanlike = true, TechLevel minTechLevel = TechLevel.Undefined)
 		{
-			Faction faction;
 			Faction result;
 			if ((from x in this.AllFactions
 			where !x.IsPlayer && (allowHidden || !x.def.hidden) && (allowDefeated || !x.defeated) && (allowNonHumanlike || x.def.humanlikeFaction) && (minTechLevel == TechLevel.Undefined || x.def.techLevel >= minTechLevel) && x.HostileTo(Faction.OfPlayer)
-			select x).TryRandomElement(out faction))
+			select x).TryRandomElement(out result))
 			{
-				result = faction;
+				return result;
 			}
-			else
-			{
-				result = null;
-			}
-			return result;
+			return null;
 		}
 
 		public Faction RandomNonHostileFaction(bool allowHidden = false, bool allowDefeated = false, bool allowNonHumanlike = true, TechLevel minTechLevel = TechLevel.Undefined)
 		{
-			Faction faction;
 			Faction result;
 			if ((from x in this.AllFactions
 			where !x.IsPlayer && (allowHidden || !x.def.hidden) && (allowDefeated || !x.defeated) && (allowNonHumanlike || x.def.humanlikeFaction) && (minTechLevel == TechLevel.Undefined || x.def.techLevel >= minTechLevel) && !x.HostileTo(Faction.OfPlayer)
-			select x).TryRandomElement(out faction))
+			select x).TryRandomElement(out result))
 			{
-				result = faction;
+				return result;
 			}
-			else
-			{
-				result = null;
-			}
-			return result;
+			return null;
 		}
 
 		public Faction RandomAlliedFaction(bool allowHidden = false, bool allowDefeated = false, bool allowNonHumanlike = true, TechLevel minTechLevel = TechLevel.Undefined)
 		{
-			Faction faction;
 			Faction result;
 			if ((from x in this.AllFactions
 			where !x.IsPlayer && (allowHidden || !x.def.hidden) && (allowDefeated || !x.defeated) && (allowNonHumanlike || x.def.humanlikeFaction) && (minTechLevel == TechLevel.Undefined || x.def.techLevel >= minTechLevel) && x.PlayerRelationKind == FactionRelationKind.Ally
-			select x).TryRandomElement(out faction))
+			select x).TryRandomElement(out result))
 			{
-				result = faction;
+				return result;
 			}
-			else
-			{
-				result = null;
-			}
-			return result;
+			return null;
 		}
 
 		public void LogKidnappedPawns()
@@ -317,16 +299,11 @@ namespace RimWorld
 
 			internal float <>m__1(Faction x)
 			{
-				float result;
 				if (this.tryMedievalOrBetter && x.def.techLevel < TechLevel.Medieval)
 				{
-					result = 0.1f;
+					return 0.1f;
 				}
-				else
-				{
-					result = 1f;
-				}
-				return result;
+				return 1f;
 			}
 		}
 

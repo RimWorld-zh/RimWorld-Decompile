@@ -44,6 +44,7 @@ namespace RimWorld.Planet
 			}
 			caravan.Name = CaravanNameGenerator.GenerateCaravanName(caravan);
 			CaravanMaker.tmpPawns.Clear();
+			caravan.SetUniqueId(Find.UniqueIDsManager.GetNextCaravanID());
 			return caravan;
 		}
 

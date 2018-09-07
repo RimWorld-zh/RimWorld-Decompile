@@ -53,26 +53,28 @@ namespace RimWorld
 
 		private void TickInterval(int interval)
 		{
-			if (this.parent.Spawned)
+			if (!this.parent.Spawned)
 			{
-				Hive hive = this.parent as Hive;
-				if (hive != null)
-				{
-					if (!hive.active)
-					{
-						return;
-					}
-				}
-				else if (this.parent.Position.Fogged(this.parent.Map))
+				return;
+			}
+			Hive hive = this.parent as Hive;
+			if (hive != null)
+			{
+				if (!hive.active)
 				{
 					return;
 				}
-				if (!this.PropsSpawner.requiresPower || this.PowerOn)
-				{
-					this.ticksUntilSpawn -= interval;
-					this.CheckShouldSpawn();
-				}
 			}
+			else if (this.parent.Position.Fogged(this.parent.Map))
+			{
+				return;
+			}
+			if (this.PropsSpawner.requiresPower && !this.PowerOn)
+			{
+				return;
+			}
+			this.ticksUntilSpawn -= interval;
+			this.CheckShouldSpawn();
 		}
 
 		private void CheckShouldSpawn()
@@ -86,62 +88,54 @@ namespace RimWorld
 
 		public bool TryDoSpawn()
 		{
-			bool result;
 			if (!this.parent.Spawned)
 			{
-				result = false;
+				return false;
 			}
-			else
+			if (this.PropsSpawner.spawnMaxAdjacent >= 0)
 			{
-				if (this.PropsSpawner.spawnMaxAdjacent >= 0)
+				int num = 0;
+				for (int i = 0; i < 9; i++)
 				{
-					int num = 0;
-					for (int i = 0; i < 9; i++)
+					IntVec3 c = this.parent.Position + GenAdj.AdjacentCellsAndInside[i];
+					if (c.InBounds(this.parent.Map))
 					{
-						IntVec3 c = this.parent.Position + GenAdj.AdjacentCellsAndInside[i];
-						if (c.InBounds(this.parent.Map))
+						List<Thing> thingList = c.GetThingList(this.parent.Map);
+						for (int j = 0; j < thingList.Count; j++)
 						{
-							List<Thing> thingList = c.GetThingList(this.parent.Map);
-							for (int j = 0; j < thingList.Count; j++)
+							if (thingList[j].def == this.PropsSpawner.thingToSpawn)
 							{
-								if (thingList[j].def == this.PropsSpawner.thingToSpawn)
+								num += thingList[j].stackCount;
+								if (num >= this.PropsSpawner.spawnMaxAdjacent)
 								{
-									num += thingList[j].stackCount;
-									if (num >= this.PropsSpawner.spawnMaxAdjacent)
-									{
-										return false;
-									}
+									return false;
 								}
 							}
 						}
 					}
 				}
-				IntVec3 center;
-				if (this.TryFindSpawnCell(out center))
-				{
-					Thing thing = ThingMaker.MakeThing(this.PropsSpawner.thingToSpawn, null);
-					thing.stackCount = this.PropsSpawner.spawnCount;
-					Thing t;
-					GenPlace.TryPlaceThing(thing, center, this.parent.Map, ThingPlaceMode.Direct, out t, null, null);
-					if (this.PropsSpawner.spawnForbidden)
-					{
-						t.SetForbidden(true, true);
-					}
-					if (this.PropsSpawner.showMessageIfOwned && this.parent.Faction == Faction.OfPlayer)
-					{
-						Messages.Message("MessageCompSpawnerSpawnedItem".Translate(new object[]
-						{
-							this.PropsSpawner.thingToSpawn.LabelCap
-						}).CapitalizeFirst(), thing, MessageTypeDefOf.PositiveEvent, true);
-					}
-					result = true;
-				}
-				else
-				{
-					result = false;
-				}
 			}
-			return result;
+			IntVec3 center;
+			if (this.TryFindSpawnCell(out center))
+			{
+				Thing thing = ThingMaker.MakeThing(this.PropsSpawner.thingToSpawn, null);
+				thing.stackCount = this.PropsSpawner.spawnCount;
+				Thing t;
+				GenPlace.TryPlaceThing(thing, center, this.parent.Map, ThingPlaceMode.Direct, out t, null, null);
+				if (this.PropsSpawner.spawnForbidden)
+				{
+					t.SetForbidden(true, true);
+				}
+				if (this.PropsSpawner.showMessageIfOwned && this.parent.Faction == Faction.OfPlayer)
+				{
+					Messages.Message("MessageCompSpawnerSpawnedItem".Translate(new object[]
+					{
+						this.PropsSpawner.thingToSpawn.LabelCap
+					}).CapitalizeFirst(), thing, MessageTypeDefOf.PositiveEvent, true);
+				}
+				return true;
+			}
+			return false;
 		}
 
 		private bool TryFindSpawnCell(out IntVec3 result)
@@ -214,19 +208,14 @@ namespace RimWorld
 
 		public override string CompInspectStringExtra()
 		{
-			string result;
 			if (this.PropsSpawner.writeTimeLeftToSpawn && (!this.PropsSpawner.requiresPower || this.PowerOn))
 			{
-				result = "NextSpawnedItemIn".Translate(new object[]
+				return "NextSpawnedItemIn".Translate(new object[]
 				{
 					GenLabel.ThingLabel(this.PropsSpawner.thingToSpawn, null, this.PropsSpawner.spawnCount)
 				}) + ": " + this.ticksUntilSpawn.ToStringTicksToPeriod();
 			}
-			else
-			{
-				result = null;
-			}
-			return result;
+			return null;
 		}
 
 		[CompilerGenerated]

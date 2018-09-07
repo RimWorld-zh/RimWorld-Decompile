@@ -1,7 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Runtime.CompilerServices;
 using RimWorld.Planet;
 using Verse;
 
@@ -27,33 +26,28 @@ namespace RimWorld
 			{
 				faction = Find.FactionManager.RandomNonHostileFaction(false, false, false, TechLevel.Undefined);
 			}
-			bool result;
-			int tile;
-			SitePartDef sitePart;
-			Faction siteFaction;
 			if (faction == null)
 			{
-				result = false;
+				return false;
 			}
-			else if (!this.TryFindTile(out tile))
+			int tile;
+			if (!this.TryFindTile(out tile))
 			{
-				result = false;
+				return false;
 			}
-			else if (!SiteMakerHelper.TryFindSiteParams_SingleSitePart(SiteCoreDefOf.ItemStash, (!Rand.Chance(0.15f)) ? "ItemStashQuestThreat" : null, out sitePart, out siteFaction, null, true, null))
+			SitePartDef sitePart;
+			Faction siteFaction;
+			if (!SiteMakerHelper.TryFindSiteParams_SingleSitePart(SiteCoreDefOf.ItemStash, (!Rand.Chance(0.15f)) ? "ItemStashQuestThreat" : null, out sitePart, out siteFaction, null, true, null))
 			{
-				result = false;
+				return false;
 			}
-			else
-			{
-				int randomInRange = SiteTuning.QuestSiteTimeoutDaysRange.RandomInRange;
-				Site site = IncidentWorker_QuestItemStash.CreateSite(tile, sitePart, randomInRange, siteFaction);
-				List<Thing> list = this.GenerateItems(siteFaction, site.desiredThreatPoints);
-				site.GetComponent<ItemStashContentsComp>().contents.TryAddRangeOrTransfer(list, false, false);
-				string letterText = this.GetLetterText(faction, list, randomInRange, site, site.parts.FirstOrDefault<SitePart>());
-				Find.LetterStack.ReceiveLetter(this.def.letterLabel, letterText, this.def.letterDef, site, faction, null);
-				result = true;
-			}
-			return result;
+			int randomInRange = SiteTuning.QuestSiteTimeoutDaysRange.RandomInRange;
+			Site site = IncidentWorker_QuestItemStash.CreateSite(tile, sitePart, randomInRange, siteFaction);
+			List<Thing> list = this.GenerateItems(siteFaction, site.desiredThreatPoints);
+			site.GetComponent<ItemStashContentsComp>().contents.TryAddRangeOrTransfer(list, false, false);
+			string letterText = this.GetLetterText(faction, list, randomInRange, site, site.parts.FirstOrDefault<SitePart>());
+			Find.LetterStack.ReceiveLetter(this.def.letterLabel, letterText, this.def.letterDef, site, faction, null);
+			return true;
 		}
 
 		private bool TryFindTile(out int tile)
@@ -64,9 +58,8 @@ namespace RimWorld
 
 		protected virtual List<Thing> GenerateItems(Faction siteFaction, float siteThreatPoints)
 		{
-			float val = SiteTuning.QuestRewardMarketValueThreatPointsFactor.Evaluate(siteThreatPoints);
 			ThingSetMakerParams parms = default(ThingSetMakerParams);
-			parms.totalMarketValueRange = new FloatRange?(SiteTuning.ItemStashQuestMarketValueRange * val);
+			parms.totalMarketValueRange = new FloatRange?(SiteTuning.ItemStashQuestMarketValueRange * SiteTuning.QuestRewardMarketValueThreatPointsFactor.Evaluate(siteThreatPoints));
 			return ThingSetMakerDefOf.Reward_ItemStashQuestContents.root.Generate(parms);
 		}
 
@@ -81,43 +74,18 @@ namespace RimWorld
 
 		private string GetLetterText(Faction alliedFaction, List<Thing> items, int days, Site site, SitePart sitePart)
 		{
-			string text = string.Format(this.def.letterText, new object[]
+			string result = string.Format(this.def.letterText, new object[]
 			{
 				alliedFaction.leader.LabelShort,
 				alliedFaction.def.leaderTitle,
 				alliedFaction.Name,
-				GenLabel.ThingsLabel(items),
+				GenLabel.ThingsLabel(items, "  - "),
 				days.ToString(),
-				SitePartUtility.GetDescriptionDialogue(site, sitePart)
+				SitePartUtility.GetDescriptionDialogue(site, sitePart),
+				GenThing.GetMarketValue(items).ToStringMoney(null)
 			}).CapitalizeFirst();
-			if (items.Count == 1 || (items.Count >= 2 && items.All((Thing x) => x.def == items[0].def)))
-			{
-				string text2 = text;
-				text = string.Concat(new string[]
-				{
-					text2,
-					"\n\n---\n\n",
-					items[0].LabelCapNoCount,
-					": ",
-					items[0].DescriptionFlavor
-				});
-			}
-			return text;
-		}
-
-		[CompilerGenerated]
-		private sealed class <GetLetterText>c__AnonStorey0
-		{
-			internal List<Thing> items;
-
-			public <GetLetterText>c__AnonStorey0()
-			{
-			}
-
-			internal bool <>m__0(Thing x)
-			{
-				return x.def == this.items[0].def;
-			}
+			GenThing.TryAppendSingleRewardInfo(ref result, items);
+			return result;
 		}
 	}
 }

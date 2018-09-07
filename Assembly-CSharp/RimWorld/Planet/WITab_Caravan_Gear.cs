@@ -150,10 +150,11 @@ namespace RimWorld.Planet
 				Rect rect = new Rect(mousePosition.x - this.draggedItemPosOffset.x, mousePosition.y - this.draggedItemPosOffset.y, 32f, 32f);
 				Find.WindowStack.ImmediateWindow(1283641090, rect, WindowLayer.Super, delegate
 				{
-					if (this.draggedItem != null)
+					if (this.draggedItem == null)
 					{
-						Widgets.ThingIcon(rect.AtZero(), this.draggedItem, 1f);
+						return;
 					}
+					Widgets.ThingIcon(rect.AtZero(), this.draggedItem, 1f);
 				}, false, false, 0f);
 			}
 			this.CheckDropDraggedItem();
@@ -364,31 +365,36 @@ namespace RimWorld.Planet
 
 		private void CheckDraggedItemStillValid()
 		{
-			if (this.draggedItem != null)
+			if (this.draggedItem == null)
 			{
-				if (this.draggedItem.Destroyed)
-				{
-					this.draggedItem = null;
-				}
-				else if (this.CurrentWearerOf(this.draggedItem) == null)
-				{
-					List<Thing> list = CaravanInventoryUtility.AllInventoryItems(base.SelCaravan);
-					if (!list.Contains(this.draggedItem))
-					{
-						this.draggedItem = null;
-					}
-				}
+				return;
 			}
+			if (this.draggedItem.Destroyed)
+			{
+				this.draggedItem = null;
+				return;
+			}
+			if (this.CurrentWearerOf(this.draggedItem) != null)
+			{
+				return;
+			}
+			List<Thing> list = CaravanInventoryUtility.AllInventoryItems(base.SelCaravan);
+			if (list.Contains(this.draggedItem))
+			{
+				return;
+			}
+			this.draggedItem = null;
 		}
 
 		private void CheckDropDraggedItem()
 		{
-			if (this.draggedItem != null)
+			if (this.draggedItem == null)
 			{
-				if (Event.current.type == EventType.MouseUp || Event.current.rawType == EventType.MouseUp)
-				{
-					this.droppedDraggedItem = true;
-				}
+				return;
+			}
+			if (Event.current.type == EventType.MouseUp || Event.current.rawType == EventType.MouseUp)
+			{
+				this.droppedDraggedItem = true;
 			}
 		}
 
@@ -400,16 +406,11 @@ namespace RimWorld.Planet
 		private Pawn CurrentWearerOf(Thing t)
 		{
 			IThingHolder parentHolder = t.ParentHolder;
-			Pawn result;
 			if (parentHolder is Pawn_EquipmentTracker || parentHolder is Pawn_ApparelTracker)
 			{
-				result = (Pawn)parentHolder.ParentHolder;
+				return (Pawn)parentHolder.ParentHolder;
 			}
-			else
-			{
-				result = null;
-			}
-			return result;
+			return null;
 		}
 
 		private void MoveDraggedItemToInventory()
@@ -540,10 +541,11 @@ namespace RimWorld.Planet
 
 			internal void <>m__0()
 			{
-				if (this.$this.draggedItem != null)
+				if (this.$this.draggedItem == null)
 				{
-					Widgets.ThingIcon(this.rect.AtZero(), this.$this.draggedItem, 1f);
+					return;
 				}
+				Widgets.ThingIcon(this.rect.AtZero(), this.$this.draggedItem, 1f);
 			}
 		}
 	}

@@ -10,17 +10,17 @@ namespace RimWorld
 
 		public bool showZones = true;
 
-		public bool showBeauty = false;
+		public bool showBeauty;
 
-		public bool showRoomStats = false;
+		public bool showRoomStats;
 
 		public bool showColonistBar = true;
 
-		public bool showRoofOverlay = false;
+		public bool showRoofOverlay;
 
 		public bool autoHomeArea = true;
 
-		public bool autoRebuild = false;
+		public bool autoRebuild;
 
 		public bool lockNorthUp = true;
 
@@ -30,7 +30,7 @@ namespace RimWorld
 
 		public bool showWorldFeatures = true;
 
-		public bool useWorkPriorities = false;
+		public bool useWorkPriorities;
 
 		public MedicalCareCategory defaultCareForColonyHumanlike = MedicalCareCategory.Best;
 

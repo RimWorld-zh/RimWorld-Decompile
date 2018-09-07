@@ -37,28 +37,23 @@ namespace RimWorld
 
 		public override AcceptanceReport CanDesignateCell(IntVec3 c)
 		{
-			AcceptanceReport result;
 			if (!c.InBounds(base.Map))
 			{
-				result = false;
+				return false;
 			}
-			else if (this.CancelableDesignationsAt(c).Count<Designation>() > 0)
+			if (this.CancelableDesignationsAt(c).Count<Designation>() > 0)
 			{
-				result = true;
+				return true;
 			}
-			else
+			List<Thing> thingList = c.GetThingList(base.Map);
+			for (int i = 0; i < thingList.Count; i++)
 			{
-				List<Thing> thingList = c.GetThingList(base.Map);
-				for (int i = 0; i < thingList.Count; i++)
+				if (this.CanDesignateThing(thingList[i]).Accepted)
 				{
-					if (this.CanDesignateThing(thingList[i]).Accepted)
-					{
-						return true;
-					}
+					return true;
 				}
-				result = false;
 			}
-			return result;
+			return false;
 		}
 
 		public override void DesignateSingleCell(IntVec3 c)
@@ -92,16 +87,11 @@ namespace RimWorld
 					}
 				}
 			}
-			AcceptanceReport result;
 			if (t.def.mineable && base.Map.designationManager.DesignationAt(t.Position, DesignationDefOf.Mine) != null)
 			{
-				result = true;
+				return true;
 			}
-			else
-			{
-				result = (t.Faction == Faction.OfPlayer && (t is Frame || t is Blueprint));
-			}
-			return result;
+			return t.Faction == Faction.OfPlayer && (t is Frame || t is Blueprint);
 		}
 
 		public override void DesignateThing(Thing t)

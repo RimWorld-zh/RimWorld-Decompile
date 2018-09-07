@@ -11,16 +11,11 @@ namespace Verse.AI
 		{
 			toil.AddEndCondition(delegate
 			{
-				JobCondition result;
 				if (condition(toil))
 				{
-					result = JobCondition.Incompletable;
+					return JobCondition.Incompletable;
 				}
-				else
-				{
-					result = JobCondition.Ongoing;
-				}
-				return result;
+				return JobCondition.Ongoing;
 			});
 			return toil;
 		}
@@ -29,16 +24,11 @@ namespace Verse.AI
 		{
 			f.AddEndCondition(delegate
 			{
-				JobCondition result;
 				if (condition())
 				{
-					result = JobCondition.Incompletable;
+					return JobCondition.Incompletable;
 				}
-				else
-				{
-					result = JobCondition.Ongoing;
-				}
-				return result;
+				return JobCondition.Ongoing;
 			});
 			return f;
 		}
@@ -47,16 +37,11 @@ namespace Verse.AI
 		{
 			f.AddEndCondition(delegate
 			{
-				JobCondition result;
 				if (f.GetActor().jobs.curJob.GetTarget(ind).Thing.DestroyedOrNull())
 				{
-					result = JobCondition.Incompletable;
+					return JobCondition.Incompletable;
 				}
-				else
-				{
-					result = JobCondition.Ongoing;
-				}
-				return result;
+				return JobCondition.Ongoing;
 			});
 			return f;
 		}
@@ -67,20 +52,15 @@ namespace Verse.AI
 			{
 				LocalTargetInfo target = f.GetActor().jobs.curJob.GetTarget(ind);
 				Thing thing = target.Thing;
-				JobCondition result;
 				if (thing == null && target.IsValid)
 				{
-					result = JobCondition.Ongoing;
+					return JobCondition.Ongoing;
 				}
-				else if (thing == null || !thing.Spawned || thing.Map != f.GetActor().Map)
+				if (thing == null || !thing.Spawned || thing.Map != f.GetActor().Map)
 				{
-					result = JobCondition.Incompletable;
+					return JobCondition.Incompletable;
 				}
-				else
-				{
-					result = JobCondition.Ongoing;
-				}
-				return result;
+				return JobCondition.Ongoing;
 			});
 			return f;
 		}
@@ -91,20 +71,15 @@ namespace Verse.AI
 			{
 				LocalTargetInfo target = f.GetActor().jobs.curJob.GetTarget(ind);
 				Thing thing = target.Thing;
-				JobCondition result;
 				if (thing == null && target.IsValid)
 				{
-					result = JobCondition.Ongoing;
+					return JobCondition.Ongoing;
 				}
-				else if (thing == null || !thing.Spawned || thing.Map != f.GetActor().Map)
+				if (thing == null || !thing.Spawned || thing.Map != f.GetActor().Map)
 				{
-					result = endCondition;
+					return endCondition;
 				}
-				else
-				{
-					result = JobCondition.Ongoing;
-				}
-				return result;
+				return JobCondition.Ongoing;
 			});
 			return f;
 		}
@@ -116,16 +91,11 @@ namespace Verse.AI
 				Pawn actor = f.GetActor();
 				Job curJob = actor.jobs.curJob;
 				List<LocalTargetInfo> targetQueue = curJob.GetTargetQueue(ind);
-				JobCondition result;
 				if (targetQueue.NullOrEmpty<LocalTargetInfo>())
 				{
-					result = endCondition;
+					return endCondition;
 				}
-				else
-				{
-					result = JobCondition.Ongoing;
-				}
-				return result;
+				return JobCondition.Ongoing;
 			});
 			return f;
 		}
@@ -135,16 +105,11 @@ namespace Verse.AI
 			f.AddEndCondition(delegate
 			{
 				Thing thing = f.GetActor().jobs.curJob.GetTarget(ind).Thing;
-				JobCondition result;
 				if (((Pawn)thing).Downed)
 				{
-					result = JobCondition.Incompletable;
+					return JobCondition.Incompletable;
 				}
-				else
-				{
-					result = JobCondition.Ongoing;
-				}
-				return result;
+				return JobCondition.Ongoing;
 			});
 			return f;
 		}
@@ -154,16 +119,11 @@ namespace Verse.AI
 			f.AddEndCondition(delegate
 			{
 				Thing thing = f.GetActor().jobs.curJob.GetTarget(ind).Thing;
-				JobCondition result;
 				if (((Pawn)thing).health.State == PawnHealthState.Mobile)
 				{
-					result = JobCondition.Incompletable;
+					return JobCondition.Incompletable;
 				}
-				else
-				{
-					result = JobCondition.Ongoing;
-				}
-				return result;
+				return JobCondition.Ongoing;
 			});
 			return f;
 		}
@@ -173,16 +133,11 @@ namespace Verse.AI
 			f.AddEndCondition(delegate
 			{
 				Thing thing = f.GetActor().jobs.curJob.GetTarget(ind).Thing;
-				JobCondition result;
 				if (!((Pawn)thing).Downed)
 				{
-					result = JobCondition.Incompletable;
+					return JobCondition.Incompletable;
 				}
-				else
-				{
-					result = JobCondition.Ongoing;
-				}
-				return result;
+				return JobCondition.Ongoing;
 			});
 			return f;
 		}
@@ -192,16 +147,11 @@ namespace Verse.AI
 			f.AddEndCondition(delegate
 			{
 				Thing thing = f.GetActor().jobs.curJob.GetTarget(ind).Thing;
-				JobCondition result;
 				if (!((Pawn)thing).Awake())
 				{
-					result = JobCondition.Incompletable;
+					return JobCondition.Incompletable;
 				}
-				else
-				{
-					result = JobCondition.Ongoing;
-				}
-				return result;
+				return JobCondition.Ongoing;
 			});
 			return f;
 		}
@@ -211,16 +161,11 @@ namespace Verse.AI
 			f.AddEndCondition(delegate
 			{
 				Thing thing = f.GetActor().jobs.curJob.GetTarget(ind).Thing;
-				JobCondition result;
 				if (!((Pawn)thing).CanCasuallyInteractNow(false))
 				{
-					result = JobCondition.Incompletable;
+					return JobCondition.Incompletable;
 				}
-				else
-				{
-					result = JobCondition.Ongoing;
-				}
-				return result;
+				return JobCondition.Ongoing;
 			});
 			return f;
 		}
@@ -230,16 +175,11 @@ namespace Verse.AI
 			f.AddEndCondition(delegate
 			{
 				Pawn pawn = f.GetActor().jobs.curJob.GetTarget(ind).Thing as Pawn;
-				JobCondition result;
 				if (pawn != null && pawn.InMentalState)
 				{
-					result = JobCondition.Incompletable;
+					return JobCondition.Incompletable;
 				}
-				else
-				{
-					result = JobCondition.Ongoing;
-				}
-				return result;
+				return JobCondition.Ongoing;
 			});
 			return f;
 		}
@@ -249,16 +189,11 @@ namespace Verse.AI
 			f.AddEndCondition(delegate
 			{
 				Pawn pawn = f.GetActor().jobs.curJob.GetTarget(ind).Thing as Pawn;
-				JobCondition result;
 				if (pawn != null && pawn.InAggroMentalState)
 				{
-					result = JobCondition.Incompletable;
+					return JobCondition.Incompletable;
 				}
-				else
-				{
-					result = JobCondition.Ongoing;
-				}
-				return result;
+				return JobCondition.Ongoing;
 			});
 			return f;
 		}
@@ -268,16 +203,11 @@ namespace Verse.AI
 			f.AddEndCondition(delegate
 			{
 				Pawn pawn = f.GetActor().jobs.curJob.GetTarget(ind).Thing as Pawn;
-				JobCondition result;
 				if (pawn != null && pawn.InAggroMentalState && pawn.HostileTo(f.GetActor()))
 				{
-					result = JobCondition.Incompletable;
+					return JobCondition.Incompletable;
 				}
-				else
-				{
-					result = JobCondition.Ongoing;
-				}
-				return result;
+				return JobCondition.Ongoing;
 			});
 			return f;
 		}
@@ -288,16 +218,11 @@ namespace Verse.AI
 			{
 				Pawn actor = f.GetActor();
 				Thing thing = actor.jobs.curJob.GetTarget(ind).Thing;
-				JobCondition result;
 				if (thing != null && actor.Map.physicalInteractionReservationManager.IsReserved(thing) && !actor.Map.physicalInteractionReservationManager.IsReservedBy(actor, thing))
 				{
-					result = JobCondition.Incompletable;
+					return JobCondition.Incompletable;
 				}
-				else
-				{
-					result = JobCondition.Ongoing;
-				}
-				return result;
+				return JobCondition.Ongoing;
 			});
 			return f;
 		}
@@ -307,32 +232,24 @@ namespace Verse.AI
 			f.AddEndCondition(delegate
 			{
 				Pawn actor = f.GetActor();
-				JobCondition result;
 				if (actor.Faction != Faction.OfPlayer)
 				{
-					result = JobCondition.Ongoing;
+					return JobCondition.Ongoing;
 				}
-				else if (actor.jobs.curJob.ignoreForbidden)
+				if (actor.jobs.curJob.ignoreForbidden)
 				{
-					result = JobCondition.Ongoing;
+					return JobCondition.Ongoing;
 				}
-				else
+				Thing thing = actor.jobs.curJob.GetTarget(ind).Thing;
+				if (thing == null)
 				{
-					Thing thing = actor.jobs.curJob.GetTarget(ind).Thing;
-					if (thing == null)
-					{
-						result = JobCondition.Ongoing;
-					}
-					else if (thing.IsForbidden(actor))
-					{
-						result = JobCondition.Incompletable;
-					}
-					else
-					{
-						result = JobCondition.Ongoing;
-					}
+					return JobCondition.Ongoing;
 				}
-				return result;
+				if (thing.IsForbidden(actor))
+				{
+					return JobCondition.Incompletable;
+				}
+				return JobCondition.Ongoing;
 			});
 			return f;
 		}
@@ -357,24 +274,16 @@ namespace Verse.AI
 			{
 				Pawn actor = f.GetActor();
 				Job curJob = actor.jobs.curJob;
-				JobCondition result;
 				if (curJob.ignoreDesignations)
 				{
-					result = JobCondition.Ongoing;
+					return JobCondition.Ongoing;
 				}
-				else
+				Thing thing = curJob.GetTarget(ind).Thing;
+				if (thing == null || actor.Map.designationManager.DesignationOn(thing, desDef) == null)
 				{
-					Thing thing = curJob.GetTarget(ind).Thing;
-					if (thing == null || actor.Map.designationManager.DesignationOn(thing, desDef) == null)
-					{
-						result = JobCondition.Incompletable;
-					}
-					else
-					{
-						result = JobCondition.Ongoing;
-					}
+					return JobCondition.Incompletable;
 				}
-				return result;
+				return JobCondition.Ongoing;
 			});
 			return f;
 		}
@@ -385,20 +294,15 @@ namespace Verse.AI
 			{
 				Pawn actor = f.GetActor();
 				Job curJob = actor.jobs.curJob;
-				JobCondition result;
 				if (curJob.ignoreDesignations)
 				{
-					result = JobCondition.Ongoing;
+					return JobCondition.Ongoing;
 				}
-				else if (actor.Map.designationManager.DesignationAt(curJob.GetTarget(ind).Cell, desDef) == null)
+				if (actor.Map.designationManager.DesignationAt(curJob.GetTarget(ind).Cell, desDef) == null)
 				{
-					result = JobCondition.Incompletable;
+					return JobCondition.Incompletable;
 				}
-				else
-				{
-					result = JobCondition.Ongoing;
-				}
-				return result;
+				return JobCondition.Ongoing;
 			});
 			return f;
 		}
@@ -407,16 +311,11 @@ namespace Verse.AI
 		{
 			f.AddEndCondition(delegate
 			{
-				JobCondition result;
 				if (f.GetActor().jobs.curJob.GetTarget(ind).ToTargetInfo(f.GetActor().Map).IsBurning())
 				{
-					result = JobCondition.Incompletable;
+					return JobCondition.Incompletable;
 				}
-				else
-				{
-					result = JobCondition.Ongoing;
-				}
-				return result;
+				return JobCondition.Ongoing;
 			});
 			return f;
 		}
@@ -425,16 +324,11 @@ namespace Verse.AI
 		{
 			f.AddEndCondition(delegate
 			{
-				JobCondition result;
 				if (!f.GetActor().CanReachImmediate(f.GetActor().jobs.curJob.GetTarget(ind), peMode))
 				{
-					result = JobCondition.Incompletable;
+					return JobCondition.Incompletable;
 				}
-				else
-				{
-					result = JobCondition.Ongoing;
-				}
-				return result;
+				return JobCondition.Ongoing;
 			});
 			return f;
 		}
@@ -443,16 +337,11 @@ namespace Verse.AI
 		{
 			f.AddEndCondition(delegate
 			{
-				JobCondition result;
 				if (!f.GetActor().health.capacities.CapableOf(pawnCapacity))
 				{
-					result = JobCondition.Incompletable;
+					return JobCondition.Incompletable;
 				}
-				else
-				{
-					result = JobCondition.Ongoing;
-				}
-				return result;
+				return JobCondition.Ongoing;
 			});
 			return f;
 		}
@@ -461,24 +350,19 @@ namespace Verse.AI
 		{
 			toil.AddFailCondition(delegate
 			{
-				bool result;
 				if (toil.actor.jobs.curJob.placedThings == null)
 				{
-					result = false;
+					return false;
 				}
-				else
+				for (int i = 0; i < toil.actor.jobs.curJob.placedThings.Count; i++)
 				{
-					for (int i = 0; i < toil.actor.jobs.curJob.placedThings.Count; i++)
+					ThingCountClass thingCountClass = toil.actor.jobs.curJob.placedThings[i];
+					if (thingCountClass.thing == null || !thingCountClass.thing.Spawned || thingCountClass.thing.Map != toil.actor.Map || (!toil.actor.CurJob.ignoreForbidden && thingCountClass.thing.IsForbidden(toil.actor)))
 					{
-						ThingCountClass thingCountClass = toil.actor.jobs.curJob.placedThings[i];
-						if (thingCountClass.thing == null || !thingCountClass.thing.Spawned || thingCountClass.thing.Map != toil.actor.Map || (!toil.actor.CurJob.ignoreForbidden && thingCountClass.thing.IsForbidden(toil.actor)))
-						{
-							return true;
-						}
+						return true;
 					}
-					result = false;
 				}
-				return result;
+				return false;
 			});
 			return toil;
 		}
@@ -496,16 +380,11 @@ namespace Verse.AI
 
 			internal JobCondition <>m__0()
 			{
-				JobCondition result;
 				if (this.condition(this.toil))
 				{
-					result = JobCondition.Incompletable;
+					return JobCondition.Incompletable;
 				}
-				else
-				{
-					result = JobCondition.Ongoing;
-				}
-				return result;
+				return JobCondition.Ongoing;
 			}
 		}
 
@@ -520,16 +399,11 @@ namespace Verse.AI
 
 			internal JobCondition <>m__0()
 			{
-				JobCondition result;
 				if (this.condition())
 				{
-					result = JobCondition.Incompletable;
+					return JobCondition.Incompletable;
 				}
-				else
-				{
-					result = JobCondition.Ongoing;
-				}
-				return result;
+				return JobCondition.Ongoing;
 			}
 		}
 
@@ -546,16 +420,11 @@ namespace Verse.AI
 
 			internal JobCondition <>m__0()
 			{
-				JobCondition result;
 				if (this.f.GetActor().jobs.curJob.GetTarget(this.ind).Thing.DestroyedOrNull())
 				{
-					result = JobCondition.Incompletable;
+					return JobCondition.Incompletable;
 				}
-				else
-				{
-					result = JobCondition.Ongoing;
-				}
-				return result;
+				return JobCondition.Ongoing;
 			}
 		}
 
@@ -574,20 +443,15 @@ namespace Verse.AI
 			{
 				LocalTargetInfo target = this.f.GetActor().jobs.curJob.GetTarget(this.ind);
 				Thing thing = target.Thing;
-				JobCondition result;
 				if (thing == null && target.IsValid)
 				{
-					result = JobCondition.Ongoing;
+					return JobCondition.Ongoing;
 				}
-				else if (thing == null || !thing.Spawned || thing.Map != this.f.GetActor().Map)
+				if (thing == null || !thing.Spawned || thing.Map != this.f.GetActor().Map)
 				{
-					result = JobCondition.Incompletable;
+					return JobCondition.Incompletable;
 				}
-				else
-				{
-					result = JobCondition.Ongoing;
-				}
-				return result;
+				return JobCondition.Ongoing;
 			}
 		}
 
@@ -608,20 +472,15 @@ namespace Verse.AI
 			{
 				LocalTargetInfo target = this.f.GetActor().jobs.curJob.GetTarget(this.ind);
 				Thing thing = target.Thing;
-				JobCondition result;
 				if (thing == null && target.IsValid)
 				{
-					result = JobCondition.Ongoing;
+					return JobCondition.Ongoing;
 				}
-				else if (thing == null || !thing.Spawned || thing.Map != this.f.GetActor().Map)
+				if (thing == null || !thing.Spawned || thing.Map != this.f.GetActor().Map)
 				{
-					result = this.endCondition;
+					return this.endCondition;
 				}
-				else
-				{
-					result = JobCondition.Ongoing;
-				}
-				return result;
+				return JobCondition.Ongoing;
 			}
 		}
 
@@ -643,16 +502,11 @@ namespace Verse.AI
 				Pawn actor = this.f.GetActor();
 				Job curJob = actor.jobs.curJob;
 				List<LocalTargetInfo> targetQueue = curJob.GetTargetQueue(this.ind);
-				JobCondition result;
 				if (targetQueue.NullOrEmpty<LocalTargetInfo>())
 				{
-					result = this.endCondition;
+					return this.endCondition;
 				}
-				else
-				{
-					result = JobCondition.Ongoing;
-				}
-				return result;
+				return JobCondition.Ongoing;
 			}
 		}
 
@@ -670,16 +524,11 @@ namespace Verse.AI
 			internal JobCondition <>m__0()
 			{
 				Thing thing = this.f.GetActor().jobs.curJob.GetTarget(this.ind).Thing;
-				JobCondition result;
 				if (((Pawn)thing).Downed)
 				{
-					result = JobCondition.Incompletable;
+					return JobCondition.Incompletable;
 				}
-				else
-				{
-					result = JobCondition.Ongoing;
-				}
-				return result;
+				return JobCondition.Ongoing;
 			}
 		}
 
@@ -697,16 +546,11 @@ namespace Verse.AI
 			internal JobCondition <>m__0()
 			{
 				Thing thing = this.f.GetActor().jobs.curJob.GetTarget(this.ind).Thing;
-				JobCondition result;
 				if (((Pawn)thing).health.State == PawnHealthState.Mobile)
 				{
-					result = JobCondition.Incompletable;
+					return JobCondition.Incompletable;
 				}
-				else
-				{
-					result = JobCondition.Ongoing;
-				}
-				return result;
+				return JobCondition.Ongoing;
 			}
 		}
 
@@ -724,16 +568,11 @@ namespace Verse.AI
 			internal JobCondition <>m__0()
 			{
 				Thing thing = this.f.GetActor().jobs.curJob.GetTarget(this.ind).Thing;
-				JobCondition result;
 				if (!((Pawn)thing).Downed)
 				{
-					result = JobCondition.Incompletable;
+					return JobCondition.Incompletable;
 				}
-				else
-				{
-					result = JobCondition.Ongoing;
-				}
-				return result;
+				return JobCondition.Ongoing;
 			}
 		}
 
@@ -751,16 +590,11 @@ namespace Verse.AI
 			internal JobCondition <>m__0()
 			{
 				Thing thing = this.f.GetActor().jobs.curJob.GetTarget(this.ind).Thing;
-				JobCondition result;
 				if (!((Pawn)thing).Awake())
 				{
-					result = JobCondition.Incompletable;
+					return JobCondition.Incompletable;
 				}
-				else
-				{
-					result = JobCondition.Ongoing;
-				}
-				return result;
+				return JobCondition.Ongoing;
 			}
 		}
 
@@ -778,16 +612,11 @@ namespace Verse.AI
 			internal JobCondition <>m__0()
 			{
 				Thing thing = this.f.GetActor().jobs.curJob.GetTarget(this.ind).Thing;
-				JobCondition result;
 				if (!((Pawn)thing).CanCasuallyInteractNow(false))
 				{
-					result = JobCondition.Incompletable;
+					return JobCondition.Incompletable;
 				}
-				else
-				{
-					result = JobCondition.Ongoing;
-				}
-				return result;
+				return JobCondition.Ongoing;
 			}
 		}
 
@@ -805,16 +634,11 @@ namespace Verse.AI
 			internal JobCondition <>m__0()
 			{
 				Pawn pawn = this.f.GetActor().jobs.curJob.GetTarget(this.ind).Thing as Pawn;
-				JobCondition result;
 				if (pawn != null && pawn.InMentalState)
 				{
-					result = JobCondition.Incompletable;
+					return JobCondition.Incompletable;
 				}
-				else
-				{
-					result = JobCondition.Ongoing;
-				}
-				return result;
+				return JobCondition.Ongoing;
 			}
 		}
 
@@ -832,16 +656,11 @@ namespace Verse.AI
 			internal JobCondition <>m__0()
 			{
 				Pawn pawn = this.f.GetActor().jobs.curJob.GetTarget(this.ind).Thing as Pawn;
-				JobCondition result;
 				if (pawn != null && pawn.InAggroMentalState)
 				{
-					result = JobCondition.Incompletable;
+					return JobCondition.Incompletable;
 				}
-				else
-				{
-					result = JobCondition.Ongoing;
-				}
-				return result;
+				return JobCondition.Ongoing;
 			}
 		}
 
@@ -859,16 +678,11 @@ namespace Verse.AI
 			internal JobCondition <>m__0()
 			{
 				Pawn pawn = this.f.GetActor().jobs.curJob.GetTarget(this.ind).Thing as Pawn;
-				JobCondition result;
 				if (pawn != null && pawn.InAggroMentalState && pawn.HostileTo(this.f.GetActor()))
 				{
-					result = JobCondition.Incompletable;
+					return JobCondition.Incompletable;
 				}
-				else
-				{
-					result = JobCondition.Ongoing;
-				}
-				return result;
+				return JobCondition.Ongoing;
 			}
 		}
 
@@ -887,16 +701,11 @@ namespace Verse.AI
 			{
 				Pawn actor = this.f.GetActor();
 				Thing thing = actor.jobs.curJob.GetTarget(this.ind).Thing;
-				JobCondition result;
 				if (thing != null && actor.Map.physicalInteractionReservationManager.IsReserved(thing) && !actor.Map.physicalInteractionReservationManager.IsReservedBy(actor, thing))
 				{
-					result = JobCondition.Incompletable;
+					return JobCondition.Incompletable;
 				}
-				else
-				{
-					result = JobCondition.Ongoing;
-				}
-				return result;
+				return JobCondition.Ongoing;
 			}
 		}
 
@@ -914,32 +723,24 @@ namespace Verse.AI
 			internal JobCondition <>m__0()
 			{
 				Pawn actor = this.f.GetActor();
-				JobCondition result;
 				if (actor.Faction != Faction.OfPlayer)
 				{
-					result = JobCondition.Ongoing;
+					return JobCondition.Ongoing;
 				}
-				else if (actor.jobs.curJob.ignoreForbidden)
+				if (actor.jobs.curJob.ignoreForbidden)
 				{
-					result = JobCondition.Ongoing;
+					return JobCondition.Ongoing;
 				}
-				else
+				Thing thing = actor.jobs.curJob.GetTarget(this.ind).Thing;
+				if (thing == null)
 				{
-					Thing thing = actor.jobs.curJob.GetTarget(this.ind).Thing;
-					if (thing == null)
-					{
-						result = JobCondition.Ongoing;
-					}
-					else if (thing.IsForbidden(actor))
-					{
-						result = JobCondition.Incompletable;
-					}
-					else
-					{
-						result = JobCondition.Ongoing;
-					}
+					return JobCondition.Ongoing;
 				}
-				return result;
+				if (thing.IsForbidden(actor))
+				{
+					return JobCondition.Incompletable;
+				}
+				return JobCondition.Ongoing;
 			}
 		}
 
@@ -960,24 +761,16 @@ namespace Verse.AI
 			{
 				Pawn actor = this.f.GetActor();
 				Job curJob = actor.jobs.curJob;
-				JobCondition result;
 				if (curJob.ignoreDesignations)
 				{
-					result = JobCondition.Ongoing;
+					return JobCondition.Ongoing;
 				}
-				else
+				Thing thing = curJob.GetTarget(this.ind).Thing;
+				if (thing == null || actor.Map.designationManager.DesignationOn(thing, this.desDef) == null)
 				{
-					Thing thing = curJob.GetTarget(this.ind).Thing;
-					if (thing == null || actor.Map.designationManager.DesignationOn(thing, this.desDef) == null)
-					{
-						result = JobCondition.Incompletable;
-					}
-					else
-					{
-						result = JobCondition.Ongoing;
-					}
+					return JobCondition.Incompletable;
 				}
-				return result;
+				return JobCondition.Ongoing;
 			}
 		}
 
@@ -998,20 +791,15 @@ namespace Verse.AI
 			{
 				Pawn actor = this.f.GetActor();
 				Job curJob = actor.jobs.curJob;
-				JobCondition result;
 				if (curJob.ignoreDesignations)
 				{
-					result = JobCondition.Ongoing;
+					return JobCondition.Ongoing;
 				}
-				else if (actor.Map.designationManager.DesignationAt(curJob.GetTarget(this.ind).Cell, this.desDef) == null)
+				if (actor.Map.designationManager.DesignationAt(curJob.GetTarget(this.ind).Cell, this.desDef) == null)
 				{
-					result = JobCondition.Incompletable;
+					return JobCondition.Incompletable;
 				}
-				else
-				{
-					result = JobCondition.Ongoing;
-				}
-				return result;
+				return JobCondition.Ongoing;
 			}
 		}
 
@@ -1028,16 +816,11 @@ namespace Verse.AI
 
 			internal JobCondition <>m__0()
 			{
-				JobCondition result;
 				if (this.f.GetActor().jobs.curJob.GetTarget(this.ind).ToTargetInfo(this.f.GetActor().Map).IsBurning())
 				{
-					result = JobCondition.Incompletable;
+					return JobCondition.Incompletable;
 				}
-				else
-				{
-					result = JobCondition.Ongoing;
-				}
-				return result;
+				return JobCondition.Ongoing;
 			}
 		}
 
@@ -1056,16 +839,11 @@ namespace Verse.AI
 
 			internal JobCondition <>m__0()
 			{
-				JobCondition result;
 				if (!this.f.GetActor().CanReachImmediate(this.f.GetActor().jobs.curJob.GetTarget(this.ind), this.peMode))
 				{
-					result = JobCondition.Incompletable;
+					return JobCondition.Incompletable;
 				}
-				else
-				{
-					result = JobCondition.Ongoing;
-				}
-				return result;
+				return JobCondition.Ongoing;
 			}
 		}
 
@@ -1082,16 +860,11 @@ namespace Verse.AI
 
 			internal JobCondition <>m__0()
 			{
-				JobCondition result;
 				if (!this.f.GetActor().health.capacities.CapableOf(this.pawnCapacity))
 				{
-					result = JobCondition.Incompletable;
+					return JobCondition.Incompletable;
 				}
-				else
-				{
-					result = JobCondition.Ongoing;
-				}
-				return result;
+				return JobCondition.Ongoing;
 			}
 		}
 
@@ -1106,24 +879,19 @@ namespace Verse.AI
 
 			internal bool <>m__0()
 			{
-				bool result;
 				if (this.toil.actor.jobs.curJob.placedThings == null)
 				{
-					result = false;
+					return false;
 				}
-				else
+				for (int i = 0; i < this.toil.actor.jobs.curJob.placedThings.Count; i++)
 				{
-					for (int i = 0; i < this.toil.actor.jobs.curJob.placedThings.Count; i++)
+					ThingCountClass thingCountClass = this.toil.actor.jobs.curJob.placedThings[i];
+					if (thingCountClass.thing == null || !thingCountClass.thing.Spawned || thingCountClass.thing.Map != this.toil.actor.Map || (!this.toil.actor.CurJob.ignoreForbidden && thingCountClass.thing.IsForbidden(this.toil.actor)))
 					{
-						ThingCountClass thingCountClass = this.toil.actor.jobs.curJob.placedThings[i];
-						if (thingCountClass.thing == null || !thingCountClass.thing.Spawned || thingCountClass.thing.Map != this.toil.actor.Map || (!this.toil.actor.CurJob.ignoreForbidden && thingCountClass.thing.IsForbidden(this.toil.actor)))
-						{
-							return true;
-						}
+						return true;
 					}
-					result = false;
 				}
-				return result;
+				return false;
 			}
 		}
 	}

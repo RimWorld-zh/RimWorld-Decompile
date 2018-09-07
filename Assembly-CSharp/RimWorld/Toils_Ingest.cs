@@ -32,12 +32,10 @@ namespace RimWorld
 				if (thing == null)
 				{
 					actor.jobs.curDriver.EndJobWith(JobCondition.Incompletable);
+					return;
 				}
-				else
-				{
-					actor.carryTracker.TryStartCarry(thing);
-					actor.CurJob.SetTarget(ind, actor.carryTracker.CarriedThing);
-				}
+				actor.carryTracker.TryStartCarry(thing);
+				actor.CurJob.SetTarget(ind, actor.carryTracker.CarriedThing);
 			};
 			toil.FailOnCannotTouch(ind, PathEndMode.Touch);
 			toil.defaultCompleteMode = ToilCompleteMode.Delay;
@@ -57,17 +55,15 @@ namespace RimWorld
 				{
 					Log.Error("Tried to do PickupIngestible toil with job.maxNumToCarry = " + curJob.count, false);
 					actor.jobs.EndCurrentJob(JobCondition.Errored, true);
+					return;
 				}
-				else
+				int count = Mathf.Min(thing.stackCount, curJob.count);
+				actor.carryTracker.TryStartCarry(thing, count, true);
+				if (thing != actor.carryTracker.CarriedThing && actor.Map.reservationManager.ReservedBy(thing, actor, curJob))
 				{
-					int count = Mathf.Min(thing.stackCount, curJob.count);
-					actor.carryTracker.TryStartCarry(thing, count, true);
-					if (thing != actor.carryTracker.CarriedThing && actor.Map.reservationManager.ReservedBy(thing, actor, curJob))
-					{
-						actor.Map.reservationManager.Release(thing, actor, curJob);
-					}
-					actor.jobs.curJob.targetA = actor.carryTracker.CarriedThing;
+					actor.Map.reservationManager.Release(thing, actor, curJob);
 				}
+				actor.jobs.curJob.targetA = actor.carryTracker.CarriedThing;
 			};
 			toil.defaultCompleteMode = ToilCompleteMode.Instant;
 			return toil;
@@ -84,45 +80,40 @@ namespace RimWorld
 				Thing thing2 = actor.CurJob.GetTarget(ingestibleInd).Thing;
 				Predicate<Thing> baseChairValidator = delegate(Thing t)
 				{
-					bool result;
 					if (t.def.building == null || !t.def.building.isSittable)
 					{
-						result = false;
+						return false;
 					}
-					else if (t.IsForbidden(pawn))
+					if (t.IsForbidden(pawn))
 					{
-						result = false;
+						return false;
 					}
-					else if (!actor.CanReserve(t, 1, -1, null, false))
+					if (!actor.CanReserve(t, 1, -1, null, false))
 					{
-						result = false;
+						return false;
 					}
-					else if (!t.IsSociallyProper(actor))
+					if (!t.IsSociallyProper(actor))
 					{
-						result = false;
+						return false;
 					}
-					else if (t.IsBurning())
+					if (t.IsBurning())
 					{
-						result = false;
+						return false;
 					}
-					else if (t.HostileTo(pawn))
+					if (t.HostileTo(pawn))
 					{
-						result = false;
+						return false;
 					}
-					else
+					bool result = false;
+					for (int i = 0; i < 4; i++)
 					{
-						bool flag = false;
-						for (int i = 0; i < 4; i++)
+						IntVec3 c = t.Position + GenAdj.CardinalDirections[i];
+						Building edifice = c.GetEdifice(t.Map);
+						if (edifice != null && edifice.def.surfaceType == SurfaceType.Eat)
 						{
-							IntVec3 c = t.Position + GenAdj.CardinalDirections[i];
-							Building edifice = c.GetEdifice(t.Map);
-							if (edifice != null && edifice.def.surfaceType == SurfaceType.Eat)
-							{
-								flag = true;
-								break;
-							}
+							result = true;
+							break;
 						}
-						result = flag;
 					}
 					return result;
 				};
@@ -142,7 +133,7 @@ namespace RimWorld
 				if (thing != null)
 				{
 					intVec = thing.Position;
-					actor.Reserve(thing, actor.CurJob, 1, -1, null);
+					actor.Reserve(thing, actor.CurJob, 1, -1, null, true);
 				}
 				actor.Map.pawnDestinationReservationManager.Reserve(actor, actor.CurJob, intVec);
 				actor.pather.StartPath(intVec, PathEndMode.OnCell);
@@ -224,7 +215,7 @@ namespace RimWorld
 						{
 							thing.Rotation = Rot4.FromIntVec3(intVec - toil.actor.Position);
 						}
-						break;
+						return;
 					}
 				}
 			};
@@ -242,14 +233,12 @@ namespace RimWorld
 				if (!thing.IngestibleNow)
 				{
 					chewer.jobs.EndCurrentJob(JobCondition.Incompletable, true);
+					return;
 				}
-				else
+				actor.jobs.curDriver.ticksLeftThisToil = Mathf.RoundToInt((float)thing.def.ingestible.baseIngestTicks * durationMultiplier);
+				if (thing.Spawned)
 				{
-					actor.jobs.curDriver.ticksLeftThisToil = Mathf.RoundToInt((float)thing.def.ingestible.baseIngestTicks * durationMultiplier);
-					if (thing.Spawned)
-					{
-						thing.Map.physicalInteractionReservationManager.Reserve(chewer, actor.CurJob, thing);
-					}
+					thing.Map.physicalInteractionReservationManager.Reserve(chewer, actor.CurJob, thing);
 				}
 			};
 			toil.tickAction = delegate()
@@ -276,34 +265,32 @@ namespace RimWorld
 			{
 				Pawn actor = toil.actor;
 				Thing thing = actor.CurJob.GetTarget(ingestibleInd).Thing;
-				float result;
 				if (thing == null)
 				{
-					result = 1f;
+					return 1f;
 				}
-				else
-				{
-					result = 1f - (float)toil.actor.jobs.curDriver.ticksLeftThisToil / Mathf.Round((float)thing.def.ingestible.baseIngestTicks * durationMultiplier);
-				}
-				return result;
+				return 1f - (float)toil.actor.jobs.curDriver.ticksLeftThisToil / Mathf.Round((float)thing.def.ingestible.baseIngestTicks * durationMultiplier);
 			}, false, -0.5f);
 			toil.defaultCompleteMode = ToilCompleteMode.Delay;
 			toil.FailOnDestroyedOrNull(ingestibleInd);
 			toil.AddFinishAction(delegate
 			{
-				if (chewer != null)
+				if (chewer == null)
 				{
-					if (chewer.CurJob != null)
-					{
-						Thing thing = chewer.CurJob.GetTarget(ingestibleInd).Thing;
-						if (thing != null)
-						{
-							if (chewer.Map.physicalInteractionReservationManager.IsReservedBy(chewer, thing))
-							{
-								chewer.Map.physicalInteractionReservationManager.Release(chewer, toil.actor.CurJob, thing);
-							}
-						}
-					}
+					return;
+				}
+				if (chewer.CurJob == null)
+				{
+					return;
+				}
+				Thing thing = chewer.CurJob.GetTarget(ingestibleInd).Thing;
+				if (thing == null)
+				{
+					return;
+				}
+				if (chewer.Map.physicalInteractionReservationManager.IsReservedBy(chewer, thing))
+				{
+					chewer.Map.physicalInteractionReservationManager.Release(chewer, toil.actor.CurJob, thing);
 				}
 			});
 			toil.handlingFacing = true;
@@ -316,66 +303,45 @@ namespace RimWorld
 			toil.WithEffect(delegate()
 			{
 				LocalTargetInfo target = toil.actor.CurJob.GetTarget(ingestibleInd);
-				EffecterDef result;
 				if (!target.HasThing)
 				{
-					result = null;
+					return null;
 				}
-				else
+				EffecterDef result = target.Thing.def.ingestible.ingestEffect;
+				if (chewer.RaceProps.intelligence < Intelligence.ToolUser && target.Thing.def.ingestible.ingestEffectEat != null)
 				{
-					EffecterDef effecterDef = target.Thing.def.ingestible.ingestEffect;
-					if (chewer.RaceProps.intelligence < Intelligence.ToolUser && target.Thing.def.ingestible.ingestEffectEat != null)
-					{
-						effecterDef = target.Thing.def.ingestible.ingestEffectEat;
-					}
-					result = effecterDef;
+					result = target.Thing.def.ingestible.ingestEffectEat;
 				}
 				return result;
 			}, delegate()
 			{
-				LocalTargetInfo result;
 				if (!toil.actor.CurJob.GetTarget(ingestibleInd).HasThing)
 				{
-					result = null;
+					return null;
 				}
-				else
+				Thing thing = toil.actor.CurJob.GetTarget(ingestibleInd).Thing;
+				if (chewer != toil.actor)
 				{
-					Thing thing = toil.actor.CurJob.GetTarget(ingestibleInd).Thing;
-					if (chewer != toil.actor)
-					{
-						result = chewer;
-					}
-					else if (eatSurfaceInd != TargetIndex.None && toil.actor.CurJob.GetTarget(eatSurfaceInd).IsValid)
-					{
-						result = toil.actor.CurJob.GetTarget(eatSurfaceInd);
-					}
-					else
-					{
-						result = thing;
-					}
+					return chewer;
 				}
-				return result;
+				if (eatSurfaceInd != TargetIndex.None && toil.actor.CurJob.GetTarget(eatSurfaceInd).IsValid)
+				{
+					return toil.actor.CurJob.GetTarget(eatSurfaceInd);
+				}
+				return thing;
 			});
 			toil.PlaySustainerOrSound(delegate()
 			{
-				SoundDef result;
 				if (!chewer.RaceProps.Humanlike)
 				{
-					result = null;
+					return null;
 				}
-				else
+				LocalTargetInfo target = toil.actor.CurJob.GetTarget(ingestibleInd);
+				if (!target.HasThing)
 				{
-					LocalTargetInfo target = toil.actor.CurJob.GetTarget(ingestibleInd);
-					if (!target.HasThing)
-					{
-						result = null;
-					}
-					else
-					{
-						result = target.Thing.def.ingestible.ingestSound;
-					}
+					return null;
 				}
-				return result;
+				return target.Thing.def.ingestible.ingestSound;
 			});
 			return toil;
 		}
@@ -388,22 +354,19 @@ namespace RimWorld
 				Pawn actor = toil.actor;
 				Job curJob = actor.jobs.curJob;
 				Thing thing = curJob.GetTarget(ingestibleInd).Thing;
-				if (ingester.needs.mood != null)
+				if (ingester.needs.mood != null && thing.def.IsNutritionGivingIngestible && thing.def.ingestible.chairSearchRadius > 10f)
 				{
-					if (thing.def.IsNutritionGivingIngestible && thing.def.ingestible.chairSearchRadius > 10f)
+					if (!(ingester.Position + ingester.Rotation.FacingCell).HasEatSurface(actor.Map) && ingester.GetPosture() == PawnPosture.Standing)
 					{
-						if (!(ingester.Position + ingester.Rotation.FacingCell).HasEatSurface(actor.Map) && ingester.GetPosture() == PawnPosture.Standing)
+						ingester.needs.mood.thoughts.memories.TryGainMemory(ThoughtDefOf.AteWithoutTable, null);
+					}
+					Room room = ingester.GetRoom(RegionType.Set_Passable);
+					if (room != null)
+					{
+						int scoreStageIndex = RoomStatDefOf.Impressiveness.GetScoreStageIndex(room.GetStat(RoomStatDefOf.Impressiveness));
+						if (ThoughtDefOf.AteInImpressiveDiningRoom.stages[scoreStageIndex] != null)
 						{
-							ingester.needs.mood.thoughts.memories.TryGainMemory(ThoughtDefOf.AteWithoutTable, null);
-						}
-						Room room = ingester.GetRoom(RegionType.Set_Passable);
-						if (room != null)
-						{
-							int scoreStageIndex = RoomStatDefOf.Impressiveness.GetScoreStageIndex(room.GetStat(RoomStatDefOf.Impressiveness));
-							if (ThoughtDefOf.AteInImpressiveDiningRoom.stages[scoreStageIndex] != null)
-							{
-								ingester.needs.mood.thoughts.memories.TryGainMemory(ThoughtMaker.MakeThought(ThoughtDefOf.AteInImpressiveDiningRoom, scoreStageIndex), null);
-							}
+							ingester.needs.mood.thoughts.memories.TryGainMemory(ThoughtMaker.MakeThought(ThoughtDefOf.AteInImpressiveDiningRoom, scoreStageIndex), null);
 						}
 					}
 				}
@@ -448,12 +411,10 @@ namespace RimWorld
 				if (thing == null)
 				{
 					actor.jobs.curDriver.EndJobWith(JobCondition.Incompletable);
+					return;
 				}
-				else
-				{
-					actor.carryTracker.TryStartCarry(thing);
-					actor.CurJob.SetTarget(this.ind, actor.carryTracker.CarriedThing);
-				}
+				actor.carryTracker.TryStartCarry(thing);
+				actor.CurJob.SetTarget(this.ind, actor.carryTracker.CarriedThing);
 			}
 		}
 
@@ -477,17 +438,15 @@ namespace RimWorld
 				{
 					Log.Error("Tried to do PickupIngestible toil with job.maxNumToCarry = " + curJob.count, false);
 					actor.jobs.EndCurrentJob(JobCondition.Errored, true);
+					return;
 				}
-				else
+				int count = Mathf.Min(thing.stackCount, curJob.count);
+				actor.carryTracker.TryStartCarry(thing, count, true);
+				if (thing != actor.carryTracker.CarriedThing && actor.Map.reservationManager.ReservedBy(thing, actor, curJob))
 				{
-					int count = Mathf.Min(thing.stackCount, curJob.count);
-					actor.carryTracker.TryStartCarry(thing, count, true);
-					if (thing != actor.carryTracker.CarriedThing && actor.Map.reservationManager.ReservedBy(thing, actor, curJob))
-					{
-						actor.Map.reservationManager.Release(thing, actor, curJob);
-					}
-					actor.jobs.curJob.targetA = actor.carryTracker.CarriedThing;
+					actor.Map.reservationManager.Release(thing, actor, curJob);
 				}
+				actor.jobs.curJob.targetA = actor.carryTracker.CarriedThing;
 			}
 		}
 
@@ -512,45 +471,40 @@ namespace RimWorld
 				Thing thing2 = actor.CurJob.GetTarget(this.ingestibleInd).Thing;
 				Predicate<Thing> baseChairValidator = delegate(Thing t)
 				{
-					bool result;
 					if (t.def.building == null || !t.def.building.isSittable)
 					{
-						result = false;
+						return false;
 					}
-					else if (t.IsForbidden(this.pawn))
+					if (t.IsForbidden(this.pawn))
 					{
-						result = false;
+						return false;
 					}
-					else if (!actor.CanReserve(t, 1, -1, null, false))
+					if (!actor.CanReserve(t, 1, -1, null, false))
 					{
-						result = false;
+						return false;
 					}
-					else if (!t.IsSociallyProper(actor))
+					if (!t.IsSociallyProper(actor))
 					{
-						result = false;
+						return false;
 					}
-					else if (t.IsBurning())
+					if (t.IsBurning())
 					{
-						result = false;
+						return false;
 					}
-					else if (t.HostileTo(this.pawn))
+					if (t.HostileTo(this.pawn))
 					{
-						result = false;
+						return false;
 					}
-					else
+					bool result = false;
+					for (int i = 0; i < 4; i++)
 					{
-						bool flag = false;
-						for (int i = 0; i < 4; i++)
+						IntVec3 c = t.Position + GenAdj.CardinalDirections[i];
+						Building edifice = c.GetEdifice(t.Map);
+						if (edifice != null && edifice.def.surfaceType == SurfaceType.Eat)
 						{
-							IntVec3 c = t.Position + GenAdj.CardinalDirections[i];
-							Building edifice = c.GetEdifice(t.Map);
-							if (edifice != null && edifice.def.surfaceType == SurfaceType.Eat)
-							{
-								flag = true;
-								break;
-							}
+							result = true;
+							break;
 						}
-						result = flag;
 					}
 					return result;
 				};
@@ -570,7 +524,7 @@ namespace RimWorld
 				if (thing != null)
 				{
 					intVec = thing.Position;
-					actor.Reserve(thing, actor.CurJob, 1, -1, null);
+					actor.Reserve(thing, actor.CurJob, 1, -1, null, true);
 				}
 				actor.Map.pawnDestinationReservationManager.Reserve(actor, actor.CurJob, intVec);
 				actor.pather.StartPath(intVec, PathEndMode.OnCell);
@@ -590,45 +544,40 @@ namespace RimWorld
 
 				internal bool <>m__0(Thing t)
 				{
-					bool result;
 					if (t.def.building == null || !t.def.building.isSittable)
 					{
-						result = false;
+						return false;
 					}
-					else if (t.IsForbidden(this.<>f__ref$2.pawn))
+					if (t.IsForbidden(this.<>f__ref$2.pawn))
 					{
-						result = false;
+						return false;
 					}
-					else if (!this.actor.CanReserve(t, 1, -1, null, false))
+					if (!this.actor.CanReserve(t, 1, -1, null, false))
 					{
-						result = false;
+						return false;
 					}
-					else if (!t.IsSociallyProper(this.actor))
+					if (!t.IsSociallyProper(this.actor))
 					{
-						result = false;
+						return false;
 					}
-					else if (t.IsBurning())
+					if (t.IsBurning())
 					{
-						result = false;
+						return false;
 					}
-					else if (t.HostileTo(this.<>f__ref$2.pawn))
+					if (t.HostileTo(this.<>f__ref$2.pawn))
 					{
-						result = false;
+						return false;
 					}
-					else
+					bool result = false;
+					for (int i = 0; i < 4; i++)
 					{
-						bool flag = false;
-						for (int i = 0; i < 4; i++)
+						IntVec3 c = t.Position + GenAdj.CardinalDirections[i];
+						Building edifice = c.GetEdifice(t.Map);
+						if (edifice != null && edifice.def.surfaceType == SurfaceType.Eat)
 						{
-							IntVec3 c = t.Position + GenAdj.CardinalDirections[i];
-							Building edifice = c.GetEdifice(t.Map);
-							if (edifice != null && edifice.def.surfaceType == SurfaceType.Eat)
-							{
-								flag = true;
-								break;
-							}
+							result = true;
+							break;
 						}
-						result = flag;
 					}
 					return result;
 				}
@@ -709,7 +658,7 @@ namespace RimWorld
 						{
 							thing.Rotation = Rot4.FromIntVec3(intVec - this.toil.actor.Position);
 						}
-						break;
+						return;
 					}
 				}
 			}
@@ -739,14 +688,12 @@ namespace RimWorld
 				if (!thing.IngestibleNow)
 				{
 					this.chewer.jobs.EndCurrentJob(JobCondition.Incompletable, true);
+					return;
 				}
-				else
+				actor.jobs.curDriver.ticksLeftThisToil = Mathf.RoundToInt((float)thing.def.ingestible.baseIngestTicks * this.durationMultiplier);
+				if (thing.Spawned)
 				{
-					actor.jobs.curDriver.ticksLeftThisToil = Mathf.RoundToInt((float)thing.def.ingestible.baseIngestTicks * this.durationMultiplier);
-					if (thing.Spawned)
-					{
-						thing.Map.physicalInteractionReservationManager.Reserve(this.chewer, actor.CurJob, thing);
-					}
+					thing.Map.physicalInteractionReservationManager.Reserve(this.chewer, actor.CurJob, thing);
 				}
 			}
 
@@ -775,33 +722,31 @@ namespace RimWorld
 			{
 				Pawn actor = this.toil.actor;
 				Thing thing = actor.CurJob.GetTarget(this.ingestibleInd).Thing;
-				float result;
 				if (thing == null)
 				{
-					result = 1f;
+					return 1f;
 				}
-				else
-				{
-					result = 1f - (float)this.toil.actor.jobs.curDriver.ticksLeftThisToil / Mathf.Round((float)thing.def.ingestible.baseIngestTicks * this.durationMultiplier);
-				}
-				return result;
+				return 1f - (float)this.toil.actor.jobs.curDriver.ticksLeftThisToil / Mathf.Round((float)thing.def.ingestible.baseIngestTicks * this.durationMultiplier);
 			}
 
 			internal void <>m__3()
 			{
-				if (this.chewer != null)
+				if (this.chewer == null)
 				{
-					if (this.chewer.CurJob != null)
-					{
-						Thing thing = this.chewer.CurJob.GetTarget(this.ingestibleInd).Thing;
-						if (thing != null)
-						{
-							if (this.chewer.Map.physicalInteractionReservationManager.IsReservedBy(this.chewer, thing))
-							{
-								this.chewer.Map.physicalInteractionReservationManager.Release(this.chewer, this.toil.actor.CurJob, thing);
-							}
-						}
-					}
+					return;
+				}
+				if (this.chewer.CurJob == null)
+				{
+					return;
+				}
+				Thing thing = this.chewer.CurJob.GetTarget(this.ingestibleInd).Thing;
+				if (thing == null)
+				{
+					return;
+				}
+				if (this.chewer.Map.physicalInteractionReservationManager.IsReservedBy(this.chewer, thing))
+				{
+					this.chewer.Map.physicalInteractionReservationManager.Release(this.chewer, this.toil.actor.CurJob, thing);
 				}
 			}
 		}
@@ -824,69 +769,48 @@ namespace RimWorld
 			internal EffecterDef <>m__0()
 			{
 				LocalTargetInfo target = this.toil.actor.CurJob.GetTarget(this.ingestibleInd);
-				EffecterDef result;
 				if (!target.HasThing)
 				{
-					result = null;
+					return null;
 				}
-				else
+				EffecterDef result = target.Thing.def.ingestible.ingestEffect;
+				if (this.chewer.RaceProps.intelligence < Intelligence.ToolUser && target.Thing.def.ingestible.ingestEffectEat != null)
 				{
-					EffecterDef effecterDef = target.Thing.def.ingestible.ingestEffect;
-					if (this.chewer.RaceProps.intelligence < Intelligence.ToolUser && target.Thing.def.ingestible.ingestEffectEat != null)
-					{
-						effecterDef = target.Thing.def.ingestible.ingestEffectEat;
-					}
-					result = effecterDef;
+					result = target.Thing.def.ingestible.ingestEffectEat;
 				}
 				return result;
 			}
 
 			internal LocalTargetInfo <>m__1()
 			{
-				LocalTargetInfo result;
 				if (!this.toil.actor.CurJob.GetTarget(this.ingestibleInd).HasThing)
 				{
-					result = null;
+					return null;
 				}
-				else
+				Thing thing = this.toil.actor.CurJob.GetTarget(this.ingestibleInd).Thing;
+				if (this.chewer != this.toil.actor)
 				{
-					Thing thing = this.toil.actor.CurJob.GetTarget(this.ingestibleInd).Thing;
-					if (this.chewer != this.toil.actor)
-					{
-						result = this.chewer;
-					}
-					else if (this.eatSurfaceInd != TargetIndex.None && this.toil.actor.CurJob.GetTarget(this.eatSurfaceInd).IsValid)
-					{
-						result = this.toil.actor.CurJob.GetTarget(this.eatSurfaceInd);
-					}
-					else
-					{
-						result = thing;
-					}
+					return this.chewer;
 				}
-				return result;
+				if (this.eatSurfaceInd != TargetIndex.None && this.toil.actor.CurJob.GetTarget(this.eatSurfaceInd).IsValid)
+				{
+					return this.toil.actor.CurJob.GetTarget(this.eatSurfaceInd);
+				}
+				return thing;
 			}
 
 			internal SoundDef <>m__2()
 			{
-				SoundDef result;
 				if (!this.chewer.RaceProps.Humanlike)
 				{
-					result = null;
+					return null;
 				}
-				else
+				LocalTargetInfo target = this.toil.actor.CurJob.GetTarget(this.ingestibleInd);
+				if (!target.HasThing)
 				{
-					LocalTargetInfo target = this.toil.actor.CurJob.GetTarget(this.ingestibleInd);
-					if (!target.HasThing)
-					{
-						result = null;
-					}
-					else
-					{
-						result = target.Thing.def.ingestible.ingestSound;
-					}
+					return null;
 				}
-				return result;
+				return target.Thing.def.ingestible.ingestSound;
 			}
 		}
 
@@ -908,22 +832,19 @@ namespace RimWorld
 				Pawn actor = this.toil.actor;
 				Job curJob = actor.jobs.curJob;
 				Thing thing = curJob.GetTarget(this.ingestibleInd).Thing;
-				if (this.ingester.needs.mood != null)
+				if (this.ingester.needs.mood != null && thing.def.IsNutritionGivingIngestible && thing.def.ingestible.chairSearchRadius > 10f)
 				{
-					if (thing.def.IsNutritionGivingIngestible && thing.def.ingestible.chairSearchRadius > 10f)
+					if (!(this.ingester.Position + this.ingester.Rotation.FacingCell).HasEatSurface(actor.Map) && this.ingester.GetPosture() == PawnPosture.Standing)
 					{
-						if (!(this.ingester.Position + this.ingester.Rotation.FacingCell).HasEatSurface(actor.Map) && this.ingester.GetPosture() == PawnPosture.Standing)
+						this.ingester.needs.mood.thoughts.memories.TryGainMemory(ThoughtDefOf.AteWithoutTable, null);
+					}
+					Room room = this.ingester.GetRoom(RegionType.Set_Passable);
+					if (room != null)
+					{
+						int scoreStageIndex = RoomStatDefOf.Impressiveness.GetScoreStageIndex(room.GetStat(RoomStatDefOf.Impressiveness));
+						if (ThoughtDefOf.AteInImpressiveDiningRoom.stages[scoreStageIndex] != null)
 						{
-							this.ingester.needs.mood.thoughts.memories.TryGainMemory(ThoughtDefOf.AteWithoutTable, null);
-						}
-						Room room = this.ingester.GetRoom(RegionType.Set_Passable);
-						if (room != null)
-						{
-							int scoreStageIndex = RoomStatDefOf.Impressiveness.GetScoreStageIndex(room.GetStat(RoomStatDefOf.Impressiveness));
-							if (ThoughtDefOf.AteInImpressiveDiningRoom.stages[scoreStageIndex] != null)
-							{
-								this.ingester.needs.mood.thoughts.memories.TryGainMemory(ThoughtMaker.MakeThought(ThoughtDefOf.AteInImpressiveDiningRoom, scoreStageIndex), null);
-							}
+							this.ingester.needs.mood.thoughts.memories.TryGainMemory(ThoughtMaker.MakeThought(ThoughtDefOf.AteInImpressiveDiningRoom, scoreStageIndex), null);
 						}
 					}
 				}

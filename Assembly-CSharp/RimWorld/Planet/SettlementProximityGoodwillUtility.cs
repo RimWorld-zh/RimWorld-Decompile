@@ -28,50 +28,52 @@ namespace RimWorld.Planet
 
 		public static void CheckSettlementProximityGoodwillChange()
 		{
-			if (Find.TickManager.TicksGame != 0 && Find.TickManager.TicksGame % 900000 == 0)
+			if (Find.TickManager.TicksGame == 0 || Find.TickManager.TicksGame % 900000 != 0)
 			{
-				List<Settlement> settlements = Find.WorldObjects.Settlements;
-				SettlementProximityGoodwillUtility.tmpGoodwillOffsets.Clear();
-				for (int i = 0; i < settlements.Count; i++)
+				return;
+			}
+			List<Settlement> settlements = Find.WorldObjects.Settlements;
+			SettlementProximityGoodwillUtility.tmpGoodwillOffsets.Clear();
+			for (int i = 0; i < settlements.Count; i++)
+			{
+				Settlement settlement = settlements[i];
+				if (settlement.Faction == Faction.OfPlayer)
 				{
-					Settlement settlement = settlements[i];
-					if (settlement.Faction == Faction.OfPlayer)
-					{
-						SettlementProximityGoodwillUtility.AppendProximityGoodwillOffsets(settlement.Tile, SettlementProximityGoodwillUtility.tmpGoodwillOffsets, true, false);
-					}
+					SettlementProximityGoodwillUtility.AppendProximityGoodwillOffsets(settlement.Tile, SettlementProximityGoodwillUtility.tmpGoodwillOffsets, true, false);
 				}
-				if (SettlementProximityGoodwillUtility.tmpGoodwillOffsets.Any<Pair<Settlement, int>>())
+			}
+			if (!SettlementProximityGoodwillUtility.tmpGoodwillOffsets.Any<Pair<Settlement, int>>())
+			{
+				return;
+			}
+			SettlementProximityGoodwillUtility.SortProximityGoodwillOffsets(SettlementProximityGoodwillUtility.tmpGoodwillOffsets);
+			List<Faction> allFactionsListForReading = Find.FactionManager.AllFactionsListForReading;
+			bool flag = false;
+			string text = "LetterFactionBaseProximity".Translate() + "\n\n" + SettlementProximityGoodwillUtility.ProximityGoodwillOffsetsToString(SettlementProximityGoodwillUtility.tmpGoodwillOffsets);
+			for (int j = 0; j < allFactionsListForReading.Count; j++)
+			{
+				Faction faction = allFactionsListForReading[j];
+				if (faction != Faction.OfPlayer)
 				{
-					SettlementProximityGoodwillUtility.SortProximityGoodwillOffsets(SettlementProximityGoodwillUtility.tmpGoodwillOffsets);
-					List<Faction> allFactionsListForReading = Find.FactionManager.AllFactionsListForReading;
-					bool flag = false;
-					string text = "LetterFactionBaseProximity".Translate() + "\n\n" + SettlementProximityGoodwillUtility.ProximityGoodwillOffsetsToString(SettlementProximityGoodwillUtility.tmpGoodwillOffsets);
-					for (int j = 0; j < allFactionsListForReading.Count; j++)
+					int num = 0;
+					for (int k = 0; k < SettlementProximityGoodwillUtility.tmpGoodwillOffsets.Count; k++)
 					{
-						Faction faction = allFactionsListForReading[j];
-						if (faction != Faction.OfPlayer)
+						if (SettlementProximityGoodwillUtility.tmpGoodwillOffsets[k].First.Faction == faction)
 						{
-							int num = 0;
-							for (int k = 0; k < SettlementProximityGoodwillUtility.tmpGoodwillOffsets.Count; k++)
-							{
-								if (SettlementProximityGoodwillUtility.tmpGoodwillOffsets[k].First.Faction == faction)
-								{
-									num += SettlementProximityGoodwillUtility.tmpGoodwillOffsets[k].Second;
-								}
-							}
-							FactionRelationKind playerRelationKind = faction.PlayerRelationKind;
-							if (faction.TryAffectGoodwillWith(Faction.OfPlayer, num, false, false, null, null))
-							{
-								flag = true;
-								faction.TryAppendRelationKindChangedInfo(ref text, playerRelationKind, faction.PlayerRelationKind, null);
-							}
+							num += SettlementProximityGoodwillUtility.tmpGoodwillOffsets[k].Second;
 						}
 					}
-					if (flag)
+					FactionRelationKind playerRelationKind = faction.PlayerRelationKind;
+					if (faction.TryAffectGoodwillWith(Faction.OfPlayer, num, false, false, null, null))
 					{
-						Find.LetterStack.ReceiveLetter("LetterLabelFactionBaseProximity".Translate(), text, LetterDefOf.NegativeEvent, null);
+						flag = true;
+						faction.TryAppendRelationKindChangedInfo(ref text, playerRelationKind, faction.PlayerRelationKind, null);
 					}
 				}
+			}
+			if (flag)
+			{
+				Find.LetterStack.ReceiveLetter("LetterLabelFactionBaseProximity".Translate(), text, LetterDefOf.NegativeEvent, null);
 			}
 		}
 

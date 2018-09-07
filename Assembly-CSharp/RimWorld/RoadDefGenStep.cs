@@ -9,7 +9,7 @@ namespace RimWorld
 
 		public float antialiasingMultiplier = 1f;
 
-		public int periodicSpacing = 0;
+		public int periodicSpacing;
 
 		protected RoadDefGenStep()
 		{

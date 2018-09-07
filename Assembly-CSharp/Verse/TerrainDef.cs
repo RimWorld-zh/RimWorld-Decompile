@@ -15,46 +15,46 @@ namespace Verse
 		[NoTranslate]
 		public string texturePath;
 
-		public TerrainDef.TerrainEdgeType edgeType = TerrainDef.TerrainEdgeType.Hard;
+		public TerrainDef.TerrainEdgeType edgeType;
 
 		[NoTranslate]
-		public string waterDepthShader = null;
+		public string waterDepthShader;
 
-		public List<ShaderParameter> waterDepthShaderParameters = null;
+		public List<ShaderParameter> waterDepthShaderParameters;
 
-		public int renderPrecedence = 0;
+		public int renderPrecedence;
 
 		public List<TerrainAffordanceDef> affordances = new List<TerrainAffordanceDef>();
 
-		public bool layerable = false;
+		public bool layerable;
 
 		[NoTranslate]
-		public string scatterType = null;
+		public string scatterType;
 
-		public bool takeFootprints = false;
+		public bool takeFootprints;
 
-		public bool takeSplashes = false;
+		public bool takeSplashes;
 
-		public bool avoidWander = false;
+		public bool avoidWander;
 
 		public bool changeable = true;
 
-		public TerrainDef smoothedTerrain = null;
+		public TerrainDef smoothedTerrain;
 
 		public bool holdSnow = true;
 
-		public bool extinguishesFire = false;
+		public bool extinguishesFire;
 
 		public Color color = Color.white;
 
-		public TerrainDef driesTo = null;
+		public TerrainDef driesTo;
 
 		[NoTranslate]
-		public List<string> tags = null;
+		public List<string> tags;
 
-		public TerrainDef burnedDef = null;
+		public TerrainDef burnedDef;
 
-		public List<Tool> tools = null;
+		public List<Tool> tools;
 
 		public float extraDeteriorationFactor;
 
@@ -72,14 +72,14 @@ namespace Verse
 
 		public EffecterDef destroyEffectWater;
 
-		public ThingDef generatedFilth = null;
+		public ThingDef generatedFilth;
 
-		public bool acceptTerrainSourceFilth = false;
+		public bool acceptTerrainSourceFilth;
 
 		public bool acceptFilth = true;
 
 		[Unsaved]
-		public Material waterDepthMaterial = null;
+		public Material waterDepthMaterial;
 
 		public TerrainDef()
 		{
@@ -175,7 +175,7 @@ namespace Verse
 
 		public override IEnumerable<string> ConfigErrors()
 		{
-			foreach (string err in this.<ConfigErrors>__BaseCallProxy0())
+			foreach (string err in base.ConfigErrors())
 			{
 				yield return err;
 			}
@@ -218,7 +218,7 @@ namespace Verse
 
 		public override IEnumerable<StatDrawEntry> SpecialDisplayStats(StatRequest req)
 		{
-			foreach (StatDrawEntry stat in this.<SpecialDisplayStats>__BaseCallProxy1(req))
+			foreach (StatDrawEntry stat in base.SpecialDisplayStats(req))
 			{
 				yield return stat;
 			}
@@ -227,7 +227,7 @@ namespace Verse
 			select ta.label).ToArray<string>();
 			if (affordance.Length > 0)
 			{
-				yield return new StatDrawEntry(StatCategoryDefOf.Basics, "Supports".Translate(), affordance.ToCommaList(false).CapitalizeFirst(), 0, "");
+				yield return new StatDrawEntry(StatCategoryDefOf.Basics, "Supports".Translate(), affordance.ToCommaList(false).CapitalizeFirst(), 0, string.Empty);
 			}
 			yield break;
 		}
@@ -327,17 +327,17 @@ namespace Verse
 				case 1u:
 					break;
 				case 2u:
-					goto IL_100;
+					goto IL_FC;
 				case 3u:
-					goto IL_144;
+					goto IL_140;
 				case 4u:
-					goto IL_192;
+					goto IL_18E;
 				case 5u:
-					goto IL_1E1;
+					goto IL_1DD;
 				case 6u:
-					goto IL_230;
+					goto IL_22C;
 				case 7u:
-					goto IL_274;
+					goto IL_270;
 				default:
 					return false;
 				}
@@ -377,7 +377,7 @@ namespace Verse
 					}
 					return true;
 				}
-				IL_100:
+				IL_FC:
 				if (this.fertility < 0f)
 				{
 					this.$current = "Terrain Def " + this + " has no fertility value set.";
@@ -387,7 +387,7 @@ namespace Verse
 					}
 					return true;
 				}
-				IL_144:
+				IL_140:
 				if (this.renderPrecedence > 400)
 				{
 					this.$current = "Render order " + this.renderPrecedence + " is out of range (must be < 400)";
@@ -397,7 +397,7 @@ namespace Verse
 					}
 					return true;
 				}
-				IL_192:
+				IL_18E:
 				if (this.generatedFilth != null && this.acceptTerrainSourceFilth)
 				{
 					this.$current = this.defName + " makes terrain filth and also accepts it.";
@@ -407,7 +407,7 @@ namespace Verse
 					}
 					return true;
 				}
-				IL_1E1:
+				IL_1DD:
 				if (this.Flammable() && this.burnedDef == null && !this.layerable)
 				{
 					this.$current = "flammable but burnedDef is null and not layerable";
@@ -417,7 +417,7 @@ namespace Verse
 					}
 					return true;
 				}
-				IL_230:
+				IL_22C:
 				if (this.burnedDef != null && this.burnedDef.Flammable())
 				{
 					this.$current = "burnedDef is flammable";
@@ -427,7 +427,7 @@ namespace Verse
 					}
 					return true;
 				}
-				IL_274:
+				IL_270:
 				this.$PC = -1;
 				return false;
 			}
@@ -540,7 +540,7 @@ namespace Verse
 				case 1u:
 					break;
 				case 2u:
-					goto IL_171;
+					goto IL_16C;
 				default:
 					return false;
 				}
@@ -576,15 +576,15 @@ namespace Verse
 				select ta.label).ToArray<string>();
 				if (affordance.Length <= 0)
 				{
-					goto IL_171;
+					goto IL_16C;
 				}
-				this.$current = new StatDrawEntry(StatCategoryDefOf.Basics, "Supports".Translate(), affordance.ToCommaList(false).CapitalizeFirst(), 0, "");
+				this.$current = new StatDrawEntry(StatCategoryDefOf.Basics, "Supports".Translate(), affordance.ToCommaList(false).CapitalizeFirst(), 0, string.Empty);
 				if (!this.$disposing)
 				{
 					this.$PC = 2;
 				}
 				return true;
-				IL_171:
+				IL_16C:
 				this.$PC = -1;
 				return false;
 			}

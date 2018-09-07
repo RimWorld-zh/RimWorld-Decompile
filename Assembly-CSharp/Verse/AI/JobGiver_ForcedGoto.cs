@@ -12,24 +12,19 @@ namespace Verse.AI
 		protected override Job TryGiveJob(Pawn pawn)
 		{
 			IntVec3 forcedGotoPosition = pawn.mindState.forcedGotoPosition;
-			Job result;
 			if (!forcedGotoPosition.IsValid)
 			{
-				result = null;
+				return null;
 			}
-			else if (!pawn.CanReach(forcedGotoPosition, PathEndMode.ClosestTouch, Danger.Deadly, false, TraverseMode.ByPawn))
+			if (!pawn.CanReach(forcedGotoPosition, PathEndMode.ClosestTouch, Danger.Deadly, false, TraverseMode.ByPawn))
 			{
 				pawn.mindState.forcedGotoPosition = IntVec3.Invalid;
-				result = null;
+				return null;
 			}
-			else
+			return new Job(JobDefOf.Goto, forcedGotoPosition)
 			{
-				result = new Job(JobDefOf.Goto, forcedGotoPosition)
-				{
-					locomotionUrgency = LocomotionUrgency.Walk
-				};
-			}
-			return result;
+				locomotionUrgency = LocomotionUrgency.Walk
+			};
 		}
 	}
 }

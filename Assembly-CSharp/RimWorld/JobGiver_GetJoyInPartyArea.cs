@@ -12,29 +12,21 @@ namespace RimWorld
 
 		protected override Job TryGiveJobFromJoyGiverDefDirect(JoyGiverDef def, Pawn pawn)
 		{
-			Job result;
 			if (pawn.mindState.duty == null)
 			{
-				result = null;
+				return null;
 			}
-			else if (pawn.needs.joy == null)
+			if (pawn.needs.joy == null)
 			{
-				result = null;
+				return null;
 			}
-			else
+			float curLevelPercentage = pawn.needs.joy.CurLevelPercentage;
+			if (curLevelPercentage > 0.92f)
 			{
-				float curLevelPercentage = pawn.needs.joy.CurLevelPercentage;
-				if (curLevelPercentage > 0.92f)
-				{
-					result = null;
-				}
-				else
-				{
-					IntVec3 cell = pawn.mindState.duty.focus.Cell;
-					result = def.Worker.TryGiveJobInPartyArea(pawn, cell);
-				}
+				return null;
 			}
-			return result;
+			IntVec3 cell = pawn.mindState.duty.focus.Cell;
+			return def.Worker.TryGiveJobInPartyArea(pawn, cell);
 		}
 	}
 }

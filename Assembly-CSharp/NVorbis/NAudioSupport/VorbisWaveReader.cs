@@ -13,7 +13,7 @@ namespace NVorbis.NAudioSupport
 		private WaveFormat _waveFormat;
 
 		[ThreadStatic]
-		private static float[] _conversionBuffer = null;
+		private static float[] _conversionBuffer;
 
 		[DebuggerBrowsable(DebuggerBrowsableState.Never)]
 		[CompilerGenerated]

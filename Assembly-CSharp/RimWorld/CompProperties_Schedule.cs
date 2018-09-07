@@ -5,12 +5,12 @@ namespace RimWorld
 {
 	public class CompProperties_Schedule : CompProperties
 	{
-		public float startTime = 0f;
+		public float startTime;
 
 		public float endTime = 1f;
 
 		[MustTranslate]
-		public string offMessage = null;
+		public string offMessage;
 
 		public CompProperties_Schedule()
 		{

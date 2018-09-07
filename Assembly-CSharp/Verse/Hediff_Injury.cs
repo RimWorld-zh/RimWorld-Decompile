@@ -80,16 +80,11 @@ namespace Verse
 		{
 			get
 			{
-				Color result;
 				if (this.IsPermanent())
 				{
-					result = Hediff_Injury.PermanentInjuryColor;
+					return Hediff_Injury.PermanentInjuryColor;
 				}
-				else
-				{
-					result = Color.white;
-				}
-				return result;
+				return Color.white;
 			}
 		}
 
@@ -97,16 +92,11 @@ namespace Verse
 		{
 			get
 			{
-				string result;
 				if (this.Severity == 0f)
 				{
-					result = null;
+					return null;
 				}
-				else
-				{
-					result = this.Severity.ToString("0.##");
-				}
-				return result;
+				return this.Severity.ToString("F1");
 			}
 		}
 
@@ -114,16 +104,11 @@ namespace Verse
 		{
 			get
 			{
-				float result;
 				if (this.IsPermanent() || !this.Visible)
 				{
-					result = 0f;
+					return 0f;
 				}
-				else
-				{
-					result = this.Severity / (75f * this.pawn.HealthScale);
-				}
-				return result;
+				return this.Severity / (75f * this.pawn.HealthScale);
 			}
 		}
 
@@ -131,24 +116,16 @@ namespace Verse
 		{
 			get
 			{
-				float result;
 				if (this.pawn.Dead || this.pawn.health.hediffSet.PartOrAnyAncestorHasDirectlyAddedParts(base.Part) || this.causesNoPain)
 				{
-					result = 0f;
+					return 0f;
 				}
-				else
+				HediffComp_GetsPermanent hediffComp_GetsPermanent = this.TryGetComp<HediffComp_GetsPermanent>();
+				if (hediffComp_GetsPermanent != null && hediffComp_GetsPermanent.IsPermanent)
 				{
-					HediffComp_GetsPermanent hediffComp_GetsPermanent = this.TryGetComp<HediffComp_GetsPermanent>();
-					if (hediffComp_GetsPermanent != null && hediffComp_GetsPermanent.IsPermanent)
-					{
-						result = this.Severity * this.def.injuryProps.averagePainPerSeverityPermanent * hediffComp_GetsPermanent.PainFactor;
-					}
-					else
-					{
-						result = this.Severity * this.def.injuryProps.painPerSeverity;
-					}
+					return this.Severity * this.def.injuryProps.averagePainPerSeverityPermanent * hediffComp_GetsPermanent.PainFactor;
 				}
-				return result;
+				return this.Severity * this.def.injuryProps.painPerSeverity;
 			}
 		}
 
@@ -156,33 +133,28 @@ namespace Verse
 		{
 			get
 			{
-				float result;
 				if (this.pawn.Dead)
 				{
-					result = 0f;
+					return 0f;
 				}
-				else if (this.BleedingStoppedDueToAge)
+				if (this.BleedingStoppedDueToAge)
 				{
-					result = 0f;
+					return 0f;
 				}
-				else if (base.Part.def.IsSolid(base.Part, this.pawn.health.hediffSet.hediffs) || this.IsTended() || this.IsPermanent())
+				if (base.Part.def.IsSolid(base.Part, this.pawn.health.hediffSet.hediffs) || this.IsTended() || this.IsPermanent())
 				{
-					result = 0f;
+					return 0f;
 				}
-				else if (this.pawn.health.hediffSet.PartOrAnyAncestorHasDirectlyAddedParts(base.Part))
+				if (this.pawn.health.hediffSet.PartOrAnyAncestorHasDirectlyAddedParts(base.Part))
 				{
-					result = 0f;
+					return 0f;
 				}
-				else
+				float num = this.Severity * this.def.injuryProps.bleedRate;
+				if (base.Part != null)
 				{
-					float num = this.Severity * this.def.injuryProps.bleedRate;
-					if (base.Part != null)
-					{
-						num *= base.Part.def.bleedRate;
-					}
-					result = num;
+					num *= base.Part.def.bleedRate;
 				}
-				return result;
+				return num;
 			}
 		}
 
@@ -234,6 +206,23 @@ namespace Verse
 			return hediff_Injury != null && hediff_Injury.def == this.def && hediff_Injury.Part == base.Part && !hediff_Injury.IsTended() && !hediff_Injury.IsPermanent() && !this.IsTended() && !this.IsPermanent() && this.def.injuryProps.canMerge && base.TryMergeWith(other);
 		}
 
+		public override void PostAdd(DamageInfo? dinfo)
+		{
+			base.PostAdd(dinfo);
+			if (base.Part != null && base.Part.coverageAbs <= 0f)
+			{
+				Log.Error(string.Concat(new object[]
+				{
+					"Added injury to ",
+					base.Part.def,
+					" but it should be impossible to hit it. pawn=",
+					this.pawn.ToStringSafe<Pawn>(),
+					" dinfo=",
+					dinfo.ToStringSafe<DamageInfo?>()
+				}), false);
+			}
+		}
+
 		public override void ExposeData()
 		{
 			base.ExposeData();
@@ -241,6 +230,7 @@ namespace Verse
 			{
 				Log.Error("Hediff_Injury has null part after loading.", false);
 				this.pawn.health.hediffSet.hediffs.Remove(this);
+				return;
 			}
 		}
 

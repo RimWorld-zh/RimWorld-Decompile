@@ -42,50 +42,51 @@ namespace Verse
 
 		public void DrawDynamicThings()
 		{
-			if (DebugViewSettings.drawThingsDynamic)
+			if (!DebugViewSettings.drawThingsDynamic)
 			{
-				this.drawingNow = true;
-				try
+				return;
+			}
+			this.drawingNow = true;
+			try
+			{
+				bool[] fogGrid = this.map.fogGrid.fogGrid;
+				CellRect cellRect = Find.CameraDriver.CurrentViewRect;
+				cellRect.ClipInsideMap(this.map);
+				cellRect = cellRect.ExpandedBy(1);
+				CellIndices cellIndices = this.map.cellIndices;
+				foreach (Thing thing in this.drawThings)
 				{
-					bool[] fogGrid = this.map.fogGrid.fogGrid;
-					CellRect cellRect = Find.CameraDriver.CurrentViewRect;
-					cellRect.ClipInsideMap(this.map);
-					cellRect = cellRect.ExpandedBy(1);
-					CellIndices cellIndices = this.map.cellIndices;
-					foreach (Thing thing in this.drawThings)
+					IntVec3 position = thing.Position;
+					if (cellRect.Contains(position) || thing.def.drawOffscreen)
 					{
-						IntVec3 position = thing.Position;
-						if (cellRect.Contains(position) || thing.def.drawOffscreen)
+						if (!fogGrid[cellIndices.CellToIndex(position)] || thing.def.seeThroughFog)
 						{
-							if (!fogGrid[cellIndices.CellToIndex(position)] || thing.def.seeThroughFog)
+							if (thing.def.hideAtSnowDepth >= 1f || this.map.snowGrid.GetDepth(thing.Position) <= thing.def.hideAtSnowDepth)
 							{
-								if (thing.def.hideAtSnowDepth >= 1f || this.map.snowGrid.GetDepth(thing.Position) <= thing.def.hideAtSnowDepth)
+								try
 								{
-									try
+									thing.Draw();
+								}
+								catch (Exception ex)
+								{
+									Log.Error(string.Concat(new object[]
 									{
-										thing.Draw();
-									}
-									catch (Exception ex)
-									{
-										Log.Error(string.Concat(new object[]
-										{
-											"Exception drawing ",
-											thing,
-											": ",
-											ex.ToString()
-										}), false);
-									}
+										"Exception drawing ",
+										thing,
+										": ",
+										ex.ToString()
+									}), false);
 								}
 							}
 						}
 					}
 				}
-				catch (Exception arg)
-				{
-					Log.Error("Exception drawing dynamic things: " + arg, false);
-				}
-				this.drawingNow = false;
 			}
+			catch (Exception arg)
+			{
+				Log.Error("Exception drawing dynamic things: " + arg, false);
+			}
+			this.drawingNow = false;
 		}
 
 		public void LogDynamicDrawThings()

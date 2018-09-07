@@ -8,7 +8,7 @@ namespace Verse
 	{
 		protected Section section;
 
-		public MapMeshFlag relevantChangeTypes = MapMeshFlag.None;
+		public MapMeshFlag relevantChangeTypes;
 
 		public List<LayerSubMesh> subMeshes = new List<LayerSubMesh>();
 
@@ -35,36 +35,31 @@ namespace Verse
 
 		public LayerSubMesh GetSubMesh(Material material)
 		{
-			LayerSubMesh result;
 			if (material == null)
 			{
-				result = null;
+				return null;
 			}
-			else
+			for (int i = 0; i < this.subMeshes.Count; i++)
 			{
-				for (int i = 0; i < this.subMeshes.Count; i++)
+				if (this.subMeshes[i].material == material)
 				{
-					if (this.subMeshes[i].material == material)
-					{
-						return this.subMeshes[i];
-					}
+					return this.subMeshes[i];
 				}
-				Mesh mesh = new Mesh();
-				if (UnityData.isEditor)
-				{
-					mesh.name = string.Concat(new object[]
-					{
-						"SectionLayerSubMesh_",
-						base.GetType().Name,
-						"_",
-						this.Map.Tile
-					});
-				}
-				LayerSubMesh layerSubMesh = new LayerSubMesh(mesh, material);
-				this.subMeshes.Add(layerSubMesh);
-				result = layerSubMesh;
 			}
-			return result;
+			Mesh mesh = new Mesh();
+			if (UnityData.isEditor)
+			{
+				mesh.name = string.Concat(new object[]
+				{
+					"SectionLayerSubMesh_",
+					base.GetType().Name,
+					"_",
+					this.Map.Tile
+				});
+			}
+			LayerSubMesh layerSubMesh = new LayerSubMesh(mesh, material);
+			this.subMeshes.Add(layerSubMesh);
+			return layerSubMesh;
 		}
 
 		protected void FinalizeMesh(MeshParts tags)
@@ -80,16 +75,17 @@ namespace Verse
 
 		public virtual void DrawLayer()
 		{
-			if (this.Visible)
+			if (!this.Visible)
 			{
-				int count = this.subMeshes.Count;
-				for (int i = 0; i < count; i++)
+				return;
+			}
+			int count = this.subMeshes.Count;
+			for (int i = 0; i < count; i++)
+			{
+				LayerSubMesh layerSubMesh = this.subMeshes[i];
+				if (layerSubMesh.finalized && !layerSubMesh.disabled)
 				{
-					LayerSubMesh layerSubMesh = this.subMeshes[i];
-					if (layerSubMesh.finalized && !layerSubMesh.disabled)
-					{
-						Graphics.DrawMesh(layerSubMesh.mesh, Vector3.zero, Quaternion.identity, layerSubMesh.material, 0);
-					}
+					Graphics.DrawMesh(layerSubMesh.mesh, Vector3.zero, Quaternion.identity, layerSubMesh.material, 0);
 				}
 			}
 		}

@@ -34,20 +34,15 @@ namespace RimWorld
 		{
 			get
 			{
-				float result;
 				if (!this.pawn.health.capacities.CapableOf(PawnCapacityDefOf.Sight))
 				{
-					result = 0.5f;
+					return 0.5f;
 				}
-				else if (!this.pawn.Spawned)
+				if (!this.pawn.Spawned)
 				{
-					result = 0.5f;
+					return 0.5f;
 				}
-				else
-				{
-					result = this.LevelFromBeauty(this.CurrentInstantBeauty());
-				}
-				return result;
+				return this.LevelFromBeauty(this.CurrentInstantBeauty());
 			}
 		}
 
@@ -55,36 +50,31 @@ namespace RimWorld
 		{
 			get
 			{
-				BeautyCategory result;
 				if (this.CurLevel > 0.99f)
 				{
-					result = BeautyCategory.Beautiful;
+					return BeautyCategory.Beautiful;
 				}
-				else if (this.CurLevel > 0.85f)
+				if (this.CurLevel > 0.85f)
 				{
-					result = BeautyCategory.VeryPretty;
+					return BeautyCategory.VeryPretty;
 				}
-				else if (this.CurLevel > 0.65f)
+				if (this.CurLevel > 0.65f)
 				{
-					result = BeautyCategory.Pretty;
+					return BeautyCategory.Pretty;
 				}
-				else if (this.CurLevel > 0.35f)
+				if (this.CurLevel > 0.35f)
 				{
-					result = BeautyCategory.Neutral;
+					return BeautyCategory.Neutral;
 				}
-				else if (this.CurLevel > 0.15f)
+				if (this.CurLevel > 0.15f)
 				{
-					result = BeautyCategory.Ugly;
+					return BeautyCategory.Ugly;
 				}
-				else if (this.CurLevel > 0.01f)
+				if (this.CurLevel > 0.01f)
 				{
-					result = BeautyCategory.VeryUgly;
+					return BeautyCategory.VeryUgly;
 				}
-				else
-				{
-					result = BeautyCategory.Hideous;
-				}
-				return result;
+				return BeautyCategory.Hideous;
 			}
 		}
 
@@ -95,16 +85,11 @@ namespace RimWorld
 
 		public float CurrentInstantBeauty()
 		{
-			float result;
 			if (!this.pawn.SpawnedOrAnyParentSpawned)
 			{
-				result = 0.5f;
+				return 0.5f;
 			}
-			else
-			{
-				result = BeautyUtility.AverageBeautyPerceptible(this.pawn.PositionHeld, this.pawn.MapHeld);
-			}
-			return result;
+			return BeautyUtility.AverageBeautyPerceptible(this.pawn.PositionHeld, this.pawn.MapHeld);
 		}
 	}
 }

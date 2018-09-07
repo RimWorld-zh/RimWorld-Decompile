@@ -34,7 +34,7 @@ namespace RimWorld
 			{
 				Log.Error(this.def + " uses tale type with def but defSymbol is not set.", false);
 			}
-			foreach (Rule r in this.<SpecialTextGenerationRules>__BaseCallProxy0())
+			foreach (Rule r in base.SpecialTextGenerationRules())
 			{
 				yield return r;
 			}
@@ -100,7 +100,7 @@ namespace RimWorld
 				case 1u:
 					break;
 				case 2u:
-					goto IL_11C;
+					goto IL_117;
 				default:
 					return false;
 				}
@@ -135,7 +135,7 @@ namespace RimWorld
 				num = 4294967293u;
 				try
 				{
-					IL_11C:
+					IL_117:
 					switch (num)
 					{
 					}

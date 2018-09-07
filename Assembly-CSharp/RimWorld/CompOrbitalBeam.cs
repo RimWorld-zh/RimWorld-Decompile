@@ -108,32 +108,33 @@ namespace RimWorld
 		public override void PostDraw()
 		{
 			base.PostDraw();
-			if (this.TicksLeft > 0)
+			if (this.TicksLeft <= 0)
 			{
-				Vector3 drawPos = this.parent.DrawPos;
-				float num = ((float)this.parent.Map.Size.z - drawPos.z) * 1.41421354f;
-				Vector3 a = Vector3Utility.FromAngleFlat(this.angle - 90f);
-				Vector3 a2 = drawPos + a * num * 0.5f;
-				a2.y = AltitudeLayer.MetaOverlays.AltitudeFor();
-				float num2 = Mathf.Min((float)this.TicksPassed / 10f, 1f);
-				Vector3 b = a * ((1f - num2) * num);
-				float num3 = 0.975f + Mathf.Sin((float)this.TicksPassed * 0.3f) * 0.025f;
-				if (this.TicksLeft < this.fadeOutDuration)
-				{
-					num3 *= (float)this.TicksLeft / (float)this.fadeOutDuration;
-				}
-				Color color = this.Props.color;
-				color.a *= num3;
-				CompOrbitalBeam.MatPropertyBlock.SetColor(ShaderPropertyIDs.Color, color);
-				Matrix4x4 matrix = default(Matrix4x4);
-				matrix.SetTRS(a2 + a * this.BeamEndHeight * 0.5f + b, Quaternion.Euler(0f, this.angle, 0f), new Vector3(this.Props.width, 1f, num));
-				Graphics.DrawMesh(MeshPool.plane10, matrix, CompOrbitalBeam.BeamMat, 0, null, 0, CompOrbitalBeam.MatPropertyBlock);
-				Vector3 pos = drawPos + b;
-				pos.y = AltitudeLayer.MetaOverlays.AltitudeFor();
-				Matrix4x4 matrix2 = default(Matrix4x4);
-				matrix2.SetTRS(pos, Quaternion.Euler(0f, this.angle, 0f), new Vector3(this.Props.width, 1f, this.BeamEndHeight));
-				Graphics.DrawMesh(MeshPool.plane10, matrix2, CompOrbitalBeam.BeamEndMat, 0, null, 0, CompOrbitalBeam.MatPropertyBlock);
+				return;
 			}
+			Vector3 drawPos = this.parent.DrawPos;
+			float num = ((float)this.parent.Map.Size.z - drawPos.z) * 1.41421354f;
+			Vector3 a = Vector3Utility.FromAngleFlat(this.angle - 90f);
+			Vector3 a2 = drawPos + a * num * 0.5f;
+			a2.y = AltitudeLayer.MetaOverlays.AltitudeFor();
+			float num2 = Mathf.Min((float)this.TicksPassed / 10f, 1f);
+			Vector3 b = a * ((1f - num2) * num);
+			float num3 = 0.975f + Mathf.Sin((float)this.TicksPassed * 0.3f) * 0.025f;
+			if (this.TicksLeft < this.fadeOutDuration)
+			{
+				num3 *= (float)this.TicksLeft / (float)this.fadeOutDuration;
+			}
+			Color color = this.Props.color;
+			color.a *= num3;
+			CompOrbitalBeam.MatPropertyBlock.SetColor(ShaderPropertyIDs.Color, color);
+			Matrix4x4 matrix = default(Matrix4x4);
+			matrix.SetTRS(a2 + a * this.BeamEndHeight * 0.5f + b, Quaternion.Euler(0f, this.angle, 0f), new Vector3(this.Props.width, 1f, num));
+			Graphics.DrawMesh(MeshPool.plane10, matrix, CompOrbitalBeam.BeamMat, 0, null, 0, CompOrbitalBeam.MatPropertyBlock);
+			Vector3 pos = drawPos + b;
+			pos.y = AltitudeLayer.MetaOverlays.AltitudeFor();
+			Matrix4x4 matrix2 = default(Matrix4x4);
+			matrix2.SetTRS(pos, Quaternion.Euler(0f, this.angle, 0f), new Vector3(this.Props.width, 1f, this.BeamEndHeight));
+			Graphics.DrawMesh(MeshPool.plane10, matrix2, CompOrbitalBeam.BeamEndMat, 0, null, 0, CompOrbitalBeam.MatPropertyBlock);
 		}
 
 		private void CheckSpawnSustainer()

@@ -8,13 +8,13 @@ namespace RimWorld
 	{
 		private CompPowerTrader powerComp;
 
-		private float portionProgress = 0f;
+		private float portionProgress;
 
-		private float portionYieldPct = 0f;
+		private float portionYieldPct;
 
 		private int lastUsedTick = -99999;
 
-		private const float WorkPerPortionBase = 13000f;
+		private const float WorkPerPortionBase = 12000f;
 
 		public CompDeepDrill()
 		{
@@ -24,7 +24,7 @@ namespace RimWorld
 		{
 			get
 			{
-				return 13000f / Find.Storyteller.difficulty.mineYieldFactor;
+				return 12000f / Find.Storyteller.difficulty.mineYieldFactor;
 			}
 		}
 
@@ -75,31 +75,32 @@ namespace RimWorld
 			int num;
 			IntVec3 c;
 			bool nextResource = this.GetNextResource(out thingDef, out num, out c);
-			if (thingDef != null)
+			if (thingDef == null)
 			{
-				int num2 = Mathf.Min(num, thingDef.deepCountPerPortion);
-				if (nextResource)
+				return;
+			}
+			int num2 = Mathf.Min(num, thingDef.deepCountPerPortion);
+			if (nextResource)
+			{
+				this.parent.Map.deepResourceGrid.SetAt(c, thingDef, num - num2);
+			}
+			int stackCount = Mathf.Max(1, GenMath.RoundRandom((float)num2 * yieldPct));
+			Thing thing = ThingMaker.MakeThing(thingDef, null);
+			thing.stackCount = stackCount;
+			GenPlace.TryPlaceThing(thing, this.parent.InteractionCell, this.parent.Map, ThingPlaceMode.Near, null, null);
+			if (nextResource && !this.ValuableResourcesPresent())
+			{
+				if (DeepDrillUtility.GetBaseResource(this.parent.Map) == null)
 				{
-					this.parent.Map.deepResourceGrid.SetAt(c, thingDef, num - num2);
+					Messages.Message("DeepDrillExhaustedNoFallback".Translate(), this.parent, MessageTypeDefOf.TaskCompletion, true);
 				}
-				int stackCount = Mathf.Max(1, GenMath.RoundRandom((float)num2 * yieldPct));
-				Thing thing = ThingMaker.MakeThing(thingDef, null);
-				thing.stackCount = stackCount;
-				GenPlace.TryPlaceThing(thing, this.parent.InteractionCell, this.parent.Map, ThingPlaceMode.Near, null, null);
-				if (nextResource && !this.ValuableResourcesPresent())
+				else
 				{
-					if (DeepDrillUtility.GetBaseResource(this.parent.Map) == null)
+					Messages.Message("DeepDrillExhausted".Translate(new object[]
 					{
-						Messages.Message("DeepDrillExhaustedNoFallback".Translate(), this.parent, MessageTypeDefOf.TaskCompletion, true);
-					}
-					else
-					{
-						Messages.Message("DeepDrillExhausted".Translate(new object[]
-						{
-							Find.ActiveLanguageWorker.Pluralize(DeepDrillUtility.GetBaseResource(this.parent.Map).label, -1)
-						}), this.parent, MessageTypeDefOf.TaskCompletion, true);
-						this.parent.SetForbidden(true, true);
-					}
+						Find.ActiveLanguageWorker.Pluralize(DeepDrillUtility.GetBaseResource(this.parent.Map).label, -1)
+					}), this.parent, MessageTypeDefOf.TaskCompletion, true);
+					this.parent.SetForbidden(true, true);
 				}
 			}
 		}
@@ -129,36 +130,28 @@ namespace RimWorld
 
 		public override string CompInspectStringExtra()
 		{
-			string result;
-			if (this.parent.Spawned)
+			if (!this.parent.Spawned)
 			{
-				ThingDef thingDef;
-				int num;
-				IntVec3 intVec;
-				this.GetNextResource(out thingDef, out num, out intVec);
-				if (thingDef == null)
-				{
-					result = "DeepDrillNoResources".Translate();
-				}
-				else
-				{
-					result = string.Concat(new string[]
-					{
-						"ResourceBelow".Translate(),
-						": ",
-						thingDef.LabelCap,
-						"\n",
-						"ProgressToNextPortion".Translate(),
-						": ",
-						this.ProgressToNextPortionPercent.ToStringPercent("F0")
-					});
-				}
+				return null;
 			}
-			else
+			ThingDef thingDef;
+			int num;
+			IntVec3 intVec;
+			this.GetNextResource(out thingDef, out num, out intVec);
+			if (thingDef == null)
 			{
-				result = null;
+				return "DeepDrillNoResources".Translate();
 			}
-			return result;
+			return string.Concat(new string[]
+			{
+				"ResourceBelow".Translate(),
+				": ",
+				thingDef.LabelCap,
+				"\n",
+				"ProgressToNextPortion".Translate(),
+				": ",
+				this.ProgressToNextPortionPercent.ToStringPercent("F0")
+			});
 		}
 	}
 }

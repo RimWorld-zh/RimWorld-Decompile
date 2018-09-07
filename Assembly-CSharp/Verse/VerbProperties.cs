@@ -17,15 +17,15 @@ namespace Verse
 		public Type verbClass = typeof(Verb);
 
 		[MustTranslate]
-		public string label = null;
+		public string label;
 
 		[TranslationHandle(Priority = 100)]
 		[Unsaved]
-		public string untranslatedLabel = null;
+		public string untranslatedLabel;
 
 		public bool isPrimary = true;
 
-		public float minRange = 0f;
+		public float minRange;
 
 		public float range = 1.42f;
 
@@ -35,7 +35,7 @@ namespace Verse
 
 		public float noiseRadius = 3f;
 
-		public bool hasStandardCommand = false;
+		public bool hasStandardCommand;
 
 		public bool targetable = true;
 
@@ -43,11 +43,11 @@ namespace Verse
 
 		public bool requireLineOfSight = true;
 
-		public bool mustCastOnOpenGround = false;
+		public bool mustCastOnOpenGround;
 
 		public bool forceNormalTimeSpeed = true;
 
-		public bool onlyManualCast = false;
+		public bool onlyManualCast;
 
 		public bool stopBurstWithoutLos = true;
 
@@ -55,29 +55,29 @@ namespace Verse
 
 		public float commonality = 1f;
 
-		public Intelligence minIntelligence = Intelligence.Animal;
+		public Intelligence minIntelligence;
 
-		public float consumeFuelPerShot = 0f;
+		public float consumeFuelPerShot;
 
-		public float warmupTime = 0f;
+		public float warmupTime;
 
-		public float defaultCooldownTime = 0f;
+		public float defaultCooldownTime;
 
-		public SoundDef soundCast = null;
+		public SoundDef soundCast;
 
-		public SoundDef soundCastTail = null;
+		public SoundDef soundCastTail;
 
 		public SoundDef soundAiming;
 
-		public float muzzleFlashScale = 0f;
+		public float muzzleFlashScale;
 
-		public ThingDef impactMote = null;
+		public ThingDef impactMote;
 
-		public BodyPartGroupDef linkedBodyPartsGroup = null;
+		public BodyPartGroupDef linkedBodyPartsGroup;
 
 		public bool ensureLinkedBodyPartsGroupAlwaysUsable;
 
-		public DamageDef meleeDamageDef = null;
+		public DamageDef meleeDamageDef;
 
 		public int meleeDamageBaseAmount = 1;
 
@@ -85,13 +85,13 @@ namespace Verse
 
 		public bool ai_IsWeapon = true;
 
-		public bool ai_IsBuildingDestroyer = false;
+		public bool ai_IsBuildingDestroyer;
 
 		public float ai_AvoidFriendlyFireRadius;
 
 		public ThingDef defaultProjectile;
 
-		public float forcedMissRadius = 0f;
+		public float forcedMissRadius;
 
 		public float accuracyTouch = 1f;
 
@@ -107,7 +107,7 @@ namespace Verse
 
 		public BodyPartTagDef bodypartTagTarget;
 
-		public RulePackDef rangedFireRulepack = null;
+		public RulePackDef rangedFireRulepack;
 
 		public const float DefaultArmorPenetrationPerDamage = 0.015f;
 
@@ -170,17 +170,12 @@ namespace Verse
 
 		public float AdjustedMeleeDamageAmount(Verb ownerVerb, Pawn attacker)
 		{
-			float result;
 			if (ownerVerb.verbProps != this)
 			{
 				Log.ErrorOnce("Tried to calculate melee damage amount for a verb with different verb props. verb=" + ownerVerb, 5469809, false);
-				result = 0f;
+				return 0f;
 			}
-			else
-			{
-				result = this.AdjustedMeleeDamageAmount(ownerVerb.tool, attacker, ownerVerb.EquipmentSource, ownerVerb.HediffCompSource);
-			}
-			return result;
+			return this.AdjustedMeleeDamageAmount(ownerVerb.tool, attacker, ownerVerb.EquipmentSource, ownerVerb.HediffCompSource);
 		}
 
 		public float AdjustedMeleeDamageAmount(Tool tool, Pawn attacker, Thing equipment, HediffComp_VerbGiver hediffCompSource)
@@ -207,17 +202,12 @@ namespace Verse
 
 		public float AdjustedArmorPenetration(Verb ownerVerb, Pawn attacker)
 		{
-			float result;
 			if (ownerVerb.verbProps != this)
 			{
 				Log.ErrorOnce("Tried to calculate armor penetration for a verb with different verb props. verb=" + ownerVerb, 9865767, false);
-				result = 0f;
+				return 0f;
 			}
-			else
-			{
-				result = this.AdjustedArmorPenetration(ownerVerb.tool, attacker, ownerVerb.EquipmentSource, ownerVerb.HediffCompSource);
-			}
-			return result;
+			return this.AdjustedArmorPenetration(ownerVerb.tool, attacker, ownerVerb.EquipmentSource, ownerVerb.HediffCompSource);
 		}
 
 		public float AdjustedArmorPenetration(Tool tool, Pawn attacker, Thing equipment, HediffComp_VerbGiver hediffCompSource)
@@ -241,87 +231,76 @@ namespace Verse
 
 		private float AdjustedExpectedDamageForVerbUsableInMelee(Tool tool, Pawn attacker, Thing equipment, HediffComp_VerbGiver hediffCompSource)
 		{
-			float result;
 			if (this.IsMeleeAttack)
 			{
-				result = this.AdjustedMeleeDamageAmount(tool, attacker, equipment, hediffCompSource);
+				return this.AdjustedMeleeDamageAmount(tool, attacker, equipment, hediffCompSource);
 			}
-			else if (this.LaunchesProjectile && this.defaultProjectile != null)
+			if (this.LaunchesProjectile && this.defaultProjectile != null)
 			{
-				result = (float)this.defaultProjectile.projectile.GetDamageAmount(equipment, null);
+				return (float)this.defaultProjectile.projectile.GetDamageAmount(equipment, null);
 			}
-			else
-			{
-				result = 0f;
-			}
-			return result;
+			return 0f;
 		}
 
 		public float AdjustedMeleeSelectionWeight(Verb ownerVerb, Pawn attacker)
 		{
-			float result;
 			if (ownerVerb.verbProps != this)
 			{
 				Log.ErrorOnce("Tried to calculate melee selection weight for a verb with different verb props. verb=" + ownerVerb, 385716351, false);
-				result = 0f;
+				return 0f;
 			}
-			else
-			{
-				result = this.AdjustedMeleeSelectionWeight(ownerVerb.tool, attacker, ownerVerb.EquipmentSource, ownerVerb.HediffCompSource, ownerVerb.DirectOwner is Pawn);
-			}
-			return result;
+			return this.AdjustedMeleeSelectionWeight(ownerVerb.tool, attacker, ownerVerb.EquipmentSource, ownerVerb.HediffCompSource, ownerVerb.DirectOwner is Pawn);
 		}
 
 		public float AdjustedMeleeSelectionWeight(Tool tool, Pawn attacker, Thing equipment, HediffComp_VerbGiver hediffCompSource, bool comesFromPawnNativeVerbs)
 		{
-			float result;
 			if (!this.IsMeleeAttack)
 			{
-				result = 0f;
+				return 0f;
 			}
-			else if (attacker != null && attacker.RaceProps.intelligence < this.minIntelligence)
+			if (attacker != null && attacker.RaceProps.intelligence < this.minIntelligence)
 			{
-				result = 0f;
+				return 0f;
 			}
-			else
+			float num = 1f;
+			float num2 = this.AdjustedExpectedDamageForVerbUsableInMelee(tool, attacker, equipment, hediffCompSource);
+			if (num2 >= 0.001f || !typeof(Verb_MeleeApplyHediff).IsAssignableFrom(this.verbClass))
 			{
-				float num = 1f;
-				float num2 = this.AdjustedExpectedDamageForVerbUsableInMelee(tool, attacker, equipment, hediffCompSource);
-				if (num2 >= 0.001f || !typeof(Verb_MeleeApplyHediff).IsAssignableFrom(this.verbClass))
-				{
-					num *= num2 * num2;
-				}
-				num *= this.commonality;
-				if (tool != null)
-				{
-					num *= tool.commonality;
-				}
-				if (comesFromPawnNativeVerbs && (tool == null || !tool.alwaysTreatAsWeapon))
-				{
-					num *= 0.3f;
-				}
-				result = num;
+				num *= num2 * num2;
 			}
-			return result;
+			num *= this.commonality;
+			if (tool != null)
+			{
+				num *= tool.chanceFactor;
+			}
+			if (comesFromPawnNativeVerbs && (tool == null || !tool.alwaysTreatAsWeapon))
+			{
+				num *= 0.3f;
+			}
+			return num;
 		}
 
 		public float AdjustedCooldown(Verb ownerVerb, Pawn attacker)
 		{
-			ThingWithComps equipmentSource = ownerVerb.EquipmentSource;
-			float result;
-			if (ownerVerb.tool != null)
+			if (ownerVerb.verbProps != this)
 			{
-				result = ownerVerb.tool.AdjustedCooldown(equipmentSource);
+				Log.ErrorOnce("Tried to calculate cooldown for a verb with different verb props. verb=" + ownerVerb, 19485711, false);
+				return 0f;
 			}
-			else if (equipmentSource != null && !this.IsMeleeAttack)
+			return this.AdjustedCooldown(ownerVerb.tool, attacker, ownerVerb.EquipmentSource);
+		}
+
+		public float AdjustedCooldown(Tool tool, Pawn attacker, Thing equipment)
+		{
+			if (tool != null)
 			{
-				result = equipmentSource.GetStatValue(StatDefOf.RangedWeapon_Cooldown, true);
+				return tool.AdjustedCooldown(equipment);
 			}
-			else
+			if (equipment != null && !this.IsMeleeAttack)
 			{
-				result = this.defaultCooldownTime;
+				return equipment.GetStatValue(StatDefOf.RangedWeapon_Cooldown, true);
 			}
-			return result;
+			return this.defaultCooldownTime;
 		}
 
 		public int AdjustedCooldownTicks(Verb ownerVerb, Pawn attacker)
@@ -331,28 +310,7 @@ namespace Verse
 
 		private float AdjustedAccuracy(VerbProperties.RangeCategory cat, Thing equipment)
 		{
-			float statValue;
-			if (equipment == null)
-			{
-				switch (cat)
-				{
-				case VerbProperties.RangeCategory.Touch:
-					statValue = this.accuracyTouch;
-					break;
-				case VerbProperties.RangeCategory.Short:
-					statValue = this.accuracyShort;
-					break;
-				case VerbProperties.RangeCategory.Medium:
-					statValue = this.accuracyMedium;
-					break;
-				case VerbProperties.RangeCategory.Long:
-					statValue = this.accuracyLong;
-					break;
-				default:
-					throw new InvalidOperationException();
-				}
-			}
-			else
+			if (equipment != null)
 			{
 				StatDef stat = null;
 				switch (cat)
@@ -370,9 +328,21 @@ namespace Verse
 					stat = StatDefOf.AccuracyLong;
 					break;
 				}
-				statValue = equipment.GetStatValue(stat, true);
+				return equipment.GetStatValue(stat, true);
 			}
-			return statValue;
+			switch (cat)
+			{
+			case VerbProperties.RangeCategory.Touch:
+				return this.accuracyTouch;
+			case VerbProperties.RangeCategory.Short:
+				return this.accuracyShort;
+			case VerbProperties.RangeCategory.Medium:
+				return this.accuracyMedium;
+			case VerbProperties.RangeCategory.Long:
+				return this.accuracyLong;
+			default:
+				throw new InvalidOperationException();
+			}
 		}
 
 		public float AdjustedFullCycleTime(Verb ownerVerb, Pawn attacker)
@@ -382,17 +352,12 @@ namespace Verse
 
 		public float GetDamageFactorFor(Verb ownerVerb, Pawn attacker)
 		{
-			float result;
 			if (ownerVerb.verbProps != this)
 			{
 				Log.ErrorOnce("Tried to calculate damage factor for a verb with different verb props. verb=" + ownerVerb, 94324562, false);
-				result = 1f;
+				return 1f;
 			}
-			else
-			{
-				result = this.GetDamageFactorFor(ownerVerb.tool, attacker, ownerVerb.HediffCompSource);
-			}
-			return result;
+			return this.GetDamageFactorFor(ownerVerb.tool, attacker, ownerVerb.HediffCompSource);
 		}
 
 		public float GetDamageFactorFor(Tool tool, Pawn attacker, HediffComp_VerbGiver hediffCompSource)
@@ -423,30 +388,35 @@ namespace Verse
 
 		public BodyPartGroupDef AdjustedLinkedBodyPartsGroup(Tool tool)
 		{
-			BodyPartGroupDef result;
 			if (tool != null)
 			{
-				result = tool.linkedBodyPartsGroup;
+				return tool.linkedBodyPartsGroup;
 			}
-			else
-			{
-				result = this.linkedBodyPartsGroup;
-			}
-			return result;
+			return this.linkedBodyPartsGroup;
 		}
 
 		public bool AdjustedEnsureLinkedBodyPartsGroupAlwaysUsable(Tool tool)
 		{
-			bool result;
 			if (tool != null)
 			{
-				result = tool.ensureLinkedBodyPartsGroupAlwaysUsable;
+				return tool.ensureLinkedBodyPartsGroupAlwaysUsable;
 			}
-			else
+			return this.ensureLinkedBodyPartsGroupAlwaysUsable;
+		}
+
+		public float EffectiveMinRange(LocalTargetInfo target, Thing caster)
+		{
+			return this.EffectiveMinRange(VerbUtility.AllowAdjacentShot(target, caster));
+		}
+
+		public float EffectiveMinRange(bool allowAdjacentShot)
+		{
+			float num = this.minRange;
+			if (!allowAdjacentShot && !this.IsMeleeAttack && this.LaunchesProjectile)
 			{
-				result = this.ensureLinkedBodyPartsGroupAlwaysUsable;
+				num = Mathf.Max(num, 1.421f);
 			}
-			return result;
+			return num;
 		}
 
 		public float GetHitChanceFactor(Thing equipment, float dist)
@@ -477,18 +447,20 @@ namespace Verse
 
 		public void DrawRadiusRing(IntVec3 center)
 		{
-			if (Find.CurrentMap != null)
+			if (Find.CurrentMap == null)
 			{
-				if (!this.IsMeleeAttack)
+				return;
+			}
+			if (!this.IsMeleeAttack)
+			{
+				float num = this.EffectiveMinRange(false);
+				if (num > 0f && num < GenRadial.MaxRadialPatternRadius)
 				{
-					if (this.minRange > 0f && this.minRange < GenRadial.MaxRadialPatternRadius)
-					{
-						GenDraw.DrawRadiusRing(center, this.minRange);
-					}
-					if (this.range < (float)(Find.CurrentMap.Size.x + Find.CurrentMap.Size.z) && this.range < GenRadial.MaxRadialPatternRadius)
-					{
-						GenDraw.DrawRadiusRing(center, this.range);
-					}
+					GenDraw.DrawRadiusRing(center, num);
+				}
+				if (this.range < (float)(Find.CurrentMap.Size.x + Find.CurrentMap.Size.z) && this.range < GenRadial.MaxRadialPatternRadius)
+				{
+					GenDraw.DrawRadiusRing(center, this.range);
 				}
 			}
 		}
@@ -531,12 +503,9 @@ namespace Verse
 					" has no parts with that group."
 				});
 			}
-			if (this.LaunchesProjectile && this.defaultProjectile != null)
+			if (this.LaunchesProjectile && this.defaultProjectile != null && this.forcedMissRadius > 0f != this.CausesExplosion)
 			{
-				if (this.forcedMissRadius > 0f != this.CausesExplosion)
-				{
-					yield return "has incorrect forcedMiss settings; explosive projectiles and only explosive projectiles should have forced miss enabled";
-				}
+				yield return "has incorrect forcedMiss settings; explosive projectiles and only explosive projectiles should have forced miss enabled";
 			}
 			yield break;
 		}
@@ -599,23 +568,20 @@ namespace Verse
 				case 1u:
 					break;
 				case 2u:
-					goto IL_135;
+					goto IL_12F;
 				default:
 					return false;
 				}
-				if (base.LaunchesProjectile && this.defaultProjectile != null)
+				if (base.LaunchesProjectile && this.defaultProjectile != null && this.forcedMissRadius > 0f != base.CausesExplosion)
 				{
-					if (this.forcedMissRadius > 0f != base.CausesExplosion)
+					this.$current = "has incorrect forcedMiss settings; explosive projectiles and only explosive projectiles should have forced miss enabled";
+					if (!this.$disposing)
 					{
-						this.$current = "has incorrect forcedMiss settings; explosive projectiles and only explosive projectiles should have forced miss enabled";
-						if (!this.$disposing)
-						{
-							this.$PC = 2;
-						}
-						return true;
+						this.$PC = 2;
 					}
+					return true;
 				}
-				IL_135:
+				IL_12F:
 				this.$PC = -1;
 				return false;
 			}

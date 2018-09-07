@@ -33,36 +33,32 @@ namespace RimWorld
 
 		public static Thing SpawnNaturalPartIfClean(Pawn pawn, BodyPartRecord part, IntVec3 pos, Map map)
 		{
-			Thing result;
 			if (MedicalRecipesUtility.IsCleanAndDroppable(pawn, part))
 			{
-				result = GenSpawn.Spawn(part.def.spawnThingOnRemoved, pos, map, WipeMode.Vanish);
+				return GenSpawn.Spawn(part.def.spawnThingOnRemoved, pos, map, WipeMode.Vanish);
 			}
-			else
-			{
-				result = null;
-			}
-			return result;
+			return null;
 		}
 
 		public static void SpawnThingsFromHediffs(Pawn pawn, BodyPartRecord part, IntVec3 pos, Map map)
 		{
-			if (pawn.health.hediffSet.GetNotMissingParts(BodyPartHeight.Undefined, BodyPartDepth.Undefined, null).Contains(part))
+			if (!pawn.health.hediffSet.GetNotMissingParts(BodyPartHeight.Undefined, BodyPartDepth.Undefined, null, null).Contains(part))
 			{
-				IEnumerable<Hediff> enumerable = from x in pawn.health.hediffSet.hediffs
-				where x.Part == part
-				select x;
-				foreach (Hediff hediff in enumerable)
+				return;
+			}
+			IEnumerable<Hediff> enumerable = from x in pawn.health.hediffSet.hediffs
+			where x.Part == part
+			select x;
+			foreach (Hediff hediff in enumerable)
+			{
+				if (hediff.def.spawnThingOnRemoved != null)
 				{
-					if (hediff.def.spawnThingOnRemoved != null)
-					{
-						GenSpawn.Spawn(hediff.def.spawnThingOnRemoved, pos, map, WipeMode.Vanish);
-					}
+					GenSpawn.Spawn(hediff.def.spawnThingOnRemoved, pos, map, WipeMode.Vanish);
 				}
-				for (int i = 0; i < part.parts.Count; i++)
-				{
-					MedicalRecipesUtility.SpawnThingsFromHediffs(pawn, part.parts[i], pos, map);
-				}
+			}
+			for (int i = 0; i < part.parts.Count; i++)
+			{
+				MedicalRecipesUtility.SpawnThingsFromHediffs(pawn, part.parts[i], pos, map);
 			}
 		}
 

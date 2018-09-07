@@ -51,16 +51,11 @@ namespace RimWorld
 		{
 			IntVec3 c = center + IntVec3.South.RotatedBy(rot);
 			IntVec3 c2 = center + IntVec3.North.RotatedBy(rot);
-			AcceptanceReport result;
 			if (c.Impassable(map) || c2.Impassable(map))
 			{
-				result = "MustPlaceCoolerWithFreeSpaces".Translate();
+				return "MustPlaceCoolerWithFreeSpaces".Translate();
 			}
-			else
-			{
-				result = true;
-			}
-			return result;
+			return true;
 		}
 	}
 }

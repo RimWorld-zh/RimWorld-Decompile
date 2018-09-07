@@ -84,44 +84,39 @@ namespace Verse
 
 		public static bool WorkTypeRequirementsSatisfied()
 		{
-			bool result;
 			if (StartingPawnUtility.StartingAndOptionalPawns.Count == 0)
 			{
-				result = false;
+				return false;
 			}
-			else
+			List<WorkTypeDef> allDefsListForReading = DefDatabase<WorkTypeDef>.AllDefsListForReading;
+			for (int i = 0; i < allDefsListForReading.Count; i++)
 			{
-				List<WorkTypeDef> allDefsListForReading = DefDatabase<WorkTypeDef>.AllDefsListForReading;
-				for (int i = 0; i < allDefsListForReading.Count; i++)
+				WorkTypeDef workTypeDef = allDefsListForReading[i];
+				if (workTypeDef.requireCapableColonist)
 				{
-					WorkTypeDef workTypeDef = allDefsListForReading[i];
-					if (workTypeDef.requireCapableColonist)
+					bool flag = false;
+					for (int j = 0; j < Find.GameInitData.startingPawnCount; j++)
 					{
-						bool flag = false;
-						for (int j = 0; j < Find.GameInitData.startingPawnCount; j++)
+						if (!StartingPawnUtility.StartingAndOptionalPawns[j].story.WorkTypeIsDisabled(workTypeDef))
 						{
-							if (!StartingPawnUtility.StartingAndOptionalPawns[j].story.WorkTypeIsDisabled(workTypeDef))
-							{
-								flag = true;
-								break;
-							}
-						}
-						if (!flag)
-						{
-							return false;
+							flag = true;
+							break;
 						}
 					}
-				}
-				if (TutorSystem.TutorialMode)
-				{
-					if (StartingPawnUtility.StartingAndOptionalPawns.Take(Find.GameInitData.startingPawnCount).Any((Pawn p) => p.story.WorkTagIsDisabled(WorkTags.Violent)))
+					if (!flag)
 					{
 						return false;
 					}
 				}
-				result = true;
 			}
-			return result;
+			if (TutorSystem.TutorialMode)
+			{
+				if (StartingPawnUtility.StartingAndOptionalPawns.Take(Find.GameInitData.startingPawnCount).Any((Pawn p) => p.story.WorkTagIsDisabled(WorkTags.Violent)))
+				{
+					return false;
+				}
+			}
+			return true;
 		}
 
 		public static IEnumerable<WorkTypeDef> RequiredWorkTypesDisabledForEveryone()
@@ -190,16 +185,14 @@ namespace Verse
 				case 0u:
 					workTypes = DefDatabase<WorkTypeDef>.AllDefsListForReading;
 					i = 0;
-					goto IL_FD;
+					break;
 				case 1u:
-					IL_EE:
+					IL_E9:
+					i++;
 					break;
 				default:
 					return false;
 				}
-				IL_EF:
-				i++;
-				IL_FD:
 				if (i >= workTypes.Count)
 				{
 					this.$PC = -1;
@@ -209,7 +202,7 @@ namespace Verse
 					wt = workTypes[i];
 					if (!wt.requireCapableColonist)
 					{
-						goto IL_EF;
+						goto IL_E9;
 					}
 					oneCanDoWt = false;
 					startingPawns = StartingPawnUtility.StartingAndOptionalPawns;
@@ -230,7 +223,7 @@ namespace Verse
 						}
 						return true;
 					}
-					goto IL_EE;
+					goto IL_E9;
 				}
 				return false;
 			}

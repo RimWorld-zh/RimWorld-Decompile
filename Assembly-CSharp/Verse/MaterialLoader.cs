@@ -9,13 +9,17 @@ namespace Verse
 	public static class MaterialLoader
 	{
 		[CompilerGenerated]
-		private static Func<Texture2D, Material> <>f__am$cache0;
+		private static Func<Texture2D, Material> <>f__mg$cache0;
 
 		public static List<Material> MatsFromTexturesInFolder(string dirPath)
 		{
 			string path = "Textures/" + dirPath;
-			return (from Texture2D tex in Resources.LoadAll(path, typeof(Texture2D))
-			select MaterialPool.MatFrom(tex)).ToList<Material>();
+			IEnumerable<Texture2D> source = Resources.LoadAll(path, typeof(Texture2D)).Cast<Texture2D>();
+			if (MaterialLoader.<>f__mg$cache0 == null)
+			{
+				MaterialLoader.<>f__mg$cache0 = new Func<Texture2D, Material>(MaterialPool.MatFrom);
+			}
+			return source.Select(MaterialLoader.<>f__mg$cache0).ToList<Material>();
 		}
 
 		public static Material MatWithEnding(string dirPath, string ending)
@@ -23,23 +27,12 @@ namespace Verse
 			Material material = (from mat in MaterialLoader.MatsFromTexturesInFolder(dirPath)
 			where mat.mainTexture.name.ToLower().EndsWith(ending)
 			select mat).FirstOrDefault<Material>();
-			Material result;
 			if (material == null)
 			{
 				Log.Warning("MatWithEnding: Dir " + dirPath + " lacks texture ending in " + ending, false);
-				result = BaseContent.BadMat;
+				return BaseContent.BadMat;
 			}
-			else
-			{
-				result = material;
-			}
-			return result;
-		}
-
-		[CompilerGenerated]
-		private static Material <MatsFromTexturesInFolder>m__0(Texture2D tex)
-		{
-			return MaterialPool.MatFrom(tex);
+			return material;
 		}
 
 		[CompilerGenerated]

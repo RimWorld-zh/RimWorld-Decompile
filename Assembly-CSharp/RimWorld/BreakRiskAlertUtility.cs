@@ -181,11 +181,8 @@ namespace RimWorld
 				{
 					switch (num)
 					{
-					case 1u:
-						IL_A7:
-						break;
 					}
-					if (enumerator.MoveNext())
+					while (enumerator.MoveNext())
 					{
 						p = enumerator.Current;
 						if (!p.Downed && p.mindState.mentalBreaker.BreakExtremeIsImminent)
@@ -198,7 +195,6 @@ namespace RimWorld
 							flag = true;
 							return true;
 						}
-						goto IL_A7;
 					}
 				}
 				finally
@@ -317,11 +313,8 @@ namespace RimWorld
 				{
 					switch (num)
 					{
-					case 1u:
-						IL_A7:
-						break;
 					}
-					if (enumerator.MoveNext())
+					while (enumerator.MoveNext())
 					{
 						p = enumerator.Current;
 						if (!p.Downed && p.mindState.mentalBreaker.BreakMajorIsImminent)
@@ -334,7 +327,6 @@ namespace RimWorld
 							flag = true;
 							return true;
 						}
-						goto IL_A7;
 					}
 				}
 				finally
@@ -453,11 +445,8 @@ namespace RimWorld
 				{
 					switch (num)
 					{
-					case 1u:
-						IL_A7:
-						break;
 					}
-					if (enumerator.MoveNext())
+					while (enumerator.MoveNext())
 					{
 						p = enumerator.Current;
 						if (!p.Downed && p.mindState.mentalBreaker.BreakMinorIsImminent)
@@ -470,7 +459,6 @@ namespace RimWorld
 							flag = true;
 							return true;
 						}
-						goto IL_A7;
 					}
 				}
 				finally

@@ -26,7 +26,7 @@ namespace Verse
 
 		public const float ExecutionAccuracyFactor = 7.5f;
 
-		public const float TargetSizeFactorFromFillPercentFactor = 1.7f;
+		public const float TargetSizeFactorFromFillPercentFactor = 2.5f;
 
 		public const float TargetSizeFactorMin = 0.5f;
 

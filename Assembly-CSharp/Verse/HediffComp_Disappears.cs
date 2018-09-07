@@ -4,7 +4,7 @@ namespace Verse
 {
 	public class HediffComp_Disappears : HediffComp
 	{
-		private int ticksToDisappear = 0;
+		private int ticksToDisappear;
 
 		public HediffComp_Disappears()
 		{

@@ -21,16 +21,11 @@ namespace RimWorld
 
 		public override string ExplanationPart(StatRequest req)
 		{
-			string result;
 			if (this.IsWildMan(req))
 			{
-				result = "StatsReport_WildMan".Translate() + ": " + this.offset.ToStringWithSign("0.##");
+				return "StatsReport_WildMan".Translate() + ": " + this.offset.ToStringWithSign("0.##");
 			}
-			else
-			{
-				result = null;
-			}
-			return result;
+			return null;
 		}
 
 		private bool IsWildMan(StatRequest req)

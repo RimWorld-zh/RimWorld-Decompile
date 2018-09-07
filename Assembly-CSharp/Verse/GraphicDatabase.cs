@@ -54,63 +54,58 @@ namespace Verse
 		public static Graphic Get(Type graphicClass, string path, Shader shader, Vector2 drawSize, Color color, Color colorTwo, GraphicData data, List<ShaderParameter> shaderParameters)
 		{
 			GraphicRequest graphicRequest = new GraphicRequest(graphicClass, path, shader, drawSize, color, colorTwo, data, 0, shaderParameters);
-			Graphic result;
 			if (graphicRequest.graphicClass == typeof(Graphic_Single))
 			{
-				result = GraphicDatabase.GetInner<Graphic_Single>(graphicRequest);
+				return GraphicDatabase.GetInner<Graphic_Single>(graphicRequest);
 			}
-			else if (graphicRequest.graphicClass == typeof(Graphic_Terrain))
+			if (graphicRequest.graphicClass == typeof(Graphic_Terrain))
 			{
-				result = GraphicDatabase.GetInner<Graphic_Terrain>(graphicRequest);
+				return GraphicDatabase.GetInner<Graphic_Terrain>(graphicRequest);
 			}
-			else if (graphicRequest.graphicClass == typeof(Graphic_Multi))
+			if (graphicRequest.graphicClass == typeof(Graphic_Multi))
 			{
-				result = GraphicDatabase.GetInner<Graphic_Multi>(graphicRequest);
+				return GraphicDatabase.GetInner<Graphic_Multi>(graphicRequest);
 			}
-			else if (graphicRequest.graphicClass == typeof(Graphic_Mote))
+			if (graphicRequest.graphicClass == typeof(Graphic_Mote))
 			{
-				result = GraphicDatabase.GetInner<Graphic_Mote>(graphicRequest);
+				return GraphicDatabase.GetInner<Graphic_Mote>(graphicRequest);
 			}
-			else if (graphicRequest.graphicClass == typeof(Graphic_Random))
+			if (graphicRequest.graphicClass == typeof(Graphic_Random))
 			{
-				result = GraphicDatabase.GetInner<Graphic_Random>(graphicRequest);
+				return GraphicDatabase.GetInner<Graphic_Random>(graphicRequest);
 			}
-			else if (graphicRequest.graphicClass == typeof(Graphic_Flicker))
+			if (graphicRequest.graphicClass == typeof(Graphic_Flicker))
 			{
-				result = GraphicDatabase.GetInner<Graphic_Flicker>(graphicRequest);
+				return GraphicDatabase.GetInner<Graphic_Flicker>(graphicRequest);
 			}
-			else if (graphicRequest.graphicClass == typeof(Graphic_Appearances))
+			if (graphicRequest.graphicClass == typeof(Graphic_Appearances))
 			{
-				result = GraphicDatabase.GetInner<Graphic_Appearances>(graphicRequest);
+				return GraphicDatabase.GetInner<Graphic_Appearances>(graphicRequest);
 			}
-			else if (graphicRequest.graphicClass == typeof(Graphic_StackCount))
+			if (graphicRequest.graphicClass == typeof(Graphic_StackCount))
 			{
-				result = GraphicDatabase.GetInner<Graphic_StackCount>(graphicRequest);
+				return GraphicDatabase.GetInner<Graphic_StackCount>(graphicRequest);
 			}
-			else
+			try
 			{
-				try
+				return (Graphic)GenGeneric.InvokeStaticGenericMethod(typeof(GraphicDatabase), graphicRequest.graphicClass, "GetInner", new object[]
 				{
-					return (Graphic)GenGeneric.InvokeStaticGenericMethod(typeof(GraphicDatabase), graphicRequest.graphicClass, "GetInner", new object[]
-					{
-						graphicRequest
-					});
-				}
-				catch (Exception ex)
-				{
-					Log.Error(string.Concat(new object[]
-					{
-						"Exception getting ",
-						graphicClass,
-						" at ",
-						path,
-						": ",
-						ex.ToString()
-					}), false);
-				}
-				result = BaseContent.BadGraphic;
+					graphicRequest
+				});
 			}
-			return result;
+			catch (Exception ex)
+			{
+				Log.Error(string.Concat(new object[]
+				{
+					"Exception getting ",
+					graphicClass,
+					" at ",
+					path,
+					": ",
+					ex.ToString()
+				}), false);
+			}
+			return BaseContent.BadGraphic;
 		}
 
 		private static T GetInner<T>(GraphicRequest req) where T : Graphic, new()

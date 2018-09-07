@@ -15,10 +15,11 @@ namespace Verse
 
 		public static void BeautyDrawerOnGUI()
 		{
-			if (Event.current.type == EventType.Repaint && BeautyDrawer.ShouldShow())
+			if (Event.current.type != EventType.Repaint || !BeautyDrawer.ShouldShow())
 			{
-				BeautyDrawer.DrawBeautyAroundMouse();
+				return;
 			}
+			BeautyDrawer.DrawBeautyAroundMouse();
 		}
 
 		private static bool ShouldShow()
@@ -28,21 +29,22 @@ namespace Verse
 
 		private static void DrawBeautyAroundMouse()
 		{
-			if (Find.PlaySettings.showBeauty)
+			if (!Find.PlaySettings.showBeauty)
 			{
-				BeautyUtility.FillBeautyRelevantCells(UI.MouseCell(), Find.CurrentMap);
-				for (int i = 0; i < BeautyUtility.beautyRelevantCells.Count; i++)
-				{
-					IntVec3 intVec = BeautyUtility.beautyRelevantCells[i];
-					float num = BeautyUtility.CellBeauty(intVec, Find.CurrentMap, BeautyDrawer.beautyCountedThings);
-					if (num != 0f)
-					{
-						Vector3 v = GenMapUI.LabelDrawPosFor(intVec);
-						GenMapUI.DrawThingLabel(v, Mathf.RoundToInt(num).ToStringCached(), BeautyDrawer.BeautyColor(num, 8f));
-					}
-				}
-				BeautyDrawer.beautyCountedThings.Clear();
+				return;
 			}
+			BeautyUtility.FillBeautyRelevantCells(UI.MouseCell(), Find.CurrentMap);
+			for (int i = 0; i < BeautyUtility.beautyRelevantCells.Count; i++)
+			{
+				IntVec3 intVec = BeautyUtility.beautyRelevantCells[i];
+				float num = BeautyUtility.CellBeauty(intVec, Find.CurrentMap, BeautyDrawer.beautyCountedThings);
+				if (num != 0f)
+				{
+					Vector3 v = GenMapUI.LabelDrawPosFor(intVec);
+					GenMapUI.DrawThingLabel(v, Mathf.RoundToInt(num).ToStringCached(), BeautyDrawer.BeautyColor(num, 8f));
+				}
+			}
+			BeautyDrawer.beautyCountedThings.Clear();
 		}
 
 		public static Color BeautyColor(float beauty, float scale)

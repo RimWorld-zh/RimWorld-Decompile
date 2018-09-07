@@ -5,7 +5,7 @@ namespace Verse.AI
 {
 	public class ThinkNode_PrioritySorter : ThinkNode
 	{
-		public float minPriority = 0f;
+		public float minPriority;
 
 		private static List<ThinkNode> workingNodes = new List<ThinkNode>();
 

@@ -34,22 +34,17 @@ namespace RimWorld
 		private Job IngestJob(Pawn pawn)
 		{
 			Thing thing = this.BestIngestTarget(pawn);
-			Job result;
 			if (thing == null)
 			{
-				result = null;
+				return null;
 			}
-			else
+			ThingDef finalIngestibleDef = FoodUtility.GetFinalIngestibleDef(thing, false);
+			return new Job(JobDefOf.Ingest, thing)
 			{
-				ThingDef finalIngestibleDef = FoodUtility.GetFinalIngestibleDef(thing, false);
-				result = new Job(JobDefOf.Ingest, thing)
-				{
-					count = finalIngestibleDef.ingestible.maxNumToIngestAtOnce,
-					ignoreForbidden = this.IgnoreForbid(pawn),
-					overeat = true
-				};
-			}
-			return result;
+				count = finalIngestibleDef.ingestible.maxNumToIngestAtOnce,
+				ignoreForbidden = this.IgnoreForbid(pawn),
+				overeat = true
+			};
 		}
 
 		protected abstract Thing BestIngestTarget(Pawn pawn);

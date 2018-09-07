@@ -26,12 +26,9 @@ namespace Verse
 			{
 				if (!value.Equals(defaultValue))
 				{
-					if (value.Thing != null)
+					if (value.Thing != null && Scribe_References.CheckSaveReferenceToDestroyedThing(value.Thing, label, saveDestroyedThings))
 					{
-						if (Scribe_References.CheckSaveReferenceToDestroyedThing(value.Thing, label, saveDestroyedThings))
-						{
-							return;
-						}
+						return;
 					}
 					Scribe.saver.WriteElement(label, value.ToString());
 				}
@@ -67,21 +64,16 @@ namespace Verse
 			{
 				if (!value.Equals(defaultValue))
 				{
-					if (value.Thing != null)
+					if (value.Thing != null && Scribe_References.CheckSaveReferenceToDestroyedThing(value.Thing, label, saveDestroyedThings))
 					{
-						if (Scribe_References.CheckSaveReferenceToDestroyedThing(value.Thing, label, saveDestroyedThings))
-						{
-							return;
-						}
+						return;
 					}
 					if (!value.HasThing && value.Cell.IsValid && (value.Map == null || !Find.Maps.Contains(value.Map)))
 					{
 						Scribe.saver.WriteElement(label, "null");
+						return;
 					}
-					else
-					{
-						Scribe.saver.WriteElement(label, value.ToString());
-					}
+					Scribe.saver.WriteElement(label, value.ToString());
 				}
 			}
 			else if (Scribe.mode == LoadSaveMode.LoadingVars)
@@ -115,25 +107,21 @@ namespace Verse
 			{
 				if (!value.Equals(defaultValue))
 				{
-					if (value.Thing != null)
+					if (value.Thing != null && Scribe_References.CheckSaveReferenceToDestroyedThing(value.Thing, label, saveDestroyedThings))
 					{
-						if (Scribe_References.CheckSaveReferenceToDestroyedThing(value.Thing, label, saveDestroyedThings))
-						{
-							return;
-						}
+						return;
 					}
 					if (value.WorldObject != null && !value.WorldObject.Spawned)
 					{
 						Scribe.saver.WriteElement(label, "null");
+						return;
 					}
-					else if (!value.HasThing && !value.HasWorldObject && value.Cell.IsValid && (value.Map == null || !Find.Maps.Contains(value.Map)))
+					if (!value.HasThing && !value.HasWorldObject && value.Cell.IsValid && (value.Map == null || !Find.Maps.Contains(value.Map)))
 					{
 						Scribe.saver.WriteElement(label, "null");
+						return;
 					}
-					else
-					{
-						Scribe.saver.WriteElement(label, value.ToString());
-					}
+					Scribe.saver.WriteElement(label, value.ToString());
 				}
 			}
 			else if (Scribe.mode == LoadSaveMode.LoadingVars)

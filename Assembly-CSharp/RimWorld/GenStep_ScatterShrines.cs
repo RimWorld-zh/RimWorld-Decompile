@@ -29,17 +29,12 @@ namespace RimWorld
 
 		protected override bool CanScatterAt(IntVec3 c, Map map)
 		{
-			bool result;
 			if (!base.CanScatterAt(c, map))
 			{
-				result = false;
+				return false;
 			}
-			else
-			{
-				Building edifice = c.GetEdifice(map);
-				result = (edifice != null && edifice.def.building.isNaturalRock);
-			}
-			return result;
+			Building edifice = c.GetEdifice(map);
+			return edifice != null && edifice.def.building.isNaturalRock;
 		}
 
 		protected override void ScatterAt(IntVec3 loc, Map map, int stackCount = 1)
@@ -55,42 +50,44 @@ namespace RimWorld
 			int num5 = num3 + 2 + randomInRange3;
 			CellRect rect = new CellRect(loc.x, loc.z, num4, num5);
 			rect.ClipInsideMap(map);
-			if (rect.Width == num4 && rect.Height == num5)
+			if (rect.Width != num4 || rect.Height != num5)
 			{
-				foreach (IntVec3 c in rect.Cells)
+				return;
+			}
+			foreach (IntVec3 c in rect.Cells)
+			{
+				List<Thing> list = map.thingGrid.ThingsListAt(c);
+				for (int i = 0; i < list.Count; i++)
 				{
-					List<Thing> list = map.thingGrid.ThingsListAt(c);
-					for (int i = 0; i < list.Count; i++)
+					if (list[i].def == ThingDefOf.AncientCryptosleepCasket)
 					{
-						if (list[i].def == ThingDefOf.AncientCryptosleepCasket)
-						{
-							return;
-						}
+						return;
 					}
 				}
-				if (base.CanPlaceAncientBuildingInRange(rect, map))
-				{
-					ResolveParams resolveParams = default(ResolveParams);
-					resolveParams.rect = rect;
-					resolveParams.disableSinglePawn = new bool?(true);
-					resolveParams.disableHives = new bool?(true);
-					resolveParams.ancientTempleEntranceHeight = new int?(randomInRange3);
-					BaseGen.globalSettings.map = map;
-					BaseGen.symbolStack.Push("ancientTemple", resolveParams);
-					BaseGen.Generate();
-					int nextSignalTagID = Find.UniqueIDsManager.GetNextSignalTagID();
-					string signalTag = "ancientTempleApproached-" + nextSignalTagID;
-					SignalAction_Letter signalAction_Letter = (SignalAction_Letter)ThingMaker.MakeThing(ThingDefOf.SignalAction_Letter, null);
-					signalAction_Letter.signalTag = signalTag;
-					signalAction_Letter.letter = LetterMaker.MakeLetter("LetterLabelAncientShrineWarning".Translate(), "AncientShrineWarning".Translate(), LetterDefOf.NeutralEvent, new TargetInfo(rect.CenterCell, map, false), null);
-					GenSpawn.Spawn(signalAction_Letter, rect.CenterCell, map, WipeMode.Vanish);
-					RectTrigger rectTrigger = (RectTrigger)ThingMaker.MakeThing(ThingDefOf.RectTrigger, null);
-					rectTrigger.signalTag = signalTag;
-					rectTrigger.Rect = rect.ExpandedBy(1).ClipInsideMap(map);
-					rectTrigger.destroyIfUnfogged = true;
-					GenSpawn.Spawn(rectTrigger, rect.CenterCell, map, WipeMode.Vanish);
-				}
 			}
+			if (!base.CanPlaceAncientBuildingInRange(rect, map))
+			{
+				return;
+			}
+			ResolveParams resolveParams = default(ResolveParams);
+			resolveParams.rect = rect;
+			resolveParams.disableSinglePawn = new bool?(true);
+			resolveParams.disableHives = new bool?(true);
+			resolveParams.ancientTempleEntranceHeight = new int?(randomInRange3);
+			BaseGen.globalSettings.map = map;
+			BaseGen.symbolStack.Push("ancientTemple", resolveParams);
+			BaseGen.Generate();
+			int nextSignalTagID = Find.UniqueIDsManager.GetNextSignalTagID();
+			string signalTag = "ancientTempleApproached-" + nextSignalTagID;
+			SignalAction_Letter signalAction_Letter = (SignalAction_Letter)ThingMaker.MakeThing(ThingDefOf.SignalAction_Letter, null);
+			signalAction_Letter.signalTag = signalTag;
+			signalAction_Letter.letter = LetterMaker.MakeLetter("LetterLabelAncientShrineWarning".Translate(), "AncientShrineWarning".Translate(), LetterDefOf.NeutralEvent, new TargetInfo(rect.CenterCell, map, false), null);
+			GenSpawn.Spawn(signalAction_Letter, rect.CenterCell, map, WipeMode.Vanish);
+			RectTrigger rectTrigger = (RectTrigger)ThingMaker.MakeThing(ThingDefOf.RectTrigger, null);
+			rectTrigger.signalTag = signalTag;
+			rectTrigger.Rect = rect.ExpandedBy(1).ClipInsideMap(map);
+			rectTrigger.destroyIfUnfogged = true;
+			GenSpawn.Spawn(rectTrigger, rect.CenterCell, map, WipeMode.Vanish);
 		}
 
 		// Note: this type is marked as 'beforefieldinit'.

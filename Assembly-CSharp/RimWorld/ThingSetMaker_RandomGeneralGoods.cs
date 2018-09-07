@@ -31,6 +31,9 @@ namespace RimWorld
 		[CompilerGenerated]
 		private static Func<ThingDef, bool> <>f__am$cache2;
 
+		[CompilerGenerated]
+		private static Func<ThingDef, bool> <>f__mg$cache0;
+
 		public ThingSetMaker_RandomGeneralGoods()
 		{
 		}
@@ -112,19 +115,14 @@ namespace RimWorld
 		private Thing RandomRawFood(TechLevel techLevel)
 		{
 			ThingDef thingDef;
-			Thing result;
 			if (!this.PossibleRawFood(techLevel).TryRandomElement(out thingDef))
 			{
-				result = null;
+				return null;
 			}
-			else
-			{
-				Thing thing = ThingMaker.MakeThing(thingDef, null);
-				int max = Mathf.Min(thingDef.stackLimit, 75);
-				thing.stackCount = Rand.RangeInclusive(1, max);
-				result = thing;
-			}
-			return result;
+			Thing thing = ThingMaker.MakeThing(thingDef, null);
+			int max = Mathf.Min(thingDef.stackLimit, 75);
+			thing.stackCount = Rand.RangeInclusive(1, max);
+			return thing;
 		}
 
 		private IEnumerable<ThingDef> PossibleRawFood(TechLevel techLevel)
@@ -163,21 +161,16 @@ namespace RimWorld
 		private Thing RandomDrugs(TechLevel techLevel)
 		{
 			ThingDef thingDef;
-			Thing result;
 			if (!(from x in ThingSetMakerUtility.allGeneratableItems
 			where x.IsDrug && x.techLevel <= techLevel
 			select x).TryRandomElement(out thingDef))
 			{
-				result = null;
+				return null;
 			}
-			else
-			{
-				Thing thing = ThingMaker.MakeThing(thingDef, null);
-				int max = Mathf.Min(thingDef.stackLimit, 25);
-				thing.stackCount = Rand.RangeInclusive(1, max);
-				result = thing;
-			}
-			return result;
+			Thing thing = ThingMaker.MakeThing(thingDef, null);
+			int max = Mathf.Min(thingDef.stackLimit, 25);
+			thing.stackCount = Rand.RangeInclusive(1, max);
+			return thing;
 		}
 
 		private Thing RandomResources(TechLevel techLevel)
@@ -228,9 +221,12 @@ namespace RimWorld
 			}
 			else
 			{
-				foreach (ThingDef t4 in from d in DefDatabase<ThingDef>.AllDefsListForReading
-				where BaseGenUtility.IsCheapWallStuff(d)
-				select d)
+				IEnumerable<ThingDef> allDefsListForReading = DefDatabase<ThingDef>.AllDefsListForReading;
+				if (ThingSetMaker_RandomGeneralGoods.<>f__mg$cache0 == null)
+				{
+					ThingSetMaker_RandomGeneralGoods.<>f__mg$cache0 = new Func<ThingDef, bool>(BaseGenUtility.IsCheapWallStuff);
+				}
+				foreach (ThingDef t4 in allDefsListForReading.Where(ThingSetMaker_RandomGeneralGoods.<>f__mg$cache0))
 				{
 					yield return t4;
 				}
@@ -349,8 +345,6 @@ namespace RimWorld
 
 			private static Func<ThingDef, bool> <>f__am$cache0;
 
-			private static Func<ThingDef, bool> <>f__am$cache1;
-
 			[DebuggerHidden]
 			public <AllGeneratableThingsDebugSub>c__Iterator0()
 			{
@@ -405,57 +399,55 @@ namespace RimWorld
 				case 4u:
 					break;
 				case 5u:
-					Block_8:
-					try
-					{
-						switch (num)
-						{
-						}
-						if (enumerator.MoveNext())
-						{
-							t = enumerator.Current;
-							this.$current = t;
-							if (!this.$disposing)
-							{
-								this.$PC = 5;
-							}
-							flag = true;
-							return true;
-						}
-					}
-					finally
-					{
-						if (!flag)
-						{
-							if (enumerator != null)
-							{
-								enumerator.Dispose();
-							}
-						}
-					}
-					enumerator2 = (from x in ThingSetMakerUtility.allGeneratableItems
-					where x.IsMedicine
-					select x).GetEnumerator();
-					num = 4294967293u;
-					goto Block_10;
+					goto IL_144;
 				case 6u:
-					goto IL_1F4;
+					goto IL_1ED;
 				case 7u:
-					goto IL_294;
+					goto IL_28A;
 				case 8u:
-					goto IL_3F3;
+					goto IL_3E2;
 				case 9u:
-					goto IL_37A;
+					goto IL_36C;
 				default:
 					return false;
 				}
 				enumerator = base.PossibleRawFood(<AllGeneratableThingsDebugSub>c__AnonStorey.techLevel).GetEnumerator();
 				num = 4294967293u;
-				goto Block_8;
-				Block_10:
 				try
 				{
-					IL_1F4:
+					IL_144:
+					switch (num)
+					{
+					}
+					if (enumerator.MoveNext())
+					{
+						t = enumerator.Current;
+						this.$current = t;
+						if (!this.$disposing)
+						{
+							this.$PC = 5;
+						}
+						flag = true;
+						return true;
+					}
+				}
+				finally
+				{
+					if (!flag)
+					{
+						if (enumerator != null)
+						{
+							enumerator.Dispose();
+						}
+					}
+				}
+				enumerator2 = (from x in ThingSetMakerUtility.allGeneratableItems
+				where x.IsMedicine
+				select x).GetEnumerator();
+				num = 4294967293u;
+				try
+				{
+					IL_1ED:
 					switch (num)
 					{
 					}
@@ -487,7 +479,7 @@ namespace RimWorld
 				num = 4294967293u;
 				try
 				{
-					IL_294:
+					IL_28A:
 					switch (num)
 					{
 					}
@@ -522,13 +514,16 @@ namespace RimWorld
 					}
 					return true;
 				}
-				enumerator4 = (from d in DefDatabase<ThingDef>.AllDefsListForReading
-				where BaseGenUtility.IsCheapWallStuff(d)
-				select d).GetEnumerator();
+				IEnumerable<ThingDef> allDefsListForReading = DefDatabase<ThingDef>.AllDefsListForReading;
+				if (ThingSetMaker_RandomGeneralGoods.<>f__mg$cache0 == null)
+				{
+					ThingSetMaker_RandomGeneralGoods.<>f__mg$cache0 = new Func<ThingDef, bool>(BaseGenUtility.IsCheapWallStuff);
+				}
+				enumerator4 = allDefsListForReading.Where(ThingSetMaker_RandomGeneralGoods.<>f__mg$cache0).GetEnumerator();
 				num = 4294967293u;
 				try
 				{
-					IL_37A:
+					IL_36C:
 					switch (num)
 					{
 					}
@@ -554,7 +549,7 @@ namespace RimWorld
 						}
 					}
 				}
-				IL_3F3:
+				IL_3E2:
 				this.$PC = -1;
 				return false;
 			}
@@ -664,11 +659,6 @@ namespace RimWorld
 			private static bool <>m__0(ThingDef x)
 			{
 				return x.IsMedicine;
-			}
-
-			private static bool <>m__1(ThingDef d)
-			{
-				return BaseGenUtility.IsCheapWallStuff(d);
 			}
 
 			private sealed class <AllGeneratableThingsDebugSub>c__AnonStorey4

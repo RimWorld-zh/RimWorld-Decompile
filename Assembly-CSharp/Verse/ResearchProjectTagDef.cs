@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 
 namespace Verse
 {
@@ -11,8 +12,10 @@ namespace Verse
 		public int CompletedProjects()
 		{
 			int num = 0;
-			foreach (ResearchProjectDef researchProjectDef in DefDatabase<ResearchProjectDef>.AllDefsListForReading)
+			List<ResearchProjectDef> allDefsListForReading = DefDatabase<ResearchProjectDef>.AllDefsListForReading;
+			for (int i = 0; i < allDefsListForReading.Count; i++)
 			{
+				ResearchProjectDef researchProjectDef = allDefsListForReading[i];
 				if (researchProjectDef.IsFinished && researchProjectDef.HasTag(this))
 				{
 					num++;

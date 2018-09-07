@@ -39,12 +39,9 @@ namespace Verse
 			{
 				RealTime.moteList.Clear();
 			}
-			if (DebugSettings.lowFPS)
+			if (DebugSettings.lowFPS && Time.deltaTime < 100f)
 			{
-				if (Time.deltaTime < 100f)
-				{
-					Thread.Sleep((int)(100f - Time.deltaTime));
-				}
+				Thread.Sleep((int)(100f - Time.deltaTime));
 			}
 		}
 

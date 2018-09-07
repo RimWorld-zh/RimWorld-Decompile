@@ -22,13 +22,10 @@ namespace RimWorld
 
 		public static Faction GetRandomFactionForRefugee()
 		{
-			if (Rand.Chance(0.6f))
+			Faction result;
+			if (Rand.Chance(0.6f) && Find.FactionManager.TryGetRandomNonColonyHumanlikeFaction(out result, true, false, TechLevel.Undefined))
 			{
-				Faction result;
-				if (Find.FactionManager.TryGetRandomNonColonyHumanlikeFaction(out result, true, false, TechLevel.Undefined))
-				{
-					return result;
-				}
+				return result;
 			}
 			return null;
 		}

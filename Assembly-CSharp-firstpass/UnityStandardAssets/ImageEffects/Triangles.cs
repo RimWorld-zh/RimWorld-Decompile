@@ -7,7 +7,7 @@ namespace UnityStandardAssets.ImageEffects
 	{
 		private static Mesh[] meshes;
 
-		private static int currentTris = 0;
+		private static int currentTris;
 
 		public Triangles()
 		{
@@ -15,65 +15,56 @@ namespace UnityStandardAssets.ImageEffects
 
 		private static bool HasMeshes()
 		{
-			bool result;
 			if (Triangles.meshes == null)
 			{
-				result = false;
+				return false;
 			}
-			else
+			for (int i = 0; i < Triangles.meshes.Length; i++)
 			{
-				for (int i = 0; i < Triangles.meshes.Length; i++)
+				if (null == Triangles.meshes[i])
 				{
-					if (null == Triangles.meshes[i])
-					{
-						return false;
-					}
+					return false;
 				}
-				result = true;
 			}
-			return result;
+			return true;
 		}
 
 		private static void Cleanup()
 		{
-			if (Triangles.meshes != null)
+			if (Triangles.meshes == null)
 			{
-				for (int i = 0; i < Triangles.meshes.Length; i++)
-				{
-					if (null != Triangles.meshes[i])
-					{
-						UnityEngine.Object.DestroyImmediate(Triangles.meshes[i]);
-						Triangles.meshes[i] = null;
-					}
-				}
-				Triangles.meshes = null;
+				return;
 			}
+			for (int i = 0; i < Triangles.meshes.Length; i++)
+			{
+				if (null != Triangles.meshes[i])
+				{
+					UnityEngine.Object.DestroyImmediate(Triangles.meshes[i]);
+					Triangles.meshes[i] = null;
+				}
+			}
+			Triangles.meshes = null;
 		}
 
 		private static Mesh[] GetMeshes(int totalWidth, int totalHeight)
 		{
-			Mesh[] result;
 			if (Triangles.HasMeshes() && Triangles.currentTris == totalWidth * totalHeight)
 			{
-				result = Triangles.meshes;
+				return Triangles.meshes;
 			}
-			else
+			int num = 21666;
+			int num2 = totalWidth * totalHeight;
+			Triangles.currentTris = num2;
+			int num3 = Mathf.CeilToInt(1f * (float)num2 / (1f * (float)num));
+			Triangles.meshes = new Mesh[num3];
+			int num4 = 0;
+			for (int i = 0; i < num2; i += num)
 			{
-				int num = 21666;
-				int num2 = totalWidth * totalHeight;
-				Triangles.currentTris = num2;
-				int num3 = Mathf.CeilToInt(1f * (float)num2 / (1f * (float)num));
-				Triangles.meshes = new Mesh[num3];
-				int num4 = 0;
-				for (int i = 0; i < num2; i += num)
-				{
-					int triCount = Mathf.FloorToInt((float)Mathf.Clamp(num2 - i, 0, num));
-					Triangles.meshes[num4] = Triangles.GetMesh(triCount, i, totalWidth, totalHeight);
-					num4++;
-				}
-				result = Triangles.meshes;
+				int triCount = Mathf.FloorToInt((float)Mathf.Clamp(num2 - i, 0, num));
+				Triangles.meshes[num4] = Triangles.GetMesh(triCount, i, totalWidth, totalHeight);
+				num4++;
 			}
-			return result;
+			return Triangles.meshes;
 		}
 
 		private static Mesh GetMesh(int triCount, int triOffset, int totalWidth, int totalHeight)

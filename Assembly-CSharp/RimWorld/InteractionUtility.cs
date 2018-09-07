@@ -42,42 +42,32 @@ namespace RimWorld
 
 		public static bool HasAnyVerbForSocialFight(Pawn p)
 		{
-			bool result;
 			if (p.Dead)
 			{
-				result = false;
+				return false;
 			}
-			else
+			List<Verb> allVerbs = p.verbTracker.AllVerbs;
+			for (int i = 0; i < allVerbs.Count; i++)
 			{
-				List<Verb> allVerbs = p.verbTracker.AllVerbs;
-				for (int i = 0; i < allVerbs.Count; i++)
+				if (allVerbs[i].IsMeleeAttack && allVerbs[i].IsStillUsableBy(p))
 				{
-					if (allVerbs[i].IsMeleeAttack && allVerbs[i].IsStillUsableBy(p))
-					{
-						return true;
-					}
+					return true;
 				}
-				result = false;
 			}
-			return result;
+			return false;
 		}
 
 		public static bool TryGetRandomVerbForSocialFight(Pawn p, out Verb verb)
 		{
-			bool result;
 			if (p.Dead)
 			{
 				verb = null;
-				result = false;
+				return false;
 			}
-			else
-			{
-				List<Verb> allVerbs = p.verbTracker.AllVerbs;
-				result = (from x in allVerbs
-				where x.IsMeleeAttack && x.IsStillUsableBy(p)
-				select x).TryRandomElementByWeight((Verb x) => x.verbProps.AdjustedMeleeDamageAmount(x, p), out verb);
-			}
-			return result;
+			List<Verb> allVerbs = p.verbTracker.AllVerbs;
+			return (from x in allVerbs
+			where x.IsMeleeAttack && x.IsStillUsableBy(p)
+			select x).TryRandomElementByWeight((Verb x) => x.verbProps.AdjustedMeleeDamageAmount(x, p), out verb);
 		}
 
 		[CompilerGenerated]

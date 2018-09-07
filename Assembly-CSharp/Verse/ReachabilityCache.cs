@@ -3,12 +3,15 @@ using System.Collections.Generic;
 using System.Diagnostics;
 using System.Runtime.CompilerServices;
 using System.Runtime.InteropServices;
+using RimWorld;
 
 namespace Verse
 {
 	public class ReachabilityCache
 	{
 		private Dictionary<ReachabilityCache.CachedEntry, bool> cacheDict = new Dictionary<ReachabilityCache.CachedEntry, bool>();
+
+		private static List<ReachabilityCache.CachedEntry> tmpCachedEntries = new List<ReachabilityCache.CachedEntry>();
 
 		public ReachabilityCache()
 		{
@@ -25,16 +28,11 @@ namespace Verse
 		public BoolUnknown CachedResultFor(Room A, Room B, TraverseParms traverseParams)
 		{
 			bool flag;
-			BoolUnknown result;
 			if (this.cacheDict.TryGetValue(new ReachabilityCache.CachedEntry(A.ID, B.ID, traverseParams), out flag))
 			{
-				result = ((!flag) ? BoolUnknown.False : BoolUnknown.True);
+				return (!flag) ? BoolUnknown.False : BoolUnknown.True;
 			}
-			else
-			{
-				result = BoolUnknown.Unknown;
-			}
-			return result;
+			return BoolUnknown.Unknown;
 		}
 
 		public void AddCachedResult(Room A, Room B, TraverseParms traverseParams, bool reachable)
@@ -49,6 +47,46 @@ namespace Verse
 		public void Clear()
 		{
 			this.cacheDict.Clear();
+		}
+
+		public void ClearFor(Pawn p)
+		{
+			ReachabilityCache.tmpCachedEntries.Clear();
+			foreach (KeyValuePair<ReachabilityCache.CachedEntry, bool> keyValuePair in this.cacheDict)
+			{
+				if (keyValuePair.Key.TraverseParms.pawn == p)
+				{
+					ReachabilityCache.tmpCachedEntries.Add(keyValuePair.Key);
+				}
+			}
+			for (int i = 0; i < ReachabilityCache.tmpCachedEntries.Count; i++)
+			{
+				this.cacheDict.Remove(ReachabilityCache.tmpCachedEntries[i]);
+			}
+			ReachabilityCache.tmpCachedEntries.Clear();
+		}
+
+		public void ClearForHostile(Thing hostileTo)
+		{
+			ReachabilityCache.tmpCachedEntries.Clear();
+			foreach (KeyValuePair<ReachabilityCache.CachedEntry, bool> keyValuePair in this.cacheDict)
+			{
+				Pawn pawn = keyValuePair.Key.TraverseParms.pawn;
+				if (pawn != null && pawn.HostileTo(hostileTo))
+				{
+					ReachabilityCache.tmpCachedEntries.Add(keyValuePair.Key);
+				}
+			}
+			for (int i = 0; i < ReachabilityCache.tmpCachedEntries.Count; i++)
+			{
+				this.cacheDict.Remove(ReachabilityCache.tmpCachedEntries[i]);
+			}
+			ReachabilityCache.tmpCachedEntries.Clear();
+		}
+
+		// Note: this type is marked as 'beforefieldinit'.
+		static ReachabilityCache()
+		{
 		}
 
 		[StructLayout(LayoutKind.Sequential, Size = 1)]

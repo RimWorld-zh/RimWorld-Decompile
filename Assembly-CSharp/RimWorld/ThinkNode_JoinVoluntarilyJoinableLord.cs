@@ -25,12 +25,9 @@ namespace RimWorld
 		{
 			this.CheckLeaveCurrentVoluntarilyJoinableLord(pawn);
 			this.JoinVoluntarilyJoinableLord(pawn);
-			if (pawn.GetLord() != null)
+			if (pawn.GetLord() != null && (pawn.mindState.duty == null || pawn.mindState.duty.def.hook == this.dutyHook))
 			{
-				if (pawn.mindState.duty == null || pawn.mindState.duty.def.hook == this.dutyHook)
-				{
-					return base.TryIssueJobPackage(pawn, jobParams);
-				}
+				return base.TryIssueJobPackage(pawn, jobParams);
 			}
 			return ThinkResult.NoJob;
 		}
@@ -38,16 +35,18 @@ namespace RimWorld
 		private void CheckLeaveCurrentVoluntarilyJoinableLord(Pawn pawn)
 		{
 			Lord lord = pawn.GetLord();
-			if (lord != null)
+			if (lord == null)
 			{
-				LordJob_VoluntarilyJoinable lordJob_VoluntarilyJoinable = lord.LordJob as LordJob_VoluntarilyJoinable;
-				if (lordJob_VoluntarilyJoinable != null)
-				{
-					if (lordJob_VoluntarilyJoinable.VoluntaryJoinPriorityFor(pawn) <= 0f)
-					{
-						lord.Notify_PawnLost(pawn, PawnLostCondition.LeftVoluntarily);
-					}
-				}
+				return;
+			}
+			LordJob_VoluntarilyJoinable lordJob_VoluntarilyJoinable = lord.LordJob as LordJob_VoluntarilyJoinable;
+			if (lordJob_VoluntarilyJoinable == null)
+			{
+				return;
+			}
+			if (lordJob_VoluntarilyJoinable.VoluntaryJoinPriorityFor(pawn) <= 0f)
+			{
+				lord.Notify_PawnLost(pawn, PawnLostCondition.LeftVoluntarily, null);
 			}
 		}
 
@@ -90,7 +89,7 @@ namespace RimWorld
 			{
 				if (lord != null)
 				{
-					lord.Notify_PawnLost(pawn, PawnLostCondition.LeftVoluntarily);
+					lord.Notify_PawnLost(pawn, PawnLostCondition.LeftVoluntarily, null);
 				}
 				lord2.AddPawn(pawn);
 			}

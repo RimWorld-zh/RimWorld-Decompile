@@ -23,7 +23,7 @@ namespace Verse
 
 		public static void Flush()
 		{
-			Log.Message((PerfLogger.currentLog == null) ? "" : PerfLogger.currentLog.ToString(), false);
+			Log.Message((PerfLogger.currentLog == null) ? string.Empty : PerfLogger.currentLog.ToString(), false);
 			PerfLogger.Reset();
 		}
 

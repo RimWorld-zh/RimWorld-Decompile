@@ -43,7 +43,7 @@ namespace Verse
 		public static readonly SimpleCurve BecomePermanentChanceFactorBySeverityCurve = new SimpleCurve
 		{
 			{
-				new CurvePoint(6f, 0f),
+				new CurvePoint(4f, 0f),
 				true
 			},
 			{
@@ -113,19 +113,23 @@ namespace Verse
 		public static readonly SimpleCurve DeathOnDownedChance_NonColonyHumanlikeFromPopulationIntentCurve = new SimpleCurve
 		{
 			{
-				new CurvePoint(-1f, 0.87f),
+				new CurvePoint(-1f, 0.92f),
 				true
 			},
 			{
-				new CurvePoint(0f, 0.77f),
+				new CurvePoint(0f, 0.85f),
 				true
 			},
 			{
-				new CurvePoint(1f, 0.67f),
+				new CurvePoint(1f, 0.62f),
 				true
 			},
 			{
-				new CurvePoint(2f, 0.61f),
+				new CurvePoint(2f, 0.55f),
+				true
+			},
+			{
+				new CurvePoint(8f, 0.3f),
 				true
 			}
 		};
@@ -135,6 +139,8 @@ namespace Verse
 		public const float TendPriority_PerBleedRate = 1.5f;
 
 		public const float TendPriority_DiseaseSeverityDecreasesWhenTended = 0.025f;
+
+		public const float TraitToughDamageFactor = 0.5f;
 
 		public HealthTuning()
 		{

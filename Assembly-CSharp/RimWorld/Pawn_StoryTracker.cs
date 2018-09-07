@@ -21,19 +21,19 @@ namespace RimWorld
 
 		public Color hairColor = Color.white;
 
-		public CrownType crownType = CrownType.Undefined;
+		public CrownType crownType;
 
-		public BodyTypeDef bodyType = null;
+		public BodyTypeDef bodyType;
 
-		private string headGraphicPath = null;
+		private string headGraphicPath;
 
-		public HairDef hairDef = null;
+		public HairDef hairDef;
 
 		public TraitSet traits;
 
-		public string title = null;
+		public string title;
 
-		private List<WorkTypeDef> cachedDisabledWorkTypes = null;
+		private List<WorkTypeDef> cachedDisabledWorkTypes;
 
 		public Pawn_StoryTracker(Pawn pawn)
 		{
@@ -45,16 +45,11 @@ namespace RimWorld
 		{
 			get
 			{
-				string titleDefault;
 				if (this.title != null)
 				{
-					titleDefault = this.title;
+					return this.title;
 				}
-				else
-				{
-					titleDefault = this.TitleDefault;
-				}
-				return titleDefault;
+				return this.TitleDefault;
 			}
 			set
 			{
@@ -78,20 +73,15 @@ namespace RimWorld
 		{
 			get
 			{
-				string result;
 				if (this.adulthood != null)
 				{
-					result = this.adulthood.TitleFor(this.pawn.gender);
+					return this.adulthood.TitleFor(this.pawn.gender);
 				}
-				else if (this.childhood != null)
+				if (this.childhood != null)
 				{
-					result = this.childhood.TitleFor(this.pawn.gender);
+					return this.childhood.TitleFor(this.pawn.gender);
 				}
-				else
-				{
-					result = "";
-				}
-				return result;
+				return string.Empty;
 			}
 		}
 
@@ -107,24 +97,19 @@ namespace RimWorld
 		{
 			get
 			{
-				string result;
 				if (this.title != null)
 				{
-					result = this.title;
+					return this.title;
 				}
-				else if (this.adulthood != null)
+				if (this.adulthood != null)
 				{
-					result = this.adulthood.TitleShortFor(this.pawn.gender);
+					return this.adulthood.TitleShortFor(this.pawn.gender);
 				}
-				else if (this.childhood != null)
+				if (this.childhood != null)
 				{
-					result = this.childhood.TitleShortFor(this.pawn.gender);
+					return this.childhood.TitleShortFor(this.pawn.gender);
 				}
-				else
-				{
-					result = "";
-				}
-				return result;
+				return string.Empty;
 			}
 		}
 
@@ -229,23 +214,17 @@ namespace RimWorld
 		{
 			string text = (this.childhood == null) ? null : this.childhood.identifier;
 			Scribe_Values.Look<string>(ref text, "childhood", null, false);
-			if (Scribe.mode == LoadSaveMode.LoadingVars && !text.NullOrEmpty())
+			if (Scribe.mode == LoadSaveMode.LoadingVars && !text.NullOrEmpty() && !BackstoryDatabase.TryGetWithIdentifier(text, out this.childhood, true))
 			{
-				if (!BackstoryDatabase.TryGetWithIdentifier(text, out this.childhood, true))
-				{
-					Log.Error("Couldn't load child backstory with identifier " + text + ". Giving random.", false);
-					this.childhood = BackstoryDatabase.RandomBackstory(BackstorySlot.Childhood);
-				}
+				Log.Error("Couldn't load child backstory with identifier " + text + ". Giving random.", false);
+				this.childhood = BackstoryDatabase.RandomBackstory(BackstorySlot.Childhood);
 			}
 			string text2 = (this.adulthood == null) ? null : this.adulthood.identifier;
 			Scribe_Values.Look<string>(ref text2, "adulthood", null, false);
-			if (Scribe.mode == LoadSaveMode.LoadingVars && !text2.NullOrEmpty())
+			if (Scribe.mode == LoadSaveMode.LoadingVars && !text2.NullOrEmpty() && !BackstoryDatabase.TryGetWithIdentifier(text2, out this.adulthood, true))
 			{
-				if (!BackstoryDatabase.TryGetWithIdentifier(text2, out this.adulthood, true))
-				{
-					Log.Error("Couldn't load adult backstory with identifier " + text2 + ". Giving random.", false);
-					this.adulthood = BackstoryDatabase.RandomBackstory(BackstorySlot.Adulthood);
-				}
+				Log.Error("Couldn't load adult backstory with identifier " + text2 + ". Giving random.", false);
+				this.adulthood = BackstoryDatabase.RandomBackstory(BackstorySlot.Adulthood);
 			}
 			Scribe_Defs.Look<BodyTypeDef>(ref this.bodyType, "bodyType");
 			Scribe_Values.Look<CrownType>(ref this.crownType, "crownType", CrownType.Undefined, false);
@@ -258,27 +237,19 @@ namespace RimWorld
 				this.pawn
 			});
 			Scribe_Values.Look<string>(ref this.title, "title", null, false);
-			if (Scribe.mode == LoadSaveMode.PostLoadInit)
+			if (Scribe.mode == LoadSaveMode.PostLoadInit && this.hairDef == null)
 			{
-				if (this.hairDef == null)
-				{
-					this.hairDef = DefDatabase<HairDef>.AllDefs.RandomElement<HairDef>();
-				}
+				this.hairDef = DefDatabase<HairDef>.AllDefs.RandomElement<HairDef>();
 			}
 		}
 
 		public Backstory GetBackstory(BackstorySlot slot)
 		{
-			Backstory result;
 			if (slot == BackstorySlot.Childhood)
 			{
-				result = this.childhood;
+				return this.childhood;
 			}
-			else
-			{
-				result = this.adulthood;
-			}
-			return result;
+			return this.adulthood;
 		}
 
 		public bool WorkTypeIsDisabled(WorkTypeDef w)
@@ -344,7 +315,7 @@ namespace RimWorld
 				case 1u:
 					break;
 				case 2u:
-					goto IL_90;
+					goto IL_8F;
 				default:
 					return false;
 				}
@@ -357,7 +328,7 @@ namespace RimWorld
 					}
 					return true;
 				}
-				IL_90:
+				IL_8F:
 				this.$PC = -1;
 				return false;
 			}

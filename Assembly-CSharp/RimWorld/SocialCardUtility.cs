@@ -314,23 +314,25 @@ namespace RimWorld
 
 		private static void DrawMyOpinion(SocialCardUtility.CachedSocialTabEntry entry, Rect rect, Pawn selPawnForSocialInfo)
 		{
-			if (entry.otherPawn.RaceProps.Humanlike && selPawnForSocialInfo.RaceProps.Humanlike)
+			if (!entry.otherPawn.RaceProps.Humanlike || !selPawnForSocialInfo.RaceProps.Humanlike)
 			{
-				int opinionOfOtherPawn = entry.opinionOfOtherPawn;
-				GUI.color = SocialCardUtility.OpinionLabelColor(opinionOfOtherPawn);
-				Widgets.Label(rect, opinionOfOtherPawn.ToStringWithSign());
+				return;
 			}
+			int opinionOfOtherPawn = entry.opinionOfOtherPawn;
+			GUI.color = SocialCardUtility.OpinionLabelColor(opinionOfOtherPawn);
+			Widgets.Label(rect, opinionOfOtherPawn.ToStringWithSign());
 		}
 
 		private static void DrawHisOpinion(SocialCardUtility.CachedSocialTabEntry entry, Rect rect, Pawn selPawnForSocialInfo)
 		{
-			if (entry.otherPawn.RaceProps.Humanlike && selPawnForSocialInfo.RaceProps.Humanlike)
+			if (!entry.otherPawn.RaceProps.Humanlike || !selPawnForSocialInfo.RaceProps.Humanlike)
 			{
-				int opinionOfMe = entry.opinionOfMe;
-				Color color = SocialCardUtility.OpinionLabelColor(opinionOfMe);
-				GUI.color = new Color(color.r, color.g, color.b, 0.4f);
-				Widgets.Label(rect, "(" + opinionOfMe.ToStringWithSign() + ")");
+				return;
 			}
+			int opinionOfMe = entry.opinionOfMe;
+			Color color = SocialCardUtility.OpinionLabelColor(opinionOfMe);
+			GUI.color = new Color(color.r, color.g, color.b, 0.4f);
+			Widgets.Label(rect, "(" + opinionOfMe.ToStringWithSign() + ")");
 		}
 
 		private static void DrawPawnSituationLabel(Pawn pawn, Rect rect, Pawn selPawnForSocialInfo)
@@ -342,115 +344,74 @@ namespace RimWorld
 
 		private static Color OpinionLabelColor(int opinion)
 		{
-			Color result;
 			if (Mathf.Abs(opinion) < 10)
 			{
-				result = Color.gray;
+				return Color.gray;
 			}
-			else if (opinion < 0)
+			if (opinion < 0)
 			{
-				result = Color.red;
+				return Color.red;
 			}
-			else
-			{
-				result = Color.green;
-			}
-			return result;
+			return Color.green;
 		}
 
 		private static string GetPawnLabel(Pawn pawn)
 		{
-			string result;
 			if (pawn.Name != null)
 			{
-				result = pawn.Name.ToStringFull;
+				return pawn.Name.ToStringFull;
 			}
-			else
-			{
-				result = pawn.LabelCapNoCount;
-			}
-			return result;
+			return pawn.LabelCapNoCount;
 		}
 
 		public static string GetPawnSituationLabel(Pawn pawn, Pawn fromPOV)
 		{
-			string result;
 			if (pawn.Dead)
 			{
-				result = "Dead".Translate();
+				return "Dead".Translate();
 			}
-			else if (pawn.Destroyed)
+			if (pawn.Destroyed)
 			{
-				result = "Missing".Translate();
+				return "Missing".Translate();
 			}
-			else if (PawnUtility.IsKidnappedPawn(pawn))
+			if (PawnUtility.IsKidnappedPawn(pawn))
 			{
-				result = "Kidnapped".Translate();
+				return "Kidnapped".Translate();
 			}
-			else if (pawn.kindDef == PawnKindDefOf.Slave)
+			if (pawn.kindDef == PawnKindDefOf.Slave)
 			{
-				result = "Slave".Translate();
+				return "Slave".Translate();
 			}
-			else if (PawnUtility.IsFactionLeader(pawn))
+			if (PawnUtility.IsFactionLeader(pawn))
 			{
-				result = "FactionLeader".Translate();
+				return "FactionLeader".Translate();
 			}
-			else
+			Faction faction = pawn.Faction;
+			if (faction == fromPOV.Faction)
 			{
-				Faction faction = pawn.Faction;
-				if (faction != fromPOV.Faction)
-				{
-					if (faction == null || fromPOV.Faction == null)
-					{
-						result = "Neutral".Translate();
-					}
-					else
-					{
-						switch (faction.RelationKindWith(fromPOV.Faction))
-						{
-						case FactionRelationKind.Hostile:
-							result = "Hostile".Translate() + ", " + faction.Name;
-							break;
-						case FactionRelationKind.Neutral:
-							result = "Neutral".Translate() + ", " + faction.Name;
-							break;
-						case FactionRelationKind.Ally:
-							result = "Ally".Translate() + ", " + faction.Name;
-							break;
-						default:
-							result = "";
-							break;
-						}
-					}
-				}
-				else
-				{
-					result = "";
-				}
+				return string.Empty;
 			}
-			return result;
+			if (faction == null || fromPOV.Faction == null)
+			{
+				return "Neutral".Translate();
+			}
+			switch (faction.RelationKindWith(fromPOV.Faction))
+			{
+			case FactionRelationKind.Hostile:
+				return "Hostile".Translate() + ", " + faction.Name;
+			case FactionRelationKind.Neutral:
+				return "Neutral".Translate() + ", " + faction.Name;
+			case FactionRelationKind.Ally:
+				return "Ally".Translate() + ", " + faction.Name;
+			default:
+				return string.Empty;
+			}
 		}
 
 		private static string GetRelationsString(SocialCardUtility.CachedSocialTabEntry entry, Pawn selPawnForSocialInfo)
 		{
-			string text = "";
-			string result;
-			if (entry.relations.Count == 0)
-			{
-				if (entry.opinionOfOtherPawn < -20)
-				{
-					result = "Rival".Translate();
-				}
-				else if (entry.opinionOfOtherPawn > 20)
-				{
-					result = "Friend".Translate();
-				}
-				else
-				{
-					result = "Acquaintance".Translate();
-				}
-			}
-			else
+			string text = string.Empty;
+			if (entry.relations.Count != 0)
 			{
 				for (int i = 0; i < entry.relations.Count; i++)
 				{
@@ -464,9 +425,17 @@ namespace RimWorld
 						text = pawnRelationDef.GetGenderSpecificLabelCap(entry.otherPawn);
 					}
 				}
-				result = text;
+				return text;
 			}
-			return result;
+			if (entry.opinionOfOtherPawn < -20)
+			{
+				return "Rival".Translate();
+			}
+			if (entry.opinionOfOtherPawn > 20)
+			{
+				return "Friend".Translate();
+			}
+			return "Acquaintance".Translate();
 		}
 
 		private static string GetPawnRowTooltip(SocialCardUtility.CachedSocialTabEntry entry, Pawn selPawnForSocialInfo)
@@ -787,46 +756,38 @@ namespace RimWorld
 			{
 				bool flag = a.relations.Any<PawnRelationDef>();
 				bool flag2 = b.relations.Any<PawnRelationDef>();
-				int result;
 				if (flag != flag2)
 				{
-					result = flag2.CompareTo(flag);
+					return flag2.CompareTo(flag);
 				}
-				else
+				if (flag && flag2)
 				{
-					if (flag && flag2)
+					float num = float.MinValue;
+					for (int i = 0; i < a.relations.Count; i++)
 					{
-						float num = float.MinValue;
-						for (int i = 0; i < a.relations.Count; i++)
+						if (a.relations[i].importance > num)
 						{
-							if (a.relations[i].importance > num)
-							{
-								num = a.relations[i].importance;
-							}
-						}
-						float num2 = float.MinValue;
-						for (int j = 0; j < b.relations.Count; j++)
-						{
-							if (b.relations[j].importance > num2)
-							{
-								num2 = b.relations[j].importance;
-							}
-						}
-						if (num != num2)
-						{
-							return num2.CompareTo(num);
+							num = a.relations[i].importance;
 						}
 					}
-					if (a.opinionOfOtherPawn != b.opinionOfOtherPawn)
+					float num2 = float.MinValue;
+					for (int j = 0; j < b.relations.Count; j++)
 					{
-						result = b.opinionOfOtherPawn.CompareTo(a.opinionOfOtherPawn);
+						if (b.relations[j].importance > num2)
+						{
+							num2 = b.relations[j].importance;
+						}
 					}
-					else
+					if (num != num2)
 					{
-						result = a.otherPawn.thingIDNumber.CompareTo(b.otherPawn.thingIDNumber);
+						return num2.CompareTo(num);
 					}
 				}
-				return result;
+				if (a.opinionOfOtherPawn != b.opinionOfOtherPawn)
+				{
+					return b.opinionOfOtherPawn.CompareTo(a.opinionOfOtherPawn);
+				}
+				return a.otherPawn.thingIDNumber.CompareTo(b.otherPawn.thingIDNumber);
 			}
 		}
 

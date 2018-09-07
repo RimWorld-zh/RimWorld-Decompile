@@ -15,36 +15,50 @@ namespace RimWorld
 		{
 		}
 
-		public override bool TryMakePreToilReservations()
+		public override bool TryMakePreToilReservations(bool errorOnFailed)
 		{
-			bool result;
-			if (!this.pawn.Reserve(this.job.targetA, this.job, this.job.def.joyMaxParticipants, 0, null))
+			Pawn pawn = this.pawn;
+			LocalTargetInfo target = this.job.targetA;
+			Job job = this.job;
+			int num = this.job.def.joyMaxParticipants;
+			int num2 = 0;
+			if (!pawn.Reserve(target, job, num, num2, null, errorOnFailed))
 			{
-				result = false;
+				return false;
 			}
-			else if (!this.pawn.Reserve(this.job.targetB, this.job, 1, -1, null))
+			pawn = this.pawn;
+			target = this.job.targetB;
+			job = this.job;
+			if (!pawn.Reserve(target, job, 1, -1, null, errorOnFailed))
 			{
-				result = false;
+				return false;
 			}
-			else
+			if (base.TargetC.HasThing)
 			{
-				if (base.TargetC.HasThing)
+				if (base.TargetC.Thing is Building_Bed)
 				{
-					if (base.TargetC.Thing is Building_Bed)
-					{
-						if (!this.pawn.Reserve(this.job.targetC, this.job, ((Building_Bed)base.TargetC.Thing).SleepingSlotsCount, 0, null))
-						{
-							return false;
-						}
-					}
-					else if (!this.pawn.Reserve(this.job.targetC, this.job, 1, -1, null))
+					pawn = this.pawn;
+					LocalTargetInfo targetC = this.job.targetC;
+					job = this.job;
+					num2 = ((Building_Bed)base.TargetC.Thing).SleepingSlotsCount;
+					num = 0;
+					if (!pawn.Reserve(targetC, job, num2, num, null, errorOnFailed))
 					{
 						return false;
 					}
 				}
-				result = true;
+				else
+				{
+					pawn = this.pawn;
+					LocalTargetInfo targetC = this.job.targetC;
+					job = this.job;
+					if (!pawn.Reserve(targetC, job, 1, -1, null, errorOnFailed))
+					{
+						return false;
+					}
+				}
 			}
-			return result;
+			return true;
 		}
 
 		public override bool CanBeginNowWhileLyingDown()

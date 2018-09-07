@@ -61,17 +61,18 @@ namespace Verse
 
 		private void PushPrep()
 		{
-			if (this.count >= this.data.Length)
+			if (this.count < this.data.Length)
 			{
-				T[] destinationArray = new T[this.data.Length * 2];
-				Array.Copy(this.data, this.first, destinationArray, 0, Mathf.Min(this.count, this.data.Length - this.first));
-				if (this.first + this.count > this.data.Length)
-				{
-					Array.Copy(this.data, 0, destinationArray, this.data.Length - this.first, this.count - this.data.Length + this.first);
-				}
-				this.data = destinationArray;
-				this.first = 0;
+				return;
 			}
+			T[] destinationArray = new T[this.data.Length * 2];
+			Array.Copy(this.data, this.first, destinationArray, 0, Mathf.Min(this.count, this.data.Length - this.first));
+			if (this.first + this.count > this.data.Length)
+			{
+				Array.Copy(this.data, 0, destinationArray, this.data.Length - this.first, this.count - this.data.Length + this.first);
+			}
+			this.data = destinationArray;
+			this.first = 0;
 		}
 	}
 }

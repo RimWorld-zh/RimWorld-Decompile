@@ -33,35 +33,23 @@ namespace RimWorld
 		protected override void Generate(ThingSetMakerParams parms, List<Thing> outThings)
 		{
 			ThingSetMaker_RandomOption.Option option;
-			if ((from x in this.options
+			if (!(from x in this.options
 			where x.thingSetMaker.CanGenerate(parms)
 			select x).TryRandomElementByWeight((ThingSetMaker_RandomOption.Option x) => this.GetSelectionWeight(x, parms), out option))
 			{
-				outThings.AddRange(option.thingSetMaker.Generate(parms));
+				return;
 			}
+			outThings.AddRange(option.thingSetMaker.Generate(parms));
 		}
 
 		private float GetSelectionWeight(ThingSetMaker_RandomOption.Option option, ThingSetMakerParams parms)
 		{
-			if (option.minMaxTotalMarketValue != 0f)
+			float? weightIfPlayerHasNoItem = option.weightIfPlayerHasNoItem;
+			if (weightIfPlayerHasNoItem != null && !PlayerItemAccessibilityUtility.PlayerOrQuestRewardHas(option.weightIfPlayerHasNoItemItem))
 			{
-				FloatRange? totalMarketValueRange = parms.totalMarketValueRange;
-				if (totalMarketValueRange == null || parms.totalMarketValueRange.Value.max < option.minMaxTotalMarketValue)
-				{
-					return 0f;
-				}
+				return option.weightIfPlayerHasNoItem.Value;
 			}
-			float? weightIfPlayerHasNoSuchItem = option.weightIfPlayerHasNoSuchItem;
-			float result;
-			if (weightIfPlayerHasNoSuchItem != null && !PlayerItemAccessibilityUtility.PlayerOrQuestRewardHas(option.thingSetMaker.fixedParams.filter))
-			{
-				result = option.weightIfPlayerHasNoSuchItem.Value;
-			}
-			else
-			{
-				result = option.weight;
-			}
-			return result;
+			return option.weight;
 		}
 
 		public override void ResolveReferences()
@@ -75,37 +63,21 @@ namespace RimWorld
 
 		protected override IEnumerable<ThingDef> AllGeneratableThingsDebugSub(ThingSetMakerParams parms)
 		{
-			int i = 0;
-			while (i < this.options.Count)
+			for (int i = 0; i < this.options.Count; i++)
 			{
-				if (this.options[i].minMaxTotalMarketValue == 0f)
-				{
-					goto IL_AF;
-				}
-				FloatRange? totalMarketValueRange = parms.totalMarketValueRange;
-				if (totalMarketValueRange != null && parms.totalMarketValueRange.Value.max >= this.options[i].minMaxTotalMarketValue)
-				{
-					goto IL_AF;
-				}
-				IL_1EB:
-				i++;
-				continue;
-				IL_AF:
 				float weight = this.options[i].weight;
-				float? weightIfPlayerHasNoSuchItem = this.options[i].weightIfPlayerHasNoSuchItem;
-				if (weightIfPlayerHasNoSuchItem != null)
+				float? weightIfPlayerHasNoItem = this.options[i].weightIfPlayerHasNoItem;
+				if (weightIfPlayerHasNoItem != null)
 				{
-					weight = Mathf.Max(weight, this.options[i].weightIfPlayerHasNoSuchItem.Value);
+					weight = Mathf.Max(weight, this.options[i].weightIfPlayerHasNoItem.Value);
 				}
-				if (weight <= 0f)
+				if (weight > 0f)
 				{
-					goto IL_1EB;
+					foreach (ThingDef t in this.options[i].thingSetMaker.AllGeneratableThingsDebug(parms))
+					{
+						yield return t;
+					}
 				}
-				foreach (ThingDef t in this.options[i].thingSetMaker.AllGeneratableThingsDebug(parms))
-				{
-					yield return t;
-				}
-				goto IL_1EB;
 			}
 			yield break;
 		}
@@ -116,9 +88,9 @@ namespace RimWorld
 
 			public float weight;
 
-			public float? weightIfPlayerHasNoSuchItem;
+			public float? weightIfPlayerHasNoItem;
 
-			public float minMaxTotalMarketValue;
+			public ThingDef weightIfPlayerHasNoItemItem;
 
 			public Option()
 			{
@@ -152,9 +124,9 @@ namespace RimWorld
 		{
 			internal int <i>__1;
 
-			internal ThingSetMakerParams parms;
-
 			internal float <weight>__2;
+
+			internal ThingSetMakerParams parms;
 
 			internal IEnumerator<ThingDef> $locvar0;
 
@@ -182,9 +154,9 @@ namespace RimWorld
 				{
 				case 0u:
 					i = 0;
-					goto IL_1F9;
+					goto IL_174;
 				case 1u:
-					Block_6:
+					Block_4:
 					try
 					{
 						switch (num)
@@ -216,36 +188,28 @@ namespace RimWorld
 				default:
 					return false;
 				}
-				IL_1EB:
+				IL_166:
 				i++;
-				IL_1F9:
+				IL_174:
 				if (i >= this.options.Count)
 				{
 					this.$PC = -1;
 				}
 				else
 				{
-					if (this.options[i].minMaxTotalMarketValue != 0f)
-					{
-						FloatRange? totalMarketValueRange = parms.totalMarketValueRange;
-						if (totalMarketValueRange == null || parms.totalMarketValueRange.Value.max < this.options[i].minMaxTotalMarketValue)
-						{
-							goto IL_1EB;
-						}
-					}
 					weight = this.options[i].weight;
-					float? weightIfPlayerHasNoSuchItem = this.options[i].weightIfPlayerHasNoSuchItem;
-					if (weightIfPlayerHasNoSuchItem != null)
+					float? weightIfPlayerHasNoItem = this.options[i].weightIfPlayerHasNoItem;
+					if (weightIfPlayerHasNoItem != null)
 					{
-						weight = Mathf.Max(weight, this.options[i].weightIfPlayerHasNoSuchItem.Value);
+						weight = Mathf.Max(weight, this.options[i].weightIfPlayerHasNoItem.Value);
 					}
 					if (weight <= 0f)
 					{
-						goto IL_1EB;
+						goto IL_166;
 					}
 					enumerator = this.options[i].thingSetMaker.AllGeneratableThingsDebug(parms).GetEnumerator();
 					num = 4294967293u;
-					goto Block_6;
+					goto Block_4;
 				}
 				return false;
 			}

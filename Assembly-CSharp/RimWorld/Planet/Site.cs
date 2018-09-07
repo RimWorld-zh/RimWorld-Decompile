@@ -45,23 +45,18 @@ namespace RimWorld.Planet
 		{
 			get
 			{
-				string result;
 				if (!this.customLabel.NullOrEmpty())
 				{
-					result = this.customLabel;
+					return this.customLabel;
 				}
-				else if (this.MainSiteDef == SiteCoreDefOf.PreciousLump && this.core.parms.preciousLumpResources != null)
+				if (this.MainSiteDef == SiteCoreDefOf.PreciousLump && this.core.parms.preciousLumpResources != null)
 				{
-					result = "PreciousLumpLabel".Translate(new object[]
+					return "PreciousLumpLabel".Translate(new object[]
 					{
 						this.core.parms.preciousLumpResources.label
 					});
 				}
-				else
-				{
-					result = this.MainSiteDef.label;
-				}
-				return result;
+				return this.MainSiteDef.label;
 			}
 		}
 
@@ -106,16 +101,11 @@ namespace RimWorld.Planet
 		{
 			get
 			{
-				SiteCoreOrPartBase result;
 				if (this.core.def == SiteCoreDefOf.Nothing && this.parts.Any<SitePart>())
 				{
-					result = this.parts[0];
+					return this.parts[0];
 				}
-				else
-				{
-					result = this.core;
-				}
-				return result;
+				return this.core;
 			}
 		}
 
@@ -131,7 +121,7 @@ namespace RimWorld.Planet
 		{
 			get
 			{
-				foreach (GenStepWithParams g in this.<get_ExtraGenStepDefs>__BaseCallProxy0())
+				foreach (GenStepWithParams g in base.ExtraGenStepDefs)
 				{
 					yield return g;
 				}
@@ -289,7 +279,7 @@ namespace RimWorld.Planet
 
 		public override IEnumerable<FloatMenuOption> GetFloatMenuOptions(Caravan caravan)
 		{
-			foreach (FloatMenuOption f in this.<GetFloatMenuOptions>__BaseCallProxy1(caravan))
+			foreach (FloatMenuOption f in base.GetFloatMenuOptions(caravan))
 			{
 				yield return f;
 			}
@@ -302,7 +292,7 @@ namespace RimWorld.Planet
 
 		public override IEnumerable<FloatMenuOption> GetTransportPodsFloatMenuOptions(IEnumerable<IThingHolder> pods, CompLaunchable representative)
 		{
-			foreach (FloatMenuOption o in this.<GetTransportPodsFloatMenuOptions>__BaseCallProxy2(pods, representative))
+			foreach (FloatMenuOption o in base.GetTransportPodsFloatMenuOptions(pods, representative))
 			{
 				yield return o;
 			}
@@ -315,7 +305,7 @@ namespace RimWorld.Planet
 
 		public override IEnumerable<Gizmo> GetGizmos()
 		{
-			foreach (Gizmo g in this.<GetGizmos>__BaseCallProxy3())
+			foreach (Gizmo g in base.GetGizmos())
 			{
 				yield return g;
 			}
@@ -328,27 +318,29 @@ namespace RimWorld.Planet
 
 		private void CheckStartForceExitAndRemoveMapCountdown()
 		{
-			if (!this.startedCountdown)
+			if (this.startedCountdown)
 			{
-				if (!GenHostility.AnyHostileActiveThreatToPlayer(base.Map))
-				{
-					this.startedCountdown = true;
-					int num = Mathf.RoundToInt(this.core.def.forceExitAndRemoveMapCountdownDurationDays * 60000f);
-					string text = (!this.anyEnemiesInitially) ? "MessageSiteCountdownBecauseNoEnemiesInitially".Translate(new object[]
-					{
-						TimedForcedExit.GetForceExitAndRemoveMapCountdownTimeLeftString(num)
-					}) : "MessageSiteCountdownBecauseNoMoreEnemies".Translate(new object[]
-					{
-						TimedForcedExit.GetForceExitAndRemoveMapCountdownTimeLeftString(num)
-					});
-					Messages.Message(text, this, MessageTypeDefOf.PositiveEvent, true);
-					base.GetComponent<TimedForcedExit>().StartForceExitAndRemoveMapCountdown(num);
-					TaleRecorder.RecordTale(TaleDefOf.CaravanAssaultSuccessful, new object[]
-					{
-						base.Map.mapPawns.FreeColonists.RandomElement<Pawn>()
-					});
-				}
+				return;
 			}
+			if (GenHostility.AnyHostileActiveThreatToPlayer(base.Map))
+			{
+				return;
+			}
+			this.startedCountdown = true;
+			int num = Mathf.RoundToInt(this.core.def.forceExitAndRemoveMapCountdownDurationDays * 60000f);
+			string text = (!this.anyEnemiesInitially) ? "MessageSiteCountdownBecauseNoEnemiesInitially".Translate(new object[]
+			{
+				TimedForcedExit.GetForceExitAndRemoveMapCountdownTimeLeftString(num)
+			}) : "MessageSiteCountdownBecauseNoMoreEnemies".Translate(new object[]
+			{
+				TimedForcedExit.GetForceExitAndRemoveMapCountdownTimeLeftString(num)
+			});
+			Messages.Message(text, this, MessageTypeDefOf.PositiveEvent, true);
+			base.GetComponent<TimedForcedExit>().StartForceExitAndRemoveMapCountdown(num);
+			TaleRecorder.RecordTale(TaleDefOf.CaravanAssaultSuccessful, new object[]
+			{
+				base.Map.mapPawns.FreeColonists.RandomElement<Pawn>()
+			});
 		}
 
 		public override bool AllMatchingObjectsOnScreenMatchesWith(WorldObject other)
@@ -494,10 +486,10 @@ namespace RimWorld.Planet
 					break;
 				case 2u:
 					i++;
-					goto IL_14E;
+					goto IL_148;
 				case 3u:
 					k++;
-					goto IL_219;
+					goto IL_210;
 				default:
 					return false;
 				}
@@ -532,11 +524,11 @@ namespace RimWorld.Planet
 				coreGenStepParms.siteCoreOrPart = this.core;
 				coreGenStepDefs = this.core.def.ExtraGenSteps;
 				i = 0;
-				IL_14E:
+				IL_148:
 				if (i >= coreGenStepDefs.Count)
 				{
 					j = 0;
-					goto IL_23E;
+					goto IL_234;
 				}
 				this.$current = new GenStepWithParams(coreGenStepDefs[i], coreGenStepParms);
 				if (!this.$disposing)
@@ -544,7 +536,7 @@ namespace RimWorld.Planet
 					this.$PC = 2;
 				}
 				return true;
-				IL_219:
+				IL_210:
 				if (k < partGenStepDefs.Count)
 				{
 					this.$current = new GenStepWithParams(partGenStepDefs[k], partGenStepParams);
@@ -555,14 +547,14 @@ namespace RimWorld.Planet
 					return true;
 				}
 				j++;
-				IL_23E:
+				IL_234:
 				if (j < this.parts.Count)
 				{
 					partGenStepParams = default(GenStepParams);
 					partGenStepParams.siteCoreOrPart = this.parts[j];
 					partGenStepDefs = this.parts[j].def.ExtraGenSteps;
 					k = 0;
-					goto IL_219;
+					goto IL_210;
 				}
 				this.$PC = -1;
 				return false;
@@ -674,7 +666,7 @@ namespace RimWorld.Planet
 				case 1u:
 					break;
 				case 2u:
-					goto IL_F3;
+					goto IL_EE;
 				default:
 					return false;
 				}
@@ -709,7 +701,7 @@ namespace RimWorld.Planet
 				num = 4294967293u;
 				try
 				{
-					IL_F3:
+					IL_EE:
 					switch (num)
 					{
 					}
@@ -860,7 +852,7 @@ namespace RimWorld.Planet
 				case 1u:
 					break;
 				case 2u:
-					goto IL_FF;
+					goto IL_FA;
 				default:
 					return false;
 				}
@@ -895,7 +887,7 @@ namespace RimWorld.Planet
 				num = 4294967293u;
 				try
 				{
-					IL_FF:
+					IL_FA:
 					switch (num)
 					{
 					}
@@ -1039,7 +1031,7 @@ namespace RimWorld.Planet
 				case 1u:
 					break;
 				case 2u:
-					goto IL_108;
+					goto IL_104;
 				default:
 					return false;
 				}
@@ -1072,7 +1064,7 @@ namespace RimWorld.Planet
 				}
 				if (!base.HasMap || Find.WorldSelector.SingleSelectedObject != this)
 				{
-					goto IL_108;
+					goto IL_104;
 				}
 				this.$current = SettleInExistingMapUtility.SettleCommand(base.Map, true);
 				if (!this.$disposing)
@@ -1080,7 +1072,7 @@ namespace RimWorld.Planet
 					this.$PC = 2;
 				}
 				return true;
-				IL_108:
+				IL_104:
 				this.$PC = -1;
 				return false;
 			}

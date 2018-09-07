@@ -37,9 +37,12 @@ namespace RimWorld
 			}
 		}
 
-		public override bool TryMakePreToilReservations()
+		public override bool TryMakePreToilReservations(bool errorOnFailed)
 		{
-			return this.pawn.Reserve(this.Item, this.job, 1, -1, null);
+			Pawn pawn = this.pawn;
+			LocalTargetInfo target = this.Item;
+			Job job = this.job;
+			return pawn.Reserve(target, job, 1, -1, null, errorOnFailed);
 		}
 
 		protected override IEnumerable<Toil> MakeNewToils()
@@ -77,30 +80,25 @@ namespace RimWorld
 		{
 			IEnumerable<Pawn> enumerable = GiveToPackAnimalUtility.CarrierCandidatesFor(this.pawn);
 			Pawn animal = this.Animal;
-			Pawn result;
 			if (animal != null && enumerable.Contains(animal) && animal.RaceProps.packAnimal && this.CanCarryAtLeastOne(animal))
 			{
-				result = animal;
+				return animal;
 			}
-			else
+			Pawn pawn = null;
+			float num = -1f;
+			foreach (Pawn pawn2 in enumerable)
 			{
-				Pawn pawn = null;
-				float num = -1f;
-				foreach (Pawn pawn2 in enumerable)
+				if (pawn2.RaceProps.packAnimal && this.CanCarryAtLeastOne(pawn2))
 				{
-					if (pawn2.RaceProps.packAnimal && this.CanCarryAtLeastOne(pawn2))
+					float num2 = (float)pawn2.Position.DistanceToSquared(this.pawn.Position);
+					if (pawn == null || num2 < num)
 					{
-						float num2 = (float)pawn2.Position.DistanceToSquared(this.pawn.Position);
-						if (pawn == null || num2 < num)
-						{
-							pawn = pawn2;
-							num = num2;
-						}
+						pawn = pawn2;
+						num = num2;
 					}
 				}
-				result = pawn;
 			}
-			return result;
+			return pawn;
 		}
 
 		private bool CanCarryAtLeastOne(Pawn carrier)

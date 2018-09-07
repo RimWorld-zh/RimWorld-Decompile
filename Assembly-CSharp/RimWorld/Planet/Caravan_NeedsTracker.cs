@@ -43,76 +43,79 @@ namespace RimWorld.Planet
 
 		private void TrySatisfyPawnNeeds(Pawn pawn)
 		{
-			if (!pawn.Dead)
+			if (pawn.Dead)
 			{
-				List<Need> allNeeds = pawn.needs.AllNeeds;
-				for (int i = 0; i < allNeeds.Count; i++)
+				return;
+			}
+			List<Need> allNeeds = pawn.needs.AllNeeds;
+			for (int i = 0; i < allNeeds.Count; i++)
+			{
+				Need need = allNeeds[i];
+				Need_Rest need_Rest = need as Need_Rest;
+				Need_Food need_Food = need as Need_Food;
+				Need_Chemical need_Chemical = need as Need_Chemical;
+				Need_Joy need_Joy = need as Need_Joy;
+				if (need_Rest != null)
 				{
-					Need need = allNeeds[i];
-					Need_Rest need_Rest = need as Need_Rest;
-					Need_Food need_Food = need as Need_Food;
-					Need_Chemical need_Chemical = need as Need_Chemical;
-					Need_Joy need_Joy = need as Need_Joy;
-					if (need_Rest != null)
-					{
-						this.TrySatisfyRestNeed(pawn, need_Rest);
-					}
-					else if (need_Food != null)
-					{
-						this.TrySatisfyFoodNeed(pawn, need_Food);
-					}
-					else if (need_Chemical != null)
-					{
-						this.TrySatisfyChemicalNeed(pawn, need_Chemical);
-					}
-					else if (need_Joy != null)
-					{
-						this.TrySatisfyJoyNeed(pawn, need_Joy);
-					}
+					this.TrySatisfyRestNeed(pawn, need_Rest);
+				}
+				else if (need_Food != null)
+				{
+					this.TrySatisfyFoodNeed(pawn, need_Food);
+				}
+				else if (need_Chemical != null)
+				{
+					this.TrySatisfyChemicalNeed(pawn, need_Chemical);
+				}
+				else if (need_Joy != null)
+				{
+					this.TrySatisfyJoyNeed(pawn, need_Joy);
 				}
 			}
 		}
 
 		private void TrySatisfyRestNeed(Pawn pawn, Need_Rest rest)
 		{
-			if (this.caravan.NightResting)
+			if (!this.caravan.pather.MovingNow || pawn.InCaravanBed() || pawn.CarriedByCaravan())
 			{
-				Building_Bed bedUsedBy = this.caravan.beds.GetBedUsedBy(pawn);
-				float restEffectiveness = (bedUsedBy == null) ? 0.8f : bedUsedBy.GetStatValue(StatDefOf.BedRestEffectiveness, true);
+				Building_Bed building_Bed = pawn.CurrentCaravanBed();
+				float restEffectiveness = (building_Bed == null) ? 0.8f : building_Bed.GetStatValue(StatDefOf.BedRestEffectiveness, true);
 				rest.TickResting(restEffectiveness);
 			}
 		}
 
 		private void TrySatisfyFoodNeed(Pawn pawn, Need_Food food)
 		{
-			if (food.CurCategory >= HungerCategory.Hungry)
+			if (food.CurCategory < HungerCategory.Hungry)
 			{
-				Thing thing;
-				Pawn pawn2;
-				if (VirtualPlantsUtility.CanEatVirtualPlantsNow(pawn))
+				return;
+			}
+			if (VirtualPlantsUtility.CanEatVirtualPlantsNow(pawn))
+			{
+				VirtualPlantsUtility.EatVirtualPlants(pawn);
+				return;
+			}
+			Thing thing;
+			Pawn pawn2;
+			if (CaravanInventoryUtility.TryGetBestFood(this.caravan, pawn, out thing, out pawn2))
+			{
+				food.CurLevel += thing.Ingested(pawn, food.NutritionWanted);
+				if (thing.Destroyed)
 				{
-					VirtualPlantsUtility.EatVirtualPlants(pawn);
-				}
-				else if (CaravanInventoryUtility.TryGetBestFood(this.caravan, pawn, out thing, out pawn2))
-				{
-					food.CurLevel += thing.Ingested(pawn, food.NutritionWanted);
-					if (thing.Destroyed)
+					if (pawn2 != null)
 					{
-						if (pawn2 != null)
+						pawn2.inventory.innerContainer.Remove(thing);
+						this.caravan.RecacheImmobilizedNow();
+						this.caravan.RecacheDaysWorthOfFood();
+					}
+					if (!this.caravan.notifiedOutOfFood && !CaravanInventoryUtility.TryGetBestFood(this.caravan, pawn, out thing, out pawn2))
+					{
+						Messages.Message("MessageCaravanRanOutOfFood".Translate(new object[]
 						{
-							pawn2.inventory.innerContainer.Remove(thing);
-							this.caravan.RecacheImmobilizedNow();
-							this.caravan.RecacheDaysWorthOfFood();
-						}
-						if (!this.caravan.notifiedOutOfFood && !CaravanInventoryUtility.TryGetBestFood(this.caravan, pawn, out thing, out pawn2))
-						{
-							Messages.Message("MessageCaravanRanOutOfFood".Translate(new object[]
-							{
-								this.caravan.LabelCap,
-								pawn.Label
-							}), this.caravan, MessageTypeDefOf.ThreatBig, true);
-							this.caravan.notifiedOutOfFood = true;
-						}
+							this.caravan.LabelCap,
+							pawn.Label
+						}), this.caravan, MessageTypeDefOf.ThreatBig, true);
+						this.caravan.notifiedOutOfFood = true;
 					}
 				}
 			}
@@ -120,14 +123,15 @@ namespace RimWorld.Planet
 
 		private void TrySatisfyChemicalNeed(Pawn pawn, Need_Chemical chemical)
 		{
-			if (chemical.CurCategory < DrugDesireCategory.Satisfied)
+			if (chemical.CurCategory >= DrugDesireCategory.Satisfied)
 			{
-				Thing drug;
-				Pawn drugOwner;
-				if (CaravanInventoryUtility.TryGetDrugToSatisfyChemicalNeed(this.caravan, pawn, chemical, out drug, out drugOwner))
-				{
-					this.IngestDrug(pawn, drug, drugOwner);
-				}
+				return;
+			}
+			Thing drug;
+			Pawn drugOwner;
+			if (CaravanInventoryUtility.TryGetDrugToSatisfyChemicalNeed(this.caravan, pawn, chemical, out drug, out drugOwner))
+			{
+				this.IngestDrug(pawn, drug, drugOwner);
 			}
 		}
 
@@ -152,33 +156,30 @@ namespace RimWorld.Planet
 			if (pawn.IsHashIntervalTick(1250))
 			{
 				float num = this.GetCurrentJoyGainPerTick(pawn);
-				if (num > 0f)
+				if (num <= 0f)
 				{
-					num *= 1250f;
-					Caravan_NeedsTracker.tmpAvailableJoyKinds.Clear();
-					this.GetAvailableJoyKindsFor(pawn, Caravan_NeedsTracker.tmpAvailableJoyKinds);
-					JoyKindDef joyKind;
-					if (Caravan_NeedsTracker.tmpAvailableJoyKinds.TryRandomElementByWeight((JoyKindDef x) => 1f - Mathf.Clamp01(pawn.needs.joy.tolerances[x]), out joyKind))
-					{
-						joy.GainJoy(num, joyKind);
-						Caravan_NeedsTracker.tmpAvailableJoyKinds.Clear();
-					}
+					return;
 				}
+				num *= 1250f;
+				Caravan_NeedsTracker.tmpAvailableJoyKinds.Clear();
+				this.GetAvailableJoyKindsFor(pawn, Caravan_NeedsTracker.tmpAvailableJoyKinds);
+				JoyKindDef joyKind;
+				if (!Caravan_NeedsTracker.tmpAvailableJoyKinds.TryRandomElementByWeight((JoyKindDef x) => 1f - Mathf.Clamp01(pawn.needs.joy.tolerances[x]), out joyKind))
+				{
+					return;
+				}
+				joy.GainJoy(num, joyKind);
+				Caravan_NeedsTracker.tmpAvailableJoyKinds.Clear();
 			}
 		}
 
 		public float GetCurrentJoyGainPerTick(Pawn pawn)
 		{
-			float result;
 			if (this.caravan.pather.MovingNow)
 			{
-				result = 0f;
+				return 0f;
 			}
-			else
-			{
-				result = 3.2E-05f;
-			}
-			return result;
+			return 4E-05f;
 		}
 
 		public bool AnyPawnOutOfFood(out string malnutritionHediff)

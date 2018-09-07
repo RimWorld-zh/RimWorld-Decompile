@@ -16,50 +16,36 @@ namespace RimWorld
 
 		public static Twelfth GetFirstTwelfth(this Quadrum quadrum)
 		{
-			Twelfth result;
 			switch (quadrum)
 			{
 			case Quadrum.Aprimay:
-				result = Twelfth.First;
-				break;
+				return Twelfth.First;
 			case Quadrum.Jugust:
-				result = Twelfth.Fourth;
-				break;
+				return Twelfth.Fourth;
 			case Quadrum.Septober:
-				result = Twelfth.Seventh;
-				break;
+				return Twelfth.Seventh;
 			case Quadrum.Decembary:
-				result = Twelfth.Tenth;
-				break;
+				return Twelfth.Tenth;
 			default:
-				result = Twelfth.Undefined;
-				break;
+				return Twelfth.Undefined;
 			}
-			return result;
 		}
 
 		public static Twelfth GetMiddleTwelfth(this Quadrum quadrum)
 		{
-			Twelfth result;
 			switch (quadrum)
 			{
 			case Quadrum.Aprimay:
-				result = Twelfth.Second;
-				break;
+				return Twelfth.Second;
 			case Quadrum.Jugust:
-				result = Twelfth.Fifth;
-				break;
+				return Twelfth.Fifth;
 			case Quadrum.Septober:
-				result = Twelfth.Eighth;
-				break;
+				return Twelfth.Eighth;
 			case Quadrum.Decembary:
-				result = Twelfth.Eleventh;
-				break;
+				return Twelfth.Eleventh;
 			default:
-				result = Twelfth.Undefined;
-				break;
+				return Twelfth.Undefined;
 			}
-			return result;
 		}
 
 		public static float GetMiddleYearPct(this Quadrum quadrum)
@@ -69,26 +55,19 @@ namespace RimWorld
 
 		public static string Label(this Quadrum quadrum)
 		{
-			string result;
 			switch (quadrum)
 			{
 			case Quadrum.Aprimay:
-				result = "QuadrumAprimay".Translate();
-				break;
+				return "QuadrumAprimay".Translate();
 			case Quadrum.Jugust:
-				result = "QuadrumJugust".Translate();
-				break;
+				return "QuadrumJugust".Translate();
 			case Quadrum.Septober:
-				result = "QuadrumSeptober".Translate();
-				break;
+				return "QuadrumSeptober".Translate();
 			case Quadrum.Decembary:
-				result = "QuadrumDecembary".Translate();
-				break;
+				return "QuadrumDecembary".Translate();
 			default:
-				result = "Unknown quadrum";
-				break;
+				return "Unknown quadrum";
 			}
-			return result;
 		}
 
 		public static Season GetSeason(this Quadrum q, float latitude)
@@ -99,33 +78,28 @@ namespace RimWorld
 
 		public static string QuadrumsRangeLabel(List<Twelfth> twelfths)
 		{
-			string result;
 			if (twelfths.Count == 0)
 			{
-				result = "";
+				return string.Empty;
 			}
-			else if (twelfths.Count == 12)
+			if (twelfths.Count == 12)
 			{
-				result = "WholeYear".Translate();
+				return "WholeYear".Translate();
 			}
-			else
+			string text = string.Empty;
+			for (int i = 0; i < 12; i++)
 			{
-				string text = "";
-				for (int i = 0; i < 12; i++)
+				Twelfth twelfth = (Twelfth)i;
+				if (twelfths.Contains(twelfth))
 				{
-					Twelfth twelfth = (Twelfth)i;
-					if (twelfths.Contains(twelfth))
+					if (!text.NullOrEmpty())
 					{
-						if (!text.NullOrEmpty())
-						{
-							text += ", ";
-						}
-						text += QuadrumUtility.QuadrumsContinuousRangeLabel(twelfths, twelfth);
+						text += ", ";
 					}
+					text += QuadrumUtility.QuadrumsContinuousRangeLabel(twelfths, twelfth);
 				}
-				result = text;
 			}
-			return result;
+			return text;
 		}
 
 		private static string QuadrumsContinuousRangeLabel(List<Twelfth> twelfths, Twelfth rootTwelfth)

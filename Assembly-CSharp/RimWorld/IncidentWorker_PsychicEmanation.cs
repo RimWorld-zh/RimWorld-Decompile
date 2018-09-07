@@ -20,11 +20,11 @@ namespace RimWorld
 		protected override bool TryExecuteWorker(IncidentParms parms)
 		{
 			Map map = (Map)parms.target;
-			this.DoConditionAndLetter(map, Mathf.RoundToInt(this.def.durationDays.RandomInRange * 60000f), map.mapPawns.FreeColonists.RandomElement<Pawn>().gender);
+			this.DoConditionAndLetter(map, Mathf.RoundToInt(this.def.durationDays.RandomInRange * 60000f), map.mapPawns.FreeColonists.RandomElement<Pawn>().gender, parms.points);
 			SoundDefOf.PsychicPulseGlobal.PlayOneShotOnCamera(map);
 			return true;
 		}
 
-		protected abstract void DoConditionAndLetter(Map map, int duration, Gender gender);
+		protected abstract void DoConditionAndLetter(Map map, int duration, Gender gender, float points);
 	}
 }

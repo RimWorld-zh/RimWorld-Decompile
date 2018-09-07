@@ -165,7 +165,7 @@ namespace RimWorld
 		{
 			bool flag = dinfo != null && dinfo.Value.Def.execution;
 			bool flag2 = victim.IsPrisonerOfColony && !victim.guilt.IsGuilty && !victim.InAggroMentalState;
-			bool flag3 = dinfo != null && dinfo.Value.Def.externalViolence && dinfo.Value.Instigator != null && dinfo.Value.Instigator is Pawn;
+			bool flag3 = dinfo != null && dinfo.Value.Def.ExternalViolenceFor(victim) && dinfo.Value.Instigator != null && dinfo.Value.Instigator is Pawn;
 			if (flag3)
 			{
 				Pawn pawn = (Pawn)dinfo.Value.Instigator;
@@ -175,12 +175,9 @@ namespace RimWorld
 					{
 						outIndividualThoughts.Add(new IndividualThoughtToAdd(ThoughtDefOf.KilledHumanlikeBloodlust, pawn, null, 1f, 1f));
 					}
-					if (thoughtsKind == PawnDiedOrDownedThoughtsKind.Died && victim.HostileTo(pawn))
+					if (thoughtsKind == PawnDiedOrDownedThoughtsKind.Died && victim.HostileTo(pawn) && victim.Faction != null && PawnUtility.IsFactionLeader(victim) && victim.Faction.HostileTo(pawn.Faction))
 					{
-						if (victim.Faction != null && PawnUtility.IsFactionLeader(victim) && victim.Faction.HostileTo(pawn.Faction))
-						{
-							outIndividualThoughts.Add(new IndividualThoughtToAdd(ThoughtDefOf.DefeatedHostileFactionLeader, pawn, victim, 1f, 1f));
-						}
+						outIndividualThoughts.Add(new IndividualThoughtToAdd(ThoughtDefOf.DefeatedHostileFactionLeader, pawn, victim, 1f, 1f));
 					}
 				}
 			}
@@ -344,20 +341,15 @@ namespace RimWorld
 
 		private static bool Witnessed(Pawn p, Pawn victim)
 		{
-			bool result;
 			if (!p.Awake() || !p.health.capacities.CapableOf(PawnCapacityDefOf.Sight))
 			{
-				result = false;
+				return false;
 			}
-			else if (victim.IsCaravanMember())
+			if (victim.IsCaravanMember())
 			{
-				result = (victim.GetCaravan() == p.GetCaravan());
+				return victim.GetCaravan() == p.GetCaravan();
 			}
-			else
-			{
-				result = (victim.Spawned && p.Spawned && p.Position.InHorDistOf(victim.Position, 12f) && GenSight.LineOfSight(victim.Position, p.Position, victim.Map, false, null, 0, 0));
-			}
-			return result;
+			return victim.Spawned && p.Spawned && p.Position.InHorDistOf(victim.Position, 12f) && GenSight.LineOfSight(victim.Position, p.Position, victim.Map, false, null, 0, 0);
 		}
 
 		public static void RemoveDiedThoughts(Pawn pawn)

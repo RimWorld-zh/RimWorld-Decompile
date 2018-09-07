@@ -29,51 +29,36 @@ namespace RimWorld
 
 		public static Texture2D GetIcon(this HostilityResponseMode response)
 		{
-			Texture2D result;
 			switch (response)
 			{
 			case HostilityResponseMode.Ignore:
-				result = HostilityResponseModeUtility.IgnoreIcon;
-				break;
+				return HostilityResponseModeUtility.IgnoreIcon;
 			case HostilityResponseMode.Attack:
-				result = HostilityResponseModeUtility.AttackIcon;
-				break;
+				return HostilityResponseModeUtility.AttackIcon;
 			case HostilityResponseMode.Flee:
-				result = HostilityResponseModeUtility.FleeIcon;
-				break;
+				return HostilityResponseModeUtility.FleeIcon;
 			default:
-				result = BaseContent.BadTex;
-				break;
+				return BaseContent.BadTex;
 			}
-			return result;
 		}
 
 		public static HostilityResponseMode GetNextResponse(Pawn pawn)
 		{
-			HostilityResponseMode result;
 			switch (pawn.playerSettings.hostilityResponse)
 			{
 			case HostilityResponseMode.Ignore:
 				if (pawn.story != null && pawn.story.WorkTagIsDisabled(WorkTags.Violent))
 				{
-					result = HostilityResponseMode.Flee;
+					return HostilityResponseMode.Flee;
 				}
-				else
-				{
-					result = HostilityResponseMode.Attack;
-				}
-				break;
+				return HostilityResponseMode.Attack;
 			case HostilityResponseMode.Attack:
-				result = HostilityResponseMode.Flee;
-				break;
+				return HostilityResponseMode.Flee;
 			case HostilityResponseMode.Flee:
-				result = HostilityResponseMode.Ignore;
-				break;
+				return HostilityResponseMode.Ignore;
 			default:
-				result = HostilityResponseMode.Ignore;
-				break;
+				return HostilityResponseMode.Ignore;
 			}
-			return result;
 		}
 
 		public static string GetLabel(this HostilityResponseMode response)

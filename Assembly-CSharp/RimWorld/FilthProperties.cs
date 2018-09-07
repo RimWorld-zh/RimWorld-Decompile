@@ -6,11 +6,11 @@ namespace RimWorld
 	{
 		public float cleaningWorkToReduceThickness = 35f;
 
-		public bool terrainSourced = false;
+		public bool terrainSourced;
 
-		public bool canFilthAttach = false;
+		public bool canFilthAttach;
 
-		public bool rainWashes = false;
+		public bool rainWashes;
 
 		public bool allowsFire = true;
 

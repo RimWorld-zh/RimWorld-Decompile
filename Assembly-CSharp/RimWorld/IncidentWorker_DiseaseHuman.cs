@@ -20,18 +20,13 @@ namespace RimWorld
 		protected override IEnumerable<Pawn> PotentialVictimCandidates(IIncidentTarget target)
 		{
 			Map map = target as Map;
-			IEnumerable<Pawn> result;
 			if (map != null)
 			{
-				result = map.mapPawns.FreeColonistsAndPrisoners;
+				return map.mapPawns.FreeColonistsAndPrisoners;
 			}
-			else
-			{
-				result = from x in ((Caravan)target).PawnsListForReading
-				where x.IsFreeColonist || x.IsPrisonerOfColony
-				select x;
-			}
-			return result;
+			return from x in ((Caravan)target).PawnsListForReading
+			where x.IsFreeColonist || x.IsPrisonerOfColony
+			select x;
 		}
 
 		protected override IEnumerable<Pawn> ActualVictims(IncidentParms parms)

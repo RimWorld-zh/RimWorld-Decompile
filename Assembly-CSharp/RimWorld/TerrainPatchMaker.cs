@@ -49,37 +49,32 @@ namespace RimWorld
 
 		public TerrainDef TerrainAt(IntVec3 c, Map map, float fertility)
 		{
-			TerrainDef result;
 			if (fertility < this.minFertility || fertility > this.maxFertility)
 			{
-				result = null;
+				return null;
 			}
-			else
+			if (this.noise != null && map != this.currentlyInitializedForMap)
 			{
-				if (this.noise != null && map != this.currentlyInitializedForMap)
-				{
-					this.Cleanup();
-				}
-				if (this.noise == null)
-				{
-					this.Init(map);
-				}
-				if (this.minSize > 0)
-				{
-					int count = 0;
-					map.floodFiller.FloodFill(c, (IntVec3 x) => TerrainThreshold.TerrainAtValue(this.thresholds, this.noise.GetValue(x)) != null, delegate(IntVec3 x)
-					{
-						count++;
-						return count >= this.minSize;
-					}, int.MaxValue, false, null);
-					if (count < this.minSize)
-					{
-						return null;
-					}
-				}
-				result = TerrainThreshold.TerrainAtValue(this.thresholds, this.noise.GetValue(c));
+				this.Cleanup();
 			}
-			return result;
+			if (this.noise == null)
+			{
+				this.Init(map);
+			}
+			if (this.minSize > 0)
+			{
+				int count = 0;
+				map.floodFiller.FloodFill(c, (IntVec3 x) => TerrainThreshold.TerrainAtValue(this.thresholds, this.noise.GetValue(x)) != null, delegate(IntVec3 x)
+				{
+					count++;
+					return count >= this.minSize;
+				}, int.MaxValue, false, null);
+				if (count < this.minSize)
+				{
+					return null;
+				}
+			}
+			return TerrainThreshold.TerrainAtValue(this.thresholds, this.noise.GetValue(c));
 		}
 
 		[CompilerGenerated]

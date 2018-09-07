@@ -19,7 +19,7 @@ namespace Verse
 
 		public const int StaggerExplosionImpactTicks = 95;
 
-		public bool debugLog = false;
+		public bool debugLog;
 
 		public Pawn_StanceTracker(Pawn newPawn)
 		{

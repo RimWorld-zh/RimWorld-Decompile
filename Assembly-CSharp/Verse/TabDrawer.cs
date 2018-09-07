@@ -22,40 +22,35 @@ namespace Verse
 
 		public static TabRecord DrawTabs(Rect baseRect, List<TabRecord> tabs, int rows)
 		{
-			TabRecord result;
 			if (rows <= 1)
 			{
-				result = TabDrawer.DrawTabs(baseRect, tabs, 200f);
+				return TabDrawer.DrawTabs(baseRect, tabs, 200f);
 			}
-			else
+			int num = Mathf.FloorToInt((float)(tabs.Count / rows));
+			int num2 = 0;
+			TabRecord result = null;
+			Rect rect = baseRect;
+			baseRect.yMin -= (float)(rows - 1) * 31f;
+			Rect rect2 = baseRect;
+			rect2.yMax = rect.y;
+			Widgets.DrawMenuSection(rect2);
+			for (int i = 0; i < rows; i++)
 			{
-				int num = Mathf.FloorToInt((float)(tabs.Count / rows));
-				int num2 = 0;
-				TabRecord tabRecord = null;
-				Rect rect = baseRect;
-				baseRect.yMin -= (float)(rows - 1) * 31f;
-				Rect rect2 = baseRect;
-				rect2.yMax = rect.y;
-				Widgets.DrawMenuSection(rect2);
-				for (int i = 0; i < rows; i++)
-				{
-					int num3 = (i != 0) ? num : (tabs.Count - (rows - 1) * num);
-					TabDrawer.tmpTabs.Clear();
-					for (int j = num2; j < num2 + num3; j++)
-					{
-						TabDrawer.tmpTabs.Add(tabs[j]);
-					}
-					TabRecord tabRecord2 = TabDrawer.DrawTabs(baseRect, TabDrawer.tmpTabs, baseRect.width);
-					if (tabRecord2 != null)
-					{
-						tabRecord = tabRecord2;
-					}
-					baseRect.yMin += 31f;
-					num2 += num3;
-				}
+				int num3 = (i != 0) ? num : (tabs.Count - (rows - 1) * num);
 				TabDrawer.tmpTabs.Clear();
-				result = tabRecord;
+				for (int j = num2; j < num2 + num3; j++)
+				{
+					TabDrawer.tmpTabs.Add(tabs[j]);
+				}
+				TabRecord tabRecord = TabDrawer.DrawTabs(baseRect, TabDrawer.tmpTabs, baseRect.width);
+				if (tabRecord != null)
+				{
+					result = tabRecord;
+				}
+				baseRect.yMin += 31f;
+				num2 += num3;
 			}
+			TabDrawer.tmpTabs.Clear();
 			return result;
 		}
 

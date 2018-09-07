@@ -102,7 +102,6 @@ namespace RimWorld
 		{
 			get
 			{
-				IEnumerable<Pawn> familyByBlood_Internal;
 				if (this.canCacheFamilyByBlood)
 				{
 					if (!this.familyByBloodIsCached)
@@ -111,13 +110,9 @@ namespace RimWorld
 						this.cachedFamilyByBlood.AddRange(this.FamilyByBlood_Internal);
 						this.familyByBloodIsCached = true;
 					}
-					familyByBlood_Internal = this.cachedFamilyByBlood;
+					return this.cachedFamilyByBlood;
 				}
-				else
-				{
-					familyByBlood_Internal = this.FamilyByBlood_Internal;
-				}
-				return familyByBlood_Internal;
+				return this.FamilyByBlood_Internal;
 			}
 		}
 
@@ -307,72 +302,58 @@ namespace RimWorld
 
 		public void RelationsTrackerTick()
 		{
-			if (!this.pawn.Dead)
+			if (this.pawn.Dead)
 			{
-				this.Tick_CheckStartMarriageCeremony();
-				this.Tick_CheckDevelopBondRelation();
+				return;
 			}
+			this.Tick_CheckStartMarriageCeremony();
+			this.Tick_CheckDevelopBondRelation();
 		}
 
 		public DirectPawnRelation GetDirectRelation(PawnRelationDef def, Pawn otherPawn)
 		{
-			DirectPawnRelation result;
 			if (def.implied)
 			{
 				Log.Warning(def + " is not a direct relation.", false);
-				result = null;
+				return null;
 			}
-			else
-			{
-				result = this.directRelations.Find((DirectPawnRelation x) => x.def == def && x.otherPawn == otherPawn);
-			}
-			return result;
+			return this.directRelations.Find((DirectPawnRelation x) => x.def == def && x.otherPawn == otherPawn);
 		}
 
 		public Pawn GetFirstDirectRelationPawn(PawnRelationDef def, Predicate<Pawn> predicate = null)
 		{
-			Pawn result;
 			if (def.implied)
 			{
 				Log.Warning(def + " is not a direct relation.", false);
-				result = null;
+				return null;
 			}
-			else
+			for (int i = 0; i < this.directRelations.Count; i++)
 			{
-				for (int i = 0; i < this.directRelations.Count; i++)
+				DirectPawnRelation directPawnRelation = this.directRelations[i];
+				if (directPawnRelation.def == def && (predicate == null || predicate(directPawnRelation.otherPawn)))
 				{
-					DirectPawnRelation directPawnRelation = this.directRelations[i];
-					if (directPawnRelation.def == def && (predicate == null || predicate(directPawnRelation.otherPawn)))
-					{
-						return directPawnRelation.otherPawn;
-					}
+					return directPawnRelation.otherPawn;
 				}
-				result = null;
 			}
-			return result;
+			return null;
 		}
 
 		public bool DirectRelationExists(PawnRelationDef def, Pawn otherPawn)
 		{
-			bool result;
 			if (def.implied)
 			{
 				Log.Warning(def + " is not a direct relation.", false);
-				result = false;
+				return false;
 			}
-			else
+			for (int i = 0; i < this.directRelations.Count; i++)
 			{
-				for (int i = 0; i < this.directRelations.Count; i++)
+				DirectPawnRelation directPawnRelation = this.directRelations[i];
+				if (directPawnRelation.def == def && directPawnRelation.otherPawn == otherPawn)
 				{
-					DirectPawnRelation directPawnRelation = this.directRelations[i];
-					if (directPawnRelation.def == def && directPawnRelation.otherPawn == otherPawn)
-					{
-						return true;
-					}
+					return true;
 				}
-				result = false;
 			}
-			return result;
+			return false;
 		}
 
 		public void AddDirectRelation(PawnRelationDef def, Pawn otherPawn)
@@ -388,8 +369,9 @@ namespace RimWorld
 					", otherPawn=",
 					otherPawn
 				}), false);
+				return;
 			}
-			else if (otherPawn == this.pawn)
+			if (otherPawn == this.pawn)
 			{
 				Log.Warning(string.Concat(new object[]
 				{
@@ -398,8 +380,9 @@ namespace RimWorld
 					" with self, pawn=",
 					this.pawn
 				}), false);
+				return;
 			}
-			else if (this.DirectRelationExists(def, otherPawn))
+			if (this.DirectRelationExists(def, otherPawn))
 			{
 				Log.Warning(string.Concat(new object[]
 				{
@@ -410,20 +393,18 @@ namespace RimWorld
 					", otherPawn=",
 					otherPawn
 				}), false);
+				return;
 			}
-			else
+			int startTicks = (Current.ProgramState != ProgramState.Playing) ? 0 : Find.TickManager.TicksGame;
+			this.directRelations.Add(new DirectPawnRelation(def, otherPawn, startTicks));
+			otherPawn.relations.pawnsWithDirectRelationsWithMe.Add(this.pawn);
+			if (def.reflexive)
 			{
-				int startTicks = (Current.ProgramState != ProgramState.Playing) ? 0 : Find.TickManager.TicksGame;
-				this.directRelations.Add(new DirectPawnRelation(def, otherPawn, startTicks));
-				otherPawn.relations.pawnsWithDirectRelationsWithMe.Add(this.pawn);
-				if (def.reflexive)
-				{
-					otherPawn.relations.directRelations.Add(new DirectPawnRelation(def, this.pawn, startTicks));
-					this.pawnsWithDirectRelationsWithMe.Add(otherPawn);
-				}
-				this.GainedOrLostDirectRelation();
-				otherPawn.relations.GainedOrLostDirectRelation();
+				otherPawn.relations.directRelations.Add(new DirectPawnRelation(def, this.pawn, startTicks));
+				this.pawnsWithDirectRelationsWithMe.Add(otherPawn);
 			}
+			this.GainedOrLostDirectRelation();
+			otherPawn.relations.GainedOrLostDirectRelation();
 		}
 
 		public void RemoveDirectRelation(DirectPawnRelation relation)
@@ -449,7 +430,6 @@ namespace RimWorld
 
 		public bool TryRemoveDirectRelation(PawnRelationDef def, Pawn otherPawn)
 		{
-			bool result;
 			if (def.implied)
 			{
 				Log.Warning(string.Concat(new object[]
@@ -461,251 +441,231 @@ namespace RimWorld
 					", otherPawn=",
 					otherPawn
 				}), false);
-				result = false;
+				return false;
 			}
-			else
+			for (int i = 0; i < this.directRelations.Count; i++)
 			{
-				for (int i = 0; i < this.directRelations.Count; i++)
+				if (this.directRelations[i].def == def && this.directRelations[i].otherPawn == otherPawn)
 				{
-					if (this.directRelations[i].def == def && this.directRelations[i].otherPawn == otherPawn)
+					if (def.reflexive)
 					{
-						if (def.reflexive)
+						List<DirectPawnRelation> list = otherPawn.relations.directRelations;
+						DirectPawnRelation item = list.Find((DirectPawnRelation x) => x.def == def && x.otherPawn == this.pawn);
+						list.Remove(item);
+						if (list.Find((DirectPawnRelation x) => x.otherPawn == this.pawn) == null)
 						{
-							List<DirectPawnRelation> list = otherPawn.relations.directRelations;
-							DirectPawnRelation item = list.Find((DirectPawnRelation x) => x.def == def && x.otherPawn == this.pawn);
-							list.Remove(item);
-							if (list.Find((DirectPawnRelation x) => x.otherPawn == this.pawn) == null)
-							{
-								this.pawnsWithDirectRelationsWithMe.Remove(otherPawn);
-							}
+							this.pawnsWithDirectRelationsWithMe.Remove(otherPawn);
 						}
-						this.directRelations.RemoveAt(i);
-						if (this.directRelations.Find((DirectPawnRelation x) => x.otherPawn == otherPawn) == null)
-						{
-							otherPawn.relations.pawnsWithDirectRelationsWithMe.Remove(this.pawn);
-						}
-						this.GainedOrLostDirectRelation();
-						otherPawn.relations.GainedOrLostDirectRelation();
-						return true;
 					}
+					this.directRelations.RemoveAt(i);
+					if (this.directRelations.Find((DirectPawnRelation x) => x.otherPawn == otherPawn) == null)
+					{
+						otherPawn.relations.pawnsWithDirectRelationsWithMe.Remove(this.pawn);
+					}
+					this.GainedOrLostDirectRelation();
+					otherPawn.relations.GainedOrLostDirectRelation();
+					return true;
 				}
-				result = false;
 			}
-			return result;
+			return false;
 		}
 
 		public int OpinionOf(Pawn other)
 		{
-			int result;
 			if (!other.RaceProps.Humanlike || this.pawn == other)
 			{
-				result = 0;
+				return 0;
 			}
-			else if (this.pawn.Dead)
+			if (this.pawn.Dead)
 			{
-				result = 0;
+				return 0;
 			}
-			else
+			int num = 0;
+			foreach (PawnRelationDef pawnRelationDef in this.pawn.GetRelations(other))
 			{
-				int num = 0;
-				foreach (PawnRelationDef pawnRelationDef in this.pawn.GetRelations(other))
+				num += pawnRelationDef.opinionOffset;
+			}
+			if (this.pawn.RaceProps.Humanlike)
+			{
+				num += this.pawn.needs.mood.thoughts.TotalOpinionOffset(other);
+			}
+			if (num != 0)
+			{
+				float num2 = 1f;
+				List<Hediff> hediffs = this.pawn.health.hediffSet.hediffs;
+				for (int i = 0; i < hediffs.Count; i++)
 				{
-					num += pawnRelationDef.opinionOffset;
-				}
-				if (this.pawn.RaceProps.Humanlike)
-				{
-					num += this.pawn.needs.mood.thoughts.TotalOpinionOffset(other);
-				}
-				if (num != 0)
-				{
-					float num2 = 1f;
-					List<Hediff> hediffs = this.pawn.health.hediffSet.hediffs;
-					for (int i = 0; i < hediffs.Count; i++)
+					if (hediffs[i].CurStage != null)
 					{
-						if (hediffs[i].CurStage != null)
-						{
-							num2 *= hediffs[i].CurStage.opinionOfOthersFactor;
-						}
+						num2 *= hediffs[i].CurStage.opinionOfOthersFactor;
 					}
-					num = Mathf.RoundToInt((float)num * num2);
 				}
-				if (num > 0 && this.pawn.HostileTo(other))
-				{
-					num = 0;
-				}
-				result = Mathf.Clamp(num, -100, 100);
+				num = Mathf.RoundToInt((float)num * num2);
 			}
-			return result;
+			if (num > 0 && this.pawn.HostileTo(other))
+			{
+				num = 0;
+			}
+			return Mathf.Clamp(num, -100, 100);
 		}
 
 		public string OpinionExplanation(Pawn other)
 		{
-			string result;
 			if (!other.RaceProps.Humanlike || this.pawn == other)
 			{
-				result = "";
+				return string.Empty;
+			}
+			StringBuilder stringBuilder = new StringBuilder();
+			stringBuilder.AppendLine("OpinionOf".Translate(new object[]
+			{
+				other.LabelShort
+			}) + ": " + this.OpinionOf(other).ToStringWithSign());
+			string pawnSituationLabel = SocialCardUtility.GetPawnSituationLabel(other, this.pawn);
+			if (!pawnSituationLabel.NullOrEmpty())
+			{
+				stringBuilder.AppendLine(pawnSituationLabel);
+			}
+			stringBuilder.AppendLine("--------------");
+			bool flag = false;
+			if (this.pawn.Dead)
+			{
+				stringBuilder.AppendLine("IAmDead".Translate());
+				flag = true;
 			}
 			else
 			{
-				StringBuilder stringBuilder = new StringBuilder();
-				stringBuilder.AppendLine("OpinionOf".Translate(new object[]
+				IEnumerable<PawnRelationDef> relations = this.pawn.GetRelations(other);
+				foreach (PawnRelationDef pawnRelationDef in relations)
 				{
-					other.LabelShort
-				}) + ": " + this.OpinionOf(other).ToStringWithSign());
-				string pawnSituationLabel = SocialCardUtility.GetPawnSituationLabel(other, this.pawn);
-				if (!pawnSituationLabel.NullOrEmpty())
-				{
-					stringBuilder.AppendLine(pawnSituationLabel);
-				}
-				stringBuilder.AppendLine("--------------");
-				bool flag = false;
-				if (this.pawn.Dead)
-				{
-					stringBuilder.AppendLine("IAmDead".Translate());
+					stringBuilder.AppendLine(pawnRelationDef.GetGenderSpecificLabelCap(other) + ": " + pawnRelationDef.opinionOffset.ToStringWithSign());
 					flag = true;
 				}
-				else
+				if (this.pawn.RaceProps.Humanlike)
 				{
-					IEnumerable<PawnRelationDef> relations = this.pawn.GetRelations(other);
-					foreach (PawnRelationDef pawnRelationDef in relations)
+					ThoughtHandler thoughts = this.pawn.needs.mood.thoughts;
+					thoughts.GetDistinctSocialThoughtGroups(other, Pawn_RelationsTracker.tmpSocialThoughts);
+					for (int i = 0; i < Pawn_RelationsTracker.tmpSocialThoughts.Count; i++)
 					{
-						stringBuilder.AppendLine(pawnRelationDef.GetGenderSpecificLabelCap(other) + ": " + pawnRelationDef.opinionOffset.ToStringWithSign());
-						flag = true;
-					}
-					if (this.pawn.RaceProps.Humanlike)
-					{
-						ThoughtHandler thoughts = this.pawn.needs.mood.thoughts;
-						thoughts.GetDistinctSocialThoughtGroups(other, Pawn_RelationsTracker.tmpSocialThoughts);
-						for (int i = 0; i < Pawn_RelationsTracker.tmpSocialThoughts.Count; i++)
+						ISocialThought socialThought = Pawn_RelationsTracker.tmpSocialThoughts[i];
+						int num = 1;
+						Thought thought = (Thought)socialThought;
+						if (thought.def.IsMemory)
 						{
-							ISocialThought socialThought = Pawn_RelationsTracker.tmpSocialThoughts[i];
-							int num = 1;
-							Thought thought = (Thought)socialThought;
-							if (thought.def.IsMemory)
-							{
-								num = thoughts.memories.NumMemoriesInGroup((Thought_MemorySocial)socialThought);
-							}
-							stringBuilder.Append(thought.LabelCapSocial);
-							if (num != 1)
-							{
-								stringBuilder.Append(" x" + num);
-							}
-							stringBuilder.AppendLine(": " + thoughts.OpinionOffsetOfGroup(socialThought, other).ToStringWithSign());
-							flag = true;
+							num = thoughts.memories.NumMemoriesInGroup((Thought_MemorySocial)socialThought);
 						}
-					}
-					List<Hediff> hediffs = this.pawn.health.hediffSet.hediffs;
-					for (int j = 0; j < hediffs.Count; j++)
-					{
-						HediffStage curStage = hediffs[j].CurStage;
-						if (curStage != null && curStage.opinionOfOthersFactor != 1f)
+						stringBuilder.Append(thought.LabelCapSocial);
+						if (num != 1)
 						{
-							stringBuilder.Append(hediffs[j].LabelBase.CapitalizeFirst());
-							if (curStage.opinionOfOthersFactor != 0f)
-							{
-								stringBuilder.AppendLine(": x" + curStage.opinionOfOthersFactor.ToStringPercent());
-							}
-							else
-							{
-								stringBuilder.AppendLine();
-							}
-							flag = true;
+							stringBuilder.Append(" x" + num);
 						}
-					}
-					if (this.pawn.HostileTo(other))
-					{
-						stringBuilder.AppendLine("Hostile".Translate());
+						stringBuilder.AppendLine(": " + thoughts.OpinionOffsetOfGroup(socialThought, other).ToStringWithSign());
 						flag = true;
 					}
 				}
-				if (!flag)
+				List<Hediff> hediffs = this.pawn.health.hediffSet.hediffs;
+				for (int j = 0; j < hediffs.Count; j++)
 				{
-					stringBuilder.AppendLine("NoneBrackets".Translate());
+					HediffStage curStage = hediffs[j].CurStage;
+					if (curStage != null && curStage.opinionOfOthersFactor != 1f)
+					{
+						stringBuilder.Append(hediffs[j].LabelBase.CapitalizeFirst());
+						if (curStage.opinionOfOthersFactor != 0f)
+						{
+							stringBuilder.AppendLine(": x" + curStage.opinionOfOthersFactor.ToStringPercent());
+						}
+						else
+						{
+							stringBuilder.AppendLine();
+						}
+						flag = true;
+					}
 				}
-				result = stringBuilder.ToString().TrimEndNewlines();
+				if (this.pawn.HostileTo(other))
+				{
+					stringBuilder.AppendLine("Hostile".Translate());
+					flag = true;
+				}
 			}
-			return result;
+			if (!flag)
+			{
+				stringBuilder.AppendLine("NoneBrackets".Translate());
+			}
+			return stringBuilder.ToString().TrimEndNewlines();
 		}
 
 		public float SecondaryLovinChanceFactor(Pawn otherPawn)
 		{
-			float result;
 			if (this.pawn.def != otherPawn.def || this.pawn == otherPawn)
 			{
-				result = 0f;
+				return 0f;
 			}
-			else
+			if (Rand.ValueSeeded(this.pawn.thingIDNumber ^ 3273711) >= 0.015f)
 			{
-				if (Rand.ValueSeeded(this.pawn.thingIDNumber ^ 3273711) >= 0.015f)
+				if (this.pawn.RaceProps.Humanlike && this.pawn.story.traits.HasTrait(TraitDefOf.Gay))
 				{
-					if (this.pawn.RaceProps.Humanlike && this.pawn.story.traits.HasTrait(TraitDefOf.Gay))
-					{
-						if (otherPawn.gender != this.pawn.gender)
-						{
-							return 0f;
-						}
-					}
-					else if (otherPawn.gender == this.pawn.gender)
+					if (otherPawn.gender != this.pawn.gender)
 					{
 						return 0f;
 					}
 				}
-				float ageBiologicalYearsFloat = this.pawn.ageTracker.AgeBiologicalYearsFloat;
-				float ageBiologicalYearsFloat2 = otherPawn.ageTracker.AgeBiologicalYearsFloat;
-				float num = 1f;
-				if (this.pawn.gender == Gender.Male)
+				else if (otherPawn.gender == this.pawn.gender)
 				{
-					if (ageBiologicalYearsFloat2 < 16f)
-					{
-						return 0f;
-					}
-					float min = Mathf.Max(16f, ageBiologicalYearsFloat - 30f);
-					float lower = Mathf.Max(20f, ageBiologicalYearsFloat - 10f);
-					num = GenMath.FlatHill(0.15f, min, lower, ageBiologicalYearsFloat, ageBiologicalYearsFloat + 10f, 0.15f, ageBiologicalYearsFloat2);
+					return 0f;
 				}
-				else if (this.pawn.gender == Gender.Female)
-				{
-					if (ageBiologicalYearsFloat2 < 16f)
-					{
-						return 0f;
-					}
-					if (ageBiologicalYearsFloat2 < ageBiologicalYearsFloat - 10f)
-					{
-						return 0.15f;
-					}
-					if (ageBiologicalYearsFloat2 < ageBiologicalYearsFloat - 3f)
-					{
-						num = Mathf.InverseLerp(ageBiologicalYearsFloat - 10f, ageBiologicalYearsFloat - 3f, ageBiologicalYearsFloat2) * 0.3f;
-					}
-					else
-					{
-						num = GenMath.FlatHill(0.3f, ageBiologicalYearsFloat - 3f, ageBiologicalYearsFloat, ageBiologicalYearsFloat + 10f, ageBiologicalYearsFloat + 30f, 0.15f, ageBiologicalYearsFloat2);
-					}
-				}
-				float num2 = 1f;
-				num2 *= Mathf.Lerp(0.2f, 1f, otherPawn.health.capacities.GetLevel(PawnCapacityDefOf.Talking));
-				num2 *= Mathf.Lerp(0.2f, 1f, otherPawn.health.capacities.GetLevel(PawnCapacityDefOf.Manipulation));
-				num2 *= Mathf.Lerp(0.2f, 1f, otherPawn.health.capacities.GetLevel(PawnCapacityDefOf.Moving));
-				int num3 = 0;
-				if (otherPawn.RaceProps.Humanlike)
-				{
-					num3 = otherPawn.story.traits.DegreeOfTrait(TraitDefOf.Beauty);
-				}
-				float num4 = 1f;
-				if (num3 < 0)
-				{
-					num4 = 0.3f;
-				}
-				else if (num3 > 0)
-				{
-					num4 = 2.3f;
-				}
-				float num5 = Mathf.InverseLerp(15f, 18f, ageBiologicalYearsFloat);
-				float num6 = Mathf.InverseLerp(15f, 18f, ageBiologicalYearsFloat2);
-				float num7 = num * num2 * num5 * num6 * num4;
-				result = num7;
 			}
-			return result;
+			float ageBiologicalYearsFloat = this.pawn.ageTracker.AgeBiologicalYearsFloat;
+			float ageBiologicalYearsFloat2 = otherPawn.ageTracker.AgeBiologicalYearsFloat;
+			float num = 1f;
+			if (this.pawn.gender == Gender.Male)
+			{
+				if (ageBiologicalYearsFloat2 < 16f)
+				{
+					return 0f;
+				}
+				float min = Mathf.Max(16f, ageBiologicalYearsFloat - 30f);
+				float lower = Mathf.Max(20f, ageBiologicalYearsFloat - 10f);
+				num = GenMath.FlatHill(0.15f, min, lower, ageBiologicalYearsFloat, ageBiologicalYearsFloat + 10f, 0.15f, ageBiologicalYearsFloat2);
+			}
+			else if (this.pawn.gender == Gender.Female)
+			{
+				if (ageBiologicalYearsFloat2 < 16f)
+				{
+					return 0f;
+				}
+				if (ageBiologicalYearsFloat2 < ageBiologicalYearsFloat - 10f)
+				{
+					return 0.15f;
+				}
+				if (ageBiologicalYearsFloat2 < ageBiologicalYearsFloat - 3f)
+				{
+					num = Mathf.InverseLerp(ageBiologicalYearsFloat - 10f, ageBiologicalYearsFloat - 3f, ageBiologicalYearsFloat2) * 0.3f;
+				}
+				else
+				{
+					num = GenMath.FlatHill(0.3f, ageBiologicalYearsFloat - 3f, ageBiologicalYearsFloat, ageBiologicalYearsFloat + 10f, ageBiologicalYearsFloat + 30f, 0.15f, ageBiologicalYearsFloat2);
+				}
+			}
+			float num2 = 1f;
+			num2 *= Mathf.Lerp(0.2f, 1f, otherPawn.health.capacities.GetLevel(PawnCapacityDefOf.Talking));
+			num2 *= Mathf.Lerp(0.2f, 1f, otherPawn.health.capacities.GetLevel(PawnCapacityDefOf.Manipulation));
+			num2 *= Mathf.Lerp(0.2f, 1f, otherPawn.health.capacities.GetLevel(PawnCapacityDefOf.Moving));
+			int num3 = 0;
+			if (otherPawn.RaceProps.Humanlike)
+			{
+				num3 = otherPawn.story.traits.DegreeOfTrait(TraitDefOf.Beauty);
+			}
+			float num4 = 1f;
+			if (num3 < 0)
+			{
+				num4 = 0.3f;
+			}
+			else if (num3 > 0)
+			{
+				num4 = 2.3f;
+			}
+			float num5 = Mathf.InverseLerp(15f, 18f, ageBiologicalYearsFloat);
+			float num6 = Mathf.InverseLerp(15f, 18f, ageBiologicalYearsFloat2);
+			return num * num2 * num5 * num6 * num4;
 		}
 
 		public float SecondaryRomanceChanceFactor(Pawn otherPawn)
@@ -720,20 +680,15 @@ namespace RimWorld
 
 		public float CompatibilityWith(Pawn otherPawn)
 		{
-			float result;
 			if (this.pawn.def != otherPawn.def || this.pawn == otherPawn)
 			{
-				result = 0f;
+				return 0f;
 			}
-			else
-			{
-				float x = Mathf.Abs(this.pawn.ageTracker.AgeBiologicalYearsFloat - otherPawn.ageTracker.AgeBiologicalYearsFloat);
-				float num = GenMath.LerpDouble(0f, 20f, 0.45f, -0.45f, x);
-				num = Mathf.Clamp(num, -0.45f, 0.45f);
-				float num2 = this.ConstantPerPawnsPairCompatibilityOffset(otherPawn.thingIDNumber);
-				result = num + num2;
-			}
-			return result;
+			float x = Mathf.Abs(this.pawn.ageTracker.AgeBiologicalYearsFloat - otherPawn.ageTracker.AgeBiologicalYearsFloat);
+			float num = GenMath.LerpDouble(0f, 20f, 0.45f, -0.45f, x);
+			num = Mathf.Clamp(num, -0.45f, 0.45f);
+			float num2 = this.ConstantPerPawnsPairCompatibilityOffset(otherPawn.thingIDNumber);
+			return num + num2;
 		}
 
 		public float ConstantPerPawnsPairCompatibilityOffset(int otherPawnID)
@@ -776,12 +731,9 @@ namespace RimWorld
 				}
 			}
 			this.RemoveMySpouseMarriageRelatedThoughts();
-			if (this.everSeenByPlayer && !PawnGenerator.IsBeingGenerated(this.pawn))
+			if (this.everSeenByPlayer && !PawnGenerator.IsBeingGenerated(this.pawn) && !this.pawn.RaceProps.Animal)
 			{
-				if (!this.pawn.RaceProps.Animal)
-				{
-					this.AffectBondedAnimalsOnMyDeath();
-				}
+				this.AffectBondedAnimalsOnMyDeath();
 			}
 			this.Notify_FailedRescueQuest();
 		}
@@ -888,52 +840,54 @@ namespace RimWorld
 
 		public void CheckAppendBondedAnimalDiedInfo(ref string letter, ref string label)
 		{
-			if (this.pawn.RaceProps.Animal && this.everSeenByPlayer && !PawnGenerator.IsBeingGenerated(this.pawn))
+			if (!this.pawn.RaceProps.Animal || !this.everSeenByPlayer || PawnGenerator.IsBeingGenerated(this.pawn))
 			{
-				Predicate<Pawn> isAffected = (Pawn x) => !x.Dead && (!x.RaceProps.Humanlike || !x.story.traits.HasTrait(TraitDefOf.Psychopath));
-				int num = 0;
-				for (int i = 0; i < this.directRelations.Count; i++)
+				return;
+			}
+			Predicate<Pawn> isAffected = (Pawn x) => !x.Dead && (!x.RaceProps.Humanlike || !x.story.traits.HasTrait(TraitDefOf.Psychopath));
+			int num = 0;
+			for (int i = 0; i < this.directRelations.Count; i++)
+			{
+				if (this.directRelations[i].def == PawnRelationDefOf.Bond && isAffected(this.directRelations[i].otherPawn))
 				{
-					if (this.directRelations[i].def == PawnRelationDefOf.Bond && isAffected(this.directRelations[i].otherPawn))
-					{
-						num++;
-					}
-				}
-				if (num != 0)
-				{
-					string str;
-					if (num == 1)
-					{
-						Pawn firstDirectRelationPawn = this.GetFirstDirectRelationPawn(PawnRelationDefOf.Bond, (Pawn x) => isAffected(x));
-						str = "LetterPartBondedAnimalDied".Translate(new object[]
-						{
-							this.pawn.LabelDefinite(),
-							firstDirectRelationPawn.LabelShort
-						}).CapitalizeFirst();
-					}
-					else
-					{
-						StringBuilder stringBuilder = new StringBuilder();
-						for (int j = 0; j < this.directRelations.Count; j++)
-						{
-							if (this.directRelations[j].def == PawnRelationDefOf.Bond && isAffected(this.directRelations[j].otherPawn))
-							{
-								stringBuilder.AppendLine("  - " + this.directRelations[j].otherPawn.LabelShort);
-							}
-						}
-						str = "LetterPartBondedAnimalDiedMulti".Translate(new object[]
-						{
-							stringBuilder.ToString().TrimEndNewlines()
-						});
-					}
-					label = label + " (" + "LetterLabelSuffixBondedAnimalDied".Translate() + ")";
-					if (!letter.NullOrEmpty())
-					{
-						letter += "\n\n";
-					}
-					letter += str;
+					num++;
 				}
 			}
+			if (num == 0)
+			{
+				return;
+			}
+			string str;
+			if (num == 1)
+			{
+				Pawn firstDirectRelationPawn = this.GetFirstDirectRelationPawn(PawnRelationDefOf.Bond, (Pawn x) => isAffected(x));
+				str = "LetterPartBondedAnimalDied".Translate(new object[]
+				{
+					this.pawn.LabelDefinite(),
+					firstDirectRelationPawn.LabelShort
+				}).CapitalizeFirst();
+			}
+			else
+			{
+				StringBuilder stringBuilder = new StringBuilder();
+				for (int j = 0; j < this.directRelations.Count; j++)
+				{
+					if (this.directRelations[j].def == PawnRelationDefOf.Bond && isAffected(this.directRelations[j].otherPawn))
+					{
+						stringBuilder.AppendLine("  - " + this.directRelations[j].otherPawn.LabelShort);
+					}
+				}
+				str = "LetterPartBondedAnimalDiedMulti".Translate(new object[]
+				{
+					stringBuilder.ToString().TrimEndNewlines()
+				});
+			}
+			label = label + " (" + "LetterLabelSuffixBondedAnimalDied".Translate() + ")";
+			if (!letter.NullOrEmpty())
+			{
+				letter += "\n\n";
+			}
+			letter += str;
 		}
 
 		private void AffectBondedAnimalsOnMyDeath()
@@ -1001,18 +955,19 @@ namespace RimWorld
 
 		private void Tick_CheckStartMarriageCeremony()
 		{
-			if (this.pawn.Spawned && !this.pawn.RaceProps.Animal)
+			if (!this.pawn.Spawned || this.pawn.RaceProps.Animal)
 			{
-				if (this.pawn.IsHashIntervalTick(1017))
+				return;
+			}
+			if (this.pawn.IsHashIntervalTick(1017))
+			{
+				int ticksGame = Find.TickManager.TicksGame;
+				for (int i = 0; i < this.directRelations.Count; i++)
 				{
-					int ticksGame = Find.TickManager.TicksGame;
-					for (int i = 0; i < this.directRelations.Count; i++)
+					float num = (float)(ticksGame - this.directRelations[i].startTicks) / 60000f;
+					if (this.directRelations[i].def == PawnRelationDefOf.Fiance && this.pawn.thingIDNumber < this.directRelations[i].otherPawn.thingIDNumber && num > 10f && Rand.MTBEventOccurs(2f, 60000f, 1017f) && this.pawn.Map == this.directRelations[i].otherPawn.Map && this.pawn.Map.IsPlayerHome && MarriageCeremonyUtility.AcceptableGameConditionsToStartCeremony(this.pawn.Map) && MarriageCeremonyUtility.FianceReadyToStartCeremony(this.pawn) && MarriageCeremonyUtility.FianceReadyToStartCeremony(this.directRelations[i].otherPawn))
 					{
-						float num = (float)(ticksGame - this.directRelations[i].startTicks) / 60000f;
-						if (this.directRelations[i].def == PawnRelationDefOf.Fiance && this.pawn.thingIDNumber < this.directRelations[i].otherPawn.thingIDNumber && num > 10f && Rand.MTBEventOccurs(2f, 60000f, 1017f) && this.pawn.Map == this.directRelations[i].otherPawn.Map && this.pawn.Map.IsPlayerHome && MarriageCeremonyUtility.AcceptableGameConditionsToStartCeremony(this.pawn.Map) && MarriageCeremonyUtility.FianceReadyToStartCeremony(this.pawn) && MarriageCeremonyUtility.FianceReadyToStartCeremony(this.directRelations[i].otherPawn))
-						{
-							this.pawn.Map.lordsStarter.TryStartMarriageCeremony(this.pawn, this.directRelations[i].otherPawn);
-						}
+						this.pawn.Map.lordsStarter.TryStartMarriageCeremony(this.pawn, this.directRelations[i].otherPawn);
 					}
 				}
 			}
@@ -1020,13 +975,14 @@ namespace RimWorld
 
 		private void Tick_CheckDevelopBondRelation()
 		{
-			if (this.pawn.Spawned && this.pawn.RaceProps.Animal && this.pawn.Faction == Faction.OfPlayer && this.pawn.playerSettings.RespectedMaster != null)
+			if (!this.pawn.Spawned || !this.pawn.RaceProps.Animal || this.pawn.Faction != Faction.OfPlayer || this.pawn.playerSettings.RespectedMaster == null)
 			{
-				Pawn respectedMaster = this.pawn.playerSettings.RespectedMaster;
-				if (this.pawn.IsHashIntervalTick(2500) && this.pawn.Position.InHorDistOf(respectedMaster.Position, 12f) && GenSight.LineOfSight(this.pawn.Position, respectedMaster.Position, this.pawn.Map, false, null, 0, 0))
-				{
-					RelationsUtility.TryDevelopBondRelation(respectedMaster, this.pawn, 0.001f);
-				}
+				return;
+			}
+			Pawn respectedMaster = this.pawn.playerSettings.RespectedMaster;
+			if (this.pawn.IsHashIntervalTick(2500) && this.pawn.Position.InHorDistOf(respectedMaster.Position, 12f) && GenSight.LineOfSight(this.pawn.Position, respectedMaster.Position, this.pawn.Map, false, null, 0, 0))
+			{
+				RelationsUtility.TryDevelopBondRelation(respectedMaster, this.pawn, 0.001f);
 			}
 		}
 
@@ -1100,8 +1056,7 @@ namespace RimWorld
 					switch (num)
 					{
 					}
-					IL_117:
-					if (enumerator.MoveNext())
+					while (enumerator.MoveNext())
 					{
 						p = enumerator.Current;
 						hisDirectRels = p.relations.directRelations;
@@ -1118,7 +1073,6 @@ namespace RimWorld
 								return true;
 							}
 						}
-						goto IL_117;
 					}
 				}
 				finally
@@ -1257,7 +1211,7 @@ namespace RimWorld
 					switch (num)
 					{
 					case 1u:
-						IL_11B:
+						IL_118:
 						father = p.GetFather();
 						if (father != null && !familyVisited.Contains(father))
 						{
@@ -1274,7 +1228,7 @@ namespace RimWorld
 						familyChildrenStack.Add(p);
 						break;
 					case 2u:
-						IL_25D:
+						IL_255:
 						children = child.relations.Children;
 						enumerator = children.GetEnumerator();
 						try
@@ -1303,7 +1257,7 @@ namespace RimWorld
 						familyVisited = SimplePool<HashSet<Pawn>>.Get();
 						familyStack.Add(this.pawn);
 						familyVisited.Add(this.pawn);
-						goto IL_302;
+						goto IL_2F3;
 					}
 					if (familyChildrenStack.Any<Pawn>())
 					{
@@ -1319,9 +1273,9 @@ namespace RimWorld
 							flag = true;
 							return true;
 						}
-						goto IL_25D;
+						goto IL_255;
 					}
-					IL_302:
+					IL_2F3:
 					if (familyStack.Any<Pawn>())
 					{
 						p = familyStack[familyStack.Count - 1];
@@ -1336,7 +1290,7 @@ namespace RimWorld
 							flag = true;
 							return true;
 						}
-						goto IL_11B;
+						goto IL_118;
 					}
 				}
 				finally
@@ -1474,7 +1428,7 @@ namespace RimWorld
 					switch (num)
 					{
 					case 1u:
-						IL_101:
+						IL_FE:
 						for (int i = 0; i < p.relations.directRelations.Count; i++)
 						{
 							Pawn otherPawn = p.relations.directRelations[i].otherPawn;
@@ -1523,7 +1477,7 @@ namespace RimWorld
 							flag = true;
 							return true;
 						}
-						goto IL_101;
+						goto IL_FE;
 					}
 				}
 				finally
@@ -1663,11 +1617,8 @@ namespace RimWorld
 					{
 						switch (num)
 						{
-						case 1u:
-							IL_115:
-							break;
 						}
-						if (enumerator.MoveNext())
+						while (enumerator.MoveNext())
 						{
 							p = enumerator.Current;
 							bool definitelyKin = this.familyByBloodIsCached && this.cachedFamilyByBlood.Contains(p);
@@ -1681,7 +1632,6 @@ namespace RimWorld
 								flag = true;
 								return true;
 							}
-							goto IL_115;
 						}
 					}
 					finally

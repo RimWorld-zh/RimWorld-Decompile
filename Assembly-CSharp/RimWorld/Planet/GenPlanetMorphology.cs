@@ -23,87 +23,85 @@ namespace RimWorld.Planet
 
 		public static void Erode(List<int> tiles, int count, Predicate<int> extraPredicate = null)
 		{
-			if (count > 0)
+			if (count <= 0)
 			{
-				WorldGrid worldGrid = Find.WorldGrid;
-				GenPlanetMorphology.tilesSet.Clear();
-				GenPlanetMorphology.tilesSet.AddRange(tiles);
-				GenPlanetMorphology.tmpEdgeTiles.Clear();
-				for (int i = 0; i < tiles.Count; i++)
+				return;
+			}
+			WorldGrid worldGrid = Find.WorldGrid;
+			GenPlanetMorphology.tilesSet.Clear();
+			GenPlanetMorphology.tilesSet.AddRange(tiles);
+			GenPlanetMorphology.tmpEdgeTiles.Clear();
+			for (int i = 0; i < tiles.Count; i++)
+			{
+				worldGrid.GetTileNeighbors(tiles[i], GenPlanetMorphology.tmpNeighbors);
+				for (int j = 0; j < GenPlanetMorphology.tmpNeighbors.Count; j++)
 				{
-					worldGrid.GetTileNeighbors(tiles[i], GenPlanetMorphology.tmpNeighbors);
-					for (int j = 0; j < GenPlanetMorphology.tmpNeighbors.Count; j++)
+					if (!GenPlanetMorphology.tilesSet.Contains(GenPlanetMorphology.tmpNeighbors[j]))
 					{
-						if (!GenPlanetMorphology.tilesSet.Contains(GenPlanetMorphology.tmpNeighbors[j]))
-						{
-							GenPlanetMorphology.tmpEdgeTiles.Add(tiles[i]);
-							break;
-						}
+						GenPlanetMorphology.tmpEdgeTiles.Add(tiles[i]);
+						break;
 					}
-				}
-				if (GenPlanetMorphology.tmpEdgeTiles.Any<int>())
-				{
-					GenPlanetMorphology.tmpOutput.Clear();
-					Predicate<int> predicate;
-					if (extraPredicate != null)
-					{
-						predicate = ((int x) => GenPlanetMorphology.tilesSet.Contains(x) && extraPredicate(x));
-					}
-					else
-					{
-						predicate = ((int x) => GenPlanetMorphology.tilesSet.Contains(x));
-					}
-					WorldFloodFiller worldFloodFiller = Find.WorldFloodFiller;
-					int rootTile = -1;
-					Predicate<int> passCheck = predicate;
-					Func<int, int, bool> processor = delegate(int tile, int traversalDist)
-					{
-						if (traversalDist >= count)
-						{
-							GenPlanetMorphology.tmpOutput.Add(tile);
-						}
-						return false;
-					};
-					List<int> extraRootTiles = GenPlanetMorphology.tmpEdgeTiles;
-					worldFloodFiller.FloodFill(rootTile, passCheck, processor, int.MaxValue, extraRootTiles);
-					tiles.Clear();
-					tiles.AddRange(GenPlanetMorphology.tmpOutput);
 				}
 			}
+			if (!GenPlanetMorphology.tmpEdgeTiles.Any<int>())
+			{
+				return;
+			}
+			GenPlanetMorphology.tmpOutput.Clear();
+			Predicate<int> predicate;
+			if (extraPredicate != null)
+			{
+				predicate = ((int x) => GenPlanetMorphology.tilesSet.Contains(x) && extraPredicate(x));
+			}
+			else
+			{
+				predicate = ((int x) => GenPlanetMorphology.tilesSet.Contains(x));
+			}
+			WorldFloodFiller worldFloodFiller = Find.WorldFloodFiller;
+			int rootTile = -1;
+			Predicate<int> passCheck = predicate;
+			Func<int, int, bool> processor = delegate(int tile, int traversalDist)
+			{
+				if (traversalDist >= count)
+				{
+					GenPlanetMorphology.tmpOutput.Add(tile);
+				}
+				return false;
+			};
+			List<int> extraRootTiles = GenPlanetMorphology.tmpEdgeTiles;
+			worldFloodFiller.FloodFill(rootTile, passCheck, processor, int.MaxValue, extraRootTiles);
+			tiles.Clear();
+			tiles.AddRange(GenPlanetMorphology.tmpOutput);
 		}
 
 		public static void Dilate(List<int> tiles, int count, Predicate<int> extraPredicate = null)
 		{
-			if (count > 0)
+			if (count <= 0)
 			{
-				WorldFloodFiller worldFloodFiller = Find.WorldFloodFiller;
-				int rootTile = -1;
-				Predicate<int> predicate = extraPredicate;
-				if (extraPredicate == null)
-				{
-					predicate = ((int x) => true);
-				}
-				Predicate<int> passCheck = predicate;
-				Func<int, int, bool> processor = delegate(int tile, int traversalDist)
-				{
-					bool result;
-					if (traversalDist > count)
-					{
-						result = true;
-					}
-					else
-					{
-						if (traversalDist != 0)
-						{
-							tiles.Add(tile);
-						}
-						result = false;
-					}
-					return result;
-				};
-				List<int> tiles2 = tiles;
-				worldFloodFiller.FloodFill(rootTile, passCheck, processor, int.MaxValue, tiles2);
+				return;
 			}
+			WorldFloodFiller worldFloodFiller = Find.WorldFloodFiller;
+			int rootTile = -1;
+			Predicate<int> predicate = extraPredicate;
+			if (extraPredicate == null)
+			{
+				predicate = ((int x) => true);
+			}
+			Predicate<int> passCheck = predicate;
+			Func<int, int, bool> processor = delegate(int tile, int traversalDist)
+			{
+				if (traversalDist > count)
+				{
+					return true;
+				}
+				if (traversalDist != 0)
+				{
+					tiles.Add(tile);
+				}
+				return false;
+			};
+			List<int> tiles2 = tiles;
+			worldFloodFiller.FloodFill(rootTile, passCheck, processor, int.MaxValue, tiles2);
 		}
 
 		public static void Open(List<int> tiles, int count)
@@ -174,20 +172,15 @@ namespace RimWorld.Planet
 
 			internal bool <>m__0(int tile, int traversalDist)
 			{
-				bool result;
 				if (traversalDist > this.count)
 				{
-					result = true;
+					return true;
 				}
-				else
+				if (traversalDist != 0)
 				{
-					if (traversalDist != 0)
-					{
-						this.tiles.Add(tile);
-					}
-					result = false;
+					this.tiles.Add(tile);
 				}
-				return result;
+				return false;
 			}
 		}
 	}

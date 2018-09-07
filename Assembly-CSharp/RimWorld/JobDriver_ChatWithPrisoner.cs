@@ -23,9 +23,12 @@ namespace RimWorld
 			}
 		}
 
-		public override bool TryMakePreToilReservations()
+		public override bool TryMakePreToilReservations(bool errorOnFailed)
 		{
-			return this.pawn.Reserve(this.job.targetA, this.job, 1, -1, null);
+			Pawn pawn = this.pawn;
+			LocalTargetInfo targetA = this.job.targetA;
+			Job job = this.job;
+			return pawn.Reserve(targetA, job, 1, -1, null, errorOnFailed);
 		}
 
 		protected override IEnumerable<Toil> MakeNewToils()
@@ -53,10 +56,7 @@ namespace RimWorld
 			yield return Toils_Interpersonal.GotoPrisoner(this.pawn, this.Talkee, this.Talkee.guest.interactionMode);
 			yield return Toils_Interpersonal.GotoInteractablePosition(TargetIndex.A);
 			yield return Toils_Interpersonal.SetLastInteractTime(TargetIndex.A);
-			if (this.job.def == JobDefOf.PrisonerAttemptRecruit)
-			{
-				yield return Toils_Interpersonal.TryRecruit(TargetIndex.A);
-			}
+			yield return Toils_Interpersonal.TryRecruit(TargetIndex.A);
 			yield break;
 		}
 
@@ -220,22 +220,16 @@ namespace RimWorld
 					}
 					return true;
 				case 19u:
-					if (this.job.def == JobDefOf.PrisonerAttemptRecruit)
+					this.$current = Toils_Interpersonal.TryRecruit(TargetIndex.A);
+					if (!this.$disposing)
 					{
-						this.$current = Toils_Interpersonal.TryRecruit(TargetIndex.A);
-						if (!this.$disposing)
-						{
-							this.$PC = 20;
-						}
-						return true;
+						this.$PC = 20;
 					}
-					break;
+					return true;
 				case 20u:
+					this.$PC = -1;
 					break;
-				default:
-					return false;
 				}
-				this.$PC = -1;
 				return false;
 			}
 

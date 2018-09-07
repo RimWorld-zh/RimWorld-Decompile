@@ -2,7 +2,6 @@
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.Reflection;
-using UnityEngine.Profiling;
 using Verse.AI;
 
 namespace Verse
@@ -13,7 +12,6 @@ namespace Verse
 
 		public static void BeginSample(string token)
 		{
-			Profiler.BeginSample(token);
 			ProfilerPairValidation.profilerSignatures.Push(new StackTrace(1, true));
 		}
 
@@ -42,7 +40,6 @@ namespace Verse
 					}
 				}
 			}
-			Profiler.EndSample();
 		}
 
 		// Note: this type is marked as 'beforefieldinit'.

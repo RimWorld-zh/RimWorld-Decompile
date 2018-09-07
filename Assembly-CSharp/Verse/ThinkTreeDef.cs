@@ -34,7 +34,7 @@ namespace Verse
 
 		public override IEnumerable<string> ConfigErrors()
 		{
-			foreach (string e in this.<ConfigErrors>__BaseCallProxy0())
+			foreach (string e in base.ConfigErrors())
 			{
 				yield return e;
 			}
@@ -80,29 +80,24 @@ namespace Verse
 		public bool TryGetThinkNodeWithSaveKey(int key, out ThinkNode outNode)
 		{
 			outNode = null;
-			bool result;
 			if (key == -1)
 			{
-				result = false;
+				return false;
 			}
-			else if (key == this.thinkRoot.UniqueSaveKey)
+			if (key == this.thinkRoot.UniqueSaveKey)
 			{
 				outNode = this.thinkRoot;
-				result = true;
+				return true;
 			}
-			else
+			foreach (ThinkNode thinkNode in this.thinkRoot.ChildrenRecursive)
 			{
-				foreach (ThinkNode thinkNode in this.thinkRoot.ChildrenRecursive)
+				if (thinkNode.UniqueSaveKey == key)
 				{
-					if (thinkNode.UniqueSaveKey == key)
-					{
-						outNode = thinkNode;
-						return true;
-					}
+					outNode = thinkNode;
+					return true;
 				}
-				result = false;
 			}
-			return result;
+			return false;
 		}
 
 		private void ResolveParentNodes(ThinkNode node)
@@ -183,7 +178,7 @@ namespace Verse
 				case 2u:
 				case 3u:
 				case 4u:
-					goto IL_F5;
+					goto IL_F0;
 				default:
 					return false;
 				}
@@ -220,7 +215,7 @@ namespace Verse
 				num = 4294967293u;
 				try
 				{
-					IL_F5:
+					IL_F0:
 					switch (num)
 					{
 					case 2u:
@@ -230,15 +225,15 @@ namespace Verse
 					case 4u:
 						break;
 					default:
-						goto IL_288;
+						goto IL_281;
 					}
-					IL_257:
+					IL_251:
 					if (key != -1)
 					{
 						usedKeys.Add(key);
 					}
 					instances.Add(node);
-					IL_288:
+					IL_281:
 					if (enumerator2.MoveNext())
 					{
 						node = enumerator2.Current;
@@ -286,7 +281,7 @@ namespace Verse
 							flag = true;
 							return true;
 						}
-						goto IL_257;
+						goto IL_251;
 					}
 				}
 				finally

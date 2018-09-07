@@ -15,19 +15,20 @@ namespace Verse.AI
 			return p.Spawned && p.CanReach(target, peMode, maxDanger, false, TraverseMode.ByPawn) && p.Map.reservationManager.CanReserve(p, target, maxPawns, stackCount, layer, ignoreOtherReservations);
 		}
 
-		public static bool Reserve(this Pawn p, LocalTargetInfo target, Job job, int maxPawns = 1, int stackCount = -1, ReservationLayerDef layer = null)
+		public static bool Reserve(this Pawn p, LocalTargetInfo target, Job job, int maxPawns = 1, int stackCount = -1, ReservationLayerDef layer = null, bool errorOnFailed = true)
 		{
-			return p.Spawned && p.Map.reservationManager.Reserve(p, job, target, maxPawns, stackCount, layer);
+			return p.Spawned && p.Map.reservationManager.Reserve(p, job, target, maxPawns, stackCount, layer, errorOnFailed);
 		}
 
 		public static void ReserveAsManyAsPossible(this Pawn p, List<LocalTargetInfo> target, Job job, int maxPawns = 1, int stackCount = -1, ReservationLayerDef layer = null)
 		{
-			if (p.Spawned)
+			if (!p.Spawned)
 			{
-				for (int i = 0; i < target.Count; i++)
-				{
-					p.Map.reservationManager.Reserve(p, job, target[i], maxPawns, stackCount, layer);
-				}
+				return;
+			}
+			for (int i = 0; i < target.Count; i++)
+			{
+				p.Map.reservationManager.Reserve(p, job, target[i], maxPawns, stackCount, layer, false);
 			}
 		}
 

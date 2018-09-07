@@ -10,7 +10,7 @@ namespace RimWorld
 {
 	public class PlantProperties
 	{
-		public List<PlantBiomeRecord> wildBiomes = null;
+		public List<PlantBiomeRecord> wildBiomes;
 
 		public int wildClusterRadius = -1;
 
@@ -29,36 +29,36 @@ namespace RimWorld
 
 		public float sowWork = 10f;
 
-		public int sowMinSkill = 0;
+		public int sowMinSkill;
 
-		public bool blockAdjacentSow = false;
+		public bool blockAdjacentSow;
 
-		public List<ResearchProjectDef> sowResearchPrerequisites = null;
+		public List<ResearchProjectDef> sowResearchPrerequisites;
 
 		public bool mustBeWildToSow;
 
 		public float harvestWork = 10f;
 
-		public float harvestYield = 0f;
+		public float harvestYield;
 
-		public ThingDef harvestedThingDef = null;
+		public ThingDef harvestedThingDef;
 
 		[NoTranslate]
 		public string harvestTag;
 
 		public float harvestMinGrowth = 0.65f;
 
-		public float harvestAfterGrowth = 0f;
+		public float harvestAfterGrowth;
 
 		public bool harvestFailable = true;
 
-		public SoundDef soundHarvesting = null;
+		public SoundDef soundHarvesting;
 
-		public SoundDef soundHarvestFinish = null;
+		public SoundDef soundHarvestFinish;
 
 		public float growDays = 2f;
 
-		public float lifespanFraction = 6f;
+		public float lifespanDaysPerGrowDays = 8f;
 
 		public float growMinGlow = 0.51f;
 
@@ -68,11 +68,11 @@ namespace RimWorld
 
 		public float fertilitySensitivity = 0.5f;
 
-		public bool dieIfLeafless = false;
+		public bool dieIfLeafless;
 
-		public bool neverBlightable = false;
+		public bool neverBlightable;
 
-		public bool interferesWithRoof = false;
+		public bool interferesWithRoof;
 
 		public PlantPurpose purpose = PlantPurpose.Misc;
 
@@ -83,18 +83,18 @@ namespace RimWorld
 		public FloatRange visualSizeRange = new FloatRange(0.9f, 1.1f);
 
 		[NoTranslate]
-		private string leaflessGraphicPath = null;
+		private string leaflessGraphicPath;
 
 		[Unsaved]
-		public Graphic leaflessGraphic = null;
+		public Graphic leaflessGraphic;
 
 		[NoTranslate]
-		private string immatureGraphicPath = null;
+		private string immatureGraphicPath;
 
 		[Unsaved]
-		public Graphic immatureGraphic = null;
+		public Graphic immatureGraphic;
 
-		public bool dropLeaves = false;
+		public bool dropLeaves;
 
 		public const int MaxMaxMeshCount = 25;
 
@@ -138,7 +138,7 @@ namespace RimWorld
 		{
 			get
 			{
-				return this.growDays * this.lifespanFraction;
+				return this.growDays * this.lifespanDaysPerGrowDays;
 			}
 		}
 
@@ -154,7 +154,7 @@ namespace RimWorld
 		{
 			get
 			{
-				return this.lifespanFraction > 0f;
+				return this.lifespanDaysPerGrowDays > 0f;
 			}
 		}
 
@@ -205,9 +205,9 @@ namespace RimWorld
 		{
 			if (this.sowMinSkill > 0)
 			{
-				yield return new StatDrawEntry(StatCategoryDefOf.Basics, "MinGrowingSkillToSow".Translate(), this.sowMinSkill.ToString(), 0, "");
+				yield return new StatDrawEntry(StatCategoryDefOf.Basics, "MinGrowingSkillToSow".Translate(), this.sowMinSkill.ToString(), 0, string.Empty);
 			}
-			string attributes = "";
+			string attributes = string.Empty;
 			if (this.Harvestable)
 			{
 				if (!attributes.NullOrEmpty())
@@ -224,25 +224,27 @@ namespace RimWorld
 				}
 				attributes += "LimitedLifespan".Translate();
 			}
-			yield return new StatDrawEntry(StatCategoryDefOf.Basics, "GrowingTime".Translate(), this.growDays.ToString("0.##") + " " + "Days".Translate(), 0, "")
+			yield return new StatDrawEntry(StatCategoryDefOf.Basics, "GrowingTime".Translate(), this.growDays.ToString("0.##") + " " + "Days".Translate(), 0, string.Empty)
 			{
 				overrideReportText = "GrowingTimeDesc".Translate()
 			};
-			yield return new StatDrawEntry(StatCategoryDefOf.Basics, "FertilityRequirement".Translate(), this.fertilityMin.ToStringPercent(), 0, "");
-			yield return new StatDrawEntry(StatCategoryDefOf.Basics, "FertilitySensitivity".Translate(), this.fertilitySensitivity.ToStringPercent(), 0, "");
-			yield return new StatDrawEntry(StatCategoryDefOf.Basics, "LightRequirement".Translate(), this.growMinGlow.ToStringPercent(), 0, "");
+			yield return new StatDrawEntry(StatCategoryDefOf.Basics, "FertilityRequirement".Translate(), this.fertilityMin.ToStringPercent(), 0, string.Empty);
+			yield return new StatDrawEntry(StatCategoryDefOf.Basics, "FertilitySensitivity".Translate(), this.fertilitySensitivity.ToStringPercent(), 0, string.Empty);
+			yield return new StatDrawEntry(StatCategoryDefOf.Basics, "LightRequirement".Translate(), this.growMinGlow.ToStringPercent(), 0, string.Empty);
 			if (!attributes.NullOrEmpty())
 			{
-				yield return new StatDrawEntry(StatCategoryDefOf.Basics, "Attributes".Translate(), attributes, 0, "");
+				yield return new StatDrawEntry(StatCategoryDefOf.Basics, "Attributes".Translate(), attributes, 0, string.Empty);
 			}
 			if (this.LimitedLifespan)
 			{
-				yield return new StatDrawEntry(StatCategoryDefOf.Basics, "LifeSpan".Translate(), this.LifespanDays.ToString("0.##") + " " + "Days".Translate(), 0, "");
+				yield return new StatDrawEntry(StatCategoryDefOf.Basics, "LifeSpan".Translate(), this.LifespanDays.ToString("0.##") + " " + "Days".Translate(), 0, string.Empty);
 			}
 			if (this.harvestYield > 0f)
 			{
-				yield return new StatDrawEntry(StatCategoryDefOf.Basics, "HarvestYield".Translate(), this.harvestYield.ToString("F0"), 0, "");
+				yield return new StatDrawEntry(StatCategoryDefOf.Basics, "HarvestYield".Translate(), this.harvestYield.ToString("F0"), 0, string.Empty);
 			}
+			yield return new StatDrawEntry(StatCategoryDefOf.Basics, "MinGrowthTemperature".Translate(), 0f.ToStringTemperature("F1"), 0, string.Empty);
+			yield return new StatDrawEntry(StatCategoryDefOf.Basics, "MaxGrowthTemperature".Translate(), 58f.ToStringTemperature("F1"), 0, string.Empty);
 			yield break;
 		}
 
@@ -389,7 +391,7 @@ namespace RimWorld
 				case 0u:
 					if (this.sowMinSkill > 0)
 					{
-						this.$current = new StatDrawEntry(StatCategoryDefOf.Basics, "MinGrowingSkillToSow".Translate(), this.sowMinSkill.ToString(), 0, "");
+						this.$current = new StatDrawEntry(StatCategoryDefOf.Basics, "MinGrowingSkillToSow".Translate(), this.sowMinSkill.ToString(), 0, string.Empty);
 						if (!this.$disposing)
 						{
 							this.$PC = 1;
@@ -400,21 +402,21 @@ namespace RimWorld
 				case 1u:
 					break;
 				case 2u:
-					this.$current = new StatDrawEntry(StatCategoryDefOf.Basics, "FertilityRequirement".Translate(), this.fertilityMin.ToStringPercent(), 0, "");
+					this.$current = new StatDrawEntry(StatCategoryDefOf.Basics, "FertilityRequirement".Translate(), this.fertilityMin.ToStringPercent(), 0, string.Empty);
 					if (!this.$disposing)
 					{
 						this.$PC = 3;
 					}
 					return true;
 				case 3u:
-					this.$current = new StatDrawEntry(StatCategoryDefOf.Basics, "FertilitySensitivity".Translate(), this.fertilitySensitivity.ToStringPercent(), 0, "");
+					this.$current = new StatDrawEntry(StatCategoryDefOf.Basics, "FertilitySensitivity".Translate(), this.fertilitySensitivity.ToStringPercent(), 0, string.Empty);
 					if (!this.$disposing)
 					{
 						this.$PC = 4;
 					}
 					return true;
 				case 4u:
-					this.$current = new StatDrawEntry(StatCategoryDefOf.Basics, "LightRequirement".Translate(), this.growMinGlow.ToStringPercent(), 0, "");
+					this.$current = new StatDrawEntry(StatCategoryDefOf.Basics, "LightRequirement".Translate(), this.growMinGlow.ToStringPercent(), 0, string.Empty);
 					if (!this.$disposing)
 					{
 						this.$PC = 5;
@@ -423,24 +425,34 @@ namespace RimWorld
 				case 5u:
 					if (!attributes.NullOrEmpty())
 					{
-						this.$current = new StatDrawEntry(StatCategoryDefOf.Basics, "Attributes".Translate(), attributes, 0, "");
+						this.$current = new StatDrawEntry(StatCategoryDefOf.Basics, "Attributes".Translate(), attributes, 0, string.Empty);
 						if (!this.$disposing)
 						{
 							this.$PC = 6;
 						}
 						return true;
 					}
-					goto IL_2E0;
+					goto IL_2E1;
 				case 6u:
-					goto IL_2E0;
+					goto IL_2E1;
 				case 7u:
-					goto IL_352;
+					goto IL_351;
 				case 8u:
-					goto IL_3B2;
+					goto IL_3AF;
+				case 9u:
+					this.$current = new StatDrawEntry(StatCategoryDefOf.Basics, "MaxGrowthTemperature".Translate(), 58f.ToStringTemperature("F1"), 0, string.Empty);
+					if (!this.$disposing)
+					{
+						this.$PC = 10;
+					}
+					return true;
+				case 10u:
+					this.$PC = -1;
+					return false;
 				default:
 					return false;
 				}
-				attributes = "";
+				attributes = string.Empty;
 				if (base.Harvestable)
 				{
 					if (!attributes.NullOrEmpty())
@@ -457,7 +469,7 @@ namespace RimWorld
 					}
 					attributes += "LimitedLifespan".Translate();
 				}
-				StatDrawEntry gt = new StatDrawEntry(StatCategoryDefOf.Basics, "GrowingTime".Translate(), this.growDays.ToString("0.##") + " " + "Days".Translate(), 0, "");
+				StatDrawEntry gt = new StatDrawEntry(StatCategoryDefOf.Basics, "GrowingTime".Translate(), this.growDays.ToString("0.##") + " " + "Days".Translate(), 0, string.Empty);
 				gt.overrideReportText = "GrowingTimeDesc".Translate();
 				this.$current = gt;
 				if (!this.$disposing)
@@ -465,29 +477,33 @@ namespace RimWorld
 					this.$PC = 2;
 				}
 				return true;
-				IL_2E0:
+				IL_2E1:
 				if (base.LimitedLifespan)
 				{
-					this.$current = new StatDrawEntry(StatCategoryDefOf.Basics, "LifeSpan".Translate(), base.LifespanDays.ToString("0.##") + " " + "Days".Translate(), 0, "");
+					this.$current = new StatDrawEntry(StatCategoryDefOf.Basics, "LifeSpan".Translate(), base.LifespanDays.ToString("0.##") + " " + "Days".Translate(), 0, string.Empty);
 					if (!this.$disposing)
 					{
 						this.$PC = 7;
 					}
 					return true;
 				}
-				IL_352:
+				IL_351:
 				if (this.harvestYield > 0f)
 				{
-					this.$current = new StatDrawEntry(StatCategoryDefOf.Basics, "HarvestYield".Translate(), this.harvestYield.ToString("F0"), 0, "");
+					this.$current = new StatDrawEntry(StatCategoryDefOf.Basics, "HarvestYield".Translate(), this.harvestYield.ToString("F0"), 0, string.Empty);
 					if (!this.$disposing)
 					{
 						this.$PC = 8;
 					}
 					return true;
 				}
-				IL_3B2:
-				this.$PC = -1;
-				return false;
+				IL_3AF:
+				this.$current = new StatDrawEntry(StatCategoryDefOf.Basics, "MinGrowthTemperature".Translate(), 0f.ToStringTemperature("F1"), 0, string.Empty);
+				if (!this.$disposing)
+				{
+					this.$PC = 9;
+				}
+				return true;
 			}
 
 			StatDrawEntry IEnumerator<StatDrawEntry>.Current

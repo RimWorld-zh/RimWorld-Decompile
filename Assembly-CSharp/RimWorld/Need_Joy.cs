@@ -25,32 +25,27 @@ namespace RimWorld
 		{
 			get
 			{
-				JoyCategory result;
 				if (this.CurLevel < 0.01f)
 				{
-					result = JoyCategory.Empty;
+					return JoyCategory.Empty;
 				}
-				else if (this.CurLevel < 0.15f)
+				if (this.CurLevel < 0.15f)
 				{
-					result = JoyCategory.VeryLow;
+					return JoyCategory.VeryLow;
 				}
-				else if (this.CurLevel < 0.3f)
+				if (this.CurLevel < 0.3f)
 				{
-					result = JoyCategory.Low;
+					return JoyCategory.Low;
 				}
-				else if (this.CurLevel < 0.7f)
+				if (this.CurLevel < 0.7f)
 				{
-					result = JoyCategory.Satisfied;
+					return JoyCategory.Satisfied;
 				}
-				else if (this.CurLevel < 0.85f)
+				if (this.CurLevel < 0.85f)
 				{
-					result = JoyCategory.High;
+					return JoyCategory.High;
 				}
-				else
-				{
-					result = JoyCategory.Extreme;
-				}
-				return result;
+				return JoyCategory.Extreme;
 			}
 		}
 
@@ -58,31 +53,23 @@ namespace RimWorld
 		{
 			get
 			{
-				float result;
 				switch (this.CurCategory)
 				{
 				case JoyCategory.Empty:
-					result = 0.0015f;
-					break;
+					return 0.0015f;
 				case JoyCategory.VeryLow:
-					result = 0.0006f;
-					break;
+					return 0.0006f;
 				case JoyCategory.Low:
-					result = 0.00105f;
-					break;
+					return 0.00105f;
 				case JoyCategory.Satisfied:
-					result = 0.0015f;
-					break;
+					return 0.0015f;
 				case JoyCategory.High:
-					result = 0.0015f;
-					break;
+					return 0.0015f;
 				case JoyCategory.Extreme:
-					result = 0.0015f;
-					break;
+					return 0.0015f;
 				default:
 					throw new InvalidOperationException();
 				}
-				return result;
 			}
 		}
 
@@ -90,16 +77,11 @@ namespace RimWorld
 		{
 			get
 			{
-				int result;
 				if (base.IsFrozen)
 				{
-					result = 0;
+					return 0;
 				}
-				else
-				{
-					result = ((!this.GainingJoy) ? -1 : 1);
-				}
-				return result;
+				return (!this.GainingJoy) ? -1 : 1;
 			}
 		}
 
@@ -124,17 +106,18 @@ namespace RimWorld
 
 		public void GainJoy(float amount, JoyKindDef joyKind)
 		{
-			if (amount > 0f)
+			if (amount <= 0f)
 			{
-				amount *= this.tolerances.JoyFactorFromTolerance(joyKind);
-				amount = Mathf.Min(amount, 1f - this.CurLevel);
-				this.curLevelInt += amount;
-				if (joyKind != null)
-				{
-					this.tolerances.Notify_JoyGained(amount, joyKind);
-				}
-				this.lastGainTick = Find.TickManager.TicksGame;
+				return;
 			}
+			amount *= this.tolerances.JoyFactorFromTolerance(joyKind);
+			amount = Mathf.Min(amount, 1f - this.CurLevel);
+			this.curLevelInt += amount;
+			if (joyKind != null)
+			{
+				this.tolerances.Notify_JoyGained(amount, joyKind);
+			}
+			this.lastGainTick = Find.TickManager.TicksGame;
 		}
 
 		public override void NeedInterval()

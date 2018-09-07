@@ -266,31 +266,26 @@ namespace Verse
 
 		public static bool SameTargets(LookTargets a, LookTargets b)
 		{
-			bool result;
 			if (a == null)
 			{
-				result = (b == null || !b.Any);
+				return b == null || !b.Any;
 			}
-			else if (b == null)
+			if (b == null)
 			{
-				result = (a == null || !a.Any);
+				return a == null || !a.Any;
 			}
-			else if (a.targets.Count != b.targets.Count)
+			if (a.targets.Count != b.targets.Count)
 			{
-				result = false;
+				return false;
 			}
-			else
+			for (int i = 0; i < a.targets.Count; i++)
 			{
-				for (int i = 0; i < a.targets.Count; i++)
+				if (a.targets[i] != b.targets[i])
 				{
-					if (a.targets[i] != b.targets[i])
-					{
-						return false;
-					}
+					return false;
 				}
-				result = true;
 			}
-			return result;
+			return true;
 		}
 
 		public void Highlight(bool arrow = true, bool colonistBar = true, bool circleOverlay = false)
@@ -303,44 +298,46 @@ namespace Verse
 
 		private void AppendThingTargets<T>(IEnumerable<T> things) where T : Thing
 		{
-			if (things != null)
+			if (things == null)
 			{
-				IList<T> list = things as IList<T>;
-				if (list != null)
+				return;
+			}
+			IList<T> list = things as IList<T>;
+			if (list != null)
+			{
+				for (int i = 0; i < list.Count; i++)
 				{
-					for (int i = 0; i < list.Count; i++)
-					{
-						this.targets.Add(list[i]);
-					}
+					this.targets.Add(list[i]);
 				}
-				else
+			}
+			else
+			{
+				foreach (T t in things)
 				{
-					foreach (T t in things)
-					{
-						this.targets.Add(t);
-					}
+					this.targets.Add(t);
 				}
 			}
 		}
 
 		private void AppendWorldObjectTargets<T>(IEnumerable<T> worldObjects) where T : WorldObject
 		{
-			if (worldObjects != null)
+			if (worldObjects == null)
 			{
-				IList<T> list = worldObjects as IList<T>;
-				if (list != null)
+				return;
+			}
+			IList<T> list = worldObjects as IList<T>;
+			if (list != null)
+			{
+				for (int i = 0; i < list.Count; i++)
 				{
-					for (int i = 0; i < list.Count; i++)
-					{
-						this.targets.Add(list[i]);
-					}
+					this.targets.Add(list[i]);
 				}
-				else
+			}
+			else
+			{
+				foreach (T t in worldObjects)
 				{
-					foreach (T t in worldObjects)
-					{
-						this.targets.Add(t);
-					}
+					this.targets.Add(t);
 				}
 			}
 		}

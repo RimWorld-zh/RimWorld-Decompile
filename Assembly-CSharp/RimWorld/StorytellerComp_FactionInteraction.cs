@@ -10,11 +10,6 @@ namespace RimWorld
 {
 	public class StorytellerComp_FactionInteraction : StorytellerComp
 	{
-		private const int ForceChooseTraderAfterTicks = 780000;
-
-		[CompilerGenerated]
-		private static Func<IncidentDef, float> <>f__am$cache0;
-
 		public StorytellerComp_FactionInteraction()
 		{
 		}
@@ -29,54 +24,48 @@ namespace RimWorld
 
 		public override IEnumerable<FiringIncident> MakeIntervalIncidents(IIncidentTarget target)
 		{
-			float mtb = this.Props.baseMtbDays * StorytellerUtility.AllyIncidentMTBMultiplier(true);
-			if (mtb < 0f)
+			if (this.Props.minDanger != StoryDanger.None)
+			{
+				Map map = target as Map;
+				if (map == null || map.dangerWatcher.DangerRating < this.Props.minDanger)
+				{
+					yield break;
+				}
+			}
+			float allyIncidentFraction = StorytellerUtility.AllyIncidentFraction(this.Props.fullAlliesOnly);
+			if (allyIncidentFraction <= 0f)
 			{
 				yield break;
 			}
-			if (Rand.MTBEventOccurs(mtb, 60000f, 1000f))
+			int incCount = IncidentCycleUtility.IncidentCountThisInterval(target, Find.Storyteller.storytellerComps.IndexOf(this), this.Props.minDaysPassed, 60f, 0f, this.Props.minSpacingDays, this.Props.baseIncidentsPerYear, this.Props.baseIncidentsPerYear, allyIncidentFraction);
+			for (int i = 0; i < incCount; i++)
 			{
-				IncidentDef incDef;
-				if (this.TryChooseIncident(target, out incDef))
+				IncidentParms parms = this.GenerateParms(this.Props.incident.category, target);
+				if (this.Props.incident.Worker.CanFireNow(parms, false))
 				{
-					yield return new FiringIncident(incDef, this, this.GenerateParms(incDef.category, target));
+					yield return new FiringIncident(this.Props.incident, this, parms);
 				}
 			}
 			yield break;
 		}
 
-		private bool TryChooseIncident(IIncidentTarget target, out IncidentDef result)
+		public override string ToString()
 		{
-			if (IncidentDefOf.TraderCaravanArrival.TargetAllowed(target))
-			{
-				int num = 0;
-				if (!target.StoryState.lastFireTicks.TryGetValue(IncidentDefOf.TraderCaravanArrival, out num))
-				{
-					num = (int)(this.props.minDaysPassed * 60000f);
-				}
-				if (Find.TickManager.TicksGame > num + 780000)
-				{
-					result = IncidentDefOf.TraderCaravanArrival;
-					return true;
-				}
-			}
-			return base.UsableIncidentsInCategory(IncidentCategoryDefOf.FactionArrival, target).TryRandomElementByWeight((IncidentDef d) => d.baseChance, out result);
-		}
-
-		[CompilerGenerated]
-		private static float <TryChooseIncident>m__0(IncidentDef d)
-		{
-			return d.baseChance;
+			return base.ToString() + " (" + this.Props.incident.defName + ")";
 		}
 
 		[CompilerGenerated]
 		private sealed class <MakeIntervalIncidents>c__Iterator0 : IEnumerable, IEnumerable<FiringIncident>, IEnumerator, IDisposable, IEnumerator<FiringIncident>
 		{
-			internal float <mtb>__0;
-
 			internal IIncidentTarget target;
 
-			internal IncidentDef <incDef>__1;
+			internal float <allyIncidentFraction>__0;
+
+			internal int <incCount>__0;
+
+			internal int <i>__1;
+
+			internal IncidentParms <parms>__2;
 
 			internal StorytellerComp_FactionInteraction $this;
 
@@ -98,30 +87,47 @@ namespace RimWorld
 				switch (num)
 				{
 				case 0u:
-					mtb = base.Props.baseMtbDays * StorytellerUtility.AllyIncidentMTBMultiplier(true);
-					if (mtb < 0f)
+					if (base.Props.minDanger != StoryDanger.None)
+					{
+						Map map = target as Map;
+						if (map == null || map.dangerWatcher.DangerRating < base.Props.minDanger)
+						{
+							return false;
+						}
+					}
+					allyIncidentFraction = StorytellerUtility.AllyIncidentFraction(base.Props.fullAlliesOnly);
+					if (allyIncidentFraction <= 0f)
 					{
 						return false;
 					}
-					if (Rand.MTBEventOccurs(mtb, 60000f, 1000f))
-					{
-						if (base.TryChooseIncident(target, out incDef))
-						{
-							this.$current = new FiringIncident(incDef, this, this.GenerateParms(incDef.category, target));
-							if (!this.$disposing)
-							{
-								this.$PC = 1;
-							}
-							return true;
-						}
-					}
+					incCount = IncidentCycleUtility.IncidentCountThisInterval(target, Find.Storyteller.storytellerComps.IndexOf(this), base.Props.minDaysPassed, 60f, 0f, base.Props.minSpacingDays, base.Props.baseIncidentsPerYear, base.Props.baseIncidentsPerYear, allyIncidentFraction);
+					i = 0;
 					break;
 				case 1u:
+					IL_1AC:
+					i++;
 					break;
 				default:
 					return false;
 				}
-				this.$PC = -1;
+				if (i >= incCount)
+				{
+					this.$PC = -1;
+				}
+				else
+				{
+					parms = this.GenerateParms(base.Props.incident.category, target);
+					if (base.Props.incident.Worker.CanFireNow(parms, false))
+					{
+						this.$current = new FiringIncident(base.Props.incident, this, parms);
+						if (!this.$disposing)
+						{
+							this.$PC = 1;
+						}
+						return true;
+					}
+					goto IL_1AC;
+				}
 				return false;
 			}
 

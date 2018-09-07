@@ -1,5 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
 using UnityEngine;
 using Verse;
 
@@ -23,41 +22,30 @@ namespace RimWorld
 		protected override bool TryExecuteWorker(IncidentParms parms)
 		{
 			Map map = (Map)parms.target;
-			List<Thing> list = new List<Thing>();
-			int num;
-			for (int i = Mathf.Max(GenMath.RoundRandom(parms.points / 220f), 1); i > 0; i -= num)
-			{
-				num = Mathf.Min(3, i);
-				Thing item = this.SpawnTunnel(num, map);
-				list.Add(item);
-			}
-			base.SendStandardLetter(list, null, new string[0]);
+			int hiveCount = Mathf.Max(GenMath.RoundRandom(parms.points / 220f), 1);
+			Thing t = this.SpawnTunnels(hiveCount, map);
+			base.SendStandardLetter(t, null, new string[0]);
 			Find.TickManager.slower.SignalForceNormalSpeedShort();
 			return true;
 		}
 
-		private Thing SpawnTunnel(int hiveCount, Map map)
+		private Thing SpawnTunnels(int hiveCount, Map map)
 		{
 			IntVec3 loc;
-			Thing result;
 			if (!InfestationCellFinder.TryFindCell(out loc, map))
 			{
-				result = null;
+				return null;
 			}
-			else
+			Thing thing = GenSpawn.Spawn(ThingMaker.MakeThing(ThingDefOf.TunnelHiveSpawner, null), loc, map, WipeMode.FullRefund);
+			for (int i = 0; i < hiveCount - 1; i++)
 			{
-				Thing thing = GenSpawn.Spawn(ThingMaker.MakeThing(ThingDefOf.TunnelHiveSpawner, null), loc, map, WipeMode.FullRefund);
-				for (int i = 0; i < hiveCount - 1; i++)
+				loc = CompSpawnerHives.FindChildHiveLocation(thing.Position, map, ThingDefOf.Hive, ThingDefOf.Hive.GetCompProperties<CompProperties_SpawnerHives>(), false, true);
+				if (loc.IsValid)
 				{
-					loc = CompSpawnerHives.FindChildHiveLocation(thing.Position, map, ThingDefOf.Hive, ThingDefOf.Hive.GetCompProperties<CompProperties_SpawnerHives>(), false);
-					if (loc.IsValid)
-					{
-						thing = GenSpawn.Spawn(ThingMaker.MakeThing(ThingDefOf.TunnelHiveSpawner, null), loc, map, WipeMode.FullRefund);
-					}
+					thing = GenSpawn.Spawn(ThingMaker.MakeThing(ThingDefOf.TunnelHiveSpawner, null), loc, map, WipeMode.FullRefund);
 				}
-				result = thing;
 			}
-			return result;
+			return thing;
 		}
 	}
 }

@@ -26,20 +26,15 @@ namespace RimWorld
 		protected override IEnumerable<Pawn> PotentialVictimCandidates(IIncidentTarget target)
 		{
 			Map map = target as Map;
-			IEnumerable<Pawn> result;
 			if (map != null)
 			{
-				result = from p in map.mapPawns.PawnsInFaction(Faction.OfPlayer)
+				return from p in map.mapPawns.PawnsInFaction(Faction.OfPlayer)
 				where p.HostFaction == null && !p.RaceProps.Humanlike
 				select p;
 			}
-			else
-			{
-				result = from p in ((Caravan)target).PawnsListForReading
-				where p.RaceProps.Humanlike
-				select p;
-			}
-			return result;
+			return from p in ((Caravan)target).PawnsListForReading
+			where !p.RaceProps.Humanlike
+			select p;
 		}
 
 		protected override IEnumerable<Pawn> ActualVictims(IncidentParms parms)
@@ -69,7 +64,7 @@ namespace RimWorld
 		[CompilerGenerated]
 		private static bool <PotentialVictimCandidates>m__1(Pawn p)
 		{
-			return p.RaceProps.Humanlike;
+			return !p.RaceProps.Humanlike;
 		}
 
 		[CompilerGenerated]

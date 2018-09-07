@@ -55,8 +55,9 @@ namespace Verse
 					" in ",
 					this
 				}), false);
+				return;
 			}
-			else if (this.RegionA == null || !this.RegionA.valid)
+			if (this.RegionA == null || !this.RegionA.valid)
 			{
 				this.RegionA = reg;
 			}

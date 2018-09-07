@@ -29,7 +29,7 @@ namespace RimWorld
 			{
 				return false;
 			}
-			RegionTraverser.BreadthFirstTraverse(region, (Region from, Region reg) => reg.portal == null || reg.portal.Open, delegate(Region reg)
+			RegionTraverser.BreadthFirstTraverse(region, (Region from, Region reg) => reg.door == null || reg.door.Open, delegate(Region reg)
 			{
 				List<Thing> list2 = reg.ListerThings.ThingsInGroup(ThingRequestGroup.AttackTarget);
 				for (int j = 0; j < list2.Count; j++)
@@ -47,31 +47,26 @@ namespace RimWorld
 
 		public static bool ShouldFleeFrom(Thing t, Pawn pawn, bool checkDistance, bool checkLOS)
 		{
-			bool result;
 			if (t == pawn || (checkDistance && !t.Position.InHorDistOf(pawn.Position, 8f)))
 			{
-				result = false;
+				return false;
 			}
-			else if (t.def.alwaysFlee)
+			if (t.def.alwaysFlee)
 			{
-				result = true;
+				return true;
 			}
-			else if (!t.HostileTo(pawn))
+			if (!t.HostileTo(pawn))
 			{
-				result = false;
+				return false;
 			}
-			else
-			{
-				IAttackTarget attackTarget = t as IAttackTarget;
-				result = (attackTarget != null && !attackTarget.ThreatDisabled(pawn) && t is IAttackTargetSearcher && (!checkLOS || GenSight.LineOfSight(pawn.Position, t.Position, pawn.Map, false, null, 0, 0)));
-			}
-			return result;
+			IAttackTarget attackTarget = t as IAttackTarget;
+			return attackTarget != null && !attackTarget.ThreatDisabled(pawn) && t is IAttackTargetSearcher && (!checkLOS || GenSight.LineOfSight(pawn.Position, t.Position, pawn.Map, false, null, 0, 0));
 		}
 
 		[CompilerGenerated]
 		private static bool <ShouldStartFleeing>m__0(Region from, Region reg)
 		{
-			return reg.portal == null || reg.portal.Open;
+			return reg.door == null || reg.door.Open;
 		}
 
 		[CompilerGenerated]

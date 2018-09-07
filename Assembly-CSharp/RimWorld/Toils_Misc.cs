@@ -76,37 +76,35 @@ namespace RimWorld
 						" because this thing is either unspawned or spawned somewhere else."
 					}), false);
 					actor.jobs.curDriver.EndJobWith(JobCondition.Errored);
-				}
-				else
-				{
-					int num = 0;
-					IntVec3 c;
-					for (;;)
-					{
-						num++;
-						if (num > 100)
-						{
-							break;
-						}
-						if (target.HasThing)
-						{
-							c = target.Thing.RandomAdjacentCell8Way();
-						}
-						else
-						{
-							c = target.Cell.RandomAdjacentCell8Way();
-						}
-						if (c.Standable(actor.Map) && actor.CanReserve(c, 1, -1, null, false) && actor.CanReach(c, PathEndMode.OnCell, Danger.Deadly, false, TraverseMode.ByPawn))
-						{
-							goto Block_7;
-						}
-					}
-					Log.Error(actor + " could not find standable cell adjacent to " + target, false);
-					actor.jobs.curDriver.EndJobWith(JobCondition.Errored);
 					return;
-					Block_7:
-					curJob.SetTarget(cellInd, c);
 				}
+				int num = 0;
+				IntVec3 c;
+				for (;;)
+				{
+					num++;
+					if (num > 100)
+					{
+						break;
+					}
+					if (target.HasThing)
+					{
+						c = target.Thing.RandomAdjacentCell8Way();
+					}
+					else
+					{
+						c = target.Cell.RandomAdjacentCell8Way();
+					}
+					if (c.Standable(actor.Map) && actor.CanReserve(c, 1, -1, null, false) && actor.CanReach(c, PathEndMode.OnCell, Danger.Deadly, false, TraverseMode.ByPawn))
+					{
+						goto Block_7;
+					}
+				}
+				Log.Error(actor + " could not find standable cell adjacent to " + target, false);
+				actor.jobs.curDriver.EndJobWith(JobCondition.Errored);
+				return;
+				Block_7:
+				curJob.SetTarget(cellInd, c);
 			};
 			return findCell;
 		}
@@ -220,37 +218,35 @@ namespace RimWorld
 						" because this thing is either unspawned or spawned somewhere else."
 					}), false);
 					actor.jobs.curDriver.EndJobWith(JobCondition.Errored);
-				}
-				else
-				{
-					int num = 0;
-					IntVec3 c;
-					for (;;)
-					{
-						num++;
-						if (num > 100)
-						{
-							break;
-						}
-						if (target.HasThing)
-						{
-							c = target.Thing.RandomAdjacentCell8Way();
-						}
-						else
-						{
-							c = target.Cell.RandomAdjacentCell8Way();
-						}
-						if (c.Standable(actor.Map) && actor.CanReserve(c, 1, -1, null, false) && actor.CanReach(c, PathEndMode.OnCell, Danger.Deadly, false, TraverseMode.ByPawn))
-						{
-							goto Block_7;
-						}
-					}
-					Log.Error(actor + " could not find standable cell adjacent to " + target, false);
-					actor.jobs.curDriver.EndJobWith(JobCondition.Errored);
 					return;
-					Block_7:
-					curJob.SetTarget(this.cellInd, c);
 				}
+				int num = 0;
+				IntVec3 c;
+				for (;;)
+				{
+					num++;
+					if (num > 100)
+					{
+						break;
+					}
+					if (target.HasThing)
+					{
+						c = target.Thing.RandomAdjacentCell8Way();
+					}
+					else
+					{
+						c = target.Cell.RandomAdjacentCell8Way();
+					}
+					if (c.Standable(actor.Map) && actor.CanReserve(c, 1, -1, null, false) && actor.CanReach(c, PathEndMode.OnCell, Danger.Deadly, false, TraverseMode.ByPawn))
+					{
+						goto Block_7;
+					}
+				}
+				Log.Error(actor + " could not find standable cell adjacent to " + target, false);
+				actor.jobs.curDriver.EndJobWith(JobCondition.Errored);
+				return;
+				Block_7:
+				curJob.SetTarget(this.cellInd, c);
 			}
 		}
 	}
